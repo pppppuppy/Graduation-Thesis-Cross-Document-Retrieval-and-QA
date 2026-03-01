@@ -1,0 +1,23 @@
+{
+  "qa_id": "qa-2602-001",
+  "source_paper_id": "2602.23351v1",
+  "task_type": "跨文档方法对比",
+  "question": "哪些论文指出，仅依靠模型规模或数据规模的扩展无法解决系统性能问题，而需要更精细的结构或任务设计？",
+  "answer": "《Scale Can’t Overcome Pragmatics: The Impact of Reporting Bias on Vision-Language Reasoning》指出扩大数据规模和模型规模无法自然涌现推理能力；《Toward Expert Investment Teams: A Multi-Agent LLM System with Fine-Grained Trading Tasks》表明粗粒度任务设计会导致性能下降，细粒度任务分解显著提升交易系统表现。",
+  "evidence": [
+    {
+      "doc_id": "2602.23351v1.pdf",
+      "page": 1,
+      "modality": "text",
+      "location": "Abstract"
+    },
+    {
+      "doc_id": "2602.23330v1.pdf",
+      "page": 1,
+      "modality": "text",
+      "location": "Abstract"
+    }
+  ]
+}{
+
+}

@@ -1,0 +1,23 @@
+{
+  "qa_id": "qa-2602-002",
+  "source_paper_id": "2602.23300v1",
+  "task_type": "系统结构识别",
+  "question": "哪些论文提出通过多专家或多代理结构来提升系统性能？这些结构如何组织？",
+  "answer": "《A Mixture-of-Experts Model for Multimodal Emotion Recognition in Conversations》提出了Mixture-of-Experts框架，结合speech-only、text-only和cross-modal三个专家，并通过门控机制融合；《Toward Expert Investment Teams: A Multi-Agent LLM System with Fine-Grained Trading Tasks》提出多agent交易系统，通过细粒度任务分解组织不同分析角色。",
+  "evidence": [
+    {
+      "doc_id": "2602.23300v1.pdf",
+      "page": 1,
+      "modality": "text",
+      "location": "Abstract"
+    },
+    {
+      "doc_id": "2602.23330v1.pdf",
+      "page": 1,
+      "modality": "text",
+      "location": "Abstract"
+    }
+  ]
+}{
+
+}

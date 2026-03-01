@@ -1,0 +1,23 @@
+{
+  "qa_id": "qa-2602-003",
+  "source_paper_id": "2602.23351v1",
+  "task_type": "跨文档问题定位",
+  "question": "哪些论文强调系统性能受限于隐式信息或模态间不一致问题，并提出针对性的解决策略？",
+  "answer": "《Scale Can’t Overcome Pragmatics: The Impact of Reporting Bias on Vision-Language Reasoning》指出报告偏差导致推理所需的隐式信息缺失，并通过专门标注补充；《A Mixture-of-Experts Model for Multimodal Emotion Recognition in Conversations》通过监督对比损失和KL正则化来增强语音与文本模态间的一致性。",
+  "evidence": [
+    {
+      "doc_id": "2602.23351v1.pdf",
+      "page": 1,
+      "modality": "text",
+      "location": "Abstract"
+    },
+    {
+      "doc_id": "2602.23300v1.pdf",
+      "page": 1,
+      "modality": "text",
+      "location": "Abstract"
+    }
+  ]
+}{
+
+}
