@@ -9,6 +9,8 @@ The goal is to build a structured dataset where each question requires synthesiz
 ---
 
 ## 📂 Current Project Structure
+
+```text
 multi-hop-qa-dataset/
 │
 ├── data/
@@ -22,7 +24,7 @@ multi-hop-qa-dataset/
 │ └── parse_pdf.py # PDF parsing and preprocessing script
 │
 └── README.md
-
+```
 
 ---
 
@@ -55,12 +57,13 @@ Each QA instance follows this structure:
     }
   ]
 }
+```
+---
+
+## ⚠️ Notes
+
+- Raw PDFs are not included due to size limitations.
+- Cleaned text files are provided for reproducibility.
+- This repository currently contains a prototype version of the dataset.
 
 ---
-##⚠️ Notes⚠️ 
-
-Raw PDFs are not included due to size limitations.
-
-Cleaned text files are provided for reproducibility.
-
-This repository currently contains a prototype version of the dataset.
