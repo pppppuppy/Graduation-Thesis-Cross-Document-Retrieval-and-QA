@@ -2,33 +2,51 @@
 
 ## 📌 Project Overview
 
-This project aims to construct a cross-document retrieval and question answering (QA) dataset for evaluating multi-document reasoning capabilities.
+This project aims to construct a multi-hop cross-document question answering dataset for graduation thesis research. The dataset is built from scientific papers (CS / Math / Physics domains) and organized in a section-level structured format to support downstream retrieval and QA tasks.
 
-The goal is to build a structured dataset where each question requires synthesizing evidence from multiple documents.
+The pipeline mainly includes:
+
+- PDF scientific paper parsing
+
+- Section-level structure extraction
+
+- Dataset cleaning and normalization
+
+- Cross-document QA dataset construction (future work)
 
 ---
 
 ## 📂 Current Project Structure
+
+
+```text
 multi-hop-qa-dataset/
 │
-├── data/
-│ ├── parsed_pages/ # Cleaned text extracted from raw PDFs
+├ data/
+│   ├ parsed_pages/                 # Page-level parsing results
+│   ├ qa_dataset/                   # Constructed QA datasets
+│   ├ raw_pdfs/                    # Raw scientific paper PDFs
+│   └ structured_v3_section_level/ # Structured JSON outputs (section-level)
+│       ├ computer/
+│       ├ math/
+│       └ physics/
 │
-├── qa_dataset/
-│ └── train/
-│ └── demo.json # Manually constructed cross-document QA samples
+├ scripts/
+│   ├ parse_pdf.py                 # Basic PDF parsing script
+│   └ parse_pdf_v3_section.py      # Section-level structured parsing script
 │
-├── scripts/
-│ └── parse_pdf.py # PDF parsing and preprocessing script
-│
-└── README.md
+├ venv/
+├ .gitignore
+└ README.md
 
+```
 
 ---
 
 ## 📊 Current Progress
 
 - ✅ Collected and cleaned 20 research papers
+- ✅ Built section-level structured JSON parsing pipeline
 - ✅ Constructed initial cross-document QA samples (manual)
 - ⏳ Developing automatic QA construction pipeline
 - ⏳ Planning multi-hop reasoning evaluation experiments
@@ -37,27 +55,26 @@ multi-hop-qa-dataset/
 
 ## 🧠 Dataset Format
 
-Each QA instance follows this structure:
+The parsed documents are stored in JSON format with section-level granularity:
 
 ```json
 {
-  "qa_id": "...",
-  "source_paper_id": "...",
-  "task_type": "...",
-  "question": "...",
-  "answer": "...",
-  "evidence": [
+  "doc_id": "attention_is_all_you_need.pdf",
+  "title": "Attention Is All You Need",
+  "abstract": "The dominant sequence transduction models are based on...",
+  "sections": [
     {
-      "doc_id": "...",
-      "page": 1,
-      "modality": "text",
-      "location": "Abstract"
+      "section_id": "1",
+      "section_title": "1 INTRODUCTION",
+      "level": 1,
+      "text": "The fundamental constraint of sequential computation remains..."
     }
   ]
 }
+```
 
 
-⚠️ Notes⚠️ 
+## ⚠️ Notes⚠️ 
 
 Raw PDFs are not included due to size limitations.
 

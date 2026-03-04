@@ -17,5 +17,7 @@ Thumbs.db
 # 原始PDF
 data/raw_pdfs/
 
+#清洗论文时的尝试
+data/useless_try
+scripts/uesless_try
 
-requirements.txt
