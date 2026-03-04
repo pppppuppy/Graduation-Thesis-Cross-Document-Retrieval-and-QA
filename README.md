@@ -18,10 +18,7 @@ The pipeline mainly includes:
 
 ## 📂 Current Project Structure
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 684f8d1c2a253c9588628fa51d822359390f3238
 ```text
 multi-hop-qa-dataset/
 │
@@ -38,14 +35,10 @@ multi-hop-qa-dataset/
 │   ├ parse_pdf.py                 # Basic PDF parsing script
 │   └ parse_pdf_v3_section.py      # Section-level structured parsing script
 │
-<<<<<<< HEAD
 ├ venv/
 ├ .gitignore
 └ README.md
 
-=======
-└── README.md
->>>>>>> 684f8d1c2a253c9588628fa51d822359390f3238
 ```
 
 ---
@@ -79,23 +72,16 @@ The parsed documents are stored in JSON format with section-level granularity:
   ]
 }
 ```
-<<<<<<< HEAD
-=======
+
 ---
->>>>>>> 684f8d1c2a253c9588628fa51d822359390f3238
 
-## ⚠️ Notes
 
-<<<<<<< HEAD
 ## ⚠️ Notes⚠️ 
 
-Raw PDFs are not included due to size limitations.
 
-Cleaned text files are provided for reproducibility.
-=======
 - Raw PDFs are not included due to size limitations.
 - Cleaned text files are provided for reproducibility.
 - This repository currently contains a prototype version of the dataset.
->>>>>>> 684f8d1c2a253c9588628fa51d822359390f3238
+
 
 ---
