@@ -1,87 +1,156 @@
-# Multi-Hop QA Dataset Construction
-
-## 📌 Project Overview
-
-This project aims to construct a multi-hop cross-document question answering dataset for graduation thesis research. The dataset is built from scientific papers (CS / Math / Physics domains) and organized in a section-level structured format to support downstream retrieval and QA tasks.
-
-The pipeline mainly includes:
-
-- PDF scientific paper parsing
-
-- Section-level structure extraction
-
-- Dataset cleaning and normalization
-
-- Cross-document QA dataset construction (future work)
-
----
-
-## 📂 Current Project Structure
 
 
-```text
-multi-hop-qa-dataset/
-│
-├ data/
-│   ├ parsed_pages/                 # Page-level parsing results
-│   ├ qa_dataset/                   # Constructed QA datasets
-│   ├ raw_pdfs/                    # Raw scientific paper PDFs
-│   └ structured_v3_section_level/ # Structured JSON outputs (section-level)
-│       ├ computer/
-│       ├ math/
-│       └ physics/
-│
-├ scripts/
-│   ├ parse_pdf.py                 # Basic PDF parsing script
-│   └ parse_pdf_v3_section.py      # Section-level structured parsing script
-│
-├ venv/
-├ .gitignore
-└ README.md
+📚 Multi-Hop QA Dataset Generation from arXiv Papers
 
-```
+This project automatically generates multi-hop question answering (QA) datasets from academic papers (arXiv) using a Retrieval-Augmented Generation (RAG) pipeline.
 
----
+The system processes structured paper data (title, abstract, sections), retrieves relevant passages, and uses a Large Language Model (LLM) to generate multi-hop QA pairs with evidence grounding.
 
-## 📊 Current Progress
+The output format is compatible with RAG / multimodal QA research.
 
-- ✅ Collected and cleaned 20 research papers
-- ✅ Built section-level structured JSON parsing pipeline
-- ✅ Constructed initial cross-document QA samples (manual)
-- ⏳ Developing automatic QA construction pipeline
-- ⏳ Planning multi-hop reasoning evaluation experiments
+🧠 Motivation
 
----
+Multi-hop QA requires reasoning across multiple pieces of information.
 
-## 🧠 Dataset Format
+Academic papers are a natural source because:
 
-The parsed documents are stored in JSON format with section-level granularity:
+information is distributed across sections
 
-```json
+reasoning often requires combining concepts
+
+evidence exists in text / tables / figures
+
+This project builds a pipeline that automatically generates multi-hop QA pairs from such documents.
+
+🏗 System Pipeline
+
+The system follows a 5-step pipeline.
+
+arXiv Papers
+     │
+     ▼
+JSON Cleaning
+     │
+     ▼
+Passage Chunking
+     │
+     ▼
+Dense Retrieval (YouTu-RAG style)
+     │
+     ▼
+LLM-based QA Generation
+     │
+     ▼
+Multi-hop QA Dataset
+⚙️ Method Overview
+Step 1 — Paper Parsing
+
+Each paper is converted into JSON format containing:
+
+paper ID
+
+title
+
+abstract
+
+sections
+
+Example:
+
 {
-  "doc_id": "attention_is_all_you_need.pdf",
-  "title": "Attention Is All You Need",
-  "abstract": "The dominant sequence transduction models are based on...",
+  "id": "1409.0473v7",
+  "title": "...",
+  "abstract": "...",
   "sections": [
     {
-      "section_id": "1",
-      "section_title": "1 INTRODUCTION",
-      "level": 1,
-      "text": "The fundamental constraint of sequential computation remains..."
+      "heading": "Introduction",
+      "text": "..."
+    },
+    {
+      "heading": "Method",
+      "text": "..."
     }
   ]
 }
-```
+Step 2 — Passage Chunking
 
----
+Each section is split into passages (~150 words).
 
+Example:
 
-## ⚠️ Notes⚠️ 
+Section: Method
+Chunk 1
+Chunk 2
+Chunk 3
 
+Each chunk is stored as:
 
-- Raw PDFs are not included due to size limitations.
-- Cleaned text files are provided for reproducibility.
-- This repository currently contains a prototype version of the dataset.
+{
+    "paper_id": "...",
+    "section": "Method",
+    "chunk_id": 3,
+    "text": "..."
+}
+Step 3 — Dense Retrieval
 
+We use a sentence embedding model:
 
----
+sentence-transformers/all-MiniLM-L6-v2
+
+This model converts passages into vectors.
+
+Then we compute cosine similarity to retrieve the top-k relevant passages.
+
+This step mimics the retrieval module used in YouTu-RAG.
+
+Step 4 — Multi-Hop QA Generation
+
+We use OpenAI GPT to generate QA pairs.
+
+The prompt forces the model to create multi-hop reasoning questions.
+
+Example prompt:
+
+Given the following scientific passages:
+
+[PASSAGE 1]
+...
+
+[PASSAGE 2]
+...
+
+Generate a multi-hop question that requires combining
+information from both passages.
+
+Return JSON with:
+- question
+- answer
+- evidence
+Step 5 — Evidence Annotation
+
+The model outputs evidence locations:
+
+{
+  "doc_id": "paper.pdf",
+  "page": 5,
+  "modality": "text",
+  "location": "Section Method paragraph 2"
+}
+📂 Project Structure
+multi-hop-qa-dataset
+│
+├── data
+│   ├── papers/               # cleaned paper JSON
+│   │    └── 1409.0473v7.json
+│   │
+│   └── generated
+│        └── multi_hop_qa.json
+│
+├── scripts
+│
+│   ├── generate_qa.py        # main pipeline
+│   └── youtu_rag_retrieve.py # retrieval module
+│
+├── README.md
+└── requirements.txt
+💻 Installation

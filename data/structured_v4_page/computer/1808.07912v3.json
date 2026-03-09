@@ -1,0 +1,343 @@
+{
+  "doc_id": "1808.07912v3.pdf",
+  "title": "α-order Entropy Functional Multivariate Extension of Matrix-based R´enyi’s",
+  "abstract": "The matrix-based R´enyi’s α-order entropy functional was recently introduced using the normalized eigenspectrum of a Hermitian matrix of the projected data in a reproducing kernel Hilbert space (RKHS). However, the current theory in the matrix-based R´enyi’s α-order entropy functional only deﬁnes the entropy of a single variable or mutual information between two random variables. In information theory and machine learning communities, one is also frequently interested in multivariate information quantities, such as the multivariate joint entropy and different interactive quantities among multiple variables. In this paper, we ﬁrst deﬁne the matrix-based R´enyi’s α-order joint entropy among multiple variables. We then show how this deﬁnition can ease the estimation of various information quantities that measure the interactions among multiple variables, such as interactive information and total correlation. We ﬁnally present an application to feature selection to show how our deﬁnition provides a simple yet powerful way to estimate a widely-acknowledged intractable quantity from data. A real example on hyperspectral image (HSI) band selection is also provided. Index Terms R´enyi’s α-order entropy functional, Multivariate information quantities, Feature selection. S. Yu and J. C. Pr´ıncipe are with the Department of Electrical and Computer Engineering, University of Florida, Gainesville, FL 32611, USA (email: yusjlcy9011@uﬂ.edu; principe@cnel.uﬂ.edu). L. G. S´anchez Giraldo is with the Department of Computer Science, University of Miami, Coral Gables, FL 33124, USA (email: lgsanchez@cs.miami.edu). R. Jenssen is with the Department of Physics and Technology, UiT - The Arctic University of Norway, Tromsø 9037, Norway (email: robert.jenssen@uit.no). arXiv:1808.07912v3 [cs.IT] 31 Jul 2019 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 2 I. INTRODUCTION The R´enyi’s α-order entropy [1] was deﬁned in 1961 as a one-parameter generalization of the celebrated Shannon entropy. In the same paper, Alfr´ed R´enyi also introduced the α-order divergence as a natural extension of the Shannon relative entropy. Following R´enyi’s work, different deﬁnitions on α-order mutual information have been proposed in the last decades, demonstrating elegant properties and great potentials for widespread adoption [2]. Fifty years after the deﬁnition of Alfr´ed R´enyi, the matrix-based R´enyi’s α-order entropy func- tional was introduced by S´anchez Giraldo et al. [3], in which both the entropy and the mutual information are deﬁned over the normalized eigenspectrum of the Gram matrix, which is a Hermitian matrix of the projected data in a reproducing kernel Hilbert space (RKHS). These new functional deﬁnitions do not require a probability interpretation and avoid real-valued or discrete probability density function (PDF) estimation, but exhibit similar properties to R´enyi’s α-order entropy. However, the current formulations in this theory only deﬁne the entropy of a single variable or the mutual information between two variables, which can be a limiting factor when multiple variables are available. In information theory and machine learning communities, one is also frequently interested in multivariate information quantities, such as the multivariate joint entropy and the interactions among multiple variables. For example, in multi-input single-output (MISO) communication systems, the basic bivariate model (between one input and one output) will certainly fail to discriminate effects due to uncontrolled input sources from those due to random noises, i.e., we cannot ﬁgure out the impairments due to system noise in the absence of knowledge of the relationships among multiple input sources [4]. In machine learning, we are always interested in measuring the relationships among two or more variables to enable learning more compact representations [5] or for selecting a more informative feature set [6]. In this paper, we extend S´anchez Giraldo et al.’s deﬁnition to the multivariate scenario and illustrate the characteristics and potential applications of this extension. Speciﬁcally, in section II, we provide the deﬁnitions of the matrix-based R´enyi’s α-order entropy functional, including (joint) entropy and mutual information. Then, in section III, we deﬁne the proposed extension of the matrix-based R´enyi’s α-order joint entropy to multiple variables and formally show it is IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 3 consistent with the bivariate deﬁnition. After that, in section IV, we show that this matrix-based formulation on the normalized eigenspectrum enables straightforward deﬁnitions of interactions among multiple variables and give an example of their applicability for feature selection in section V that illustrates how this simple deﬁnition provides advantageous result in comparison to well known techniques. We ﬁnally conclude this paper and provide an outlook regarding the potential of our deﬁnitions for future work in section VI. II. PRELIMINARY KNOWLEDGE: FROM RENYI’S ENTROPY TO ITS MATRIX-BASED FUNCTIONAL In information theory, a natural extension of the well-known Shannon’s entropy is R´enyi’s α- order entropy [1]. For a random variable X with probability density function (PDF) f(x) in a ﬁnite set X, the α-entropy Hα(X) is deﬁned as: Hα(f) =",
+  "sections": [
+    {
+      "section_id": "1",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 12,
+      "text": " Validation Accuracy MADELON (2000 samples, 500−dimensional feature) MIFS (6.65) FOU (1.90) MIM (3.95) MRMR (5.85) JMI (2.50) CMIM (3.60) Ours (2.45) (a) MADELON 2 4 6 8 10 12 14 16 0.86 0.88 0.9 0.92 0.94 0.96 0.98"
+    },
+    {
+      "section_id": "2",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 12,
+      "text": " Validation Accuracy breast (569 samples, 30−dimensional feature) MIFS (6.30) FOU (5.00) MIM (4.80) MRMR (2.70) JMI (3.40) CMIM (1.50) Ours (1.50) (b) breast 5 10 15 20 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8"
+    },
+    {
+      "section_id": "3",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 12,
+      "text": " Validation Accuracy semeion (1593 samples, 256−dimensional feature) MIFS (1.40) FOU (3.53) MIM (6.60) MRMR (4.00) JMI (5.20) CMIM (2.93) Ours (1.47) (c) semeion 2 4 6 8 10 12 14 16 0.55 0.6 0.65 0.7 0.75 0.8 0.85"
+    },
+    {
+      "section_id": "4",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 12,
+      "text": " Validation Accuracy waveform (1000 samples, 40−dimensional feature) MIFS (5.90) FOU (4.20) MIM (5.60) MRMR (2.80) JMI (1.60) CMIM (2.60) Ours (2.10) (d) waveform 10 20 30 40 50 60 70 20 25 30 35 40 45 50 55 60 65"
+    },
+    {
+      "section_id": "5",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 12,
+      "text": ""
+    },
+    {
+      "section_id": "6",
+      "original_section_number": "",
+      "section_title": "LOO Number of Correctness",
+      "level": 1,
+      "start_page": 12,
+      "text": " Lung (73 samples, 325−dimensional feature) MIFS (3.86) FOU (5.70) MIM (5.72) MRMR (3.66) JMI (3.34) CMIM (2.04) Ours (1.88) (e) Lung 10 20 30 40 50 60 70 45 50 55 60 65 70 75 80 85 90"
+    },
+    {
+      "section_id": "7",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 12,
+      "text": ""
+    },
+    {
+      "section_id": "8",
+      "original_section_number": "",
+      "section_title": "LOO Number of Correctness",
+      "level": 1,
+      "start_page": 12,
+      "text": " Lymph (96 samples, 4026−dimensional feature) MIFS (5.06) FOU (6.42) MIM (5.30) MRMR (1.68) JMI (2.70) CMIM (2.16) Ours (3.54) (f) Lymph 5 10 15 20 25 30 10 20 30 40 50 60 70 80 90"
+    },
+    {
+      "section_id": "9",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 12,
+      "text": " Validation Accuracy ORL (400 samples, 1024−dimensional feature) MIFS (4.65) FOU (6.00) MIM (5.80) MRMR (1.65) JMI (2.15) CMIM (3.10) Ours (2.95) (g) ORL 5 10 15 20 25 30 20 30 40 50 60 70 80 90 100"
+    },
+    {
+      "section_id": "10",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 12,
+      "text": " Validation Accuracy warpPIE10P (210 samples, 2420−dimensional feature) MIFS (1.30) FOU (4.40) MIM (6.55) MRMR (3.85) JMI (5.25) CMIM (2.95) Ours (1.90) (h) warpPIE10P Fig. 1: Validation accuracy or Leave-one-out (LOO) results on synthetic and real datasets. The number of samples and the feature dimensionality for each dataset are listed in the title. The value beside each method in the legend indicates the average rank in that dataset. Our method performs favorably in all datasets regardless of data characteristics. pairwise samples, this discretization will hurt the ability of our method to take advantage of continuous random variable information, and create an artiﬁcial upper limit for performance. The features within each dataset have a variety of characteristics - some binary/discrete, and IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 13 TABLE I: A summarization of different information-theoretic feature selection methods and their average ranks over different number of features in each dataset. The overall average ranks over different datasets are also reported. The best two performance in each dataset are marked with red and blue respectively. Criteria MADELON breast semeion waveform Lung Lymph ORL PIE Ave. MIFS [21] I(Xik; Y ) −β k−1 P l=1 I(Xik; Xil) 6.65 6.30 1.40 5.90 3.86 5.06 4.65 1.30 4.75 FOU [22] I(Xik; Y ) − k−1 P l=1 [I(Xik; Xil) −I(Xik; Xil|Y )] 1.90 5.00 3.53 4.20 5.70 6.42 6.00 4.40 5.13 MIM [23] I(Xik; Y ) 3.95 4.80 6.60 5.60 5.72 5.30 5.80 6.55 6.13 MRMR [24] I(Xik; Y ) − 1 k−1 k−1 P l=1 I(Xik; Xil) 5.85 2.70 4.00 2.80 3.66 1.68 1.65 3.85 3.50 JMI [25] k−1 P l=1 I({Xik, Xil}; Y ) 2.50 3.40 5.20 1.60 3.34 2.70 2.15 5.25 3.50 CMIM [19] min l I(Xik; Y |Xil) 3.60 1.50 2.93 2.60 2.04 2.16 3.10 2.95 2.81 Ours I({Xi1, Xi2, · · · , Xik}; Y ) 2.45 1.50 1.47 2.10 1.88 3.54 2.95 1.90 2.19 some continuous. Following [6], [27], the base classiﬁer for all data sets is chosen as a linear Support Vector Machine (SVM) (with the regularization parameter set to 1). The validation results for all competing methods are presented in Fig. 1(b)-Fig. 1(h). We also report the ranks in each dataset and the average ranks across all datasets in Table I. For each method, its rank in each dataset is summarized as the mean value of ranks across different number of features. As can be seen, our method can always achieve superior performance on most datasets no matter the number of features. An interesting observation comes from the dataset breast, in which our advantage starts from the ﬁrst feature. This suggests that data discretization will deteriorate mutual information estimation performance, otherwise all the methods will have the same classiﬁcation accuracy in the ﬁrst feature (see results on other datasets). However, the performance of our method is degraded on Lymph, as expected. Apart from the improper data discretization (we cannot precisely estimate the Gram matrix because the raw data is unavailable), another reason that causes the degradation is the decreased resolution of our information quantity estimator resulting from a small Gram matrix evaluated on small-sample and high-dimensionality datasets. In fact, it has been observed that our method computes the same value of I({Xi1, Xi2, · · · , Xik}; Y ) if Xik comes from two different feature sources. So a better selection of σ should be pursued. To complement ranks reported in Table I, we perform a Nemenyi’s post-hoc test [30] to discover the statistical difference in all competing methods. Speciﬁcally, we use the critical difference IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 14 (CD) [31] as a reference, methods with ranks differ by less than CD are not statistically different, and can be grouped together. The test results are shown in Fig. 2, where the black line represents the axis on which the average ranks of methods are drawn, with those appearing on the left hand side performing better. The groups of methods that were not signiﬁcantly different were connected with a green dashed line. On the one hand, different criteria all achieved visually remarkable improvements against the baseline method MIM (as suggested by the ﬁrst grouping). On the other hand, only our method and CMIM are signiﬁcantly different from the baseline method MIM (as suggested by the second grouping)."
+    },
+    {
+      "section_id": "11",
+      "original_section_number": "",
+      "section_title": "Ours CMIM MRMR",
+      "level": 1,
+      "start_page": 14,
+      "text": " JMI"
+    },
+    {
+      "section_id": "12",
+      "original_section_number": "",
+      "section_title": "MIM FOU MIFS",
+      "level": 1,
+      "start_page": 14,
+      "text": " 1 2 3 4 5 6 7 CD=3.184 Fig. 2: Critical difference (CD) [31] generated using Nemenyi’s post-hoc test [30] with signiﬁcance level 0.05. The groups are identiﬁed using the mean rank of a model ± the CD (marked with a horizontal blue line). There is no evidence of signiﬁcant differences for models in the same group (joined by the dashed green lines). Our method is the only one that is signiﬁcantly different from the baseline method MIM. We also analyze the sensitivity to parameters. Our method has two important parameters: the kernel size σ and the entropy order α. The parameter σ controls the locality of our estimator. Theoretically, for small σ, the Gram matrix approaches identity and thus its eigenvalues become more similar, with 1/n as the limit case. By contrast, for large σ, the Gram matrix approaches all-ones matrix as the limit case and its eigenvalues become zero except for the one. Therefore, extremely small and large values of σ are of limited interests. We expect our estimator to work well in a large range of σ, because this application concerns more on the large/small relationships among several measurements (rather than their speciﬁc values), and these relationships will not be affected if the value of σ does not result in the saturation of mutual information estimation. However, a relatively large σ (in a reasonable range) is still preferred. This is because both entropy and mutual information monotonically increase as σ decreases [3], large σ makes the mutual information between labels and selected feature subset increase slowly, thus encouraging the discriminability if we are going to continue the selection. We investigate how σ affects the IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 15 0.1 0.5 1 5 6.5 10 50 100 1 2 3 4 5 6 7 8 9 10 0 0.2 0.4 0.6 0.8 1 Number of Features σ Validation Accuracy σ=0.1 (3.9) σ=0.5 (2.3) σ=1 (2.1) σ=5 (1.7) σ=6.5 (1.6) σ=10 (1.8) σ=50 (2.8) σ=100 (2.8) (a) waveform 0.1 0.5 1 5 9.2 10 50 100 1 2 3 4 5 6 7 8 9 101112131415 0 0.2 0.4 0.6 0.8 Number of Features σ Validation Accuracy σ=0.1 (1.53) σ=0.5 (1.47) σ=1 (1.47) σ=5 (1.47) σ=9.2 (2.33) σ=10 (2.33) σ=50 (2.40) σ=100 (2.40) (b) semeion Fig. 3: Validation accuracy of our method on waveform and semeion datasets with respect to different σ and feature numbers (α = 1.01). The value in the parenthesis is the average rank of our method with respect to other competing methods, when using the corresponding σ. Our method works well in a large range of σ, and the 10 to 20 percent of the total (median) range is a more reliable choice to σ (marked with red). performance of our method for different values, {0.1, 0.5, 1, 5, 10, 50, 100}. We also evaluate our performance with σ tuned with 10 to 20 percent of the total (median) range of the Euclidean distances between all pairwise data points [12]. For example, in dataset semeion, this range corresponds to 9.17 < σ < 9.64. Performance variance result is presented in Fig. 3. Due to space limitations, we only report the results in terms of validation accuracy on waveform and semeion datasets. We can observe that the accuracy values and the average ranks are not sensitive to σ in a large range (0.5 to 10 in waveform, 0.1 to 10 in semeion), but relatively large σ seems better. As discussed earlier, α changes the emphasis from the tails of the distribution (smaller α) to places with large concentration of mass (larger α) [7]. Since classiﬁcation uses a counting norm, values lower than 2 are preferred. We use α = 1.01 to approximate Shannon’s entropy and make the comparison fair. We also observed a performance gain when α is smaller than 1. See Appendix A and B for results. We ﬁnally brieﬂy analyze the computational and memory cost of different methods. Let d be the number of features and n the number of samples. Apart from MIM that only requires one sort, all methods use the same forward selection scheme and require d2/2 times sort. The IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 16 TABLE II: Summary of computational and memory cost. Computational Memory MIM O(nd) O(d) Ours (continuous) O(n3d2) O(n2d) Others (discrete) O(nd2) O(d2) Others (continuous) O(n2d2) O(d2) main difference in computational complexity comes from the estimation of mutual information. Our estimator deals with continuous (or mixed) random variables, it takes O(n3) time for the eigenvalue decomposition of a n × n Gram matrix. Other methods focus on discrete random variables, which takes roughly O(n) time. However, if they substitute Shannon’s discrete entropy with the differential entropy, the continuous PDF estimation typically take O(n2) time [7]. As for the memory cost, MIM just needs to reserve d mutual information values, our method needs to reserve (d+1) Gram matrices of size n×n, whereas others need to reserve all pairwise mutual information values. A summary is given in Table II. Admittedly, the computational complexity is higher for the original formulation of the matrix-based quantities. It is possible to apply methods such as kernel randomization [32] to reduce the burden to O(n log(n)). Please also note that, the differentiability of the matrix-based objective opens the door to other search techniques beyond the greedy selection. We leave this to future work. C. Feature selection for hyperspectral image (HSI) classiﬁcation We ﬁnally evaluate the performances of all methods in another real example of great importance: band selection for hyperspectral image (HSI) classiﬁcation. In particular, the spectrum of each pixel (consisting of measurements using hundreds of spectral bands) is a very popular feature in the literature. However, this kind of data is usually noisy and contains high redundancy between adjacent bands [33]. Therefore, it would be very helpful if one could select a subset of spectral bands (i.e., the most important bands or wavelengths) beforehand. For some applications, these spectral bands can be used to infer mineralogical and chemical properties [34]. We apply all feature (here referring to bands) selection methods mentioned in sections V-A and V-B on the publicly available benchmark Indian Pine data [35], consisting of 145 × 145 pixels by 220 bands of reﬂectance Airborne Visible/Infrared Imaging Spectrometer (AVIRIS). IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 17 10 20 30 0 5 10 0.35 0.4 0.45 0.5 0.55 0.6 0.65 0.7 0.75 Number of Features % of gallery sample per class Overall Accuracy"
+    },
+    {
+      "section_id": "13",
+      "original_section_number": "",
+      "section_title": "MRMR JMI CMIM Ours",
+      "level": 1,
+      "start_page": 17,
+      "text": " (a) OA 10 20 30 0 5 10 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 Number of Features % of gallery sample per class Average Accuracy"
+    },
+    {
+      "section_id": "14",
+      "original_section_number": "",
+      "section_title": "MRMR JMI CMIM Ours",
+      "level": 1,
+      "start_page": 17,
+      "text": " (b) AA Fig. 4: Overall accuracy (OA) and average accuracy (AA) of competing methods in three different gallery sizes (1%, 5% and 10% gallery samples per class) on Indian Pine dataset. MIFS, FOU and MIM perform poorly in this example, and thus omitted. Our method is consistently better than other in the scenario of 1% and 5% gallery sizes, but inferior to JMI using 10% gallery samples per class. Because of atmospheric water absorption, a total of 20 bands can be identiﬁed as noisy (104-108, 150-163, 220) and safely removed as a preprocessing procedure [36]. There are 10, 366 labeled pixels from 16 classes such as corn and grass. We test the performances of all methods on three different gallery (training set) sizes, i.e., for each class, 1%, 5% and 10% of the available labeled samples were randomly selected as the gallery. The remaining samples were then used as the probe set for evaluation. For each gallery size, the random selection process was repeated 10 times, and the average quantitative evaluation metrics among 10 simulations were recorded. We choose SVM with a RBF kernel as the baseline classiﬁer, as it is the most widely used method in HSI classiﬁcation research [37]. The overall accuracy (OA) and average accuracy (AA) are adopted as the objective metrics to evaluate HSI classiﬁcation results. The OA is computed as the percentage of correctly classiﬁed test pixels, whereas the AA is the mean of the percentage of correctly classiﬁed pixels for each class. The quantitative validation results are shown in Fig. 4. As can be seen, our method always provides consistently higher OA and AA values when the gallery is small. In the case of 1% gallery samples, our OA values have a ﬂuctuation after selecting 5 bands. This is probably because the training samples are rather limited (∼7 per class), thus a small perturbation in the IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 18 0 20 40 60 80 100 1000 2000 3000 4000 5000 6000 7000 8000"
+    },
+    {
+      "section_id": "15",
+      "original_section_number": "",
+      "section_title": "Band number",
+      "level": 1,
+      "start_page": 18,
+      "text": ""
+    },
+    {
+      "section_id": "16",
+      "original_section_number": "",
+      "section_title": "Reflectance",
+      "level": 1,
+      "start_page": 18,
+      "text": " (a) JMI 0 20 40 60 80 100 1000 2000 3000 4000 5000 6000 7000 8000"
+    },
+    {
+      "section_id": "17",
+      "original_section_number": "",
+      "section_title": "Band number",
+      "level": 1,
+      "start_page": 18,
+      "text": ""
+    },
+    {
+      "section_id": "18",
+      "original_section_number": "",
+      "section_title": "Reflectance",
+      "level": 1,
+      "start_page": 18,
+      "text": " (b) our method Alfalfa Corn−notill Corn−mintill Corn Grass−pasture Grass−tree Grass−etc. Hay−windrowed Oats Soybean−notill Soybean−mintill Soybean−clean Wheat Woods Buildings−etc. Stone−etc. (c) Legend of different land-cover categories Fig. 5: Reﬂectance of 16 land-cover categories on the Indian Pine data. Only spectral bands between 1 and 103 are displayed, since the 10 most signiﬁcant bands selected by JMI and our method all lie in this region. In (a) and (b), the black dashed lines represent the bands selected by JMI and our method respectively over 10 independent runs, whereas the red solid line highlight the bands that have been selected at least 7 times in the 10 runs. (c) shows the land-cover legend. Our method is stable with respect to training data perturbations. classiﬁcation hyperplane may result in a large change in OA or AA. JMI outperforms our method given sufﬁcient amount of training data. However, according to Fig. 5, the bands selected by JMI are not stable across 10 runs, which makes JMI poor for interpretability [26]. In fact, the bands selected by our method are dispersed, which gives higher opportunity to provide complementary information, since the adjacent bands are rather redundant in HSI [33]. Meanwhile, these bands covers most regions with the large interval of the reﬂectance spectrums, indicating its highly discriminative ability for different categories [33]. Moreover, our method consistently selects bands 1, 25, 35, 57, 75 and 89 regardless of training data perturbations, which is consistent with previous work on band selection from different perspectives [34], [38], where the bands 1, 23-27, 30-36, 57, 75-78 and 87-91 are frequently selected. Finally, by referring to the classiﬁcation maps shown in Fig. 6, our method improves the region IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 19 20 40 60 80 100120140 20 40 60 80 100 120 140 (a) Ground truth 20 40 60 80 100120140 20 40 60 80 100 120 140 (b) JMI 20 40 60 80 100120140 20 40 60 80 100 120 140 (c) our method Fig. 6: Classiﬁcation maps on the Indian Pine data. 5% samples from each class care selected to constitute gallery set. The legend is same to Fig. 5. Our method improves the uniformity of regions marked with white rectangles. uniformity [33] of the grass-pasture, hay-windrowed and soybean-clean (marked with white rectangles) in comparison to JMI, although both methods offer similar OA and AA values. VI. CONCLUSIONS In this paper, we generalize the matrix-based R´enyi’s α-order joint entropy to multiple variables. The new deﬁnition enables us to efﬁciently and effectively measure various multivariate interac- tion quantities, such as the interaction information and the total correlation. We ﬁnally present a real application on feature/band selection to show how our matrix deﬁnition works well, closely matching the ideal mutual information objective without any approximation or decomposition. In the future, we will explore more machine learning applications in more complex scenarios involving high-dimensional data and complex dependence structure, such as understanding the learning dynamics of deep neural network (DNNs) with information theoretic concepts [39]. At the same time, we will investigate novel information theoretic objectives to further improve feature selection performance. One possible solution is to precisely determine the redundancy and synergy among different features using the partial information decomposition (PID) frame- work [29]. IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 20"
+    },
+    {
+      "section_id": "19",
+      "original_section_number": "",
+      "section_title": "ACKNOWLEDGMENT",
+      "level": 1,
+      "start_page": 20,
+      "text": " This work was funded in part by the U.S. ONR under grant N00014-18-1-2306, in part by the DARPA under grant FA9453-18-1-0039, and in part by the Norwegian Research Council FRIPRO grant no. 239844 on developing the Next Generation Learning Machines."
+    },
+    {
+      "section_id": "20",
+      "original_section_number": "",
+      "section_title": "REFERENCES",
+      "level": 1,
+      "start_page": 20,
+      "text": " [1] A. R´enyi, “On measures of entropy and information,” in Proc. 4th Berkeley Sympos. Math. Statist. and Prob., vol. 1, 1961, pp. 547–561. [2] S. Verd´u, “α-mutual information,” in Information Theory and Applications Workshop (ITA), 2015. IEEE, 2015, pp. 1–6. [3] L. G. Sanchez Giraldo, M. Rao, and J. C. Principe, “Measures of entropy from data using inﬁnitely divisible kernels,” IEEE Trans. Inf. Theory, vol. 61, no. 1, pp. 535–548, 2015. [4] N. Timme, W. Alford, B. Flecker, and J. M. Beggs, “Synergy, redundancy, and multivariate information measures: an experimentalists perspective,” J. Comput. Neurosci., vol. 36, no. 2, pp. 119–140, 2014. [5] G. Ver Steeg and A. Galstyan, “The information sieve,” in ICML, 2016, pp. 164–172. [6] G. Brown, A. Pocock, M.-J. Zhao, and M. Luj´an, “Conditional likelihood maximisation: a unifying framework for information theoretic feature selection,” J. Mach. Learn. Res., vol. 13, no. Jan, pp. 27–66, 2012. [7] J. C. Principe, Information theoretic learning: Renyi’s entropy and kernel perspectives. Springer Science & Business Media, 2010. [8] E. Parzen, “On estimation of a probability density function and mode,” Ann. Math. Stat., vol. 33, no. 3, pp. 1065–1076, 1962. [9] M. M¨uller-Lennert, F. Dupuis, O. Szehr, S. Fehr, and M. Tomamichel, “On quantum r´enyi entropies: A new generalization and some properties,” J. Math. Phys., vol. 54, no. 12, 2013. [10] R. Bhatia, “Inﬁnitely divisible matrices,” Am. Math. Mon., vol. 113, no. 3, pp. 221–235, 2006. [11] B. W. Silverman, Density estimation for statistics and data analysis. CRC press, 1986, vol. 26. [12] J. Shi and J. Malik, “Normalized cuts and image segmentation,” IEEE Trans. Pattern Anal. Mach. Intell., vol. 22, no. 8, 2000. [13] W. McGill, “Multivariate information transmission,” Psychometrika, vol. 19, no. 2, pp. 97–116, 1954. [14] A. Jakulin and I. Bratko, “Quantifying and visualizing attribute interactions,” arXiv preprint cs/0308002, 2003. IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 21 [15] A. J. Bell, “The co-information lattice,” in Proceedings of the Fifth International Workshop on Independent Component Analysis and Blind Signal Separation: ICA, vol. 2003, 2003. [16] R. M. Fano, Transmission of Information: A Statistical Theory of Communication. MIT Press, 1961. [17] R. W. Yeung, “A new outlook of shannon’s information measures,” IEEE Trans. Inf. Theory, vol. 37, no. 3, pp. 466–474, 1991. [18] S. Watanabe, “Information theoretical analysis of multivariate correlation,” IBM J. Res. Dev., vol. 4, no. 1, pp. 66–82, 1960. [19] F. Fleuret, “Fast binary feature selection with conditional mutual information,” J. Mach. Learn. Res., vol. 5, no. Nov, pp. 1531–1555, 2004. [20] D. J. MacKay, Information theory, inference and learning algorithms. Cambridge university press, 2003. [21] R. Battiti, “Using mutual information for selecting features in supervised neural net learning,” IEEE Trans. Neural Netw., vol. 5, no. 4, pp. 537–550, 1994. [22] G. Brown, “A new perspective for information theoretic feature selection,” in AISTATS, 2009, pp. 49–56. [23] D. D. Lewis, “Feature selection and feature extraction for text categorization,” in Proceedings of the workshop on Speech and Natural Language, 1992, pp. 212–217. [24] H. Peng, F. Long, and C. Ding, “Feature selection based on mutual information criteria of max-dependency, max-relevance, and min-redundancy,” IEEE Trans. Pattern Anal. Mach. Intell., vol. 27, no. 8, pp. 1226–1238, 2005. [25] H. H. Yang and J. Moody, “Data visualization and feature selection: New algorithms for nongaussian data,” in NeurIPS, 2000, pp. 687–693. [26] J. Li, K. Cheng, S. Wang, F. Morstatter, R. P. Trevino, J. Tang, and H. Liu, “Feature selection: A data perspective,” ACM Computing Surveys (CSUR), vol. 50, no. 6, p. 94, 2017. [27] N. X. Vinh, J. Chan, and J. Bailey, “Reconsidering mutual information based feature selection: A statistical signiﬁcance view.” in AAAI, 2014, pp. 2092–2098. [28] I. Guyon, S. Gunn, A. Ben-Hur, and G. Dror, “Result analysis of the nips 2003 feature selection challenge,” in NeurIPS, 2005, pp. 545–552. [29] P. L. Williams and R. D. Beer, “Nonnegative decomposition of multivariate information,” arXiv preprint arXiv:1004.2515, 2010. [30] P. Nemenyi, “Distribution-free multiple comparisons,” Ph.D. dissertation, Princeton University, 1963. [31] J. Demˇsar, “Statistical comparisons of classiﬁers over multiple data sets,” J. Mach. Learn. Res., vol. 7, no. Jan, pp. 1–30, 2006. IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 22 [32] D. Lopez-Paz, P. Hennig, and B. Sch¨olkopf, “The randomized dependence coefﬁcient,” in NeurIPS, 2013, pp. 1–9. [33] J. Feng, L. Jiao, T. Sun, H. Liu, and X. Zhang, “Multiple kernel learning based on discriminative kernel clustering for hyperspectral band selection,” IEEE Trans. Geosci. Remote Sens., vol. 54, no. 11, pp. 6516–6530, 2016. [34] C. Yu, M. Song, and C.-I. Chang, “Band subset selection for hyperspectral image classiﬁcation,” Remote Sens., vol. 10, no. 1, p. 113, 2018. [35] D. A. Landgrebe, Signal theory methods in multispectral remote sensing. John Wiley & Sons, 2005, vol. 29. [36] G. Camps-Valls and L. Bruzzone, “Kernel-based methods for hyperspectral image classiﬁcation,” IEEE Trans. Geosci. Remote Sens., vol. 43, no. 6, pp. 1351–1362, 2005. [37] G. Camps-Valls, D. Tuia, L. Bruzzone, and J. A. Benediktsson, “Advances in hyperspectral image classiﬁcation: Earth monitoring with statistical learning methods,” IEEE Signal Proc. Mag., vol. 31, no. 1, pp. 45–54, 2014. [38] S. Jia, Z. Ji, Y. Qian, and L. Shen, “Unsupervised band selection for hyperspectral imagery classiﬁcation without manual band removal,” IEEE J. Sel. Top. Appl. Earth Obs. Remote Sens., vol. 5, no. 2, pp. 531–543, 2012. [39] S. Yu, K. Wickstrøm, R. Jenssen, and J. C. Principe, “Understanding convolutional neural networks with information theory: An initial exploration,” arXiv preprint arXiv:1804.06537, 2018."
+    },
+    {
+      "section_id": "21",
+      "original_section_number": "",
+      "section_title": "APPENDIX",
+      "level": 1,
+      "start_page": 22,
+      "text": " A. Feature selection results with α = 0.6 We ﬁrst present feature selection results with α = 0.6. The quantitative evaluation results are shown in Fig. 7 and Table III. As can be seen, the advantage of our method becomes more obvious, even superior to the case of α = 1.01. One possible reason is that the closer α is to zero, the more relevance of our estimator is put on the tails of the distribution, hence the better the method will be in the boundaries between classes (since classiﬁcation uses a counting norm). However, practitioners should also be aware that the estimation with small α requires more samples to get a better consistency of the tails, which do not always occur. These results further conﬁrm our argument that values of α lower than 2 are preferred in the application of feature selection. IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 23 5 10 15 20 25 30 0.5 0.55 0.6 0.65 0.7 0.75 0.8 0.85 0.9"
+    },
+    {
+      "section_id": "22",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 23,
+      "text": " Validation Accuracy madelon (2000 samples, 500−dimensional feature) MIFS (6.65) FOU (1.85) MIM (3.95) MRMR (5.85) JMI (2.50) CMIM (3.70) Ours (2.45) (a) MADELON 2 4 6 8 10 12 14 16 0.86 0.88 0.9 0.92 0.94 0.96 0.98"
+    },
+    {
+      "section_id": "23",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 23,
+      "text": " Validation Accuracy breast (569 samples, 30−dimensional feature) MIFS (6.30) FOU (5.00) MIM (4.80) MRMR (2.60) JMI (3.40) CMIM (2.10) Ours (1.80) (b) breast 5 10 15 20 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8"
+    },
+    {
+      "section_id": "24",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 23,
+      "text": " Validation Accuracy semeion (1593 samples, 256−dimensional feature) MIFS (1.00) FOU (3.53) MIM (6.60) MRMR (4.00) JMI (5.20) CMIM (2.93) Ours (2.40) (c) semeion 2 4 6 8 10 12 14 16 0.55 0.6 0.65 0.7 0.75 0.8 0.85"
+    },
+    {
+      "section_id": "25",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 23,
+      "text": " Validation Accuracy waveform (1000 samples, 40−dimensional feature) MIFS (5.90) FOU (4.20) MIM (5.60) MRMR (3.10) JMI (1.60) CMIM (2.90) Ours (1.70) (d) waveform 10 20 30 40 50 60 70 20 25 30 35 40 45 50 55 60 65 70"
+    },
+    {
+      "section_id": "26",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 23,
+      "text": ""
+    },
+    {
+      "section_id": "27",
+      "original_section_number": "",
+      "section_title": "LOO Number of Correctness",
+      "level": 1,
+      "start_page": 23,
+      "text": " Lung (73 samples, 325−dimensional feature) MIFS (4.00) FOU (5.74) MIM (5.74) MRMR (3.82) JMI (3.40) CMIM (2.34) Ours (1.58) (e) Lung 10 20 30 40 50 60 70 45 50 55 60 65 70 75 80 85 90 95"
+    },
+    {
+      "section_id": "28",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 23,
+      "text": ""
+    },
+    {
+      "section_id": "29",
+      "original_section_number": "",
+      "section_title": "LOO Number of Correctness",
+      "level": 1,
+      "start_page": 23,
+      "text": " Lymph (96 samples, 4026−dimensional feature) MIFS (5.12) FOU (6.44) MIM (5.40) MRMR (2.48) JMI (3.40) CMIM (2.98) Ours (1.10) (f) Lymph 5 10 15 20 25 30 10 20 30 40 50 60 70 80 90"
+    },
+    {
+      "section_id": "30",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 23,
+      "text": " Validation Accuracy ORL (400 samples, 1024−dimensional feature) MIFS (4.75) FOU (6.10) MIM (5.85) MRMR (2.00) JMI (2.65) CMIM (3.55) Ours (1.80) (g) ORL 5 10 15 20 25 30 20 30 40 50 60 70 80 90 100"
+    },
+    {
+      "section_id": "31",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 23,
+      "text": " Validation Accuracy warpPIE10P (210 samples, 2420−dimensional feature) MIFS (1.20) FOU (4.30) MIM (6.40) MRMR (3.60) JMI (5.00) CMIM (2.85) Ours (3.05) (h) warpPIE10P Fig. 7: Validation accuracy or Leave-one-out (LOO) results on synthetic and real datasets. The number of samples and the feature dimensionality for each dataset are listed in the title. The value beside each method in the legend indicates the average rank in that dataset. Our method (α = 0.6) achieves the best or second-best performance in most datasets regardless of data characteristics. TABLE III: A summarization of different information-theoretic feature selection methods and their average ranks over different number of features in each dataset. The overall average ranks over different datasets are also reported. The best two performance in each dataset are marked with red and blue respectively. Criteria MADELON breast semeion waveform Lung Lymph ORL PIE10P average MIFS [21] I(Xik ; Y ) −β k−1 P l=1 I(Xik ; Xil ) 6.65 6.30 1.00 5.90 4.00 5.12 4.75 1.20 4.75 FOU [22] I(Xik ; Y ) − k−1 P l=1 [I(Xik ; Xil ) −I(Xik ; Xil |Y )] 1.85 5.00 3.53 4.20 5.74 6.44 6.10 4.30 5.19 MIM [23] I(Xik ; Y ) 3.95 4.80 6.60 5.60 5.74 5.40 5.85 6.40 6.06 MRMR [24] I(Xik ; Y ) − 1 k−1 k−1 P l=1 I(Xik ; Xil ) 5.85 2.60 4.00 3.10 3.82 2.48 2.00 3.60 3.75 JMI [25] k−1 P l=1 I({Xik , Xil }; Y ) 2.50 3.40 5.20 1.60 3.40 3.40 2.65 5.00 3.75 CMIM [19] min l I(Xik ; Y |Xil ) 3.70 2.10 2.93 2.90 2.34 2.98 3.55 2.85 2.88 Ours (α = 0.6) I({Xi1 , Xi2 , · · · , Xik }; Y ) 2.45 1.80 2.40 1.70 1.58 1.10 1.80 3.05 1.63 B. Feature selection results with α = 2 We ﬁnally present feature selection results with α = 2. Note that, α = 2 is not recommended for the application of feature selection which involves classiﬁcation. This is because classiﬁcation uses a counting norm, attention should be paid on tails of the distribution or multiple modalities, thus values of α lower than 2 are preferred. In fact, according to the quantitative evaluation IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 24 5 10 15 20 25 30 0.5 0.55 0.6 0.65 0.7 0.75 0.8 0.85 0.9"
+    },
+    {
+      "section_id": "32",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 24,
+      "text": " Validation Accuracy madelon (2000 samples, 500−dimensional feature) MIFS (6.65) FOU (1.75) MIM (3.35) MRMR (5.85) JMI (2.20) CMIM (3.10) Ours (4.05) (a) MADELON 2 4 6 8 10 12 14 16 0.86 0.88 0.9 0.92 0.94 0.96 0.98"
+    },
+    {
+      "section_id": "33",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 24,
+      "text": " Validation Accuracy breast (569 samples, 30−dimensional feature) MIFS (6.30) FOU (5.00) MIM (4.80) MRMR (2.50) JMI (3.30) CMIM (1.90) Ours (2.20) (b) breast 5 10 15 20 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8"
+    },
+    {
+      "section_id": "34",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 24,
+      "text": " Validation Accuracy semeion (1593 samples, 256−dimensional feature) MIFS (1.00) FOU (3.07) MIM (6.47) MRMR (4.80) JMI (4.80) CMIM (2.07) Ours (4.80) (c) semeion 2 4 6 8 10 12 14 16 0.55 0.6 0.65 0.7 0.75 0.8 0.85"
+    },
+    {
+      "section_id": "35",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 24,
+      "text": " Validation Accuracy waveform (1000 samples, 40−dimensional feature) MIFS (5.80) FOU (4.00) MIM (5.50) MRMR (2.50) JMI (1.30) CMIM (2.30) Ours (4.50) (d) waveform 10 20 30 40 50 60 70 10 20 30 40 50 60 70"
+    },
+    {
+      "section_id": "36",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 24,
+      "text": ""
+    },
+    {
+      "section_id": "37",
+      "original_section_number": "",
+      "section_title": "LOO Number of Correctness",
+      "level": 1,
+      "start_page": 24,
+      "text": " Lung (73 samples, 325−dimensional feature) MIFS (3.80) FOU (5.70) MIM (5.70) MRMR (3.66) JMI (3.36) CMIM (1.94) Ours (2.18) (e) Lung 10 20 30 40 50 60 70 45 50 55 60 65 70 75 80 85 90"
+    },
+    {
+      "section_id": "38",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 24,
+      "text": ""
+    },
+    {
+      "section_id": "39",
+      "original_section_number": "",
+      "section_title": "LOO Number of Correctness",
+      "level": 1,
+      "start_page": 24,
+      "text": " Lymph (96 samples, 4026−dimensional feature) MIFS (4.84) FOU (6.34) MIM (5.30) MRMR (1.78) JMI (2.90) CMIM (2.50) Ours (2.82) (f) Lymph 5 10 15 20 25 30 10 20 30 40 50 60 70 80 90"
+    },
+    {
+      "section_id": "40",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 24,
+      "text": " Validation Accuracy ORL (400 samples, 1024−dimensional feature) MIFS (4.65) FOU (5.90) MIM (5.75) MRMR (1.65) JMI (2.20) CMIM (3.25) Ours (2.70) (g) ORL 5 10 15 20 25 30 20 30 40 50 60 70 80 90 100"
+    },
+    {
+      "section_id": "41",
+      "original_section_number": "",
+      "section_title": "Number of Features",
+      "level": 1,
+      "start_page": 24,
+      "text": " Validation Accuracy warpPIE10P (210 samples, 2420−dimensional feature) MIFS (1.30) FOU (4.45) MIM (6.50) MRMR (3.75) JMI (5.20) CMIM (3.05) Ours (2.20) (h) warpPIE10P Fig. 8: Validation accuracy or Leave-one-out (LOO) results on synthetic and real datasets. The number of samples and the feature dimensionality for each dataset are listed in the title. The value beside each method in the legend indicates the average rank in that dataset. The performance of our method (α = 2) is decreased in most datasets. TABLE IV: A summarization of different information-theoretic feature selection methods and their average ranks over different number of features in each dataset. The overall average ranks over different datasets are also reported. The best two performance in each dataset are marked with red and blue respectively. Criteria MADELON breast semeion waveform Lung Lymph ORL PIE10P average MIFS [21] I(Xik ; Y ) −β k−1 P l=1 I(Xik ; Xil ) 6.65 6.30 1.00 5.80 3.80 4.84 4.65 1.30 4.75 FOU [22] I(Xik ; Y ) − k−1 P l=1 [I(Xik ; Xil ) −I(Xik ; Xil |Y )] 1.75 5.00 3.07 4.00 5.70 6.34 5.90 4.45 4.94 MIM [23] I(Xik ; Y ) 3.35 4.80 6.47 5.50 5.70 5.30 5.75 6.50 5.94 MRMR [24] I(Xik ; Y ) − 1 k−1 k−1 P l=1 I(Xik ; Xil ) 5.85 2.50 4.80 2.50 3.66 1.78 1.65 3.75 3.31 JMI [25] k−1 P l=1 I({Xik , Xil }; Y ) 2.20 3.30 4.80 1.30 3.36 2.90 2.20 5.20 3.44 CMIM [19] min l I(Xik ; Y |Xil ) 3.10 1.90 2.07 2.30 1.94 2.50 3.25 3.05 2.25 Ours (α = 2) I({Xi1 , Xi2 , · · · , Xik }; Y ) 4.05 2.20 4.80 4.50 2.18 2.82 2.70 2.20 3.38 results shown in Fig. 8 and Table IV, the performance of our method with α = 2 is decreased compared to the cases of α = 1.01 and α = 0.6. IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 25 Shujian Yu (SM’17) received his Ph.D. degree in Electrical and Computer Engineering with a Ph.D. minor in Statistics at the University of Florida in 2019. He earned his B.S. degree from the School of Electronic Information and Communications at the Huazhong University of Science and Technology in 2013. Shujian was a Data Mining Research Scientist Intern at the Bosch Research and Technology Center in Palo Alto, CA, in summer 2016, and a Machine Learning Research Scientist Intern at the Nokia Bell Labs in Murray Hill, NJ, in summer 2017. He joined the NEC Labs Europe in Heidelberg, Germany, in August 2019, as a Machine Learning Research Scientist. His research interests include topics in machine learning, signal processing, and information theory. Luis Gonzalo S´anchez Giraldo received the BS degree in Electronics Engineering and the MEng degree in Industrial Automation from Universidad Nacional de Colombia in 2005 and 2008, respectively, and the PhD degree in Electrical and Computer Engineering from the University of Florida in 2012. He is currently a postdoctoral associate in the Department of Computer Science at the University of Miami. Between 2004 and 2008, he was appointed as a research assistant at the Control and Digital Signal Processing Group (GCPDS) at Universidad Nacional de Colombia. During his PhD studies, he was a research assistant at the Computational NeuroEngineering Laboratory (CNEL) at the University of Florida. His main research interests are in machine learning, signal processing, and computational neuroscience. Robert Jenssen (M’02) received the PhD (Dr. Scient.) in Electrical Engineering from the University of Tromsø, in 2005. Currently, he is a Professor and Head of the UiT Machine Learning Group at UiT - The Arctic University of Norway, Tromsø, Norway. Jenssen received the Honorable Mention for the"
+    },
+    {
+      "section_id": "42",
+      "original_section_number": "2003",
+      "section_title": "Pattern Recognition Journal Best Paper Award",
+      "level": 1,
+      "start_page": 25,
+      "text": " Award, the 2007 UiT Young Investigator Award, the 2013 IEEE Geoscience and Remote Sensing Society Letters Best Paper Award, and the 2017 Scandinavian Conference on Image Analysis Best Student Paper Award (as supervisor). His paper, “Kernel Entropy Component Analysis,” was a featured paper of the IEEE Transactions on Pattern Analysis and Machine Intelligence. Jenssen is an adjunct professor with the Norwegian Computing Center in Oslo. He was previously a senior researcher (20%) at the Norwegian Center on E-Health Research. He was Guest Researcher with the Technical University of Denmark, Kongens Lyngby, Denmark, from 2012 to 2013, with the Technical University of Berlin, Berlin, Germany, from 2008 to 2009, and with the University of Florida, Gainesville, FL, USA, spring 2018, spring 2004, and from Sept. 2002 to July 2003. Jenssen serves on the IEEE Technical Committee on Machine Learning for Signal Processing, he is on the IAPR Governing Board, and he is an Associate Editor for the journal Pattern Recognition. Jenssen is the General Chair of the annual Northern Lights Deep Learning Workshop - NLDL. IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE 26 Jos´e C. Pr´ıncipe (M’83-SM’90-F’00) is the BellSouth and Distinguished Professor of Electrical and Biomedical Engineering at the University of Florida, and the Founding Director of the Computational NeuroEngineering Laboratory (CNEL). His primary research interests are in advanced signal processing with information theoretic criteria and adaptive models in reproducing kernel Hilbert spaces (RKHS), with application to brain-machine interfaces (BMIs). Dr. Pr´ıncipe is a Fellow of the IEEE, ABME, and AIBME. He is the past Editor in Chief of the IEEE Transactions on Biomedical Engineering, past Chair of the Technical Committee on Neural Networks of the IEEE Signal Processing Society, Past-President of the International Neural Network Society, and a recipient of the IEEE EMBS Career Award and the IEEE Neural Network Pioneer Award."
+    }
+  ]
+}

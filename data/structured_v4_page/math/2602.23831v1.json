@@ -1,0 +1,23 @@
+{
+  "doc_id": "2602.23831v1.pdf",
+  "title": "Antenna Coding Optimization for Pixel Antenna Empowered Wireless Communication Using Deep Learning with Heterogeneous Multi-Head Selection",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "1",
+      "original_section_number": "",
+      "section_title": "ACKNOWLEDGMENT",
+      "level": 1,
+      "start_page": 6,
+      "text": " The authors would like to acknowledge the support by the Science and Technology Development Fund, Macau SAR (File/Project no.001/2024/SKL), by University of Macau (File no. SRG2025-00060-IOTSC), and by University of Macau Development Foundation (UMDF) (File no. UMDF-TISF- I/2026/025/IOTSC)."
+    },
+    {
+      "section_id": "2",
+      "original_section_number": "",
+      "section_title": "REFERENCES",
+      "level": 1,
+      "start_page": 6,
+      "text": " [1] S. Yang and L. Hanzo, “Fifty years of MIMO detection: The road to large-scale MIMOs,” IEEE Commun. Surveys & Tuts, vol. 17, no. 4, pp. 1941–1988, 2015. [2] Z. Wang, J. Zhang, H. Du, D. Niyato, S. Cui, B. Ai, M. Debbah, K. B. Letaief, and H. V. Poor, “A tutorial on extremely large-scale MIMO for 6G: Fundamentals, signal processing, and applications,” IEEE Commun. Surveys & Tuts., vol. 26, no. 3, pp. 1560–1605, 2024. [3] Y. Zhang, S. Tang, Z. Han, J. Rao, S. Shen, M. Li, C.-Y. Chiu, and R. Murch, “A low-profile microstrip vertically polarized endfire antenna with 360° beam-scanning and high beam-shaping capability,” IEEE Trans. Antennas Propag., vol. 70, no. 9, pp. 7691–7702, 2022. [4] S. Song and R. D. Murch, “An efficient approach for optimizing frequency reconfigurable pixel antennas using genetic algorithms,” IEEE Trans. Antennas Propag., vol. 62, no. 2, pp. 609–620, 2013. [5] Y. Zhang, Z. Han, S. Tang, S. Shen, C.-Y. Chiu, and R. Murch, “A highly pattern-reconfigurable planar antenna with 360° single-and multi-beam steering,” IEEE Trans. Antennas Propag., vol. 70, no. 8, pp. 6490–6504, 2022. [6] Y. Zhang, Z. Han, S. Shen, C.-Y. Chiu, and R. Murch, “Polarization enhancement of microstrip antennas by asymmetric and symmetric grid defected ground structures,” IEEE Open J. Antennas Propag., vol. 1, pp. 215–223, 2020. [7] K. K. Wong, A. Shojaeifard, K.-F. Tong, and Y. Zhang, “Performance limits of fluid antenna systems,” IEEE Commun. Lett., vol. 24, no. 11, pp. 2469–2472, 2020. [8] L. Zhu, W. Ma, and R. Zhang, “Modeling and performance analysis for movable antenna enabled wireless communications,” IEEE Trans. Wireless Commun., vol. 23, no. 6, pp. 6234–6250, 2024. [9] W. K. New, K.-K. Wong, H. Xu, K.-F. Tong, and C.-B. Chae, “An information-theoretic characterization of MIMO-FAS: Optimization, diversity-multiplexing tradeoff and q-outage capacity,” IEEE Trans. Wireless Commun., vol. 23, no. 6, pp. 5541–5556, 2023. [10] J. Zhang, J. Rao, Z. Li, Z. Ming, C.-Y. Chiu, K.-K. Wong, K.-F. Tong, and R. Murch, “A novel pixel-based reconfigurable antenna applied in fluid antenna systems with high switching speed,” IEEE Open J. Antennas Propag., vol. 6, no. 1, pp. 212–228, 2025. [11] S. Shen, K.-K. Wong, and R. Murch, “Antenna coding empowered by pixel antennas,” IEEE Trans. Commun., 2025. [12] H. Li and S. Shen, “Antenna coding design based on pixel antennas for multi-user MISO systems,” in Proc. IEEE Int. Workshop Signal Process. Artificial Intelligence for Wireless Commun. (SPAWC), 2025, pp. 1–5. [13] R. Van Noorden and J. M. Perkel, “AI and science: what 1,600 researchers think,” Nature, vol. 621, no. 7980, pp. 672–675, 2023. [14] J. Li, X. Wang, Z. Tu, and M. R. Lyu, “On the diversity of multi-head attention,” Neurocomputing, vol. 454, pp. 14–24, 2021. [15] Z. Han, S. Shen, and R. Murch, “Exploiting spatial multiplexing based on pixel antennas: An antenna coding approach,” IEEE J. Sel. Topics Signal Process., 2026. [16] S. Shen, Y. Sun, S. Song, D. P. Palomar, and R. D. Murch, “Successive boolean optimization of planar pixel antennas,” IEEE Trans. Antennas Propag., vol. 65, no. 2, pp. 920–925, 2016. [17] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin, “Attention is all you need,” Advances Neural Info. Process. Systs., vol. 30, 2017. [18] D. Bertsekas and J. N. Tsitsiklis, Introduction to probability. Athena Scientific, 2008. [19] B. Koonce, “Resnet 50,” in Convolutional neural networks with swift for tensorflow: image recognition and dataset categorization. Springer, 2021, pp. 63–72. [20] J. Andreas, M. Rohrbach, T. Darrell, and D. Klein, “Neural module net- works,” in Proc. IEEE Conf. Computer Vision and Pattern Recognition, 2016, pp. 39–48."
+    }
+  ]
+}

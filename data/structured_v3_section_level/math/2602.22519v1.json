@@ -4,6 +4,24 @@
   "abstract": ". To operate reliably under changing conditions, complex systems require feedback on how effectively they use resources — not just whether objectives are met. Current AI systems process vast information to produce sophisticated predictions, yet predictions can appear successful while the underlying interaction with the environment degrades. What is missing is a principled measure of how much of the total information a system deploys is actually shared between its observations, actions, and outcomes. We prove this shared fraction — which we term bi-predictability (P) — is intrinsic to any interaction, derivable from first principles, and strictly bounded: P can reach unity in quantum systems, P ≤ 0.5 in classical systems, and lower once agency (action selection) is introduced. We confirm these bounds in a physical system (double pendulum), reinforcement learning agents, and multi-turn LLM conversations. These results distinguish agency from intelligence: agency is the capacity to act on predictions, whereas intelligence additionally requires learning from interaction, self-monitoring of its learning effectiveness, and adapting the scope of observations, actions, and outcomes to restore effective learning. By this definition, current AI systems achieve agency but not intelligence. Inspired by thalamocortical regulation in biological systems, we demonstrate a feedback architecture that monitors P in real time — establishing a prerequisite for adaptive, resilient AI.",
   "sections": [
     {
+      "section_id": "0",
+      "section_title": "A Mathematical Theory of Agency and Intelligence",
+      "level": 1,
+      "text": " Wael Hafez Semarx Research LLC Alexandria, VA, USA w.hafez@semarx.com"
+    },
+    {
+      "section_id": "0",
+      "section_title": "Chenan Wei University of Massachusetts",
+      "level": 1,
+      "text": " Amherst, MA, USA weichenan0@gmail.com Rodrigo Felipe Stiles-Nicholson Brain Institute, Jupiter, FL, USA rfdop20@gmail.com Amir Nazeri Semarx Research LLC Alexandria, VA, USA amir.nazeri@semarx.com"
+    },
+    {
+      "section_id": "0",
+      "section_title": "Cameron Reid Semarx Research LLC",
+      "level": 1,
+      "text": " Alexandria, VA, USA cameron.reid@semarx.com Abstract. To operate reliably under changing conditions, complex systems require feedback on how effectively they use resources — not just whether objectives are met. Current AI systems process vast information to produce sophisticated predictions, yet predictions can appear successful while the underlying interaction with the environment degrades. What is missing is a principled measure of how much of the total information a system deploys is actually shared between its observations, actions, and outcomes. We prove this shared fraction — which we term bi-predictability (P) — is intrinsic to any interaction, derivable from first principles, and strictly bounded: P can reach unity in quantum systems, P ≤ 0.5 in classical systems, and lower once agency (action selection) is introduced. We confirm these bounds in a physical system (double pendulum), reinforcement learning agents, and multi-turn LLM conversations. These results distinguish agency from intelligence: agency is the capacity to act on predictions, whereas intelligence additionally requires learning from interaction, self-monitoring of its learning effectiveness, and adapting the scope of observations, actions, and outcomes to restore effective learning. By this definition, current AI systems achieve agency but not intelligence. Inspired by thalamocortical regulation in biological systems, we demonstrate a feedback architecture that monitors P in real time — establishing a prerequisite for adaptive, resilient AI."
+    },
+    {
       "section_id": "1",
       "section_title": "1 Introduction",
       "level": 1,
@@ -19,7 +37,13 @@
       "section_id": "2.1",
       "section_title": "2.1 The Universal Bound",
       "level": 2,
-      "text": " From first principles, Bi-predictability admits regime bounds. Under classical (Shannon) information, we obtain: 0 ≤𝑃≤1 2. This bound is structural: 𝑀𝐼(𝑆; 𝑆′) ≤min (𝐻(𝑆), 𝐻(𝑆′)) so shared information cannot exceed half of the total entropy capacity 𝐻(𝑆) + 𝐻(𝑆′) under our definition. In the quantum setting, maximally nonseparable correlations can saturate the analogous construction (as highlighted by Bell-type phenomena, (Bell, 1964)), but the transition to classical definiteness—via measurement and decoherence—removes the correlations that permit 𝑃 to approach unity."
+      "text": " From first principles, Bi-predictability admits regime bounds. Under classical (Shannon) information, we obtain: 0 ≤𝑃≤1 2."
+    },
+    {
+      "section_id": "0",
+      "section_title": "This bound is structural:",
+      "level": 1,
+      "text": " 𝑀𝐼(𝑆; 𝑆′) ≤min (𝐻(𝑆), 𝐻(𝑆′)) so shared information cannot exceed half of the total entropy capacity 𝐻(𝑆) + 𝐻(𝑆′) under our definition. In the quantum setting, maximally nonseparable correlations can saturate the analogous construction (as highlighted by Bell-type phenomena, (Bell, 1964)), but the transition to classical definiteness—via measurement and decoherence—removes the correlations that permit 𝑃 to approach unity."
     },
     {
       "section_id": "2.2",
@@ -61,7 +85,19 @@
       "section_id": "4.1",
       "section_title": "4.1 Agency (definition)",
       "level": 2,
-      "text": " A system exhibits agency when an action variable 𝐴satisfies three conditions: • Choice: 𝐻(𝐴∣𝑆) > 0— actions are not fully determined by the available state. Batch P Min P Mean P Max P STD 1st batch 0.472944657 0.475747126 0.48095266 0.00155264 2nd batch 0.475749647 0.472919123 0.4769658 0.00169209 Batch Metric Min Mean Max STD 1st batch Forward Predictive Uncertainty, 𝐻(𝑆′|𝑆) 0.101762767 0.173011607 0.21491649 0.02207975 Backward Predictive Uncertainty 𝐻(𝑆|𝑆′) 0.101853985 0.172982039 0.21480427 0.02213793 Predictive Asymmetry 𝛥𝐻 = 𝐻(𝑆′|𝑆) −𝐻(𝑆|𝑆′) -3.76E-04 -6.6996E-07 5.15E-04 0.00016409 2nd batch Forward Predictive Uncertainty 𝐻(𝑆′|𝑆) 7.62E-02 0.132628187 0.19915062 0.01919794 Backward Predictive Uncertainty 𝐻(𝑆|𝑆′) 7.63E-02 0.132629277 0.19949738 0.01920498 Predictive Asymmetry 𝛥𝐻 = 𝐻(𝑆′|𝑆) −𝐻(𝑆|𝑆′) -6.25E-04 -1.09E-06 0.00063149 0.00022369 5 • Effect: 𝑀𝐼(𝐴; 𝑆′ ∣𝑆) > 0— actions change what happens next beyond what the state already predicts. • Predictive asymmetry: ∣Δ𝐻∣> 0— forward and backward predictive uncertainty differ. Choice and effect are structural: the system can select among alternatives, and those alternatives matter. Predictive asymmetry is diagnostic: it indicates directional intervention at the (𝑆, 𝐴,𝑆′) interface. In deterministic physical dynamics without an action channel, forward and backward uncertainty remain balanced (Δ𝐻≈0) at the chosen description level, even under chaos. The double pendulum provides this baseline. Introducing action typically breaks this balance: outcomes do not fully “round-trip” back to the agent’s internal causes, producing a measurable asymmetry in the predictive structure."
+      "text": " A system exhibits agency when an action variable 𝐴satisfies three conditions: • Choice: 𝐻(𝐴∣𝑆) > 0— actions are not fully determined by the available state."
+    },
+    {
+      "section_id": "0",
+      "section_title": "Batch P Min P Mean P Max P STD",
+      "level": 1,
+      "text": " 1st batch 0.472944657 0.475747126 0.48095266 0.00155264 2nd batch 0.475749647 0.472919123 0.4769658 0.00169209"
+    },
+    {
+      "section_id": "0",
+      "section_title": "Batch Metric Min Mean Max STD",
+      "level": 1,
+      "text": " 1st batch Forward Predictive Uncertainty, 𝐻(𝑆′|𝑆) 0.101762767 0.173011607 0.21491649 0.02207975 Backward Predictive Uncertainty 𝐻(𝑆|𝑆′) 0.101853985 0.172982039 0.21480427 0.02213793 Predictive Asymmetry 𝛥𝐻 = 𝐻(𝑆′|𝑆) −𝐻(𝑆|𝑆′) -3.76E-04 -6.6996E-07 5.15E-04 0.00016409 2nd batch Forward Predictive Uncertainty 𝐻(𝑆′|𝑆) 7.62E-02 0.132628187 0.19915062 0.01919794 Backward Predictive Uncertainty 𝐻(𝑆|𝑆′) 7.63E-02 0.132629277 0.19949738 0.01920498 Predictive Asymmetry 𝛥𝐻 = 𝐻(𝑆′|𝑆) −𝐻(𝑆|𝑆′) -6.25E-04 -1.09E-06 0.00063149 0.00022369 5 • Effect: 𝑀𝐼(𝐴; 𝑆′ ∣𝑆) > 0— actions change what happens next beyond what the state already predicts. • Predictive asymmetry: ∣Δ𝐻∣> 0— forward and backward predictive uncertainty differ. Choice and effect are structural: the system can select among alternatives, and those alternatives matter. Predictive asymmetry is diagnostic: it indicates directional intervention at the (𝑆, 𝐴,𝑆′) interface. In deterministic physical dynamics without an action channel, forward and backward uncertainty remain balanced (Δ𝐻≈0) at the chosen description level, even under chaos. The double pendulum provides this baseline. Introducing action typically breaks this balance: outcomes do not fully “round-trip” back to the agent’s internal causes, producing a measurable asymmetry in the predictive structure."
     },
     {
       "section_id": "4.2",
@@ -163,7 +199,13 @@
       "section_id": "5.2.4",
       "section_title": "5.2.4 Interpretation: Conditions for Agency and Intelligence",
       "level": 3,
-      "text": " LLM agents satisfy the agency criteria at the interaction level: stochastic sampling provides choice; responses influence subsequent context; and Δ𝐻 indicates persistent predictive asymmetry. They also satisfy learning through next-token training. However, as summarized in Table 8, current LLM agents lack explicit self-monitoring and adaptation: they do not compute coupling quality, nor can they reorganize their interface in response to degradation. The IDT fills this gap. Unlike semantic evaluators such as cosine similarity or LLM judges—which introduce significant latency and model dependencies—the IDT operates directly on raw token statistics with negligible overhead. This computational efficiency allows it to transform the passive token stream into a real-time active control signal. By surfacing coherence deviations immediately, the IDT provides the necessary feedback to trigger 10 the Coupled Agency Architecture’s reflexive modulation—enabling the system to restore stability through context gating or parameter adjustment, rather than relying solely on fixed next-token probabilities Condition Criterion Evidence Achieved Agency Choice 𝐻(𝐴|𝑆) > 0 Stochastic sampling (temperature > 0) Yes Effect 𝑀𝐼(𝐴; 𝑆′|𝑆) > 0 Responses influence subsequent context Yes Asymmetry |𝛥𝐻| > 0 𝛥𝐻 < 0 across all conditions Yes Intelligence Learning ↑𝑀𝐼(𝑆, 𝐴;𝑆′) towards objective Trained on token sequences to predict next token Yes Self-monitoring Computes 𝑃 from own stream No internal 𝑃 computation NO Adaptation Adjusts {𝑆}, {𝐴}, {𝑆′} Vocabulary and generation parameters (context window, top_p, top_k, max response) fixed by designers/users NO Table 7 Agency and intelligence conditions in LLM agents. LLM agents satisfy agency and learning, but lack explicit self- monitoring and adaptation under our definition."
+      "text": " LLM agents satisfy the agency criteria at the interaction level: stochastic sampling provides choice; responses influence subsequent context; and Δ𝐻 indicates persistent predictive asymmetry. They also satisfy learning through next-token training. However, as summarized in Table 8, current LLM agents lack explicit self-monitoring and adaptation: they do not compute coupling quality, nor can they reorganize their interface in response to degradation. The IDT fills this gap. Unlike semantic evaluators such as cosine similarity or LLM judges—which introduce significant latency and model dependencies—the IDT operates directly on raw token statistics with negligible overhead. This computational efficiency allows it to transform the passive token stream into a real-time active control signal. By surfacing coherence deviations immediately, the IDT provides the necessary feedback to trigger 10 the Coupled Agency Architecture’s reflexive modulation—enabling the system to restore stability through context gating or parameter adjustment, rather than relying solely on fixed next-token probabilities"
+    },
+    {
+      "section_id": "0",
+      "section_title": "Condition Criterion Evidence Achieved",
+      "level": 1,
+      "text": " Agency Choice 𝐻(𝐴|𝑆) > 0 Stochastic sampling (temperature > 0) Yes Effect 𝑀𝐼(𝐴; 𝑆′|𝑆) > 0 Responses influence subsequent context Yes Asymmetry |𝛥𝐻| > 0 𝛥𝐻 < 0 across all conditions Yes Intelligence Learning ↑𝑀𝐼(𝑆, 𝐴;𝑆′) towards objective Trained on token sequences to predict next token Yes Self-monitoring Computes 𝑃 from own stream No internal 𝑃 computation NO Adaptation Adjusts {𝑆}, {𝐴}, {𝑆′} Vocabulary and generation parameters (context window, top_p, top_k, max response) fixed by designers/users NO Table 7 Agency and intelligence conditions in LLM agents. LLM agents satisfy agency and learning, but lack explicit self- monitoring and adaptation under our definition."
     },
     {
       "section_id": "6",
@@ -247,7 +289,13 @@
       "section_id": "9.5",
       "section_title": "9.5 Chaos Quantification",
       "level": 2,
-      "text": " Chaoticity was quantified using the finite-time Lyapunov exponent (FTLE), computed for each trajectory using standard methods. FTLE values were associated with corresponding 𝑃 estimates to assess the relationship between chaotic dynamics and Predictive Coherence. Across 600 simulations, 𝑃 showed no degradation with increasing FTLE (Table 8, Fig. 5), confirming robustness to chaotic dynamics. Observation: Chaotic trajectories exhibit a positive association with 𝑃, potentially reflecting improved entropy estimation from broader state-space coverage Batch Metric Mean STD 1st batch FTLE -6.632019915 4.442605378 Bi-predictability P 0.475747126 0.001552642 2nd batch FTLE -8.550904894 5.819810661 Bi-predictability P 0.472919123 0.001692086 Table 8 Chaos and predictive coherence. Summary statistics of finite-time Lyapunov exponents (FTLE) and Bi-predictability 𝑃, and their association across both simulations. Figure 5 Chaos and Predictive Coherence. FTLE (x-axis) versus P (y-axis) across 600 simulations. Higher chaos associates with higher P, likely due to improved state-space coverage in entropy estimation."
+      "text": " Chaoticity was quantified using the finite-time Lyapunov exponent (FTLE), computed for each trajectory using standard methods. FTLE values were associated with corresponding 𝑃 estimates to assess the relationship between chaotic dynamics and Predictive Coherence. Across 600 simulations, 𝑃 showed no degradation with increasing FTLE (Table 8, Fig. 5), confirming robustness to chaotic dynamics. Observation: Chaotic trajectories exhibit a positive association with 𝑃, potentially reflecting improved entropy estimation from broader state-space coverage"
+    },
+    {
+      "section_id": "0",
+      "section_title": "Batch Metric Mean STD",
+      "level": 1,
+      "text": " 1st batch FTLE -6.632019915 4.442605378 Bi-predictability P 0.475747126 0.001552642 2nd batch FTLE -8.550904894 5.819810661 Bi-predictability P 0.472919123 0.001692086 Table 8 Chaos and predictive coherence. Summary statistics of finite-time Lyapunov exponents (FTLE) and Bi-predictability 𝑃, and their association across both simulations. Figure 5 Chaos and Predictive Coherence. FTLE (x-axis) versus P (y-axis) across 600 simulations. Higher chaos associates with higher P, likely due to improved state-space coverage in entropy estimation."
     },
     {
       "section_id": "8.3",
@@ -277,7 +325,13 @@
       "section_id": "10.2",
       "section_title": "10.2 Perturbation Protocol",
       "level": 2,
-      "text": " Each evaluation comprised 50 episodes (50,000 steps). 𝑃, 𝐻𝑓,𝐻𝑏, and 𝛥𝐻 were computed over sliding windows of 300 steps with stride 50, yielding 991 windows per run. Perturbations were injected at episode 15; preceding windows established baseline statistics for threshold computation. Eight perturbations were tested, spanning agent- side degradation and environment-side variability (Table 10): Type Perturbation Parameter Actuator noise act_noise_01% 1% Gaussian noise on actions Actuator noise act_noise_03% 3% Gaussian noise on actions Actuator noise act_noise_04% 4% Gaussian noise on actions External force force_torso_5N 5N force applied to torso, x- axis External force force_torso_10N 10N force applied to torso, x-axis Gravity gravity_110% Gravity increased to 110% Observation noise obs_noise_01% 1% Gaussian noise on observations Observation noise obs_noise_03% 3% Gaussian noise on observations Table 9 RL perturbations settings. Eight perturbations spanning agent-side degradation (actuator noise, observation noise) and environment-side variability (external force, gravity)."
+      "text": " Each evaluation comprised 50 episodes (50,000 steps). 𝑃, 𝐻𝑓,𝐻𝑏, and 𝛥𝐻 were computed over sliding windows of 300 steps with stride 50, yielding 991 windows per run. Perturbations were injected at episode 15; preceding windows established baseline statistics for threshold computation. Eight perturbations were tested, spanning agent- side degradation and environment-side variability (Table 10):"
+    },
+    {
+      "section_id": "0",
+      "section_title": "Type Perturbation Parameter",
+      "level": 1,
+      "text": " Actuator noise act_noise_01% 1% Gaussian noise on actions Actuator noise act_noise_03% 3% Gaussian noise on actions Actuator noise act_noise_04% 4% Gaussian noise on actions External force force_torso_5N 5N force applied to torso, x- axis External force force_torso_10N 10N force applied to torso, x-axis Gravity gravity_110% Gravity increased to 110% Observation noise obs_noise_01% 1% Gaussian noise on observations Observation noise obs_noise_03% 3% Gaussian noise on observations Table 9 RL perturbations settings. Eight perturbations spanning agent-side degradation (actuator noise, observation noise) and environment-side variability (external force, gravity)."
     },
     {
       "section_id": "10.3",
@@ -331,7 +385,13 @@
       "section_id": "11.3",
       "section_title": "11.3 Information Metric Computation",
       "level": 2,
-      "text": " For each turn, entropy and information metrics were computed from token frequency distributions: Metric Formula 𝑯(𝑺) Shannon entropy of accumulated context 𝑯(𝑨) Shannon entropy of student response 𝑯(𝑺′) Shannon entropy of teacher prompt 𝑴𝑰(𝑺;𝑨) 𝐻(𝑆) + 𝐻(𝐴) − 𝐻(𝑆, 𝐴) 𝑷 𝑀𝐼(𝑆, 𝐴; 𝑆′) / [𝐻(𝑆) + 𝐻(𝐴) + 𝐻(𝑆′)] 𝑯𝒇 𝐻(𝑆, 𝐴, 𝑆′) − 𝐻(𝑆, 𝐴) 𝑯𝒃 𝐻𝑏 𝜟𝑯 𝐻𝑓- 𝐻𝑏 Table 10 Metrics tracked during the LLM simulation All entropy calculations used base-2 logarithms."
+      "text": " For each turn, entropy and information metrics were computed from token frequency distributions:"
+    },
+    {
+      "section_id": "0",
+      "section_title": "Metric Formula",
+      "level": 1,
+      "text": " 𝑯(𝑺) Shannon entropy of accumulated context 𝑯(𝑨) Shannon entropy of student response 𝑯(𝑺′) Shannon entropy of teacher prompt 𝑴𝑰(𝑺;𝑨) 𝐻(𝑆) + 𝐻(𝐴) − 𝐻(𝑆, 𝐴) 𝑷 𝑀𝐼(𝑆, 𝐴; 𝑆′) / [𝐻(𝑆) + 𝐻(𝐴) + 𝐻(𝑆′)] 𝑯𝒇 𝐻(𝑆, 𝐴, 𝑆′) − 𝐻(𝑆, 𝐴) 𝑯𝒃 𝐻𝑏 𝜟𝑯 𝐻𝑓- 𝐻𝑏 Table 10 Metrics tracked during the LLM simulation All entropy calculations used base-2 logarithms."
     },
     {
       "section_id": "11.4",

@@ -1,0 +1,1087 @@
+{
+  "doc_id": "1906.02691v3.pdf",
+  "title": "An Introduction to Variational Autoencoders",
+  "abstract": "Variational autoencoders provide a principled framework for learning deep latent-variable models and corresponding inference models. In this work, we provide an introduction to variational autoencoders and some important extensions. Diederik P. Kingma and Max Welling (2019), “An Introduction to Variational Autoencoders”, Foundations and Trends R ⃝in Machine Learning: Vol. xx, No. xx, pp 1–18. DOI: 10.1561/XXXXXXXXX.",
+  "sections": [
+    {
+      "section_id": "1",
+      "original_section_number": "5",
+      "section_title": "Conclusion",
+      "level": 1,
+      "start_page": 3,
+      "text": " Acknowledgements 65 Appendices 66 A Appendix 67 A.1 Notation and deﬁnitions . . . . . . . . . . . . . . . . . . . 67 A.2 Alternative methods for learning in DLVMs . . . . . . . . . 70 A.3 Stochastic Gradient Descent . . . . . . . . . . . . . . . . 72 References 74 An Introduction to Variational Autoencoders Diederik P. Kingma1 and Max Welling2,3 1Google; durk@google.com 2Universiteit van Amsterdam 3Qualcomm; mwelling@qti.qualcomm.com ABSTRACT Variational autoencoders provide a principled framework for learning deep latent-variable models and corresponding inference models. In this work, we provide an introduction to variational autoencoders and some important extensions. Diederik P. Kingma and Max Welling (2019), “An Introduction to Variational Autoencoders”, Foundations and Trends R ⃝in Machine Learning: Vol. xx, No. xx, pp 1–18. DOI: 10.1561/XXXXXXXXX. 1"
+    },
+    {
+      "section_id": "2",
+      "original_section_number": "",
+      "section_title": "Introduction",
+      "level": 1,
+      "start_page": 5,
+      "text": ""
+    },
+    {
+      "section_id": "3",
+      "original_section_number": "1.1",
+      "section_title": "Motivation",
+      "level": 2,
+      "start_page": 5,
+      "text": " One major division in machine learning is generative versus discrimi- native modeling. While in discriminative modeling one aims to learn a predictor given the observations, in generative modeling one aims to solve the more general problem of learning a joint distribution over all the variables. A generative model simulates how the data is generated in the real world. “Modeling” is understood in almost every science as unveiling this generating process by hypothesizing theories and testing these theories through observations. For instance, when meteorologists model the weather they use highly complex partial diﬀerential equations to express the underlying physics of the weather. Or when an astronomer models the formation of galaxies s/he encodes in his/her equations of motion the physical laws under which stellar bodies interact. The same is true for biologists, chemists, economists and so on. Modeling in the sciences is in fact almost always generative modeling. There are many reasons why generative modeling is attractive. First, we can express physical laws and constraints into the generative process while details that we don’t know or care about, i.e. nuisance variables, are treated as noise. The resulting models are usually highly intuitive 2"
+    },
+    {
+      "section_id": "4",
+      "original_section_number": "1.1",
+      "section_title": "Motivation",
+      "level": 2,
+      "start_page": 6,
+      "text": " and interpretable and by testing them against observations we can conﬁrm or reject our theories about how the world works. Another reason for trying to understand the generative process of data is that it naturally expresses causal relations of the world. Causal relations have the great advantage that they generalize much better to new situations than mere correlations. For instance, once we understand the generative process of an earthquake, we can use that knowledge both in California and in Chile. To turn a generative model into a discriminator, we need to use Bayes rule. For instance, we have a generative model for an earthquake of type A and another for type B, then seeing which of the two describes the data best we can compute a probability for whether earthquake A or B happened. Applying Bayes rule is however often computationally expensive. In discriminative methods we directly learn a map in the same direction as we intend to make future predictions in. This is in the opposite direction than the generative model. For instance, one can argue that an image is generated in the world by ﬁrst identifying the object, then generating the object in 3D and then projecting it onto an pixel grid. A discriminative model takes these pixel values directly as input and maps them to the labels. While generative models can learn eﬃciently from data, they also tend to make stronger assumptions on the data than their purely discriminative counterparts, often leading to higher asymptotic bias (Banerjee, 2007) when the model is wrong. For this reason, if the model is wrong (and it almost always is to some degree!), if one is solely interested in learning to discriminate, and one is in a regime with a suﬃciently large amount of data, then purely discriminative models typically will lead to fewer errors in discriminative tasks. Nevertheless, depending on how much data is around, it may pay oﬀto study the data generating process as a way to guide the training of the discriminator, such as a classiﬁer. For instance, one may have few labeled examples and many more unlabeled examples. In this semi- supervised learning setting, one can use the generative model of the data to improve classiﬁcation (Kingma et al., 2014; Sønderby et al., 2016a). Generative modeling can be useful more generally. One can think of it as an auxiliary task. For instance, predicting the immediate future"
+    },
+    {
+      "section_id": "5",
+      "original_section_number": "4",
+      "section_title": "Introduction",
+      "level": 1,
+      "start_page": 7,
+      "text": " may help us build useful abstractions of the world that can be used for multiple prediction tasks downstream. This quest for disentangled, semantically meaningful, statistically independent and causal factors of variation in data is generally known as unsupervised representation learning, and the variational autoencoder (VAE) has been extensively employed for that purpose. Alternatively, one may view this as an implicit form of regularization: by forcing the representations to be meaningful for data generation, we bias the inverse of that process, which maps from input to representation, into a certain mould. The auxiliary task of predicting the world is used to better understand the world at an abstract level and thus to better make downstream predictions. The VAE can be viewed as two coupled, but independently parame- terized models: the encoder or recognition model, and the decoder or generative model. These two models support each other. The recogni- tion model delivers to the generative model an approximation to its posterior over latent random variables, which it needs to update its parameters inside an iteration of “expectation maximization” learning. Reversely, the generative model is a scaﬀolding of sorts for the recogni- tion model to learn meaningful representations of the data, including possibly class-labels. The recognition model is the approximate inverse of the generative model according to Bayes rule. One advantage of the VAE framework, relative to ordinary Varia- tional Inference (VI), is that the recognition model (also called inference model) is now a (stochastic) function of the input variables. This in contrast to VI where each data-case has a separate variational distribu- tion, which is ineﬃcient for large data-sets. The recognition model uses one set of parameters to model the relation between input and latent variables and as such is called “amortized inference”. This recognition model can be arbitrary complex but is still reasonably fast because by construction it can be done using a single feedforward pass from input to latent variables. However the price we pay is that this sampling induces sampling noise in the gradients required for learning. Perhaps the greatest contribution of the VAE framework is the realization that we can counteract this variance by using what is now known as the “reparameterization trick”, a simple procedure to reorganize our gradient computation that reduces variance in the gradients."
+    },
+    {
+      "section_id": "6",
+      "original_section_number": "1.1",
+      "section_title": "Motivation",
+      "level": 2,
+      "start_page": 8,
+      "text": " The VAE is inspired by the Helmholtz Machine (Dayan et al., 1995) which was perhaps the ﬁrst model that employed a recognition model. However, its wake-sleep algorithm was ineﬃcient and didn’t optimize a single objective. The VAE learning rules instead follow from a single approximation to the maximum likelihood objective. VAEs marry graphical models and deep learning. The generative model is a Bayesian network of the form p(x|z)p(z), or, if there are multiple stochastic latent layers, a hierarchy such as p(x|zL)p(zL|zL−1) ...p(z1|z0). Similarly, the recognition model is also a conditional Bayesian network of the form q(z|x) or as a hierarchy, such as q(z0|z1)...q(zL|X). But inside each conditional may hide a complex (deep) neural network, e.g. z|x ∼f(x, ϵ), with f a neural network mapping and ϵ a noise random variable. Its learning algorithm is a mix of classical (amortized, variational) expectation maximization but through the reparameteri- zation trick ends up backpropagating through the many layers of the deep neural networks embedded inside of it. Since its inception, the VAE framework has been extended in many directions, e.g. to dynamical models (Johnson et al., 2016), models with attention (Gregor et al., 2015), models with multiple levels of stochastic latent variables (Kingma et al., 2016), and many more. It has proven itself as a fertile framework to build new models in. More recently, another generative modeling paradigm has gained signiﬁcant attention: the generative adversarial network (GAN) (Goodfellow et al., 2014). VAEs and GANs seem to have complementary properties: while GANs can generate images of high subjective perceptual quality, they tend to lack full support over the data (Grover et al., 2018), as opposed to likelihood-based generative models. VAEs, like other likelihood-based models, generate more dispersed samples, but are better density models in terms of the likelihood criterion. As such many hybrid models have been proposed to try to represent the best of both worlds (Dumoulin et al., 2017; Grover et al., 2018; Rosca et al., 2018). As a community we seem to have embraced the fact that generative models and unsupervised learning play an important role in building intelligent machines. We hope that the VAE provides a useful piece of that puzzle."
+    },
+    {
+      "section_id": "7",
+      "original_section_number": "6",
+      "section_title": "Introduction",
+      "level": 1,
+      "start_page": 9,
+      "text": ""
+    },
+    {
+      "section_id": "8",
+      "original_section_number": "1.2",
+      "section_title": "Aim",
+      "level": 2,
+      "start_page": 9,
+      "text": " The framework of variational autoencoders (VAEs) (Kingma and Welling, 2014; Rezende et al., 2014) provides a principled method for jointly learning deep latent-variable models and corresponding inference models using stochastic gradient descent. The framework has a wide array of applications from generative modeling, semi-supervised learning to representation learning. This work is meant as an expanded version of our earlier work (Kingma and Welling, 2014), allowing us to explain the topic in ﬁner detail and to discuss a selection of important follow-up work. This is not aimed to be a comprehensive review of all related work. We assume that the reader has basic knowledge of algebra, calculus and probability theory. In this chapter we discuss background material: probabilistic models, directed graphical models, the marriage of directed graphical models with neural networks, learning in fully observed models and deep latent- variable models (DLVMs). In chapter 2 we explain the basics of VAEs. In chapter 3 we explain advanced inference techniques, followed by an explanation of advanced generative models in chapter 4. Please refer to section A.1 for more information on mathematical notation."
+    },
+    {
+      "section_id": "9",
+      "original_section_number": "1.3",
+      "section_title": "Probabilistic Models and Variational Inference",
+      "level": 2,
+      "start_page": 9,
+      "text": " In the ﬁeld of machine learning, we are often interested in learning prob- abilistic models of various natural and artiﬁcial phenomena from data. Probabilistic models are mathematical descriptions of such phenomena. They are useful for understanding such phenomena, for prediction of unknowns in the future, and for various forms of assisted or automated decision making. As such, probabilistic models formalize the notion of knowledge and skill, and are central constructs in the ﬁeld of machine learning and AI. As probabilistic models contain unknowns and the data rarely paints a complete picture of the unknowns, we typically need to assume some level of uncertainty over aspects of the model. The degree and nature of this uncertainty is speciﬁed in terms of (conditional) probability dis-"
+    },
+    {
+      "section_id": "10",
+      "original_section_number": "1.3",
+      "section_title": "Probabilistic Models and Variational Inference",
+      "level": 2,
+      "start_page": 10,
+      "text": " tributions. Models may consist of both continuous-valued variables and discrete-valued variables. The, in some sense, most complete forms of probabilistic models specify all correlations and higher-order dependen- cies between the variables in the model, in the form of a joint probability distribution over those variables. Let’s use x as the vector representing the set of all observed variables whose joint distribution we would like to model. Note that for notational simplicity and to avoid clutter, we use lower case bold (e.g. x) to denote the underlying set of observed random variables, i.e. ﬂattened and concatenated such that the set is represented as a single vector. See section A.1 for more on notation. We assume the observed variable x is a random sample from an unknown underlying process, whose true (probability) distribution p∗(x) is unknown. We attempt to approximate this underlying process with a chosen model pθ(x), with parameters θ: x ∼pθ(x) (1.1) Learning is, most commonly, the process of searching for a value of the parameters θ such that the probability distribution function given by the model, pθ(x), approximates the true distribution of the data, denoted by p∗(x), such that for any observed x: pθ(x) ≈p∗(x) (1.2) Naturally, we wish pθ(x) to be suﬃciently ﬂexible to be able to adapt to the data, such that we have a chance of obtaining a suﬃciently accurate model. At the same time, we wish to be able to incorporate knowledge about the distribution of data into the model that is known a priori."
+    },
+    {
+      "section_id": "11",
+      "original_section_number": "1.3.1",
+      "section_title": "Conditional Models",
+      "level": 3,
+      "start_page": 10,
+      "text": " Often, such as in case of classiﬁcation or regression problems, we are not interested in learning an unconditional model pθ(x), but a conditional model pθ(y|x) that approximates the underlying conditional distribution p∗(y|x): a distribution over the values of variable y, conditioned on the value of an observed variable x. In this case, x is often called the input"
+    },
+    {
+      "section_id": "12",
+      "original_section_number": "8",
+      "section_title": "Introduction",
+      "level": 1,
+      "start_page": 11,
+      "text": " of the model. Like in the unconditional case, a model pθ(y|x) is chosen, and optimized to be close to the unknown underlying distribution, such that for any x and y: pθ(y|x) ≈p∗(y|x) (1.3) A relatively common and simple example of conditional modeling is image classiﬁcation, where x is an image, and y is the image’s class, as labeled by a human, which we wish to predict. In this case, pθ(y|x) is typically chosen to be a categorical distribution, whose parameters are computed from x. Conditional models become more diﬃcult to learn when the pre- dicted variables are very high-dimensional, such as images, video or sound. One example is the reverse of the image classiﬁcation prob- lem: prediction of a distribution over images, conditioned on the class label. Another example with both high-dimensional input, and high- dimensional output, is time series prediction, such as text or video prediction. To avoid notational clutter we will often assume unconditional mod- eling, but one should always keep in mind that the methods introduced in this work are, in almost all cases, equally applicable to conditional models. The data on which the model is conditioned, can be treated as inputs to the model, similar to the parameters of the model, with the obvious diﬀerence that one doesn’t optimize over their value."
+    },
+    {
+      "section_id": "13",
+      "original_section_number": "1.4",
+      "section_title": "Parameterizing Conditional Distributions with Neural Networks",
+      "level": 2,
+      "start_page": 11,
+      "text": " Diﬀerentiable feed-forward neural networks, from here just called neural networks, are a particularly ﬂexible and computationally scalable type of function approximator. Learning of models based on neural networks with multiple ’hidden’ layers of artiﬁcial neurons is often referred to as deep learning (Goodfellow et al., 2016; LeCun et al., 2015). A particularly interesting application is probabilistic models, i.e. the use of neural networks for probability density functions (PDFs) or probability mass functions (PMFs) in probabilistic models. Probabilistic models based on neural networks are computationally scalable since they allow for stochastic gradient-based optimization which, as we will explain,"
+    },
+    {
+      "section_id": "14",
+      "original_section_number": "1.5",
+      "section_title": "Directed Graphical Models and Neural Networks",
+      "level": 2,
+      "start_page": 12,
+      "text": " allows scaling to large models and large datasets. We will denote a deep neural network as a vector function: NeuralNet(.). At the time of writing, deep learning has been shown to work well for a large variety of classiﬁcation and regression problems, as summarized in (LeCun et al., 2015; Goodfellow et al., 2016). In case of neural- network based image classiﬁcation LeCun et al., 1998, for example, neural networks parameterize a categorical distribution pθ(y|x) over a class label y, conditioned on an image x. p = NeuralNet(x) (1.4) pθ(y|x) = Categorical(y; p) (1.5) where the last operation of NeuralNet(.) is typically a softmax() function such that P i pi = 1."
+    },
+    {
+      "section_id": "15",
+      "original_section_number": "1.5",
+      "section_title": "Directed Graphical Models and Neural Networks",
+      "level": 2,
+      "start_page": 12,
+      "text": " We work with directed probabilistic models, also called directed proba- bilistic graphical models (PGMs), or Bayesian networks. Directed graph- ical models are a type of probabilistic models where all the variables are topologically organized into a directed acyclic graph. The joint distribution over the variables of such models factorizes as a product of prior and conditional distributions: pθ(x1, ..., xM) = M Y j=1 pθ(xj|Pa(xj)) (1.6) where Pa(xj) is the set of parent variables of node j in the directed graph. For non-root-nodes, we condition on the parents. For root nodes, the set of parents is the empty set, such that the distribution is unconditional. Traditionally, each conditional probability distribution pθ(xj|Pa(xj)) is parameterized as a lookup table or a linear model (Koller and Fried- man, 2009). As we explained above, a more ﬂexible way to parameterize such conditional distributions is with neural networks. In this case, neural networks take as input the parents of a variable in a directed"
+    },
+    {
+      "section_id": "16",
+      "original_section_number": "10",
+      "section_title": "Introduction",
+      "level": 1,
+      "start_page": 13,
+      "text": " graph, and produce the distributional parameters η over that variable: η = NeuralNet(Pa(x)) (1.7) pθ(x|Pa(x)) = pθ(x|η) (1.8) We will now discuss how to learn the parameters of such models, if all the variables are observed in the data."
+    },
+    {
+      "section_id": "17",
+      "original_section_number": "1.6",
+      "section_title": "Learning in Fully Observed Models with Neural Nets",
+      "level": 2,
+      "start_page": 13,
+      "text": " If all variables in the directed graphical model are observed in the data, then we can compute and diﬀerentiate the log-probability of the data under the model, leading to relatively straightforward optimization."
+    },
+    {
+      "section_id": "18",
+      "original_section_number": "1.6.1",
+      "section_title": "Dataset",
+      "level": 3,
+      "start_page": 13,
+      "text": " We often collect a dataset D consisting of N ≥1 datapoints: D = {x(1), x(2), ..., x(N)} ≡{x(i)}N i=1 ≡x(1:N) (1.9) The datapoints are assumed to be independent samples from an un- changing underlying distribution. In other words, the dataset is assumed to consist of distinct, independent measurements from the same (un- changing) system. In this case, the observations D = {x(i)}N i=1 are said to be i.i.d., for independently and identically distributed. Under the i.i.d. assumption, the probability of the datapoints given the parame- ters factorizes as a product of individual datapoint probabilities. The log-probability assigned to the data by the model is therefore given by: log pθ(D) = X x∈D log pθ(x) (1.10)"
+    },
+    {
+      "section_id": "19",
+      "original_section_number": "1.6.2",
+      "section_title": "Maximum Likelihood and Minibatch SGD",
+      "level": 3,
+      "start_page": 13,
+      "text": " The most common criterion for probabilistic models is maximum log- likelihood (ML). As we will explain, maximization of the log-likelihood criterion is equivalent to minimization of a Kullback Leibler divergence between the data and model distributions. Under the ML criterion, we attempt to ﬁnd the parameters θ that maximize the sum, or equivalently the average, of the log-probabilities"
+    },
+    {
+      "section_id": "20",
+      "original_section_number": "1.6",
+      "section_title": "Learning in Fully Observed Models with Neural Nets",
+      "level": 2,
+      "start_page": 14,
+      "text": " assigned to the data by the model. With i.i.d. dataset D of size ND, the maximum likelihood objective is to maximize the log-probability given by equation (1.10). Using calculus’ chain rule and automatic diﬀerentiation tools, we can eﬃciently compute gradients of this objective, i.e. the ﬁrst derivatives of the objective w.r.t. its parameters θ. We can use such gradients to iteratively hill-climb to a local optimum of the ML objective. If we compute such gradients using all datapoints, ∇θ log pθ(D), then this is known as batch gradient descent. Computation of this derivative is, however, an expensive operation for large dataset size ND, since it scales linearly with ND. A more eﬃcient method for optimization is stochastic gradient descent (SGD) (section A.3), which uses randomly drawn minibatches of data M ⊂D of size NM. With such minibatches we can form an unbiased estimator of the ML criterion: 1 ND log pθ(D) ≃ 1 NM log pθ(M) = 1 NM X x∈M log pθ(x) (1.11) The ≃symbol means that one of the two sides is an unbiased estimator of the other side. So one side (in this case the right-hand side) is a random variable due to some noise source, and the two sides are equal when averaged over the noise distribution. The noise source, in this case, is the randomly drawn minibatch of data M. The unbiased estimator log pθ(M) is diﬀerentiable, yielding the unbiased stochastic gradients:"
+    },
+    {
+      "section_id": "21",
+      "original_section_number": "1",
+      "section_title": "ND",
+      "level": 1,
+      "start_page": 14,
+      "text": " X x∈M ∇θ log pθ(x) (1.12) These gradients can be plugged into stochastic gradient-based optimizers; see section A.3 for further discussion. In a nutshell, we can optimize the objective function by repeatedly taking small steps in the direction of the stochastic gradient."
+    },
+    {
+      "section_id": "22",
+      "original_section_number": "1.6.3",
+      "section_title": "Bayesian inference",
+      "level": 3,
+      "start_page": 14,
+      "text": " From a Bayesian perspective, we can improve upon ML through maxi- mum a posteriori (MAP) estimation (section section A.2.1), or, going"
+    },
+    {
+      "section_id": "23",
+      "original_section_number": "12",
+      "section_title": "Introduction",
+      "level": 1,
+      "start_page": 15,
+      "text": " even further, inference of a full approximate posterior distribution over the parameters (see section A.1.4)."
+    },
+    {
+      "section_id": "24",
+      "original_section_number": "1.7",
+      "section_title": "Learning and Inference in Deep Latent Variable Models",
+      "level": 2,
+      "start_page": 15,
+      "text": ""
+    },
+    {
+      "section_id": "25",
+      "original_section_number": "1.7.1",
+      "section_title": "Latent Variables",
+      "level": 3,
+      "start_page": 15,
+      "text": " We can extend fully-observed directed models, discussed in the previous section, into directed models with latent variables. Latent variables are variables that are part of the model, but which we don’t observe, and are therefore not part of the dataset. We typically use z to denote such latent variables. In case of unconditional modeling of observed variable x, the directed graphical model would then represent a joint distribution pθ(x, z) over both the observed variables x and the latent variables z. The marginal distribution over the observed variables pθ(x), is given by: pθ(x) = Z pθ(x, z) dz (1.13) This is also called the (single datapoint) marginal likelihood or the model evidence, when taken as a function of θ. Such an implicit distribution over x can be quite ﬂexible. If z is discrete and pθ(x|z) is a Gaussian distribution, then pθ(x) is a mixture- of-Gaussians distribution. For continuous z, pθ(x) can be seen as an inﬁnite mixture, which are potentially more powerful than discrete mix- tures. Such marginal distributions are also called compound probability distributions."
+    },
+    {
+      "section_id": "26",
+      "original_section_number": "1.7.2",
+      "section_title": "Deep Latent Variable Models",
+      "level": 3,
+      "start_page": 15,
+      "text": " We use the term deep latent variable model (DLVM) to denote a latent variable model pθ(x, z) whose distributions are parameterized by neu- ral networks. Such a model can be conditioned on some context, like pθ(x, z|y). One important advantage of DLVMs, is that even when each factor (prior or conditional distribution) in the directed model is rela- tively simple (such as conditional Gaussian), the marginal distribution pθ(x) can be very complex, i.e. contain almost arbitrary dependen-"
+    },
+    {
+      "section_id": "27",
+      "original_section_number": "1.8",
+      "section_title": "Intractabilities",
+      "level": 2,
+      "start_page": 16,
+      "text": " cies. This expressivity makes deep latent-variable models attractive for approximating complicated underlying distributions p∗(x). Perhaps the simplest, and most common, DLVM is one that is speciﬁed as factorization with the following structure: pθ(x, z) = pθ(z)pθ(x|z) (1.14) where pθ(z) and/or pθ(x|z) are speciﬁed. The distribution p(z) is often called the prior distribution over z, since it is not conditioned on any observations."
+    },
+    {
+      "section_id": "28",
+      "original_section_number": "1.7.3",
+      "section_title": "Example DLVM for multivariate Bernoulli data",
+      "level": 3,
+      "start_page": 16,
+      "text": " A simple example DLVM, used in (Kingma and Welling, 2014) for binary data x, is with a spherical Gaussian latent space, and a factorized Bernoulli observation model: p(z) = N(z; 0, I) (1.15) p = DecoderNeuralNetθ(z) (1.16) log p(x|z) = D X j=1 log p(xj|z) = D X j=1 log Bernoulli(xj; pj) (1.17) = D X j=1 xj log pj + (1 −xj) log(1 −pj) (1.18) where ∀pj ∈p : 0 ≤pj ≤1 (e.g. implemented through a sigmoid nonlinearity as the last layer of the DecoderNeuralNetθ(.)), where D is the dimensionality of x, and Bernoulli(.; p) is the probability mass function (PMF) of the Bernoulli distribution."
+    },
+    {
+      "section_id": "29",
+      "original_section_number": "1.8",
+      "section_title": "Intractabilities",
+      "level": 2,
+      "start_page": 16,
+      "text": " The main diﬃculty of maximum likelihood learning in DLVMs is that the marginal probability of data under the model is typically intractable. This is due to the integral in equation (1.13) for computing the marginal likelihood (or model evidence), pθ(x) = R pθ(x, z) dz, not having an analytic solution or eﬃcient estimator. Due to this intractability, we"
+    },
+    {
+      "section_id": "30",
+      "original_section_number": "14",
+      "section_title": "Introduction",
+      "level": 1,
+      "start_page": 17,
+      "text": " cannot diﬀerentiate it w.r.t. its parameters and optimize it, as we can with fully observed models. The intractability of pθ(x), is related to the intractability of the posterior distribution pθ(z|x). Note that the joint distribution pθ(x, z) is eﬃcient to compute, and that the densities are related through the basic identity: pθ(z|x) = pθ(x, z) pθ(x) (1.19) Since pθ(x, z) is tractable to compute, a tractable marginal likelihood pθ(x) leads to a tractable posterior pθ(z|x), and vice versa. Both are intractable in DLVMs. Approximate inference techniques (see also section A.2) allow us to approximate the posterior pθ(z|x) and the marginal likelihood pθ(x) in DLVMs. Traditional inference methods are relatively expensive. Such methods, for example, often require a per-datapoint optimization loop, or yield bad posterior approximations. We would like to avoid such expensive procedures. Likewise, the posterior over the parameters of (directed models parameterized with) neural networks, p(θ|D), is generally intractable to compute exactly, and requires approximate inference techniques. 2 Variational Autoencoders In this chapter we explain the basics of variational autoencoders (VAEs)."
+    },
+    {
+      "section_id": "31",
+      "original_section_number": "2.1",
+      "section_title": "Encoder or Approximate Posterior",
+      "level": 2,
+      "start_page": 18,
+      "text": " In the previous chapter, we introduced deep latent-variable models (DLVMs), and the problem of estimating the log-likelihood and posterior distributions in such models. The framework of variational autoencoders (VAEs) provides a computationally eﬃcient way for optimizing DLVMs jointly with a corresponding inference model using SGD. To turn the DLVM’s intractable posterior inference and learning problems into tractable problems, we introduce a parametric inference model qφ(z|x). This model is also called an encoder or recognition model. With φ we indicate the parameters of this inference model, also called the variational parameters. We optimize the variational parameters φ such that: qφ(z|x) ≈pθ(z|x) (2.1) As we will explain, this approximation to the posterior help us optimize the marginal likelihood. 15"
+    },
+    {
+      "section_id": "32",
+      "original_section_number": "16",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 19,
+      "text": " Like a DLVM, the inference model can be (almost) any directed graphical model: qφ(z|x) = qφ(z1, ..., zM|x) = M Y j=1 qφ(zj|Pa(zj), x) (2.2) where Pa(zj) is the set of parent variables of variable zj in the directed graph. And also similar to a DLVM, the distribution qφ(z|x) can be parameterized using deep neural networks. In this case, the variational parameters φ include the weights and biases of the neural network. For example: (µ, log σ) = EncoderNeuralNetφ(x) (2.3) qφ(z|x) = N(z; µ, diag(σ)) (2.4) Typically, we use a single encoder neural network to perform poste- rior inference over all of the datapoints in our dataset. This can be contrasted to more traditional variational inference methods where the variational parameters are not shared, but instead separately and iteratively optimized per datapoint. The strategy used in VAEs of shar- ing variational parameters across datapoints is also called amortized variational inference (Gershman and Goodman, 2014). With amortized inference we can avoid a per-datapoint optimization loop, and leverage the eﬃciency of SGD."
+    },
+    {
+      "section_id": "33",
+      "original_section_number": "2.2",
+      "section_title": "Evidence Lower Bound",
+      "level": 2,
+      "start_page": 19,
+      "text": " The optimization objective of the variational autoencoder, like in other variational methods, is the evidence lower bound, abbreviated as ELBO. An alternative term for this objective is variational lower bound. Typ- ically, the ELBO is derived through Jensen’s inequality. Here we will use an alternative derivation that avoids Jensen’s inequality, providing greater insight about its tightness. For any choice of inference model qφ(z|x), including the choice of"
+    },
+    {
+      "section_id": "34",
+      "original_section_number": "2.2",
+      "section_title": "Evidence Lower Bound",
+      "level": 2,
+      "start_page": 20,
+      "text": " x-space z-space Encoder: qφ(z|x) Decoder: pθ(x|z) Prior distribution: pθ(z) Dataset: D Figure 2.1: A VAE learns stochastic mappings between an observed x-space, whose empirical distribution qD(x) is typically complicated, and a latent z-space, whose distribution can be relatively simple (such as spherical, as in this ﬁgure). The generative model learns a joint distribution pθ(x, z) that is often (but not always) factorized as pθ(x, z) = pθ(z)pθ(x|z), with a prior distribution over latent space pθ(z), and a stochastic decoder pθ(x|z). The stochastic encoder qφ(z|x), also called inference model, approximates the true but intractable posterior pθ(z|x) of the generative model."
+    },
+    {
+      "section_id": "35",
+      "original_section_number": "18",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 21,
+      "text": " variational parameters φ, we have: log pθ(x) = Eqφ(z|x) [log pθ(x)] (2.5) = Eqφ(z|x) \u0014 log \u0014pθ(x, z) pθ(z|x) \u0015\u0015 (2.6) = Eqφ(z|x) \" log \" pθ(x, z) qφ(z|x) qφ(z|x) pθ(z|x) ## (2.7) = Eqφ(z|x) \" log \" pθ(x, z) qφ(z|x) ## | {z } =Lθ,φ(x) (ELBO) + Eqφ(z|x) \u0014 log \u0014qφ(z|x) pθ(z|x) \u0015\u0015 | {z } =DKL(qφ(z|x)||pθ(z|x)) (2.8) The second term in eq. (2.8) is the Kullback-Leibler (KL) divergence between qφ(z|x) and pθ(z|x), which is non-negative: DKL(qφ(z|x)||pθ(z|x)) ≥0 (2.9) and zero if, and only if, qφ(z|x) equals the true posterior distribution. The ﬁrst term in eq. (2.8) is the variational lower bound, also called the evidence lower bound (ELBO): Lθ,φ(x) = Eqφ(z|x) [log pθ(x, z) −log qφ(z|x)] (2.10) Due to the non-negativity of the KL divergence, the ELBO is a lower bound on the log-likelihood of the data. Lθ,φ(x) = log pθ(x) −DKL(qφ(z|x)||pθ(z|x)) (2.11) ≤log pθ(x) (2.12) So, interestingly, the KL divergence DKL(qφ(z|x)||pθ(z|x)) determines two ’distances’:"
+    },
+    {
+      "section_id": "36",
+      "original_section_number": "1",
+      "section_title": "By de",
+      "level": 1,
+      "start_page": 21,
+      "text": " 2. The gap between the ELBO Lθ,φ(x) and the marginal likelihood log pθ(x); this is also called the tightness of the bound. The better qφ(z|x) approximates the true (posterior) distribution pθ(z|x), in terms of the KL divergence, the smaller the gap."
+    },
+    {
+      "section_id": "37",
+      "original_section_number": "2.3",
+      "section_title": "Stochastic Gradient-Based Optimization of the ELBO",
+      "level": 2,
+      "start_page": 22,
+      "text": " Generative Model p(x,z) Datapoint Inference Model q(z|x) Sample z Objective ELBO = log p(x,z) - log q(z|x) Figure 2.2: Simple schematic of computational ﬂow in a variational autoencoder."
+    },
+    {
+      "section_id": "38",
+      "original_section_number": "2.2.1",
+      "section_title": "Two for One",
+      "level": 3,
+      "start_page": 22,
+      "text": " By looking at equation 2.11, it can be understood that maximization of the ELBO Lθ,φ(x) w.r.t. the parameters θ and φ, will concurrently optimize the two things we care about: 1. It will approximately maximize the marginal likelihood pθ(x). This means that our generative model will become better. 2. It will minimize the KL divergence of the approximation qφ(z|x) from the true posterior pθ(z|x), so qφ(z|x) becomes better."
+    },
+    {
+      "section_id": "39",
+      "original_section_number": "2.3",
+      "section_title": "Stochastic Gradient-Based Optimization of the ELBO",
+      "level": 2,
+      "start_page": 22,
+      "text": " An important property of the ELBO, is that it allows joint optimization w.r.t. all parameters (φ and θ) using stochastic gradient descent (SGD). We can start out with random initial values of φ and θ, and stochastically optimize their values until convergence. Given a dataset with i.i.d. data, the ELBO objective is the sum (or average) of individual-datapoint ELBO’s: Lθ,φ(D) = X x∈D Lθ,φ(x) (2.13) The individual-datapoint ELBO, and its gradient ∇θ,φLθ,φ(x) is, in general, intractable. However, good unbiased estimators ˜∇θ,φLθ,φ(x) exist, as we will show, such that we can still perform minibatch SGD."
+    },
+    {
+      "section_id": "40",
+      "original_section_number": "20",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 23,
+      "text": " Unbiased gradients of the ELBO w.r.t. the generative model param- eters θ are simple to obtain: ∇θLθ,φ(x) = ∇θEqφ(z|x) [log pθ(x, z) −log qφ(z|x)] (2.14) = Eqφ(z|x) [∇θ(log pθ(x, z) −log qφ(z|x))] (2.15) ≃∇θ(log pθ(x, z) −log qφ(z|x)) (2.16) = ∇θ(log pθ(x, z)) (2.17) The last line (eq. (2.17)) is a simple Monte Carlo estimator of the second line (eq. (2.15)), where z in the last two lines (eq. (2.16) and eq. (2.17)) is a random sample from qφ(z|x). Unbiased gradients w.r.t. the variational parameters φ are more diﬃcult to obtain, since the ELBO’s expectation is taken w.r.t. the distribution qφ(z|x), which is a function of φ. I.e., in general: ∇φLθ,φ(x) = ∇φEqφ(z|x) [log pθ(x, z) −log qφ(z|x)] (2.18) ̸= Eqφ(z|x) [∇φ(log pθ(x, z) −log qφ(z|x))] (2.19) In the case of continuous latent variables, we can use a reparam- eterization trick for computing unbiased estimates of ∇θ,φLθ,φ(x), as we will now discuss. This stochastic estimate allows us to optimize the ELBO using SGD; see algorithm 1. See section 2.9.1 for a discussion of variational methods for discrete latent variables."
+    },
+    {
+      "section_id": "41",
+      "original_section_number": "2.4",
+      "section_title": "Reparameterization Trick",
+      "level": 2,
+      "start_page": 23,
+      "text": " For continuous latent variables and a diﬀerentiable encoder and genera- tive model, the ELBO can be straightforwardly diﬀerentiated w.r.t. both φ and θ through a change of variables, also called the reparameterization trick (Kingma and Welling, 2014 and Rezende et al., 2014)."
+    },
+    {
+      "section_id": "42",
+      "original_section_number": "2.4.1",
+      "section_title": "Change of variables",
+      "level": 3,
+      "start_page": 23,
+      "text": " First, we express the random variable z ∼qφ(z|x) as some diﬀerentiable (and invertible) transformation of another random variable ϵ, given z and φ: z = g(ϵ, φ, x) (2.20) where the distribution of random variable ϵ is independent of x or φ."
+    },
+    {
+      "section_id": "43",
+      "original_section_number": "2.4",
+      "section_title": "Reparameterization Trick",
+      "level": 2,
+      "start_page": 24,
+      "text": " Algorithm 1: Stochastic optimization of the ELBO. Since noise originates from both the minibatch sampling and sampling of p(ϵ), this is a doubly stochastic optimization procedure. We also refer to this procedure as the Auto-Encoding Variational Bayes (AEVB) algorithm. Data: D: Dataset qφ(z|x): Inference model pθ(x, z): Generative model Result: θ, φ: Learned parameters (θ, φ) ←Initialize parameters while SGD not converged do M ∼D (Random minibatch of data) ϵ ∼p(ϵ) (Random noise for every datapoint in M) Compute ˜Lθ,φ(M, ϵ) and its gradients ∇θ,φ ˜Lθ,φ(M, ϵ) Update θ and φ using SGD optimizer end"
+    },
+    {
+      "section_id": "44",
+      "original_section_number": "2.4.2",
+      "section_title": "Gradient of expectation under change of variable",
+      "level": 3,
+      "start_page": 24,
+      "text": " Given such a change of variable, expectations can be rewritten in terms of ϵ, Eqφ(z|x) [f(z)] = Ep(ϵ) [f(z)] (2.21) where z = g(ϵ, φ, x). and the expectation and gradient operators become commutative, and we can form a simple Monte Carlo estimator: ∇φEqφ(z|x) [f(z)] = ∇φEp(ϵ) [f(z)] (2.22) = Ep(ϵ) [∇φf(z)] (2.23) ≃∇φf(z) (2.24) where in the last line, z = g(φ, x, ϵ) with random noise sample ϵ ∼p(ϵ). See ﬁgure 2.3 for an illustration and further clariﬁcation, and ﬁgure 3.2 for an illustration of the resulting posteriors for a 2D toy problem."
+    },
+    {
+      "section_id": "45",
+      "original_section_number": "22",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 25,
+      "text": " z x φ x φ ε z = g(φ,x,ε)"
+    },
+    {
+      "section_id": "46",
+      "original_section_number": "",
+      "section_title": "Original form Reparameterized form",
+      "level": 1,
+      "start_page": 25,
+      "text": " f f ~ qφ(z|x) ~ p(ε) Backprop ∇φ f ∇z f : Deterministic node : Random node : Evaluation of f : Diﬀerentiation of f Figure 2.3: Illustration of the reparameterization trick. The variational parameters φ aﬀect the objective f through the random variable z ∼qφ(z|x). We wish to compute gradients ∇φf to optimize the objective with SGD. In the original form (left), we cannot diﬀerentiate f w.r.t. φ, because we cannot directly backpropagate gradients through the random variable z. We can ’externalize’ the randomness in z by re-parameterizing the variable as a deterministic and diﬀerentiable function of φ, x, and a newly introduced random variable ϵ. This allows us to ’backprop through z’, and compute gradients ∇φf."
+    },
+    {
+      "section_id": "47",
+      "original_section_number": "2.4",
+      "section_title": "Reparameterization Trick",
+      "level": 2,
+      "start_page": 26,
+      "text": ""
+    },
+    {
+      "section_id": "48",
+      "original_section_number": "2.4.3",
+      "section_title": "Gradient of ELBO",
+      "level": 3,
+      "start_page": 26,
+      "text": " Under the reparameterization, we can replace an expectation w.r.t. qφ(z|x) with one w.r.t. p(ϵ). The ELBO can be rewritten as: Lθ,φ(x) = Eqφ(z|x) [log pθ(x, z) −log qφ(z|x)] (2.25) = Ep(ϵ) [log pθ(x, z) −log qφ(z|x)] (2.26) where z = g(ϵ, φ, x). As a result we can form a simple Monte Carlo estimator ˜Lθ,φ(x) of the individual-datapoint ELBO where we use a single noise sample ϵ from p(ϵ): ϵ ∼p(ϵ) (2.27) z = g(φ, x, ϵ) (2.28) ˜Lθ,φ(x) = log pθ(x, z) −log qφ(z|x) (2.29) This series of operations can be expressed as a symbolic graph in software like TensorFlow, and eﬀortlessly diﬀerentiated w.r.t. the pa- rameters θ and φ. The resulting gradient ∇φ ˜Lθ,φ(x) is used to optimize the ELBO using minibatch SGD. See algorithm 1. This algorithm was originally referred to as the Auto-Encoding Variational Bayes (AEVB) algorithm by Kingma and Welling, 2014. More generally, the reparam- eterized ELBO estimator was referred to as the Stochastic Gradient Variational Bayes (SGVB) estimator. This estimator can also be used to estimate a posterior over the model parameters, as explained in the appendix of (Kingma and Welling, 2014)."
+    },
+    {
+      "section_id": "49",
+      "original_section_number": "",
+      "section_title": "Unbiasedness",
+      "level": 1,
+      "start_page": 26,
+      "text": " This gradient is an unbiased estimator of the exact single-datapoint ELBO gradient; when averaged over noise ϵ ∼p(ϵ), this gradient equals the single-datapoint ELBO gradient: Ep(ϵ) h ∇θ,φ ˜Lθ,φ(x; ϵ) i = Ep(ϵ) [∇θ,φ(log pθ(x, z) −log qφ(z|x))] (2.30) = ∇θ,φ(Ep(ϵ) [log pθ(x, z) −log qφ(z|x)]) (2.31) = ∇θ,φLθ,φ(x) (2.32)"
+    },
+    {
+      "section_id": "50",
+      "original_section_number": "24",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 27,
+      "text": ""
+    },
+    {
+      "section_id": "51",
+      "original_section_number": "2.4.4",
+      "section_title": "Computation of log q",
+      "level": 3,
+      "start_page": 27,
+      "text": " Computation of the (estimator of) the ELBO requires computation of the density log qφ(z|x), given a value of x, and given a value of z or equivalently ϵ. This log-density is a simple computation, as long as we choose the right transformation g(). Note that we typically know the density p(ϵ), since this is the density of the chosen noise distribution. As long as g(.) is an invertible function, the densities of ϵ and z are related as: log qφ(z|x) = log p(ϵ) −log dφ(x, ϵ) (2.33) where the second term is the log of the absolute value of the determinant of the Jacobian matrix (∂z/∂ϵ): log dφ(x, ϵ) = log det \u0012∂z ∂ϵ \u0013 (2.34) We call this the log-determinant of the transformation from ϵ to z. We use the notation log dφ(x, ϵ) to make explicit that this log-determinant, similar to g(), is a function of x, ϵ and φ. The Jacobian matrix contains all ﬁrst derivatives of the transformation from ϵ to z: ∂z ∂ϵ = ∂(z1, ..., zk) ∂(ϵ1, ..., ϵk) =     ∂z1 ∂ϵ1 · · · ∂z1 ∂ϵk ... ... ... ∂zk ∂ϵ1 · · · ∂zk ∂ϵk     (2.35) As we will show, we can build very ﬂexible transformations g() for which log dφ(x, ϵ) is simple to compute, resulting in highly ﬂexible inference models qφ(z|x)."
+    },
+    {
+      "section_id": "52",
+      "original_section_number": "2.5",
+      "section_title": "Factorized Gaussian posteriors",
+      "level": 2,
+      "start_page": 27,
+      "text": " A common choice is a simple factorized Gaussian encoder qφ(z|x) = N(z; µ, diag(σ2)): (µ, log σ) = EncoderNeuralNetφ(x) (2.36) qφ(z|x) = Y i qφ(zi|x) = Y i N(zi; µi, σ2 i ) (2.37)"
+    },
+    {
+      "section_id": "53",
+      "original_section_number": "2.5",
+      "section_title": "Factorized Gaussian posteriors",
+      "level": 2,
+      "start_page": 28,
+      "text": " where N(zi; µi, σ2 i ) is the PDF of the univariate Gaussian distribution. After reparameterization, we can write: ϵ ∼N(0, I) (2.38) (µ, log σ) = EncoderNeuralNetφ(x) (2.39) z = µ + σ ⊙ϵ (2.40) where ⊙is the element-wise product. The Jacobian of the transformation from ϵ to z is: ∂z ∂ϵ = diag(σ), (2.41) i.e. a diagonal matrix with the elements of σ on the diagonal. The determinant of a diagonal (or more generally, triangular) matrix is the product of its diagonal terms. The log determinant of the Jacobian is therefore: log dφ(x, ϵ) = log det \u0012∂z ∂ϵ \u0013 = X i log σi (2.42) and the posterior density is: log qφ(z|x) = log p(ϵ) −log dφ(x, ϵ) (2.43) = X i log N(ϵi; 0, 1) −log σi (2.44) when z = g(ϵ, φ, x)."
+    },
+    {
+      "section_id": "54",
+      "original_section_number": "2.5.1",
+      "section_title": "Full-covariance Gaussian posterior",
+      "level": 3,
+      "start_page": 28,
+      "text": " The factorized Gaussian posterior can be extended to a Gaussian with full covariance: qφ(z|x) = N(z; µ, Σ) (2.45) A reparameterization of this distribution is given by: ϵ ∼N(0, I) (2.46) z = µ + Lϵ (2.47)"
+    },
+    {
+      "section_id": "55",
+      "original_section_number": "26",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 29,
+      "text": " where L is a lower (or upper) triangular matrix, with non-zero en- tries on the diagonal. The oﬀ-diagonal elements deﬁne the correlations (covariances) of the elements in z. The reason for this parameterization of the full-covariance Gaussian, is that the Jacobian determinant is remarkably simple. The Jacobian in this case is trivial: ∂z ∂ϵ = L. Note that the determinant of a triangu- lar matrix is the product of its diagonal elements. Therefore, in this parameterization: log | det(∂z ∂ϵ)| = X i log |Lii| (2.48) And the log-density of the posterior is: log qφ(z|x) = log p(ϵ) − X i log |Lii| (2.49) This parameterization corresponds to the Cholesky decomposition Σ = LLT of the covariance of z: Σ = E h (z −E [z|])(z −E [z|])T i (2.50) = E h Lϵ(Lϵ)T i = LE h ϵϵT i LT (2.51) = LLT (2.52) Note that E h ϵϵT i = I since ϵ ∼N(0, I). One way to build a matrix L with the desired properties, namely triangularity and non-zero diagonal entries, is by constructing it as follows: (µ, log σ, L′) ←EncoderNeuralNetφ(x) (2.53) L ←Lmask ⊙L′ + diag(σ) (2.54) and then proceeding with z = µ + Lϵ as described above. Lmask is a masking matrix with zeros on and above the diagonal, and ones below the diagonal. Note that due to the masking L, the Jacobian matrix (∂z/∂ϵ) is triangular with the values of σ on the diagonal. The log-determinant is therefore identical to the factorized Gaussian case: log det \u0012∂z ∂ϵ \u0013 = X i log σi (2.55)"
+    },
+    {
+      "section_id": "56",
+      "original_section_number": "2.5",
+      "section_title": "Factorized Gaussian posteriors",
+      "level": 2,
+      "start_page": 30,
+      "text": " More generally, we can replace z = Lϵ+µ with a chain of (diﬀerentiable and nonlinear) transformations; as long as the Jacobian of each step in the chain is triangular with non-zero diagonal entries, the log determi- nant remains simple. This principle is used by inverse autoregressive ﬂow (IAF) as explored by Kingma et al., 2016 and discussed in chapter 3. Algorithm 2: Computation of unbiased estimate of single- datapoint ELBO for example VAE with a full-covariance Gaussian inference model and a factorized Bernoulli generative model. Lmask is a masking matrix with zeros on and above the diagonal, and ones below the diagonal. Data: x: a datapoint, and optionally other conditioning information ϵ: a random sample from p(ϵ) = N(0, I) θ: Generative model parameters φ: Inference model parameters qφ(z|x): Inference model pθ(x, z): Generative model Result: ˜L: unbiased estimate of the single-datapoint ELBO Lθ,φ(x) (µ, log σ, L′) ←EncoderNeuralNetφ(x) L ←Lmask ⊙L′ + diag(σ) ϵ ∼N(0, I) z ←Lϵ + µ ˜Llogqz ←−P i(1 2(ϵ2 i + log(2π) + log σi))i ▷= qφ(z|x) ˜Llogpz ←−P i(1 2(z2 i + log(2π))) ▷= pθ(z) p ←DecoderNeuralNetθ(z) ˜Llogpx ←P i(xi log pi + (1 −xi) log(1 −pi)) ▷= pθ(x|z) ˜L = ˜Llogpx + ˜Llogpz −˜Llogqz"
+    },
+    {
+      "section_id": "57",
+      "original_section_number": "28",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 31,
+      "text": ""
+    },
+    {
+      "section_id": "58",
+      "original_section_number": "2.6",
+      "section_title": "Estimation of the Marginal Likelihood",
+      "level": 2,
+      "start_page": 31,
+      "text": " After training a VAE, we can estimate the probability of data under the model using an importance sampling technique, as originally proposed by Rezende et al., 2014. The marginal likelhood of a datapoint can be written as: log pθ(x) = log Eqφ(z|x) [pθ(x, z)/qφ(z|x)] (2.56) Taking random samples from qφ(z|x), a Monte Carlo estimator of this is: log pθ(x) ≈log 1 L L X l=1 pθ(x, z(l))/qφ(z(l)|x) (2.57) where each z(l) ∼qφ(z|x) is a random sample from the inference model. By making L large, the approximation becomes a better estimate of the marginal likelihood, and in fact since this is a Monte Carlo estimator, for L →∞this converges to the actual marginal likelihood. Notice that when setting L = 1, this equals the ELBO estima- tor of the VAE. We can also use the estimator of eq. (2.57) as our objective function; this is the objective used in importance weighted autoencoders (Burda et al., 2015) (IWAE). In that paper, it was also shown that the objective has increasing tightness for increasing value of L. It was later shown by Cremer et al., 2017 that the IWAE ob- jective can be re-interpreted as an ELBO objective with a particular inference model. The downside of these approaches for optimizing a tighter bound, is that importance weighted estimates have notoriously bad scaling properties to high-dimensional latent spaces."
+    },
+    {
+      "section_id": "59",
+      "original_section_number": "2.7",
+      "section_title": "Marginal Likelihood and ELBO as KL Divergences",
+      "level": 2,
+      "start_page": 31,
+      "text": " One way to improve the potential tightness of the ELBO, is increasing the ﬂexibility of the generative model. This can be understood through a connection between the ELBO and the KL divergence."
+    },
+    {
+      "section_id": "60",
+      "original_section_number": "2.7",
+      "section_title": "Marginal Likelihood and ELBO as KL Divergences",
+      "level": 2,
+      "start_page": 32,
+      "text": " With i.i.d. dataset D of size ND, the maximum likelihood criterion is: log pθ(D) = 1 ND X x∈D log pθ(x) (2.58) = EqD(x) [log pθ(x)] (2.59) where qD(x) is the empirical (data) distribution, which is a mixture distribution: qD(x) = 1 N N X i=1 q(i) D (x) (2.60) where each component q(i) D (x) typically corresponds to a Dirac delta distribution centered at value x(i) in case of continuous data, or a dis- crete distribution with all probability mass concentrated at value x(i) in case of discrete data. The Kullback Leibler (KL) divergence between the data and model distributions, can be rewritten as the negative log-likelihood, plus a constant: DKL(qD(x)||pθ(x)) = −EqD(x) [log pθ(x)] + EqD(x) [log qD(x)] (2.61) = −log pθ(D) + constant (2.62) where constant = −H(qD(x)). So minimization of the KL divergence above is equivalent to maximization of the data log-likelihood log pθ(D). Taking the combination of the empirical data distribution qD(x) and the inference model, we get a joint distribution over data x and latent variables z: qD,φ(x, z) = qD(x)q(z|x). The KL divergence of qD,φ(x, z) from pθ(x, z) can be written as the negative ELBO, plus a constant: DKL(qD,φ(x, z)||pθ(x, z)) (2.63) = −EqD(x) h Eqφ(z|x) [log pθ(x, z) −log qφ(z|x)] −log qD(x) i (2.64) = −Lθ,φ(D) + constant (2.65) where constant = −H(qD(x)). So maximization of the ELBO, is equiva- lent to the minimization of this KL divergence DKL(qD,φ(x, z)||pθ(x, z)). The relationship between the ML and ELBO objectives can be summa-"
+    },
+    {
+      "section_id": "61",
+      "original_section_number": "30",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 33,
+      "text": " rized in the following simple equation: DKL(qD,φ(x, z)||pθ(x, z)) (2.66) = DKL(qD(x)||pθ(x)) + EqD(x) [DKL(qD,φ(z|x)||pθ(z|x))] (2.67) ≥DKL(qD(x)||pθ(x)) (2.68) One additional perspective is that the ELBO can be viewed as a maxi- mum likelihood objective in an augmented space. For some ﬁxed choice of encoder qφ(z|x), we can view the joint distribution pθ(x, z) as an aug- mented empirical distribution over the original data x and (stochastic) auxiliary features z associated with each datapoint. The model pθ(x, z) then deﬁnes a joint model over the original data, and the auxiliary features. See ﬁgure 2.4."
+    },
+    {
+      "section_id": "62",
+      "original_section_number": "2.8",
+      "section_title": "Challenges",
+      "level": 2,
+      "start_page": 33,
+      "text": ""
+    },
+    {
+      "section_id": "63",
+      "original_section_number": "2.8.1",
+      "section_title": "Optimization issues",
+      "level": 3,
+      "start_page": 33,
+      "text": " In our work, consistent with ﬁndings in (Bowman et al., 2015) and (Sønderby et al., 2016a), we found that stochastic optimization with the unmodiﬁed lower bound objective can gets stuck in an undesirable stable equilibrium. At the start of training, the likelihood term log p(x|z) is relatively weak, such that an initially attractive state is where q(z|x) ≈ p(z), resulting in a stable equilibrium from which it is diﬃcult to escape. The solution proposed in (Bowman et al., 2015) and (Sønderby et al., 2016a) is to use an optimization schedule where the weights of the latent cost DKL(q(z|x)||p(z)) is slowly annealed from 0 to 1 over many epochs. An alternative proposed in (Kingma et al., 2016) is the method of free bits: a modiﬁcation of the ELBO objective, that ensures that on average, a certain minimum number of bits of information are encoded per latent variable, or per group of latent variables. The latent dimensions are divided into the K groups. We then use the following minibatch objective, which ensures that using less than λ nats of information per subset j (on average per minibatch M) is not"
+    },
+    {
+      "section_id": "64",
+      "original_section_number": "2.8",
+      "section_title": "Challenges",
+      "level": 2,
+      "start_page": 34,
+      "text": " Decoder: pθ(x|z) Prior distribution: pθ(z) Marginal: pθ(x) x-space z-space Encoder: qφ(z|x) Marginal: qφ(z) Data distribution: qD(x) ML objective = - DKL( qD(x) || pθ(x) ) ELBO objective = - DKL( qD,φ(x,z) || pθ(x,z) ) qD,φ(x,z) = qD(x) qφ(z|x) pθ(x,z) = pθ(z) pθ(x|z) Figure 2.4: The maximum likelihood (ML) objective can be viewed as the mini- mization of DKL(qD,φ(x)||pθ(x)), while the ELBO objective can be viewed as the minimization of DKL(qD,φ(x, z)||pθ(x, z)), which upper bounds DKL(qD,φ(x)||pθ(x)). If a perfect ﬁt is not possible, then pθ(x, z) will typically end up with higher variance than qD,φ(x, z), because of the direction of the KL divergence."
+    },
+    {
+      "section_id": "65",
+      "original_section_number": "32",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 35,
+      "text": " advantageous: eLλ = Ex∼M h Eq(z|x) [log p(x|z)] i (2.69) − K X j=1 maximum(λ, Ex∼M [DKL(q(zj|x)||p(zj))] (2.70) Since increasing the latent information is generally advantageous for the ﬁrst (unaﬀected) term of the objective (often called the negative reconstruction error), this results in Ex∼M [DKL(q(zj|x)||p(zj))] ≥λ for all j, in practice. In Kingma et al., 2016 it was found that the method worked well for a fairly wide range of values (λ ∈[0.125, 0.25, 0.5, 1, 2]), resulting in signiﬁcant improvement in the resulting log-likelihood on a benchmark result."
+    },
+    {
+      "section_id": "66",
+      "original_section_number": "2.8.2",
+      "section_title": "Blurriness of generative model",
+      "level": 3,
+      "start_page": 35,
+      "text": " In section 2.7 we saw that optimizing the ELBO is equivalent to mini- mizing DKL(qD,φ(x, z)||pθ(x, z)). If a perfect ﬁt between qD,φ(x, z) and pθ(x, z) is not possible, then the variance of pθ(x, z) and pθ(x) will end up larger than the variance qD,φ(x, z) and the data qD,φ(x). This is due to the direction of the KL divergence; if there are values of (x, z) which are likely under qD,φ but not under pθ, the term EqD,φ(x,z) [log pθ(x, z)] will go to inﬁnity. However, the reverse is not true: the generative model is only slightly penalized when putting probability mass on values of (x, z) with no support under qD,φ. Issues with ’blurriness’ can thus can be countered by choosing a suﬃciently ﬂexible inference model, and/or a suﬃciently ﬂexible generative model. In the next two chapters we will discuss techniques for constructing ﬂexible inference models and ﬂexible generative models."
+    },
+    {
+      "section_id": "67",
+      "original_section_number": "2.9",
+      "section_title": "Related prior and concurrent work",
+      "level": 2,
+      "start_page": 35,
+      "text": " Here we brieﬂy discuss relevant literature prior to and concurrent with the work in (Kingma and Welling, 2014). The wake-sleep algorithm (Hinton et al., 1995) is another on-line learning method, applicable to the same general class of continuous latent variable models. Like our method, the wake-sleep algorithm"
+    },
+    {
+      "section_id": "68",
+      "original_section_number": "2.9",
+      "section_title": "Related prior and concurrent work",
+      "level": 2,
+      "start_page": 36,
+      "text": " employs a recognition model that approximates the true posterior. A drawback of the wake-sleep algorithm is that it requires a concurrent optimization of two objective functions, which together do not cor- respond to optimization of (a bound of) the marginal likelihood. An advantage of wake-sleep is that it also applies to models with discrete latent variables. Wake-Sleep has the same computational complexity as AEVB per datapoint. Variational inference has a long history in the ﬁeld of machine learn- ing. We refer to (Wainwright and Jordan, 2008) for a comprehensive overview and synthesis of ideas around variational inference for exponen- tial family graphical models. Among other connections, (Wainwright and Jordan, 2008) shows how various inference algorithms (such as expectation propagation, sum-product, max-product and many oth- ers) can be understood as exact or approximate forms of variational inference. Stochastic variational inference Hoﬀman et al., 2013 has received increasing interest. Blei et al., 2012 introduced a control variate schemes to reduce the variance of the score function gradient estimator, and applied the estimator to exponential family approximations of the posterior. In (Ranganath et al., 2014) some general methods, e.g. a control variate scheme, were introduced for reducing the variance of the original gradient estimator. In (Salimans and Knowles, 2013), a similar reparameterization as in this work was used in an eﬃcient version of a stochastic variational inference algorithm for learning the natural parameters of exponential-family approximating distributions. In Graves, 2011 a similar estimator of the gradient is introduced; however the estimator of the variance is not an unbiased estimator w.r.t. the ELBO gradient. The VAE training algorithm exposes a connection between directed probabilistic models (trained with a variational objective) and autoen- coders. A connection between linear autoencoders and a certain class of generative linear-Gaussian models has long been known. In (Roweis, 1998) it was shown that PCA corresponds to the maximum-likelihood (ML) solution of a special case of the linear-Gaussian model with a prior p(z) = N(0, I) and a conditional distribution p(x|z) = N(x; Wz, ϵI), speciﬁcally the case with inﬁnitesimally small ϵ. In this limiting case,"
+    },
+    {
+      "section_id": "69",
+      "original_section_number": "34",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 37,
+      "text": " the posterior over the latent variables p(z|x) is a Dirac delta distribu- tion: p(z|x) = δ(z −W′x) where W′ = (WT W)−1WT , i.e., given W and x there is no uncertainty about latent variable z. Roweis, 1998 then introduces an EM-type approach to learning W. Much earlier work (Bourlard and Kamp, 1988) showed that optimization of linear autoencoders retrieves the principal components of data, from which it follows that learning linear autoencoders correspond to a speciﬁc method for learning the above case of linear-Gaussian probabilistic model of the data. However, this approach using linear autoencoders is limited to linear-Gaussian models, while our approach applies to a much broader class of continuous latent variable models. When using neural networks for both the inference model and the generative model, the combination forms a type of autoencoder (Good- fellow et al., 2016) with a speciﬁc regularization term: ˜Lθ,φ(x; ϵ) = log pθ(x|z) | {z } Negative reconstruction error + log pθ(z) −log qφ(z|x) | {z } Regularization terms (2.71) In an analysis of plain autoencoders (Vincent et al., 2010) it was shown that the training criterion of unregularized autoencoders cor- responds to maximization of a lower bound (see the infomax princi- ple (Linsker, 1989)) of the mutual information between input X and latent representation Z. Maximizing (w.r.t. parameters) of the mutual information is equivalent to maximizing the conditional entropy, which is lower bounded by the expected log-likelihood of the data under the autoencoding model (Vincent et al., 2010), i.e. the negative reconstruc- tion error. However, it is well known that this reconstruction criterion is in itself not suﬃcient for learning useful representations (Bengio et al., 2013). Regularization techniques have been proposed to make autoen- coders learn useful representations, such as denoising, contractive and sparse autoencoder variants (Bengio et al., 2013). The VAE objective contains a regularization term dictated by the variational bound, lacking the usual nuisance regularization hyper-parameter required to learn useful representations. Related are also encoder-decoder architectures such as the predictive sparse decomposition (PSD) (Kavukcuoglu et al., 2008), from which we drew some inspiration. Also relevant are the re- cently introduced Generative Stochastic Networks (Bengio et al., 2014)"
+    },
+    {
+      "section_id": "70",
+      "original_section_number": "2.9",
+      "section_title": "Related prior and concurrent work",
+      "level": 2,
+      "start_page": 38,
+      "text": " where noisy autoencoders learn the transition operator of a Markov chain that samples from the data distribution. In (Salakhutdinov and Larochelle, 2010) a recognition model was employed for eﬃcient learn- ing with Deep Boltzmann Machines. These methods are targeted at either unnormalized models (i.e. undirected models like Boltzmann machines) or limited to sparse coding models, in contrast to our pro- posed algorithm for learning a general class of directed probabilistic models. The proposed DARN method (Gregor et al., 2014), also learns a directed probabilistic model using an autoencoding structure, however their method applies to binary latent variables. In concurrent work, Rezende et al., 2014 also make the connection between autoencoders, directed probabilistic models and stochastic variational inference us- ing the reparameterization trick we describe in (Kingma and Welling, 2014). Their work was developed independently of ours and provides an additional perspective on the VAE."
+    },
+    {
+      "section_id": "71",
+      "original_section_number": "2.9.1",
+      "section_title": "Score function estimator",
+      "level": 3,
+      "start_page": 38,
+      "text": " An alternative unbiased stochastic gradient estimator of the ELBO is the score function estimator (Kleijnen and Rubinstein, 1996): ∇φEqφ(z|x) [f(z)] = Eqφ(z|x) [f(z)∇φ log qφ(z|x)] (2.72) ≃f(z)∇φ log qφ(z|x) (2.73) where z ∼qφ(z|x). This is also known as the likelihood ratio estimator (Glynn, 1990; Fu, 2006) and the REINFORCE gradient estimator (Williams, 1992). The method has been successfully used in various methods like neural variational inference (Mnih and Gregor, 2014), black-box variational inference (Ranganath et al., 2014), automated variational inference (Wingate and Weber, 2013), and variational stochastic search (Paisley et al., 2012), often in combination with various novel control variate techniques (Glasserman, 2013) for variance reduction. An advantage of the likelihood ratio estimator is its applicability to discrete latent variables."
+    },
+    {
+      "section_id": "72",
+      "original_section_number": "36",
+      "section_title": "Variational Autoencoders",
+      "level": 1,
+      "start_page": 39,
+      "text": " We do not directly compare to these techniques, since we concern ourselves with continuous latent variables, in which case we have (compu- tationally cheap) access to gradient information ∇z log pθ(x, z), courtesy of the backpropagation algorithm. The score function estimator solely uses the scalar-valued log pθ(x, z), ignoring the gradient information about the function log pθ(x, z), generally leading to much higher vari- ance. This has been experimentally conﬁrmed by e.g. (Kucukelbir et al., 2017), which ﬁnds that a sophisticated score function estimator requires two orders of magnitude more samples to arrive at the same variance as a reparameterization based estimator. The diﬀerence in eﬃciency of our proposed reparameterization-based gradient estimator, compared to score function estimators, can intu- itively be understood as removing an information bottleneck during the computation of gradients of the ELBO w.r.t. φ from current parameters θ: in the latter case, this computation is bottlenecked by the scalar value log pθ(x, z), while in the former case it is bottlenecked by the much wider vector ∇z log pθ(x, z). 3"
+    },
+    {
+      "section_id": "73",
+      "original_section_number": "",
+      "section_title": "Beyond Gaussian Posteriors",
+      "level": 1,
+      "start_page": 40,
+      "text": " In this chapter we discuss techniques for improving the ﬂexibility of the inference model qφ(z|x). Increasing the ﬂexibility and accuracy of the inference model wel generally improve the tightness of the variational bound (ELBO), bringing it closer the true marginal likelihood objective."
+    },
+    {
+      "section_id": "74",
+      "original_section_number": "3.1",
+      "section_title": "Requirements for Computational Tractability",
+      "level": 2,
+      "start_page": 40,
+      "text": " Requirements for the inference model, in order to be able to eﬃciently optimize the ELBO, are that it is (1) computationally eﬃcient to compute and diﬀerentiate its probability density qφ(z|x), and (2) com- putationally eﬃcient to sample from, since both these operations need to be performed for each datapoint in a minibatch at every iteration of optimization. If z is high-dimensional and we want to make eﬃcient use of parallel computational resources like GPUs, then parallelizability of these operations across dimensions of z is a large factor towards eﬃciency. This requirement restricts the class of approximate posteriors q(z|x) that are practical to use. In practice this often leads to the use of simple Gaussian posteriors. However, as explained, we also need the density q(z|x) to be suﬃciently ﬂexible to match the true posterior p(z|x), in order to arrive at a tight bound. 37"
+    },
+    {
+      "section_id": "75",
+      "original_section_number": "38",
+      "section_title": "Beyond Gaussian Posteriors",
+      "level": 1,
+      "start_page": 41,
+      "text": ""
+    },
+    {
+      "section_id": "76",
+      "original_section_number": "3.2",
+      "section_title": "Improving the Flexibility of Inference Models",
+      "level": 2,
+      "start_page": 41,
+      "text": " Here we will review two general techniques for improving the ﬂexibility of approximate posteriors in the context of gradient-based variational inference: auxiliary latent variables, and normalizing ﬂows."
+    },
+    {
+      "section_id": "77",
+      "original_section_number": "3.2.1",
+      "section_title": "Auxiliary Latent Variables",
+      "level": 3,
+      "start_page": 41,
+      "text": " One method for improving the ﬂexibility of inference models, is through the introduction of auxiliary latent variables, as explored by Salimans et al., 2015, (Ranganath et al., 2016) and Maaløe et al., 2016. The methods work by augmenting both the inference model and the generative model with a continuous auxiliary variable, here denoted with u. The inference model deﬁnes a distribution over both u and and z, which can, for example, factorize as: qφ(u, z|x) = qφ(u|x)qφ(z|u, x) (3.1) This inference model augmented with u, implicitly deﬁnes a potentially powerful implicit marginal distribution: qφ(z|x) = Z qφ(u, z|x) du (3.2) Likewise, we introduce an additional distribution in the generative model: such that our generative model is now over the joint distribution pθ(x, z, u). This can, for example, factorize as: pθ(x, z, u) = pθ(u|x, z)pθ(x, z) (3.3) The ELBO objective with auxiliary variables, given empirical dis- tribution qD(x), is then (again) equivalent to minimization of a KL divergence: EqD(x) h Eqφ(u,z|x) [log pθ(x, z, u) −log qφ(u, z|x)] i (3.4) = DKL(qD,φ(x, z, u)||pθ(x, z, u) (3.5) Recall that maximization of the original ELBO objective, without auxiliary variables, is equivalent to minimization of DKL(qD,φ(x, z)||"
+    },
+    {
+      "section_id": "78",
+      "original_section_number": "3.2",
+      "section_title": "Improving the Flexibility of Inference Models",
+      "level": 2,
+      "start_page": 42,
+      "text": " pθ(x, z)), and that maximization of the expected marginal likelihood is equivalent to minimization of DKL(qD,φ(x)||pθ(x)). We can gain additional understanding into the relationship between the objectives, through the following equation: DKL(qD,φ(x, z, u)||pθ(x, z, u)) (3.6) (= ELBO loss with auxiliary variables) = DKL(qD,φ(x, z)||pθ(x, z)) + EqD(x,z) [DKL(qD,φ(u|x, z)||pθ(u|x, z))] ≥DKL(qD,φ(x, z)||pθ(x, z)) (3.7) (= original ELBO objective)) = DKL(qD(x)||pθ(x)) + EqD(x) [DKL(qD,φ(z|x)||pθ(z|x))] (3.8) ≥DKL(qD(x)||pθ(x)) (3.9) (= Marginal log-likelihood objective) From this equation it can be seen that in principle, the ELBO gets worse by augmenting the VAE with an auxiliary variable u: DKL(qD,φ(x, z, u)||pθ(x, z, u)) ≥DKL(qD,φ(x, z)||pθ(x, z)) But because we now have access to a much more ﬂexible class of inference distributions, qφ(z|x), the original ELBO objective DKL(qD,φ(x, z)|| pθ(x, z)) can improve, potentially outweighing the additional cost of EqD(x,z) [DKL(qD,φ(u|x, z)||pθ(u|x, z))]. In (Salimans et al., 2015), (Ran- ganath et al., 2016) and (Maaløe et al., 2016) it was shown that auxiliary variables can indeed lead to signiﬁcant improvements in models. The introduction of auxiliary latent variables in the graph, are a special case of VAEs with multiple layers of latent variables, which are discussed in chapter 4. In our experiment with CIFAR-10, we make use of multiple layers of stochastic variables."
+    },
+    {
+      "section_id": "79",
+      "original_section_number": "3.2.2",
+      "section_title": "Normalizing Flows",
+      "level": 3,
+      "start_page": 42,
+      "text": " An alternative approach towards ﬂexible approximate posteriors is Normalizing Flow (NF), introduced by (Rezende and Mohamed, 2015) in the context of stochastic gradient variational inference. In normalizing ﬂows, we build ﬂexible posterior distributions through an iterative procedure. The general idea is to start oﬀwith an initial random variable"
+    },
+    {
+      "section_id": "80",
+      "original_section_number": "40",
+      "section_title": "Beyond Gaussian Posteriors",
+      "level": 1,
+      "start_page": 43,
+      "text": " with a relatively simple distribution with a known (and computationally cheap) probability density function, and then apply a chain of invertible parameterized transformations ft, such that the last iterate zT has a more ﬂexible distribution1: ϵ0 ∼p(ϵ) (3.10) for t = 1...T : (3.11) ϵt = ft(ϵt−1, x) (3.12) z = ϵT (3.13) The Jacobian of the transformation factorizes: dz dϵ0 = T Y t=1 dϵt dϵt−1 (3.14) So its determinant also factorizes as well: log det \u0012 dz dϵ0 \u0013 = T X t=1 log det \u0012 dϵt dϵt−1 \u0013 (3.15) As long as the Jacobian determinant of each of the transformations ft can be computed, we can still compute the probability density function of the last iterate: log qφ(z|x) = log p(ϵ0) − T X t=1 log det dϵt dϵt−1 (3.16) Rezende and Mohamed, 2015 experimented with a transformation of the form: ft(ϵt−1) = ϵt−1 + uh(wT ϵt−1 + b) (3.17) where u and w are vectors, wT is w transposed, b is a scalar and h(.) is a nonlinearity, such that uh(wT zt−1 + b) can be interpreted as a MLP with a bottleneck hidden layer with a single unit. This ﬂow does not scale well to a high-dimensional latent space: since information goes through the single bottleneck, a long chain of transformations is required to capture high-dimensional dependencies. 1where x is the context, such as the value of the datapoint. In case of models with multiple levels of latent variables, the context also includes the value of the previously sampled latent variables."
+    },
+    {
+      "section_id": "81",
+      "original_section_number": "3.3",
+      "section_title": "Inverse Autoregressive Transformations",
+      "level": 2,
+      "start_page": 44,
+      "text": ""
+    },
+    {
+      "section_id": "82",
+      "original_section_number": "3.3",
+      "section_title": "Inverse Autoregressive Transformations",
+      "level": 2,
+      "start_page": 44,
+      "text": " In order to ﬁnd a type of normalizing ﬂow that scales well to a high- dimensional space, Kingma et al., 2016 consider Gaussian versions of autoregressive autoencoders such as MADE (Germain et al., 2015) and the PixelCNN (Van Oord et al., 2016). Let y be a variable modeled by such a model, with some chosen ordering on its elements y = {yi}D i=1. We will use [µ(y), σ(y)] to denote the function of the vector y, to the vectors µ and σ. Due to the autoregressive structure, the Jacobian matrix is triangular with zeros on the diagonal: ∂[µi, σi]/∂yj = [0, 0] for j ≥i. The elements [µi(y1:i−1), σi(y1:i−1)] are the predicted mean and standard deviation of the i-th element of y, which are functions of only the previous elements in y. Sampling from such a model is a sequential transformation from a noise vector ϵ ∼N(0, I) to the corresponding vector y: y0 = µ0+σ0⊙ϵ0, and for i > 0, yi = µi(y1:i−1) + σi(y1:i−1) · ϵi. The computation involved in this transformation is clearly proportional to the dimensionality D. Since variational inference requires sampling from the posterior, such models are not interesting for direct use in such applications. However, the inverse transformation is interesting for normalizing ﬂows. As long as we have σi > 0 for all i, the sampling transformation above is a one-to-one transformation, and can be inverted: ϵi = yi −µi(y1:i−1) σi(y1:i−1) (3.18) Kingma et al., 2016 make two key observations, important for normalizing ﬂows. The ﬁrst is that this inverse transformation can be parallelized, since (in case of autoregressive autoencoders) computations of the individual elements ϵi do not depend on each other. The vectorized transformation is: ϵ = (y −µ(y))/σ(y) (3.19) where the subtraction and division are element-wise. The second key observation, is that this inverse autoregressive op- eration has a simple Jacobian determinant. Note that due to the au- toregressive structure, ∂[µi, σi]/∂yj = [0, 0] for j ≥i. As a result, the"
+    },
+    {
+      "section_id": "83",
+      "original_section_number": "42",
+      "section_title": "Beyond Gaussian Posteriors",
+      "level": 1,
+      "start_page": 45,
+      "text": " transformation has a lower triangular Jacobian (∂ϵi/∂yj = 0 for j > i), with a simple diagonal: ∂ϵi/∂yi = 1 σi . The determinant of a lower trian- gular matrix equals the product of the diagonal terms. As a result, the log-determinant of the Jacobian of the transformation is remarkably simple and straightforward to compute: log det dϵ dy = D X i=1 −log σi(y) (3.20) The combination of model ﬂexibility, parallelizability across dimensions, and simple log-determinant, makes this transformation interesting for use as a normalizing ﬂow over high-dimensional latent space. For the following section we will use a slightly diﬀerent, but equiva- lently ﬂexible, transformation of the type: ϵ = σ(y) ⊙y + µ(y) (3.21)"
+    },
+    {
+      "section_id": "84",
+      "original_section_number": "",
+      "section_title": "With corresponding log-determinant:",
+      "level": 1,
+      "start_page": 45,
+      "text": " log det dϵ dy = D X i=1 log σi(y) (3.22)"
+    },
+    {
+      "section_id": "85",
+      "original_section_number": "3.4",
+      "section_title": "Inverse Autoregressive Flow",
+      "level": 2,
+      "start_page": 45,
+      "text": " Kingma et al., 2016 propose inverse autoregressive ﬂow (IAF) based on a chain of transformations that are each equivalent to an inverse autoregressive transformation of eq. (3.19) and eq. (3.21). See algorithm 3 for pseudo-code of an approximate posterior with the proposed ﬂow. We let an initial encoder neural network output µ0 and σ0, in addition to an extra output h, which serves as an additional input to each subsequent step in the ﬂow. The chain is initialized with a factorized Gaussian qφ(z0|x) = N(µ0, diag(σ0)2): ϵ0 ∼N(0, I) (3.23) (µ0, log σ0, h) = EncoderNeuralNet(x; θ) (3.24) z0 = µ0 + σ0 ⊙ϵ0 (3.25)"
+    },
+    {
+      "section_id": "86",
+      "original_section_number": "3.4",
+      "section_title": "Inverse Autoregressive Flow",
+      "level": 2,
+      "start_page": 46,
+      "text": " Algorithm 3: Pseudo-code of an approximate posterior with Inverse Autoregressive Flow (IAF). Input: EncoderNN(x; θ) is an encoder neural network, with additional output h. Input: AutoregressiveNN(z; h, t, θ) is a neural network that is autoregressive over z, with additional inputs h and t. Input: T signiﬁes the number of steps of ﬂow. Data: x: a datapoint, and optionally other conditioning information θ: neural network parameters Result: z: a random sample from q(z|x), the approximate posterior distribution l: the scalar value of log q(z|x), evaluated at sample ’z’ [µ, σ, h] ←EncoderNN(x; θ) ϵ ∼N(0, I) z ←σ ⊙ϵ + µ l ←−P i(log σi + 1 2ϵ2 i + 1 2 log(2π)) for t ←1 to T do [m, s] ←AutoregressiveNN(z; h, t, θ) σ ←(1 + exp(−s))−1 z ←σ ⊙z + (1 −σ) ⊙m l ←l −P i(log σi) end IAF then consists of a chain of T of the following transformations: (µt, σt) = AutoregressiveNeuralNett(ϵt−1, h; θ) (3.26) ϵt = µt + σt ⊙ϵt−1 (3.27) Each step of this ﬂow is an inverse autoregressive transformation of the type of eq. (3.19) and eq. (3.21), and each step uses a separate autoregressive neural network. Following eq. (3.16), the density under"
+    },
+    {
+      "section_id": "87",
+      "original_section_number": "44",
+      "section_title": "Beyond Gaussian Posteriors",
+      "level": 1,
+      "start_page": 47,
+      "text": " Approximate Posterior with Inverse Autoregressive Flow (IAF) z ε2"
+    },
+    {
+      "section_id": "88",
+      "original_section_number": "",
+      "section_title": "Encoder Neural Net",
+      "level": 1,
+      "start_page": 47,
+      "text": " ··· ε"
+    },
+    {
+      "section_id": "89",
+      "original_section_number": "",
+      "section_title": "Autoregressive Neural Net",
+      "level": 1,
+      "start_page": 47,
+      "text": " ε IAF Step σ μ IAF step μ σ h × + ε1 h IAF step ε0 x ··· ··· × + Figure 3.1: Like other normalizing ﬂows, drawing samples from an approximate posterior with Inverse Autoregressive Flow (IAF) (Kingma et al., 2016) starts with a distribution with tractable density, such as a Gaussian with diagonal covariance, followed by a chain of nonlinear invertible transformations of z, each with a simple Jacobian determinant. The ﬁnal iterate has a ﬂexible distribution. the ﬁnal iterate is: z ≡ϵT (3.28) log q(z|x) = − D X i=1 1 2ϵ2 i + 1 2 log(2π) + T X t=0 log σt,i ! (3.29) The ﬂexibility of the distribution of the ﬁnal iterate ϵT , and its ability to closely ﬁt to the true posterior, increases with the expressivity of the autoregressive models and the depth of the chain. See ﬁgure 3.1 for an illustration of the computation. A numerically stable version, inspired by the LSTM-type update, is where we let the autoregressive network output (mt, st), two uncon-"
+    },
+    {
+      "section_id": "90",
+      "original_section_number": "3.4",
+      "section_title": "Inverse Autoregressive Flow",
+      "level": 2,
+      "start_page": 48,
+      "text": " (a) Prior distribution (b) Factorized posteriors (c) IAF posteriors Figure 3.2: Best viewed in color. We ﬁtted a variational autoencoder (VAE) with a spherical Gaussian prior, and with factorized Gaussian posteriors (b) or inverse autoregressive ﬂow (IAF) posteriors (c) to a toy dataset with four datapoints. Each colored cluster corresponds to the posterior distribution of one datapoint. IAF greatly improves the ﬂexibility of the posterior distributions, and allows for a much better ﬁt between the posteriors and the prior. strained real-valued vectors, and compute ϵt as: (mt, st) = AutoregressiveNeuralNett(ϵt−1, h; θ) (3.30) σt = sigmoid(st) (3.31) ϵt = σt ⊙ϵt−1 + (1 −σt) ⊙mt (3.32) This version is shown in algorithm 3. Note that this is just a particular version of the update of eq. (3.27), so the simple computation of the ﬁnal log-density of eq. (3.29) still applies. It was found beneﬁcial for results to parameterize or initialize the parameters of each AutoregressiveNeuralNett such that its outputs st are, before optimization, suﬃciently positive, such as close to +1 or +2. This leads to an initial behavior that updates ϵ only slightly with each step of IAF. Such a parameterization is known as a ’forget gate bias’ in LSTMs, as investigated by Jozefowicz et al., 2015. It is straightforward to see that a special case of IAF with one step, and a linear autoregressive model, is the fully Gaussian posterior discussed earlier. This transforms a Gaussian variable with diagonal covariance, to one with linear dependencies, i.e. a Gaussian distribution with full covariance. Autoregressive neural networks form a rich family of nonlinear"
+    },
+    {
+      "section_id": "91",
+      "original_section_number": "46",
+      "section_title": "Beyond Gaussian Posteriors",
+      "level": 1,
+      "start_page": 49,
+      "text": " transformations for IAF. For non-convolutional models, the family of masked autoregressive network introduced in (Germain et al., 2015) was used as the autoregressive neural networks. For CIFAR-10 exper- iments, which beneﬁts more from scaling to high dimensional latent space, the family of convolutional autoregressive autoencoders intro- duced by (Van Oord et al., 2016; Van den Oord et al., 2016) was used. It was found that results improved when reversing the ordering of the variables after each step in the IAF chain. This is a volume-preserving transformation, so the simple form of eq. (3.29) remains unchanged."
+    },
+    {
+      "section_id": "92",
+      "original_section_number": "3.5",
+      "section_title": "Related work",
+      "level": 2,
+      "start_page": 49,
+      "text": " As we explained, inverse autoregressive ﬂow (IAF) is a member of the family of normalizing ﬂows, ﬁrst discussed in (Rezende and Mohamed, 2015) in the context of stochastic variational inference. In (Rezende and Mohamed, 2015) two speciﬁc types of ﬂows are introduced: planar ﬂow (eq. (3.17)) and radial ﬂow. These ﬂows are shown to be eﬀective to problems with a relatively low-dimensional latent space. It is not clear, however, how to scale such ﬂows to much higher-dimensional latent spaces, such as latent spaces of generative models of larger images, and how planar and radial ﬂows can leverage the topology of latent space, as is possible with IAF. Volume-conserving neural architectures were ﬁrst presented in in (Deco and Brauer, 1995), as a form of nonlinear independent component analysis. Another type of normalizing ﬂow, introduced by (Dinh et al., 2014) (NICE), uses similar transformations as IAF. In contrast with IAF, NICE was directly applied to the observed variables in a generative model. NICE is type of transformations that updates only half of the variables z1:D/2 per step, adding a vector f(zD/2+1:D) which is a neural network based function of the remaining latent variables zD/2+1:D. Such large blocks have the advantage of computationally cheap inverse transformation, and the disadvantage of typically requiring longer chains. In experiments, (Rezende and Mohamed, 2015) found that this type of transformation is generally less powerful than other types of normalizing ﬂow, in experiments with a low-dimensional latent space. Concurrently"
+    },
+    {
+      "section_id": "93",
+      "original_section_number": "3.5",
+      "section_title": "Related work",
+      "level": 2,
+      "start_page": 50,
+      "text": " to our work, NICE was extended to high-dimensional spaces in (Dinh et al., 2016) (Real NVP). A potentially powerful transformation is the Hamiltonian ﬂow used in Hamiltonian Variational Inference (Salimans et al., 2015). Here, a transformation is generated by simulating the ﬂow of a Hamiltonian system consisting of the latent variables z, and a set of auxiliary momen- tum variables. This type of transformation has the additional beneﬁt that it is guided by the exact posterior distribution, and that it leaves this distribution invariant for small step sizes. Such a transformation could thus take us arbitrarily close to the exact posterior distribution if we can apply it a suﬃcient number of times. In practice, however, Hamiltonian Variational Inference is very demanding computationally. Also, it requires an auxiliary variational bound to account for the auxil- iary variables, which can impede progress if the bound is not suﬃciently tight. An alternative method for increasing the ﬂexibility of variational inference is the introduction of auxiliary latent variables (Salimans et al., 2015; Ranganath et al., 2016; Tran et al., 2015), discussed in 3.2.1, and corresponding auxiliary inference models. Latent variable models with multiple layers of stochastic variables, such as the one used in our experiments, are often equivalent to such auxiliary-variable methods. We combine deep latent variable models with IAF in our experiments, beneﬁting from both techniques. 4"
+    },
+    {
+      "section_id": "94",
+      "original_section_number": "",
+      "section_title": "Deeper Generative Models",
+      "level": 1,
+      "start_page": 51,
+      "text": " In the previous chapter we explain advanced strategies for improving inference models. In this chapter, we review strategies for learning deeper generative models, such as inference and learning with multiple latent variables or observed variables, and techniques for improving the ﬂexibility of the generative models pθ(x, z)."
+    },
+    {
+      "section_id": "95",
+      "original_section_number": "4.1",
+      "section_title": "Inference and Learning with Multiple Latent Variables",
+      "level": 2,
+      "start_page": 51,
+      "text": " The generative model pθ(x, z), and corresponding inference model qφ(z|x) can be parameterized as any directed graph. Both x and z can be composed of multiple variables with some topological ordering. It may not be immediately obvious how to optimize such models in the VAE framework; it is, however, quite straightforward, as we will now explain. Let z = {z1, ..., zK}, and qφ(z|x) = qφ(z1, ..., zK|x) where the sub- script corresponds with the topological ordering of each variable. Given a datapoint x, computation of the ELBO estimator consists of two steps: 1. Sampling z ∼qφ(z|x). In case of multiple latent variables, this means ancestral sampling the latent variables one by one, in 48"
+    },
+    {
+      "section_id": "96",
+      "original_section_number": "4.1",
+      "section_title": "Inference and Learning with Multiple Latent Variables",
+      "level": 2,
+      "start_page": 52,
+      "text": " topological ordering deﬁned by the inference model’s directed graph. In pseudo-code, the ancestral sampling step looks like: for i = 1...K : (4.1) zi ∼qφ(zi|Pa(zi)) (4.2) where Pa(zi) are the parents of variable zi in the inference model, which may include x. In reparameterized (and diﬀerentiable) form, this is: for i = 1...K : (4.3) ϵi ∼p(ϵi) (4.4) zi = gi(ϵi, Pa(zi), φ) (4.5) 2. Evaluating the scalar value (log pθ(x, z) −log qφ(z|x)) at the re- sulting sample z and datapoint x. This scalar is the unbiased stochastic estimate lower bound on log pθ(x). It is also diﬀeren- tiable and optimizable with SGD."
+    },
+    {
+      "section_id": "97",
+      "original_section_number": "4.1.1",
+      "section_title": "Choice of ordering",
+      "level": 3,
+      "start_page": 52,
+      "text": " It should be noted that the choice of latent variables’ topological ordering for the inference model can be diﬀerent from the choice of ordering for the generative model. Since the inference model has the data as root node, while the generative model has the data as leaf node, one (in some sense) logical choice would be to let the topological ordering of the latent variables in the inference model be the reverse of the ordering in the generative model. In multiple works (Salimans, 2016; Sønderby et al., 2016a; Kingma et al., 2016) it has been shown that it can be advantageous to let the generative model and inference model share the topological ordering of latent variables. The two choices of ordering are illustrated in ﬁgure 4.1. One advantage of shared ordering, as explained in these works, is that this allows us to easily share parameters between the inference and generative models, leading to faster learning and better solutions."
+    },
+    {
+      "section_id": "98",
+      "original_section_number": "50",
+      "section_title": "Deeper Generative Models",
+      "level": 1,
+      "start_page": 53,
+      "text": " Deep generative model Bottom-up inference model x z1 z2 z3"
+    },
+    {
+      "section_id": "99",
+      "original_section_number": "",
+      "section_title": "VAE with bottom-up inference",
+      "level": 1,
+      "start_page": 53,
+      "text": " + = x z1 z2 z3 x … … … … x z3 z2 z1 (a) VAE with bottom-up inference."
+    },
+    {
+      "section_id": "100",
+      "original_section_number": "",
+      "section_title": "Deep generative model",
+      "level": 1,
+      "start_page": 53,
+      "text": " x z3 z2 z1 Top-down inference model VAE with top-down inference + = z3 z2 z1 x … … z3 z2 z1 x … … x … (b) VAE with top-down inference. Figure 4.1: Illustration, taken from Kingma et al., 2016, of two choices of direc- tionality of the inference model. Sharing directionality of inference, as in (b), has the beneﬁt that it allows for straightforward sharing of parameters between the generative model and the inference model. To see why this might be a good idea, note that the true posterior over the latent variables, is a function of the prior: pθ(z|x) ∝pθ(z)pθ(x|z) (4.6) Likewise, the posterior of a latent variable given its parents (in the generative model), is: pθ(zi|x, Pa(zi)) ∝pθ(zi|Pa(zi))pθ(x|zi, Pa(zi)) (4.7) Optimization of the generative model changes both pθ(zi|Pa(zi)) and pθ(x|zi, Pa(zi)). By coupling the inference model qφ(zi|x, Pa(zi)) and"
+    },
+    {
+      "section_id": "101",
+      "original_section_number": "4.2",
+      "section_title": "Alternative methods for increasing expressivity",
+      "level": 2,
+      "start_page": 54,
+      "text": " prior pθ(zi|Pa(zi)), changes in pθ(zi|Pa(zi)) can be directly reﬂected in changes in qφ(zi|Pa(zi)). This coupling is especially straightforward when pθ(zi|Pa(zi)) is Gaussian distributed. The inference model can be directly speciﬁed as the product of this Gaussian distribution, with a learned quadratic pseudo-likelihood term: qφ(zi|Pa(zi), x) = pθ(zi|Pa(zi))˜l(zi; x, Pa(zi))/Z, where Z is tractable to compute. This idea is explored by (Salimans, 2016) and (Sønderby et al., 2016a). In principle this idea could be extended to a more general class of conjugate priors, but no work on this is known at the time of writing. A less constraining variant, explored by (Kingma et al., 2016), is to simply let the neural network that parameterizes qφ(zi|Pa(zi), x) be partially speciﬁed by a part of the neural network that parameterizes pθ(zi|Pa(zi)). In general, we can let the two distributions share parame- ters. This allows for more complicated posteriors, like normalizing ﬂows or IAF."
+    },
+    {
+      "section_id": "102",
+      "original_section_number": "4.2",
+      "section_title": "Alternative methods for increasing expressivity",
+      "level": 2,
+      "start_page": 54,
+      "text": " Typically, especially with large data sets, we wish to choose an expressive class of directed models, such that it can feasibly approximate the true distribution. Popular strategies for specifying expressive models are: • Introduction of latent variables into the directed models, and op- timization through (amortized) variational inference, as explained in this work. • Full autoregression: factorization of distributions into univariate (one-dimensional) conditionals, or at least very low-dimensional conditionals (section 4.3). • Speciﬁcation of distributions through invertible transformations with tractable Jacobian determinant (section 4.4). Synthesis from fully autoregressive models models is relatively slow, since the length of computation for synthesis from such models is lin- ear in the dimensionality of the data. The length of computation of"
+    },
+    {
+      "section_id": "103",
+      "original_section_number": "52",
+      "section_title": "Deeper Generative Models",
+      "level": 1,
+      "start_page": 55,
+      "text": " the log-likelihood of fully autoregressive models does not necesarilly scale with the dimensionality of the data. In this respect, introduc- tion of latent variables for improving expressivity is especially inter- esting when x is very high-dimensional. It is relatively straightfor- ward and computationally attractive, due to parallelizability, to spec- ify directed models over high-dimensional variables where each condi- tional factorizes into independent distributions. For example, if we let pθ(xj|Pa(xj)) = Q k pθ(xj,k|Pa(xj)), where each factor is a univariate Gaussian whose means and variance are nonlinear functions (speciﬁed by a neural network) of the parents Pa(xj), then computations for both synthesis and evaluation of log-likelihood can be fully parallelized across dimensions k. See (Kingma et al., 2016) for experiments demonstrating a 100x improvement in speed of synthesis. The best models to date, in terms of attained log-likelihood on test data, employ a combination of the three approaches listed above."
+    },
+    {
+      "section_id": "104",
+      "original_section_number": "4.3",
+      "section_title": "Autoregressive Models",
+      "level": 2,
+      "start_page": 55,
+      "text": " A powerful strategy for modeling high-dimensional data is to divide up the high-dimensional observed variables into small constituents (often single dimensional parts, or otherwise just parts with a small number of dimensions), impose a certain ordering, and to model their dependencies as a directed graphical model. The resulting directed graphical model breaks up the joint distribution into a product of a factors: pθ(x) = pθ(x1, ..., xD) = pθ(x1) T Y j=2 pθ(xj|Pa(xj)) (4.8) where D is the dimensionality of the data. This is known as an autore- gressive (AR) model. In case of neural network based autoregressive models, we let the conditional distributions be parameterized with a neural network: pθ(xj|x<j) = pθ(xj|NeuralNetj θ(Pa(xj))) (4.9) In case of continuous data, autoregressive models can be interpreted as a special case of a more general approach: learning an invertible transformation from the data to a simpler, known distribution such as"
+    },
+    {
+      "section_id": "105",
+      "original_section_number": "4.4",
+      "section_title": "Invertible transformations with tractable Jacobian determinant",
+      "level": 2,
+      "start_page": 56,
+      "text": " a Gaussian or Uniform distribution; this approach with invertible trans- formations is discussed in section 4.4. The techniques of autoregressive models and invertible transformations can be naturally combined with variational autoencoders, and at the time of writing, the best systems use a combination Rezende and Mohamed, 2015; Kingma et al., 2016; Gulrajani et al., 2017. A disadvantage of autoregressive models, compared to latent-variable models, is that ancestral sampling from autoregressive models is a sequential operation computation of O(D) length, i.e. proportional to the dimensionality of the data. Autoregressive models also require choosing a speciﬁc ordering of input elements (equation (4.8)). When no single natural one-dimensional ordering exists, like in two-dimensional images, this leads to a model with a somewhat awkward inductive bias."
+    },
+    {
+      "section_id": "106",
+      "original_section_number": "4.4",
+      "section_title": "Invertible transformations with tractable Jacobian determinant",
+      "level": 2,
+      "start_page": 56,
+      "text": " In case of continuous data, autoregressive models can be interpreted as a special case of a more general approach: learning an invertible transformation with tractable Jacobian determinant (also called nor- malizing ﬂow) from the data to a simpler, known distribution such as a Gaussian or Uniform distribution. If we use neural networks for such invertible mappings, this is a powerful and ﬂexible approach towards probabilistic modeling of continuous data and nonlinear independent component analysis (Deco and Brauer, 1995). Such normalizing ﬂows iteratively update a variable, which is con- strained to be of the same dimensionality as the data, to a target dis- tribution. This constraint on the dimensionality of intermediate states of the mapping can make such transformations more challenging to optimize than methods without such constraint. An obvious advantage, on the other hand, is that the likelihood and its gradient are tractable. In (Dinh et al., 2014; Dinh et al., 2016), particularly interesting ﬂows (NICE and Real NVP) were introduced, with equal computational cost and depth in both directions, making it both relatively cheap to optimize and to sample from such models. At the time of writing, no such model has yet been demonstrated to lead to the similar performance as purely autoregressive or VAE-based models in terms of data log-likelihood, but"
+    },
+    {
+      "section_id": "107",
+      "original_section_number": "54",
+      "section_title": "Deeper Generative Models",
+      "level": 1,
+      "start_page": 57,
+      "text": " this remains an active area of research."
+    },
+    {
+      "section_id": "108",
+      "original_section_number": "4.5",
+      "section_title": "Follow-Up Work",
+      "level": 2,
+      "start_page": 57,
+      "text": " Some important applications and motivations for deep generative models and variational autoencoders are: • Representation learning: learning better representations of the data. Some uses of this are: – Data-eﬃcient learning, such as semi-supervised learning – Visualisation of data as low-dimensional manifolds • Artiﬁcial creativity: plausible interpolation between data and extrapolation from data. Here we will now highlight some concrete applications to represen- tation learning and artiﬁcial creativity."
+    },
+    {
+      "section_id": "109",
+      "original_section_number": "4.5.1",
+      "section_title": "Representation Learning",
+      "level": 3,
+      "start_page": 57,
+      "text": " In the case of supervised learning, we typically aim to learn a conditional distribution: to predict the distribution over the possible values of a variable, given the value of some another variable. One such problem is that of image classiﬁcation: given an image, the prediction of a distribution over the possible class labels. Through the yearly ImageNet competion (Russakovsky et al., 2015), it has become clear that deep convolutional neural networks (LeCun et al., 1998; Goodfellow et al., 2016) (CNNs), given a large amount of labeled images, are extraordinarily good at solving the image classiﬁcation task. Modern versions of CNNs based on residual networks, which is a variant of LSTM-type neural networks (Hochreiter and Schmidhuber, 1997), now arguably achieves human-level classiﬁcation accuracy on this task (He et al., 2015; He et al., 2016). When the number of labeled examples is low, solutions found with purely supervised approaches tend to exhibit poor generalization to new data. In such cases, generative models can be employed as an eﬀective type of regularization. One particular strategy, presented in"
+    },
+    {
+      "section_id": "110",
+      "original_section_number": "4.5",
+      "section_title": "Follow-Up Work",
+      "level": 2,
+      "start_page": 58,
+      "text": " Kingma et al., 2014, is to optimize the classiﬁcation model jointly with a variational autoencoder over the input variables, sharing parameters between the two. The variational autoencoder, in this case, provides an auxiliary objective, improving the data eﬃciency of the classiﬁcation solution. Through sharing of statistical strength between modeling problems, this can greatly improve upon the supervised classiﬁcation error. Techniques based on VAEs are now among state of the art for semi- supervised classiﬁcation (Maaløe et al., 2016), with on average under 1% classiﬁcation error in the MNIST classiﬁcation problem, when trained with only 10 labeled images per class, i.e. when more than 99.8% of the labels in the training set were removed. In concurrent work (Rezende et al., 2016a), it was shown that VAE-based semi-supervised learning can even do well when only a single sample per class is presented. A standard supervised approach, GoogLeNet (Szegedy et al., 2015), which normally achieves near state-of-the-art performance on the Ima- geNet validation set, achieves only around 5% top-1 classiﬁcation accu- racy when trained with only 1% of the labeled images, as shown by Pu et al., 2016. In contrast, they show that a semi-supervised approach with VAEs achieves around 45% classiﬁcation accuracy on the same task, when modeling the labels jointly with the labeled and unlabeled input images."
+    },
+    {
+      "section_id": "111",
+      "original_section_number": "4.5.2",
+      "section_title": "Understanding of data",
+      "level": 3,
+      "start_page": 58,
+      "text": " Generative models with latent spaces allow us to transform the data into a simpler latent space, explore it in that space, and understand it better. A related branch of applications of deep generative models is the synthesis of plausible pseudo-data with certain desirable properties, sometimes coined as artiﬁcial creativity. Chemical Design One example of a recent scientiﬁc application of artiﬁcial creativity, is shown in Gómez-Bombarelli et al., 2018. In this paper, a fairly straightforward VAE is trained on hundreds of thousands of existing chemical structures. The resulting continuous representation (latent space) is subsequently used to perform gradient-based optimization"
+    },
+    {
+      "section_id": "112",
+      "original_section_number": "56",
+      "section_title": "Deeper Generative Models",
+      "level": 1,
+      "start_page": 59,
+      "text": " Figure 4.2: (a) Application of a VAE to chemical design in (Gómez-Bombarelli et al., 2018). A latent continuous representation z of molecules is learned on a large dataset of molecules. (b) This continuous representation enables gradient-based search of new molecules that maximizes f(z), a certain desired property. towards certain properties; the method is demonstrated on the design of drug-like molecules and organic light-emitting diodes. See ﬁgure 4.2."
+    },
+    {
+      "section_id": "113",
+      "original_section_number": "",
+      "section_title": "Natural Language Synthesis",
+      "level": 1,
+      "start_page": 59,
+      "text": " A similar approach was used to generating natural-language sentences from a continuous space by Bowman et al., 2015. In this paper, it is shown how a VAE can be successfully trained on text. The model is shown to succesfully interpolate between sentences, and for imputation of missing words. See ﬁgure 4.3."
+    },
+    {
+      "section_id": "114",
+      "original_section_number": "4.5",
+      "section_title": "Follow-Up Work",
+      "level": 2,
+      "start_page": 60,
+      "text": " Figure 4.3: An application of VAEs to interpolation between pairs of sentences, from (Bowman et al., 2015). The intermediate sentences are grammatically correct, and the topic and syntactic structure are typically locally consistent. Astronomy In (Ravanbakhsh et al., 2017), VAEs are applied to simulate observations of distant galaxies. This helps with the calibration of systems that need to indirectly detect the shearing of observations of distant galaxies, caused by weak gravitational lensing in the presence of dark matter between earth and those galaxies. Since the lensing eﬀects are so weak, such systems need to be calibrated with ground-truth images with a known amount of shearing. Since real data is still limited, the proposed solution is to use deep generative models for synthesis of pseudo-data. Image (Re-)Synthesis A popular application is image (re)synthesis. One can optimize a VAE to form a generative model over images. One can synthesize images from the generative model, but the inference model (or encoder) also allows one to encode real images into a latent space. One can modify the encoding in this latent space, then decode the image back into the observed space. Relatively simple transformations in the observed space, such as linear transformations, often translate into semantically meaningful modiﬁcations of the original image. One example, as demonstrated by White, 2016, is the modiﬁcation of images in latent space along a \"smile vector\" in order to make them more happy, or more sad looking. See ﬁgure 4.4 for an example."
+    },
+    {
+      "section_id": "115",
+      "original_section_number": "58",
+      "section_title": "Deeper Generative Models",
+      "level": 1,
+      "start_page": 61,
+      "text": " Figure 4.4: VAEs can be used for image resynthesis. In this example by White, 2016, an original image (left) is modiﬁed in a latent space in the direction of a smile vector, producing a range of versions of the original, from smiling to sadness."
+    },
+    {
+      "section_id": "116",
+      "original_section_number": "4.5.3",
+      "section_title": "Other relevant follow-up work",
+      "level": 3,
+      "start_page": 61,
+      "text": " We unfortunately do not have space to discuss all follow-up work in depth, but will here highlight a selection of relevant recent work. In addition to our original publication (Kingma and Welling, 2014), two later papers have proposed equivalent algorithms (Rezende et al., 2014; Lázaro-Gredilla, 2014), where the latter work applies the same reparameterization gradient method to the estimation of parameter posteriors, rather than amortized latent-variable inference. In the appendix of (Kingma and Welling, 2014) we proposed to apply the reparameterization gradients to estimation of parameter posteriors. In (Blundell et al., 2015) this method, with a mixture-of-Gaussians prior and named Bayes by Backprop, was used in experiments with some promising early results. In (Kingma et al., 2015) we describe a reﬁned method, the local reparameterization trick, for further decreasing the variance of the gradient estimator, and applied it to estimation of Gaus- sian parameter posteriors. Further results were presented in (Louizos et al., 2017; Louizos and Welling, 2017; Louizos and Welling, 2016) with increasingly sophisticated choices of priors and approximate posteriors. In (Kingma et al., 2015; Gal and Ghahramani, 2016), a similar reparam- eterization was used to analyze Dropout as a Bayesian method, coined"
+    },
+    {
+      "section_id": "117",
+      "original_section_number": "4.5",
+      "section_title": "Follow-Up Work",
+      "level": 2,
+      "start_page": 62,
+      "text": " Variational Dropout. In (Molchanov et al., 2017) this method was further analyzed and reﬁned. Various papers have applied reparameterization gradients for estimating parameter posteriors, including (Fortunato et al., 2017) in the context of recurrent neural networks and (Kucukelbir et al., 2017) more generally for Bayesian models and in (Tran et al., 2017) for deep probabilistic programming. A Bayesian nonparametric varia- tional family based in the Gaussian Process using reparameterization gradients was proposed in (Tran et al., 2015). Normalizing ﬂows (Rezende and Mohamed, 2015) were proposed as a framework for improving the ﬂexibility of inference models. In Kingma et al., 2016, the ﬁrst normalizing ﬂow was proposed that scales well to high-dimensional latent spaces. The same principle was later applied in (Papamakarios et al., 2017) for density estimation, and further reﬁned in (Huang et al., 2018). Various other ﬂows were proposed in (Tomczak and Welling, 2016; Tomczak and Welling, n.d.) and (Berg et al., 2017). As an alternative to (or in conjunction with) normalizing ﬂows, one can use auxiliary variables to improve posterior ﬂexibility. This principle was, to the best of our knowledge, ﬁrst proposed in Salimans et al., 2015. In this paper, the principle was used in a combination of variational inference with Hamiltonian Monte Carlo (HMC), with the momentum variables of HMC as auxiliary variables. Auxiliary variables were more elaborately discussed in in (Maaløe et al., 2016) as Auxiliary Deep Generative Models. Similarly, one can use deep models with multiple stochastic layers to improve the variational bound, as demonstrated in (Sønderby et al., 2016a) and (Sønderby et al., 2016b) as Ladder VAEs. There has been plenty of follow-up work on gradient variance re- duction for the variational parameters of discrete latent variables, as opposed to continuous latent variables for which reparameterization gradients apply. These proposals include NVIL (Mnih and Gregor, 2014), MuProp (Gu et al., 2015), Variational inference for Monte Carlo objectives (Mnih and Rezende, 2016), the Concrete distribu- tion (Maddison et al., 2017) and Categorical Reparameterization with Gumbel-Softmax (Jang et al., 2017). The ELBO objective can be generalized into an importance-weighted objective, as proposed in (Burda et al., 2015) (Importance-Weighted Autoencoders). This potentially reduces the variance in the gradient,"
+    },
+    {
+      "section_id": "118",
+      "original_section_number": "60",
+      "section_title": "Deeper Generative Models",
+      "level": 1,
+      "start_page": 63,
+      "text": " but has not been discussed in-depth here since (as often the case with importance-weighted estimators) it can be diﬃcult to scale to high- dimensional latent spaces. Other objectives have been proposed such as Rényi divergence variational inference (Li and Turner, 2016), Generative Moment Matching Networks (Li et al., 2015), objectives based on nor- malizing such as NICE and RealNVP ﬂows (Sohl-Dickstein et al., 2015; Dinh et al., 2014), black-box α-divergence minimization (Hernández- Lobato et al., 2016) and Bi-directional Helmholtz Machines (Bornschein et al., 2016). Various combinations with adversarial objectives have been pro- posed. In (Makhzani et al., 2015), the \"adversarial autoencoder\" (AAE) was proposed, a probabilistic autoencoder that uses a generative adver- sarial network (GAN) (Goodfellow et al., 2014) to perform variational inference. In (Dumoulin et al., 2017) Adversarially Learned Inference (ALI) was proposed, which aims to minimize a GAN objective between the joint distributions qφ(x, z) and pθ(x, z). Other hybrids have been proposed as well (Larsen et al., 2016; Brock et al., 2017; Hsu et al., 2017). One of the most prominent, and most diﬃcult, applications of gener- ative models is image modeling. In (Kulkarni et al., 2015) (Deep convo- lutional inverse graphics network), a convolutional VAE was applied to modeling images with some success, building on work by (Dosovitskiy et al., 2015) proposing convolutional networks for image synthesis. In (Gregor et al., 2015) (DRAW), an attention mechanism was combined with a recurrent inference model and recurrent generative model for image synthesis. This approach was further extended in (Gregor et al., 2016) (Towards Conceptual Compression) with convolutional networks, scalable to larger images, and applied to image compression. In (Kingma et al., 2016), deep convolutional inference models and generative models were also applied to images. Furthermore, (Gulrajani et al., 2017) (PixelVAE) and (Chen et al., 2017) (Variational Lossy Autoencoder) combined convolutional VAEs with the PixelCNN model (Van Oord et al., 2016; Van den Oord et al., 2016). Methods and VAE architectures for controlled image generation from attributes or text were studied in (Kingma et al., 2014; Yan et al., 2016; Mansimov et al., 2015; Brock et al., 2017; White, 2016). Predicting the color of pixels based on a"
+    },
+    {
+      "section_id": "119",
+      "original_section_number": "4.5",
+      "section_title": "Follow-Up Work",
+      "level": 2,
+      "start_page": 64,
+      "text": " grayscale image is another promising application (Deshpande et al., 2017). The application to semi-supervised learning has been studied in (Kingma et al., 2014; Pu et al., 2016; Xu et al., 2017) among other work. Another prominent application of VAEs is modeling of text and or sequential data (Bayer and Osendorfer, 2014; Bowman et al., 2015; Serban et al., 2017; Johnson et al., 2016; Karl et al., 2017; Fraccaro et al., 2016; Miao et al., 2016; Semeniuta et al., 2017; Zhao et al., 2017; Yang et al., 2017; Hu et al., 2017). VAEs have also been applied to speech and handwriting Chung et al., 2015. Sequential models typically use recurrent neural networks, such as LSTMs (Hochreiter and Schmidhuber, 1997), as encoder and/or decoder. When modeling sequences, the validity of a sequence can sometimes be constrained by a context-free grammar. In this case, incorporation of the grammar in VAEs can lead to better models, as shown in (Kusner et al., 2017) (Grammar VAEs), and applied to modeling molecules in textual representations. Since VAEs can transform discrete observation spaces to continuous latent-variable spaces with approximately known marginals, they are interesting for use in model-based control (Watter et al., 2015; Pritzel et al., 2017). In (Heess et al., 2015) (Stochastic Value Gradients) it was shown that the re-parameterization of the observed variables, together with an observation model, can be used to compute novel forms of policy gradients. Variational inference and reparameterization gradients have also been used for variational information maximisation for intrinsically motivated reinforcement learning (Mohamed and Rezende, 2015) and VIME (Houthooft et al., 2016) for improved exploration. Variational autoencoders have also been used as components in models that perform iterative reasoning about objects in a scene (Eslami et al., 2016). In (Higgins et al., 2017) (β-VAE) it was proposed to strengthen the contribution of DKL(qφ(z|x)||pθ(z)), thus restricting the information ﬂow through the latent space, which was shown to improve disentangle- ment of latent factors, further studied in (Chen et al., 2018). Other applications include modeling of graphs (Kipf and Welling, 2016) (Variational Graph Autoencoders), learning of 3D structure from images (Rezende et al., 2016b), one-shot learning (Rezende et al., 2016a), learning nonlinear state space models (Krishnan et al., 2017), voice"
+    },
+    {
+      "section_id": "120",
+      "original_section_number": "62",
+      "section_title": "Deeper Generative Models",
+      "level": 1,
+      "start_page": 65,
+      "text": " conversion from non-parallel corpora (Hsu et al., 2016), discrimination- aware (fair) representations (Louizos et al., 2015) and transfer learning (Edwards and Storkey, 2017). The reparameterization gradient estimator discussed in this work has been extended in various directions (Ruiz et al., 2016), including acceptance-rejection sampling algorithms (Naesseth et al., 2017). The gradient variance can in some cases be reduced by ’carving up the ELBO’ (Hoﬀman and Johnson, 2016; Roeder et al., 2017) and using a modiﬁed gradient estimator. A second-order gradient estimator has also been proposed in (Fan et al., 2015). All in all, this remains an actively researched area with frequently exciting developments. 5"
+    },
+    {
+      "section_id": "121",
+      "original_section_number": "",
+      "section_title": "Conclusion",
+      "level": 1,
+      "start_page": 66,
+      "text": " Directed probabilistic models form an important aspect of modern artiﬁcial intelligence. Such models can be made incredibly ﬂexible by parameterizing the conditional distributions with diﬀerentiable deep neural networks. Optimization of such models towards the maximum likelihood objec- tive is straightforward in the fully-observed case. However, one is often more interested in ﬂexible models with latent variables, such as deep latent-variable models, or Bayesian models with random parameters. In both cases one needs to perform approximate posterior estimation for which variational inference (VI) methods are suitable. In VI, inference is cast as an optimization problem over newly introduced variational pa- rameters, typically optimized towards the ELBO, a lower bound on the model evidence, or marginal likelihood of the data. Existing methods for such posterior inference were either relatively ineﬃcient, or not applica- ble to models with neural networks as components. Our main contribu- tion is a framework for eﬃcient and scalable gradient-based variational posterior inference and approximate maximum likelihood learning. In this work we describe the variational autoencoder (VAE) and some of its extensions. A VAE is a combination of a deep latent-variable 63"
+    },
+    {
+      "section_id": "122",
+      "original_section_number": "64",
+      "section_title": "Conclusion",
+      "level": 1,
+      "start_page": 67,
+      "text": " model (DLVM) with continuous latent variables, and an associated inference model. The DLVM is a type of generative model over the data. The inference model, also called encoder or recognition model, approximates the posterior distribution of the latent variables of the generative model. Both the generative model and the inference model are directed graphical models that are wholly or partially parameterized by deep neural networks. The parameters of the models, including the parameters of the neural networks such as the weights and biases, are jointly optimized by performing stochastic gradient ascent on the so- called evidence lower bound (ELBO). The ELBO is a lower bound on the marginal likelihood of the data, also called the variational lower bound. Stochastic gradients, necessary for performing SGD, are obtained through a basic reparameterization trick. The VAE framework is now a commonly used tool for various applications of probabilistic modeling and artiﬁcial creativity, and basic implementations are available in most major deep learning software libraries. For learning ﬂexible inference models, we proposed inverse autore- gressive ﬂows (IAF), a type of normalizing ﬂow that allows scaling to high-dimensional latent spaces. An interesting direction for further exploration is comparison with transformations with computationally cheap inverses, such as NICE (Dinh et al., 2014) and Real NVP (Dinh et al., 2016). Application of such transformations in the VAE framework can potentially lead to relatively simple VAEs with a combination of powerful posteriors, priors and decoders. Such architectures can poten- tially rival or surpass purely autoregressive architectures (Van den Oord et al., 2016), while allowing much faster synthesis. The proposed VAE framework remains the only framework in the literature that allows for both discrete and continuous observed variables, allows for eﬃcient amortized latent-variable inference and fast synthesis, and which can produce close to state-of-the-art performance in terms of the log-likelihood of data."
+    },
+    {
+      "section_id": "123",
+      "original_section_number": "",
+      "section_title": "Acknowledgements",
+      "level": 1,
+      "start_page": 68,
+      "text": " We are grateful for the help of Tim Salimans, Alec Radford, Rif A. Saurous and others who have given us valuable feedback at various stages of writing. 65 Appendices A"
+    },
+    {
+      "section_id": "124",
+      "original_section_number": "",
+      "section_title": "Appendix",
+      "level": 1,
+      "start_page": 70,
+      "text": " A.1 Notation and deﬁnitions A.1.1 Notation Example(s) Description x, y z With characters in bold we typically denote ran- dom vectors. We also use this notation for collec- tions of random variables variables. x, y, z With characters in italic we typically denote random scalars, i.e. single real-valued numbers. X, Y, Z With bold and capitalized letters we typically denote random matrices. Pa(z) The parents of random variable z in a directed graph. diag(x) Diagonal matrix, with the values of vector x on the diagonal. 67"
+    },
+    {
+      "section_id": "125",
+      "original_section_number": "68",
+      "section_title": "Appendix",
+      "level": 1,
+      "start_page": 71,
+      "text": " x ⊙y Element-wise multiplication of two vectors. The resulting vector is (x1y1, ..., xKyK)T . θ Parameters of a (generative) model are typically denoted with the Greek lowercase letter θ (theta). φ Variational parameters are typically denoted with the bold Greek letter φ (phi). p(x), p(z) Probability density functions (PDFs) and proba- bility mass functions (PMFs), also simply called distributions, are denoted by p(.), q(.) or r(.). p(x, y, z) Joint distributions are denoted by p(., .) p(x|z) Conditional distributions are denoted by p(.|.) p(.; θ), pθ(x) The parameters of a distribution are denoted with p(.; θ) or equivalently with subscript pθ(.). p(x = a), p(x ≤a) We may use an (in-)equality sign within a prob- ability distribution to distinguish between func- tion arguments and value at which to evaluate. So p(x = a) denotes a PDF or PMF over variable x evaluated at the value of variable a. Likewise, p(x ≤a) denotes a CDF evaluated at the value of a. p(.), q(.) We use diﬀerent letters to refer to diﬀerent probabilistic models, such as p(.) or q(.). Con- versely, we use the same letter across diﬀerent marginals/conditionals to indicate they relate to the same probabilistic model. A.1.2 Deﬁnitions Term Description A.1. Notation and deﬁnitions 69 Probability density func- tion (PDF) A function that assigns a probability density to each possible value of given continuous random variables. Cumulative distribution function (CDF) A function that assigns a cumulative probability density to each possible value of given univariate continuous random variables. Probability mass function (PMF) A function that assigns a probability mass to given discrete random variable. A.1.3 Distributions We overload the notation of distributions (e.g. p(x) = N(x; µ, Σ)) with two meanings: (1) a distribution from which we can sample, and (2) the probability density function (PDF) of that distribution. Term Description Categorical(x; p) Categorical distribution, with parameter p such that P i pi = 1. Bernoulli(x; p) Multivariate distribution of independent Bernoulli. Bernoulli(x; p) = Q i Bernoulli(xi; pi) with ∀i : 0 ≤pi ≤1. Normal(x; µ, Σ) = N(x; µ, Σ) Multivariate Normal distribution with mean µ and covariance Σ."
+    },
+    {
+      "section_id": "126",
+      "original_section_number": "",
+      "section_title": "Chain rule of probability",
+      "level": 1,
+      "start_page": 72,
+      "text": " p(a, b) = p(a)p(b|a) (A.1)"
+    },
+    {
+      "section_id": "127",
+      "original_section_number": "70",
+      "section_title": "Appendix",
+      "level": 1,
+      "start_page": 73,
+      "text": " Bayes’ Rule p(a|b) = p(b|a)p(a)/p(b) (A.2) A.1.4 Bayesian Inference Let p(θ) be a chosen marginal distribution over its parameters θ, called a prior distribution. Let D be observed data, p(D|θ) ≡pθ(D) be the probability assigned to the data under the model with parameters θ. Recall the chain rule in probability: p(θ, D) = p(θ|D)p(D) = p(θ)p(D|θ) Simply re-arranging terms above, the posterior distribution over the parameters θ, taking into account the data D, is: p(θ|D) = p(D|θ)p(θ) p(D) ∝p(D|θ)p(θ) (A.3) where the proportionality (∝) holds since p(D) is a constant that is not dependent on parameters θ. The formula above is known as Bayes’ rule, a fundamental formula in machine learning and statistics, and is of special importance to this work. A principal application of Bayes’ rule is that it allows us to make predictions about future data x′, that are optimal as long as the prior p(θ) and model class pθ(x) are correct: p(x = x′|D) = Z pθ(x = x′)p(θ|D)dθ A.2 Alternative methods for learning in DLVMs A.2.1 Maximum A Posteriori From a Bayesian perspective, we can improve upon the maximum likelihood objective through maximum a posteriori (MAP) estimation, which maximizes the log-posterior w.r.t. θ. With i.i.d. data D, this is: LMAP (θ) = log p(θ|D) (A.4) = log p(θ) + LML(θ) + constant (A.5) A.2. Alternative methods for learning in DLVMs 71 The prior p(θ) in equation (A.5) has diminishing eﬀect for increasingly large N. For this reason, in case of optimization with large datasets, we often choose to simply use the maximum likelihood criterion by omitting the prior from the objective, which is numerically equivalent to setting p(θ) = constant. A.2.2 Variational EM with local variational parameters Expectation Maximization (EM) is a general strategy for learning parameters in partially observed models (Dempster et al., 1977). See section A.2.3 for a discussion of EM using MCMC. The method can be explained as coordinate ascent on the ELBO (Neal and Hinton, 1998). In case of of i.i.d. data, traditional variational EM methods estimate local variational parameters φ(i), i.e. a separate set of variational parameters per datapoint i in the dataset. In contrast, VAEs employ a strategy with global variational parameters. EM starts out with some (random) initial choice of θ and φ(1:N). It then iteratively applies updates: ∀i = 1, ..., N : φ(i) ←argmax φ L(x(i); θ, φ) (E-step) (A.6) θ ←argmax θ N X i=1 L(x(i); θ, φ) (M-step) (A.7) until convergence. Why does this work? Note that at the E-step: argmax φ L(x; θ, φ) (A.8) = argmax φ [log pθ(x) −DKL(qφ(z|x)||pθ(z|x))] (A.9) = argmin φ DKL(qφ(z|x)||pθ(z|x)) (A.10) so the E-step, sensibly, minimizes the KL divergence of qφ(z|x) from the true posterior. Secondly, note that if qφ(z|x) equals pθ(z|x), the ELBO equals the marginal likelihood, but that for any choice of qφ(z|x), the M-step optimizes a bound on the marginal likelihood. The tightness of this bound is deﬁned by DKL(qφ(z|x)||pθ(z|x))."
+    },
+    {
+      "section_id": "128",
+      "original_section_number": "72",
+      "section_title": "Appendix",
+      "level": 1,
+      "start_page": 75,
+      "text": " A.2.3 MCMC-EM Another Bayesian approach towards optimizing the likelihood pθ(x) with DLVMs is Expectation Maximization (EM) with Markov Chain Monte Carlo (MCMC). In case of MCMC, the posterior is approximated by a mixture of a set of approximately i.i.d. samples from the posterior, acquired by running a Markov chain. Note that posterior gradients in DLVMs are relatively aﬀordable to compute by diﬀerentiating the log-joint distribution w.r.t. z: ∇z log pθ(z|x) = ∇z log[pθ(x, z)/pθ(x)] (A.11) = ∇z[log pθ(x, z) −log pθ(x)] (A.12) = ∇z log pθ(x, z) −∇z log pθ(x) (A.13) = ∇z log pθ(x, z) (A.14) One version of MCMC which uses such posterior for relatively fast convergence, is Hamiltonian MCMC (Neal, 2011). A disadvantage of this approach is the requirement for running an independent MCMC chain per datapoint. A.3 Stochastic Gradient Descent We work with directed models where the objective per datapoint is scalar, and due to the diﬀerentiability of neural networks that compose them, the objective is diﬀerentiable w.r.t. its parameters θ. Due to the remarkable eﬃciency of reverse-mode automatic diﬀerentiation (also known as the backpropagation algorithm (Rumelhart et al., 1988)), the value and gradient (i.e. the vector of partial derivatives) of diﬀerentiable scalar objectives can be computed with equal time complexity. In SGD, we iteratively update parameters θ: θt+1 ←θt + αt · ∇θ ˜L(θ, ξ) (A.15) where αt is a learning rate or preconditioner, and ˜L(θ, ξ) is an unbiased estimate of the objective L(θ), i.e. Eξ∼p(ξ) h˜L(θ, ξ) i = L(θ). The ran- dom variable ξ could e.g. be a datapoint index, uniformly sampled from {1, ..., N}, but can also include diﬀerent types of noise such posterior sampling noise in VAEs. In experiments, we have typically used the A.3. Stochastic Gradient Descent 73 Adam and Adamax optimization methods for choosing αt (Kingma and Ba, 2015); these methods are invariant to constant rescaling of the ob- jective, and invariant to constant re-scalings of the individual gradients. As a result, ˜L(θ, ξ) only needs to be unbiased up to proportionality. We iteratively apply eq. (A.15) until a stopping criterion is met. A simple but eﬀective criterion is to stop optimization as soon as the probability of a holdout set of data starts decreasing; this criterion is called early stopping."
+    },
+    {
+      "section_id": "129",
+      "original_section_number": "",
+      "section_title": "References",
+      "level": 1,
+      "start_page": 77,
+      "text": " Banerjee, A. (2007). “An analysis of logistic models: Exponential family connections and online performance”. In: Proceedings of the 2007 SIAM International Conference on Data Mining. SIAM. 204–215. Bayer, J. and C. Osendorfer (2014). “Learning stochastic recurrent networks”. In: NIPS 2014 Workshop on Advances in Variational Inference. Bengio, Y., A. Courville, and P. Vincent (2013). Representation Learn- ing: A Review and New Perspectives. IEEE. Bengio, Y., E. Laufer, G. Alain, and J. Yosinski (2014). “Deep genera- tive stochastic networks trainable by backprop”. In: International Conference on Machine Learning. 226–234. Berg, R. v. d., L. Hasenclever, J. M. Tomczak, and M. Welling (2017). “Sylvester Normalizing Flows for Variational Inference”. Conference on Uncertainty in Artiﬁcial Intelligence. Blei, D. M., M. I. Jordan, and J. W. Paisley (2012). “Variational Bayesian inference with stochastic search”. In: International Con- ference on Machine Learning. 1367–1374. Blundell, C., J. Cornebise, K. Kavukcuoglu, and D. Wierstra (2015). “Weight Uncertainty in Neural Networks”. In: International Confer- ence on Machine Learning. 1613–1622. 74 References 75 Bornschein, J., S. Shabanian, A. Fischer, and Y. Bengio (2016). “Bidirec- tional Helmholtz machines”. In: Proceedings of the 33rd International Conference on International Conference on Machine Learning. 2511– 2519. Bourlard, H. and Y. Kamp (1988). “Auto-association by multilayer per- ceptrons and singular value decomposition”. Biological Cybernetics. 59(4-5): 291–294. Bowman, S. R., L. Vilnis, O. Vinyals, A. M. Dai, R. Jozefowicz, and S. Bengio (2015). “Generating sentences from a continuous space”. arXiv preprint arXiv:1511.06349. Brock, A., T. Lim, J. M. Ritchie, and N. J. Weston (2017). “Neural photo editing with introspective adversarial networks”. In: International Conference on Learning Representations. Burda, Y., R. Grosse, and R. Salakhutdinov (2015). “Importance weighted autoencoders”. arXiv preprint arXiv:1509.00519. Chen, R. T., X. Li, R. Grosse, and D. Duvenaud (2018). “Isolating sources of disentanglement in VAEs”. In: Proceedings of the 32nd International Conference on Neural Information Processing Systems. Curran Associates Inc. 2615–2625. Chen, X., D. P. Kingma, T. Salimans, Y. Duan, P. Dhariwal, J. Schul- man, I. Sutskever, and P. Abbeel (2017). “Variational lossy autoen- coder”. International Conference on Learning Representations. Chung, J., K. Kastner, L. Dinh, K. Goel, A. C. Courville, and Y. Bengio (2015). “A recurrent latent variable model for sequential data”. In: Advances in neural information processing systems. 2980–2988. Cremer, C., Q. Morris, and D. Duvenaud (2017). “Re-interpreting importance weighted autoencoders”. International Conference on Learning Representations. Dayan, P., G. E. Hinton, R. M. Neal, and R. S. Zemel (1995). “The Helmholtz machine”. Neural computation. 7(5): 889–904. Deco, G. and W. Brauer (1995). “Higher order statistical decorrela- tion without information loss”. Advances in Neural Information Processing Systems: 247–254. Dempster, A. P., N. M. Laird, and D. B. Rubin (1977). “Maximum likelihood from incomplete data via the EM algorithm”. Journal of the Royal Statistical Society. Series B (Methodological): 1–38."
+    },
+    {
+      "section_id": "130",
+      "original_section_number": "76",
+      "section_title": "References",
+      "level": 1,
+      "start_page": 79,
+      "text": " Deshpande, A., J. Lu, M.-C. Yeh, M. Jin Chong, and D. Forsyth (2017). “Learning diverse image colorization”. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 6837– 6845. Dinh, L., D. Krueger, and Y. Bengio (2014). “NICE: Non-linear inde- pendent components estimation”. arXiv preprint arXiv:1410.8516. Dinh, L., J. Sohl-Dickstein, and S. Bengio (2016). “Density estimation using Real NVP”. arXiv preprint arXiv:1605.08803. Dosovitskiy, A., J. Tobias Springenberg, and T. Brox (2015). “Learning to generate chairs with convolutional neural networks”. In: Pro- ceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 1538–1546. Dumoulin, V., I. Belghazi, B. Poole, A. Lamb, M. Arjovsky, O. Mas- tropietro, and A. Courville (2017). “Adversarially learned inference”. International Conference on Learning Representations. Edwards, H. and A. Storkey (2017). “Towards a neural statistician”. International Conference on Learning Representations. Eslami, S. A., N. Heess, T. Weber, Y. Tassa, D. Szepesvari, G. E. Hinton, et al. (2016). “Attend, infer, repeat: Fast scene understanding with generative models”. In: Advances In Neural Information Processing Systems. 3225–3233. Fan, K., Z. Wang, J. Beck, J. Kwok, and K. A. Heller (2015). “Fast second order stochastic backpropagation for variational inference”. In: Advances in Neural Information Processing Systems. 1387–1395. Fortunato, M., C. Blundell, and O. Vinyals (2017). “Bayesian recurrent neural networks”. arXiv preprint arXiv:1704.02798. Fraccaro, M., S. K. Sønderby, U. Paquet, and O. Winther (2016). “Sequential neural models with stochastic layers”. In: Advances in Neural Information Processing Systems. 2199–2207. Fu, M. C. (2006). “Gradient estimation”. Handbooks in Operations Research and Management Science. 13: 575–616. Gal, Y. and Z. Ghahramani (2016). “A theoretically grounded appli- cation of dropout in recurrent neural networks”. In: Advances in neural information processing systems. 1019–1027. References 77 Germain, M., K. Gregor, I. Murray, and H. Larochelle (2015). “Made: Masked autoencoder for distribution estimation”. In: International Conference on Machine Learning. 881–889. Gershman, S. and N. Goodman (2014). “Amortized inference in proba- bilistic reasoning.” In: CogSci. Glasserman, P. (2013). Monte Carlo methods in ﬁnancial engineering. Vol. 53. Springer Science & Business Media. Glynn, P. W. (1990). “Likelihood ratio gradient estimation for stochastic systems”. Communications of the ACM. 33(10): 75–84. Gómez-Bombarelli, R., J. N. Wei, D. Duvenaud, J. M. Hernández- Lobato, B. Sánchez-Lengeling, D. Sheberla, J. Aguilera-Iparraguirre, T. D. Hirzel, R. P. Adams, and A. Aspuru-Guzik (2018). “Automatic chemical design using a data-driven continuous representation of molecules”. ACS central science. 4(2): 268–276. Goodfellow, I., Y. Bengio, and A. Courville (2016). Deep learning. MIT press. Goodfellow, I., J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley, S. Ozair, A. Courville, and Y. Bengio (2014). “Generative adversarial nets”. In: Advances in Neural Information Processing Systems. 2672– 2680. Graves, A. (2011). “Practical variational inference for neural networks”. In: Advances in Neural Information Processing Systems. 2348–2356. Gregor, K., F. Besse, D. J. Rezende, I. Danihelka, and D. Wierstra (2016). “Towards conceptual compression”. In: Advances In Neural Information Processing Systems. 3549–3557. Gregor, K., I. Danihelka, A. Graves, D. Rezende, and D. Wierstra (2015). “DRAW: A Recurrent Neural Network For Image Generation”. In: International Conference on Machine Learning. 1462–1471. Gregor, K., I. Danihelka, A. Mnih, C. Blundell, and D. Wierstra (2014). “Deep AutoRegressive Networks”. In: International Conference on Machine Learning. 1242–1250. Grover, A., M. Dhar, and S. Ermon (2018). “Flow-GAN: Combining maximum likelihood and adversarial learning in generative models”. In: AAAI Conference on Artiﬁcial Intelligence."
+    },
+    {
+      "section_id": "131",
+      "original_section_number": "78",
+      "section_title": "References",
+      "level": 1,
+      "start_page": 81,
+      "text": " Gu, S., S. Levine, I. Sutskever, and A. Mnih (2015). “MuProp: Unbiased backpropagation for stochastic neural networks”. arXiv preprint arXiv:1511.05176. Gulrajani, I., K. Kumar, F. Ahmed, A. A. Taiga, F. Visin, D. Vazquez, and A. Courville (2017). “PixelVAE: A latent variable model for natural images”. International Conference on Learning Representa- tions. He, K., X. Zhang, S. Ren, and J. Sun (2015). “Delving deep into rectiﬁers: Surpassing human-level performance on imagenet classiﬁcation”. In: Proceedings of the IEEE International Conference on Computer Vision. 1026–1034. He, K., X. Zhang, S. Ren, and J. Sun (2016). “Deep residual learning for image recognition”. In: Proceedings of the IEEE conference on computer vision and pattern recognition. 770–778. Heess, N., G. Wayne, D. Silver, T. Lillicrap, T. Erez, and Y. Tassa (2015). “Learning continuous control policies by stochastic value gradients”. In: Advances in Neural Information Processing Systems. 2944–2952. Hernández-Lobato, J. M., Y. Li, M. Rowland, D. Hernández-Lobato, T. Bui, and R. E. Turner (2016). “Black-box α-divergence minimiza- tion”. Higgins, I., L. Matthey, A. Pal, C. Burgess, X. Glorot, M. Botvinick, S. Mohamed, and A. Lerchner (2017). “beta-vae: Learning basic visual concepts with a constrained variational framework”. International Conference on Learning Representations. Hinton, G. E., P. Dayan, B. J. Frey, and R. M. Neal (1995). “The \"Wake-Sleep\" algorithm for unsupervised neural networks”. Science: 1158–1158. Hochreiter, S. and J. Schmidhuber (1997). “Long Short-Term Memory”. Neural Computation. 9(8): 1735–1780. Hoﬀman, M. D., D. M. Blei, C. Wang, and J. Paisley (2013). “Stochastic variational inference”. The Journal of Machine Learning Research. 14(1): 1303–1347. Hoﬀman, M. D. and M. J. Johnson (2016). “Elbo surgery: yet another way to carve up the variational evidence lower bound”. In: Workshop in Advances in Approximate Bayesian Inference, NIPS. References 79 Houthooft, R., X. Chen, Y. Duan, J. Schulman, F. De Turck, and P. Abbeel (2016). “Vime: Variational information maximizing explo- ration”. In: Advances in Neural Information Processing Systems. 1109–1117. Hsu, C.-C., H.-T. Hwang, Y.-C. Wu, Y. Tsao, and H.-M. Wang (2016). “Voice conversion from non-parallel corpora using variational auto- encoder”. In: Signal and Information Processing Association Annual Summit and Conference (APSIPA), 2016 Asia-Paciﬁc. IEEE. 1–6. Hsu, C.-C., H.-T. Hwang, Y.-C. Wu, Y. Tsao, and H.-M. Wang (2017). “Voice conversion from unaligned corpora using variational autoen- coding wasserstein generative adversarial networks”. arXiv preprint arXiv:1704.00849. Hu, Z., Z. Yang, X. Liang, R. Salakhutdinov, and E. P. Xing (2017). “Controllable text generation”. arXiv preprint arXiv:1703.00955. Huang, C.-W., D. Krueger, A. Lacoste, and A. Courville (2018). “Neural Autoregressive Flows”. In: International Conference on Machine Learning. 2083–2092. Jang, E., S. Gu, and B. Poole (2017). “Categorical Reparameteriza- tion with Gumbel-Softmax”. International Conference on Learning Representations. Johnson, M., D. K. Duvenaud, A. Wiltschko, R. P. Adams, and S. R. Datta (2016). “Composing graphical models with neural networks for structured representations and fast inference”. In: Advances in Neural Information Processing Systems. 2946–2954. Jozefowicz, R., W. Zaremba, and I. Sutskever (2015). “An empirical exploration of recurrent network architectures”. In: International Conference on Machine Learning. 2342–2350. Karl, M., M. Soelch, J. Bayer, and P. van der Smagt (2017). “Deep varia- tional bayes ﬁlters: Unsupervised learning of state space models from raw data”. International Conference on Learning Representations. Kavukcuoglu, K., M. Ranzato, and Y. LeCun (2008). “Fast inference in sparse coding algorithms with applications to object recognition”. Tech. rep. No. CBLL-TR-2008-12-01. Computational and Biological Learning Lab, Courant Institute, NYU."
+    },
+    {
+      "section_id": "132",
+      "original_section_number": "80",
+      "section_title": "References",
+      "level": 1,
+      "start_page": 83,
+      "text": " Kingma, D. P., S. Mohamed, D. J. Rezende, and M. Welling (2014). “Semi-supervised learning with deep generative models”. In: Ad- vances in Neural Information Processing Systems. 3581–3589. Kingma, D. P., T. Salimans, R. Jozefowicz, X. Chen, I. Sutskever, and M. Welling (2016). “Improved variational inference with inverse autoregressive ﬂow”. In: Advances in Neural Information Processing Systems. 4743–4751. Kingma, D. P., T. Salimans, and M. Welling (2015). “Variational dropout and the local reparameterization trick”. In: Advances in Neural Information Processing Systems. 2575–2583. Kingma, D. P. and M. Welling (2014). “Auto-Encoding Variational Bayes”. International Conference on Learning Representations. Kingma, D. and J. Ba (2015). “Adam: A Method for Stochastic Opti- mization”. International Conference on Learning Representations. Kipf, T. N. and M. Welling (2016). “Variational graph auto-encoders”. arXiv preprint arXiv:1611.07308. Kleijnen, J. P. and R. Y. Rubinstein (1996). “Optimization and sensi- tivity analysis of computer simulation models by the score function method”. European Journal of Operational Research. 88(3): 413–427. Koller, D. and N. Friedman (2009). Probabilistic graphical models: Prin- ciples and techniques. MIT press. Krishnan, R. G., U. Shalit, and D. Sontag (2017). “Structured Inference Networks for Nonlinear State Space Models.” In: AAAI. 2101–2109. Kucukelbir, A., D. Tran, R. Ranganath, A. Gelman, and D. M. Blei (2017). “Automatic diﬀerentiation variational inference”. The Jour- nal of Machine Learning Research. 18(1): 430–474. Kulkarni, T. D., W. F. Whitney, P. Kohli, and J. Tenenbaum (2015). “Deep convolutional inverse graphics network”. In: Advances in Neural Information Processing Systems. 2539–2547. Kusner, M. J., B. Paige, and J. M. Hernández-Lobato (2017). “Grammar variational autoencoder”. In: Proceedings of the 34th International Conference on Machine Learning-Volume 70. 1945–1954. Larsen, A. B. L., S. K. Sønderby, H. Larochelle, and O. Winther (2016). “Autoencoding beyond pixels using a learned similarity metric”. In: International Conference on Machine Learning. 1558–1566. References 81 Lázaro-Gredilla, M. (2014). “Doubly stochastic variational Bayes for non-conjugate inference”. In: International Conference on Machine Learning. LeCun, Y., Y. Bengio, and G. Hinton (2015). “Deep Learning”. Nature. 521(7553): 436–444. LeCun, Y., L. Bottou, Y. Bengio, and P. Haﬀner (1998). “Gradient- based learning applied to document recognition”. Proceedings of the IEEE. 86(11): 2278–2324. Li, Y. and R. E. Turner (2016). “Rényi divergence variational inference”. In: Advances in Neural Information Processing Systems. 1073–1081. Li, Y., K. Swersky, and R. S. Zemel (2015). “Generative moment match- ing networks”. In: International Conference on Machine Learning. 1718–1727. Linsker, R. (1989). An Application of the Principle of Maximum Informa- tion Preservation to Linear Systems. Morgan Kaufmann Publishers Inc. Louizos, C., K. Swersky, Y. Li, M. Welling, and R. Zemel (2015). “The variational fair autoencoder”. arXiv preprint arXiv:1511.00830. Louizos, C., K. Ullrich, and M. Welling (2017). “Bayesian compression for deep learning”. In: Advances in Neural Information Processing Systems. 3288–3298. Louizos, C. and M. Welling (2016). “Structured and eﬃcient variational deep learning with matrix gaussian posteriors”. In: International Conference on Machine Learning. 1708–1716. Louizos, C. and M. Welling (2017). “Multiplicative normalizing ﬂows for variational Bayesian neural networks”. In: International Conference on Machine Learning. 2218–2227. Maaløe, L., C. K. Sønderby, S. K. Sønderby, and O. Winther (2016). “Auxiliary deep generative models”. In: International Conference on Machine Learning. Maddison, C. J., A. Mnih, and Y. W. Teh (2017). “The concrete distribution: A continuous relaxation of discrete random variables”. International Conference on Learning Representations. Makhzani, A., J. Shlens, N. Jaitly, I. Goodfellow, and B. Frey (2015). “Adversarial autoencoders”. arXiv preprint arXiv:1511.05644."
+    },
+    {
+      "section_id": "133",
+      "original_section_number": "82",
+      "section_title": "References",
+      "level": 1,
+      "start_page": 85,
+      "text": " Mansimov, E., E. Parisotto, J. L. Ba, and R. Salakhutdinov (2015). “Generating images from captions with attention”. arXiv preprint arXiv:1511.02793. Miao, Y., L. Yu, and P. Blunsom (2016). “Neural variational inference for text processing”. In: International Conference on Machine Learning. 1727–1736. Mnih, A. and K. Gregor (2014). “Neural variational inference and learn- ing in belief networks”. In: International Conference on Machine Learning. Mnih, A. and D. Rezende (2016). “Variational Inference for Monte Carlo Objectives”. In: International Conference on Machine Learning. 2188–2196. Mohamed, S. and D. J. Rezende (2015). “Variational information max- imisation for intrinsically motivated reinforcement learning”. In: Advances in Neural Information Processing Systems. 2125–2133. Molchanov, D., A. Ashukha, and D. Vetrov (2017). “Variational dropout sparsiﬁes deep neural networks”. In: International Conference on Machine Learning. 2498–2507. Naesseth, C., F. Ruiz, S. Linderman, and D. Blei (2017). “Reparameter- ization gradients through acceptance-rejection sampling algorithms”. In: Artiﬁcial Intelligence and Statistics. 489–498. Neal, R. (2011). “MCMC Using Hamiltonian Dynamics”. Handbook of Markov Chain Monte Carlo: 113–162. Neal, R. M. and G. E. Hinton (1998). “A view of the EM algorithm that justiﬁes incremental, sparse, and other variants”. In: Learning in Graphical Models. Springer. 355–368. Paisley, J., D. Blei, and M. Jordan (2012). “Variational Bayesian In- ference with stochastic search”. In: International Conference on Machine Learning. 1367–1374. Papamakarios, G., I. Murray, and T. Pavlakou (2017). “Masked au- toregressive ﬂow for density estimation”. In: Advances in Neural Information Processing Systems. 2335–2344. Pritzel, A., B. Uria, S. Srinivasan, A. P. Badia, O. Vinyals, D. Hassabis, D. Wierstra, and C. Blundell (2017). “Neural episodic control”. In: International Conference on Machine Learning. 2827–2836. References 83 Pu, Y., Z. Gan, R. Henao, X. Yuan, C. Li, A. Stevens, and L. Carin (2016). “Variational autoencoder for deep learning of images, la- bels and captions”. In: Advances in Neural Information Processing Systems. 2352–2360. Ranganath, R., S. Gerrish, and D. Blei (2014). “Black Box Variational Inference”. In: International Conference on Artiﬁcial Intelligence and Statistics. 814–822. Ranganath, R., D. Tran, and D. Blei (2016). “Hierarchical variational models”. In: International Conference on Machine Learning. 324– 333. Ravanbakhsh, S., F. Lanusse, R. Mandelbaum, J. Schneider, and B. Poczos (2017). “Enabling dark energy science with deep genera- tive models of galaxy images”. In: AAAI Conference on Artiﬁcial Intelligence. Rezende, D. J., S. Mohamed, I. Danihelka, K. Gregor, and D. Wierstra (2016a). “One-shot generalization in deep generative models”. In: International Conference on International Conference on Machine Learning. 1521–1529. Rezende, D. J., S. Mohamed, and D. Wierstra (2014). “Stochastic back- propagation and approximate inference in deep generative models”. In: International Conference on Machine Learning. 1278–1286. Rezende, D. J., S. A. Eslami, S. Mohamed, P. Battaglia, M. Jaderberg, and N. Heess (2016b). “Unsupervised learning of 3d structure from images”. In: Advances In Neural Information Processing Systems. 4997–5005. Rezende, D. and S. Mohamed (2015). “Variational inference with nor- malizing ﬂows”. In: International Conference on Machine Learning. 1530–1538. Roeder, G., Y. Wu, and D. K. Duvenaud (2017). “Sticking the landing: Simple, lower-variance gradient estimators for variational inference”. In: Advances in Neural Information Processing Systems. 6925–6934. Rosca, M., B. Lakshminarayanan, and S. Mohamed (2018). “Distribution matching in variational inference”. arXiv preprint arXiv:1802.06847. Roweis, S. (1998). “EM algorithms for PCA and SPCA”. Advances in Neural Information Processing Systems: 626–632."
+    },
+    {
+      "section_id": "134",
+      "original_section_number": "84",
+      "section_title": "References",
+      "level": 1,
+      "start_page": 87,
+      "text": " Ruiz, F. R., M. T. R. AUEB, and D. Blei (2016). “The generalized reparameterization gradient”. In: Advances in Neural Information Processing Systems. 460–468. Rumelhart, D. E., G. E. Hinton, and R. J. Williams (1988). “Learning representations by back-propagating errors”. Cognitive Modeling. 5(3): 1. Russakovsky, O., J. Deng, H. Su, J. Krause, S. Satheesh, S. Ma, Z. Huang, A. Karpathy, A. Khosla, M. Bernstein, et al. (2015). “Imagenet large scale visual recognition challenge”. International Journal of Computer Vision. 115(3): 211–252. Salakhutdinov, R. and H. Larochelle (2010). “Eﬃcient learning of deep Boltzmann machines”. In: International Conference on Artiﬁcial Intelligence and Statistics. 693–700. Salimans, T. (2016). “A structured variational auto-encoder for learning deep hierarchies of sparse features”. arXiv preprint arXiv:1602.08734. Salimans, T., D. P. Kingma, and M. Welling (2015). “Markov Chain Monte Carlo and Variational Inference: Bridging the Gap.” In: International Conference on Machine Learning. Vol. 37. 1218–1226. Salimans, T. and D. A. Knowles (2013). “Fixed-Form variational poste- rior approximation through stochastic linear regression”. Bayesian Analysis. 8(4). Semeniuta, S., A. Severyn, and E. Barth (2017). “A hybrid convolu- tional variational autoencoder for text generation”. arXiv preprint arXiv:1702.02390. Serban, I. V., A. Sordoni, R. Lowe, L. Charlin, J. Pineau, A. Courville, and Y. Bengio (2017). “A hierarchical latent variable encoder- decoder model for generating dialogues”. In: Proceedings of the Thirty-First AAAI Conference on Artiﬁcial Intelligence. AAAI Press. 3295–3301. Sohl-Dickstein, J., E. Weiss, N. Maheswaranathan, and S. Ganguli (2015). “Deep unsupervised learning using nonequilibrium thermo- dynamics”. In: International Conference on Machine Learning. 2256– 2265. References 85 Sønderby, C. K., T. Raiko, L. Maaløe, S. K. Sønderby, and O. Winther (2016a). “How to train deep variational autoencoders and proba- bilistic ladder networks”. In: International Conference on Machine Learning. Sønderby, C. K., T. Raiko, L. Maaløe, S. K. Sønderby, and O. Winther (2016b). “Ladder variational autoencoders”. In: Advances in Neural Information Processing Systems. 3738–3746. Szegedy, C., W. Liu, Y. Jia, P. Sermanet, S. Reed, D. Anguelov, D. Erhan, V. Vanhoucke, and A. Rabinovich (2015). “Going deeper with convolutions”. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 1–9. Tomczak, J. M. and M. Welling. “Improving variational auto-encoders using convex combination linear inverse autoregressive ﬂow”. In: Benelearn 2017: Proceedings of the Twenty-Sixth Benelux Conference on Machine Learning, Technische Universiteit Eindhoven, 9-10 June 2017. 162. Tomczak, J. M. and M. Welling (2016). “Improving variational auto- encoders using householder ﬂow”. arXiv preprint arXiv:1611.09630. Tran, D., M. D. Hoﬀman, R. A. Saurous, E. Brevdo, K. Murphy, and D. M. Blei (2017). “Deep probabilistic programming”. International Conference on Learning Representations. Tran, D., R. Ranganath, and D. M. Blei (2015). “The variational Gaussian process”. arXiv preprint arXiv:1511.06499. Van den Oord, A., N. Kalchbrenner, L. Espeholt, O. Vinyals, A. Graves, et al. (2016). “Conditional image generation with PixelCNN de- coders”. In: Advances in neural information processing systems. 4790–4798. Van Oord, A., N. Kalchbrenner, and K. Kavukcuoglu (2016). “Pixel Re- current Neural Networks”. In: International Conference on Machine Learning. 1747–1756. Vincent, P., H. Larochelle, I. Lajoie, Y. Bengio, and P.-A. Manzagol (2010). “Stacked denoising autoencoders: Learning useful represen- tations in a deep network with a local denoising criterion”. Journal of Machine Learning Research. 11(Dec): 3371–3408."
+    },
+    {
+      "section_id": "135",
+      "original_section_number": "86",
+      "section_title": "References",
+      "level": 1,
+      "start_page": 89,
+      "text": " Wainwright, M. J. and M. I. Jordan (2008). “Graphical models, exponen- tial families, and variational inference”. Foundations and Trends R⃝ in Machine Learning. 1(1–2): 1–305. Watter, M., J. Springenberg, J. Boedecker, and M. Riedmiller (2015). “Embed to control: A locally linear latent dynamics model for control from raw images”. In: Advances in Neural Information Processing Systems. 2746–2754. White, T. (2016). “Sampling Generative Networks: Notes on a Few Eﬀective Techniques”. arXiv preprint arXiv:1609.04468. Williams, R. J. (1992). “Simple statistical gradient-following algorithms for connectionist reinforcement learning”. Machine Learning. 8(3-4): 229–256. Wingate, D. and T. Weber (2013). “Automated variational inference in probabilistic programming”. arXiv preprint arXiv:1301.1299. Xu, W., H. Sun, C. Deng, and Y. Tan (2017). “Variational autoencoder for semi-supervised text classiﬁcation”. In: AAAI. 3358–3364. Yan, X., J. Yang, K. Sohn, and H. Lee (2016). “Attribute2image: Con- ditional image generation from visual attributes”. In: European Conference on Computer Vision. Springer. 776–791. Yang, Z., Z. Hu, R. Salakhutdinov, and T. Berg-Kirkpatrick (2017). “Improved variational autoencoders for text modeling using dilated convolutions”. In: International Conference on Machine Learning. 3881–3890. Zhao, T., R. Zhao, and M. Eskenazi (2017). “Learning discourse-level diversity for neural dialog models using conditional variational au- toencoders”. In: Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 654–664."
+    }
+  ]
+}

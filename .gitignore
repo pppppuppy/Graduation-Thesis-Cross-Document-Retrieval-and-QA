@@ -5,6 +5,7 @@ __pycache__/
 # Virtual environment
 venv/
 .venv/
+.env
 
 # IDE
 .vscode/
@@ -19,5 +20,9 @@ data/raw_pdfs/
 
 #清洗论文时的尝试
 data/useless_try
-scripts/uesless_try
+scripts/parse_pdf_uesless_try
+
+data/faiss.index
+data/faiss_meta.json
+data/passages.json
 
