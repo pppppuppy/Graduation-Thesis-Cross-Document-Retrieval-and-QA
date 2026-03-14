@@ -15,14 +15,20 @@ venv/
 .DS_Store
 Thumbs.db
 
-# 原始PDF
+# 原始PDF文件
 data/raw_pdfs/
 
-#清洗论文时的尝试
-data/useless_try
-scripts/parse_pdf_uesless_try
-
+# 向量索引
 data/faiss.index
 data/faiss_meta.json
-data/passages.json
 
+# 备份文件夹（不提交到GitHub）
+archive/
+deepseek_key.txt
+
+# 运行产生的缓存
+*.log
+
+# 无用尝试文件夹
+data/useless_try/
+scripts/parse_pdf_uesless_try/
