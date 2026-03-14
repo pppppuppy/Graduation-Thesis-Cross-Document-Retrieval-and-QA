@@ -169,7 +169,6 @@ multi-hop-qa-dataset
 │   ├── generate_qa_v3.py       # Generate multi-hop QA
 │   └── youtu_rag_retrieve.py   # Retrieval module
 │
-├── api_key.txt
 ├── README.md
 └── requirements.txt
 ```
