@@ -1,0 +1,101 @@
+{
+  "doc_id": "1910.11333v2.pdf",
+  "sections": [
+    {
+      "section_title": "Supplementary",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "information",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "“Quantum",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "supremacy",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "using",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "programmable",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "superconducting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "processor”",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[",
+      "text": ""
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "]",
+      "text": " Google  AI  Quantum  and  collaborators † (Dated:  January  1,  2020) CONTENTS I.  Device  design  and  architecture II.  Fabrication  and  layout III.  Qubit  control  and  readout A.  Control B.  Readout IV.  XEB  theory A.  XEB  of  a  small  number  of  qubits B.  XEB  of  a  large  number  of  qubits C.  Two  limiting  cases D.  Measurement  errors V.  Quantifying  errors VI.  Metrology  and  calibration A.  Calibration  overview 1.  Device  registry 2.  Scheduling  calibrations:  “Optimus” B.  Calibration  procedure 1.  Device  conﬁguration 2.  Root  conﬁg:  procedure 3.  Single-qubit  conﬁg:  procedure 4.  Optimizing  qubit  operating  frequencies 5.  Grid  conﬁg:  procedure C.  Two-qubit  gate  metrology 1.  The  natural  two-qubit  gate  for  transmon qubits 2.  Using  cross  entropy  to  learn  a  unitary model 3.  Comparison  with  randomized benchmarking 4.  Speckle  purity  benchmarking  (SPB) 5.  “Per-layer”  parallel  XEB D.  Grid  readout  calibration 1.  Choosing  qubit  frequencies  for  readout 2.  Single  qubit  calibration 3.  Characterizing  multi-qubit  readout E.  Summary  of  system  parameters VII.  Quantum  circuits A.  Background B.  Overview  and  technical  requirements C.  Circuit  structure D.  Randomness E.  Quantum  gates F.  Programmability  and  universality 1.  Decomposition  of  CZ  into  fSim  gates 2.  Universality  for  SU(2) G.  Circuit  variants 1.  Gate  elision 2.  Wedge  formation VIII.  Large  scale  XEB "
+    },
+    {
+      "section_title": "results",
+      "text": " A.  Limitations  of  full  circuits B.  Patch  circuits:  a  quick  performance indicator  for  large  systems C.  Elided  circuits:  a  more  rigorous performance  estimator  for  large  systems D.  Choice  of  unitary  model  for  two-qubit entangling  gates E.  Understanding  system  performance:  error model  prediction F.  Distribution  of  bitstring  probabilities G.  Statistical  uncertainties  of  XEB measurements H.  System  stability  and  systematic uncertainties I.  The  ﬁdelity  result  and  the  null  hypothesis on  quantum  supremacy IX.  Sensitivity  of  XEB  to  errors X.  Classical  simulations A.  Local  Schr¨odinger  and Schr¨odinger-Feynman  simulators B.  Feynman  simulator C.  Supercomputer  Schr¨odinger  simulator D.  Simulation  of  random  circuit  sampling  with a  target  ﬁdelity 1.  Optimality  of  the  Schmidt  decomposition for  gates  embedded  in  a  random  circuit 2.  Classical  speedup  for  imbalanced  gates 3.  Veriﬁable  and  supremacy  circuits E.  Treewidth  upper  bounds  and  variable elimination  algorithms F.  Computational  cost  estimation  for  the sampling  task G.  Understanding  the  scaling  with  width  and depth  of  the  computational  cost  of veriﬁcation 1.  Runtime  scaling  formulas 2.  Assumptions  and  corrections 3.  Fitting  constants 4.  Memory  usage  scaling H.  Energy  advantage  for  quantum  computing XI.  Complexity-theoretic  foundation  of  the experiment"
+    },
+    {
+      "section_title": "arXiv:1910.11333v2  [quant-ph]  28 Dec 2019",
+      "text": " A.  Error  model B.  Deﬁnition  of  computational  problem C.  Computational  hardness  of  unbiased-noise sampling D.  Proof  of  Theorem  Acknowledgments Erratum"
+    }
+  ]
+}

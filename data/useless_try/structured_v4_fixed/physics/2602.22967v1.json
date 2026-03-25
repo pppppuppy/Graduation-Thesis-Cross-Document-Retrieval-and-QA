@@ -1,0 +1,1864 @@
+{
+  "title": "Discovery of Interpretable Physical Laws in",
+  "abstract": "Discovering interpretable physical laws from high-dimensional data is a funda- mental challenge in scientific research. Traditional methods, such as symbolic regression, often produce complex, unphysical formulas when searching a vast space of possible forms. We introduce a framework that guides the search pro- cess by leveraging the embedded scientific knowledge of large language models, enabling efficient identification of physical laws in the data. We validate our approach by modeling key properties of perovskite materials. Our method miti- gates the combinatorial explosion commonly encountered in traditional symbolic regression, reducing the effective search space by a factor of approximately 105. A set of novel formulas for bulk modulus, band gap, and oxygen evolution reac- tion activity are identified, which not only provide meaningful physical insights but also outperform previous formulas in accuracy and simplicity. 1 arXiv:2602.22967v1 [physics.comp-ph] 26 Feb 2026",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "Introduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "The accurate prediction of physical properties is a key objective for many researchers.",
+          "page": 2
+        },
+        {
+          "para_id": "1_2",
+          "text": "While deep learning methods, such as Graph Neural Networks (GNNs)[1, 2], have",
+          "page": 2
+        },
+        {
+          "para_id": "1_3",
+          "text": "demonstrated exceptional capabilities in predicting properties in materials and bio-",
+          "page": 2
+        },
+        {
+          "para_id": "1_4",
+          "text": "logical science[3–7], they inherently operate as black boxes[8, 9]. Consequently, these",
+          "page": 2
+        },
+        {
+          "para_id": "1_5",
+          "text": "methods cannot explain underlying physical mechanisms or provide insights, which",
+          "page": 2
+        },
+        {
+          "para_id": "1_6",
+          "text": "significantly limits their value for fundamental scientific discovery[10–12]. Ideally,",
+          "page": 2
+        },
+        {
+          "para_id": "1_7",
+          "text": "one would use an explicit formula to describe target properties and provide physi-",
+          "page": 2
+        },
+        {
+          "para_id": "1_8",
+          "text": "cal insights, rather than merely predicting numerical values[13, 14]. However, due to",
+          "page": 2
+        },
+        {
+          "para_id": "1_9",
+          "text": "the complexity of real-world systems, identifying such formulas remains a significant",
+          "page": 2
+        },
+        {
+          "para_id": "1_10",
+          "text": "Symbolic Regression (SR) method such as genetic programming [15], SINDy [16],",
+          "page": 2
+        },
+        {
+          "para_id": "1_11",
+          "text": "and HI-SISSO [17], is a possible way to tackle the problem[18, 19] and these meth-",
+          "page": 2
+        },
+        {
+          "para_id": "1_12",
+          "text": "ods have been used to model several physical properties[18, 20–23]. However, in the",
+          "page": 2
+        },
+        {
+          "para_id": "1_13",
+          "text": "absence of experience and physical understanding of the data and physical process, one",
+          "page": 2
+        },
+        {
+          "para_id": "1_14",
+          "text": "would use all input features and parameters to guarantee not missing the important",
+          "page": 2
+        },
+        {
+          "para_id": "1_15",
+          "text": "ones. This turns the SR into a blind walking in a vast space. Consequently, it causes",
+          "page": 2
+        },
+        {
+          "para_id": "1_16",
+          "text": "SR to merge physically irrelevant variables into the derived formulas. This results in",
+          "page": 2
+        },
+        {
+          "para_id": "1_17",
+          "text": "equations that, while potentially accurate in fitting data, are physically incoherent",
+          "page": 2
+        },
+        {
+          "para_id": "1_18",
+          "text": "and fail to reveal the true underlying mechanisms.",
+          "page": 2
+        },
+        {
+          "para_id": "1_19",
+          "text": "In recent years, Large Language Models (LLMs) have demonstrated potential",
+          "page": 2
+        },
+        {
+          "para_id": "1_20",
+          "text": "in science, but still remain at an exploratory stage in many domains like material",
+          "page": 2
+        },
+        {
+          "para_id": "1_21",
+          "text": "science[24–26]. Many researchers have attempted to use LLMs as end-to-end symbolic",
+          "page": 2
+        },
+        {
+          "para_id": "1_22",
+          "text": "regression engines, like Funsearch[27] and LLM-SR [28], hoping to leverage the pre-",
+          "page": 2
+        },
+        {
+          "para_id": "1_23",
+          "text": "trained scientific prior knowledge in LLM to directly extract physical frameworks from",
+          "page": 2
+        },
+        {
+          "para_id": "1_24",
+          "text": "data. Although this approach has achieved some success in simple low-dimensional",
+          "page": 2
+        },
+        {
+          "para_id": "1_25",
+          "text": "problems, the performance of LLMs in handling high-dimensional complex data is",
+          "page": 2
+        },
+        {
+          "para_id": "1_26",
+          "text": "constrained by their fundamental nature as language models[29]. Lacking the intrin-",
+          "page": 2
+        },
+        {
+          "para_id": "1_27",
+          "text": "sic capability to process complex numerical patterns, they often fail to identify valid",
+          "page": 2
+        },
+        {
+          "para_id": "1_28",
+          "text": "mathematical structures from such complex data[30].",
+          "page": 2
+        },
+        {
+          "para_id": "1_29",
+          "text": "To overcome these limitations, we propose LangLaw, a language-model-guided",
+          "page": 2
+        },
+        {
+          "para_id": "1_30",
+          "text": "framework designed to discover governing physical laws from scientific data. Our",
+          "page": 2
+        },
+        {
+          "para_id": "1_31",
+          "text": "approach integrates the robust search capability of SR and the scientific knowledge",
+          "page": 2
+        },
+        {
+          "para_id": "1_32",
+          "text": "and reasoning ability of LLMs, enabling the LLM to intelligently guide the SR process",
+          "page": 2
+        },
+        {
+          "para_id": "1_33",
+          "text": "by identifying physically relevant variables and pruning the search space. We evalu-",
+          "page": 2
+        },
+        {
+          "para_id": "1_34",
+          "text": "ated our framework on three representative materials property datasets: Bulk Modulus",
+          "page": 2
+        },
+        {
+          "para_id": "1_35",
+          "text": "(B0) for mechanical stability [17], Band Gap of lead-free perovskites for optoelectronic",
+          "page": 2
+        },
+        {
+          "para_id": "1_36",
+          "text": "properties [31], and Oxygen Evolution Reaction (OER) activity for electrocatalytic",
+          "page": 2
+        },
+        {
+          "para_id": "1_37",
+          "text": "performance [32]. It is worth noting that materials property data are often scarce due",
+          "page": 2
+        },
+        {
+          "para_id": "1_38",
+          "text": "to experimental and computational challenges, which makes it more difficult to extract",
+          "page": 2
+        },
+        {
+          "para_id": "1_39",
+          "text": "information using data-driven methods. The rich scientific knowledge embedded in",
+          "page": 2
+        },
+        {
+          "para_id": "1_40",
+          "text": "LLMs provides critical assistance in overcoming this challenge, thereby enabling more",
+          "page": 2
+        },
+        {
+          "para_id": "1_41",
+          "text": "effective formula discovery from limited data.",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "Results",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "The LangLaw framework operates as an iterative loop, as shown in Fig. 1. First, the",
+          "page": 3
+        },
+        {
+          "para_id": "2_2",
+          "text": "LLM analyzes the descriptions of input features (such as electron negativity, atomic",
+          "page": 3
+        },
+        {
+          "para_id": "2_3",
+          "text": "radii, and ionization potential) to generate specific search parameters and choose fea-",
+          "page": 3
+        },
+        {
+          "para_id": "2_4",
+          "text": "tures as inputs. This step mitigates combinatorial explosion and reduces the effective",
+          "page": 3
+        },
+        {
+          "para_id": "2_5",
+          "text": "search space by a factor of approximately 105 (see Supplemental Figure S8).",
+          "page": 3
+        },
+        {
+          "para_id": "2_6",
+          "text": "Here we used the Intern-S1 [33], which is a multimodal foundation model that",
+          "page": 3
+        },
+        {
+          "para_id": "2_7",
+          "text": "enhances scientific reasoning capability, but other LLMs can also be used (see Supple-",
+          "page": 3
+        },
+        {
+          "para_id": "2_8",
+          "text": "mentary Note S5). Guided by these instructions, the SR engine (implemented using",
+          "page": 3
+        },
+        {
+          "para_id": "2_9",
+          "text": "PySR [34]) performs a search to find candidate mathematical formulas. We record",
+          "page": 3
+        },
+        {
+          "para_id": "2_10",
+          "text": "the results of each iteration, including the derived formulas, parameters, and fitting",
+          "page": 3
+        },
+        {
+          "para_id": "2_11",
+          "text": "errors, into an Experience Pool. The LLM then reviews this historical data to iden-",
+          "page": 3
+        },
+        {
+          "para_id": "2_12",
+          "text": "tify effective variable combinations and refine the instructions for subsequent rounds.",
+          "page": 3
+        },
+        {
+          "para_id": "2_13",
+          "text": "This feedback mechanism allows the system to progressively narrow down the search",
+          "page": 3
+        },
+        {
+          "para_id": "2_14",
+          "text": "space and identify physically meaningful equations.",
+          "page": 3
+        },
+        {
+          "para_id": "2_15",
+          "text": "In each step of the loop, the LLM analyzes the meaning of the input features",
+          "page": 3
+        },
+        {
+          "para_id": "2_16",
+          "text": "and reviews the results from previous searches. Based on its scientific knowledge, the",
+          "page": 3
+        },
+        {
+          "para_id": "2_17",
+          "text": "model suggests specific variables and parameters for the next search. It filters out",
+          "page": 3
+        },
+        {
+          "para_id": "2_18",
+          "text": "features that do not make physical sense, even if they show a statistical correlation.",
+          "page": 3
+        },
+        {
+          "para_id": "2_19",
+          "text": "The Symbolic Regression engine then performs the search using these constraints.",
+          "page": 3
+        },
+        {
+          "para_id": "2_20",
+          "text": "Finally, it produces a set of formulas that balance high accuracy with low complexity.",
+          "page": 3
+        },
+        {
+          "para_id": "2_21",
+          "text": "Comprehensive details regarding the symbolic regression settings, the specific structure",
+          "page": 3
+        },
+        {
+          "para_id": "2_22",
+          "text": "of LLM prompting, reasoning examples, and the implementation mechanism of the",
+          "page": 3
+        },
+        {
+          "para_id": "2_23",
+          "text": "experience pool are elaborated in the Supplementary Note S2.",
+          "page": 3
+        },
+        {
+          "para_id": "2_24",
+          "text": "To evaluate the performance of LangLaw, we applied it to the task of modeling",
+          "page": 3
+        },
+        {
+          "para_id": "2_25",
+          "text": "materials properties. We evaluated the discovered formulas based on prediction error",
+          "page": 3
+        },
+        {
+          "para_id": "2_26",
+          "text": "and complexity. The formulas located on the Pareto front, as well as those identified",
+          "page": 3
+        },
+        {
+          "para_id": "2_27",
+          "text": "in previous studies using other SR-based methods, are listed in Supplementary Table",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2.1",
+      "section_title": "Perovskite Bulk Modulus",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.1_1",
+          "text": "The bulk modulus (B0) measures a material’s resistance to uniform compression and",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_2",
+          "text": "is a key indicator of mechanical stability. Identifying the factors that govern B0 is",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_3",
+          "text": "critical for understanding intrinsic material properties and designing stable functional",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_4",
+          "text": "perovskites. Previous research has attempted to predict B0 using either empirical",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_5",
+          "text": "formulas or data-driven methods. Verma and Kumar proposed the following empirical",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_6",
+          "text": "relation[35] (point C in Fig. 2):",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_7",
+          "text": "where a0 is the lattice parameter, nA and nB are the oxidation number of the A/B-",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_8",
+          "text": "site ions, and C0, C1, C2 are fitted constants. Alternatively, HI-SISSO [17] identified",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_9",
+          "text": "a formula from a set of 23 primary features, including valence orbital radius, electron",
+          "page": 3
+        },
+        {
+          "para_id": "2.1_10",
+          "text": "affinity, ionization potential, and electronegativity (point B in Fig. 2):",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_11",
+          "text": "(IPB −EAB)0.419(E0)0.964",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_12",
+          "text": "where IPB and EAB denote the ionization potential and electron affinity of the B-site",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_13",
+          "text": "ion, respectively. E0 represents the cohesive energy, while rs,B and rcat",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_14",
+          "text": "to the radii of the valence s-orbital of the B-site ions in its neutral and cationic (1+)",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_15",
+          "text": "states respectively. While Eq. (2) offers improved accuracy compared to Eq. (1), its",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_16",
+          "text": "multiple coupled terms and fitted exponents compromise physical interpretability.",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_17",
+          "text": "We utilized the same dataset and experimental settings as in HI-SISSO [17]. The",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_18",
+          "text": "results are presented in Fig. 2. LangLaw identified a set of formulas along the Pareto",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_19",
+          "text": "front, each keeping a balance between accuracy and simplicity. We selected the formula",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_20",
+          "text": "corresponding to point A for a detailed analysis:",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_21",
+          "text": "where the newly emerged ENB denotes the electron negativity of the B-site atom.",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_22",
+          "text": "This formula provides a clear and interpretable linear relationship for the bulk",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_23",
+          "text": "modulus of perovskites:",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_24",
+          "text": "The first term −( EAB",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_25",
+          "text": "IPB ) can measure the ”softness” of the electron cloud. A higher",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_26",
+          "text": "electron affinity EAB (stronger tendency to gain an electron) coupled with a lower",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_27",
+          "text": "ionization potential IPB (easier to lose an electron) indicates a more polarizable elec-",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_28",
+          "text": "tron cloud. Ions with highly polarizable electron clouds are more easily deformed",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_29",
+          "text": "under stress, which reduces the resistance to compression and results in a lower bulk",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_30",
+          "text": "The second term can be divided into two parts. The first part nA+25.7",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_31",
+          "text": "form to the non-linear term (nAnB)C2",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_32",
+          "text": "in the VK formula (Eq. 1). In ABO3 perovskites,",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_33",
+          "text": "charge neutrality imposes the constraint nA + nB = 6. We also note that the lattice",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_34",
+          "text": "parameter a0 varies within a narrow range (centered around 4 ˚A). Therefore, our",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_35",
+          "text": "derived term can be regarded as an effective linear proxy for the non-linear term in",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_36",
+          "text": "the VK formula (Eq. 1). The −ENB part performs an ionic correction. Higher ENB",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_37",
+          "text": "weakens the B−O ionic bonds, which softens the lattice leading to lower bulk modulus.",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_38",
+          "text": "To evaluate the transferability of our model to out-of-distribution (OOD) data,",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_39",
+          "text": "we tested Eq. 3 on 10 perovskites selected from 7,308 single (ABO3) and double",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_40",
+          "text": "(A2BB′O6) structures from the same study[17]. These specific materials were chosen",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_41",
+          "text": "as OOD because their bulk modulus values and the double perovskite structure are rare",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_42",
+          "text": "in the training set. As shown in Fig. 3, our linear formula achieves remarkably lower",
+          "page": 4
+        },
+        {
+          "para_id": "2.1_43",
+          "text": "prediction errors than Eq. 2, demonstrating superior generalization to new material",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "2.2",
+      "section_title": "Double Perovskite Band Gap",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.2_1",
+          "text": "Next, we applied LangLaw to the band gap prediction problem of lead-free double",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_2",
+          "text": "perovskites (A2BB′X6). Band gap is a core parameter for screening photovoltaic",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_3",
+          "text": "materials[36]. We employed a dataset containing 745 A2BB′X6 materials and their",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_4",
+          "text": "band gaps extracted from Ref. [31], aiming to discover key physicochemical factors",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_5",
+          "text": "affecting the band gap. The results are shown in Fig. 4.",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_6",
+          "text": "Among the candidates found, we identified a highly interpretable formula that",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_7",
+          "text": "balances simplicity and accuracy (point A in Fig. 4):",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_8",
+          "text": "where VA and VB are the valence electrons of the A- and B-site atoms, respectively,",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_9",
+          "text": "RX is the ionic radius of the X-site anion, and XX and XB′ are the electronegativity",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_10",
+          "text": "of the X- and B’- site cation, respectively.",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_11",
+          "text": "We compare Eq. 4 with the formula derived by the SISSO method [37, 38] (point",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_12",
+          "text": "B in Fig. 4) on the same dataset, given in Eq. (5):",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_13",
+          "text": "where ZX is atomic number of the X-site anion and RB is the ionic radii of the B-site",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_14",
+          "text": "Interestingly, both formulas incorporate the term X3",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_15",
+          "text": "B with nearly identical coeffi-",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_16",
+          "text": "cients. This suggests that these factors play a major role in determining the band gap.",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_17",
+          "text": "There is also a pair of similar terms, both containing XB′ and VA in the denomina-",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_18",
+          "text": "tor. The difference lies in that our formula includes an extra term RX. We analyzed",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_19",
+          "text": "the distribution of RX in the dataset and found that its variation is relatively small.",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_20",
+          "text": "By replacing RX with the mean value of RX in the dataset, we observed only a slight",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_21",
+          "text": "increase in prediction error. Furthermore, we noted that VA in the two formulas dif-",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_22",
+          "text": "fers by a square root. Numerical analysis reveals that this term takes only the values",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "or 11, meaning the difference introduced by the square root can also be treated as a",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "constant. Consequently, this term in our two formulas becomes highly similar as well.",
+          "page": 5
+        },
+        {
+          "para_id": "1_2",
+          "text": "However, the LangLaw formula (Eq. 4) has advantages in conciseness.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "2.3",
+      "section_title": "OER Activity",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.3_1",
+          "text": "Finally, we applied LangLaw to search for new formulas for the oxygen evolution reac-",
+          "page": 5
+        },
+        {
+          "para_id": "2.3_2",
+          "text": "tion (OER) activity of oxide perovskites. The OER is a key rate-limiting step that",
+          "page": 5
+        },
+        {
+          "para_id": "2.3_3",
+          "text": "determining the overall efficiency in electrocatalysis[39, 40]. Oxide perovskites are con-",
+          "page": 5
+        },
+        {
+          "para_id": "2.3_4",
+          "text": "sidered highly promising candidates for OER catalysts due to their rich compositional",
+          "page": 5
+        },
+        {
+          "para_id": "2.3_5",
+          "text": "tunability, flexible electronic structure, and excellent chemical stability[41].",
+          "page": 5
+        },
+        {
+          "para_id": "2.3_6",
+          "text": "A previous study [32] proposed GPSR (symbolic regression with genetic program-",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_7",
+          "text": "ming) and derived a formula (point B in Fig. 5) to predict OER activity, measured by",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_8",
+          "text": "the potential versus the reversible hydrogen electrode (VRHE):",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_9",
+          "text": "where µ is the octahedral factor that reflects the local geometry of the BO6 octahe-",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_10",
+          "text": "dron and t is the tolerance factor that describes the global distortion of the crystal",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_11",
+          "text": "structure. This model was trained on 18 synthesized ABO3 perovskites, all measured",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_12",
+          "text": "under unified and comparable experimental conditions, ensuring data reliability and",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_13",
+          "text": "consistency. The formula was subsequently tested on 5 high-activity, stable perovskites",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_14",
+          "text": "screened from 3,545 perovskites.",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_15",
+          "text": "Using the same OER activity dataset, we identified a formula with higher accuracy",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_16",
+          "text": "(point A in Fig. 5):",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_17",
+          "text": "= (µ + 0.127) × (3.24 + 0.0016",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_18",
+          "text": "Our formula (Eq. 7) also relates the OER activity to two geometric factors µ and t.",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_19",
+          "text": "We note that the term involving t has a very small coefficient of 0.0016, suggesting that",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_20",
+          "text": "t likely has a limited influence on the outcome. Numerical analysis shows that the value",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_21",
+          "text": "of this term is only around 0.1, which is considerably smaller than the constant 3.24",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_22",
+          "text": "added to it. To validate this assumption, we also identified some formulas containing",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_23",
+          "text": "only µ, such as those corresponding to points C (3.810µ) and D (log(µ) + 2.623) in",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_24",
+          "text": "Fig. 5, whose prediction errors remain lower than that of the GPSR formula (Eq. 6).",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_25",
+          "text": "Using the three datasets, bulk modulus, band gap, and OER activity, we also com-",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_26",
+          "text": "pared LangLaw with other methods, as shown in Table 1. LLM-SR [28] is a recently",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_27",
+          "text": "proposed approach for scientific equation discovery that leverages the scientific knowl-",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_28",
+          "text": "edge and code generation capabilities of LLMs. The formulas identified by LLM-SR",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_29",
+          "text": "not only exhibit greater complexity but also result in higher predictive errors. Deep",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_30",
+          "text": "learning methods, including CGCNN [3] and ALIGNN [4], typically require a large",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_31",
+          "text": "amount of data and tend to overfit in small-data scenarios. For bulk modulus pre-",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_32",
+          "text": "diction, LangLaw outperforms both CGCNN and ALIGNN. Notably, on OOD data,",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_33",
+          "text": "LangLaw achieves the lowest RMSE of 0.0851, which is half that of ALIGNN (0.167)",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_34",
+          "text": "and five times lower than CGCNN (0.401). For band gap prediction, CGCNN and",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_35",
+          "text": "ALIGNN also yield higher predictive errors. We did not apply CGCNN or ALIGNN",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_36",
+          "text": "to the OER activity dataset, as it consists of only 18 data points. This comparison",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_37",
+          "text": "highlights the significant advantage of LangLaw in extracting robust and transferable",
+          "page": 6
+        },
+        {
+          "para_id": "2.3_38",
+          "text": "physical laws from small datasets, where pure data-driven methods often struggle.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "Conclusion",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "In conclusion, we introduced a Language-guided SR (LangLaw) framework that com-",
+          "page": 6
+        },
+        {
+          "para_id": "3_2",
+          "text": "bines LLMs with SR to discover interpretable physical laws from high-dimensional",
+          "page": 6
+        },
+        {
+          "para_id": "3_3",
+          "text": "data. By leveraging the scientific knowledge and reasoning capabilities of LLMs to",
+          "page": 6
+        },
+        {
+          "para_id": "3_4",
+          "text": "guide the regression process, our method overcomes the key limitation of traditional",
+          "page": 7
+        },
+        {
+          "para_id": "3_5",
+          "text": "SR that tends to produce complex, unphysical expressions, and efficiently uncovers",
+          "page": 7
+        },
+        {
+          "para_id": "3_6",
+          "text": "formulas that are both accurate and insightful.",
+          "page": 7
+        },
+        {
+          "para_id": "3_7",
+          "text": "Beyond advancing symbolic regression, this work significantly extends the role of",
+          "page": 7
+        },
+        {
+          "para_id": "3_8",
+          "text": "LLMs in materials design. Rather than serving merely as predictors or text generators,",
+          "page": 7
+        },
+        {
+          "para_id": "3_9",
+          "text": "LLMs here act as knowledge-guided search engines, directly shaping the discovery of",
+          "page": 7
+        },
+        {
+          "para_id": "3_10",
+          "text": "fundamental physical relationships. This demonstrates a novel pathway for LLMs to",
+          "page": 7
+        },
+        {
+          "para_id": "3_11",
+          "text": "contribute to interpretable, mechanism-driven materials design, offering researchers a",
+          "page": 7
+        },
+        {
+          "para_id": "3_12",
+          "text": "practical and principled tool to extract governing scientific laws from complex, real-",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "Methods",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "Implementation",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "We implement the overall workflow of the L-SR framework based on the PySR",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_2",
+          "text": "library [34]. PySR employs a multi-island genetic programming algorithm, representing",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_3",
+          "text": "mathematical expressions as tree structures that evolve through tournament selection,",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_4",
+          "text": "crossover, and mutation within isolated populations. In each round, the LLM analyzes",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_5",
+          "text": "the dataset, textual descriptions, and an experience pool that stores the selected fea-",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_6",
+          "text": "ture sets, hyperparameters, and fitting errors from previous search rounds. Based on",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_7",
+          "text": "this information, the LLM identifies relevant physical variables and provides the fea-",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_8",
+          "text": "ture subset, the maximum tree depth, and the number of evolutionary iterations to",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_9",
+          "text": "be used in the current round of SR search. This design restricts the search space to",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_10",
+          "text": "physically relevant variables and avoids the generation of overly complex functional",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_11",
+          "text": "forms. During the search, continuous constants are optimized using gradient-based",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_12",
+          "text": "methods, and the algorithm identifies a Pareto front of formulas to balance accuracy",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_13",
+          "text": "and complexity. The output formula from each round of SR is evaluated using the",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_14",
+          "text": "scoring function described in Supplementary Note S4. The details of the PySR and",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_15",
+          "text": "LLM implementations are presented in Supplementary Notes S1-S2. For the selection",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_16",
+          "text": "of LLMs, we mainly used Intern-S1 [33], but other LLMs are also applicable. The LLM",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_17",
+          "text": "settings and comparisons are detailed in Supplementary Note S5.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "4.2",
+      "section_title": "Experimental settings",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.2_1",
+          "text": "To evaluate LangLaw, we compared it with three categories of baselines: traditional",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_2",
+          "text": "SR methods (HI-SISSO, SISSO, and GPSR), recent LLM-based SR method (LLM-",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_3",
+          "text": "SR), and deep learning methods (CGCNN and ALIGNN). The parameters settings",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_4",
+          "text": "are provided below and detailed in Supplementary Notes S6-S7.",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_5",
+          "text": "The results reported for HI-SISSO, SISSO, and GPSR in Table 1 were calculated",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_6",
+          "text": "using the formulas in their respective original papers. For LLM-SR, we utilized the",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_7",
+          "text": "code released with the paper, adapting the prompts for our experimental context. In",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_8",
+          "text": "line with the LLM-SR paper, we employed GPT-4o as the LLM backbone and used the",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_9",
+          "text": "temperature of 0.8 for LLM inference. For CGCNN and ALIGNN, we adopted their",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_10",
+          "text": "publicly released implementations. CGCNN is trained using a hidden dimensions of",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_11",
+          "text": "128, a batch size of 256, three message passing layers, a learning rate of 1e-2, a radius",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_12",
+          "text": "cutoff of 8.0 ˚A, the nearest neighbors setting to 12, and is trained from scratch for",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "2000",
+      "section_title": "epochs. ALIGNN follows its original setup with a learning rate of 1e-3, a batch",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2000_1",
+          "text": "size of 32, and is trained from scratch for 2000 epochs.",
+          "page": 8
+        },
+        {
+          "para_id": "2000_2",
+          "text": "In the PySR component of LangLaw, we set the populations to 31, the popula-",
+          "page": 8
+        },
+        {
+          "para_id": "2000_3",
+          "text": "tion size to 27 and the max size to 30. The L1 distance is selected as the loss function.",
+          "page": 8
+        },
+        {
+          "para_id": "2000_4",
+          "text": "The allowed operator set comprises +, −, ×, ÷, and exponentiation ˆ, with constrain",
+          "page": 8
+        },
+        {
+          "para_id": "2000_5",
+          "text": "parameter {-1, 1} of the pow operator. For the LLMs module, the temperature is set",
+          "page": 8
+        },
+        {
+          "para_id": "2000_6",
+          "text": "to 1.0 for balancing performance. The experience pool retains the top-k historical for-",
+          "page": 8
+        },
+        {
+          "para_id": "2000_7",
+          "text": "mulas with k = 15. Example prompts are provided in Supplementary Note S2. The",
+          "page": 8
+        },
+        {
+          "para_id": "2000_8",
+          "text": "search ends when the error falls below a threshold of 0.001 or after a maximum of 100",
+          "page": 8
+        },
+        {
+          "para_id": "2000_9",
+          "text": "ALL datasets used in this study are publicly available (see Supplementary Note S3).",
+          "page": 8
+        },
+        {
+          "para_id": "2000_10",
+          "text": "The code for reproducing the findings in this work is available at https://github.com/",
+          "page": 8
+        },
+        {
+          "para_id": "2000_11",
+          "text": "This work was supported by New Generation Artificial Intelligence-National Science",
+          "page": 8
+        },
+        {
+          "para_id": "2000_12",
+          "text": "and Technology Major Project(2025ZD0121802), Shanghai Committee of Science and",
+          "page": 8
+        },
+        {
+          "para_id": "2000_13",
+          "text": "Technology, China (Grant No. 23QD1400900), National Key Research and Develop-",
+          "page": 8
+        },
+        {
+          "para_id": "2000_14",
+          "text": "ment Program of China (Grant No. 2025YFC2311702 and 2025YFC2311703), the",
+          "page": 8
+        },
+        {
+          "para_id": "2000_15",
+          "text": "National Natural Science Foundation of China (Grant No. 12404291 and 32371299)",
+          "page": 8
+        },
+        {
+          "para_id": "2000_16",
+          "text": "and the Innovation Program for Quantum Science and Technology (Grant No.",
+          "page": 8
+        },
+        {
+          "para_id": "2000_17",
+          "text": "2024ZD0300102). Y.G. did this work during his internship at Shanghai Artificial",
+          "page": 8
+        },
+        {
+          "para_id": "2000_18",
+          "text": "Intelligence Laboratory.",
+          "page": 8
+        },
+        {
+          "para_id": "2000_19",
+          "text": "Author contributions",
+          "page": 8
+        },
+        {
+          "para_id": "2000_20",
+          "text": "M.S. conceived the idea and led the research. Y.G. developed the code and performed",
+          "page": 8
+        },
+        {
+          "para_id": "2000_21",
+          "text": "contributed technical ideas. Y.G. and M.S. wrote the first draft. All authors discussed",
+          "page": 8
+        },
+        {
+          "para_id": "2000_22",
+          "text": "the results and reviewed the manuscript.",
+          "page": 8
+        },
+        {
+          "para_id": "2000_23",
+          "text": "The authors declare no competing interests.",
+          "page": 8
+        },
+        {
+          "para_id": "2000_24",
+          "text": "graph neural network model. IEEE Trans. Neural Netw. 20, 61–80 (2009).",
+          "page": 8
+        },
+        {
+          "para_id": "2000_25",
+          "text": "[2] Kipf, T. N. & Welling, M. Semi-supervised classification with graph convolutional",
+          "page": 9
+        },
+        {
+          "para_id": "2000_26",
+          "text": "networks (2017). Paper published as a conference paper at ICLR 2017.",
+          "page": 9
+        },
+        {
+          "para_id": "2000_27",
+          "text": "[3] Xie, T. & Grossman, J. C. Crystal graph convolutional neural networks for an",
+          "page": 9
+        },
+        {
+          "para_id": "2000_28",
+          "text": "accurate and interpretable prediction of material properties.",
+          "page": 9
+        },
+        {
+          "para_id": "2000_29",
+          "text": "[4] Choudhary, K. & DeCost, B. Atomistic Line Graph Neural Network for improved",
+          "page": 9
+        },
+        {
+          "para_id": "2000_30",
+          "text": "materials property predictions. npj Comput. Mater. 7, 185 (2021).",
+          "page": 9
+        },
+        {
+          "para_id": "2000_31",
+          "text": "[5] Stokes, J. M. et al. A deep learning approach to antibiotic discovery. Cell 180,",
+          "page": 9
+        },
+        {
+          "para_id": "2000_32",
+          "text": "Accelerated search for materials with targeted properties by",
+          "page": 9
+        },
+        {
+          "para_id": "2000_33",
+          "text": "adaptive design. Nat. Commun. 7, 11241 (2016).",
+          "page": 9
+        },
+        {
+          "para_id": "2000_34",
+          "text": "[7] Lu, S. et al. Accelerated discovery of stable lead-free hybrid organic-inorganic",
+          "page": 9
+        },
+        {
+          "para_id": "2000_35",
+          "text": "perovskites via machine learning. Nat. Commun. 9, 3405 (2018).",
+          "page": 9
+        },
+        {
+          "para_id": "2000_36",
+          "text": "and applications of machine learning in solid-state materials science. npj Comput.",
+          "page": 9
+        },
+        {
+          "para_id": "2000_37",
+          "text": "Mater. 5, 83 (2019).",
+          "page": 9
+        },
+        {
+          "para_id": "2000_38",
+          "text": "[9] Rodr´ıguez-P´erez, R. & Bajorath, J. Interpretation of machine learning models",
+          "page": 9
+        },
+        {
+          "para_id": "2000_39",
+          "text": "using shapley values: application to compound potency and multi-target activity",
+          "page": 9
+        },
+        {
+          "para_id": "2000_40",
+          "text": "predictions. J. Comput.-Aided Mol. Des. 34, 1013–1026 (2020).",
+          "page": 9
+        },
+        {
+          "para_id": "2000_41",
+          "text": "[10] Roscher, R., Bohn, B., Duarte, M. F. & Garcke, J. Explainable machine learning",
+          "page": 9
+        },
+        {
+          "para_id": "2000_42",
+          "text": "for scientific insights and discoveries. IEEE Access 8, 42200–42216 (2020).",
+          "page": 9
+        },
+        {
+          "para_id": "2000_43",
+          "text": "[11] Karniadakis, G. E. et al. Physics-informed machine learning. Nat. Rev. Phys. 3,",
+          "page": 9
+        },
+        {
+          "para_id": "2000_44",
+          "text": "[12] Wang, H. et al. Scientific discovery in the age of artificial intelligence. Nature",
+          "page": 9
+        },
+        {
+          "para_id": "2000_45",
+          "text": "Data of Materials Science: Critical Role of the Descriptor. Phys. Rev. Lett. 114,",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "105503",
+      "section_title": "(2015).",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "105503_1",
+          "text": "[14] Reuter, K., Stampf, C. & Scheffler, M. in Ab initio atomistic thermodynamics and",
+          "page": 9
+        },
+        {
+          "para_id": "105503_2",
+          "text": "statistical mechanics of surface properties and functions (ed.Yip, S.) Handbook of",
+          "page": 9
+        },
+        {
+          "para_id": "105503_3",
+          "text": "Materials Modeling: Methods 149–194 (Springer Netherlands, Dordrecht, 2005).",
+          "page": 9
+        },
+        {
+          "para_id": "105503_4",
+          "text": "[15] Schmidt, M. & Lipson, H. Distilling free-form natural laws from experimental",
+          "page": 9
+        },
+        {
+          "para_id": "105503_5",
+          "text": "data. Science 324, 81–85 (2009).",
+          "page": 9
+        },
+        {
+          "para_id": "105503_6",
+          "text": "[16] Brunton, S. L., Proctor, J. L. & Kutz, J. N. Discovering governing equations from",
+          "page": 10
+        },
+        {
+          "para_id": "105503_7",
+          "text": "data by sparse identification of nonlinear dynamical systems. Proc. Natl. Acad.",
+          "page": 10
+        },
+        {
+          "para_id": "105503_8",
+          "text": "Sci. 113, 3932–3937 (2016).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_9",
+          "text": "Hierarchical Symbolic Regression for Identifying Key Physical Parameters Cor-",
+          "page": 10
+        },
+        {
+          "para_id": "105503_10",
+          "text": "related with Bulk Properties of Perovskites.",
+          "page": 10
+        },
+        {
+          "para_id": "105503_11",
+          "text": "Phys. Rev. Lett. 129, 055301",
+          "page": 10
+        },
+        {
+          "para_id": "105503_12",
+          "text": "Symbolic regression in materials",
+          "page": 10
+        },
+        {
+          "para_id": "105503_13",
+          "text": "science. MRS Commun. 9, 793–805 (2019).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_14",
+          "text": "[19] Koza, J. R. Genetic programming as a means for programming computers by",
+          "page": 10
+        },
+        {
+          "para_id": "105503_15",
+          "text": "natural selection. Stat. Comput. 4, 87–112 (1994).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_16",
+          "text": "[20] Bartel, C. J. et al. Physical descriptor for the Gibbs energy of inorganic crystalline",
+          "page": 10
+        },
+        {
+          "para_id": "105503_17",
+          "text": "solids and temperature-dependent materials chemistry. Nat. Commun. 9, 4168",
+          "page": 10
+        },
+        {
+          "para_id": "105503_18",
+          "text": "tional form of the superconducting critical temperature from machine learning.",
+          "page": 10
+        },
+        {
+          "para_id": "105503_19",
+          "text": "Phys. Rev. B 100, 174513 (2019).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_20",
+          "text": "[22] Ouyang, R. Exploiting Ionic Radii for Rational Design of Halide Perovskites.",
+          "page": 10
+        },
+        {
+          "para_id": "105503_21",
+          "text": "Chem. Mater. 32, 595–604 (2020).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_22",
+          "text": "[23] Cao, G. et al. Artificial intelligence for high-throughput discovery of topological",
+          "page": 10
+        },
+        {
+          "para_id": "105503_23",
+          "text": "insulators: The example of alloyed tetradymites. Phys. Rev. Mater. 4, 034204",
+          "page": 10
+        },
+        {
+          "para_id": "105503_24",
+          "text": "research with large language models. Nature 624, 570–578 (2023).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_25",
+          "text": "[25] Jablonka, K. M., Ai, Q., Al-Feghali, A., Badhwar et al. 14 examples of how llms",
+          "page": 10
+        },
+        {
+          "para_id": "105503_26",
+          "text": "can transform materials science and chemistry: a reflection on a large language",
+          "page": 10
+        },
+        {
+          "para_id": "105503_27",
+          "text": "model hackathon. Digit. Discov 2, 1233–1250 (2023).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_28",
+          "text": "[26] M. Bran, A. et al. Augmenting large language models with chemistry tools. Nat.",
+          "page": 10
+        },
+        {
+          "para_id": "105503_29",
+          "text": "Mach. Intell. 6, 525–535 (2024).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_30",
+          "text": "[27] Romera-Paredes, B. et al. Mathematical discoveries from program search with",
+          "page": 10
+        },
+        {
+          "para_id": "105503_31",
+          "text": "large language models. Nature 625, 468–475 (2024).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_32",
+          "text": "Scientific equation discovery via programming with large language models (2025).",
+          "page": 10
+        },
+        {
+          "para_id": "105503_33",
+          "text": "Paper published as a conference paper at ICLR 2025.",
+          "page": 10
+        },
+        {
+          "para_id": "105503_34",
+          "text": "[29] Dziri, N. et al. Faith and fate: limits of transformers on compositionality (2023).",
+          "page": 11
+        },
+        {
+          "para_id": "105503_35",
+          "text": "Paper presented at the 37th International Conference on Neural Information",
+          "page": 11
+        },
+        {
+          "para_id": "105503_36",
+          "text": "Processing Systems, New Orleans, LA, USA, 10–16 December 2023.",
+          "page": 11
+        },
+        {
+          "para_id": "105503_37",
+          "text": "[30] Frieder, S. et al. Mathematical capabilities of chatgpt (2023). Paper presented",
+          "page": 11
+        },
+        {
+          "para_id": "105503_38",
+          "text": "at the 37th International Conference on Neural Information Processing Systems,",
+          "page": 11
+        },
+        {
+          "para_id": "105503_39",
+          "text": "New Orleans, LA, USA, 10–16 December 2023.",
+          "page": 11
+        },
+        {
+          "para_id": "105503_40",
+          "text": "[31] Gao, Z. et al. Screening for lead-free inorganic double perovskites with suitable",
+          "page": 11
+        },
+        {
+          "para_id": "105503_41",
+          "text": "band gaps and high stability using combined machine learning and dft calculation.",
+          "page": 11
+        },
+        {
+          "para_id": "105503_42",
+          "text": "Appl. Surf. Sci. 568, 150916 (2021).",
+          "page": 11
+        },
+        {
+          "para_id": "105503_43",
+          "text": "[32] Weng, B. et al. Simple descriptor derived from symbolic regression accelerating",
+          "page": 11
+        },
+        {
+          "para_id": "105503_44",
+          "text": "the discovery of new perovskite catalysts. Nat. Commun. 11, 3513 (2020).",
+          "page": 11
+        },
+        {
+          "para_id": "105503_45",
+          "text": "[33] Bai, L. et al. Intern-s1: A scientific multimodal foundation model (2025). Preprint",
+          "page": 11
+        },
+        {
+          "para_id": "105503_46",
+          "text": "at https://arxiv.org/abs/2508.15763.",
+          "page": 11
+        },
+        {
+          "para_id": "105503_47",
+          "text": "[34] Cranmer, M. Interpretable machine learning for science with pysr and symboli-",
+          "page": 11
+        },
+        {
+          "para_id": "105503_48",
+          "text": "cregression.jl (2023). Preprint at https://arxiv.org/abs/2305.01582.",
+          "page": 11
+        },
+        {
+          "para_id": "105503_49",
+          "text": "[35] Verma, A. & Kumar, A. Bulk modulus of cubic perovskites. J. Alloy. Compd.",
+          "page": 11
+        },
+        {
+          "para_id": "105503_50",
+          "text": "541, 210–214 (2012).",
+          "page": 11
+        },
+        {
+          "para_id": "105503_51",
+          "text": "[36] MA, G. et al. Solar cell efficiency tables (version 57). Prog. Photovolt. 29, 3–15",
+          "page": 11
+        },
+        {
+          "para_id": "105503_52",
+          "text": "A compressed-sensing method for identifying the best low-dimensional descriptor",
+          "page": 11
+        },
+        {
+          "para_id": "105503_53",
+          "text": "in an immensity of offered candidates. Phys. Rev. Mater. 2, 083802 (2018).",
+          "page": 11
+        },
+        {
+          "para_id": "105503_54",
+          "text": "using symbolic regression for environmentally compatible lead-free inorganic dou-",
+          "page": 11
+        },
+        {
+          "para_id": "105503_55",
+          "text": "ble perovskites (2022). Paper presented at the 2022 IEEE 49th Photovoltaics",
+          "page": 11
+        },
+        {
+          "para_id": "105503_56",
+          "text": "Specialists Conference, San Juan, Puerto Rico, 11–16 June 2023.",
+          "page": 11
+        },
+        {
+          "para_id": "105503_57",
+          "text": "perovskite oxide optimized for oxygen evolution catalysis from molecular orbital",
+          "page": 11
+        },
+        {
+          "para_id": "105503_58",
+          "text": "principles. Science 334, 1383–1385 (2011).",
+          "page": 11
+        },
+        {
+          "para_id": "105503_59",
+          "text": "[40] Wei, C. et al. Recommended practices and benchmark activity for hydrogen and",
+          "page": 11
+        },
+        {
+          "para_id": "105503_60",
+          "text": "oxygen electrocatalysis in water splitting and fuel cells. Adv. Mater. 31, 1806296",
+          "page": 11
+        },
+        {
+          "para_id": "105503_61",
+          "text": "[41] Yin, W.-J. et al. Oxide perovskites, double perovskites and derivatives for elec-",
+          "page": 11
+        },
+        {
+          "para_id": "105503_62",
+          "text": "trocatalysis, photocatalysis, and photovoltaics. Energy Environ. Sci. 12, 442–462",
+          "page": 11
+        },
+        {
+          "para_id": "105503_63",
+          "text": "Fig. 1 Overview of the LangLaw framework. The workflow is organized into four interconnected",
+          "page": 12
+        },
+        {
+          "para_id": "105503_64",
+          "text": "phases forming a closed loop: LLM inference (top left): The Large Language Model (LLM) acts as a",
+          "page": 12
+        },
+        {
+          "para_id": "105503_65",
+          "text": "reasoning agent. It analyzes the data description (e.g., crystal structure) and previous experience to",
+          "page": 12
+        },
+        {
+          "para_id": "105503_66",
+          "text": "generate search constraints, including feature selection, iteration counts, and tree depth. Regression",
+          "page": 12
+        },
+        {
+          "para_id": "105503_67",
+          "text": "(top right): These parameters act as control signals (purple dashed lines) to guide the Symbolic",
+          "page": 12
+        },
+        {
+          "para_id": "105503_68",
+          "text": "Regression (PySR) engine. The engine performs evolutionary searches using a parallel island model,",
+          "page": 12
+        },
+        {
+          "para_id": "105503_69",
+          "text": "evolving formula populations via genetic operations like crossover and mutation (details are shown",
+          "page": 12
+        },
+        {
+          "para_id": "105503_70",
+          "text": "in Supplementary Note S1). Evaluation (bottom right): Candidate formulas on the Pareto front are",
+          "page": 12
+        },
+        {
+          "para_id": "105503_71",
+          "text": "screened. The optimal formula is selected based on a score function that balances fitting loss and",
+          "page": 12
+        },
+        {
+          "para_id": "105503_72",
+          "text": "complexity[15]. Then if the error is lower enough or comes to the end round, the formula will be",
+          "page": 12
+        },
+        {
+          "para_id": "105503_73",
+          "text": "output, else the formula will be added into the Formulas Library. Experience (bottom left): The",
+          "page": 12
+        },
+        {
+          "para_id": "105503_74",
+          "text": "selected formulas and their performance metrics are stored in a formula library. This knowledge is",
+          "page": 12
+        },
+        {
+          "para_id": "105503_75",
+          "text": "formatted into prompts to update the LLM’s experience, refining the search strategy for subsequent",
+          "page": 12
+        },
+        {
+          "para_id": "105503_76",
+          "text": "Fig. 2 Performance comparison on the Perovskite Bulk Modulus dataset. This plot shows",
+          "page": 13
+        },
+        {
+          "para_id": "105503_77",
+          "text": "the complexity and Mean Absolute Error of formulas of Bulk Modulus found by different methods:",
+          "page": 13
+        },
+        {
+          "para_id": "105503_78",
+          "text": "Verma and Kumar’s formula (gray points), LangLaw (green points), HI-SISSO (blue points) and",
+          "page": 13
+        },
+        {
+          "para_id": "105503_79",
+          "text": "LLM-SR (yellow points). The gray line is the Pareto front.",
+          "page": 13
+        },
+        {
+          "para_id": "105503_80",
+          "text": "Fig. 3 Evaluation of out of distribution generalization capability. The bar chart compares",
+          "page": 14
+        },
+        {
+          "para_id": "105503_81",
+          "text": "the absolute prediction error of our discovered linear formula against the high-complexity HI-SISSO",
+          "page": 14
+        },
+        {
+          "para_id": "105503_82",
+          "text": "model on 10 screened perovskite materials not seen during training. Our method (green bars) consis-",
+          "page": 14
+        },
+        {
+          "para_id": "105503_83",
+          "text": "tently yields lower prediction errors across diverse compositions compared to HI-SISSO (blue bars),",
+          "page": 14
+        },
+        {
+          "para_id": "105503_84",
+          "text": "demonstrating superior transferability and robustness in data-scarce scenarios.",
+          "page": 14
+        },
+        {
+          "para_id": "105503_85",
+          "text": "Fig. 4 Performance comparison on the Band Gap dataset. This plot shows the complexity",
+          "page": 15
+        },
+        {
+          "para_id": "105503_86",
+          "text": "and Mean Absolute Error of formulas of Band Gap found by LangLaw (green points) and SISSO",
+          "page": 15
+        },
+        {
+          "para_id": "105503_87",
+          "text": "(blue points). The gray line is the Pareto front.",
+          "page": 15
+        },
+        {
+          "para_id": "105503_88",
+          "text": "Fig. 5 Performance comparison on the OER activity dataset. This plot shows the complexity",
+          "page": 16
+        },
+        {
+          "para_id": "105503_89",
+          "text": "and Mean Absolute Error of formulas of OER activity found by LangLaw (green points) and GPSR",
+          "page": 16
+        },
+        {
+          "para_id": "105503_90",
+          "text": "(blue points). The gray line is the Pareto front.",
+          "page": 16
+        },
+        {
+          "para_id": "105503_91",
+          "text": "Table 1 Performance comparison on three material science tasks. This table reports the formula complexity and prediction errors for bulk",
+          "page": 17
+        },
+        {
+          "para_id": "105503_92",
+          "text": "modulus, band gap, and oxygen evolution reaction (VRHE). The selection of MAE or RMSE as the evaluation metric for each column follows the",
+          "page": 17
+        },
+        {
+          "para_id": "105503_93",
+          "text": "convention used in the respective source studies. HI-SISSO serves as the symbolic regression baseline for Bulk Modulus, while SISSO is the specific",
+          "page": 17
+        },
+        {
+          "para_id": "105503_94",
+          "text": "baseline for the Band Gap task and GPSR is for the OER task. These methods are compared alongside the LLM-based LLM-SR and deep learning",
+          "page": 17
+        },
+        {
+          "para_id": "105503_95",
+          "text": "models CGCNN and ALIGNN. ID refers to the test error on the in-distribution dataset, and OOD refers to the generalization error on",
+          "page": 17
+        },
+        {
+          "para_id": "105503_96",
+          "text": "out-of-distribution samples. Bold numbers indicate the best results.",
+          "page": 17
+        }
+      ]
+    }
+  ]
+}

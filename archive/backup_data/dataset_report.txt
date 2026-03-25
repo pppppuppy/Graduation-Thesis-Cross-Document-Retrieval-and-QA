@@ -1,0 +1,14 @@
+
+Dataset Quality Report
+======================
+
+Total QA pairs: 360
+
+Basic quality pass ratio: 0.03
+
+Multi-hop ratio: 0.74
+
+Average question length: 1.51 words
+Average answer length: 3.06 words
+Average evidence passages: 1.76
+

@@ -1,0 +1,4448 @@
+{
+  "doc_id": "2602.23257v1.pdf",
+  "title": "arXiv:2602.23257v1  [stat.ME]  26 Feb 2026",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1\nIntroduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Randomized experiments play a central role in guiding decision making in online and operational",
+          "page": 2
+        },
+        {
+          "para_id": "1_2",
+          "text": "systems such as marketplaces, transportation platforms, and digital advertising (Blake and Coey,",
+          "page": 2
+        },
+        {
+          "para_id": "1_3",
+          "text": "2014; Blake et al., 2015; Gordon et al., 2019; Kohavi et al., 2020; Wager and Xu, 2021; Bojinov and",
+          "page": 2
+        },
+        {
+          "para_id": "1_4",
+          "text": "Gupta, 2022; Johari et al., 2022; Li et al., 2022; Christensen et al., 2023; Tang et al., 2024; Masoero",
+          "page": 2
+        },
+        {
+          "para_id": "1_5",
+          "text": "et al., 2026). Yet in many of these environments, unit-level randomization is infeasible, outcomes are",
+          "page": 2
+        },
+        {
+          "para_id": "1_6",
+          "text": "observed only in aggregate, or interference across users is unavoidable. These constraints motivate",
+          "page": 2
+        },
+        {
+          "para_id": "1_7",
+          "text": "switchback experiments, in which a platform alternates between treatment and control over time",
+          "page": 2
+        },
+        {
+          "para_id": "1_8",
+          "text": "rather than across individuals (Bojinov et al., 2023; Jiang and Ding, 2025; Lin and Ding, 2025).",
+          "page": 2
+        },
+        {
+          "para_id": "1_9",
+          "text": "Reliable inference in these time-indexed experiments is both practically important and method-",
+          "page": 2
+        },
+        {
+          "para_id": "1_10",
+          "text": "ologically challenging. Platforms often need to make decisions quickly—sometimes within days or",
+          "page": 2
+        },
+        {
+          "para_id": "1_11",
+          "text": "weeks—which limits the available sample size (Kohavi et al., 2020; Gupta et al., 2019). At the",
+          "page": 2
+        },
+        {
+          "para_id": "1_12",
+          "text": "same time, outcomes form a time series with serial dependence, seasonal patterns, and occasionally",
+          "page": 2
+        },
+        {
+          "para_id": "1_13",
+          "text": "heavy-tailed shocks, so normal approximations can be poorly calibrated at realistic horizons; for",
+          "page": 2
+        },
+        {
+          "para_id": "1_14",
+          "text": "example, Bojinov et al. (2023) document settings in which calibration may require on the order of",
+          "page": 2
+        },
+        {
+          "para_id": "1_15",
+          "text": "T = 1200 periods. Inference is further complicated by temporal interference: outcomes may depend",
+          "page": 2
+        },
+        {
+          "para_id": "1_16",
+          "text": "on recent treatments (carryover) or even future scheduled assignments (anticipation), making many",
+          "page": 2
+        },
+        {
+          "para_id": "1_17",
+          "text": "null hypotheses non-sharp and invalidating naive Fisher randomization tests (Athey et al., 2018;",
+          "page": 2
+        },
+        {
+          "para_id": "1_18",
+          "text": "Basse et al., 2019; Zhong, 2024).",
+          "page": 2
+        },
+        {
+          "para_id": "1_19",
+          "text": "To address these challenges, this paper develops a randomization-test framework for several",
+          "page": 2
+        },
+        {
+          "para_id": "1_20",
+          "text": "null hypotheses of interest in switchback experiments. Our approach yields finite-sample valid,",
+          "page": 2
+        },
+        {
+          "para_id": "1_21",
+          "text": "distribution-free p-values using only the known assignment mechanism, without imposing paramet-",
+          "page": 2
+        },
+        {
+          "para_id": "1_22",
+          "text": "ric assumptions on the outcome process. The goal is to make randomization inference operationally",
+          "page": 2
+        },
+        {
+          "para_id": "1_23",
+          "text": "reliable in time-indexed experiments conducted over realistic, and often short, horizons.",
+          "page": 2
+        },
+        {
+          "para_id": "1_24",
+          "text": "To conduct inference for the total treatment effect—defined as the effect of sustained expo-",
+          "page": 2
+        },
+        {
+          "para_id": "1_25",
+          "text": "1",
+          "page": 2
+        },
+        {
+          "para_id": "1_26",
+          "text": "sure to the intervention—we require only two standard assumptions on potential outcomes: non-",
+          "page": 3
+        },
+        {
+          "para_id": "1_27",
+          "text": "anticipation, which rules out dependence on future assignments, and a finite carryover horizon,",
+          "page": 3
+        },
+        {
+          "para_id": "1_28",
+          "text": "which allows outcomes to depend on recent treatment history but not on distant past assignments.",
+          "page": 3
+        },
+        {
+          "para_id": "1_29",
+          "text": "Within regular switchback experiments in the sense of Bojinov et al. (2023), we construct con-",
+          "page": 3
+        },
+        {
+          "para_id": "1_30",
+          "text": "ditional randomization tests that remain finite-sample valid and can be implemented via simple",
+          "page": 3
+        },
+        {
+          "para_id": "1_31",
+          "text": "Monte Carlo resampling (Athey et al., 2018; Basse et al., 2019; Puelz et al., 2021; Basse et al., 2024;",
+          "page": 3
+        },
+        {
+          "para_id": "1_32",
+          "text": "Liu et al., 2025). Our approach pools design blocks into candidate sections in advance of observing",
+          "page": 3
+        },
+        {
+          "para_id": "1_33",
+          "text": "the assignment path and conditions on those that are constant under the realized schedule, yielding",
+          "page": 3
+        },
+        {
+          "para_id": "1_34",
+          "text": "a tractable randomization law and a valid reference distribution for outcomes not contaminated by",
+          "page": 3
+        },
+        {
+          "para_id": "1_35",
+          "text": "carryover.",
+          "page": 3
+        },
+        {
+          "para_id": "1_36",
+          "text": "To mitigate the concern of potential violation of the assumptions, we also propose two comple-",
+          "page": 3
+        },
+        {
+          "para_id": "1_37",
+          "text": "mentary diagnostics for the temporal structure of interference. First, we develop a family of tests",
+          "page": 3
+        },
+        {
+          "para_id": "1_38",
+          "text": "for the null hypothesis of at most m-period carryover effects and exploit the nested structure of",
+          "page": 3
+        },
+        {
+          "para_id": "1_39",
+          "text": "these nulls to obtain a sequential procedure that controls the family-wise error rate while deliver-",
+          "page": 3
+        },
+        {
+          "para_id": "1_40",
+          "text": "ing an interpretable estimate of treatment memory length. Second, to assess the non-anticipation",
+          "page": 3
+        },
+        {
+          "para_id": "1_41",
+          "text": "restriction, we adapt the unconditional Pairwise Imputation–based Randomization Test (PIRT) of",
+          "page": 3
+        },
+        {
+          "para_id": "1_42",
+          "text": "Zhong (2024) to switchback schedules, using a notion of imputable times where potential outcomes",
+          "page": 3
+        },
+        {
+          "para_id": "1_43",
+          "text": "can be paired across schedules under the anticipation null.",
+          "page": 3
+        },
+        {
+          "para_id": "1_44",
+          "text": "In light of the practical interest for testing average effect, we also address weak-null inference,",
+          "page": 3
+        },
+        {
+          "para_id": "1_45",
+          "text": "where the target is a mean-zero restriction on treatment effects in the post–burn-in regime. We",
+          "page": 3
+        },
+        {
+          "para_id": "1_46",
+          "text": "introduce a session-wise weak null that requires mean-zero effects at each within-session position",
+          "page": 3
+        },
+        {
+          "para_id": "1_47",
+          "text": "among the focal periods (e.g., Monday vs. Tuesday), accommodating within-session seasonality in",
+          "page": 3
+        },
+        {
+          "para_id": "1_48",
+          "text": "practice. We construct studentized CRTs for this null and establish asymptotic validity under mild",
+          "page": 3
+        },
+        {
+          "para_id": "1_49",
+          "text": "moment and stabilization conditions (Li and Ding, 2017; Wu and Ding, 2021; Zhao and Ding, 2021).",
+          "page": 3
+        },
+        {
+          "para_id": "1_50",
+          "text": "Finally, we study power under a superpopulation model with distributed-lag treatment effects",
+          "page": 3
+        },
+        {
+          "para_id": "1_51",
+          "text": "2",
+          "page": 3
+        },
+        {
+          "para_id": "1_52",
+          "text": "and AR(1) noise.\nThe resulting approximations clarify how block length, burn-in, and prede-",
+          "page": 4
+        },
+        {
+          "para_id": "1_53",
+          "text": "termined pooling jointly determine the signal-to-noise ratio of the studentized CRTs, providing",
+          "page": 4
+        },
+        {
+          "para_id": "1_54",
+          "text": "practical guidance for design and analysis choices.\nMonte Carlo simulations corroborate these",
+          "page": 4
+        },
+        {
+          "para_id": "1_55",
+          "text": "insights: the proposed CRT maintains near-nominal size under both Gaussian and heavy-tailed",
+          "page": 4
+        },
+        {
+          "para_id": "1_56",
+          "text": "shocks, while Fisher tests under a misspecified sharp null over-reject in heavy tails and Horvitz–",
+          "page": 4
+        },
+        {
+          "para_id": "1_57",
+          "text": "Thompson asymptotic tests are often conservative at realistic horizons; in terms of power, the",
+          "page": 4
+        },
+        {
+          "para_id": "1_58",
+          "text": "CRT matches asymptotic tests under Gaussian noise and dominates size-correct alternatives under",
+          "page": 4
+        },
+        {
+          "para_id": "1_59",
+          "text": "heavy-tailed disturbances. For diagnostics, the carryover CRT achieves accurate size with power",
+          "page": 4
+        },
+        {
+          "para_id": "1_60",
+          "text": "increasing in effect magnitude and sample size, and the PIRT-based non-anticipation test controls",
+          "page": 4
+        },
+        {
+          "para_id": "1_61",
+          "text": "size and delivers meaningful power; together with our theoretical approximations, these findings",
+          "page": 4
+        },
+        {
+          "para_id": "1_62",
+          "text": "highlight block length, burn-in, and section pooling as first-order design levers for sensitivity in",
+          "page": 4
+        },
+        {
+          "para_id": "1_63",
+          "text": "time-indexed experiments.",
+          "page": 4
+        },
+        {
+          "para_id": "1_64",
+          "text": "This paper contributes to the growing literature on switchback and other time-indexed ex-",
+          "page": 4
+        },
+        {
+          "para_id": "1_65",
+          "text": "perimental designs. Bojinov et al. (2023) study regular switchback designs and develop largely",
+          "page": 4
+        },
+        {
+          "para_id": "1_66",
+          "text": "asymptotic inference procedures.\nRelated design-based analyses for experiments with temporal",
+          "page": 4
+        },
+        {
+          "para_id": "1_67",
+          "text": "structure include Jiang and Ding (2025) and Lin and Ding (2025). By contrast, we adopt a Fish-",
+          "page": 4
+        },
+        {
+          "para_id": "1_68",
+          "text": "erian randomization perspective and construct conditioning-based tests that deliver finite-sample",
+          "page": 4
+        },
+        {
+          "para_id": "1_69",
+          "text": "exact, distribution-free p-values for standard switchback schedules.",
+          "page": 4
+        },
+        {
+          "para_id": "1_70",
+          "text": "The remainder of the paper is organized as follows. Section 2 describes the setup and nota-",
+          "page": 4
+        },
+        {
+          "para_id": "1_71",
+          "text": "tion. Section 3 develops finite-sample valid CRTs for total treatment effects, carryover length and",
+          "page": 4
+        },
+        {
+          "para_id": "1_72",
+          "text": "non-anticipation. Section 4 develops studentized CRTs for session-wise weak null hypotheses and",
+          "page": 4
+        },
+        {
+          "para_id": "1_73",
+          "text": "provides asymptotic validity results. Section 5 derives power approximations under a superpopu-",
+          "page": 4
+        },
+        {
+          "para_id": "1_74",
+          "text": "lation model. Section 6 illustrates the simulation results. Section 7 concludes.",
+          "page": 4
+        },
+        {
+          "para_id": "1_75",
+          "text": "3",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nSetup and Notation",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2.1",
+      "section_title": "2.1\nSwitchback experiments and regular block randomization",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.1_1",
+          "text": "We observe a single outcome time series over T measurement periods. Let [T] := {1, 2, . . . , T}",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_2",
+          "text": "index time, and let",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_3",
+          "text": "W := (W1, . . . , WT ) ∈{0, 1}T",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_4",
+          "text": "denote the treatment assignment path, where Wt = 1 indicates treatment is “on” during period t",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_5",
+          "text": "and Wt = 0 indicates treatment is “off.” For any candidate assignment path w = (w1, . . . , wT ) ∈ {0, 1}T , let Yt(w) ∈R be the potential outcome at time t that would be observed if the assignment",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_6",
+          "text": "path were w. The observed outcome satisfies the consistency relationship",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_7",
+          "text": "Y obs\nt\n= Yt(Wobs),\nt ∈[T],",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_8",
+          "text": "where Wobs denotes the realized assignment.",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_9",
+          "text": "Throughout, for integers 1 ≤a ≤b ≤T, we write wa:b := (wa, . . . , wb) for a subvector, and we",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_10",
+          "text": "use 1d and 0d to denote length-d all-ones and all-zeros vectors, respectively.",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_11",
+          "text": "A switchback experiment is a time-based randomized experiment in which the treatment is held",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_12",
+          "text": "constant over contiguous blocks of time and may switch only at pre-specified times. In this paper,",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_13",
+          "text": "we work with the class of regular switchback experiments of Bojinov et al. (2023). Following Bojinov",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_14",
+          "text": "et al. (2023), let",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_15",
+          "text": "T = {t0 = 1 < t1 < · · · < tK} ⊆[T],\ntK+1 := T + 1,",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_16",
+          "text": "be a deterministic set of switch times. These induce K + 1 design blocks",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_17",
+          "text": "Bk := {t : tk ≤t ≤tk+1 −1},\nk = 0, 1, . . . , K.",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_18",
+          "text": "4",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_19",
+          "text": "Let",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_20",
+          "text": "Q = (q0, . . . , qK) ∈(0, 1)K+1",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_21",
+          "text": "denote the block-level treatment probabilities.",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_22",
+          "text": "Definition 2.1 (Regular switchback experiment). Fix (T, Q) as above. A regular switchback ex-",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_23",
+          "text": "periment draws independent block-level assignments {W (k)}K\nk=0 with",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_24",
+          "text": "W (k) ∼Bernoulli(qk),\nk = 0, 1, . . . , K,",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_25",
+          "text": "and then sets",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_26",
+          "text": "Wt := W (k)\nfor all t ∈Bk.",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_27",
+          "text": "Equivalently, W is blockwise constant on each Bk, with independent block labels.",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_28",
+          "text": "Definition 2.1 covers common switchback implementations in which time is partitioned into",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_29",
+          "text": "intervals (e.g., hours, days, or weeks), and each interval is independently assigned treatment with",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_30",
+          "text": "a possibly time-varying probability. We will use",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_31",
+          "text": "W0 :=\n\b\nw ∈{0, 1}T : w is blockwise constant on each Bk\n\t\n(1)",
+          "page": 6
+        },
+        {
+          "para_id": "2.1_32",
+          "text": "to denote the set of assignment paths that respect the design blocks.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "2.2",
+      "section_title": "2.2\nAssumptions on temporal interference",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.2_1",
+          "text": "Switchback experiments are typically used when outcomes may depend on recent treatment history,",
+          "page": 6
+        },
+        {
+          "para_id": "2.2_2",
+          "text": "so we allow for temporal interference across periods through two primitive restrictions on potential",
+          "page": 6
+        },
+        {
+          "para_id": "2.2_3",
+          "text": "outcomes.",
+          "page": 6
+        },
+        {
+          "para_id": "2.2_4",
+          "text": "Assumption 2.1 (Non-anticipating potential outcomes). For any t ∈[T], any prefix w1:t ∈{0, 1}t,",
+          "page": 6
+        },
+        {
+          "para_id": "2.2_5",
+          "text": "5",
+          "page": 6
+        },
+        {
+          "para_id": "2.2_6",
+          "text": "and any two continuation paths w′\nt+1:T , w′′\nt+1:T ∈{0, 1}T−t,",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_7",
+          "text": "Yt(w1:t, w′\nt+1:T ) = Yt(w1:t, w′′\nt+1:T ).",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_8",
+          "text": "Assumption 2.1 rules out dependence of Yt on future treatment assignments. It is a timing",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_9",
+          "text": "restriction: potential outcomes at time t are allowed to depend arbitrarily on the history up to t,",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_10",
+          "text": "but not on {wt+1, . . . , wT }.",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_11",
+          "text": "Assumption 2.2 (m-carryover effects). There exists a fixed and given m ∈{0, 1, . . . , T −1}",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_12",
+          "text": "such that for any t ∈{m + 1, m + 2, . . . , T}, any wt−m:t ∈{0, 1}m+1, and any two histories",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_13",
+          "text": "w′\n1:t−m−1, w′′\n1:t−m−1 ∈{0, 1}t−m−1,",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_14",
+          "text": "Yt(w′\n1:t−m−1, wt−m:T ) = Yt(w′′\n1:t−m−1, wt−m:T ).",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_15",
+          "text": "Assumption 2.2 bounds the “memory” of the treatment: outcomes at time t may depend on",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_16",
+          "text": "the most recent m + 1 treatment indicators (wt−m, . . . , wt) but not on assignments more than m",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_17",
+          "text": "periods in the past.",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_18",
+          "text": "Together, Assumptions 2.1 and 2.2 imply a local dependence structure: for all t ≥m + 1,",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_19",
+          "text": "the potential outcome Yt(w) depends on w only through the length-(m + 1) window wt−m:t. In particular, if two assignment paths w and w′ satisfy wt−m:t = w′\nt−m:t, then Yt(w) = Yt(w′) for all",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_20",
+          "text": "t ≥m + 1.",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_21",
+          "text": "Remark 2.1 (Interpretation of m). The parameter m is the maximal carryover horizon: if treat-",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_22",
+          "text": "ment switches at time s, then its effect on outcomes may persist through time s + m, but it does",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_23",
+          "text": "not affect Yt for t > s + m via channels other than the contemporaneous and recent treatment",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_24",
+          "text": "indicators. The case m = 0 corresponds to no carryover beyond the current period.",
+          "page": 7
+        },
+        {
+          "para_id": "2.2_25",
+          "text": "6",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3\nMain Results",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.1",
+      "section_title": "3.1\nOverview of Conditional Randomization Tests",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.1_1",
+          "text": "The classical Fisher Randomization Test (FRT) simulates the randomization distribution of a test",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_2",
+          "text": "statistic under the known assignment mechanism and compares it to the observed statistic (Imbens",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_3",
+          "text": "and Rubin, 2015, Chapter 5).\nThis procedure is finite-sample valid for sharp null hypotheses,",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_4",
+          "text": "i.e., nulls that allow the analyst to impute all missing potential outcomes under every assignment",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_5",
+          "text": "in the design support. In switchback experiments with temporal interference, many hypotheses",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_6",
+          "text": "of interest are not sharp over the full assignment space.\nFor example, a null that only links",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_7",
+          "text": "potential outcomes under two particular assignment paths (e.g., all-treated versus all-control) does",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_8",
+          "text": "not determine potential outcomes under intermediate switching paths. As a result, a naive FRT",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_9",
+          "text": "that resamples the full assignment path generally cannot be implemented by imputation.",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_10",
+          "text": "Conditional randomization tests (CRTs) address this problem by restricting the resampling",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_11",
+          "text": "procedure to a conditioning event that renders the null hypothesis sharp on a subset of units and",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_12",
+          "text": "assignments. In the terminology of Basse et al. (2019), a conditioning event takes the form",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_13",
+          "text": "C = (U, W),",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_14",
+          "text": "where U is a subset of units (here, time periods) and W is a subset of assignments. In the literature,",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_15",
+          "text": "U and W are commonly referred to as the focal units and the focal assignments, respectively. The",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_16",
+          "text": "analyst specifies a conditioning mechanism p(C | W), which may be random and may depend on",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_17",
+          "text": "the realized assignment W. The CRT then samples assignments from the conditional law",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_18",
+          "text": "p(W | C) ∝p(C | W) p(W),\n(2)",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_19",
+          "text": "and computes a test statistic using only outcomes on U. Finite-sample validity follows when the",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_20",
+          "text": "7",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_21",
+          "text": "test statistic is imputable on C under the null, meaning that its value under any w ∈W can be",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_22",
+          "text": "computed from the observed outcomes given the null restriction (Basse et al., 2019, Theorem 1).",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_23",
+          "text": "Two general recipes are commonly used to construct conditional randomization tests. First,",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_24",
+          "text": "the framework of Basse et al. (2019) allows for non-degenerate conditioning mechanisms, in which",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_25",
+          "text": "p(C | W) is genuinely randomized. A valid CRT then draws a single conditioning event C ∼p(· |",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_26",
+          "text": "Wobs) and samples assignments from the induced conditional distribution (2). The main drawback",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_27",
+          "text": "is computational: evaluating and sampling from (2) can be expensive when the conditional ran-",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_28",
+          "text": "domization space is large or lacks exploitable structure. Second, Puelz et al. (2021) study CRTs",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_29",
+          "text": "under degenerate conditioning mechanisms of the form",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_30",
+          "text": "p(C | W) = 1{W ∈W},",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_31",
+          "text": "for some (possibly data-dependent) restricted randomization space W.\nIn this regime, validity",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_32",
+          "text": "hinges on an invariance requirement: the conditioning event used for resampling must not change",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_33",
+          "text": "as we vary assignments within the restricted space. Equivalently, if we view the conditioning event",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_34",
+          "text": "as a mapping C(w) generated from an assignment w, then invariance requires",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_35",
+          "text": "C(w) = C(Wobs)\nfor all\nw ∈W,\n(3)",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_36",
+          "text": "so that the conditioning event is constant across all focal assignments considered by the test.",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_37",
+          "text": "Our switchback procedures fall into this second class. We employ a degenerate conditioning",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_38",
+          "text": "mechanism—C is a deterministic function of the realized assignment path—and our main technical",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_39",
+          "text": "task is to construct C so that (i) the null becomes imputable on the selected focal periods U and",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_40",
+          "text": "(ii) the invariance condition (3) holds for the resulting restricted assignment set. In particular,",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_41",
+          "text": "our conditioning events are built from predetermined time partitions (fixed ex ante), so that re-",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_42",
+          "text": "sampling treatment labels within focal assignments cannot change the event itself. This yields a",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_43",
+          "text": "8",
+          "page": 9
+        },
+        {
+          "para_id": "3.1_44",
+          "text": "tractable conditional assignment law and permits efficient Monte Carlo CRT implementation while",
+          "page": 10
+        },
+        {
+          "para_id": "3.1_45",
+          "text": "maintaining finite-sample validity under the nulls considered below.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "section_id": "3.2",
+      "section_title": "3.2\nTesting total treatment effects",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.2_1",
+          "text": "We begin with randomization tests for the partially sharp null hypothesis of no total treatment",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_2",
+          "text": "effect in a switchback experiment:",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_3",
+          "text": "Htot\n0\n:\nYt(1T ) = Yt(0T )\nfor all t ∈[T],\n(4)",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_4",
+          "text": "where 1T and 0T denote the constant all-ones and all-zeros assignment paths. Under Assump-",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_5",
+          "text": "tions 2.1–2.2, (4) is equivalent to Yt(1m+1) = Yt(0m+1) for all t ≥m + 1 because Yt(·) depends on",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_6",
+          "text": "w only through the last m + 1 entries.",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_7",
+          "text": "The key challenge is that, under carryover, (4) is not directly imputable for all periods: changing",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_8",
+          "text": "the assignment at time t can affect outcomes at times t + 1, . . . , t + m. To construct a conditioning",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_9",
+          "text": "event that isolates imputable outcomes, we introduce predetermined time sections. Formally, a",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_10",
+          "text": "section is a contiguous time interval [s, e] whose endpoints are fixed ex ante and that is formed by",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_11",
+          "text": "merging consecutive design blocks. We will restrict attention to periods t whose relevant treatment",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_12",
+          "text": "history (Wt−m, . . . , Wt) lies entirely within a section that is constant under the realized assignment.",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_13",
+          "text": "Fix a predetermined family of disjoint sections",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_14",
+          "text": "Spre = {[s1, e1], . . . , [sJ, eJ]},\n1 ≤s1 ≤e1 < s2 ≤· · · < sJ ≤eJ ≤T,",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_15",
+          "text": "constructed ex ante (independent of W). Each section is obtained by pooling consecutive design",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_16",
+          "text": "blocks, and must satisfy:",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_17",
+          "text": "9",
+          "page": 10
+        },
+        {
+          "para_id": "3.2_18",
+          "text": "(i) (Merged from design blocks) For each j there exist 0 ≤aj ≤bj ≤K such that",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_19",
+          "text": "[sj, ej] = {t : taj ≤t ≤tbj+1 −1}.",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_20",
+          "text": "(ii) (Length constraint) ej −sj ≥m (equivalently, |[sj, ej]| ≥m + 1).",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_21",
+          "text": "In simulation, Spre is constructed deterministically from the randomization design and the pre-",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_22",
+          "text": "specified carryover horizon m. Specifically, we pool consecutive design blocks greedily until the",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_23",
+          "text": "pooled length is at least m + 1, then repeat this procedure on the remaining blocks. This produces",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_24",
+          "text": "a disjoint cover of [T] and fixes section boundaries independently of the realized assignment path",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_25",
+          "text": "and all outcomes.1",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_26",
+          "text": "Given a realized assignment W, let S(W) ⊆Spre denote the subcollection of predetermined",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_27",
+          "text": "sections that are constant under W:",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_28",
+          "text": "S(W) =\nn\n[sj, ej] ∈Spre : Wt = Wt′ for all t, t′ ∈[sj, ej]\no\n.",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_29",
+          "text": "Because Spre is fixed ex ante, the map W 7→S(W) is fully determined by the realized assignment",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_30",
+          "text": "and involves no analyst discretion.",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_31",
+          "text": "Within each constant section, only the last e −s −m + 1 periods are free of carryover contam-",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_32",
+          "text": "ination from outside the section. Accordingly, define the set of focal units",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_33",
+          "text": "U(W) =\n[",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_34",
+          "text": "[s,e]∈S(W)\n{t ∈[T] : s + m ≤t ≤e}.\n(5)",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_35",
+          "text": "If S(W) = ∅, then U(W) = ∅and no focal units are available.",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_36",
+          "text": "In a CRT, focal units are the units on which the test statistic is computed. The availability",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_37",
+          "text": "of focal units depends on the design, the carryover horizon m, and the realized assignment path. 1Any deterministic rule depending only on the design and m would be valid. We adopt greedy pooling because it\nguarantees admissible section length while minimizing pooling.",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_38",
+          "text": "10",
+          "page": 11
+        },
+        {
+          "para_id": "3.2_39",
+          "text": "Short sections relative to m may yield U(W) = ∅with non-negligible probability.\nTo guide",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_40",
+          "text": "implementation, practitioners may evaluate ex ante the expected number of focal units under the",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_41",
+          "text": "randomization design, see section 5 for a detailed discussion.",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_42",
+          "text": "Next, we describe how we construct the focal assignment space, over which we perform Monte",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_43",
+          "text": "Carlo resampling of treatment assignments. Conditioning on the realized constant sections S(Wobs),",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_44",
+          "text": "we restrict resampling to assignments that (i) remain blockwise constant, (ii) are constant within",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_45",
+          "text": "each realized constant section, and (iii) match the observed assignment outside those sections:",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_46",
+          "text": "W\n\u0000\nS(Wobs)\n\u0001\n=\nn\nw ∈{0, 1}T : (a) w ∈W0,",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_47",
+          "text": "(b) wt = wt′ for all t, t′ ∈[s, e], for all [s, e] ∈S(Wobs),",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_48",
+          "text": "(c) wt = wobs\nt\nfor all t /∈\n[",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_49",
+          "text": "[s,e]∈S(Wobs)\n[s, e]\no\n.",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_50",
+          "text": "(6)",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_51",
+          "text": "This construction is tailored to imputability: under H0 and Assumptions 2.1–2.2, the outcomes",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_52",
+          "text": "{Y obs\nt\n: t ∈U(Wobs)} are unaffected by changes to w within W(S(Wobs)) outside the focal histories.",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_53",
+          "text": "Let T({Yt}t∈U, w) be any test statistic computed from the focal outcomes and the assignment path.2 Algorithm 1 describes a Monte Carlo CRT that samples from the conditional assignment",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_54",
+          "text": "law on W(S(Wobs)) and computes a one-sided p-value.",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_55",
+          "text": "The next lemma characterizes the conditional law of a merged section under independent block",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_56",
+          "text": "Bernoulli assignment.",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_57",
+          "text": "Lemma 3.1 (Conditional law on a constant merged section). Suppose blocks W (k) are independent",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_58",
+          "text": "with W (k) ∼Bern(qk).\nFor a merged section covering blocks a, . . . , b, conditional on the event {W (a) = · · · = W (b)}, the common value is Bernoulli with probability",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_59",
+          "text": "p =\nQb\nk=a qk\nQb\nk=a qk + Qb\nk=a(1 −qk)\n. 2A common choice is a weighted difference-in-means comparing focal outcomes in treated versus control periods,\npossibly with inverse-probability weights if {qk} vary across blocks.",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_60",
+          "text": "11",
+          "page": 12
+        },
+        {
+          "para_id": "3.2_61",
+          "text": "Algorithm 1 Conditional randomization test for treatment effects (regular switchback) Input: Observed {Y obs\nt\n}T\nt=1, Wobs; switch times T with blocks {Bk}K\nk=0; block probabilities Q;\nrealized sections S(Wobs) = {[sj, ej]}j∈J (Wobs).\nOutput: ˆp.\nConstruct U(Wobs) by (5) and compute T obs := T({Y obs\nt\n}t∈U(Wobs), Wobs). For each section [sj, ej], find (aj, bj) with [sj, ej] = Sbj\nk=aj Bk, and set pj :=",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_62",
+          "text": "Qbj\nk=aj qk\nQbj\nk=aj qk+Qbj\nk=aj (1−qk). Set count ←0. for b = 1 to M do Initialize W(b) ←Wobs. for j ∈J (Wobs) do Draw Z(b)\nj\n∼Bernoulli(pj) and set W (b)\nt\n←Z(b)\nj\nfor all t ∈[sj, ej].\nend\nCompute T (b) := T({Y obs\nt\n}t∈U(Wobs), W(b)). if T (b) ≥T obs then\ncount ←count + 1.\nend\nend\nReturn ˆp := (count + 1)/(M + 1).",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_63",
+          "text": "Moreover, across disjoint sections these conditional draws are independent.",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_64",
+          "text": "Theorem 3.1 (Finite-sample validity). Suppose the assignment follows Definition 2.1 and Assump-",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_65",
+          "text": "tions 2.1 and 2.2 hold. Consider testing the partially sharp null (4). Let C(W) := (S(W), U(W))",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_66",
+          "text": "denote the conditioning event. Let ˆp be the Monte Carlo p-value returned by Algorithm 1. Then,",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_67",
+          "text": "under H0, P\n\u0010\nˆp ≤α\n\f\f\f C(W) = C(Wobs)\n\u0011\n≤α\nfor all α ∈(0, 1).",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_68",
+          "text": "Theorem 3.1 is a finite-population statement: potential outcomes are treated as fixed, and ran-",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_69",
+          "text": "domness enters only through the switchback assignment mechanism and the Monte Carlo resam-",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_70",
+          "text": "pling. The result follows from (i) imputability of focal outcomes under Htot\n0\ngiven the conditioning",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_71",
+          "text": "event and (ii) correct simulation of the conditional assignment law via Lemma 3.1 (Basse et al.,",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_72",
+          "text": "2019; Athey et al., 2018).",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_73",
+          "text": "Remark 3.1 (Predetermined sections and invariance). Theorem 3.1 relies on the invariance re-",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_74",
+          "text": "quirement for degenerate CRTs (Puelz et al., 2021): the conditioning event must be the same for",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_75",
+          "text": "every focal assignment considered by the test. This is why we fix a predetermined collection of",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_76",
+          "text": "disjoint candidate sections Spre independent of W, and then define S(W) only by selecting those",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_77",
+          "text": "12",
+          "page": 13
+        },
+        {
+          "para_id": "3.2_78",
+          "text": "predetermined sections that are constant under W. Because section boundaries are fixed ex ante,",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_79",
+          "text": "any w ∈W(S(Wobs)) preserves the same selected sections (and hence the same focal set), so",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_80",
+          "text": "C(w) = C(Wobs). If sections were defined adaptively from W (e.g., via maximal runs of all-ones",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_81",
+          "text": "and all-zeros paths), resampling could create longer consecutive all-ones/all-zeros paths, changing",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_82",
+          "text": "C and breaking invariance.",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_83",
+          "text": "Remark 3.2 (Permutation implementations under homogeneous section probabilities). Algorithm 1",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_84",
+          "text": "samples section labels using their conditional treatment probabilities {pj}. If the design is homo-",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_85",
+          "text": "geneous in the sense that qk ≡q and every realized section in S(Wobs) merges the same number",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_86",
+          "text": "of design blocks (equivalently, has the same length in block units), then pj ≡p for all selected",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_87",
+          "text": "sections. In this case the selected section labels are exchangeable, and one may implement the",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_88",
+          "text": "CRT via a simple permutation: condition additionally on the treated count P\nj∈J Zj and permute the observed labels across the selected sections.",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_89",
+          "text": "When the section probabilities are not all equal, exchangeability fails.\nA convenient exact",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_90",
+          "text": "alternative is stratified permutation: partition the selected sections into strata with common pj,",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_91",
+          "text": "condition on the treated count within each stratum, and permute labels only within strata. This",
+          "page": 14
+        },
+        {
+          "para_id": "3.2_92",
+          "text": "retains the simplicity of permutations while respecting heterogeneous assignment probabilities.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "section_id": "3.3",
+      "section_title": "3.3\nTesting the carryover horizon",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.3_1",
+          "text": "The CRT in Section 3.2 assumes a known carryover horizon m. In applications, however, m is",
+          "page": 14
+        },
+        {
+          "para_id": "3.3_2",
+          "text": "rarely known a priori, and it is often important to assess whether the carryover window used to",
+          "page": 14
+        },
+        {
+          "para_id": "3.3_3",
+          "text": "define focal outcomes is plausibly long enough. This section develops randomization tests for the",
+          "page": 14
+        },
+        {
+          "para_id": "3.3_4",
+          "text": "null hypothesis that carryover effects vanish after m periods.3",
+          "page": 14
+        },
+        {
+          "para_id": "3.3_5",
+          "text": "3Bojinov et al. (2023) also propose a test for identifying the order of carryover effects. Their approach, however,\nrequires a specialized design implemented across different units—thus necessitating changes to the experimental\nprotocol—and its validity is primarily asymptotic. In contrast, our method applies directly to existing experimental\ndesigns and yields finite-sample validity, which is particularly important when sample sizes are modest.",
+          "page": 14
+        },
+        {
+          "para_id": "3.3_6",
+          "text": "13",
+          "page": 14
+        },
+        {
+          "para_id": "3.3_7",
+          "text": "Definition 3.1 (Null of m-carryover effects Hm\n0 ). Fix m ∈{0, 1, . . . , T −1} and assume no-",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_8",
+          "text": "anticipation as in Assumption 2.1.\nThe null hypothesis of at most m-period carryover effects,",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_9",
+          "text": "denoted Hm\n0 , states that for any t ∈{m + 1, . . . , T}, any continuation path wt−m:t ∈{0, 1}m+1,",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_10",
+          "text": "and any two histories w′\n1:t−m−1, w′′\n1:t−m−1 ∈{0, 1}t−m−1,",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_11",
+          "text": "Yt(w′\n1:t−m−1, wt−m:t) = Yt(w′′\n1:t−m−1, wt−m:t).",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_12",
+          "text": "Definition 3.1 makes precise the intuition that, under Hm\n0 , outcomes at time t are unaffected",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_13",
+          "text": "by assignments more than m periods in the past.",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_14",
+          "text": "We reuse the predetermined section family Spre = {[sj, ej]}J\nj=1 from Section 3.2 and index",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_15",
+          "text": "sections in increasing time order. To decouple the randomized labels from the outcomes used for",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_16",
+          "text": "testing, we employ an “alternating holdout” device: we hold out every other predetermined section",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_17",
+          "text": "and use the remaining sections as focal outcome sections.",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_18",
+          "text": "Define the focal sections as {[s2i, e2i]}⌊J/2⌋\ni=1 . Within each focal section, we keep exactly those",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_19",
+          "text": "times whose last m lags remain in the same section:",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_20",
+          "text": "U(m) =",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_21",
+          "text": "⌊J/2⌋\n[ i=1\n{t ∈[T] : s2i + m ≤t ≤e2i}.\n(7)",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_22",
+          "text": "Under Hm\n0 , outcomes {Yt(w) : t ∈U(m)} depend only on assignments inside their own focal",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_23",
+          "text": "section, and hence they are invariant to changes in assignment outside that section.",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_24",
+          "text": "Lemma 3.2 (Local dependence of Yt under Hm\n0 ). If t ∈[s2i +m, e2i], then under Hm\n0 the quantity",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_25",
+          "text": "Yt(w) depends only on the assignments wt−m:t, and in particular",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_26",
+          "text": "wt−m:t ⊆[s2i, e2i].",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_27",
+          "text": "Therefore, changing assignments outside [s2i, e2i] cannot change Yt.",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_28",
+          "text": "14",
+          "page": 15
+        },
+        {
+          "para_id": "3.3_29",
+          "text": "Let W0 be the blockwise-constant assignment set in (1). Conditioning on Spre (which is pre-",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_30",
+          "text": "determined), we define the randomization space by keeping the assignment fixed on focal sections",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_31",
+          "text": "while allowing the remaining blocks to vary according to the design:",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_32",
+          "text": "W(m) =\nn\nw ∈W0 : wt = W obs\nt\nfor all t ∈[s2i, e2i], i = 1, . . . , ⌊J/2⌋\no\n.\n(8)",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_33",
+          "text": "A natural test statistic aggregates focal outcomes section-by-section and treats the treatment",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_34",
+          "text": "levels of the preceding (non-focal) sections as randomized labels. For each even-numbered section",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_35",
+          "text": "2i, define the focal mean",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_36",
+          "text": "¯Y obs\n2i\n=\n1 |U(m)\n2i |",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_37",
+          "text": "e2i\nX",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_38",
+          "text": "t=s2i+m\nY obs\nt\n,\nU(m)\n2i\n= {t : s2i + m ≤t ≤e2i},",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_39",
+          "text": "which averages observed outcomes over times whose last m lags remain within the focal section.",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_40",
+          "text": "For the preceding non-focal section 2i −1, define its section label as the treatment assignment at",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_41",
+          "text": "its final time point,",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_42",
+          "text": "Z2i−1 := We2i−1.",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_43",
+          "text": "Because treatment is blockwise constant within each section, Z2i−1 indexes the common treatment",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_44",
+          "text": "level applied throughout the entire preceding section [s2i−1, e2i−1].",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_45",
+          "text": "When the assignment probabilities are known from the design, we form an inverse-probability-",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_46",
+          "text": "weighted contrast across adjacent section pairs:",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_47",
+          "text": "Tm(W) =\n1\n⌊J/2⌋",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_48",
+          "text": "⌊J/2⌋\nX i=1",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_49",
+          "text": "\u0012\nZ2i−1 ¯Y obs\n2i\nPr(Z2i−1 = 1) −(1 −Z2i−1) ¯Y obs\n2i\n1 −Pr(Z2i−1 = 1)",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_50",
+          "text": "\u0013\n.",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_51",
+          "text": "Under Hm\n0 , focal outcomes depend only on assignments within their own section, and hence are",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_52",
+          "text": "independent of the treatment level in the preceding section under the randomization distribution.",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_53",
+          "text": "The statistic Tm(W) therefore tests for residual dependence of focal outcomes on treatment exposure",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_54",
+          "text": "15",
+          "page": 16
+        },
+        {
+          "para_id": "3.3_55",
+          "text": "Algorithm 2 Conditional randomization test for m-carryover (regular switchback) Input: Observed {Y obs\nt\n}T\nt=1, Wobs; predetermined sections Spre = {[sj, ej]}J\nj=1; carryover horizon\nm.\nOutput: bpm.\nConstruct U(m) by (7). Compute T obs\nm\n:= Tm({Y obs\nt\n}t∈U(m), Wobs).\nSet count ←0. for b = 1 to M do Draw an assignment path W(b) ∼W | W ∈W(m) (i.e., keep W fixed on each focal sec-\ntion [s2i, e2i] and resample the remaining blocks according to the known switchback design).\nCompute T (b)\nm := Tm({Y obs\nt\n}t∈U(m), W(b)). if T (b)\nm ≥T obs\nm\nthen\ncount ←count + 1.\nend\nend\nReturn bpm := (count + 1)/(M + 1).",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_56",
+          "text": "in adjacent prior sections. The corresponding randomization distribution is obtained by resampling",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_57",
+          "text": "the non-focal section labels in W(m) while holding the focal outcomes {Y obs\nt\n: t ∈U(m)} fixed. 4",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_58",
+          "text": "We now make explicit how to obtain the p-value for testing a given Hm\n0 . Fix m and treat the focal set U(m) in (7) and the conditional assignment space W(m) in (8) as the conditioning event.",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_59",
+          "text": "Under Hm\n0 and Lemma 3.2, the focal outcomes {Y obs\nt\n: t ∈U(m)} are invariant to re-randomizing",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_60",
+          "text": "assignments on the non-focal sections, so any statistic that depends on the observed outcomes only",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_61",
+          "text": "through U(m) and on assignments only through the randomized labels is imputable. Algorithm 2",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_62",
+          "text": "gives a Monte Carlo CRT that samples from the conditional assignment law on W(m) and returns",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_63",
+          "text": "a one-sided p-value.",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_64",
+          "text": "The validity of Algorithm 2 follows directly from the same argument as in Theorem 3.1. In",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_65",
+          "text": "particular, for each fixed m, it yields a valid level-α test of Hm\n0 . In many applications, however, m",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_66",
+          "text": "is unknown, and the objective is to identify a plausible minimal horizon ¯m beyond which carryover",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_67",
+          "text": "effects vanish. Because the hypotheses {Hm\n0 }M\nm=0 are nested (Proposition 3.1), false nulls must",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_68",
+          "text": "occur before true nulls. This monotonic structure allows us to run the tests sequentially using the",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_69",
+          "text": "p-values {bpm} from Algorithm 2 and stop at the first non-rejection, as formalized in Algorithm 3. Theorem 3.2 then guarantees FWER control (Definition 3.2) without multiplicity corrections.",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_70",
+          "text": "4Any statistic measurable with respect to focal outcomes and the randomized labels, and imputable under\nLemma 3.2, yields a valid conditioning-based randomization test.",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_71",
+          "text": "16",
+          "page": 17
+        },
+        {
+          "para_id": "3.3_72",
+          "text": "Proposition 3.1 (Nestedness). Suppose there exists ¯m ∈{0, . . . , M} such that H ¯m\n0 is true. Then",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_73",
+          "text": "Hm\n0 is true for all m ≥¯m.",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_74",
+          "text": "Definition 3.2 (FWER under nested nulls). Let φ = (φ0, . . . , φM) be a multiple testing rule, where",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_75",
+          "text": "φm(Wobs) = 1 denotes rejection of Hm\n0 . Let ¯m denote the smallest index such that H ¯m\n0\nis true.",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_76",
+          "text": "The family-wise error rate (FWER) is",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_77",
+          "text": "FWER = Pr\n\u0000\n∃m ≥¯m such that φm(Wobs) = 1\n\u0001\n,",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_78",
+          "text": "the probability of rejecting at least one true null hypothesis.",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_79",
+          "text": "Algorithm 3 Sequential testing under nested carryover nulls\nInputs : Carryover test statistics {Tm}M\nm=0, observed assignment Wobs, observed outcomes Yobs,\nand the known assignment mechanism.\nSet\n: ˆm ←0.\nfor m = 0 to M −1 do Compute bpm via Algorithm 2.\nif bpm ≤α then set ˆm ←m + 1 and reject Hm\n0 ;\nend\nelse break;\nend\nend\nOutput: Estimated memory length ˆm.",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_80",
+          "text": "Theorem 3.2. Algorithm 3 controls the family-wise error rate at level α.",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_81",
+          "text": "Algorithm 3 effectively provides a lower bound (or conservative estimate) for the carryover",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_82",
+          "text": "horizon m, rather than point identification. That being said, it remains useful in practice. For",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_83",
+          "text": "example, Bojinov et al. (2023) note that when m is unknown, it is generally preferable to choose",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_84",
+          "text": "a value slightly larger than the true m rather than substantially smaller. This suggests that even",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_85",
+          "text": "a conservative estimate or lower bound on m can be informative for experimental design and",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_86",
+          "text": "inference, since underestimating the carryover horizon can lead to more serious distortions than",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_87",
+          "text": "modest overestimation.",
+          "page": 18
+        },
+        {
+          "para_id": "3.3_88",
+          "text": "17",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "section_id": "3.4",
+      "section_title": "3.4\nTesting non-anticipation",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.4_1",
+          "text": "Sections 3.2–3.3 treat non-anticipation as a maintained assumption. Here we construct a finite-",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_2",
+          "text": "sample valid test of this restriction. Because anticipation concerns dependence on future assign-",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_3",
+          "text": "ments, constructing convenient conditioning events for conditional randomization tests is difficult",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_4",
+          "text": "without strong structural restrictions. We therefore employ an unconditional randomization test",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_5",
+          "text": "based on the Pairwise Imputation–based Randomization Test (PIRT) of Zhong (2024), adapted to",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_6",
+          "text": "switchback schedules.",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_7",
+          "text": "Imputable times.\nUnder Assumption 2.1, potential outcomes at time t depend only on the",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_8",
+          "text": "assignment prefix w1:t. Thus if two schedules agree through time t, the corresponding potential",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_9",
+          "text": "outcomes must coincide.",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_10",
+          "text": "Definition 3.3 (Imputable times). For schedules w, w′ ∈{0, 1}T , define",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_11",
+          "text": "I(w, w′) =\n\b\nt : w1:t = w′\n1:t\n\t\n.",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_12",
+          "text": "Times in I(w, w′) are precisely those at which the non-anticipation null implies equality of",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_13",
+          "text": "potential outcomes across the two schedules and hence support imputation-based inference.",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_14",
+          "text": "Prefix-preserving randomization.\nIndependently drawn switchback schedules typically di-",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_15",
+          "text": "verge quickly, producing few imputable times. To ensure adequate overlap, we restrict randomiza-",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_16",
+          "text": "tion to schedules that share an initial prefix with the observed assignment.",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_17",
+          "text": "Fix L ∈{0, . . . , T}. Given Wobs, alternative schedules W∗are drawn from the design distribu-",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_18",
+          "text": "tion subject to",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_19",
+          "text": "W∗\n1:L = Wobs\n1:L.",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_20",
+          "text": "Assignments after time L follow the original design mechanism.\nThis guarantees {1, . . . , L} ⊆",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_21",
+          "text": "I(Wobs, W∗) for every draw.",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_22",
+          "text": "18",
+          "page": 19
+        },
+        {
+          "para_id": "3.4_23",
+          "text": "Centered signed-score statistic.\nLet st(w) = 2wt+1 −1 for t < T, and define",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_24",
+          "text": "I(w′, w) = I(w′, w) ∩{1, . . . , T −1}.",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_25",
+          "text": "Given observed outcomes Yobs = Y(Wobs), define",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_26",
+          "text": "TNA\n\u0010\nYobs, w, w′\u0011\n=\n1\n|I(w′, w)|",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_27",
+          "text": "X",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_28",
+          "text": "t∈I(w′,w)\nst(w)\n\u0010\nY obs\nt\n−¯Y obs\nI(w′,w)\n\u0011\n,\n(9)",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_29",
+          "text": "where ¯Y obs\nA\n= |A|−1 P\nt∈A Y obs\nt\n, and TNA = +∞if I(w′, w) = ∅.",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_30",
+          "text": "This statistic depends only on outcomes at imputable times and is therefore pairwise imputable",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_31",
+          "text": "under the non-anticipation null.\nCentering removes sensitivity to the overall level of outcomes",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_32",
+          "text": "on the imputable set and ensures the statistic is driven by association between outcomes and",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_33",
+          "text": "the next-period assignment sign. Under anticipation alternatives where outcomes increase with",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_34",
+          "text": "future treatment, this association tends to be positive, yielding power while preserving finite-sample",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_35",
+          "text": "validity.",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_36",
+          "text": "PIRT procedure.\nLet W∗be drawn from the prefix-preserving design.\nDefine the pairwise",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_37",
+          "text": "statistic",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_38",
+          "text": "A = TNA(Yobs, W∗, Wobs),\nB = TNA(Yobs, Wobs, W∗).",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_39",
+          "text": "The PIRT p-value is",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_40",
+          "text": "p = P(A ≥B) ,",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_41",
+          "text": "with probability taken over the prefix-preserving randomization distribution. Two-sided variants",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_42",
+          "text": "use |A| ≥|B|.",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_43",
+          "text": "Finite-sample validity.\nUnder non-anticipation, observed outcomes coincide with the corre-",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_44",
+          "text": "sponding potential outcomes at all imputable times for every pair (Wobs, W∗). Because the statistic",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_45",
+          "text": "19",
+          "page": 20
+        },
+        {
+          "para_id": "3.4_46",
+          "text": "depends only on imputable outcomes and the randomization distribution is known, the resulting",
+          "page": 21
+        },
+        {
+          "para_id": "3.4_47",
+          "text": "test controls size exactly in finite samples under the conditional design.\nSee Zhong (2024) for",
+          "page": 21
+        },
+        {
+          "para_id": "3.4_48",
+          "text": "general validity results.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nTesting Weak-null Hypotheses",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "From this section onward, we specialize to switchback designs in which the treatment is randomized",
+          "page": 21
+        },
+        {
+          "para_id": "4_2",
+          "text": "over equal-length, naturally defined design blocks (e.g., days or weeks); we refer to these blocks",
+          "page": 21
+        },
+        {
+          "para_id": "4_3",
+          "text": "as sessions5. This restriction is motivated by common practice and by interpretability: the weak-",
+          "page": 21
+        },
+        {
+          "para_id": "4_4",
+          "text": "null hypotheses we consider are formulated position-by-position within a session (e.g., Monday vs.",
+          "page": 21
+        },
+        {
+          "para_id": "4_5",
+          "text": "Tuesday), which is meaningful only when the design blocks correspond to a stable time unit.",
+          "page": 21
+        },
+        {
+          "para_id": "4_6",
+          "text": "The goal of this section is to clarify which weak (mean-zero) null hypotheses are testable using",
+          "page": 21
+        },
+        {
+          "para_id": "4_7",
+          "text": "randomization-based inference in switchback experiments with carryover. Because weak nulls are",
+          "page": 21
+        },
+        {
+          "para_id": "4_8",
+          "text": "not sharp, finite-sample exact CRTs are generally unavailable; instead, we use studentized CRTs",
+          "page": 21
+        },
+        {
+          "para_id": "4_9",
+          "text": "to obtain asymptotic size control (Chung and Romano, 2013; Li and Ding, 2017; DiCiccio and",
+          "page": 21
+        },
+        {
+          "para_id": "4_10",
+          "text": "Romano, 2017; Zhao and Ding, 2021; Wu and Ding, 2021). We show that studentized CRTs can",
+          "page": 21
+        },
+        {
+          "para_id": "4_11",
+          "text": "test: (i) a joint weak null requiring mean-zero effects at each within-session focal position, (ii) a",
+          "page": 21
+        },
+        {
+          "para_id": "4_12",
+          "text": "weak null requiring mean-zero average effects over the focal periods at the end of each session,",
+          "page": 21
+        },
+        {
+          "para_id": "4_13",
+          "text": "and (iii) position-wise nulls for any individual focal position.\nWe also highlight an important",
+          "page": 21
+        },
+        {
+          "para_id": "4_14",
+          "text": "limitation: without further structure, we generally cannot test a global weak null that averages",
+          "page": 21
+        },
+        {
+          "para_id": "4_15",
+          "text": "treatment effects over the entire time series. 5We use blocks to denote the (possibly unequal-length) design intervals induced by the switch times. In contrast,\nsessions are equal-length, naturally defined blocks (used only in this section), while sections (or pooled sections) are\npredetermined unions of consecutive blocks used for conditioning in our CRTs.",
+          "page": 21
+        },
+        {
+          "para_id": "4_16",
+          "text": "20",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "4.1\nWeak-null hypotheses under fixed-length sessions",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "Fix a session length L and a carryover length m with L > m, and assume for simplicity that T = JL",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_2",
+          "text": "for some integer J ≥1. Sessions are deterministic intervals",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_3",
+          "text": "[sj, ej] := {(j −1)L + 1, . . . , jL},\nj = 1, . . . , J,",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_4",
+          "text": "and the switchback design assigns a constant treatment label Zj ∈{0, 1} to each session j with",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_5",
+          "text": "known probability pj := Pr(Zj = 1) ∈(0, 1).\nUnder the maintained non-anticipation and m-",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_6",
+          "text": "carryover restrictions, periods near the start of a session may depend on the previous session’s",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_7",
+          "text": "assignment. Accordingly, we focus on the within-session focal window at the end of each session,",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_8",
+          "text": "Uj := {t ∈[T] : sj + m ≤t ≤ej},\nn := |Uj| = L −m,",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_9",
+          "text": "and the overall focal set U := ∪J\nj=1Uj. Index focal times in session j by ℓ= 1, . . . , n via tj,ℓ:=",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_10",
+          "text": "sj + m + ℓ−1.",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_11",
+          "text": "For z ∈{0, 1}, define the focal potential outcome at within-session position ℓunder the constant",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_12",
+          "text": "path zT by",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_13",
+          "text": "Yj,ℓ(z) := Ytj,ℓ(zT ),\nz ∈{0, 1}.",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_14",
+          "text": "Under m-carryover and L > m, Yj,ℓ(z) can be interpreted as the outcome at the ℓth focal position in",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_15",
+          "text": "session j when the session is assigned z (the relevant (m + 1)-period treatment history lies entirely",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_16",
+          "text": "within the session’s constant segment).",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_17",
+          "text": "Define the cross-session average effect at within-session focal position ℓas",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_18",
+          "text": "τℓ:= 1 J",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_19",
+          "text": "J\nX j=1\n{Yj,ℓ(1) −Yj,ℓ(0)},\nℓ= 1, . . . , n.",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_20",
+          "text": "We consider three empirically relevant weak-null hypotheses:",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_21",
+          "text": "21",
+          "page": 22
+        },
+        {
+          "para_id": "4.1_22",
+          "text": "(1) Joint session-wise weak null (strong).\nThe strongest focal weak null requires mean-zero",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_23",
+          "text": "effects at each within-session focal position:",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_24",
+          "text": "Hsw\n0\n:\nτℓ= 0 for all ℓ= 1, . . . , n.\n(10)",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_25",
+          "text": "This null is attractive in practice when within-session seasonality is important (e.g., day-of-week",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_26",
+          "text": "effects), because it rules out cancellation across positions.",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_27",
+          "text": "(2) Focal-average weak null (weaker).\nLet ¯Yj(z) := n−1 Pn\nℓ=1 Yj,ℓ(z) denote the session-level",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_28",
+          "text": "mean potential outcome over the focal window, and define the corresponding focal-average effect",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_29",
+          "text": "τU := 1 J",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_30",
+          "text": "J\nX",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_31",
+          "text": "j=1\n{ ¯Yj(1) −¯Yj(0)}.",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_32",
+          "text": "We will also test the weaker null",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_33",
+          "text": "HU\n0 :\nτU = 0.\n(11)",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_34",
+          "text": "Since τU = n−1 Pn\nℓ=1 τℓ, the strong joint null Hsw\n0\nimplies HU\n0 , but not conversely. The null HU\n0",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_35",
+          "text": "is directly aligned with the focal set U used by our CRTs and is therefore a natural target for",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_36",
+          "text": "studentized randomization inference.",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_37",
+          "text": "(3) Position-wise weak nulls.\nFor any focal position ℓ∈{1, . . . , n}, we can test",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_38",
+          "text": "H0,ℓ:\nτℓ= 0,",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_39",
+          "text": "and, more generally, test subsets of positions by restricting attention to {τℓ: ℓ∈L} for any",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_40",
+          "text": "L ⊆{1, . . . , n}.",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_41",
+          "text": "22",
+          "page": 23
+        },
+        {
+          "para_id": "4.1_42",
+          "text": "Why the global weak null is generally not testable.\nA common estimand under constant",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_43",
+          "text": "paths is the global post–burn-in average effect",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_44",
+          "text": "¯Ym(w) :=\n1\nT −m",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_45",
+          "text": "T\nX",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_46",
+          "text": "t=m+1\nYt(w),\nτ glob\nm\n:= ¯Ym(1T ) −¯Ym(0T ),",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_47",
+          "text": "and the corresponding global null Hglob\n0\n: τ glob\nm\n= 0. In switchback designs with carryover, however,",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_48",
+          "text": "valid randomization-based inference is naturally tied to focal periods whose relevant treatment",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_49",
+          "text": "histories are contained within constant segments.\nA studentized CRT built on the focal set U",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_50",
+          "text": "targets τU; under the global null τ glob\nm\n= 0, the focal-average effect τU need not be zero (e.g.,",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_51",
+          "text": "under within-session heterogeneity or sign-reversing patterns), so the randomization distribution of",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_52",
+          "text": "a focal statistic is not generally centered at zero and uniform validity cannot be guaranteed without",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_53",
+          "text": "additional structure linking focal and non-focal periods. That said, when the outcome process is",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_54",
+          "text": "approximately stationary across within-session positions and m is small relative to L (so n = L−m",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_55",
+          "text": "is close to L), τU can be close to the global average effect, making HU\n0 a practically informative",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_56",
+          "text": "proxy in many applications.",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "section_id": "4.2",
+      "section_title": "4.2\nA studentized CRT for the focal-average null",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.2_1",
+          "text": "Let Zobs\nj\n∈{0, 1} denote the realized session assignment and pj := Pr(Zj = 1) its known design",
+          "page": 24
+        },
+        {
+          "para_id": "4.2_2",
+          "text": "probability. Define the observed session-level focal mean",
+          "page": 24
+        },
+        {
+          "para_id": "4.2_3",
+          "text": "¯Y obs\nj\n:= 1 n",
+          "page": 24
+        },
+        {
+          "para_id": "4.2_4",
+          "text": "X",
+          "page": 24
+        },
+        {
+          "para_id": "4.2_5",
+          "text": "t∈Uj\nY obs\nt\n.",
+          "page": 24
+        },
+        {
+          "para_id": "4.2_6",
+          "text": "Under the fixed-length session design and m-carryover, ¯Y obs\nj\n= ¯Yj(Zobs\nj\n) for each j, so { ¯Yj(1), ¯Yj(0)}J\nj=1",
+          "page": 24
+        },
+        {
+          "para_id": "4.2_7",
+          "text": "are well-defined session-level potential outcomes for the focal window. We estimate the focal-average",
+          "page": 24
+        },
+        {
+          "para_id": "4.2_8",
+          "text": "23",
+          "page": 24
+        },
+        {
+          "para_id": "4.2_9",
+          "text": "effect τU using the Horvitz–Thompson (HT) estimator",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_10",
+          "text": "ˆτHT := 1 J",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_11",
+          "text": "J\nX j=1",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_12",
+          "text": "Zobs\nj\n¯Y obs\nj\npj\n−\n(1 −Zobs\nj\n) ¯Y obs\nj\n1 −pj",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_13",
+          "text": "! ,\n(12)",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_14",
+          "text": "and studentize using the conservative upper-bound form",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_15",
+          "text": "bVup := 1 J2",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_16",
+          "text": "J\nX",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_17",
+          "text": "j=1\n( ¯Y obs\nj\n)2\n \nZobs\nj\np2\nj\n+\n1 −Zobs\nj\n(1 −pj)2",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_18",
+          "text": "! ,\nTstud :=\nˆτHT\nq",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_19",
+          "text": "bVup\n.\n(13)",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_20",
+          "text": "The studentized CRT compares T obs\nstud to its randomization distribution obtained by resampling Z∗\n1, . . . , Z∗\nJ independently with Z∗\nj ∼Bernoulli(pj) and recomputing T ∗\nstud while holding {¯Y obs\nj\n}",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_21",
+          "text": "fixed. The resulting one-sided Monte Carlo p-value is denoted ˆpw. (Here, the session partition",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_22",
+          "text": "and focal set are deterministic, so “conditioning” reduces to conditioning on a deterministic event.)",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_23",
+          "text": "This procedure can be viewed as the fixed-length-session analogue of the CRT in Section 3.2, with",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_24",
+          "text": "studentization added to handle weak nulls.",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_25",
+          "text": "Assumption 4.1 (Weak-null asymptotics under fixed-length sessions). The carryover length m",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_26",
+          "text": "and session length L are fixed with L > m, and T = JL →∞so that J →∞. There exists",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_27",
+          "text": "p ∈(0, 1/2) such that p ≤pj ≤1 −p for all j and all T.",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_28",
+          "text": "Let ¯Yj(1) and ¯Yj(0) denote the session-level focal mean potential outcomes above and define",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_29",
+          "text": "Mj := max{| ¯Yj(1)|, | ¯Yj(0)|}. Assume:",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_30",
+          "text": "(i) (Uniform fourth-moment bound) There exists C < ∞such that supJ≥1\n1\nJ\nPJ\nj=1 M4\nj ≤C.",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_31",
+          "text": "(ii) (Stabilization) The empirical measures νJ := 1",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_32",
+          "text": "J\nPJ\nj=1 δ(pj, ¯Yj(1), ¯Yj(0)) converge weakly to some probability measure ν on [p, 1 −p] × R2.",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_33",
+          "text": "(iii) (Nondegeneracy) If (P, Y1, Y0) ∼ν, then",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_34",
+          "text": "σ2\nS := Eν",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_35",
+          "text": " ",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_36",
+          "text": "r 1 −P P\nY1 +",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_37",
+          "text": "r P\n1 −P Y0",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_38",
+          "text": "!2 > 0.",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_39",
+          "text": "24",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_40",
+          "text": "Assumption 4.1(ii) is a standard triangular-array stabilization condition in randomization CLTs:",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_41",
+          "text": "it requires that as J →∞, the empirical distribution of session-level potential outcomes (and as-",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_42",
+          "text": "signment probabilities) converges to a stable limiting “population.” This assumption is weaker than",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_43",
+          "text": "independence or stationarity of the outcome process; it formalizes the idea that the experimental",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_44",
+          "text": "environment does not drift arbitrarily as more sessions are observed. It rules out, for example,",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_45",
+          "text": "systematic time trends in treatment effects or assignment probabilities, progressively heavier-tailed",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_46",
+          "text": "session means, or structural regime changes that make early and late sessions incomparable.",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_47",
+          "text": "Theorem 4.1 (Asymptotic validity for the focal-average weak null). Suppose Definition 2.1 holds",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_48",
+          "text": "with equal-length sessions of length L > m, and Assumptions 2.1 and 2.2 hold. If Assumption 4.1",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_49",
+          "text": "holds, then under HU\n0 in (11),",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_50",
+          "text": "lim sup\nT→∞\nP(ˆpw ≤α) ≤α\nfor all α ∈(0, 1),",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_51",
+          "text": "where ˆpw is the Monte Carlo p-value computed from the randomization distribution of Tstud in (13).",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_52",
+          "text": "In particular, the same test is asymptotically valid under the stronger joint null Hsw\n0\nin (10).",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "section_id": "4.3",
+      "section_title": "4.3\nPosition-wise and joint tests across within-session positions",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.3_1",
+          "text": "The statistic Tstud targets the focal-average effect τU and can therefore have low power against",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_2",
+          "text": "alternatives where effects vary across within-session positions and cancel in the average (e.g., sign-",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_3",
+          "text": "reversing patterns). To probe heterogeneity and to test the strong joint null Hsw\n0\nmore directly, it",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_4",
+          "text": "is natural to use position-wise and joint tests.",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_5",
+          "text": "Position-wise tests.\nFix ℓ∈{1, . . . , n} and let Y obs\nj,ℓ\n:= Yj,ℓ(Zobs\nj\n) denote the observed outcome",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_6",
+          "text": "at focal position ℓin session j. Consider the HT estimator",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_7",
+          "text": "ˆτℓ,HT := 1 J",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_8",
+          "text": "J\nX j=1",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_9",
+          "text": "Zobs\nj\nY obs\nj,ℓ\npj\n−\n(1 −Zobs\nj\n) Y obs\nj,ℓ\n1 −pj",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_10",
+          "text": "! ,",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_11",
+          "text": "25",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_12",
+          "text": "and the upper-bound variance estimator",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_13",
+          "text": "bVℓ,up := 1 J2",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_14",
+          "text": "J\nX",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_15",
+          "text": "j=1\n(Y obs\nj,ℓ)2\n \nZobs\nj\np2\nj\n+\n1 −Zobs\nj\n(1 −pj)2",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_16",
+          "text": "! ,\nTℓ:=\nˆτℓ,HT\nq",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_17",
+          "text": "bVℓ,up\n.",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_18",
+          "text": "A studentized CRT for the position-wise null H0,ℓ: τℓ= 0 is obtained by the same resampling",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_19",
+          "text": "scheme: resample Z∗\n1, . . . , Z∗\nJ independently with Z∗\nj ∼Bernoulli(pj), hold {Y obs\nj,ℓ}J\nj=1 fixed, and recompute T ∗\nℓ. The resulting Monte Carlo p-value is asymptotically valid under the same conditions",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_20",
+          "text": "as Theorem 4.1. The same construction applies to any subset of focal positions by restricting ℓto",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_21",
+          "text": "a set L.",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_22",
+          "text": "Joint tests via quadratic-form (F-type) statistics.\nTo test the strong joint null Hsw\n0\n(or,",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_23",
+          "text": "more generally, τℓ= 0 for all ℓ∈L for a subset L), one can combine the vector of position-wise",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_24",
+          "text": "effect estimators using an F-type quadratic form. Let Yobs\nj\n:= (Y obs\nj,1 , . . . , Y obs\nj,n )⊤and define the",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_25",
+          "text": "vector HT estimator bτ HT := (ˆτ1,HT, . . . , ˆτn,HT)⊤. A natural matrix analogue of (13) is",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_26",
+          "text": "bΣup := 1 J2",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_27",
+          "text": "J\nX",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_28",
+          "text": "j=1\nYobs\nj\n(Yobs\nj\n)⊤\n \nZobs\nj\np2\nj\n+\n1 −Zobs\nj\n(1 −pj)2",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_29",
+          "text": "! ,",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_30",
+          "text": "and an omnibus statistic is",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_31",
+          "text": "TF := bτ ⊤\nHT bΣ−1\nup bτ HT,",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_32",
+          "text": "with the convention that a generalized inverse may be used when needed (e.g., when n is large",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_33",
+          "text": "relative to J).\nA randomization p-value is obtained by recomputing T ∗\nF under each resampled assignment vector Z∗= (Z∗\n1, . . . , Z∗\nJ). Such quadratic-form tests are standard in randomization",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_34",
+          "text": "inference for multivariate outcomes; see, e.g., Ding and Dasgupta (2017). These joint tests are",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_35",
+          "text": "typically much more sensitive than focal averages to structured or sign-reversing alternatives.",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_36",
+          "text": "Formal asymptotic validity results for the position-wise and joint studentized CRTs described",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_37",
+          "text": "above are stated and proved in Appendix D.7.",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_38",
+          "text": "26",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5\nPower analysis under a superpopulation model",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "Sections 3 and 4 establish validity of our randomization tests under a finite-population framework.",
+          "page": 28
+        },
+        {
+          "para_id": "5_2",
+          "text": "This section studies power under a superpopulation model for the potential-outcome time series.",
+          "page": 28
+        },
+        {
+          "para_id": "5_3",
+          "text": "The goal is to obtain interpretable approximations that clarify how block length and predetermined",
+          "page": 28
+        },
+        {
+          "para_id": "5_4",
+          "text": "pooling enter the signal-to-noise ratio of the studentized CRTs.",
+          "page": 28
+        },
+        {
+          "para_id": "5_5",
+          "text": "Similarly to Section 4, we consider a simple setup where the design blocks have a fixed length",
+          "page": 28
+        },
+        {
+          "para_id": "5_6",
+          "text": "and are longer than the carryover memory length m.6 Formally, fix an experiment length T and a",
+          "page": 28
+        },
+        {
+          "para_id": "5_7",
+          "text": "block length L ≥1 such that T = ML for some integer M. Define design blocks",
+          "page": 28
+        },
+        {
+          "para_id": "5_8",
+          "text": "Bk := {(k −1)L + 1, . . . , kL},\nk = 1, . . . , M.",
+          "page": 28
+        },
+        {
+          "para_id": "5_9",
+          "text": "Assume a regular switchback design with constant assignment probability q ∈(0, 1):",
+          "page": 28
+        },
+        {
+          "para_id": "5_10",
+          "text": "W (k) ind\n∼Bernoulli(q),\nWt = W (k) for all t ∈Bk.\n(14)",
+          "page": 28
+        },
+        {
+          "para_id": "5_11",
+          "text": "Fix a pooling size r ≥1 and assume r | M. Set J := M/r and define predetermined pooled",
+          "page": 28
+        },
+        {
+          "para_id": "5_12",
+          "text": "sections",
+          "page": 28
+        },
+        {
+          "para_id": "5_13",
+          "text": "[sj, ej] :=",
+          "page": 28
+        },
+        {
+          "para_id": "5_14",
+          "text": "jr\n[ k=(j−1)r+1\nBk = {(j −1)rL + 1, . . . , jrL},\nj = 1, . . . , J,",
+          "page": 28
+        },
+        {
+          "para_id": "5_15",
+          "text": "each of length rL. Let Ej denote the event that pooled section j is blockwise constant:",
+          "page": 28
+        },
+        {
+          "para_id": "5_16",
+          "text": "Ej = {W ((j−1)r+1) = · · · = W (jr)}.",
+          "page": 28
+        },
+        {
+          "para_id": "5_17",
+          "text": "On Ej, let Zj denote the common block value.",
+          "page": 28
+        },
+        {
+          "para_id": "5_18",
+          "text": "Lemma 5.1 (Conditional pooled-section law under predetermined pooling). Under (14), for each 6In this section, we use the term “block” for fixed-length design intervals rather than “sessions,” since blocks need\nnot correspond to naturally occurring time units (e.g., days or weeks) to support meaningful weak null hypotheses\nas in Section 4.",
+          "page": 28
+        },
+        {
+          "para_id": "5_19",
+          "text": "27",
+          "page": 28
+        },
+        {
+          "para_id": "5_20",
+          "text": "j, P(Zj = 1 | Ej) = p(r; q) :=\nqr",
+          "page": 29
+        },
+        {
+          "para_id": "5_21",
+          "text": "qr + (1 −q)r .",
+          "page": 29
+        },
+        {
+          "para_id": "5_22",
+          "text": "Moreover, across disjoint sections the pairs {(Ej, Zj)} are independent, and hence conditional on",
+          "page": 29
+        },
+        {
+          "para_id": "5_23",
+          "text": "{Ej : j ∈J (W)} the labels {Zj : j ∈J (W)} are independent Bernoulli(p(r; q)).",
+          "page": 29
+        },
+        {
+          "para_id": "5_24",
+          "text": "Fix a burn-in parameter m ≥0 and assume rL > m. Each pooled section contributes",
+          "page": 29
+        },
+        {
+          "para_id": "5_25",
+          "text": "n := rL −m\n(15)",
+          "page": 29
+        },
+        {
+          "para_id": "5_26",
+          "text": "focal time points (the last n periods in the pooled section).",
+          "page": 29
+        },
+        {
+          "para_id": "5_27",
+          "text": "We posit the distributed-lag model",
+          "page": 29
+        },
+        {
+          "para_id": "5_28",
+          "text": "Yt(w) = µ +",
+          "page": 29
+        },
+        {
+          "para_id": "5_29",
+          "text": "m0\nX ℓ=0\nβℓwt−ℓ+ εt,\nt = 1, . . . , T,\n(16)",
+          "page": 29
+        },
+        {
+          "para_id": "5_30",
+          "text": "where m0 ≥0 is the true carryover horizon, µ ∈R is a baseline level, and {εt} is a stationary",
+          "page": 29
+        },
+        {
+          "para_id": "5_31",
+          "text": "mean-zero process independent of the assignment mechanism. For closed-form expressions, assume",
+          "page": 29
+        },
+        {
+          "para_id": "5_32",
+          "text": "AR(1) errors:",
+          "page": 29
+        },
+        {
+          "para_id": "5_33",
+          "text": "εt = ρ εt−1 + ut,\nut\niid\n∼(0, σ2\nu),\n|ρ| < 1,\n(17)",
+          "page": 29
+        },
+        {
+          "para_id": "5_34",
+          "text": "with σ2\nε := σ2\nu/(1 −ρ2).",
+          "page": 29
+        },
+        {
+          "para_id": "5_35",
+          "text": "Under constant paths, the total long-run effect is",
+          "page": 29
+        },
+        {
+          "para_id": "5_36",
+          "text": "τtot := E[Yt(1T ) −Yt(0T )] =",
+          "page": 29
+        },
+        {
+          "para_id": "5_37",
+          "text": "m0\nX ℓ=0\nβℓ.",
+          "page": 29
+        },
+        {
+          "para_id": "5_38",
+          "text": "The carryover null Hm\n0 corresponds to βℓ= 0 for all ℓ> m.",
+          "page": 29
+        },
+        {
+          "para_id": "5_39",
+          "text": "Remark 5.1 (Asymptotic regime). Throughout, we consider M →∞with (L, r, m, m0, q) fixed,",
+          "page": 29
+        },
+        {
+          "para_id": "5_40",
+          "text": "so T = ML →∞and J = M/r →∞. For the total-effect test, the number of usable (constant)",
+          "page": 29
+        },
+        {
+          "para_id": "5_41",
+          "text": "28",
+          "page": 29
+        },
+        {
+          "para_id": "5_42",
+          "text": "pooled sections Jtot := |J (W)| is random, where J (W) := {j : Ej}; under (14), Jtot/J →πr(q) with πr(q) = qr + (1 −q)r, and hence Jtot →∞with high probability. In the proof, we first derive",
+          "page": 30
+        },
+        {
+          "para_id": "5_43",
+          "text": "a finite-population CLT conditional on the realized potential outcomes, then use the DGP only",
+          "page": 30
+        },
+        {
+          "para_id": "5_44",
+          "text": "to approximate the resulting random variance functionals and obtain an unconditional normal ap-",
+          "page": 30
+        },
+        {
+          "para_id": "5_45",
+          "text": "proximation. This is not a superpopulation CLT: the estimand remains sample-dependent, and the",
+          "page": 30
+        },
+        {
+          "para_id": "5_46",
+          "text": "DGP is invoked solely to make variance and design/power trade-offs transparent—not to redefine",
+          "page": 30
+        },
+        {
+          "para_id": "5_47",
+          "text": "the target of inference.",
+          "page": 30
+        },
+        {
+          "para_id": "5_48",
+          "text": "Total-effect statistic.\nConditional on the realized set of usable pooled sections, let Jtot =",
+          "page": 30
+        },
+        {
+          "para_id": "5_49",
+          "text": "|J (W)| denote their number and write Zj ∈{0, 1} for the (common) pooled-section assignment",
+          "page": 30
+        },
+        {
+          "para_id": "5_50",
+          "text": "label on each j ∈J (W). Let ¯Y obs\nj\ndenote the mean outcome over the n focal periods in pooled",
+          "page": 30
+        },
+        {
+          "para_id": "5_51",
+          "text": "section j.",
+          "page": 30
+        },
+        {
+          "para_id": "5_52",
+          "text": "With constant p = p(r; q) and equal n, the pooled-section HT estimator equals",
+          "page": 30
+        },
+        {
+          "para_id": "5_53",
+          "text": "ˆτHT :=\n1\nJtot",
+          "page": 30
+        },
+        {
+          "para_id": "5_54",
+          "text": "X j∈J (W)",
+          "page": 30
+        },
+        {
+          "para_id": "5_55",
+          "text": "Zj ¯Y obs\nj\np\n−\n(1 −Zj) ¯Y obs\nj\n1 −p",
+          "page": 30
+        },
+        {
+          "para_id": "5_56",
+          "text": "! ,\n(18)",
+          "page": 30
+        },
+        {
+          "para_id": "5_57",
+          "text": "and we studentize using",
+          "page": 30
+        },
+        {
+          "para_id": "5_58",
+          "text": "bVup :=\n1\nJ2\ntot",
+          "page": 30
+        },
+        {
+          "para_id": "5_59",
+          "text": "X",
+          "page": 30
+        },
+        {
+          "para_id": "5_60",
+          "text": "j∈J (W)\n( ¯Y obs\nj\n)2\n\u0012Zj",
+          "page": 30
+        },
+        {
+          "para_id": "5_61",
+          "text": "p2 + 1 −Zj",
+          "page": 30
+        },
+        {
+          "para_id": "5_62",
+          "text": "(1 −p)2",
+          "page": 30
+        },
+        {
+          "para_id": "5_63",
+          "text": "\u0013\n,\nTtot :=\nˆτHT\nq",
+          "page": 30
+        },
+        {
+          "para_id": "5_64",
+          "text": "bVup\n.\n(19)",
+          "page": 30
+        },
+        {
+          "para_id": "5_65",
+          "text": "m-carryover statistic (paired predetermined pooled sections).\nFollowing the carryover",
+          "page": 30
+        },
+        {
+          "para_id": "5_66",
+          "text": "test in Section 3.3, we use an alternating holdout: even pooled sections provide outcomes, and",
+          "page": 30
+        },
+        {
+          "para_id": "5_67",
+          "text": "the immediately preceding odd pooled sections provide randomized labels. Let Je := ⌊J/2⌋and",
+          "page": 30
+        },
+        {
+          "para_id": "5_68",
+          "text": "consider the Je adjacent pairs\n\u0000\n[s2j−1, e2j−1], [s2j, e2j]\n\u0001\nfor j = 1, . . . , Je. For each even pooled",
+          "page": 30
+        },
+        {
+          "para_id": "5_69",
+          "text": "29",
+          "page": 30
+        },
+        {
+          "para_id": "5_70",
+          "text": "section 2j, define the focal mean",
+          "page": 31
+        },
+        {
+          "para_id": "5_71",
+          "text": "¯Y obs\n2j\n:= 1 n",
+          "page": 31
+        },
+        {
+          "para_id": "5_72",
+          "text": "e2j\nX",
+          "page": 31
+        },
+        {
+          "para_id": "5_73",
+          "text": "t=s2j+m\nY obs\nt\n,\nn := rL −m.",
+          "page": 31
+        },
+        {
+          "para_id": "5_74",
+          "text": "Define the randomized label from the preceding odd pooled section as the assignment on its",
+          "page": 31
+        },
+        {
+          "para_id": "5_75",
+          "text": "last block:",
+          "page": 31
+        },
+        {
+          "para_id": "5_76",
+          "text": "Z2j−1 := W ((2j−1)r) ∈{0, 1}.",
+          "page": 31
+        },
+        {
+          "para_id": "5_77",
+          "text": "Under (14), Pr(Z2j−1 = 1) = q and {Z2j−1}Je\nj=1 are independent.",
+          "page": 31
+        },
+        {
+          "para_id": "5_78",
+          "text": "We estimate the tail carryover signal using the HT contrast",
+          "page": 31
+        },
+        {
+          "para_id": "5_79",
+          "text": "ˆδm := 1 Je",
+          "page": 31
+        },
+        {
+          "para_id": "5_80",
+          "text": "Je\nX j=1",
+          "page": 31
+        },
+        {
+          "para_id": "5_81",
+          "text": "Z2j−1 ¯Y obs\n2j\nq\n−\n(1 −Z2j−1) ¯Y obs\n2j\n1 −q",
+          "page": 31
+        },
+        {
+          "para_id": "5_82",
+          "text": "! ,\n(20)",
+          "page": 31
+        },
+        {
+          "para_id": "5_83",
+          "text": "and studentize with the corresponding upper-bound form",
+          "page": 31
+        },
+        {
+          "para_id": "5_84",
+          "text": "bV (m)\nup\n:= 1 J2e",
+          "page": 31
+        },
+        {
+          "para_id": "5_85",
+          "text": "Je\nX",
+          "page": 31
+        },
+        {
+          "para_id": "5_86",
+          "text": "j=1\n( ¯Y obs\n2j )2\n\u0012Z2j−1",
+          "page": 31
+        },
+        {
+          "para_id": "5_87",
+          "text": "q2\n+ 1 −Z2j−1",
+          "page": 31
+        },
+        {
+          "para_id": "5_88",
+          "text": "(1 −q)2",
+          "page": 31
+        },
+        {
+          "para_id": "5_89",
+          "text": "\u0013\n,\nTm :=\nˆδm\nq",
+          "page": 31
+        },
+        {
+          "para_id": "5_90",
+          "text": "bV (m)\nup\n.\n(21)",
+          "page": 31
+        },
+        {
+          "para_id": "5_91",
+          "text": "We first record the variance of the average of n consecutive AR(1) errors:",
+          "page": 31
+        },
+        {
+          "para_id": "5_92",
+          "text": "σ2\n¯ε(n, ρ) := Var",
+          "page": 31
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "n\nX i=1\nεi",
+          "page": 31
+        },
+        {
+          "para_id": "1_2",
+          "text": "! = σ2\nε\nn2",
+          "page": 31
+        },
+        {
+          "para_id": "1_3",
+          "text": "\" n + 2",
+          "page": 31
+        },
+        {
+          "para_id": "1_4",
+          "text": "n−1\nX",
+          "page": 31
+        },
+        {
+          "para_id": "1_5",
+          "text": "h=1\n(n −h)ρh\n#",
+          "page": 31
+        },
+        {
+          "para_id": "1_6",
+          "text": ".\n(22)",
+          "page": 31
+        },
+        {
+          "para_id": "1_7",
+          "text": "Proposition 5.1 (Power for the total-effect test). Assume (14), the predetermined pooled-section",
+          "page": 31
+        },
+        {
+          "para_id": "1_8",
+          "text": "construction, and the DGP (16)–(17). Assume the analyst burn-in satisfies m ≥m0 so that focal",
+          "page": 31
+        },
+        {
+          "para_id": "1_9",
+          "text": "means are uncontaminated by carryover. Let φtot be the one-sided level-α CRT that rejects for large",
+          "page": 31
+        },
+        {
+          "para_id": "1_10",
+          "text": "Ttot in (19). Then, conditional on Jtot,",
+          "page": 31
+        },
+        {
+          "para_id": "1_11",
+          "text": "P(φtot = 1 | Jtot) ≈1 −Φ\n\u0012z1−α −µtot(Jtot) σtot",
+          "page": 31
+        },
+        {
+          "para_id": "1_12",
+          "text": "\u0013\n,\n(23)",
+          "page": 31
+        },
+        {
+          "para_id": "1_13",
+          "text": "30",
+          "page": 31
+        },
+        {
+          "para_id": "1_14",
+          "text": "where p = p(r; q), n = rL −m, and",
+          "page": 32
+        },
+        {
+          "para_id": "1_15",
+          "text": "µtot(Jtot) :=\nτtot\n√Jtot\nq",
+          "page": 32
+        },
+        {
+          "para_id": "1_16",
+          "text": "σ2\n¯ε(n,ρ)\np(1−p) + (µ+τtot)2",
+          "page": 32
+        },
+        {
+          "para_id": "1_17",
+          "text": "p\n+\nµ2\n1−p",
+          "page": 32
+        },
+        {
+          "para_id": "1_18",
+          "text": ",\nσ2\ntot :=\nσ2\n¯ε(n, ρ) + {µ + (1 −p)τtot}2",
+          "page": 32
+        },
+        {
+          "para_id": "1_19",
+          "text": "σ2¯ε(n, ρ) + pµ2 + (1 −p)(µ + τtot)2 .\n(24)",
+          "page": 32
+        },
+        {
+          "para_id": "1_20",
+          "text": "Moreover, 0 < σ2\ntot ≤1 and σ2\ntot →1 under local alternatives τtot = o(1).",
+          "page": 32
+        },
+        {
+          "para_id": "1_21",
+          "text": "Proposition 5.2 (Power for the m-carryover test). Assume (14), the predetermined pooled-section",
+          "page": 32
+        },
+        {
+          "para_id": "1_22",
+          "text": "construction, and the DGP (16)–(17). Assume m0 > m and",
+          "page": 32
+        },
+        {
+          "para_id": "1_23",
+          "text": "m0 ≤rL\n(25)",
+          "page": 32
+        },
+        {
+          "para_id": "1_24",
+          "text": "so that, after the m-period burn-in, any lag leaving an even pooled section can reach only into the",
+          "page": 32
+        },
+        {
+          "para_id": "1_25",
+          "text": "immediately preceding odd pooled section.",
+          "page": 32
+        },
+        {
+          "para_id": "1_26",
+          "text": "For the carryover test statistic (20)–(21), only the assignment on the last design block of the",
+          "page": 32
+        },
+        {
+          "para_id": "1_27",
+          "text": "preceding odd pooled section is used as the randomized label. Define the corresponding tail-signal",
+          "page": 32
+        },
+        {
+          "para_id": "1_28",
+          "text": "functional δm(n) := 1 n",
+          "page": 32
+        },
+        {
+          "para_id": "1_29",
+          "text": "m0\nX ℓ=m+1\nmin{L, ℓ−m} βℓ,\nn = rL −m,\n(26)",
+          "page": 32
+        },
+        {
+          "para_id": "1_30",
+          "text": "and let φm be the one-sided level-α CRT that rejects for large Tm in (21). Then, as J →∞,",
+          "page": 32
+        },
+        {
+          "para_id": "1_31",
+          "text": "P(φm = 1) ≈1 −Φ\n\u0012z1−α −µm(J) σm",
+          "page": 32
+        },
+        {
+          "para_id": "1_32",
+          "text": "\u0013\n,\n(27)",
+          "page": 32
+        },
+        {
+          "para_id": "1_33",
+          "text": "where Je = ⌊J/2⌋and µm(J) := δm(n)√Je\nq",
+          "page": 32
+        },
+        {
+          "para_id": "1_34",
+          "text": "v(m)\nup\n,\nσ2\nm := σ2\nδ\nv(m)\nup\n,\n(28)",
+          "page": 32
+        },
+        {
+          "para_id": "1_35",
+          "text": "with π1 = q, π0 = 1 −q, and",
+          "page": 32
+        },
+        {
+          "para_id": "1_36",
+          "text": "v(m)\nup := E[ ¯Y (1)2]",
+          "page": 32
+        },
+        {
+          "para_id": "1_37",
+          "text": "π1\n+ E[ ¯Y (0)2]",
+          "page": 32
+        },
+        {
+          "para_id": "1_38",
+          "text": "π0\n,\n(29)",
+          "page": 32
+        },
+        {
+          "para_id": "1_39",
+          "text": "31",
+          "page": 32
+        },
+        {
+          "para_id": "1_40",
+          "text": "σ2\nδ := E\n\u0014\u0012 1",
+          "page": 33
+        },
+        {
+          "para_id": "1_41",
+          "text": "π1\n−1\n\u0013\n¯Y (1)2 +\n\u0012 1",
+          "page": 33
+        },
+        {
+          "para_id": "1_42",
+          "text": "π0\n−1\n\u0013\n¯Y (0)2 + 2 ¯Y (1) ¯Y (0)\n\u0015\n.\n(30)",
+          "page": 33
+        },
+        {
+          "para_id": "1_43",
+          "text": "Here ¯Y (1) and ¯Y (0) denote the even-section focal mean under the counterfactual intervention that",
+          "page": 33
+        },
+        {
+          "para_id": "1_44",
+          "text": "the last design block of the preceding odd pooled section is set to 1 versus 0, respectively (with all",
+          "page": 33
+        },
+        {
+          "para_id": "1_45",
+          "text": "other block assignments and the error process following their original laws).",
+          "page": 33
+        },
+        {
+          "para_id": "1_46",
+          "text": "Pooling more blocks (larger r) increases the within-section focal sample size n = rL −m and",
+          "page": 33
+        },
+        {
+          "para_id": "1_47",
+          "text": "reduces σ2\n¯ε(n, ρ) via within-section averaging, but it also reduces the number of pooled sections",
+          "page": 33
+        },
+        {
+          "para_id": "1_48",
+          "text": "J = M/r (and hence the number of odd–even pairs Je = ⌊J/2⌋used by the carryover diagnostic).",
+          "page": 33
+        },
+        {
+          "para_id": "1_49",
+          "text": "For the total-effect test, usable pooled sections must be constant; the selection probability is πr(q) = qr + (1 −q)r, so Jtot ∼Binomial(J, πr(q)) and E[Jtot] = Jπr(q). For the carryover test based on",
+          "page": 33
+        },
+        {
+          "para_id": "1_50",
+          "text": "(20)–(21), pooling affects power primarily through the tail-signal functional δm(n) in (26) and",
+          "page": 33
+        },
+        {
+          "para_id": "1_51",
+          "text": "through the variance of the even-section focal mean: each lag coefficient βℓwith ℓ> m contributes",
+          "page": 33
+        },
+        {
+          "para_id": "1_52",
+          "text": "to δm(n) only through those focal times whose lag-ℓexposure falls in the last block of the preceding",
+          "page": 33
+        },
+        {
+          "para_id": "1_53",
+          "text": "odd pooled section, which yields weights capped at L and a 1/n dilution from averaging over n focal",
+          "page": 33
+        },
+        {
+          "para_id": "1_54",
+          "text": "periods. Propositions 5.1 and 5.2 quantify how these effects (signal dilution, variance reduction from",
+          "page": 33
+        },
+        {
+          "para_id": "1_55",
+          "text": "larger n, and fewer pairs Je when r grows) jointly determine the resulting noncentrality parameter.",
+          "page": 33
+        },
+        {
+          "para_id": "1_56",
+          "text": "Given pilot data (or pre-experiment time series), one can estimate the noise parameters in (17)",
+          "page": 33
+        },
+        {
+          "para_id": "1_57",
+          "text": "(e.g., ρ and σ2\nε, hence σ2\n¯ε(n, ρ)) and specify a plausible effect scale (e.g., τtot for the total-effect test",
+          "page": 33
+        },
+        {
+          "para_id": "1_58",
+          "text": "or a tail profile {βℓ: ℓ> m} for the carryover test). For each candidate r, compute n = rL −m",
+          "page": 33
+        },
+        {
+          "para_id": "1_59",
+          "text": "and πr(q), approximate the distribution of Jtot ∼Binomial(J, πr(q)), and plug these into (23)–(27)",
+          "page": 33
+        },
+        {
+          "para_id": "1_60",
+          "text": "(with Jtot replaced by E[Jtot] or averaged over simulated draws of Jtot). A practical constraint is",
+          "page": 33
+        },
+        {
+          "para_id": "1_61",
+          "text": "to avoid overly aggressive pooling that yields too few usable sections (or too few informative odd",
+          "page": 33
+        },
+        {
+          "para_id": "1_62",
+          "text": "sections), e.g., by requiring E[Jtot] and Je to exceed minimal thresholds for stable studentization",
+          "page": 33
+        },
+        {
+          "para_id": "1_63",
+          "text": "and accurate Monte Carlo calibration.",
+          "page": 33
+        },
+        {
+          "para_id": "1_64",
+          "text": "In Propositions 5.1–5.2, experimental design enters power through the inverse-probability factors",
+          "page": 33
+        },
+        {
+          "para_id": "1_65",
+          "text": "32",
+          "page": 33
+        },
+        {
+          "para_id": "1_66",
+          "text": "1/p and 1/(1−p) (and, under centered outcomes and local alternatives, essentially through p(1−p)",
+          "page": 34
+        },
+        {
+          "para_id": "1_67",
+          "text": "in the noise term), so highly imbalanced designs can substantially inflate the studentization term",
+          "page": 34
+        },
+        {
+          "para_id": "1_68",
+          "text": "and reduce the resulting noncentrality parameter. When outcomes are approximately centered (so",
+          "page": 34
+        },
+        {
+          "para_id": "1_69",
+          "text": "µ ≈0) and effect sizes are modest, a balanced assignment p ≈1/2 is therefore typically near-",
+          "page": 34
+        },
+        {
+          "para_id": "1_70",
+          "text": "optimal.\nMore generally, practitioners can plug pilot estimates into the power approximations",
+          "page": 34
+        },
+        {
+          "para_id": "1_71",
+          "text": "(23)–(27) and select p (or, in the pooled-section setup, the underlying block-level fraction q, which",
+          "page": 34
+        },
+        {
+          "para_id": "1_72",
+          "text": "determines p = p(r; q) and E[Jtot] = Jπr(q)) by numerically maximizing the resulting power proxy",
+          "page": 34
+        },
+        {
+          "para_id": "1_73",
+          "text": "subject to operational constraints (e.g., minimum allocation rules).",
+          "page": 34
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6\nSimulation",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "This section evaluates the finite-sample size control and power properties of the proposed testing",
+          "page": 34
+        },
+        {
+          "para_id": "6_2",
+          "text": "procedures. We study three classes of hypotheses: (i) the null of no total treatment effect, (ii) the",
+          "page": 34
+        },
+        {
+          "para_id": "6_3",
+          "text": "m-carryover restriction, and (iii) the no-anticipation restriction. The simulation design is intended",
+          "page": 34
+        },
+        {
+          "para_id": "6_4",
+          "text": "to assess both validity and power in time-series environments characterized by temporal dependence",
+          "page": 34
+        },
+        {
+          "para_id": "6_5",
+          "text": "and heavy-tailed disturbances.",
+          "page": 34
+        },
+        {
+          "para_id": "6_6",
+          "text": "In this simulation study, we adopt a potential-outcomes framework similar to Bojinov et al.",
+          "page": 34
+        },
+        {
+          "para_id": "6_7",
+          "text": "(2023), but allow for a richer stochastic structure in the disturbance term in order to stress-test",
+          "page": 34
+        },
+        {
+          "para_id": "6_8",
+          "text": "finite-sample validity. Potential outcomes are generated according to",
+          "page": 34
+        },
+        {
+          "para_id": "6_9",
+          "text": "Yt(w1:T ) = µ + αt +",
+          "page": 34
+        },
+        {
+          "para_id": "6_10",
+          "text": "T\nX",
+          "page": 34
+        },
+        {
+          "para_id": "6_11",
+          "text": "s=1\nδ(t+1−s) ws + εt αt 1{wt−m:t ∈{0m+1, 1m+1}} ,\nt = 1, . . . , T.\n(31)",
+          "page": 34
+        },
+        {
+          "para_id": "6_12",
+          "text": "Here µ is a constant baseline level, αt is a deterministic time effect, δ(t+1−s) are non-stochastic",
+          "page": 34
+        },
+        {
+          "para_id": "6_13",
+          "text": "carryover coefficients governing the effect of treatment assignments at different lags, ws ∈{0, 1}",
+          "page": 34
+        },
+        {
+          "para_id": "6_14",
+          "text": "denotes treatment assignment at time s, and εt is a stochastic disturbance. The indicator term",
+          "page": 34
+        },
+        {
+          "para_id": "6_15",
+          "text": "allows the scale of the disturbance to depend on whether treatment has remained constant over",
+          "page": 34
+        },
+        {
+          "para_id": "6_16",
+          "text": "33",
+          "page": 34
+        },
+        {
+          "para_id": "6_17",
+          "text": "the most recent m+1 periods, thereby generating treatment-history–dependent heteroskedasticity.",
+          "page": 35
+        },
+        {
+          "para_id": "6_18",
+          "text": "Different configurations of the carryover coefficients correspond to different null hypotheses and",
+          "page": 35
+        },
+        {
+          "para_id": "6_19",
+          "text": "alternative effect structures.",
+          "page": 35
+        },
+        {
+          "para_id": "6_20",
+          "text": "Throughout, we set µ = 0 and αt = log t. The number of periods is T ∈{60, 120, 180, 240, 300},",
+          "page": 35
+        },
+        {
+          "para_id": "6_21",
+          "text": "representing experimentally realistic horizons at which asymptotic approximations may be unreli-",
+          "page": 35
+        },
+        {
+          "para_id": "6_22",
+          "text": "able. We consider two disturbance specifications:",
+          "page": 35
+        },
+        {
+          "para_id": "6_23",
+          "text": "1. εt\ni.i.d.\n∼N(0, 1),",
+          "page": 35
+        },
+        {
+          "para_id": "6_24",
+          "text": "2. εt\ni.i.d.\n∼t(1), representing heavy-tailed shocks.",
+          "page": 35
+        },
+        {
+          "para_id": "6_25",
+          "text": "We fix the treatment assignment mechanism to the optimal regular switchback design of Bojinov",
+          "page": 35
+        },
+        {
+          "para_id": "6_26",
+          "text": "et al. (2023). Switch points occur at times",
+          "page": 35
+        },
+        {
+          "para_id": "6_27",
+          "text": "{1, 2m + 1, 3m + 1, . . . , (n −2)m + 1},",
+          "page": 35
+        },
+        {
+          "para_id": "6_28",
+          "text": "with switching probability 1/2 at each decision point. Holding this assignment rule fixed across all",
+          "page": 35
+        },
+        {
+          "para_id": "6_29",
+          "text": "configurations allows us to focus on the finite-sample behavior of the inference procedures rather",
+          "page": 35
+        },
+        {
+          "para_id": "6_30",
+          "text": "than design choice.",
+          "page": 35
+        },
+        {
+          "para_id": "6_31",
+          "text": "In all simulation experiments, we implement the pre-determined sectioning rule described in",
+          "page": 35
+        },
+        {
+          "para_id": "6_32",
+          "text": "Section 3.2. Concretely, given the design blocks {Bk}K\nk=1 and carryover horizon m, we pool con-",
+          "page": 35
+        },
+        {
+          "para_id": "6_33",
+          "text": "secutive blocks greedily until the pooled length is at least m + 1, producing a disjoint cover of",
+          "page": 35
+        },
+        {
+          "para_id": "6_34",
+          "text": "[T].",
+          "page": 35
+        }
+      ]
+    },
+    {
+      "section_id": "6.1",
+      "section_title": "6.1\nNull of no total treatment effect",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "6.1_1",
+          "text": "To evaluate size and power under Htot\n0 , we fix the carryover horizon at m = 2 and assume it is correctly specified in the analysis as in Bojinov et al. (2023). We set δ(p) = 0 for p /∈{1, 2, 3} and",
+          "page": 35
+        },
+        {
+          "para_id": "6.1_2",
+          "text": "34",
+          "page": 35
+        },
+        {
+          "para_id": "6.1_3",
+          "text": "impose",
+          "page": 36
+        },
+        {
+          "para_id": "6.1_4",
+          "text": "δ(1) = δ(2) = δ(3) = δ,\nδ ∈{0, 1, 2, 3}.",
+          "page": 36
+        },
+        {
+          "para_id": "6.1_5",
+          "text": "When δ = 0, the null (4) holds and empirical rejection frequencies measure test size. When",
+          "page": 36
+        },
+        {
+          "para_id": "6.1_6",
+          "text": "δ > 0, rejection frequencies measure power.\nUnlike the sharp-null configuration considered in",
+          "page": 36
+        },
+        {
+          "para_id": "6.1_7",
+          "text": "Bojinov et al. (2023), our specification does not imply a sharp null when δ = 0, allowing a direct",
+          "page": 36
+        },
+        {
+          "para_id": "6.1_8",
+          "text": "comparison between Fisher randomization tests and conditional randomization tests under a non-",
+          "page": 36
+        },
+        {
+          "para_id": "6.1_9",
+          "text": "sharp null.",
+          "page": 36
+        },
+        {
+          "para_id": "6.1_10",
+          "text": "For each parameter configuration, we generate one treatment assignment path and compute",
+          "page": 36
+        },
+        {
+          "para_id": "6.1_11",
+          "text": "observed outcomes from (31). We then apply four testing procedures:",
+          "page": 36
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1. the proposed conditional randomization test (CRT),",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": "2. a Fisher randomization test imposed under a misspecified sharp null,",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3",
+      "section_title": "3. the unconditional PIRT procedure of Zhong (2024) with rejection threshold α,",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "4",
+      "section_title": "4. the Horvitz–Thompson asymptotic test of Bojinov et al. (2023).",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "For asymptotic inference, we use the conservative variance upper bound proposed in Bojinov",
+          "page": 36
+        },
+        {
+          "para_id": "4_2",
+          "text": "et al. (2023).\nAll tests are conducted at nominal level α = 0.05 using the Horvitz–Thompson",
+          "page": 36
+        },
+        {
+          "para_id": "4_3",
+          "text": "estimator. Each configuration is replicated 1,000 times, and rejection rates are reported as Monte",
+          "page": 36
+        },
+        {
+          "para_id": "4_4",
+          "text": "Carlo averages.",
+          "page": 36
+        },
+        {
+          "para_id": "4_5",
+          "text": "Figure 1 reports rejection frequencies across sample sizes and error distributions. The CRT",
+          "page": 36
+        },
+        {
+          "para_id": "4_6",
+          "text": "maintains size control across all configurations. In contrast, the Fisher randomization test exhibits",
+          "page": 36
+        },
+        {
+          "para_id": "4_7",
+          "text": "substantial over-rejection under heavy-tailed disturbances, reflecting misspecification of the sharp",
+          "page": 36
+        },
+        {
+          "para_id": "4_8",
+          "text": "null when treatment effects are not fully imputable. This pattern is consistent with the theoretical",
+          "page": 36
+        },
+        {
+          "para_id": "4_9",
+          "text": "results of Athey et al. (2018). Both the unadjusted PIRT at level α and the Horvitz–Thompson",
+          "page": 36
+        },
+        {
+          "para_id": "4_10",
+          "text": "asymptotic test display conservative behavior in several configurations.",
+          "page": 36
+        },
+        {
+          "para_id": "4_11",
+          "text": "35",
+          "page": 36
+        },
+        {
+          "para_id": "4_12",
+          "text": "Figure 1: Rejection Frequencies Under the Null of no total treatment effect",
+          "page": 37
+        },
+        {
+          "para_id": "4_13",
+          "text": "Notes: Each panel reports Monte Carlo rejection frequencies based on 1,000 replications at nominal level α = 0.05.\nThe solid horizontal line marks the nominal size. “CRT (exact)” denotes the proposed conditional randomization\ntest. “Asymptotic” denotes the Horvitz–Thompson test of Bojinov et al. (2023). “FRT (misspec.)” denotes the Fisher\nrandomization test imposed under a sharp null. “PIRT (α)” denotes the unconditional PIRT procedure evaluated at\nlevel α.",
+          "page": 37
+        },
+        {
+          "para_id": "4_14",
+          "text": "In terms of power, the CRT performs competitively across all scenarios. Under Gaussian distur-",
+          "page": 37
+        },
+        {
+          "para_id": "4_15",
+          "text": "bances, the CRT, Fisher test, and asymptotic test exhibit similar power, while PIRT is somewhat",
+          "page": 37
+        },
+        {
+          "para_id": "4_16",
+          "text": "less powerful. Under heavy-tailed disturbances, the CRT achieves the highest power among pro-",
+          "page": 37
+        },
+        {
+          "para_id": "4_17",
+          "text": "cedures that maintain valid size. Although the Fisher test may appear more powerful in some",
+          "page": 37
+        },
+        {
+          "para_id": "4_18",
+          "text": "configurations, this reflects size distortion rather than genuine power gains.",
+          "page": 37
+        },
+        {
+          "para_id": "4_19",
+          "text": "Overall, the results indicate that the proposed CRT achieves reliable size control while main-",
+          "page": 37
+        },
+        {
+          "para_id": "4_20",
+          "text": "taining strong power, and remains robust to heavy-tailed shocks and finite-sample dependence.",
+          "page": 37
+        }
+      ]
+    },
+    {
+      "section_id": "6.2",
+      "section_title": "6.2\nTests for m-carryover and anticipation",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "6.2_1",
+          "text": "This section evaluates the finite-sample size and power of the two diagnostic procedures proposed",
+          "page": 37
+        },
+        {
+          "para_id": "6.2_2",
+          "text": "above. We study the m-carryover restriction using the conditional randomization test (CRT), and",
+          "page": 37
+        },
+        {
+          "para_id": "6.2_3",
+          "text": "36",
+          "page": 37
+        },
+        {
+          "para_id": "6.2_4",
+          "text": "the non-anticipation restriction using the PIRT procedure.",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_5",
+          "text": "Carryover diagnostic.\nTo assess the m-carryover test, we fix the true carryover horizon at",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_6",
+          "text": "m = 2 and evaluate the null that treatment effects vanish beyond this horizon. The data-generating",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_7",
+          "text": "process introduces carryover effects strictly beyond the tested horizon by setting",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_8",
+          "text": "δ(p) = 0\nfor p /∈{4, 5, 6},\nδ(4) = δ(5) = δ(6) = δ,",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_9",
+          "text": "with δ ∈{0, 1, 2, 3}. Thus δ = 0 corresponds to the null of no carryover beyond m = 2, while",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_10",
+          "text": "δ > 0 generates violations of the null. Inference is conducted using the proposed CRT. Empirical",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_11",
+          "text": "rejection frequencies therefore measure size when δ = 0 and power when δ > 0.7",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_12",
+          "text": "Anticipation diagnostic.\nTo evaluate the non-anticipation test, we introduce dependence on",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_13",
+          "text": "future treatment assignments by setting",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_14",
+          "text": "δ(p) = 0\nfor p /∈{−2, −1, 0},\nδ(−2) = δ(−1) = δ(0) = δ,",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_15",
+          "text": "again with δ ∈{0, 1, 2, 3}. The null of non-anticipation holds when δ = 0 and is violated when δ > 0.",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_16",
+          "text": "Inference is conducted using the proposed PIRT procedure with prefix-preserving randomization",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_17",
+          "text": "and holdout length L = 2m + 1 = 5.",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_18",
+          "text": "Figure 2 reports rejection frequencies across sample sizes and error distributions for the carryover",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_19",
+          "text": "diagnostic. The CRT maintains accurate size control across all configurations. Power increases with",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_20",
+          "text": "the magnitude of the violation and with the sample size, reaching approximately 60% in the largest",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_21",
+          "text": "designs under Gaussian disturbances.",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_22",
+          "text": "Figure 3 reports rejection frequencies for the non-anticipation diagnostic using the PIRT pro- 7For both carryover and anticipation diagnostics we use the same outcome model. We do not compare directly\nwith the method of Bojinov et al. (2023) (Section 4.4), since their approach requires a different experimental design\ntailored to each hypothesis.",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_23",
+          "text": "37",
+          "page": 38
+        },
+        {
+          "para_id": "6.2_24",
+          "text": "Figure 2: Rejection Frequencies Under the Carryover Null and Alternatives",
+          "page": 39
+        },
+        {
+          "para_id": "6.2_25",
+          "text": "Notes: Each panel reports Monte Carlo rejection frequencies based on 1,000 replications at nominal level α = 0.05.\nThe solid horizontal line marks the nominal size.",
+          "page": 39
+        },
+        {
+          "para_id": "6.2_26",
+          "text": "Figure 3: Rejection Frequencies Under the Anticipation Null and Alternatives",
+          "page": 39
+        },
+        {
+          "para_id": "6.2_27",
+          "text": "Notes: Each panel reports Monte Carlo rejection frequencies based on 1,000 replications at nominal level α = 0.05.\nThe solid horizontal line marks the nominal size.",
+          "page": 39
+        },
+        {
+          "para_id": "6.2_28",
+          "text": "38",
+          "page": 39
+        },
+        {
+          "para_id": "6.2_29",
+          "text": "cedure. Size control remains close to nominal across designs. Power increases with the magnitude",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_30",
+          "text": "of anticipation effects but does not vary monotonically with the total horizon, because the effective",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_31",
+          "text": "sample size is driven by the number of imputable times—i.e., stochastic overlaps of prefixes—rather",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_32",
+          "text": "than by T per se. Unlike carryover testing, where focal sets are deterministic given the design, an-",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_33",
+          "text": "ticipation testing inherits additional finite-sample variability from this random overlap structure,",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_34",
+          "text": "so the count of imputable times can remain limited even as T grows, leading to irregular power",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_35",
+          "text": "patterns across realizations.",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_36",
+          "text": "Overall, the results indicate that the proposed procedures provide reliable finite-sample size",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_37",
+          "text": "control and nontrivial power in realistic time-series environments.\nA more detailed theoretical",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_38",
+          "text": "analysis of power for PIRT-based diagnostics in dependent time-series settings is left for future",
+          "page": 40
+        },
+        {
+          "para_id": "6.2_39",
+          "text": "work.",
+          "page": 40
+        }
+      ]
+    },
+    {
+      "section_id": "7",
+      "section_title": "7\nConclusion",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "7_1",
+          "text": "We study inference for switchback experiments run over realistic operational horizons, where se-",
+          "page": 40
+        },
+        {
+          "para_id": "7_2",
+          "text": "rial dependence, heavy-tailed shocks, and temporal interference can undermine classical approx-",
+          "page": 40
+        },
+        {
+          "para_id": "7_3",
+          "text": "imations.\nOur contribution is a randomization-test framework that yields finite-sample valid,",
+          "page": 40
+        },
+        {
+          "para_id": "7_4",
+          "text": "distribution-free p-values using only the known assignment mechanism and two primitive condi-",
+          "page": 40
+        },
+        {
+          "para_id": "7_5",
+          "text": "tions on potential outcomes: non-anticipation and a finite carryover horizon. We develop random-",
+          "page": 40
+        },
+        {
+          "para_id": "7_6",
+          "text": "ization tests for total effects alongside diagnostics for carryover length and non-anticipation. For",
+          "page": 40
+        },
+        {
+          "para_id": "7_7",
+          "text": "average-effect targets, we develop studentized CRTs that accommodate within-session seasonality",
+          "page": 40
+        },
+        {
+          "para_id": "7_8",
+          "text": "and establish asymptotic validity under mild conditions.",
+          "page": 40
+        },
+        {
+          "para_id": "7_9",
+          "text": "We complement the theory with power approximations under distributed-lag effects with AR(1)",
+          "page": 40
+        },
+        {
+          "para_id": "7_10",
+          "text": "noise, which highlight block length, burn-in, and section pooling as first-order design levers for",
+          "page": 40
+        },
+        {
+          "para_id": "7_11",
+          "text": "sensitivity. Monte Carlo evidence is consistent with these insights, indicating reliable finite-sample",
+          "page": 40
+        },
+        {
+          "para_id": "7_12",
+          "text": "performance of the proposed tests across realistic settings. A fuller treatment of power optimization",
+          "page": 40
+        },
+        {
+          "para_id": "7_13",
+          "text": "39",
+          "page": 40
+        },
+        {
+          "para_id": "7_14",
+          "text": "and simulation-based design tuning remains an important direction for future work.",
+          "page": 41
+        },
+        {
+          "para_id": "7_15",
+          "text": "Moreover, our testing framework naturally extends beyond the canonical switchback setting and",
+          "page": 41
+        },
+        {
+          "para_id": "7_16",
+          "text": "applies directly to a broad class of experimental designs with a time dimension—including time-",
+          "page": 41
+        },
+        {
+          "para_id": "7_17",
+          "text": "series experiments, cross-over designs, and regular balanced switchback designs—thereby providing",
+          "page": 41
+        },
+        {
+          "para_id": "7_18",
+          "text": "a unified approach to exact inference in temporally structured experiments.\nFurther advances",
+          "page": 41
+        },
+        {
+          "para_id": "7_19",
+          "text": "in design optimization, richer temporal interference models, and scalable implementations within",
+          "page": 41
+        },
+        {
+          "para_id": "7_20",
+          "text": "platform experimentation systems offer promising avenues for continued research.",
+          "page": 41
+        },
+        {
+          "para_id": "7_21",
+          "text": "40",
+          "page": 41
+        }
+      ]
+    }
+  ]
+}

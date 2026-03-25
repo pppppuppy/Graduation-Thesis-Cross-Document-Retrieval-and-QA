@@ -1,0 +1,3107 @@
+{
+  "doc_id": "2602.23151v1.pdf",
+  "title": "arXiv:2602.23151v1  [math.CA]  26 Feb 2026",
+  "abstract": "We study high-dimensional Laplace-type integrals of the form\nI(λ) :=\nZ\nRd g(x)e−λf(x)dx,\nin the regime where d and λ are both large. Until now, rigorous bounds for Laplace expansions\nin growing dimension have been restricted to the “Gaussian-approximation” regime, known to\nhold when d2/λ →0. This excludes many practically relevant regimes, including those arising\nin physics and modern high-dimensional statistics, which operate beyond this threshold while\nstill satisfying the concentration condition d/λ →0. Here, we close this gap. We develop an\nexplicit asymptotic expansion for log I(λ) with quantitative remainder bounds that remain valid\nthroughout this intermediate region, arbitrarily close to the concentration threshold d/λ →0.\nFix any L ≥1 and suppose g(0) = 1. Assume that, in a neighborhood of the minimizer of f,\nthe operator norms of the derivatives of f and g are bounded independently of d and λ through\norders 2(L + 1) and 2L, respectively. Assuming also some mild global growth conditions on f\nand g, we prove that\nlog I(λ) =\nL−1\nX\nk=1\nbk(f, g)λ−k + O(dL+1/λL),\ndL+1/λL →0,\nand that the coefficients satisfy bk(f, g) = O(dk+1). Moreover, the coefficients bk(f, g) coincide\nwith those arising from the formal cumulant-based expansion of log I(λ).\nThe proof is constructive and proceeds via explicit polynomial changes of variables that\niteratively “quadratize” the exponent while controlling Jacobian effects, thereby avoiding heavy\nGaussian concentration machinery. We illustrate the expansion on two representative examples.\n1\nIntroduction\nLaplace-type integrals of the form\nI(λ) :=\nZ\nRd g(x)e−λf(x)dx\n(1.1)\nare a fundamental object in asymptotic analysis and a ubiquitous tool for deriving tractable ap-\nproximations to otherwise intractable quantities, such as normalizing constants and expectations.\n1\narXiv:2602.23151v1  [math.CA]  26 Feb 2026\nWhen λ is large, these integrals are dominated by neighborhoods of minimizers of f, and Laplace\nasymptotics yields explicit leading-order formulas and systematic higher-order corrections. Such\napproximations underpin both rigorous analysis (e.g. sharp tail probabilities and free-energy ex-\npansions) and practical computation in settings where direct numerical integration is infeasible.\nIn the classical regime where the dimension d is fixed and λ →∞, Laplace’s method and its\nhigher-order refinements are well developed [4, Section 8.3], [44, Section 5, Chapter IX]. At the\nopposite extreme, there is also an infinite-dimensional theory (e.g. on Wiener space) in which λ−1\nplays the role of a small-noise parameter [2]. What remains comparatively less understood is the\nintermediate regime in which the dimension grows with the large parameter. This “growing-d”\nregime is now very common in modern statistics, where Laplace-type integrals (or ratios thereof)\nappear as marginal likelihoods and posterior expectations in models whose parameter dimension\nincreases with sample size. See Section 1.2 for more details. Likewise, the absence of rigorously\njustified “growing-d” expansions created a significant void in areas such as statistical physics,\nEuclidean quantum field theories (QFT), and chemistry, where formal expansions have been in\nuse for a long time without adequate justification, see Section 1.1.\nRecent work by the second author establishes a high-dimensional Laplace expansion of I(λ),\nwith explicit remainder control, under the scaling d2/λ →0 [22]. The proof centers around an\napproximation of f in the exponent by its second-order Taylor expansion. Thus the expansion of\nI(λ) is closely tied to the problem of approximating concentrating densities, of the form π ∝e−λf,\nby Gaussian distributions. In fact, the condition d2 ≪λ arises in numerous contexts as a threshold\nfor Gaussian approximation accuracy. In the context of Gaussian approximation to posteriors in\nBayesian inference, d2 ≪λ appears in the works [21, 20, 17, 23]. The condition d2 ≪λ also arises in\nproofs of high-dimensional Central Limit Theorems (CLTs); see [32, 46, 19]. In the CLT, λ (usually\ndenoted n) is the given number of i.i.d. d-dimensional random vectors, whose average is of interest.\nIn fact, the aforementioned works [22, 21, 32] establish lower bounds as well, proving d2/λ ≪1\nis necessary for the Gaussian approximations to be accurate. Although some works have in fact\nproved the CLT under much weaker conditions on d relative to λ, the Gaussian approximation\nholds in a much weaker sense. See Section 3.1 and Remark 2 of [8] for an overview of this line of\nwork.\nThus to summarize, the regime d2/λ →0 arises as a critical threshold in numerous results on\napproximating d-dimensional densities or integrals involving e−λf. Another critical threshold is\nthe regime d/λ →0, which is generically required for distributions ∝e−λf to concentrate near the\nminimizer of f; see e.g. [12, Corollary 2.1] and [38, Section 4.1]. Clearly, if there is no concentration\naround the minimizer of f, one should not expect an expansion to hold whose terms are determined\nsolely by the derivatives of g and f at this single point.\nThis leaves an intriguing intermediate region where d2/λ does not vanish or even diverges to\ninfinity, while d/λ still converges to zero. Due to concentration about the minimizer of f, one\nexpects that I(λ) in (1.1) can still be characterized by derivatives of f and g at the minimizer.\nBut it is unclear how to obtain a closed form approximation to the integral without leaning on the\ntractable Gaussian integral obtained by replacing f with its second-order Taylor expansion. To\nour knowledge, there has been no rigorously justified explicit Laplace-type approximation of I(λ)\nin this intermediate regime.\nIn this paper we have achieved an important milestone by completely characterizing this largely\nunexplored intermediate regime under natural local regularity and global growth conditions. We\nderive an explicit asymptotic series approximating (1.1) such that for each expansion order L ≥1,\nthe remainder is negligible as long as dL+1/λL →0.\nThe series approximates the logarithm of the integral I(λ), and as we explain below, this is\nprecisely what allows us to push d above the\n√\nλ barrier. Let x⋆be the minimizer of f. Assuming\n2\nbounded operator norms of derivatives of f and g near x⋆through orders 2L+2 and 2L, respectively,\nand mild global growth of f away from x⋆, we show that\nlog I(λ) =\nL−1\nX\nk=1\nbk(f, g)λ−k + O(dL+1/λL)\n(1.2)\nfor some coefficients bk(f, g) that satisfy bk(f, g) = O(dk+1). If d ≲log λ, then additional factors of\nlog λ are present in the remainder. The sum with respect to k is omitted if L = 1, and we assumed\nwithout loss of generality that g = 1 at x⋆. We prove that the coefficients bk can be derived from\nformal (and well-known) cumulant expansions.\nSignificance.\nA central significance of our result is that it advances the modern asymptotic anal-\nysis program of developing expansions of ubiquitous Laplace type integrals that remain accurate in\nincreasingly high-dimensional regimes. The best known results to date work under the assumption\nd2/λ →0. In contrast, we extend the range of dimensions for which one can make precise asymp-\ntotic statements with explicit formulas until the very limit, because beyond d/λ →0 there is no\nconcentration any longer. In this sense, our work brings the program initiated by Laplace in the\n1700s to its logical conclusion, by providing explicit asymptotics (with remainder control) up to the\nthreshold where Laplace-type concentration breaks down. We show that a simple analytic approx-\nimation remains valid whenever dL+1/λL →0 for any L ≥1, even in the genuinely intermediate\nregion where d2/λ ̸→0 (indeed, where d2/λ may diverge), by identifying an explicit exponential\ncorrection at the level of the log-integral.\nThe implications of our results across many areas of science and engineering are numerous. Two\nparticularly noteworthy applications deserve special mention.\nThe first application is in physics, including statistical physics and QFT, where Laplace-type in-\ntegrals encode quantities of central importance. In the high-dimensional, many-degrees-of-freedom\nregimes relevant to these fields, such quantities are often evaluated via formal Laplace expansions,\ntypically without remainder bounds that remain valid in the joint limit of a large parameter and\ngrowing dimension; see Section 1.1 for details. This theoretical gap, which dates back at least\nto the Darwin–Fowler steepest-descent approach in 1922 [9], has long limited the rigor of many\ncomputations. Our results fill the century-old gap by placing these Laplace calculations on\nfirm mathematical footing for a broad class of finite-dimensional large-system models.\nAnother area where our results are of significant importance is statistics. Here, λ plays the role\nof sample size. Our results address the need of modern statistics to develop rigorously-justified\nLaplace asymptotics that remain accurate in increasingly high-dimensional regimes. Indeed, high-\ndimensional Laplace integrals are ubiquitous in statistics, arising as marginal likelihoods, model ev-\nidences, or other posterior expectations. Complicating matters is the fact that these integrals must\noften be evaluated repeatedly for different parameter choices, and then optimized over. Laplace\napproximations such as the Bayesian Information Criterion are popular and extremely convenient\nbecause they produce explicit approximations rather than black-box numerical estimates. Yet until\nnow, theoretical backing for these approximations was limited to the d2/λ →0 regime. Our results\npush these guarantees into substantially higher-dimensional regimes, arbitrarily close to d/λ →0.\nSee Section 1.2 for more details and references.\nBesides physics and statistics, high-dimensional Laplace-type integrals arise throughout sci-\nence and engineering, including in molecular simulation and theoretical chemistry (e.g., partition\nfunctions and free-energy calculations) [42, 25], Bayesian inverse problems [13], and others.\nFinally, our result may also be of interest in the theory of cumulants, since it solves the problem\nof bounding the remainder in cumulant expansions. Obtaining a remainder bound using cumulant\n3\ntheory (and the closely related theory of Gaussian chaos [15, 31, 30]) directly is deeply nontrivial.\nWe have avoided this problem by finding an alternative route. See Section 1.3 for more details.",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1\nIntroduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Laplace-type integrals of the form I(λ) :=\nZ",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "Rd g(x)e−λf(x)dx\n(1.1) are a fundamental object in asymptotic analysis and a ubiquitous tool for deriving tractable ap-\nproximations to otherwise intractable quantities, such as normalizing constants and expectations.",
+          "page": 1
+        },
+        {
+          "para_id": "1_3",
+          "text": "1",
+          "page": 1
+        },
+        {
+          "para_id": "1_4",
+          "text": "arXiv:2602.23151v1  [math.CA]  26 Feb 2026",
+          "page": 1
+        },
+        {
+          "para_id": "1_5",
+          "text": "When λ is large, these integrals are dominated by neighborhoods of minimizers of f, and Laplace\nasymptotics yields explicit leading-order formulas and systematic higher-order corrections. Such\napproximations underpin both rigorous analysis (e.g. sharp tail probabilities and free-energy ex-\npansions) and practical computation in settings where direct numerical integration is infeasible.\nIn the classical regime where the dimension d is fixed and λ →∞, Laplace’s method and its\nhigher-order refinements are well developed [4, Section 8.3], [44, Section 5, Chapter IX]. At the\nopposite extreme, there is also an infinite-dimensional theory (e.g. on Wiener space) in which λ−1 plays the role of a small-noise parameter [2]. What remains comparatively less understood is the\nintermediate regime in which the dimension grows with the large parameter. This “growing-d”\nregime is now very common in modern statistics, where Laplace-type integrals (or ratios thereof)\nappear as marginal likelihoods and posterior expectations in models whose parameter dimension\nincreases with sample size. See Section 1.2 for more details. Likewise, the absence of rigorously\njustified “growing-d” expansions created a significant void in areas such as statistical physics,\nEuclidean quantum field theories (QFT), and chemistry, where formal expansions have been in\nuse for a long time without adequate justification, see Section 1.1.\nRecent work by the second author establishes a high-dimensional Laplace expansion of I(λ),\nwith explicit remainder control, under the scaling d2/λ →0 [22]. The proof centers around an\napproximation of f in the exponent by its second-order Taylor expansion. Thus the expansion of\nI(λ) is closely tied to the problem of approximating concentrating densities, of the form π ∝e−λf,\nby Gaussian distributions. In fact, the condition d2 ≪λ arises in numerous contexts as a threshold\nfor Gaussian approximation accuracy. In the context of Gaussian approximation to posteriors in\nBayesian inference, d2 ≪λ appears in the works [21, 20, 17, 23]. The condition d2 ≪λ also arises in\nproofs of high-dimensional Central Limit Theorems (CLTs); see [32, 46, 19]. In the CLT, λ (usually\ndenoted n) is the given number of i.i.d. d-dimensional random vectors, whose average is of interest.\nIn fact, the aforementioned works [22, 21, 32] establish lower bounds as well, proving d2/λ ≪1\nis necessary for the Gaussian approximations to be accurate. Although some works have in fact\nproved the CLT under much weaker conditions on d relative to λ, the Gaussian approximation\nholds in a much weaker sense. See Section 3.1 and Remark 2 of [8] for an overview of this line of\nwork.\nThus to summarize, the regime d2/λ →0 arises as a critical threshold in numerous results on\napproximating d-dimensional densities or integrals involving e−λf. Another critical threshold is\nthe regime d/λ →0, which is generically required for distributions ∝e−λf to concentrate near the\nminimizer of f; see e.g. [12, Corollary 2.1] and [38, Section 4.1]. Clearly, if there is no concentration\naround the minimizer of f, one should not expect an expansion to hold whose terms are determined\nsolely by the derivatives of g and f at this single point.\nThis leaves an intriguing intermediate region where d2/λ does not vanish or even diverges to\ninfinity, while d/λ still converges to zero. Due to concentration about the minimizer of f, one\nexpects that I(λ) in (1.1) can still be characterized by derivatives of f and g at the minimizer.\nBut it is unclear how to obtain a closed form approximation to the integral without leaning on the\ntractable Gaussian integral obtained by replacing f with its second-order Taylor expansion. To\nour knowledge, there has been no rigorously justified explicit Laplace-type approximation of I(λ)\nin this intermediate regime.\nIn this paper we have achieved an important milestone by completely characterizing this largely\nunexplored intermediate regime under natural local regularity and global growth conditions. We\nderive an explicit asymptotic series approximating (1.1) such that for each expansion order L ≥1,\nthe remainder is negligible as long as dL+1/λL →0.\nThe series approximates the logarithm of the integral I(λ), and as we explain below, this is\nprecisely what allows us to push d above the\n√",
+          "page": 2
+        },
+        {
+          "para_id": "1_6",
+          "text": "λ barrier. Let x⋆be the minimizer of f. Assuming",
+          "page": 2
+        },
+        {
+          "para_id": "1_7",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "1_8",
+          "text": "bounded operator norms of derivatives of f and g near x⋆through orders 2L+2 and 2L, respectively,\nand mild global growth of f away from x⋆, we show that",
+          "page": 3
+        },
+        {
+          "para_id": "1_9",
+          "text": "log I(λ) =",
+          "page": 3
+        },
+        {
+          "para_id": "1_10",
+          "text": "L−1\nX",
+          "page": 3
+        },
+        {
+          "para_id": "1_11",
+          "text": "k=1\nbk(f, g)λ−k + O(dL+1/λL)\n(1.2) for some coefficients bk(f, g) that satisfy bk(f, g) = O(dk+1). If d ≲log λ, then additional factors of\nlog λ are present in the remainder. The sum with respect to k is omitted if L = 1, and we assumed\nwithout loss of generality that g = 1 at x⋆. We prove that the coefficients bk can be derived from\nformal (and well-known) cumulant expansions.",
+          "page": 3
+        },
+        {
+          "para_id": "1_12",
+          "text": "Significance.\nA central significance of our result is that it advances the modern asymptotic anal-\nysis program of developing expansions of ubiquitous Laplace type integrals that remain accurate in\nincreasingly high-dimensional regimes. The best known results to date work under the assumption\nd2/λ →0. In contrast, we extend the range of dimensions for which one can make precise asymp-\ntotic statements with explicit formulas until the very limit, because beyond d/λ →0 there is no\nconcentration any longer. In this sense, our work brings the program initiated by Laplace in the\n1700s to its logical conclusion, by providing explicit asymptotics (with remainder control) up to the\nthreshold where Laplace-type concentration breaks down. We show that a simple analytic approx-\nimation remains valid whenever dL+1/λL →0 for any L ≥1, even in the genuinely intermediate\nregion where d2/λ ̸→0 (indeed, where d2/λ may diverge), by identifying an explicit exponential\ncorrection at the level of the log-integral.\nThe implications of our results across many areas of science and engineering are numerous. Two\nparticularly noteworthy applications deserve special mention.\nThe first application is in physics, including statistical physics and QFT, where Laplace-type in-\ntegrals encode quantities of central importance. In the high-dimensional, many-degrees-of-freedom\nregimes relevant to these fields, such quantities are often evaluated via formal Laplace expansions,\ntypically without remainder bounds that remain valid in the joint limit of a large parameter and\ngrowing dimension; see Section 1.1 for details. This theoretical gap, which dates back at least\nto the Darwin–Fowler steepest-descent approach in 1922 [9], has long limited the rigor of many\ncomputations. Our results fill the century-old gap by placing these Laplace calculations on\nfirm mathematical footing for a broad class of finite-dimensional large-system models.\nAnother area where our results are of significant importance is statistics. Here, λ plays the role\nof sample size. Our results address the need of modern statistics to develop rigorously-justified\nLaplace asymptotics that remain accurate in increasingly high-dimensional regimes. Indeed, high-\ndimensional Laplace integrals are ubiquitous in statistics, arising as marginal likelihoods, model ev-\nidences, or other posterior expectations. Complicating matters is the fact that these integrals must\noften be evaluated repeatedly for different parameter choices, and then optimized over. Laplace\napproximations such as the Bayesian Information Criterion are popular and extremely convenient\nbecause they produce explicit approximations rather than black-box numerical estimates. Yet until\nnow, theoretical backing for these approximations was limited to the d2/λ →0 regime. Our results\npush these guarantees into substantially higher-dimensional regimes, arbitrarily close to d/λ →0.\nSee Section 1.2 for more details and references.\nBesides physics and statistics, high-dimensional Laplace-type integrals arise throughout sci-\nence and engineering, including in molecular simulation and theoretical chemistry (e.g., partition\nfunctions and free-energy calculations) [42, 25], Bayesian inverse problems [13], and others.\nFinally, our result may also be of interest in the theory of cumulants, since it solves the problem\nof bounding the remainder in cumulant expansions. Obtaining a remainder bound using cumulant",
+          "page": 3
+        },
+        {
+          "para_id": "1_13",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "1_14",
+          "text": "theory (and the closely related theory of Gaussian chaos [15, 31, 30]) directly is deeply nontrivial.\nWe have avoided this problem by finding an alternative route. See Section 1.3 for more details.",
+          "page": 4
+        },
+        {
+          "para_id": "1_15",
+          "text": "1.1\nApplication in physics In a wide range of models in statistical physics and Euclidean QFT the partition function, which\nis defined as\nZ =\nZ\nexp\n\u0000\n−β H(ϕ)\n\u0001\nDϕ,\n(1.3)",
+          "page": 4
+        },
+        {
+          "para_id": "1_16",
+          "text": "plays a central role. Here β is inversely proportional to the temperature, H is the Hamiltonian\nof the model, and\nR\n. . . Dϕ denotes functional (infinite-dimensional) integration over all allowed\nconfigurations ϕ of the model [6, Sections 2.1], [16, Sections 2.1], [47, Introduction to Chapter 2].\nThe normalized logarithm of the partition function is known as free energy: F = −β−1 log Z. The\nfunctional integral in (1.3) is typically interpreted as the limit of the appropriate finite dimensional\nintegrals [16, Sections 2.3]. After discretization one obtains an ordinary (finite-dimensional) integral\nover d degrees of freedom,",
+          "page": 4
+        },
+        {
+          "para_id": "1_17",
+          "text": "Zd(λ) =\nZ",
+          "page": 4
+        },
+        {
+          "para_id": "1_18",
+          "text": "Rd exp\n\u0000\n−λf(x)\n\u0001\ndx,\nFd(λ) = −λ−1 log Zd(λ),\n(1.4)",
+          "page": 4
+        },
+        {
+          "para_id": "1_19",
+          "text": "where λ is a large prefactor coming from the problem [16, Sections 2.3]. If the model is discrete to\nbegin with (i.e., it has finitely many degrees of freedom d), one gets (1.4) right away [16, Sections\n2.1 and 2.2] and [6, Sections 1.1–1.3].\nA basic approximation strategy, known as mean-field approximation, is to replace the integral\nin (1.4) by its leading Laplace contribution near a global minimizer x⋆of f: log Zd(λ) ≈−λf(x⋆) −1",
+          "page": 4
+        },
+        {
+          "para_id": "1_20",
+          "text": "2 log det\n\u0000\n∇2f(x⋆)\n\u0001\n−d",
+          "page": 4
+        },
+        {
+          "para_id": "1_21",
+          "text": "2 log(λ/(2π)).\n(1.5) In physics texts, this step is typically justified by a combination of (i) the presence of a large\nparameter (e.g. volume), and (ii) an a posteriori self-consistency check that the discarded terms\nare “small” in the regime of interest; see again [16, Sec. 2.3] for an example of this approach.\nTo go beyond (1.5), one expands f around x⋆,",
+          "page": 4
+        },
+        {
+          "para_id": "1_22",
+          "text": "f(x⋆+ u) = f(x⋆) + 1",
+          "page": 4
+        },
+        {
+          "para_id": "1_23",
+          "text": "2 u⊤Hu +\nX k≥3",
+          "page": 4
+        },
+        {
+          "para_id": "1_24",
+          "text": "1\nk! Tk[u⊗k],\nH = ∇2f(x⋆),\n(1.6)",
+          "page": 4
+        },
+        {
+          "para_id": "1_25",
+          "text": "rescales u = λ−1/2y, and rewrites (1.4) as a Gaussian expectation: Zd(λ) = e−λf(x⋆)\u0000 λ",
+          "page": 4
+        },
+        {
+          "para_id": "1_26",
+          "text": "2π\n\u0001−d/2(det H)−1/2 E\n\u0002\nexp\n\u0000\n−Vλ(Y )\n\u0001\u0003\n, Vλ(Y ) :=\nX k≥3",
+          "page": 4
+        },
+        {
+          "para_id": "1_27",
+          "text": "λ1−k/2",
+          "page": 4
+        },
+        {
+          "para_id": "1_28",
+          "text": "k!\nTk[Y ⊗k],\nY ∼N(0, H−1).\n(1.7)",
+          "page": 4
+        },
+        {
+          "para_id": "1_29",
+          "text": "Taking logs yields a formal cumulant expansion [26, Section 3.10], [11, Sections 3.1–3.6]:",
+          "page": 4
+        },
+        {
+          "para_id": "1_30",
+          "text": "log E\n\u0002\ne−Vλ(Y )\u0003\n=\nX m≥1",
+          "page": 4
+        },
+        {
+          "para_id": "1_31",
+          "text": "(−1)m m!\ncum\n\u0000\nVλ(Y )⊗m\u0001\n,\n(1.8)",
+          "page": 4
+        },
+        {
+          "para_id": "1_32",
+          "text": "where cum denotes the corresponding cumulant. In field-theoretic language, the terms in (1.8) are\nprecisely the loop corrections to mean field: Wick expansion of the Gaussian moments [16, Sections\n5.1], [47, Section 1.1] produces a sum over Feynman diagrams, and the cumulant picks out the",
+          "page": 4
+        },
+        {
+          "para_id": "1_33",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "1_34",
+          "text": "connected diagrams, which correct the free energy Fd(λ) order-by-order in λ−1 [6, Sections 9.1],\n[47, Section 1.2 and Chapter 7], [11, Sections 3.13].\nPhysics literature makes extensive use of truncations of (1.8) (or equivalent loop expansions).\nHowever, derivations are usually done without rigorous error control [16, Sections 2.1 and 2.2] and\n[6, Sections 1.1–1.3]. For finite d, the error control follows from classical asymptotic analysis [4, 44].\nFor growing d, such expansions have never been justified except for some specific cases.\nIn summary, mean field approximation and loop/cumulant expansions are central computational\ntools in statistical physics, but rigorous remainder estimates (especially in large systems with many\ndegrees of freedom, d ≫1) are often absent from the standard presentations.\nOur results provide a rigorous version of the loop-correction program for (1.4) in a joint limit\nwhere both the dimension d (number of effective degrees of freedom retained in the reduced descrip-\ntion) and the Laplace prefactor λ grow. Concretely, under mild confining assumptions ensuring\nintegrability and assuming a unique nondegenerate minimum x⋆together with bounded operator\nnorms of derivatives near x⋆, we obtain for every integer L ≥1 an expansion of log Zd(λ) through\nL −1 loops whose remainder is explicitly controlled (see (1.2))",
+          "page": 5
+        },
+        {
+          "para_id": "1_35",
+          "text": "log Zd(λ) =\nh\nmean field\ni\n+",
+          "page": 5
+        },
+        {
+          "para_id": "1_36",
+          "text": "L−1\nX ℓ=1",
+          "page": 5
+        },
+        {
+          "para_id": "1_37",
+          "text": "h\nℓ-loop / ℓth cumulant correction\ni\n+ RL(d, λ),",
+          "page": 5
+        },
+        {
+          "para_id": "1_38",
+          "text": "|RL(d, λ)| ≲dL+1/λL,",
+          "page": 5
+        },
+        {
+          "para_id": "1_39",
+          "text": "(1.9)",
+          "page": 5
+        },
+        {
+          "para_id": "1_40",
+          "text": "uniformly over the stated class of f. The scaling condition dL+1/λL →0, d, λ →∞is exactly the\nstatement that (L −1)-loop-corrected mean field has a provable accuracy guarantee in a growing-\nsystem regime. From a physics viewpoint, (1.9) can be read as supplying the missing “error bars”\nfor a procedure that is otherwise typically justified heuristically (or by numerics), thereby turning\nthe loop expansion into a rigorously justified approximation scheme in regimes where the effective\nnumber of degrees of freedom grows with the large parameter in the exponential.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "1.2",
+      "section_title": "1.2\nApplication in statistics Laplace-type integrals\nR",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.2_1",
+          "text": "Rd g(x)e−nf(x)dx are omnipresent in statistics, with n = λ typically playing\nthe role of sample size, and f depending weakly on n [40].\nIn Bayesian inference, e−nf(x) =\nP(data | x)P0(x). The probability distribution P(x | data) = e−nf(x)/\nR\ne−nf(x′)dx′ is the posterior\nprobability distribution of an unknown parameter x given data, consisting of n independent data\npoints. Once the posterior has been specified, one is interested in its summary statistics, such as the\nposterior mean and variance-covariance matrix, which can be expressed as ratios of Laplace-type\nintegrals\nR",
+          "page": 5
+        },
+        {
+          "para_id": "1.2_2",
+          "text": "Rd g(x)e−nf(x)dx/\nR",
+          "page": 5
+        },
+        {
+          "para_id": "1.2_3",
+          "text": "Rd e−nf(x)dx [40, 41].\nAnother target for computation is the denominator\nR\ne−nf(x)dx itself. This quantity is known\nas the model evidence [18]. Different modeling choices for P(data | x) (how the data is generated\nfrom the unknown parameter x), as well as for P0(x) (the prior probability distribution of x), lead\nto different values of the model evidence. Thus a model can be chosen among several, or among a\ncontinuum, by maximizing M 7→\nR\ne−nf(x)dx. This is known as Bayesian model selection [18, 43], [1,\nChapter 5].\nIn frequentist inference, Laplace-type integrals arise as marginal likelihoods [34]. Specifically,\nsuppose we are interested in estimating a parameter θ ∈Rk, but we have a nuisance parameter\nx ∈Rd, which in turn is drawn from a distribution g. Then the likelihood of the data takes the\nform\nL(θ) = P(data | θ) =\nZ",
+          "page": 5
+        },
+        {
+          "para_id": "1.2_4",
+          "text": "Rd P(data | x, θ)q(x)dx =\nZ\ng(x)e−nf(x,θ)dx",
+          "page": 5
+        },
+        {
+          "para_id": "1.2_5",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "1.2_6",
+          "text": "[36]. Here, the first two equalities are by definition, while the integrand in the rightmost integral\nexpresses the mathematical structure of P(data | x, θ).\nOne is now interested in the marginal\nmaximum likelihood estimator ˆθ = arg maxθ L(θ) = arg maxθ\nR\ng(x)e−nf(x,θ)dx.\nTo summarize, we are interested either in approximations of\nR\ng(x)e−nf(x)dx for a particular\ng and f, or in maximizing a function θ 7→In(θ) =\nR",
+          "page": 6
+        },
+        {
+          "para_id": "1.2_7",
+          "text": "Rd g(x)e−nf(x,θ)dx (Bayesian model selection\ncan be classified as the latter task). These tasks become particularly demanding in the growing-\nd regimes that now arise routinely in applications. For example, [14] tackles the above Laplace\noptimization problem in the context of deep learning, where the integration is over the space of\nhundreds of parameters of a neural network.\nIn this setting of optimizing an objective given by a high-dimensional integral, Laplace approxi-\nmations are especially attractive. Indeed, they yield an explicit analytic surrogate for the objective\nas a function of the tuning parameter, rather than the black-box numerical access provided by\nmethods such as Markov Chain Monte Carlo [33]. However, this convenience is only meaningful\nwhen the approximation error is controlled in a dimension-dependent way. In fact, concerns about\nthe reliability of the Bayesian Information Criterion (BIC) in high dimensions have been noted ex-\nplicitly in the literature. The BIC is a further approximation on top of the Laplace approximation\nused to simplify the optimization objective. In [10, p. 377], the authors write “for models with a\nlarge number of predictors [large d] it is no longer clear that some version of the BIC, or perhaps\nrather a Laplace approximation, accurately approximates a marginal likelihood”.\nWhile recent work has begun to provide rigorous guarantees for high-dimensional Laplace ap-\nproximations [37, 3, 39, 22], these typically require more restrictive scalings (at best, that d2/λ ≪1).\nOur results push these guarantees essentially up to the concentration boundary, providing explicit\n“error bars” for Laplace-based surrogates deep into the modern high-dimensional regime.",
+          "page": 6
+        },
+        {
+          "para_id": "1.2_8",
+          "text": "1.3\nConnection to cumulant theory As stated above, the coefficients bk in (1.2) can be derived from formal cumulant expansions.\nAlthough computing the coefficients using cumulants is easy, bounding the remainder in the ex-\npansion of log I(λ) using cumulant theory seems deeply nontrivial. Indeed, cumulants have been\nthoroughly studied in the statistics, physics and combinatorics literature, yet rigorous remainder\nbounds on cumulant expansions in the growing d regime are virtually non-existent.\nThis sug-\ngests that bounding the remainder through the lens of cumulants may be intractable. In contrast,\nour change-of-variables approach is not only tractable, but also avoids any heavy machinery, as\nmentioned above.\nOur remainder bound makes rigorous the well-known observation that, based on the terms,\nexpanding the cumulant generating function (cgf) is advantageous to expanding the moment gen-\nerating function (mgf). Specifically, it is well-known that each cumulant is given by a sum of a\nfewer number of summands than the corresponding moment. For example at the end of Section\n3.10.1 of [26], McCullagh writes that the formula for cumulants is a sum only over “connected\npairs” of bi-partitions, as opposed to the formula for moments. In [16, Chapter 5.3], the author\nwrites, “When calculating cumulants, only fully connected diagrams (without disjoint pieces) need\nto be included. This is a tremendous simplification.”\nThe simplification due to this summing over fewer terms in fact leads to a substantial improve-\nment. By analyzing the cumulants and moments directly in our setting, it is possible to show that\nthe moments that contribute to the kth coefficient in the I(λ) expansion are generically of order\nO(d2k), while the cumulants that contribute to the kth coefficient in the log I(λ) expansion are\ngenerically of order O(dk+1). Of course, this analysis of the terms does not rigorously prove any-\nthing about the remainders. However, it naturally leads to the hypothesis that the remainders of",
+          "page": 6
+        },
+        {
+          "para_id": "1.2_9",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "1.2_10",
+          "text": "the two expansions behave like the first terms dropped from the truncation, i.e. that the Lth order\nremainders scale as O(d2L/λL) and O(dL+1/λL), respectively. This is precisely what the previous\nwork [22] and the present paper rigorously prove.\nThus, as mentioned above, expanding the logarithm of I(λ) is what allows us to relax the d2 ≪λ\nrequirement in [22]. Given our result (1.2), it is very easy to see why d2 ≪λ is necessary for an\nadditive expansion of I(λ) to any order. Indeed, we have shown in (1.2) that, to leading order,\nI(λ) = exp(O(d2/λ)). Thus if we Taylor expand the exponential to obtain an additive expansion\nof I(λ), powers of d2/λ are present throughout. There is no finite number of terms we can subtract\nfrom I(λ) to remove the dependence on d2/λ. However, we can remove the dependence on d2/λ\nsimply by dividing I(λ) by the single term exp(b1(f, g)/λ). The multiplicative remainder is then\nof order exp(O(d3/λ2)).\nIn Section 8, we illustrate the power of expanding log I(λ) in two concrete examples: a quar-\ntic perturbation of a Gaussian exponent, and a logistic-regression-type likelihood motivated by\nstatistics.",
+          "page": 7
+        },
+        {
+          "para_id": "1.2_11",
+          "text": "1.4\nRelated work There is a related body of work on Laplace-type integrals arising in statistics (e.g. posterior nor-\nmalizing constants and marginals) and statistical physics (partition functions) in the “proportional\nasymptotics” regime.\nHere, d/λ converges to a constant.\nThe regime lies beyond the concen-\ntration threshold, so these integrals can only formally be considered to be Laplace-type. Due to\nthe lack of concentration, entirely different techniques are required to study such asymptotics.\nSee [24, 35, 7, 27, 28], as well as the referenced cited therein.",
+          "page": 7
+        },
+        {
+          "para_id": "1.2_12",
+          "text": "Organization The paper is organized as follows. Section 2 introduces the notation and conventions used through-\nout. In Section 3, we describe the problem setting and state the main result, and Section 4 outlines\nthe proof strategy. Section 5 derives the expansion of the main contribution to the integral coming\nfrom a neighborhood of zero, while Section 6 computes the expansion coefficients in terms of cu-\nmulants. The tail contribution is estimated in Section 7. Section 8 compares our results with the\nexpansion of I(λ) in [22] and presents two applications of our expansion. Various technical results\nare collected in the appendices.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nNotation and conventions",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "When we write e.g. P\nk≥2 ak, the sum is over a finite number of k’s. Also, any sum of the form\nP0\nk=1 ak is understood to be omitted. Definition 2.1. A tensor Ak→j is a multilinear map taking in k vectors in Rd and returning a\nscalar if j = 0, a vector in Rd if j = 1, or a d×d matrix if j = 2. We will typically use the letters G\nand F instead of A. We say Ak→j is symmetric if for all permutations σ : {1, . . . , k} →{1, . . . , k}\nand vectors x1, . . . , xk ∈Rd it holds Ak→j[x1, . . . , xk] = Ak→j[xσ(1), . . . , xσ(k)]. Note that symmetry\nrefers to the input space (permuting the k arguments) rather than to the output space. In particular,\nAk→2 can be symmetric even if Ak→2[x1, . . . , xk] is not a symmetric matrix.\nWhen j = 0, we often omit →0 in the subscript and simply write Ak. When x1 = · · · = xk =\nx ∈Rd, we write Ak→j[x⊗k] instead of Ak→j[x, x, . . . , x]. We also allow k = 0; then A0→1 is a\nconstant vector-valued function and A0→2 is a constant matrix-valued function.",
+          "page": 7
+        },
+        {
+          "para_id": "2_2",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "2_3",
+          "text": "In some contexts, the term tensor is used to refer to multilinear forms (the case j = 0). Here\nwe adopt the convention of Definition 2.1 and also call Ak→1 and Ak→2 tensors, i.e., vector- and\nmatrix-valued multilinear maps.\nThe operator norm of a symmetric k-th order tensor Ak, i.e., Ak→0, is given by [45]",
+          "page": 8
+        },
+        {
+          "para_id": "2_4",
+          "text": "∥Ak∥op := sup\n∥u∥=1\nAk[u⊗k].\n(2.1)",
+          "page": 8
+        },
+        {
+          "para_id": "2_5",
+          "text": "For a function f ∈Ck(Rd), the k-th derivative tensor is",
+          "page": 8
+        },
+        {
+          "para_id": "2_6",
+          "text": "(∇kf(x))i1...ik = ∂xi1 . . . ∂xikf(x).\n(2.2) We let ϵ = d/λ, and fix an integer L ≥1.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3\nStatement of result",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "We study the asymptotics of the integral I(λ) =\n\u0012 λ 2π",
+          "page": 8
+        },
+        {
+          "para_id": "3_2",
+          "text": "\u0013d/2 Z Rd g(x)e−λf(x)dx\n(3.1)",
+          "page": 8
+        },
+        {
+          "para_id": "3_3",
+          "text": "as d, λ →∞. We make the following assumption on f and g.",
+          "page": 8
+        },
+        {
+          "para_id": "3_4",
+          "text": "Assumption 3.1.",
+          "page": 8
+        },
+        {
+          "para_id": "3_5",
+          "text": "(1) There exists r0 > 0 independent of d and λ such that f satisfies",
+          "page": 8
+        },
+        {
+          "para_id": "3_6",
+          "text": "f(x) =f2L+1(x) + R2L+2(x), ∥x∥≤r0, f2L+1(x) =1",
+          "page": 8
+        },
+        {
+          "para_id": "3_7",
+          "text": "2 ∥x∥2 + P2L+1\nk=3\n1\nk!∇kf(0)[x⊗k].\n(3.2) The operator norms and the remainder are bounded:",
+          "page": 8
+        },
+        {
+          "para_id": "3_8",
+          "text": "∥∇kf(0)∥op ≤cf, 3 ≤k ≤2L + 1;\n|R2L+2(x)| ≤cf ∥x∥2(L+1) , ∥x∥≤r0.\n(3.3)",
+          "page": 8
+        },
+        {
+          "para_id": "3_9",
+          "text": "(2) We have g(0) = 1. For the same r0 as in (1), we have",
+          "page": 8
+        },
+        {
+          "para_id": "3_10",
+          "text": "log g(x) = P2L−1\nk=1\n1\nk!∇k(log g)(0)[x⊗k] + R(g)\n2L(x), ∥x∥≤r0.\n(3.4) The operator norms and the remainder are bounded",
+          "page": 8
+        },
+        {
+          "para_id": "3_11",
+          "text": "∥∇k log g(0)∥op ≤cg, 1 ≤k ≤2L −1;\n|R(g)\n2L(x)| ≤cg ∥x∥2L , ∥x∥≤r0.\n(3.5)",
+          "page": 8
+        },
+        {
+          "para_id": "3_12",
+          "text": "(3) There exists a constant κ > 0 independent of d, λ such that |g(x)|e−λf(x) ≤cg exp\n\u0010\n−λκ min\nn\n∥x∥2/2, √ϵ ∥x∥, d−1/(2L) log(1 + ∥x∥)\no\u0011\n,\n∀x ∈Rd.\n(3.6)\nWithout loss of generality, assume κ ≤1/e, and that cg is the same as in part (2).",
+          "page": 8
+        },
+        {
+          "para_id": "3_13",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "3_14",
+          "text": "In (3.6), recall that ϵ = d/λ.\nThe case of a general minimizer x⋆of f and general positive definite ∇2f(x⋆) can be reduced to\nthe one assumed above by an affine change of variables. By linearity, the normalization condition\ng(0) = 1 is not restrictive. A sufficient condition for (3.6) to be satisfied is the following: f(x) ≥κ min\n\b\n∥x∥2/2, √ϵ ∥x∥\n\t\n,\n∥x∥≤r0, f(x) ≥1",
+          "page": 9
+        },
+        {
+          "para_id": "3_15",
+          "text": "λ log |g(x)| + κ min\nn\n∥x∥2/2, √ϵ ∥x∥, d−1/(2L) log(1 + ∥x∥)\no\n,\n∥x∥≥r0.\n(3.7) To see why (3.7) implies (3.6), note that the second line in (3.7) is equivalent to (3.6) in the domain\n∥x∥≥r0. Meanwhile, the first line is equivalent to f(x) ≥κ min{∥x∥2/2, √ϵ ∥x∥, d−1/(2L) log(1 +\n∥x∥)}, ∥x∥≤r0, for all dL+1/λL small enough. This can be combined with max∥x∥≤r0 |g(x)| ≤cg\nto yield (3.6). The reason we can add the third argument to the minimum in the region ∥x∥≤r0\nis that √ϵ∥x∥≤d−1/(2L) log(1 + ∥x∥) for all ∥x∥≤r0 if dL+1/λL is small enough.\nConsider the second, large-∥x∥condition in (3.7). The logarithmic term in the minimum is the\nsmallest of the three for large enough x. For such x the condition becomes f(x) ≥1",
+          "page": 9
+        },
+        {
+          "para_id": "3_16",
+          "text": "λ log |g(x)| +\nκd−1/(2L) log(1 + ∥x∥). Thus unless g itself grows as some g(x) = exp(∥x∥p), p > 0, we only require\nthat f grows logarithmically at infinity.",
+          "page": 9
+        },
+        {
+          "para_id": "3_17",
+          "text": "For positive scalars a, b, the notation a ≲b and a = O(b) both mean that a ≤cb, where the\nsuppressed constant c can depend on the constants cf and cg appearing in Assumption 3.1 but not\non d, λ, r0, κ. Since L ≥1 is fixed, the dependence of constants on L is ignored. In a similar vein,\nwhen we say “for all δ sufficiently small, it holds....” we mean there exists c(cf, cg) such that if\n0 < δ ≤c(cf, cg), then the statement after the ellipses is true. Here, δ denotes an arbitrary small\nparameter that is relevant to the discussion at hand. In most cases, δ = R√ϵ (see below for the\ndefinition of R).\nThe following is our main result.",
+          "page": 9
+        },
+        {
+          "para_id": "3_18",
+          "text": "Theorem 3.2. Fix any L ≥1. Suppose f, g satisfy Assumption 3.1 and d ≥2L. There exists a\nsufficiently large c−= c−(cf, cg) > 0 and sufficiently small c+ = c+(cf, cg) > 0 such that for any\nR, d, λ satisfying",
+          "page": 9
+        },
+        {
+          "para_id": "3_19",
+          "text": "R ≥c−max\n\u0012\n1, 1 κ",
+          "page": 9
+        },
+        {
+          "para_id": "3_20",
+          "text": "\u0014q log 1",
+          "page": 9
+        },
+        {
+          "para_id": "3_21",
+          "text": "κ + log R + log λ d",
+          "page": 9
+        },
+        {
+          "para_id": "3_22",
+          "text": "\u0015\u0013\n,\n(R2d)L+1",
+          "page": 9
+        },
+        {
+          "para_id": "3_23",
+          "text": "λL\n≤c+,\nR\np",
+          "page": 9
+        },
+        {
+          "para_id": "3_24",
+          "text": "d/λ ≤r0,\n(3.8)",
+          "page": 9
+        },
+        {
+          "para_id": "3_25",
+          "text": "it holds",
+          "page": 9
+        },
+        {
+          "para_id": "3_26",
+          "text": "log I(λ) −",
+          "page": 9
+        },
+        {
+          "para_id": "3_27",
+          "text": "L−1\nX",
+          "page": 9
+        },
+        {
+          "para_id": "3_28",
+          "text": "k=1\nbk(f, g)λ−k\f\f\f ≲(R2d)L+1",
+          "page": 9
+        },
+        {
+          "para_id": "3_29",
+          "text": "λL\n.\n(3.9)",
+          "page": 9
+        },
+        {
+          "para_id": "3_30",
+          "text": "The coefficients bk(f, g) depend only on ∇ℓf(0), ℓ= 3, . . . , 2L + 1, ∇ℓlog g(0), ℓ= 1, . . . , 2L −1,\nbut not explicitly on d or λ, and their formula is given in Lemma 4.3. Moreover, |bk(f, g)| ≲dk+1. To illustrate the convention introduced before Theorem 3.2, we note that the suppressed con-\nstant in (3.9) and in the bound on |bk(f, g)| may depend on cf, cg only, but not on d, λ, r0, κ. Note\nalso that, according to our convention, the sum with respect to k in (3.9) is omitted if L = 1.\nWe give a closed-form formula for b1(f, g) in Section 6.2. As is seen, in the worst case the first\ninequality in (3.8) forces R ∼log λ, up to a factor depending on cf, cg, κ. This occurs when d\nremains bounded as λ →∞. On the other hand, if d ≥c(cf, cg, κ) log λ, then (3.8) is satisfied with\nR being a constant independent of d and λ.",
+          "page": 9
+        },
+        {
+          "para_id": "3_31",
+          "text": "9",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nProof outline",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "4.1\nKey steps Here, we outline the main ideas of our approach. Without loss of generality, we suppose x⋆= 0\nis the global minimizer of f, with ∇2f(0) = Id, so that f(x) = ∥x∥2/2 + o(∥x∥2) near zero. For\nsimplicity, we only describe the proof in the case g ≡1. Incorporating a non-constant g presents\nno real challenges. On the surface, our proof begins similarly to classical fixed-d proofs of the\nexpansion based on the Morse Lemma [44]. This lemma states that there is a change of variables\nx = x(t) making the exponent f(x(t)) an exact quadratic. This approach, in its pure form, seems\nto be intractable because the coordinate transformation from the Morse Lemma is difficult to work\nwith.",
+          "page": 10
+        },
+        {
+          "para_id": "4_2",
+          "text": "Instead, we use a variation of the approach. Fix any L ≥1.\nStep 1: initial change of variables. We begin by constructing an explicit local polynomial\nchange of variables X(t), of the form X(t) = t + O(∥t∥2), t →0, which makes the exponent\n“more quadratic” but not exactly quadratic. Specifically, it eliminates the third through (2L+1)st\norder terms in the Taylor expansion of f around the minimizer, so that −λf(X(t)) = −λ ∥t∥2 /2 +\nO(λ ∥t∥2L+2). But O(λ ∥t∥2L+2) is of order O(dL+1/λL) (and therefore negligible) in the region\n∥t∥≲\np",
+          "page": 10
+        },
+        {
+          "para_id": "4_3",
+          "text": "d/λ where the integral concentrates. Thus O(λ ∥t∥2L+2) can be discarded.\nThe price we pay for this nice change of variables is the appearance of the Jacobian det(X′(t))\nof the coordinate change, which we bring into the exponent. Thus the new exponential function is,\nupon throwing out the negligible ∥t∥2L+2 term, given by exp(−λ∥t∥2/2+log det(X′(t))). Crucially,\nhowever, log det(X′(t)) scales only as d ≪λ. Thus the log-Jacobian does not significantly affect the\nquadratic exponent created by the change of variables. Specifically, we may write log det(X′(t)) =\ndh(t), where h(t) can be Taylor-expanded as h(t) = P\nk≥1 Fk[t⊗k]+(negligible remainder) for some\ntensors (multi-linear forms) Fk with bounded operator norms. Here and below, sums in which\nthe upper limit has not been explicitly indicated are understood to mean finite sums. The above\narguments lead to I(λ) =eO(dL+1/λL)\u0010 λ 2π",
+          "page": 10
+        },
+        {
+          "para_id": "4_4",
+          "text": "\u0011d/2 Z",
+          "page": 10
+        },
+        {
+          "para_id": "4_5",
+          "text": "U1\nexp\n\u0000\n−λE1(t)\n\u0001\ndt, E1(t) :=1",
+          "page": 10
+        },
+        {
+          "para_id": "4_6",
+          "text": "2∥t∥2 + ϵ\nX",
+          "page": 10
+        },
+        {
+          "para_id": "4_7",
+          "text": "k≥1\nFk[t⊗k],\n(4.1) where ϵ = d/λ, U1 = {∥t∥≲√ϵ}, and we have discarded the negligible integral over Uc\n1. Now,\nwe must somehow deal with the terms ϵFk[t⊗k], k ≥1. The linear and quadratic terms (k = 1, 2)\nare not a problem, since they can be combined with ∥t∥2/2 to give a new Gaussian measure, and\nintegrating against Gaussians is tractable. For k ≥2L, the terms λϵ|Fk[t⊗k]| are sufficiently small\nuniformly over t ∈U1, so that exp(−λϵFk[t⊗k]) can be discarded from the integral (meaning, ab-\nsorbed in the multiplicative remainder eO(dL+1/λL)). But there is an intermediate range of k’s,\nnamely, 3 ≤k ≤2L −1, for which additional massaging is needed. We do this in the next step.\nIn what follows, all our formulas ignore terms that lead to multiplicative factors eO(dL+1/λL) in I(λ).",
+          "page": 10
+        },
+        {
+          "para_id": "4_8",
+          "text": "Step 2:\niterative refinement.\nWe construct a polynomial change of variables of the form\nT1(s) = s + ϵφ1(s), with φ1(s) = O(∥s∥2), analogous to X(t) above. By choosing φ1 appropriately,\nwe can ensure that this change of variables increases the power of ϵ in front of Fk[t⊗k] for as many",
+          "page": 10
+        },
+        {
+          "para_id": "4_9",
+          "text": "10",
+          "page": 10
+        },
+        {
+          "para_id": "4_10",
+          "text": "k ≥3 as we like. Thus E1(T1(s)) = ϵs + ϵs2 + 1",
+          "page": 11
+        },
+        {
+          "para_id": "4_11",
+          "text": "2∥s∥2 + ϵ2\n2L−3\nX",
+          "page": 11
+        },
+        {
+          "para_id": "4_12",
+          "text": "k=3\nsk.\n(4.2) where sk is a mnemonic form for Fk[s⊗k], and Fk is some tensor with bounded operator norm.\nFurthermore, due to the form of T1(s), we have",
+          "page": 11
+        },
+        {
+          "para_id": "4_13",
+          "text": "1\nλ log det(T ′\n1(s)) = ϵ2\n2L−3\nX",
+          "page": 11
+        },
+        {
+          "para_id": "4_14",
+          "text": "k=2\nsk,\n(4.3)",
+          "page": 11
+        },
+        {
+          "para_id": "4_15",
+          "text": "informally. Here, one of the powers of ϵ comes from ϵφ1(s), and the other power of ϵ comes from\n1\nλ ×d, since log det ∼d. Since the powers of ϵ in (4.3) are greater than or equal to the corresponding\npowers of ϵ in (4.2), adding 1",
+          "page": 11
+        },
+        {
+          "para_id": "4_16",
+          "text": "λ log det(T ′\n1(s)) to E1(t1(s)) does not change the structure of the latter.\nTherefore, implementing the change of variables, the above argument gives I(λ) =eO(dL+1/λL)\u0010 λ 2π",
+          "page": 11
+        },
+        {
+          "para_id": "4_17",
+          "text": "\u0011d/2 Z",
+          "page": 11
+        },
+        {
+          "para_id": "4_18",
+          "text": "U2\nexp\n\u0000\n−λE2(t)\n\u0001\ndt, E2(t) :=ϵt + ϵt2 + 1",
+          "page": 11
+        },
+        {
+          "para_id": "4_19",
+          "text": "2∥t∥2 + ϵ2\n2L−3\nX",
+          "page": 11
+        },
+        {
+          "para_id": "4_20",
+          "text": "k=3\ntk,\nU2 := T −1\n1 (U1).\n(4.4)",
+          "page": 11
+        },
+        {
+          "para_id": "4_21",
+          "text": "We can now repeat the procedure, each time increasing the power of ϵ in front of P\nk≥3 tk. Finally,\nwe arrive at EL(t) = ϵt + ϵt2 + 1",
+          "page": 11
+        },
+        {
+          "para_id": "4_22",
+          "text": "2∥t∥2 in the exponent. At this point, all terms in the sum with\nrespect to k have been absorbed in the multiplicative remainder eO(dL+1/λL). Recalling that ϵt+ϵt2 is a mnemonic for ϵa⊤t + ϵt⊤Bt, where the norms of a and B are bounded, we conclude that I(λ) =eO(dL+1/λL)\u0010 λ 2π",
+          "page": 11
+        },
+        {
+          "para_id": "4_23",
+          "text": "\u0011d/2 Z",
+          "page": 11
+        },
+        {
+          "para_id": "4_24",
+          "text": "UL\nexp\n\u0010\n−λ\nh\nϵa⊤t + ϵt⊤Bt + 1",
+          "page": 11
+        },
+        {
+          "para_id": "4_25",
+          "text": "2∥t∥2i\u0011\n, UL :=T −1\nL−1 ◦· · · ◦T −1\n1 (U1).\n(4.5) Step 3: complete the square. We incur a negligible error by extending the integral over UL\nin (4.5) to Rd. But the integral over Rd is now exactly computable, since it becomes a Gaussian\nintegral upon completing the square. We obtain precisely that",
+          "page": 11
+        },
+        {
+          "para_id": "4_26",
+          "text": "Iin(λ) = eO(dL+1/λL) exp\n\u0010\n1\n2λϵ2a⊤(Id + 2ϵB)−1a −1",
+          "page": 11
+        },
+        {
+          "para_id": "4_27",
+          "text": "2 log det(Id + 2ϵB)\n\u0011\n.",
+          "page": 11
+        },
+        {
+          "para_id": "4_28",
+          "text": "Finally, the second exponential factor above gives the terms in (1.2). To show this, we prove that a\ncan be written as a = a0+ϵa1+ϵ2a2+. . . , and B as B = B0+ϵB1+ϵ2B2+. . . , where the ak and Bk\ndo not depend on ϵ, and have bounded norms. Substituting this into the exponent in parentheses\nleads to exp(λ P\nk≥2 ckϵk + d P\nk≥1 c′\nkϵk), where the first sum stems from 1",
+          "page": 11
+        },
+        {
+          "para_id": "4_29",
+          "text": "2λϵ2a⊤(Id + 2ϵB)−1a and\nthe second sum stems from −1",
+          "page": 11
+        },
+        {
+          "para_id": "4_30",
+          "text": "2 log det(Id + 2ϵB). Combining the two sums gives the right orders\nof magnitude d2/λ + d3/λ2 + . . . for the terms in (1.2).\nIt is worth noting that our proof avoids the heavy Gaussian concentration machinery for Lip-\nschitz functions (e.g., via log-Sobolev/Herbst-type arguments), in contrast to the strongest result\nto date [22].\nStep 4: computing the coefficients. In Step 3 above, we have quantified the orders of magnitude\nof the expansion coefficients. Next, we show that these coefficients can be expressed in terms of\ncumulants. To do so, it suffices to consider f, d fixed, view log I(λ) purely as a function of t = λ−1/2,",
+          "page": 11
+        },
+        {
+          "para_id": "4_31",
+          "text": "11",
+          "page": 11
+        },
+        {
+          "para_id": "4_32",
+          "text": "and take the derivatives of this function with respect to t. As a first step towards this goal, we\nwrite I(λ) in the following form: I(λ) = eO(t2L)E\n\u0002\nexp\n\u0000\ntf3(Z) + t2f4(Z) + · · · + t2L−1f2L+1(Z)\n\u0001\n1{∥Z∥≤C log(1/t)}\n\u0003\n,\n(4.6) where Z ∼N(0, Id) and fk(x) = −1",
+          "page": 12
+        },
+        {
+          "para_id": "4_33",
+          "text": "k!∇kf(0)[x⊗k]. Using this representation, we expand log I(λ)\nin powers of t. We show that the coefficients up to order 2L in this expansion coincide with the\ncoefficients in the formal expansion of log E[exp(P2L−1\nk=1 tkfk+2(Z))] in powers of t.\nThis latter\nexpansion is formal since the expectation may not be finite. The reason the coefficients coincide\nis that the discrepancy between the coefficients of the two expansions is controlled by P(∥Z|| ≥\nC log(1/t)) ∼exp(−log2(1/t)) = o(tM) for any M. Finally, we observe that the coefficients of the\nlatter formal expansion can be expressed in terms of joint cumulants of fk(Z), k = 3, . . . , 2L + 1.",
+          "page": 12
+        },
+        {
+          "para_id": "4_34",
+          "text": "4.2\nRoadmap In this section, we make the above proof outline precise, by breaking up the proof of Theorem 3.2\ninto three lemmas. These lemmas are stated here and proved in the subsequent sections, as indicated\nbelow the statement of each lemma. Definition 4.1 (Local and tail integrals). Define the following local and tail integrals. Iin(λ) =\n\u0012 λ 2π",
+          "page": 12
+        },
+        {
+          "para_id": "4_35",
+          "text": "\u0013d/2 Z ∥x∥≤R√ϵ\ng(x)e−λf(x)dx,\n(4.7) Iout(λ) =\n\u0012 λ 2π",
+          "page": 12
+        },
+        {
+          "para_id": "4_36",
+          "text": "\u0013d/2 Z ∥x∥>R√ϵ\ng(x)e−λf(x)dx.\n(4.8) We break up the proof of Theorem 3.2 into three key lemmas. Lemma 4.2. Fix any L ≥1. Suppose parts (1) and (2) of Assumption 3.1 hold. There exist large\nenough c−= c−(cf, cg) > 0 and small enough c+ = c+(cf, cg) > 0 such that if R in (4.7) satisfies R ≥c−\nr",
+          "page": 12
+        },
+        {
+          "para_id": "4_37",
+          "text": "1 ∨log λ",
+          "page": 12
+        },
+        {
+          "para_id": "4_38",
+          "text": "d\n,\nR√ϵ ≤min(r0, c+),\n(4.9) then\n\f\f\f\f\flog Iin(λ) −",
+          "page": 12
+        },
+        {
+          "para_id": "4_39",
+          "text": "L−1\nX",
+          "page": 12
+        },
+        {
+          "para_id": "4_40",
+          "text": "k=1\nbk(f, g, d)λ−k\n\f\f\f\f\f ≲(R2d)L+1",
+          "page": 12
+        },
+        {
+          "para_id": "4_41",
+          "text": "λL\n.\n(4.10)",
+          "page": 12
+        },
+        {
+          "para_id": "4_42",
+          "text": "The coefficients bk(f, g, d) depend only on d, ∇ℓf(0), ℓ= 3, . . . , 2L+1, ∇ℓlog g(0), ℓ= 1, . . . , 2L−1,\nbut not explicitly on λ. Moreover, |bk(f, g, d)| ≲dk+1. Lemma 4.2 is proved in Section 5. Let α = (α1, . . . , αM) be a multiindex with αj ≥0 for all j.\nLet |α| = α1 + · · · + αM, and ∂α\nu = ∂α1\nu1 . . . ∂αM\nuM . Lemma 4.3. The coefficients bk(f, g, d), k = 1, . . . , L−1 from Lemma 4.2 do not explicitly depend\non d. They are given as follows. Let M ≤2L −2 be even and Z ∼N(0, Id). If d ≥2L, then",
+          "page": 12
+        },
+        {
+          "para_id": "4_43",
+          "text": "b M",
+          "page": 12
+        },
+        {
+          "para_id": "4_44",
+          "text": "2 (f, g, d) = b M",
+          "page": 12
+        },
+        {
+          "para_id": "4_45",
+          "text": "2 (f, g) =\nX α1,...,αM≥0\nPM\ni=1 iαi=M",
+          "page": 12
+        },
+        {
+          "para_id": "4_46",
+          "text": "cum(pα(Z))\nQM\ni=1 αi!(i!)αi .\n(4.11)",
+          "page": 12
+        },
+        {
+          "para_id": "4_47",
+          "text": "Here, cum(pα(Z)) is defined at the beginning of Section 6.",
+          "page": 12
+        },
+        {
+          "para_id": "4_48",
+          "text": "12",
+          "page": 12
+        },
+        {
+          "para_id": "4_49",
+          "text": "Lemma 4.3 is proved in Section 6. Although we have used somewhat different notation, the\nabove formula can be shown to coincide with that given in [26, Chapter 3.10.2]. Remark 4.4. The above formula for bM/2(f, g) is the coefficient in front of tM in the formal power\nseries expansion of log E [exp(h(t, Z))] in powers of t, where h(t, Z) = log g(tz)−\n\u0000\nt−2f(tz) −∥z∥2/2\n\u0001 and Z ∼N(0, Id).",
+          "page": 13
+        },
+        {
+          "para_id": "4_50",
+          "text": "Lemma 4.5. Under the assumptions of Theorem 3.2,",
+          "page": 13
+        },
+        {
+          "para_id": "4_51",
+          "text": "|Iout(λ)|/Iin(λ) ≤5R2LdL+1",
+          "page": 13
+        },
+        {
+          "para_id": "4_52",
+          "text": "λL\n.\n(4.12) Lemma 4.5 is proved in Section 7. The three lemmas conclude the proof, since they give the\ndesired form for the coefficients, and we have",
+          "page": 13
+        },
+        {
+          "para_id": "4_53",
+          "text": "log I(λ) −",
+          "page": 13
+        },
+        {
+          "para_id": "4_54",
+          "text": "L−1\nX",
+          "page": 13
+        },
+        {
+          "para_id": "4_55",
+          "text": "k=1\nbk(f, g)λ−k\n\f\f\f\f ≤\n\f\f\f\f log Iin(λ) −",
+          "page": 13
+        },
+        {
+          "para_id": "4_56",
+          "text": "L−1\nX",
+          "page": 13
+        },
+        {
+          "para_id": "4_57",
+          "text": "k=1\nbk(f, g)λ−k\n\f\f\f\f +\n\f\f\f\flog\n\u0012\n1 + Iout(λ)",
+          "page": 13
+        },
+        {
+          "para_id": "4_58",
+          "text": "Iin(λ)",
+          "page": 13
+        },
+        {
+          "para_id": "4_59",
+          "text": "\u0013\f\f\f\f .\n(4.13)",
+          "page": 13
+        },
+        {
+          "para_id": "4_60",
+          "text": "We now use (4.10), (4.12) to conclude.",
+          "page": 13
+        },
+        {
+          "para_id": "4_61",
+          "text": "5\nProof of Lemma 4.2 Using Assumption 3.1, part (1), and using that R√ϵ ≤r0, we have max\n∥x∥≤R√ϵ λ|R2L+2(x)| ≲λ(R2ϵ)L+1 = R2L+2dϵL.\n(5.1)",
+          "page": 13
+        },
+        {
+          "para_id": "4_62",
+          "text": "Therefore, recalling (3.2), we have Iin(λ) = eO(R2L+2dϵL)\n\u0012 λ 2π",
+          "page": 13
+        },
+        {
+          "para_id": "4_63",
+          "text": "\u0013d/2 Z ∥x∥≤R√ϵ\ng(x)e−λf2L+1(x)dx.\n(5.2)",
+          "page": 13
+        },
+        {
+          "para_id": "4_64",
+          "text": "The integrand must be positive for (5.2) to hold. But indeed, g(0) = 1 and log g has bounded first\nderivative, both by ((2)) of Assumption 3.1. Thus we can ensure g(x) > 0 for all ∥x∥≤R√ϵ by\nchoosing the upper bound c+ on R√ϵ small enough in (4.9).",
+          "page": 13
+        },
+        {
+          "para_id": "4_65",
+          "text": "5.1\nIterative change of variables Throughout this section, we assume all the conditions of Lemma 4.2 hold true without explicitly\nsaying so. Before stating a key change of variables, we introduce the following two definitions.",
+          "page": 13
+        },
+        {
+          "para_id": "4_66",
+          "text": "Definition 5.1. A base tensor Gk→j is a symmetric multilinear map as in Definition 2.1, which\nonly depends on d, ∇ℓf(0), ℓ= 3, . . . , 2L + 1, and ∇ℓ(log g)(0), ℓ= 1, . . . , 2L −1, but does not\nexplicitly depend on λ, and satisfies ∥Gk∥op < c(cf, cg). Here f and g are the same as in (1.1). A\ncomposite tensor F ϵ\nk→j, denoted specifically by the letter F, is any tensor which can be written as",
+          "page": 13
+        },
+        {
+          "para_id": "4_67",
+          "text": "F ϵ\nk→j =\nX",
+          "page": 13
+        },
+        {
+          "para_id": "4_68",
+          "text": "ℓ≥0\nϵℓG(ℓ)\nk→j,",
+          "page": 13
+        },
+        {
+          "para_id": "4_69",
+          "text": "for base tensors G(ℓ)\nk→j.",
+          "page": 13
+        },
+        {
+          "para_id": "4_70",
+          "text": "13",
+          "page": 13
+        },
+        {
+          "para_id": "4_71",
+          "text": "Any time we write F ϵ\nk→j (or F ϵ\nk when j = 0) we mean a composite tensor according to this\ndefinition. Definition 5.2. We say f(x) = O(∥x∥p) for all x ∈U ⊂{∥x∥≤1} if there exists c depending only\non cf, cg but independent of d and λ, such that |f(x)| ≤c∥x∥p for all x ∈U. Lemma 5.3. Let f2L+1 be as in (3.2). There exists φ(t) = P\nq≥2 F ϵ\nq→1[t⊗q] such that f2L+1(t +\nφ(t)) = 1",
+          "page": 14
+        },
+        {
+          "para_id": "4_72",
+          "text": "2∥t∥2 + O(∥t∥2L+2) for all ∥t∥≤2R√ϵ. See Appendix B for the proof. We now show that id + φ is bijective, and characterize the set\n(id + φ)−1({∥x∥≤R√ϵ}). The following lemma states a slightly more general result which will be\nneeded later on. Lemma 5.4. Let φ(t) = P\nq≥2 F ϵ\nq→1[t⊗q], and X(t) = t + φ(t). Fix any absolute constants C1, C2\nsuch that 0 < C1 ≤C2. For all r ≤1/(2C2) small enough that ∥φ′(t)∥≤1",
+          "page": 14
+        },
+        {
+          "para_id": "4_73",
+          "text": "2 ∀∥t∥≤2C2r, and for\nany set U satisfying {∥t∥≤C1r} ⊆U ⊆{∥t∥≤C2r}, it holds (1) {∥t∥≤2",
+          "page": 14
+        },
+        {
+          "para_id": "4_74",
+          "text": "3C1r} ⊆X−1(U) ⊆{∥t∥≤2C2r}, and (2) X is a bijection from X−1(U) onto U.",
+          "page": 14
+        },
+        {
+          "para_id": "4_75",
+          "text": "See Appendix B for the proof. Let U = {∥x∥≤R√ϵ},\nU1 = X−1({∥x∥≤R√ϵ}).\n(5.3) Lemma 5.4 with C1 = C2 = 1, r = R√ϵ, and U as above gives that if R√ϵ is small enough then\n{∥t∥≤2",
+          "page": 14
+        },
+        {
+          "para_id": "4_76",
+          "text": "3R√ϵ} ⊆U1 ⊆{∥t∥≤2R√ϵ}. Thus in particular, the conclusion of Lemma 5.3 holds for\nall t ∈U1. Combining (5.2), Lemma 5.3, and the fact that X(t) : X−1(U) →U is a bijection by\nLemma 5.4, we have Iin(λ) = eO(R2L+2dϵL)\n\u0012 λ 2π",
+          "page": 14
+        },
+        {
+          "para_id": "4_77",
+          "text": "\u0013d/2 Z",
+          "page": 14
+        },
+        {
+          "para_id": "4_78",
+          "text": "U1\nexp\n\u0012\n−λ",
+          "page": 14
+        },
+        {
+          "para_id": "4_79",
+          "text": "2 ∥t∥2 + log g(X(t)) + log det(X′(t))\n\u0013\ndt.\n(5.4)",
+          "page": 14
+        },
+        {
+          "para_id": "4_80",
+          "text": "Since ∥φ′(t)∥op ≪1 for t ∈U1, we have log detX′(t) = log det(Id + φ′(t)) = tr log(Id + φ′(t)) ≈\ntrφ′(t) ∼d. This is made precise in the following lemma.",
+          "page": 14
+        },
+        {
+          "para_id": "4_81",
+          "text": "Lemma 5.5. We have log det(X′(t)) = d\n\u0014 2L−1\nX",
+          "page": 14
+        },
+        {
+          "para_id": "4_82",
+          "text": "k=1\nF ϵ\nk[t⊗k] + O\n\u0000\n∥t∥2L \u0001\u0015\n,\n∀t ∈U1.\n(5.5) The proof follows from Lemma A.4 with m = 0, and the fact that R√ϵ can be made sufficiently\nsmall by choosing c+ appropriately in (4.9). Next, we expand log g(X(t)).",
+          "page": 14
+        },
+        {
+          "para_id": "4_83",
+          "text": "Lemma 5.6. It holds",
+          "page": 14
+        },
+        {
+          "para_id": "4_84",
+          "text": "log g(X(t)) =",
+          "page": 14
+        },
+        {
+          "para_id": "4_85",
+          "text": "2L−1\nX",
+          "page": 14
+        },
+        {
+          "para_id": "4_86",
+          "text": "k=1\nF ϵ\nk[t⊗k] + O\n\u0000\n∥t∥2L \u0001\n,\n∀t ∈U1.\n(5.6)",
+          "page": 14
+        },
+        {
+          "para_id": "4_87",
+          "text": "14",
+          "page": 14
+        },
+        {
+          "para_id": "4_88",
+          "text": "Proof. Using (3.4) and (3.5), and the fact that\n1\nk!∇k(log g)(0) is a base tensor and therefore a\ncomposite tensor, we have",
+          "page": 15
+        },
+        {
+          "para_id": "4_89",
+          "text": "log g(t + φ(t)) =",
+          "page": 15
+        },
+        {
+          "para_id": "4_90",
+          "text": "2L−1\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_91",
+          "text": "k=1\nF ϵ\nk[(t + φ(t))⊗k] + R(g)\n2L(t + φ(t)),\n∀t ∈U1.\n(5.7) Now, recall that R√ϵ ≤r0 is one of the assumptions of Lemma 4.2. Since ∥t + φ(t)∥= ∥X(t)∥≤\nR√ϵ ≤r0 when t ∈U1 (by the definition of U1), we have |R(g)\n2L(t + φ(t))| ≲∥t + φ(t)∥2L ≲∥t∥2L.\nHere, we used that ∥φ(t)∥≲∥t∥for t ∈U1. Next, using Lemma 5.3, t + φ(t) = t +\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_92",
+          "text": "q≥2\nF ϵ\nq→1[t⊗q] =\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_93",
+          "text": "q≥1\nF ϵ\nq→1[t⊗q].\n(5.8) But then (A.5) with j = 0 in Corollary A.3 gives P2L−1\nk=1 F ϵ\nk[(t + φ(t))⊗k] = P\nk≥1 F ϵ\nk[t⊗k]. Thus we\nhave shown log g(t + φ(t)) = P\nk≥1 F ϵ\nk[t⊗k] + O(∥t∥2L), t ∈U1. To conclude, we move the part of\nthe sum with k ≥2L into the remainder O(∥t∥2L).",
+          "page": 15
+        },
+        {
+          "para_id": "4_94",
+          "text": "We now use (5.5) and (5.6) in (5.4) to get λ\n2 ∥t∥2 −log g(X(t)) −log det(X′(t))",
+          "page": 15
+        },
+        {
+          "para_id": "4_95",
+          "text": "= λ",
+          "page": 15
+        },
+        {
+          "para_id": "4_96",
+          "text": "1\n2∥t∥2 + 1",
+          "page": 15
+        },
+        {
+          "para_id": "4_97",
+          "text": "λ",
+          "page": 15
+        },
+        {
+          "para_id": "4_98",
+          "text": "2L−1\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_99",
+          "text": "k=1\nF ϵ\nk[t⊗k] + ϵ",
+          "page": 15
+        },
+        {
+          "para_id": "4_100",
+          "text": "2L−1\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_101",
+          "text": "k=1\nF ϵ\nk[t⊗k]",
+          "page": 15
+        },
+        {
+          "para_id": "4_102",
+          "text": "!",
+          "page": 15
+        },
+        {
+          "para_id": "4_103",
+          "text": "+ O(∥t∥2L),\n∀t ∈U1.\n(5.9)",
+          "page": 15
+        },
+        {
+          "para_id": "4_104",
+          "text": "We can combine\n1\nλF ϵ\nk and ϵF ϵ\nk into ϵF ϵ\nk.\nAlso, since ∥t∥≤2R√ϵ for all t ∈U1 as discussed\nbelow (5.3), we have O\n\u0000\n∥t∥2L \u0001\n= O(R2LϵL). We conclude that Iin(λ) = eO(R2L+2dϵL)\n\u0012 λ 2π",
+          "page": 15
+        },
+        {
+          "para_id": "4_105",
+          "text": "\u0013d/2 Z U1\nexp (−λE1(t)) dt,",
+          "page": 15
+        },
+        {
+          "para_id": "4_106",
+          "text": "E1(t) := 1",
+          "page": 15
+        },
+        {
+          "para_id": "4_107",
+          "text": "2 ∥t∥2 + ϵ",
+          "page": 15
+        },
+        {
+          "para_id": "4_108",
+          "text": "2L−1\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_109",
+          "text": "k=1\nF ϵ\nk[t⊗k], {∥t∥≤2",
+          "page": 15
+        },
+        {
+          "para_id": "4_110",
+          "text": "3R√ϵ} ⊆U1 ⊆{∥t∥≤2R√ϵ}.",
+          "page": 15
+        },
+        {
+          "para_id": "4_111",
+          "text": "(5.10)",
+          "page": 15
+        },
+        {
+          "para_id": "4_112",
+          "text": "Comparing E1 in (5.10) with the original f, we see that E1 is closer to being exactly quadratic. If\nL = 1, we stop here and estimate Iin(λ) as in Section 5.2. If L ≥2, we show next that by iteratively\nchanging variables, we can continue to increase the power of ϵ in front of cubic and higher powers\nof t. Lemma 5.7. Let 1 ≤m ≤L −1 and",
+          "page": 15
+        },
+        {
+          "para_id": "4_113",
+          "text": "Em(t) = ϵF ϵ\n1[t] + ϵF ϵ\n2[t⊗2] + 1",
+          "page": 15
+        },
+        {
+          "para_id": "4_114",
+          "text": "2 ∥t∥2 + ϵm\n2L−2m+1\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_115",
+          "text": "k=3\nF ϵ\nk[t⊗k].\n(5.11) Let C be an absolute constant to be chosen later. There exists a change of variables Tm(s) = s + ϵmφm(s),\nφm(s) =\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_116",
+          "text": "k≥2\nF ϵ\nk→1[s⊗k],\n(5.12) such that for all ∥s∥≤CR√ϵ,",
+          "page": 15
+        },
+        {
+          "para_id": "4_117",
+          "text": "Em(Tm(s)) = ϵF ϵ\n1[s] + ϵF ϵ\n2[s⊗2] + 1",
+          "page": 15
+        },
+        {
+          "para_id": "4_118",
+          "text": "2 ∥s∥2 + ϵm+1\n2L−2m−1\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4_119",
+          "text": "k=3\nF ϵ\nk[s⊗k] + O\n\u0000\n(R√ϵ)2L+2\u0001\n.\n(5.13)",
+          "page": 15
+        },
+        {
+          "para_id": "4_120",
+          "text": "15",
+          "page": 15
+        },
+        {
+          "para_id": "4_121",
+          "text": "See the end of Appendix B for the proof. The value of C will be chosen below the proof of\nCorollary 5.9.\nAs we will see below, the big-O term in (5.13) contributes the factor exp\n\u0000\nO(λ(R√ϵ)2L+2)\n\u0001\nto\nIin. Observe that this matches the desired order of magnitude in Lemma 4.2. Setting m = 1 in\n(5.11) gives the function E1 in (5.10).\nComparing (5.11) to (5.13), we see that the power of ϵ and highest power k of s have changed.\nThe effect of Tm(s) is only to increase the power of ϵ from m to m + 1, not to decrease the highest\npower of s from 2L −2m + 1 to 2L −2m −1. Terms with these higher powers of s do appear upon\nplugging in Tm(s) to Em. However, precisely because of the higher power of ϵ, any ϵm+1F ϵ\nk[s⊗k]\nwith k > 2L −2m −1 can simply be thrown out, i.e. absorbed into the O((R√ϵ)2L+2) remainder.",
+          "page": 16
+        },
+        {
+          "para_id": "4_122",
+          "text": "In the following lemma, we study the change of variables Tm. Lemma 5.8. Let 1 ≤m ≤L −1, Tm be as in Lemma 5.7 and Um be a set satisfying {∥t∥≤cmR√ϵ} ⊆Um ⊆{∥t∥≤CmR√ϵ}\n(5.14) for some absolute constants 0 < cm ≤Cm. Let Um+1 = T −1\nm (Um). For all ϵ small enough that\nϵm∥φ′\nm(t)∥≤1/2 for all ∥t∥≤2CmR√ϵ, it holds (1) {∥t∥≤2",
+          "page": 16
+        },
+        {
+          "para_id": "4_123",
+          "text": "3cmR√ϵ} ⊆Um+1 ⊆{∥t∥≤2CmR√ϵ},\n(5.15) (2) Tm : Um+1 →Um is bijective, and (3) We have log det(T ′\nm(s)) = dϵm\n2L−2m−1\nX",
+          "page": 16
+        },
+        {
+          "para_id": "4_124",
+          "text": "k=1\nF ϵ\nk[s⊗k] + O(dR2LϵL)\n∀s ∈Um+1.\n(5.16) The statements (1) and (2) follow from Lemma 5.4 with r = R√ϵ. Part (3) follows by setting\nN = 2L −2m in Lemma A.4 and using part (1) to characterize the diameter of Um+1. We combine\nthe above two lemmas in the following corollary, thereby completing one full iteration from Em to\nEm+1. Corollary 5.9. Let 1 ≤m ≤L−1, Em, Em+1, φm be as in Lemma 5.7 and Um be as in Lemma 5.8.\nThen λEm(Tm(s)) + log det(T ′\nm(s)) = λEm+1(s) + O(R2L+2dϵL)\n∀s ∈Um+1.\n(5.17) Therefore,\nZ",
+          "page": 16
+        },
+        {
+          "para_id": "4_125",
+          "text": "Um\ne−λEm(t)dt = eO(R2L+2dϵL)\nZ",
+          "page": 16
+        },
+        {
+          "para_id": "4_126",
+          "text": "Um+1\ne−λEm+1(s)ds.\n(5.18) Proof. We combine Lemma 5.8 and Lemma 5.7 to study Em(Tm(s)) + 1",
+          "page": 16
+        },
+        {
+          "para_id": "4_127",
+          "text": "λ log det(T ′\nm(s)). Clearly,\n1\nλ × dϵm = ϵm+1. Then Em(Tm(s)) + 1",
+          "page": 16
+        },
+        {
+          "para_id": "4_128",
+          "text": "λ log det(T ′\nm(s))",
+          "page": 16
+        },
+        {
+          "para_id": "4_129",
+          "text": "=ϵF ϵ\n1[s] + ϵF ϵ\n2[s⊗2] + 1",
+          "page": 16
+        },
+        {
+          "para_id": "4_130",
+          "text": "2 ∥s∥2 + ϵm+1\n2L−2m−1\nX",
+          "page": 16
+        },
+        {
+          "para_id": "4_131",
+          "text": "k=3\nF ϵ\nk[s⊗k] + ϵm+1\n2L−2m−1\nX",
+          "page": 16
+        },
+        {
+          "para_id": "4_132",
+          "text": "k=1\nF ϵ\nk[s⊗k] + O(R2L+2ϵL+1) =Em+1(s) + O(R2L+2ϵL+1).",
+          "page": 16
+        },
+        {
+          "para_id": "4_133",
+          "text": "(5.19)",
+          "page": 16
+        },
+        {
+          "para_id": "4_134",
+          "text": "16",
+          "page": 16
+        },
+        {
+          "para_id": "4_135",
+          "text": "Thus, comparing the second and third line in (5.19), we see that each polynomial term in 1",
+          "page": 17
+        },
+        {
+          "para_id": "4_136",
+          "text": "λ log det(T ′\nm(s))\nhas an equal or higher power of ϵ than the polynomial term in Em(Tm(s)) of the same degree. In\nother words, the log Jacobian does not harm the convenient structure created by changing variables.\nMultiplying both sides of (5.19) by λ and noting that λR2L+2ϵL+1 = dR2L+2ϵL proves (5.17).\nTo prove (5.18), we use the change of variables t = Tm(s), which is a bijection from Um+1 onto\nUm by Lemma 5.8. We then apply (5.17) to conclude. Starting with (5.10), we iteratively apply Lemma 5.8 and Corollary 5.9, stopping once we get\nto m + 1 = L. We conclude that Iin(λ) = eO(R2L+2dϵL)\n\u0012 λ 2π",
+          "page": 17
+        },
+        {
+          "para_id": "4_137",
+          "text": "\u0013d/2 Z UL\ne−λEL(t)dt, EL(t) = ϵF ϵ\n1[t] + ϵF ϵ\n2[t⊗2] + 1",
+          "page": 17
+        },
+        {
+          "para_id": "4_138",
+          "text": "2∥t∥2,\nUL = T −1\nL−1 ◦· · · ◦T −1\n1 (U1).",
+          "page": 17
+        },
+        {
+          "para_id": "4_139",
+          "text": "(5.20)",
+          "page": 17
+        },
+        {
+          "para_id": "4_140",
+          "text": "Furthermore, by the repeated application of Lemma 5.8, and using that c1 = 2/3, C1 = 2 (recall-\ning (5.10)), we have\n{∥t∥≤(2/3)LR√ϵ} ⊆UL ⊆{∥t∥≤2LR√ϵ}.\n(5.21) Thus we see that in Lemma5.7, we can take C = 2L. Note that (5.21) holds also for L = 1.",
+          "page": 17
+        },
+        {
+          "para_id": "4_141",
+          "text": "5.2\nCompleting the square Before presenting the main result of the section, we make the following observation: let A = F ϵ\n2 =\nF ϵ\n2→0 be a composite tensor given by a bilinear form, i.e. taking in two vectors and returning a\nscalar. Then A can also be viewed as A = F ϵ\n0→2, i.e. a constant mapping returning a matrix. The\nsame is true for F ϵ\n1→0 also being F ϵ\n0→1. The operator norms are preserved under this identification.",
+          "page": 17
+        },
+        {
+          "para_id": "4_142",
+          "text": "The main result in this section is the following. Lemma 5.10. Under the assumptions of Lemma 4.2, it holds log Iin(λ) = 1",
+          "page": 17
+        },
+        {
+          "para_id": "4_143",
+          "text": "2λϵ2F ϵ\n0→1\n⊤(Id + 2ϵF ϵ\n0→2)−1F ϵ\n0→1 −1",
+          "page": 17
+        },
+        {
+          "para_id": "4_144",
+          "text": "2 log det(Id + 2ϵF ϵ\n0→2) + O(R2L+2dϵL).\n(5.22) for two composite tensors F ϵ\n0→1, F ϵ\n0→2. Remark 5.11. The constant vector F ϵ\n0→1 is the same as the vector representation of F ϵ\n1 in (5.20).\nThe constant matrix F ϵ\n0→2 is the same as the matrix representation of F ϵ\n2 in (5.20). However, this\nfact is immaterial since we have not been tracking any explicit formulas. We only need to know\nthe structure of the tensors. Proof. When L ≥2, the function EL(t) is as in (5.20), containing a linear and quadratic correction\nto ∥t∥2/2. When L = 1, then E1(t) from (5.10) has only a linear correction. Thus both cases\ncan be considered to be of the form of EL from (5.20), since zero is a special case of a quadratic\ncorrection. Let us identify F ϵ\n1 and F ϵ\n2 in the definition of EL with F ϵ\n0→1 and F ϵ\n0→2 in the natural\nway, respectively. Since F ϵ\n2 is a symmetric linear form, the corresponding F ϵ\n0→2 is a symmetric\nmatrix. Define the vector a and matrix B as a = ϵF ϵ\n0→1,\nB = Id + 2ϵF ϵ\n0→2,\n(5.23) and note that B is also symmetric. Then EL(t) = a⊤t + 1",
+          "page": 17
+        },
+        {
+          "para_id": "4_145",
+          "text": "2t⊤Bt = 1",
+          "page": 17
+        },
+        {
+          "para_id": "4_146",
+          "text": "2∥B1/2t + B−1/2a∥2 −1",
+          "page": 17
+        },
+        {
+          "para_id": "4_147",
+          "text": "2a⊤B−1a.\n(5.24)",
+          "page": 17
+        },
+        {
+          "para_id": "4_148",
+          "text": "17",
+          "page": 17
+        },
+        {
+          "para_id": "4_149",
+          "text": "The matrix B is invertible if ϵ is small enough. We now do a final change of variables. Let\ns = B1/2t + B−1/2a. Then\n\u0012 λ 2π",
+          "page": 18
+        },
+        {
+          "para_id": "4_150",
+          "text": "\u0013d/2 Z",
+          "page": 18
+        },
+        {
+          "para_id": "4_151",
+          "text": "UL\ne−λEL(t)dt = e\nλ\n2 a⊤B−1a\n\u0012 λ",
+          "page": 18
+        },
+        {
+          "para_id": "4_152",
+          "text": "2π",
+          "page": 18
+        },
+        {
+          "para_id": "4_153",
+          "text": "\u0013d/2 Z UL\ne−λ",
+          "page": 18
+        },
+        {
+          "para_id": "4_154",
+          "text": "2 ∥B1/2t+B−1/2a∥2dt = e\nλ\n2 a⊤B−1a(det B)−1/2P(Z ∈\n√",
+          "page": 18
+        },
+        {
+          "para_id": "4_155",
+          "text": "λ ˜UL),",
+          "page": 18
+        },
+        {
+          "para_id": "4_156",
+          "text": "(5.25)",
+          "page": 18
+        },
+        {
+          "para_id": "4_157",
+          "text": "where Z ∼N(0, Id) and ˜UL = B1/2UL + B−1/2a. Note that ∥B−1∥op ≤(1 −2ϵ∥F ϵ\n2∥op)−1, which\nis bounded if ϵ is sufficiently small. ∥B∥op is also bounded, and ∥a∥≲ϵ. Recall from (5.21) that\n{∥t∥≤CR√ϵ} ⊆UL for some absolute constant C. We find a C′ = C′(cf, cg) > 0 such that\n{∥x∥≤C′R√ϵ} ⊂˜UL. To do so, it suffices to prove that if x = B1/2t + B−1/2a and ∥x∥≤C′R√ϵ\nthen ∥t∥≤CR√ϵ. Indeed, we have t = B−1/2x−B−1a, and therefore ∥t∥≤cf,g(C′R√ϵ+ϵ). Here,\ncf,g is some constant depending on cf, cg, only. Thus, C′ can be found from the inequality cf,g(C′R√ϵ + ϵ) ≤CR√ϵ\n(5.26) for all ϵ sufficiently small. Dividing by R√ϵ and using that R ≥1 and ϵ can be made as small as\nnecessary, by (3.8), we see that C′ can be found.\nThus {∥x∥≤C′R\n√",
+          "page": 18
+        },
+        {
+          "para_id": "4_158",
+          "text": "d} ⊂\n√",
+          "page": 18
+        },
+        {
+          "para_id": "4_159",
+          "text": "λ ˜UL. Assuming furthermore that C′R ≥2 by (4.9), we have 1 −exp(−C′2R2d/8) ≤1 −exp(−(C′R −1)2d/2) ≤P(Z ∈\n√",
+          "page": 18
+        },
+        {
+          "para_id": "4_160",
+          "text": "λ ˜UL) ≤1. Finally, by (4.9) we can also assume R2 ≥8L log λ",
+          "page": 18
+        },
+        {
+          "para_id": "4_161",
+          "text": "C′2d . We then obtain the following further lower\nbound:\n1 −λ−L ≤P(Z ∈\n√",
+          "page": 18
+        },
+        {
+          "para_id": "4_162",
+          "text": "λ ˜UL) ≤1.\n(5.27) Combining (5.20), (5.25), and (5.27) now gives",
+          "page": 18
+        },
+        {
+          "para_id": "4_163",
+          "text": "Iin(λ) = eO(R2L+2dϵL)e\nλ\n2 a⊤B−1a(det B)−1/2.\n(5.28)",
+          "page": 18
+        },
+        {
+          "para_id": "4_164",
+          "text": "To conclude, substitute the definition of a and B from (5.23).",
+          "page": 18
+        },
+        {
+          "para_id": "4_165",
+          "text": "5.3\nStructure of terms in the expansion Consider the two terms in (5.22). For brevity, we write J1 = F ϵ\n0→1 and J2 = F ϵ\n0→2 for the two specific\ntensors arising in (5.22). We have log det(Id + 2ϵJ2) = tr log(Id + 2ϵJ2). Using that ∥2ϵJ2∥op < 1/2\nif ϵ is sufficiently small (since J2 = F ϵ\n0→2), we have\n\r\r\r\r\r(Id + 2ϵJ2)−1 −",
+          "page": 18
+        },
+        {
+          "para_id": "4_166",
+          "text": "L−2\nX",
+          "page": 18
+        },
+        {
+          "para_id": "4_167",
+          "text": "k=0\n(−2ϵJ2)k\n\r\r\r\r\r\nop\n≲ϵL−1, log(Id + 2ϵJ2) +",
+          "page": 18
+        },
+        {
+          "para_id": "4_168",
+          "text": "L−1\nX k=1",
+          "page": 18
+        },
+        {
+          "para_id": "4_169",
+          "text": "1\nk(−2ϵJ2)k\n\r\r\r\r\r\nop\n≲ϵL.",
+          "page": 18
+        },
+        {
+          "para_id": "4_170",
+          "text": "(5.29)",
+          "page": 18
+        },
+        {
+          "para_id": "4_171",
+          "text": "By Lemma A.1 (see also Remark A.2) the first sum is F ϵ\n0→2 and the second sum is ϵF ϵ\n0→2. Therefore, J⊤\n1 (Id + 2ϵJ2)−1J1 =J⊤\n1 F ϵ\n0→2J1 + O(ϵL−1), tr log(Id + 2ϵJ2) =ϵtrF ϵ\n0→2 + O(dϵL).\n(5.30)",
+          "page": 18
+        },
+        {
+          "para_id": "4_172",
+          "text": "18",
+          "page": 18
+        },
+        {
+          "para_id": "4_173",
+          "text": "From the Definition 5.1 and since J1 = F ϵ\n0→1, it is clear that J⊤\n1 F ϵ\n0→2J1 = F ϵ\n0→0 = µ. In other\nwords, µ is just a polynomial in ϵ, i.e. µ = P\nk≥0 µkϵk. Its coefficients are bounded and depend\nonly on d, ∇kf(0), and ∇k(log g)(0). We conclude that",
+          "page": 19
+        },
+        {
+          "para_id": "4_174",
+          "text": "1\n2λϵ2J⊤\n1 (Id + 2ϵJ2)−1J1 −1",
+          "page": 19
+        },
+        {
+          "para_id": "4_175",
+          "text": "2 log det(Id + 2ϵJ2) = λϵ2µ + ϵtrF ϵ\n0→2 + O(dϵL).\n(5.31)",
+          "page": 19
+        },
+        {
+          "para_id": "4_176",
+          "text": "Finally, write F ϵ\n0→2 = P\nℓ≥0 ϵℓBℓ, for bounded matrices Bℓdepending only on d, ∇kf(0), and\n∇k(log g)(0). Let ak = d−1trBk−1, which are bounded. Then",
+          "page": 19
+        },
+        {
+          "para_id": "4_177",
+          "text": "λϵ2µ + ϵtrF ϵ\n0→2 = λϵ2µ + ϵ\nX",
+          "page": 19
+        },
+        {
+          "para_id": "4_178",
+          "text": "ℓ≥0\nϵℓtr(Bℓ) + O(dϵL)",
+          "page": 19
+        },
+        {
+          "para_id": "4_179",
+          "text": "= λ",
+          "page": 19
+        },
+        {
+          "para_id": "4_180",
+          "text": "L\nX",
+          "page": 19
+        },
+        {
+          "para_id": "4_181",
+          "text": "k=2\nµkϵk + O(λϵL+1) + ϵ",
+          "page": 19
+        },
+        {
+          "para_id": "4_182",
+          "text": "L−2\nX",
+          "page": 19
+        },
+        {
+          "para_id": "4_183",
+          "text": "ℓ=0\nϵℓtr(Bℓ) + O(dϵL)",
+          "page": 19
+        },
+        {
+          "para_id": "4_184",
+          "text": "= λ",
+          "page": 19
+        },
+        {
+          "para_id": "4_185",
+          "text": "L\nX",
+          "page": 19
+        },
+        {
+          "para_id": "4_186",
+          "text": "k=2\nµkϵk +",
+          "page": 19
+        },
+        {
+          "para_id": "4_187",
+          "text": "L−1\nX",
+          "page": 19
+        },
+        {
+          "para_id": "4_188",
+          "text": "k=1\ndakϵk + O(dϵL) =",
+          "page": 19
+        },
+        {
+          "para_id": "4_189",
+          "text": "L−1\nX",
+          "page": 19
+        },
+        {
+          "para_id": "4_190",
+          "text": "k=1\n(µk+1 + ak)dϵk + O(dϵL).",
+          "page": 19
+        },
+        {
+          "para_id": "4_191",
+          "text": "(5.32)",
+          "page": 19
+        },
+        {
+          "para_id": "4_192",
+          "text": "To get the second line, we moved the part of the polynomial µ = P\nk≥0 µkϵk in which k ≥L −1\ninto the remainder. Similarly, we moved the part of the second sum in which ℓ≥L −1 into the\nremainder.\nLet bk(f, g, d) = (µk+1 +ak)dk+1, so that |bk(f, g, d)| ≲dk+1. Combining (5.31) with (5.32) and\nusing the result in (5.22), we finally have",
+          "page": 19
+        },
+        {
+          "para_id": "4_193",
+          "text": "log Iin(λ) =",
+          "page": 19
+        },
+        {
+          "para_id": "4_194",
+          "text": "L−1\nX",
+          "page": 19
+        },
+        {
+          "para_id": "4_195",
+          "text": "k=1\nbk(f, g, d)λ−k + O(R2L+2dϵL)\n(5.33)",
+          "page": 19
+        },
+        {
+          "para_id": "4_196",
+          "text": "This concludes the proof of Lemma 4.2.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6\nCumulants and proof of Lemma 4.3",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "In this section, we prove Lemma 4.3. First, we introduce the concept of cumulants.",
+          "page": 19
+        },
+        {
+          "para_id": "6_2",
+          "text": "6.1\nPreliminaries on cumulants Definition 6.1 (Cumulants). Let Y1, . . . , Ym ∈R be random variables. We define cum(Y1, . . . , Ym) = (−i)m∂s1 . . . ∂sm log E [exp (i [s1Y1 + · · · + smYm])]\n\f\f\ns1=···=sm=0.\n(6.1) See [31, Chapter 3.1].",
+          "page": 19
+        },
+        {
+          "para_id": "6_3",
+          "text": "Remark 6.2. Under suitable integrability conditions (e.g.\nif Y1, . . . , Ym are bounded random\nvariables), the following definition is equivalent:",
+          "page": 19
+        },
+        {
+          "para_id": "6_4",
+          "text": "cum(Y1, . . . , Ym) = ∂s1 . . . ∂sm log E [exp (s1Y1 + · · · + smYm)]\n\f\f\ns1=···=sm=0.",
+          "page": 19
+        },
+        {
+          "para_id": "6_5",
+          "text": "19",
+          "page": 19
+        },
+        {
+          "para_id": "6_6",
+          "text": "When there is repetition among the Yj, there is an alternative expression for the cumulant. Let\nα = (α1, . . . , αM) with αj ≥0. Suppose that Y1, . . . , Ym consist of α1 copies of X1, α2 copies of\nX2, and so on, up to αM copies of XM. Let |α| = α1 + · · · + αM = m. Then",
+          "page": 20
+        },
+        {
+          "para_id": "6_7",
+          "text": "cum(Y1, . . . , Ym) = cum\n\u0000\nX1, . . . , X1\n|\n{z\n}\nα1",
+          "page": 20
+        },
+        {
+          "para_id": "6_8",
+          "text": ", X2, . . . , X2\n|\n{z\n}\nα2",
+          "page": 20
+        },
+        {
+          "para_id": "6_9",
+          "text": ", . . . , XM, . . . , XM\n|\n{z\n}\nαM",
+          "page": 20
+        },
+        {
+          "para_id": "6_10",
+          "text": "\u0001 = (−i)|α|∂α1\nu1 . . . ∂αM\nuM log E [exp (i[u1X1 + · · · + uMXM])]\n\f\f\nu1=···=uM=0.\n(6.2) This follows from the fact that, for a function f(s1, s2) = g(s1 + s2), it holds ∂s1∂s2f(0, 0) = g′′(0).\nWe will only explicitly use cumulants of order one and two, for which it holds",
+          "page": 20
+        },
+        {
+          "para_id": "6_11",
+          "text": "cum(X) = E[X], cum(X, Y ) = Cov(X, Y ) = E[XY ] −E[X]E[Y ].\n(6.3)",
+          "page": 20
+        },
+        {
+          "para_id": "6_12",
+          "text": "See [31, Example 3.2.3]. Let",
+          "page": 20
+        },
+        {
+          "para_id": "6_13",
+          "text": "pk(x) = ∇k(log g)(0)[x⊗k] −\n1\n(k + 1)(k + 2)∇k+2f(0)[x⊗k+2],\nk = 1, 2, 3, . . . ,\n(6.4)",
+          "page": 20
+        },
+        {
+          "para_id": "6_14",
+          "text": "be functions on Rd. For example, for p1, p2, we have p1(x) = ∇g(0)[x] −1",
+          "page": 20
+        },
+        {
+          "para_id": "6_15",
+          "text": "6∇3f(0)[x⊗3], p2(x) =\n\u0000\n∇2g(0) −∇g(0)⊗2\u0001\n[x⊗2] −1",
+          "page": 20
+        },
+        {
+          "para_id": "6_16",
+          "text": "12∇4f(0)[x⊗4].\n(6.5) Let X ∈Rd be a random variable. Recall that α is a multiindex. We define cum(pα(X)) = cum\n\u0000\np1(X), . . . , p1(X)\n|\n{z\n}\nα1",
+          "page": 20
+        },
+        {
+          "para_id": "6_17",
+          "text": ", p2(X), . . . , p2(X)\n|\n{z\n}\nα2",
+          "page": 20
+        },
+        {
+          "para_id": "6_18",
+          "text": ", . . . , pM(X), . . . , pM(X)\n|\n{z\n}\nαM",
+          "page": 20
+        },
+        {
+          "para_id": "6_19",
+          "text": "\u0001 = (−i)|α|∂α\nu log E [exp (i[u1p1(X) + · · · + uMpM(X)])]\n\f\f\nu1=···=uM=0.\n(6.6) Here, the second line is by (6.2). Thus, for example,",
+          "page": 20
+        },
+        {
+          "para_id": "6_20",
+          "text": "cum(p3,1,0,1(X)) = cum(p1(X), p1(X), p1(X), p2(X), p4(X)).\n(6.7)",
+          "page": 20
+        },
+        {
+          "para_id": "6_21",
+          "text": "To prove Lemma 4.3, we need to show",
+          "page": 20
+        },
+        {
+          "para_id": "6_22",
+          "text": "b M",
+          "page": 20
+        },
+        {
+          "para_id": "6_23",
+          "text": "2 (f, g, d) = b M",
+          "page": 20
+        },
+        {
+          "para_id": "6_24",
+          "text": "2 (f, g) =\nX α1,...,αM≥0\nPM\ni=1 iαi=M",
+          "page": 20
+        },
+        {
+          "para_id": "6_25",
+          "text": "cum(pα(Z))\nQM\ni=1 αi!(i!)αi .\n(6.8)",
+          "page": 20
+        },
+        {
+          "para_id": "6_26",
+          "text": "The fact that there is no explicit dependence on d is clear from the righthand formula. Indeed, we\nsee from (6.6) that in cum(pα(Z)), the only appearance of d is in the functions p1(Z), . . . , pM(Z).\nBut we see in (6.4) that the definition of p1, . . . , pM is agnostic to the number of arguments the\nfunctions f and g have.",
+          "page": 20
+        },
+        {
+          "para_id": "6_27",
+          "text": "20",
+          "page": 20
+        },
+        {
+          "para_id": "6_28",
+          "text": "6.2\nThe term b1 Let us use (6.8) with M = 2 to compute b1(f, g). Only α = (2, 0) and α = (0, 1) satisfy α1+2α2 = 2.\nThus b1(f, g) = cum(p1(Z), p1(Z))",
+          "page": 21
+        },
+        {
+          "para_id": "6_29",
+          "text": "2!(1!)2\n+ cum(p2(Z))",
+          "page": 21
+        },
+        {
+          "para_id": "6_30",
+          "text": "1!(2!)1\n= 1",
+          "page": 21
+        },
+        {
+          "para_id": "6_31",
+          "text": "2Var(p1(Z)) + 1",
+          "page": 21
+        },
+        {
+          "para_id": "6_32",
+          "text": "2E[p2(Z)],\n(6.9) using (6.3). Recall p1, p2 from (6.5). Let T1 = ∇g(0),\nT2 = ∇2g(0) −∇g(0)⊗2,\nT3 = −∇3f(0)/6,\nT4 = −∇4f(0)/12.\n(6.10)",
+          "page": 21
+        },
+        {
+          "para_id": "6_33",
+          "text": "Then p1(x) = T1[x] + T3[x⊗3] and p2(x) = T2[x⊗2] + T4[x⊗4]. The polynomial p1 is odd, therefore\nE[p1(Z)] = 0 and Var(p1(Z)) = E[p1(Z)2]. We now rewrite p1 using Hermite polynomials. For\nx = (x1, . . . , xd) define the first- and third-order multivariate Hermite polynomials [5, Chapter 1.3]",
+          "page": 21
+        },
+        {
+          "para_id": "6_34",
+          "text": "Hi(x) = xi,\nHijk(x) = xixjxk −xi1{j = k} −xj1{i = k} −xk1{i = j}.",
+          "page": 21
+        },
+        {
+          "para_id": "6_35",
+          "text": "Thus Hiii(x) = x3\ni −3xi, Hiij(x) = (x2\ni −1)xj for i ̸= j, and Hijk(x) = xixjxk when i, j, k are\ndistinct. Reordering indices in the subscript does not change the polynomial. It is straightforward\nto check that we may write",
+          "page": 21
+        },
+        {
+          "para_id": "6_36",
+          "text": "p1(x) =",
+          "page": 21
+        },
+        {
+          "para_id": "6_37",
+          "text": "d\nX i=1",
+          "page": 21
+        },
+        {
+          "para_id": "6_38",
+          "text": "\u0012\nT i\n1 + 3",
+          "page": 21
+        },
+        {
+          "para_id": "6_39",
+          "text": "d\nX",
+          "page": 21
+        },
+        {
+          "para_id": "6_40",
+          "text": "j=1\nT ijj\n3",
+          "page": 21
+        },
+        {
+          "para_id": "6_41",
+          "text": "\u0013\nHi(x) +",
+          "page": 21
+        },
+        {
+          "para_id": "6_42",
+          "text": "d\nX",
+          "page": 21
+        },
+        {
+          "para_id": "6_43",
+          "text": "i,j,k=1\nT ijk\n3\nHijk(x).\n(6.11)",
+          "page": 21
+        },
+        {
+          "para_id": "6_44",
+          "text": "The Hermite polynomials are orthogonal in L2(N(0, Id)) [5, Chapter 1.3].\nIn other words, if\nZ ∼N(0, Id), then E[Hi(Z)Hj(Z)] = 0 if i ̸= j, E[Hi(Z)Hjkℓ(Z)] = 0 for any i, j, k, ℓ, and\nE[Hijk(Z)Hℓmn(Z)] = 0 if (i, j, k) ̸= (ℓ, m, n), viewed as unordered triplets. Furthermore, we have\nE[H(Zi)2] = 1 and it is straightforward to show E[Hijk(Z)2] = 1 = 6/3! if i, j, k are distinct,\nE[Hiij(Z)2] = 2 = 6/3 if i, j are distinct, and E[Hiii(Z)2] = 6 = 6/1. Thus for general i, j, k,\nthe expectation E[Hijk(Z)2] is given by 6 divided by the number of distinct ways to rearrange the\nindices i, j, k.\nUsing these facts, and the symmetry of the tensor T3, we conclude that",
+          "page": 21
+        },
+        {
+          "para_id": "6_45",
+          "text": "Var(p1(Z)) = E[p1(Z)2] =",
+          "page": 21
+        },
+        {
+          "para_id": "6_46",
+          "text": "d\nX i=1",
+          "page": 21
+        },
+        {
+          "para_id": "6_47",
+          "text": "\u0012\nT i\n1 + 3",
+          "page": 21
+        },
+        {
+          "para_id": "6_48",
+          "text": "d\nX",
+          "page": 21
+        },
+        {
+          "para_id": "6_49",
+          "text": "j=1\nT ijj\n3",
+          "page": 21
+        },
+        {
+          "para_id": "6_50",
+          "text": "\u00132\n+ 6∥T3∥2\nF",
+          "page": 21
+        },
+        {
+          "para_id": "6_51",
+          "text": "=∥∇g(0) −1",
+          "page": 21
+        },
+        {
+          "para_id": "6_52",
+          "text": "2∇∆f(0)∥2 + 1",
+          "page": 21
+        },
+        {
+          "para_id": "6_53",
+          "text": "6∥∇3f(0)∥2\nF .",
+          "page": 21
+        },
+        {
+          "para_id": "6_54",
+          "text": "(6.12)",
+          "page": 21
+        },
+        {
+          "para_id": "6_55",
+          "text": "Next, a straightforward calculation gives",
+          "page": 21
+        },
+        {
+          "para_id": "6_56",
+          "text": "E[p2(Z)] =",
+          "page": 21
+        },
+        {
+          "para_id": "6_57",
+          "text": "d\nX",
+          "page": 21
+        },
+        {
+          "para_id": "6_58",
+          "text": "i=1\nT ii\n2 + 3",
+          "page": 21
+        },
+        {
+          "para_id": "6_59",
+          "text": "d\nX",
+          "page": 21
+        },
+        {
+          "para_id": "6_60",
+          "text": "i,j=1\nT iijj\n4\n= ∆g(0) −∥∇g(0)∥2 −1",
+          "page": 21
+        },
+        {
+          "para_id": "6_61",
+          "text": "4∆2f(0).\n(6.13)",
+          "page": 21
+        },
+        {
+          "para_id": "6_62",
+          "text": "We substitute (6.12) and (6.13) in (6.9) to get",
+          "page": 21
+        },
+        {
+          "para_id": "6_63",
+          "text": "b1(f, g) = −1",
+          "page": 21
+        },
+        {
+          "para_id": "6_64",
+          "text": "2∇∆f(0)⊤∇g(0) + 1",
+          "page": 21
+        },
+        {
+          "para_id": "6_65",
+          "text": "8∥∇∆f(0)∥2 + 1",
+          "page": 21
+        },
+        {
+          "para_id": "6_66",
+          "text": "12∥∇3f(0)∥2\nF + 1",
+          "page": 21
+        },
+        {
+          "para_id": "6_67",
+          "text": "2∆g(0) −1",
+          "page": 21
+        },
+        {
+          "para_id": "6_68",
+          "text": "8∆2f(0).\n(6.14)",
+          "page": 21
+        },
+        {
+          "para_id": "6_69",
+          "text": "21",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "section_id": "6.3",
+      "section_title": "6.3\nProof of Lemma 4.3 Let t = λ−1/2, and define",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "6.3_1",
+          "text": "I0(f, g, d, t) = log Iin(λ) = log",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_2",
+          "text": "(\u0010t−2 2π",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_3",
+          "text": "\u0011d/2 Z ∥x∥≤t log(1/t)\n√",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_4",
+          "text": "d\ng(x)e−t−2f(x) dx",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_5",
+          "text": ") .\n(6.15)",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_6",
+          "text": "Here, note that we have chosen R = R(t) = log(1/t). Let c± be as in Lemma 4.2. Then this lemma\ngives that for all f, g satisfying parts (1), (2) of Assumption 3.1, and if",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_7",
+          "text": "R = log(1/t) ≥c−\nr",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_8",
+          "text": "1 ∨2 log(1/t)",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_9",
+          "text": "d\n, R\n√",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_10",
+          "text": "dt =\n√",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_11",
+          "text": "d log(1/t)t ≤min(c+, r0),\n(6.16)",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_12",
+          "text": "then\n\f\f\f\f\fI0(f, g, d, t) −",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_13",
+          "text": "L−1\nX",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_14",
+          "text": "k=1\nbk(f, g, d)t2k\n\f\f\f\f\f ≤C(cf, cg, d)t2L log2L+2(1/t).\n(6.17) Here, C(cf, cg, d) is a constant depending only on cf, cg, d.\nBy changing variables as y = x/t in (6.15), it is easy to see that I0(f, g, d, t) is a smooth function\nof t in a neighborhood of t = 0.\nTo compute bk(f, g, d), we consider any arbitrary fixed f, g, d such that parts (1), (2) of As-\nsumption 3.1 are satisfied, and take t →0. The condition (6.16) is satisfied for all t small enough,\nso (6.17) implies that bk(f, g, d) =\n1\n(2k)!∂2k\nt I0(f, g, d, t)|t=0 for all k = 1, . . . , L −1. Here, we have used that t2L log2L+2(1/t) = o(t2L−1), and ∂2k\nt\nmeans the partial derivative with respect to the\nfourth argument, keeping the first three frozen at fixed values. More precisely, if f and g depend\non λ, that λ is held fixed when computing the derivatives. Now that we have this expression for\nbk, we are free to substitute any f, g, d for which (6.17) is applicable, including λ-dependent f, g, d.\nLet I0(t) be shorthand for I0(f, g, d, t) for a fixed f, g, d. We have bM/2(f, g, d) = I(M)\n0\n(0)/(M)!.\nTo compute this derivative, we modify I0 to create new functions I1, I2, each of which differs from\nthe previous one by o(tM). We will then show that I2(t) = PM\nk=1 ˜bktk + o(tM) for explicit ˜bk. This\nimplies bM/2 = ˜bM.",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_15",
+          "text": "Define the set\nA = {z ∈Rd : ∥z∥≤log(1/t)\n√",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_16",
+          "text": "d}.\n(6.18) Using Assumption 3.1, we have that g(tz) > 0 for all z ∈A provided t is small enough, since\nt log(1/t)\n√",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_17",
+          "text": "d →0 as t →0. We can therefore define",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_18",
+          "text": "Fg(t, z) = log g(tz) −\n\u0000\nt−2f(tz) −∥z∥2/2\n\u0001\n,\nz ∈A.\n(6.19) for t small enough. Thus I0(t) = log E[exp(Fg(t, Z))1A(Z)] for a standard Gaussian Z in Rd. We\nnow replace Fg by its Taylor expansion in t about t = 0. Lemma 6.3. Let the pk be as in (6.4) and define",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_19",
+          "text": "I1(t) = log E\nh\nexp( ˜Fg(t, Z))1A(Z)\ni\n,\n˜Fg(t, z) :=",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_20",
+          "text": "M\nX k=1",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_21",
+          "text": "tk k!pk(z),\n(6.20)",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_22",
+          "text": "for M ≤2L −1. Then (I0 −I1)(t) = o(tM).",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_23",
+          "text": "22",
+          "page": 22
+        },
+        {
+          "para_id": "6.3_24",
+          "text": "Here and below in this section, the constant factors absorbed in small-o, big-O, and ≲may\ndepend on any parameter other than t. Note that ˜Fg(t, z) is precisely the Mth Taylor polynomial\nof Fg(t, z) in t at t = 0, and this is how the pk are constructed. Proof. Let Fg and ˜Fg be shorthand for Fg(t, Z) and ˜Fg(t, Z), respectively. We have I0(t) −I1(t) =\nlog(1 + δ(t)), where δ(t) = E[e ˜Fg(eFg−˜Fg −1)1A]",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_25",
+          "text": "E[e ˜Fg1A]\n.\n(6.21) Using parts (1), (2) of Assumption 3.1 and the definition (6.4), we have tk|pk(z)| ≲tk logk+2(1/t)\nand |R(g)\n2L(tz) + t−2R2L+2(tz)| ≲t2L log2L+2(1/t) for all ∥z∥≤log(1/t)\n√",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_26",
+          "text": "d, provided t is small\nenough. Thus",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_27",
+          "text": "sup\n∥z∥≤log(1/t)\n√",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_28",
+          "text": "d\n|Fg(t, z) −˜Fg(t, z)| =\nsup\n∥z∥≤log(1/t)\n√ d",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_29",
+          "text": "2L−1\nX k=M+1",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_30",
+          "text": "tk k!pk(z) + R(g)\n2L(tz) + t−2R2(L+1)(tz)",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_31",
+          "text": "≲",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_32",
+          "text": "2L\nX",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_33",
+          "text": "k=M+1\ntk logk+2(1/t) ≲tM+1 log2L+2(1/t) = o(tM). (6.22)",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_34",
+          "text": "Similarly,\nsup\n∥z∥≤log(1/t)\n√",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_35",
+          "text": "d\n| ˜Fg(t, z)| ≲t logM+2(1/t) ≲1\n(6.23) for all t small enough. Thus",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_36",
+          "text": "|δ(t)| ≤eC(M) \f\fexp\n\u0000\no(tM)\n\u0001\n−1",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_37",
+          "text": "e−C(M)\n= o(tM).\n(6.24) Since I0(t) −I1(t) = log(1 + δ(t)), we conclude |I0(t) −I1(t)| = o(tM) as well.",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_38",
+          "text": "Lemma 6.4. Let X(t) be the random vector given by the truncation of Z ∼N(0, Id) to the region\n{∥x∥≤log(1/t)\n√",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_39",
+          "text": "d}. Let I2(t) = log E[exp( ˜Fg(t, X(t)))]. Then (I1 −I2)(t) = o(tM). Proof. Note that I2(t) = I1(t) −log P(A). Thus, by the standard Gaussian concentration, |I2(t) −I1(t)| = |log (1 −P(A))| ≤2P(A) ≤2 exp(−(log(1/t) −1)2d/2) ≤2 exp(−C log2(1/t)) = o(tM)\n(6.25)",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_40",
+          "text": "for every M. Lemma 6.5. It holds I2(t) = PM\nm=1 tm P\nα:P\ni iαi=m\ncum(pα(Z))\nQM\ni=1 αi!(i!)αi + o(tM). Combining Lemmas 6.3 and 6.4 gives I0(t) = I2(t) + o(tM). This implies that the coefficients\nin front of tk, k = 1, . . . , M, in (6.17) coincide with the corresponding coefficients in Lemma 6.5.\nThis concludes the proof of Proposition 4.3.\nTo prove Lemma 6.5, we need an auxiliary result.",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_41",
+          "text": "Lemma 6.6. For each fixed α = (α1, . . . , αM), with αj ≥0, we have |cum(pα(X(t))) −cum(pα(Z))| = o(tM).\n(6.26)",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_42",
+          "text": "23",
+          "page": 23
+        },
+        {
+          "para_id": "6.3_43",
+          "text": "See the end of the section for the proof of Lemma 6.6. Proof of Lemma 6.5. Write I2 as I2(t) = H(t; t, t2/2!, . . . , tM/M!), where H(t; u1, . . . , uM) = log E exp[u1p1(X(t)) + · · · + uMpM(X(t))].",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_44",
+          "text": "The function H is C∞in u1, . . . , uM. We Taylor expand H to order M in u1, . . . , uM. By the\ndefinition (6.6) and Remark 6.2,",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_45",
+          "text": "∂α1\nu1 . . . ∂αM\nuM H(t; 0) = cum(pα(X(t))).\n(6.27) Thus the Taylor expansion of H takes the form",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_46",
+          "text": "H(t; u1, . . . , uM) =\nX",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_47",
+          "text": "1≤|α|≤M\ncum(pα(X(t)))",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_48",
+          "text": "M\nY",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_49",
+          "text": "k=1\nuαk\nk /αk! + O(∥u∥M+1).",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_50",
+          "text": "Substituting uk = tk/k! gives I2(t) = H(t; t, t2/2!, . . . , tM/M!)",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_51",
+          "text": "=\nX",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_52",
+          "text": "1≤|α|≤M\ncum(pα(X(t)))",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_53",
+          "text": "M\nY",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_54",
+          "text": "k=1\n(tk/k!)αk 1",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_55",
+          "text": "αk! + o(tM)",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_56",
+          "text": "=",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_57",
+          "text": "M\nX",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_58",
+          "text": "m=1\ntm\nX α:P\nk kαk=m",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_59",
+          "text": "cum(pα(X(t)))\nQM\nk=1 αk!(k!)αk + o(tM)",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_60",
+          "text": "=",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_61",
+          "text": "M\nX",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_62",
+          "text": "m=1\ntm\nX α:P\nk kαk=m",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_63",
+          "text": "cum(pα(Z))\nQM\nk=1 αk!(k!)αk + o(tM).",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_64",
+          "text": "(6.28)",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_65",
+          "text": "To get the third line, we grouped like powers of t. To get the fourth line, we used Lemma 6.6. This\nconcludes the proof.",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_66",
+          "text": "The third line of (6.28) gives the first M terms in the Taylor series expansion of",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_67",
+          "text": "log E[exp(tp1(X) + t2p2(X)/2! + · · · + tMpM(X)/M!)],\n(6.29)",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_68",
+          "text": "which is well-defined. Thus the fourth line of (6.28) gives the first M terms in the formal power\nseries expansion of log E[exp(tp1(Z) + t2p2(Z)/2! + · · · + tMpM(Z)/M!)], as claimed in Remark 4.4.",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_69",
+          "text": "Proof of Lemma 6.6. Since cumulants are multilinear, and since the coefficients of the pk’s are\nentries of the derivative tensors Fk+2, which are uniformly bounded, it suffices to show that\n|cum(X(t)b1, . . . , X(t)bn)−cum(Zb1, . . . , Zbn)| = o(tM) for n arbitrary multi-indices bi = (b1\ni , . . . , bd\ni ), i = 1, . . . , n. Here, Zbi = Zb1\ni\n1 . . . Zbd\ni\nd , and similarly for X(t)bi. But cum(X(t)b1, . . . , X(t)bn) is a\npolynomial function of moments E[X(t)b] [31, (3.2.11)]. Thus it suffices to bound |E[X(t)b]−E[Zb]|\nfor any multi-index b. We have",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_70",
+          "text": "E[X(t)b] −E[Zb] = P(A)−1E[Zb1A] −E[Zb] = (E[Zb]P(Ac) −E[Zb1Ac])/P(A).\n(6.30)",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_71",
+          "text": "24",
+          "page": 24
+        },
+        {
+          "para_id": "6.3_72",
+          "text": "Since P(A) ≥1/2 (for t sufficiently small) and |E[Zb]| ≤E[∥Z∥|b|] ≤C(d, |b|), and using Cauchy-\nSchwarz, we have\n\f\fE[X(t)b] −E[Zb]\n\f\f ≤C(d, |b|)P(Ac)1/2 ≤C(d, |b|) exp(−(R(t) −1)2d/4) ≤exp(−C log2(1/t)),\n(6.31)",
+          "page": 25
+        },
+        {
+          "para_id": "6.3_73",
+          "text": "recalling R(t) = log(1/t). As before, exp(−C log2(1/t)) = o(tM) for every fixed M. Thus |E[Xb] −\nE[Zb]| = o(tM) for every M, and therefore |cum(X(t)b1, . . . , X(t)bn) −cum(Zb1, . . . , Zbn)| = o(tM)\nas well. Thus, |cum(pα(X(t))) −cum(pα(Z))| = o(tM) for each α.",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "section_id": "7",
+      "section_title": "7\nProof of Lemma 4.5",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "7_1",
+          "text": "We prove an upper bound on |Iout(λ)| and a lower bound on Iin(λ). Lower bound on Iin(λ).\nAssume R√ϵ ≤r0. From (3.2) and (3.3) it follows that f(x) ≤\n\u0010\n1 + 1",
+          "page": 25
+        },
+        {
+          "para_id": "7_2",
+          "text": "3\nsup\n∥u∥≤r0\n∥∇3f(u)∥opR√ϵ\n\u0011\n∥x∥2/2 ≤(1 + cfR√ϵ) ∥x∥2 /2,\n∥x∥≤R√ϵ.\n(7.1) We let µ = 1+cfR√ϵ. Also, since g(0) = 1 and log g has bounded first derivative for ∥x∥≤R√ϵ <\nr0 by (2) of Assumption 3.1, we can choose R√ϵ small enough that g(x) ≥0.8 for all ∥x∥≤R√ϵ.\n(Recall that the second inequality of (3.8) allows us to choose R small enough.) Thus, Iin(λ) ≥0.8\n\u0010 λ 2π",
+          "page": 25
+        },
+        {
+          "para_id": "7_3",
+          "text": "\u0011d/2 Z",
+          "page": 25
+        },
+        {
+          "para_id": "7_4",
+          "text": "∥x∥≤R√ϵ\ne−λµ∥x∥2/2 dx = 0.8µ−d/2P\n\u0000\n∥Z∥≤R√µ\n√",
+          "page": 25
+        },
+        {
+          "para_id": "7_5",
+          "text": "d\n\u0001\n≥1",
+          "page": 25
+        },
+        {
+          "para_id": "7_6",
+          "text": "2µ−d/2.\n(7.2) To get the last inequality we used that R√µ > 2 and therefore P(∥Z∥≤R√µ\n√",
+          "page": 25
+        },
+        {
+          "para_id": "7_7",
+          "text": "d) ≥P\n\u0000\n∥Z∥≤\n2\n√",
+          "page": 25
+        },
+        {
+          "para_id": "7_8",
+          "text": "d\n\u0001\n≥1 −exp(−d/2) ≥0.63 when d ≥2L ≥2.",
+          "page": 25
+        },
+        {
+          "para_id": "7_9",
+          "text": "Upper bound on |Iout(λ)|.\nLet T1 =\n\u0010 λ 2π",
+          "page": 25
+        },
+        {
+          "para_id": "7_10",
+          "text": "\u0011d/2 Z",
+          "page": 25
+        },
+        {
+          "para_id": "7_11",
+          "text": "Rd(1 + ∥x∥)−κλd−pdx, T2 =\n\u0010 λ 2π",
+          "page": 25
+        },
+        {
+          "para_id": "7_12",
+          "text": "\u0011d/2 Z",
+          "page": 25
+        },
+        {
+          "para_id": "7_13",
+          "text": "∥x∥≥R√ϵ\ne−κ\n√",
+          "page": 25
+        },
+        {
+          "para_id": "7_14",
+          "text": "λd∥x∥dx, T3 =\n\u0010 λ 2π",
+          "page": 25
+        },
+        {
+          "para_id": "7_15",
+          "text": "\u0011d/2 Z",
+          "page": 25
+        },
+        {
+          "para_id": "7_16",
+          "text": "∥x∥≥R√ϵ\ne−λκ∥x∥2/2 dx.",
+          "page": 25
+        },
+        {
+          "para_id": "7_17",
+          "text": "(7.3)",
+          "page": 25
+        },
+        {
+          "para_id": "7_18",
+          "text": "Using (3.6), we know that |Iout(λ)| ≤T1 + T2 + T3 for p = 1/(2L). Thus it suffices to upper bound\nT1, T2, T3. We leave p unspecified for now to show where the choice p = 1/(2L) comes from. Write\na = κλd−p. Using spherical coordinates and assuming a > d gives T1 ≤\nλd/2 2(d/2)−1Γ(d/2)",
+          "page": 25
+        },
+        {
+          "para_id": "7_19",
+          "text": "Z ∞",
+          "page": 25
+        },
+        {
+          "para_id": "7_20",
+          "text": "0\n(1 + r)−ard−1 dr = (λ/2)d/2 2Γ(d)",
+          "page": 25
+        },
+        {
+          "para_id": "7_21",
+          "text": "Γ(d/2) · Γ(a −d)",
+          "page": 25
+        },
+        {
+          "para_id": "7_22",
+          "text": "Γ(a)\n.\n(7.4)",
+          "page": 25
+        },
+        {
+          "para_id": "7_23",
+          "text": "We have Γ(a −d)",
+          "page": 25
+        },
+        {
+          "para_id": "7_24",
+          "text": "Γ(a)\n=\n1\n(a −d)(a −d + 1) · · · (a −1) ≤\n\u00102",
+          "page": 25
+        },
+        {
+          "para_id": "7_25",
+          "text": "a",
+          "page": 25
+        },
+        {
+          "para_id": "7_26",
+          "text": "\u0011d\n,\nΓ(d)\nΓ(d/2) ≤(2d/e)d/2.\n(7.5)",
+          "page": 25
+        },
+        {
+          "para_id": "7_27",
+          "text": "25",
+          "page": 25
+        },
+        {
+          "para_id": "7_28",
+          "text": "We assumed a ≥2d in the first inequality and used the Stirling formula in the second one. Then",
+          "page": 26
+        },
+        {
+          "para_id": "7_29",
+          "text": "T1 ≤2\n\u0010λ 2",
+          "page": 26
+        },
+        {
+          "para_id": "7_30",
+          "text": "\u0011d/2\u00102d e",
+          "page": 26
+        },
+        {
+          "para_id": "7_31",
+          "text": "\u0011d/2\u00102 a",
+          "page": 26
+        },
+        {
+          "para_id": "7_32",
+          "text": "\u0011d\n= 2\n\u00104",
+          "page": 26
+        },
+        {
+          "para_id": "7_33",
+          "text": "e\nd2p+1",
+          "page": 26
+        },
+        {
+          "para_id": "7_34",
+          "text": "κ2λ",
+          "page": 26
+        },
+        {
+          "para_id": "7_35",
+          "text": "\u0011d/2\n.\n(7.6)",
+          "page": 26
+        },
+        {
+          "para_id": "7_36",
+          "text": "We now choose p so that d2p+1/λ is small whenever the bound on Iin from Lemma 4.2 is small.\nThus we take 2p + 1 = (L + 1)/L, i.e. p = 1/(2L). This gives",
+          "page": 26
+        },
+        {
+          "para_id": "7_37",
+          "text": "T1 ≤2\n\u00104",
+          "page": 26
+        },
+        {
+          "para_id": "7_38",
+          "text": "e\nd(L+1)/L",
+          "page": 26
+        },
+        {
+          "para_id": "7_39",
+          "text": "κ2λ",
+          "page": 26
+        },
+        {
+          "para_id": "7_40",
+          "text": "\u0011d/2\n.\n(7.7)",
+          "page": 26
+        },
+        {
+          "para_id": "7_41",
+          "text": "Returning to the condition a ≥2d, with a = κλd−1/(2L), this is satisfied if d1+1/(2L)/λ < κ/2.\nBut this is implied by the conditions R2κ > Rκ > 2 and R2(L+1)dL+1/λL < 1/2. These latter\nconditions are satisfied for appropriate choices of c± in (3.8).\nNext, using spherical coordinates to compute T2, we have T2 =\n2\n2d/2Γ(d/2)",
+          "page": 26
+        },
+        {
+          "para_id": "7_42",
+          "text": "Z ∞",
+          "page": 26
+        },
+        {
+          "para_id": "7_43",
+          "text": "Rd1/2 e−κd1/2rrd−1dr ≤d1/2ed/2\nZ ∞",
+          "page": 26
+        },
+        {
+          "para_id": "7_44",
+          "text": "R\nrd−1e−κdrdr.\n(7.8) Let f(r) = (d −1) log r −κdr, so that rd−1e−κdr = ef(r). Note that f′′(r) < 0 for all r > 0, so f′(r)\nis decreasing. Therefore, f(r) ≤f(R) + f′(R)(r −R) for r ≥R. We have ef(R) = Rd−1e−κdR and\nf′(R) = (d −1)/R −κd. We thus obtain T2 ≤d1/2ed/2ef(R)\nZ ∞",
+          "page": 26
+        },
+        {
+          "para_id": "7_45",
+          "text": "R\nef′(R)(r−R)dr = d1/2ed/2",
+          "page": 26
+        },
+        {
+          "para_id": "7_46",
+          "text": "−f′(R) ef(R) = d1/2ed/2Rde−κdR",
+          "page": 26
+        },
+        {
+          "para_id": "7_47",
+          "text": "Rκd −(d −1)\n≤e−d[κR−1/2−log R].",
+          "page": 26
+        },
+        {
+          "para_id": "7_48",
+          "text": "(7.9)",
+          "page": 26
+        },
+        {
+          "para_id": "7_49",
+          "text": "To get the last inequality we used Rκd −(d −1) ≥d1/2, again by assuming Rκ ≥2.\nFinally, using a Gaussian concentration inequality, we have",
+          "page": 26
+        },
+        {
+          "para_id": "7_50",
+          "text": "T3 = κ−d\n1\n(2π)d/2",
+          "page": 26
+        },
+        {
+          "para_id": "7_51",
+          "text": "Z ∥y∥≥κR\n√",
+          "page": 26
+        },
+        {
+          "para_id": "7_52",
+          "text": "d\ne−∥y∥2/2dy ≤κ−d exp\n\u0000\n−d",
+          "page": 26
+        },
+        {
+          "para_id": "7_53",
+          "text": "2(κR −1)2\u0001",
+          "page": 26
+        },
+        {
+          "para_id": "7_54",
+          "text": "≤exp\n\u0000\nd\n\u0002\nlog 1",
+          "page": 26
+        },
+        {
+          "para_id": "7_55",
+          "text": "κ −1",
+          "page": 26
+        },
+        {
+          "para_id": "7_56",
+          "text": "8(κR)2\u0003\u0001\n≤e−d",
+          "page": 26
+        },
+        {
+          "para_id": "7_57",
+          "text": "16 (κR)2.",
+          "page": 26
+        },
+        {
+          "para_id": "7_58",
+          "text": "(7.10)",
+          "page": 26
+        },
+        {
+          "para_id": "7_59",
+          "text": "To get the first inequality in the second line, we again used Rκ ≥2. To get the second inequality\nin the second line, we used (Rκ)2 ≥16 log 1",
+          "page": 26
+        },
+        {
+          "para_id": "7_60",
+          "text": "κ, which is satisfied by choosing c−≥4 in (3.8).\nCombining (7.7), (7.9), and (7.10) gives",
+          "page": 26
+        },
+        {
+          "para_id": "7_61",
+          "text": "|Iout(λ)| ≤2\n\u00104",
+          "page": 26
+        },
+        {
+          "para_id": "7_62",
+          "text": "e\nd(L+1)/L",
+          "page": 26
+        },
+        {
+          "para_id": "7_63",
+          "text": "κ2λ",
+          "page": 26
+        },
+        {
+          "para_id": "7_64",
+          "text": "\u0011d/2\n+ e−d[κR−1/2−log R] + e−d",
+          "page": 26
+        },
+        {
+          "para_id": "7_65",
+          "text": "16 (κR)2",
+          "page": 26
+        },
+        {
+          "para_id": "7_66",
+          "text": "≤2\n\u00104",
+          "page": 26
+        },
+        {
+          "para_id": "7_67",
+          "text": "e\nd(L+1)/L",
+          "page": 26
+        },
+        {
+          "para_id": "7_68",
+          "text": "κ2λ",
+          "page": 26
+        },
+        {
+          "para_id": "7_69",
+          "text": "\u0011d/2\n+ 2e−d[κR−1/2−log R].",
+          "page": 26
+        },
+        {
+          "para_id": "7_70",
+          "text": "(7.11)",
+          "page": 26
+        },
+        {
+          "para_id": "7_71",
+          "text": "To get the second line we used that κR−1/2−log R ≤κR−1/2 ≤(κR)2/16, true for large enough\nκR. We now finish the proof of (4.12) using (7.11) and (7.2).",
+          "page": 26
+        },
+        {
+          "para_id": "7_72",
+          "text": "Proof of (4.12).\n(7.11) and (7.2) give",
+          "page": 26
+        },
+        {
+          "para_id": "7_73",
+          "text": "|Iout(λ)|",
+          "page": 26
+        },
+        {
+          "para_id": "7_74",
+          "text": "Iin(λ)\n≤4\n\u00104µ",
+          "page": 26
+        },
+        {
+          "para_id": "7_75",
+          "text": "e\nd(L+1)/L",
+          "page": 26
+        },
+        {
+          "para_id": "7_76",
+          "text": "κ2λ",
+          "page": 26
+        },
+        {
+          "para_id": "7_77",
+          "text": "\u0011d/2\n+ 4e−d\n\u0002\nκR−1",
+          "page": 26
+        },
+        {
+          "para_id": "7_78",
+          "text": "2 −1",
+          "page": 26
+        },
+        {
+          "para_id": "7_79",
+          "text": "2 log µ−log R\n\u0003\n.\n(7.12)",
+          "page": 26
+        },
+        {
+          "para_id": "7_80",
+          "text": "26",
+          "page": 26
+        },
+        {
+          "para_id": "7_81",
+          "text": "Recall µ = 1 + cfR√ϵ. By taking c+ small enough in (3.8) we can ensure µ ≤e/2 ≤e. Thus we\nobtain the further bound",
+          "page": 27
+        },
+        {
+          "para_id": "7_82",
+          "text": "|Iout(λ)|",
+          "page": 27
+        },
+        {
+          "para_id": "7_83",
+          "text": "Iin(λ)\n≤4\n\u0010\n2d(L+1)/L",
+          "page": 27
+        },
+        {
+          "para_id": "7_84",
+          "text": "κ2λ",
+          "page": 27
+        },
+        {
+          "para_id": "7_85",
+          "text": "\u0011d/2\n+ 4ϵ−d[κR−1−log R]",
+          "page": 27
+        },
+        {
+          "para_id": "7_86",
+          "text": "≤4\n\u0010\nR2 d(L+1)/L λ",
+          "page": 27
+        },
+        {
+          "para_id": "7_87",
+          "text": "\u0011L\n+ 4λ−L.",
+          "page": 27
+        },
+        {
+          "para_id": "7_88",
+          "text": "(7.13)",
+          "page": 27
+        },
+        {
+          "para_id": "7_89",
+          "text": "To get the second inequality, we used that 2/κ2 ≤R2 and R2d(L+1)/L/λ ≤1 by (3.8), and that\nd ≥2L. We also used that κR −1 −log R ≥L(log λ)/d by (3.8), by choosing c−≥L. Finally,\nR ≥1 and dL+1 ≥4 imply that the term 4λ−L in (7.13) can be absorbed into the first term on the\nright-hand side of the last inequality, yielding",
+          "page": 27
+        },
+        {
+          "para_id": "7_90",
+          "text": "|Iout(λ)|",
+          "page": 27
+        },
+        {
+          "para_id": "7_91",
+          "text": "Iin(λ)\n≤5R2L dL+1",
+          "page": 27
+        },
+        {
+          "para_id": "7_92",
+          "text": "λL .\n(7.14)",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "section_id": "8",
+      "section_title": "8\nComparison to [22] and examples",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "8_1",
+          "text": "In this section, we first compare our result to that of [22], and then apply our theory to a few\nexamples. Throughout the section, we assume d ≥log λ to simplify formulas.",
+          "page": 27
+        },
+        {
+          "para_id": "8_2",
+          "text": "8.1\nComparison to [22] In the below informal discussion of our results, we neglect any dependence on r0, κ. Since also\nd ≥log λ, a constant R can be used to satisfy (3.8). Theorem 3.2 then shows that I(λ) =\n\u0012 λ 2π",
+          "page": 27
+        },
+        {
+          "para_id": "8_3",
+          "text": "\u0013d/2 Z Rd g(x)e−λf(x)dx = exp",
+          "page": 27
+        },
+        {
+          "para_id": "8_4",
+          "text": "L−1\nX",
+          "page": 27
+        },
+        {
+          "para_id": "8_5",
+          "text": "k=1\nbkλ−k + O(dL+1/λL)",
+          "page": 27
+        },
+        {
+          "para_id": "8_6",
+          "text": "! ,\n|bk| ≲dk+1,\n(8.1)",
+          "page": 27
+        },
+        {
+          "para_id": "8_7",
+          "text": "provided max1≤k≤2L ∥∇k(log g)(x)∥op < cg and max3≤k≤2L+2 ∥∇kf(x)∥op < cf, uniformly over x\nin a small neighborhood of 0. As discussed in the introduction, in [22] it is shown that I(λ) =\n\u0012 λ 2π",
+          "page": 27
+        },
+        {
+          "para_id": "8_8",
+          "text": "\u0013d/2 Z Rd g(x)e−λf(x)dx =",
+          "page": 27
+        },
+        {
+          "para_id": "8_9",
+          "text": "L−1\nX",
+          "page": 27
+        },
+        {
+          "para_id": "8_10",
+          "text": "k=1\nakλ−k + O(d2L/λL),\n|ak| ≲d2k,\n(8.2)",
+          "page": 27
+        },
+        {
+          "para_id": "8_11",
+          "text": "provided ∥∇kg(x)∥op ≲d⌈k/2⌉, k = 1, . . . , 2L and ∥∇kf(x)∥op ≲d⌈k/2⌉−2, k = 3, . . . , 2L + 2,\nuniformly over x in a small neighborhood of 0. The suppressed constants in the big-O and in the\nbound on |ak| in (8.2) depend on the suppressed constants in the derivative bounds.\nBoth results also require a few other minor assumptions, but we have highlighted the most\nimportant ones for this discussion. We make a few comments on the difference between the two\nworks.",
+          "page": 27
+        },
+        {
+          "para_id": "8_12",
+          "text": "1. For (8.1), we have assumed the derivative operator norms are bounded independently of d.\nThis was not required in [22]. However, if the assumption does hold, then our result is strictly\nstronger than that of [22]. Specifically, suppose the operator norms are bounded and d2 ≪λ.\nThen (8.2) can be derived from (8.1).",
+          "page": 27
+        },
+        {
+          "para_id": "8_13",
+          "text": "27",
+          "page": 27
+        },
+        {
+          "para_id": "8_14",
+          "text": "2. As can be seen from [22], d2 ≪λ is necessary for the expansion of I(λ) even when the\nderivative operator norms are bounded. Indeed, consider the example in Section 8.2, also\nstudied in Example 2.19 in [22].\nWe see that the derivative operator norms are indeed\nbounded, yet [22] proves that the expansion of I(λ) is valid only if d2 ≪λ. This shows that\nour improved dimension dependence cannot simply be attributed to the stricter requirement\nwe have imposed on the operator norms. Rather, it is due to the intrinsic difference between\nexpanding I(λ) and expanding log I(λ), as described in the introduction.",
+          "page": 28
+        },
+        {
+          "para_id": "8_15",
+          "text": "3. In the expansion of I(λ) in [22], the derivative operator norms beyond the fourth order were\nallowed to grow with d due to slack in the bound. A similar phenomenon may hold for the\nexpansion of log I(λ). Namely, there may be some slack which would permit derivative norm\ngrowth with d. We leave this investigation to future work.",
+          "page": 28
+        },
+        {
+          "para_id": "8_16",
+          "text": "8.2\nExample: quartic exponent Let f(x) = ∥x∥2/2 + ∥x∥4/24 and g(x) ≡1. Consider (3.2) and (3.3). For all L ≥2 we have\nR2L+2(x) ≡0, and ∇3f(0)[x⊗3] = 0, ∇4f(0)[x⊗4] = ∥x∥4, ∇kf(0)[x⊗k] = 0 for all k ≥5.\nThus (3.2) and (3.3) are satisfied for any r0.\nAlso, log g ≡0 trivially satisfies (3.4), (3.5) for\nany r0. Furthermore, (3.6) holds with κ = 1, since |g(x)|e−λf(x) ≤e−λ∥x∥2/2.\nTheorem 3.2 therefore applies. Since we assume d ≥log λ throughout the section, we can take\nR to be an absolute constant in (3.8). We conclude that",
+          "page": 28
+        },
+        {
+          "para_id": "8_17",
+          "text": "log",
+          "page": 28
+        },
+        {
+          "para_id": "8_18",
+          "text": "(\u0012 λ 2π",
+          "page": 28
+        },
+        {
+          "para_id": "8_19",
+          "text": "\u0013d/2 Z",
+          "page": 28
+        },
+        {
+          "para_id": "8_20",
+          "text": "Rd e\n−λ\n\u0012\n∥x∥2",
+          "page": 28
+        },
+        {
+          "para_id": "8_21",
+          "text": "2\n+ ∥x∥4 24",
+          "page": 28
+        },
+        {
+          "para_id": "8_22",
+          "text": "\u0013 dx",
+          "page": 28
+        },
+        {
+          "para_id": "8_23",
+          "text": ") =",
+          "page": 28
+        },
+        {
+          "para_id": "8_24",
+          "text": "L−1\nX",
+          "page": 28
+        },
+        {
+          "para_id": "8_25",
+          "text": "k=1\nbkλ−k + O\n\u0000\ndL+1/λL\u0001\n,\n(8.3) for all dL+1/λL small enough. Here, the constant suppressed by the big-O depends on L only.\nNext, let us compute b1, given by (6.14). Plugging in f(x) = ∥x∥2/2 + ∥x∥4/24 and g(x) ≡1 gives",
+          "page": 28
+        },
+        {
+          "para_id": "8_26",
+          "text": "b1 = −1",
+          "page": 28
+        },
+        {
+          "para_id": "8_27",
+          "text": "8∆2f(0) = −1",
+          "page": 28
+        },
+        {
+          "para_id": "8_28",
+          "text": "8\n1\n24",
+          "page": 28
+        },
+        {
+          "para_id": "8_29",
+          "text": "d\nX",
+          "page": 28
+        },
+        {
+          "para_id": "8_30",
+          "text": "i,j=1\n∂2\ni ∂2\nj (∥x∥4) = −1",
+          "page": 28
+        },
+        {
+          "para_id": "8_31",
+          "text": "8\n1\n24",
+          "page": 28
+        },
+        {
+          "para_id": "8_32",
+          "text": "X",
+          "page": 28
+        },
+        {
+          "para_id": "8_33",
+          "text": "i̸=j\n∂2\ni ∂2\nj (2x2\ni x2\nj) −1",
+          "page": 28
+        },
+        {
+          "para_id": "8_34",
+          "text": "8\n1\n24",
+          "page": 28
+        },
+        {
+          "para_id": "8_35",
+          "text": "d\nX",
+          "page": 28
+        },
+        {
+          "para_id": "8_36",
+          "text": "i=1\n∂4\ni (x4\ni ) = −1",
+          "page": 28
+        },
+        {
+          "para_id": "8_37",
+          "text": "24(d2 −d) −1",
+          "page": 28
+        },
+        {
+          "para_id": "8_38",
+          "text": "8d = −1",
+          "page": 28
+        },
+        {
+          "para_id": "8_39",
+          "text": "24d2 −1",
+          "page": 28
+        },
+        {
+          "para_id": "8_40",
+          "text": "12d.",
+          "page": 28
+        },
+        {
+          "para_id": "8_41",
+          "text": "(8.4)",
+          "page": 28
+        },
+        {
+          "para_id": "8_42",
+          "text": "Using this in (8.3) with L = 2, we conclude that I(λ) =\n\u0012 λ 2π",
+          "page": 28
+        },
+        {
+          "para_id": "8_43",
+          "text": "\u0013d/2 Z",
+          "page": 28
+        },
+        {
+          "para_id": "8_44",
+          "text": "Rd e\n−λ\n\u0012\n∥x∥2",
+          "page": 28
+        },
+        {
+          "para_id": "8_45",
+          "text": "2\n+ ∥x∥4 24",
+          "page": 28
+        },
+        {
+          "para_id": "8_46",
+          "text": "\u0013 dx = exp\n\u0012\n−d2",
+          "page": 28
+        },
+        {
+          "para_id": "8_47",
+          "text": "24λ −\nd\n12λ + O(d3/λ2)\n\u0013\n,\n(8.5) where the constant suppressed by the big-O is absolute.\nThis example is also studied in [22], where it is shown that I(λ) = 1 −(d2/24 + d/12)/λ +\nO(d4/λ2), but only if d2/λ ≪1. Our result improves on [22] in that it both tightens the remainder\nbound and broadens the range of applicability of the expansion into higher d regimes.",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "section_id": "8.3",
+      "section_title": "8.3\nExample: logistic regression Next, we consider an idealized statistical set-up, in which\nR",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "8.3_1",
+          "text": "Rd e−λf(x)dx is the normalizing constant\nof the posterior in a logistic regression model. See Section 1.2 for more details on how this quantity",
+          "page": 28
+        },
+        {
+          "para_id": "8.3_2",
+          "text": "28",
+          "page": 28
+        },
+        {
+          "para_id": "8.3_3",
+          "text": "arises in statistics. We call the large parameter λ = n the sample size. Let X1, . . . , Xn ∈Rd be the\nfeature column vectors, and x∗∈Rd be the ground truth we would like to estimate. We assume (1)\nX1, . . . , Xn span Rd, (2) the lowest eigenvalue of 1",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_4",
+          "text": "n\nPn\ni=1 XiX⊤\ni\nis bounded below away from zero\nby some cX > 0, and (3) maxi=1,...,n ∥Xi∥max(1, ∥x∗∥) < CX. Next, let ψ : R →R be a smooth\nstrictly convex function, with ∥ψ(k)∥∞= supt∈R |ψ(k)(t)| < ∞for all k = 2, 3, 4, . . . . Consider the\nfunction ℓ(x) = 1 n",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_5",
+          "text": "n\nX i=1",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_6",
+          "text": "h\nψ(X⊤\ni x) −ψ′(X⊤\ni x∗)X⊤\ni x\ni",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_7",
+          "text": "which has a unique global minimizer at x = x∗. When ψ(t) = log(1 + et), the function ℓis the\nnegative, normalized population log likelihood for the logistic regression model. (The fact that ℓis\nthe population rather than the sample log likelihood makes this an idealized set-up.)\nLet H := ∇2ℓ(x∗) = 1 n",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_8",
+          "text": "n\nX",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_9",
+          "text": "i=1\nψ′′(X⊤\ni x∗)XiX⊤\ni .\n(8.6) The matrix H is strictly positive definite. Indeed, let cψ = inf|t|<CX ψ′′(t), which is positive since\nψ′′(t) > 0 for all t ∈Rd and ψ is smooth. Then H ⪰cψ 1",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_10",
+          "text": "n\nPn\ni=1 XiX⊤\ni ⪰cψcXId. By a change of\nvariables, we have",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_11",
+          "text": "Z",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_12",
+          "text": "Rd e−nℓ(x)dx = e−nℓ(x∗)",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_13",
+          "text": "√ det H",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_14",
+          "text": "Z Rd e−nf(x)dx,\nf(x) = ℓ(H−1/2x + x∗) −ℓ(x∗).\n(8.7)",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_15",
+          "text": "We verify the conditions of Theorem 3.2 for this f. We have f(0) = 0, ∇f(0) = 0 and ∇2f(0) = Id.\nThus the Taylor expansion of f indeed takes the form in (3.2). Furthermore, using the above lower\nbound on H and the definition of ℓ, we have for k ≥3 sup\nx∈Rd ∥∇kf(x)∥op ≤(cψcX)−k/2 sup\nx∈Rd ∥∇kℓ(x)∥op = (cψcX)−k/2 sup\nx∈Rd",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_16",
+          "text": "1\nn",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_17",
+          "text": "n\nX",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_18",
+          "text": "i=1\nψ(k)(X⊤\ni x)X⊗k\ni",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_19",
+          "text": "op\n≤(cψcX)−k/2∥ψ(k)∥∞max\ni=1,...,n ∥Xi∥k ≤(cψcX)−k/2∥ψ(k)∥∞Ck\nX.",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_20",
+          "text": "(8.8)",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_21",
+          "text": "Thus (3.3) is satisfied for any r0. The condition on g ≡1 in Assumption 3.1, part (2) is trivially\nsatisfied. Finally, to verify (3.6), we prove the sufficient condition (3.7) holds. Even more simply, it\nsuffices to show f(x) ≥κ min(∥x∥2/2, √ϵ∥x∥) for all x ∈Rd. Let c = maxu∈Rd ∥∇3f(x)∥op, which\nwe know is bounded, by the above calculation. Then for all ∥x∥≤√ϵ, a Taylor expansion gives\nf(x) ≥(1 −c√ϵ/3)∥x∥2/2 ≥1",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_22",
+          "text": "2(∥x∥2/2), if ϵ is small enough. For all ∥x∥≥√ϵ, convexity of f\nimplies that f(x) ≥∥x∥",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_23",
+          "text": "∥y∥f(y), where ∥y∥= √ϵ and y lies on the line segment between 0 and x.\nBut now we use that f(y) ≥∥y∥2/4 since ∥y∥= √ϵ, so f(x) ≥∥x∥∥y∥/4 = ∥x∥√ϵ/4. Therefore,\nf(x) ≥κ min(∥x∥2/2, √ϵ∥x∥) is satisfied on Rd, with κ = 1/4.\nTheorem 3.2 therefore applies to f from (8.7). As in Section 8.2, we can satisfy the lower bound\nin (3.8) by taking R = c for some constant c depending on CX, cx, ψ, and L. Writing",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_24",
+          "text": "Z",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_25",
+          "text": "Rd e−nℓ(x)dx = e−nℓ(x∗)",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_26",
+          "text": "√ det H",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_27",
+          "text": "\u00122π n",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_28",
+          "text": "\u0013d/2\n×\n\u001a\u0010 n 2π",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_29",
+          "text": "\u0011d/2 Z",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_30",
+          "text": "Rd e−nf(x)dx\n\u001b\n,",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_31",
+          "text": "29",
+          "page": 29
+        },
+        {
+          "para_id": "8.3_32",
+          "text": "we conclude that log\nZ",
+          "page": 30
+        },
+        {
+          "para_id": "8.3_33",
+          "text": "Rd e−nℓ(x)dx = −nℓ(x∗) −1",
+          "page": 30
+        },
+        {
+          "para_id": "8.3_34",
+          "text": "2 log det H −d",
+          "page": 30
+        },
+        {
+          "para_id": "8.3_35",
+          "text": "2 log n",
+          "page": 30
+        },
+        {
+          "para_id": "8.3_36",
+          "text": "2π + b1",
+          "page": 30
+        },
+        {
+          "para_id": "8.3_37",
+          "text": "n + O\n\u0012d3",
+          "page": 30
+        },
+        {
+          "para_id": "8.3_38",
+          "text": "n2",
+          "page": 30
+        },
+        {
+          "para_id": "8.3_39",
+          "text": "\u0013\n,\n(8.9)",
+          "page": 30
+        },
+        {
+          "para_id": "8.3_40",
+          "text": "whenever d3/n2 is sufficiently small.\nHere, the constant suppressed by the big-O depends on\nCX, cx, ψ. The term b1 can be computed using the general formula (6.14), and similar calculations\nas in [22, 21]. Note that the righthand side of the first line in (8.9) is the Bayesian information\ncriterion (BIC) [29].\nThus b1/n can be considered a higher-order correction to BIC, with the\nhigher-order remainder explicitly controlled.",
+          "page": 30
+        }
+      ]
+    }
+  ]
+}

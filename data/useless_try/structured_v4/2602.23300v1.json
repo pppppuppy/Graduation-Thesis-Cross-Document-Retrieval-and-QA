@@ -1,0 +1,1754 @@
+{
+  "doc_id": "2602.23300v1.pdf",
+  "title": "arXiv:2602.23300v1  [cs.CL]  26 Feb 2026",
+  "abstract": "Emotion Recognition in Conversations (ERC) presents unique challenges, requir-\ning models to capture the temporal flow of multi-turn dialogues and to effectively\nintegrate cues from multiple modalities. We propose Mixture of Speech-Text\nExperts for Recognition of Emotions (MiSTER-E), a modular Mixture-of-Experts\n(MoE) framework designed to decouple two core challenges in ERC: modality-\nspecific context modeling and multimodal information fusion. MiSTER-E lever-\nages large language models (LLMs) fine-tuned for both speech and text to provide\nrich utterance-level embeddings, which are then enhanced through a convolutional-\nrecurrent context modeling layer. The system integrates predictions from three\nexperts—speech-only, text-only, and cross-modal—using a learned gating mech-\nanism that dynamically weighs their outputs. To further encourage consistency\nand alignment across modalities, we introduce a supervised contrastive loss be-\ntween paired speech-text representations and a KL-divergence-based regulariza-\ntion across expert predictions. Importantly, MiSTER-E does not rely on speaker\nidentity at any stage. Experiments on three benchmark datasets—IEMOCAP,\nMELD, and MOSI—show that our proposal achieves 70.9%, 69.5%, and 87.9%\nweighted F1-scores respectively, outperforming several baseline speech-text ERC\nsystems. We also provide various ablations to highlight the contributions made in\nthe proposed approach.\nKeywords: Mixture-of-Experts, Co-attention models, Multi-modal fusion,\nEmotion recognition.\narXiv:2602.23300v1  [cs.CL]  26 Feb 2026",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1. Introduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Emotion Recognition in Conversation (ERC) is the task of inferring the emo-\ntional states of speakers engaged in multi-turn interactions, often involving mul-\ntiple modalities. As a key component in developing emotionally intelligent and\nsocially aware AI systems, ERC plays a vital role in a wide array of real-world\napplications—ranging from empathetic dialogue agents and customer service bots\nto social media monitoring and mental health assessment systems [1, 2, 3]. In\nconversational settings, emotions are not expressed in isolation; they unfold over\ntime and are communicated through a rich combination of signals, including tex-\ntual content, vocal prosody, and visual cues. These signals often interact in subtle,\ncontext-dependent ways, making it essential to capture both intra-modal dynamics\nand cross-modal dependencies. The inherently sequential and multimodal nature\nof conversations, along with the subjective and context-sensitive nature of emo-\ntions, makes ERC a complex and challenging task in affective computing.\nA wide range of approaches have been proposed to advance ERC, with notable\nprogress in areas such as contextual modeling of dialogue [4, 5], speaker-aware\nrepresentations that capture interpersonal dependencies [6, 7], and various strate-\ngies for multimodal fusion—from simple early concatenation [8] to more sophis-\nticated attention-based [9] and tensor-based methods [10]. However, despite this\nprogress, most existing systems adopt monolithic architectures that conflate two\nfundamentally distinct modeling challenges: (i) capturing the temporal context\nacross multi-turn dialogues, and (ii) performing cross-modal fusion of information\nfrom different modalities. This entanglement can limit model performance, espe-\ncially when training data is scarce—a common scenario in ERC tasks. As a result,\nsuch designs often risk overfitting to dataset-specific patterns, rather than learning\ngeneralizable emotional cues. This leads us to a central research question: Can\narchitectural modularity—specifically, the decoupling of context modeling from\nmodality fusion—lead to more effective and generalizable emotion recognition in\nconversations? In our earlier study (Dutta et al. [11]), a proposal towards addressing this ques-\ntion was attempted by developing a hierarchical modeling framework for ERC.\nThis work separates the modeling pipeline into two stages: first, intra-modal con-\ntext modeling, followed by inter-modal fusion. This structure introduces a degree\nof architectural decoupling and was shown to improve performance. However,\na key limitation remains: in cases where there is a substantial performance gap\nbetween modalities, the overall system does not add additional value over the best\nuni-modal system.",
+          "page": 2
+        },
+        {
+          "para_id": "1_2",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "1_3",
+          "text": "In this work, we introduce Mixture of Speech-Text Experts for Recognition\nof Emotions (MiSTER-E), a modular architecture that enforces a combination of\nexperts at the logit (decision) level rather than at the feature level. MiSTER-E\nadopts a Mixture-of-Experts (MoE) formulation with three independently opti-\nmized branches: a speech-only contextual expert, a text-only contextual expert,\nand a multimodal expert. The uni-modal systems capture modality-specific con-\nversational dynamics using temporal inception networks followed by a recur-\nrent layer, while the multimodal expert fuses speech and text features via cross-\nattention and self-attention layers. The outputs from these experts are combined\nusing a gating mechanism, which computes a weighted sum before the softmax\nnormalization. This logit-level fusion enables dynamic expert selection, allowing\nthe model to combine complementary multimodal cues. To further stabilize ex-\npert specialization, we incorporate contrastive and KL-based consistency losses,\nwhile supervising each expert with focal loss to address class imbalance. In par-\nticular, when either modality (speech or text) has a dominant advantage over the\nother modality (text or speech), our modality decoupling followed by MoE based\ncombination is shown to have a unique fusion advantage compared to other prior\nworks. The following are the contributions from the work:",
+          "page": 3
+        },
+        {
+          "para_id": "1_4",
+          "text": "• We propose MiSTER-E, a modular framework for emotion recognition in\nconversations that separates modality-specific contextual modeling from\nmultimodal integration using a logit-level Mixture-of-Experts architecture.",
+          "page": 3
+        },
+        {
+          "para_id": "1_5",
+          "text": "• We show that adaptive, per-utterance expert weighting enables effective\nhandling of modality imbalance, allowing unimodal experts to dominate\nwhen cross-modal cues are unreliable.",
+          "page": 3
+        },
+        {
+          "para_id": "1_6",
+          "text": "• We incorporate auxiliary training objectives, including a speech-text con-\ntrastive loss and a KL-divergence-based consistency regularization, to sta-\nbilize expert specialization.",
+          "page": 3
+        },
+        {
+          "para_id": "1_7",
+          "text": "• We demonstrate that MiSTER-E achieves state-of-the-art performance on\nthree benchmark ERC datasets—IEMOCAP [12], MELD [13], and CMU-\nMOSI [14]—without using speaker identity.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2. Related Work",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "Text embedding extraction: Early approaches to ERC relied on static word em-\nbeddings such as Word2Vec [15] and GloVe [16], to encode utterances [17, 10,",
+          "page": 3
+        },
+        {
+          "para_id": "2_2",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "2_3",
+          "text": "18]. With the advent of transformer-based language models like BERT [19] and\nRoBERTa [20], ERC systems began adopting contextual encoders [21, 22, 23], re-\nsulting in improved text features. Recent text-only methods [24, 25] pose ERC as\na generative task, where they fine-tune LLMs in an autoregressive manner. How-\never, the efficient use of LLMs when text is used alongside speech is unexplored.\nTowards this, we adapt LLMs as text encoders for the task of text emotion recog-\nnition, thereby harnessing the power of these models and enabling fusion with\nother modalities.\nSpeech embedding extraction: Speech features in ERC have traditionally relied\non hand-crafted descriptors like OpenSMILE [26] and COVAREP [27], which,\nwhile effective, often fail to generalize across datasets with diverse acoustic con-\nditions [5, 17]. Recent efforts have moved toward learnable frontends such as\nLEAF [28] and self-supervised models like HuBERT [29] and wav2vec [30], with\ndemonstrated success [31, 32]. However, the utilization of multi-modal LLMs for\nERC is relatively unexplored. Thus, we fine tune large speech language models\n(SLLMs) directly for emotional inference—an approach that has not been ex-\nplored for multimodal ERC before.\nMoE in ERC: While Mixture-of-Experts (MoE) architectures have shown promise\nin scaling both language [33, 34] and vision models [35], their role in ERC has\nbeen limited. One recent example, MMGAT-EMO [36], combines MoE with\ngraph attention for emotion modeling. In contrast, we use MoE to structure our\nmodel around three specialized experts—speech, text, and fused modalities — ex-\nplicitly targeting the separation of context modeling and cross-modal fusion.\nLoss functions for ERC: Supervised contrastive learning [37] was introduced for\nERC by Li et al.[38] and extended in later works [39, 40], using emotion class\nprototypes. Some approaches extend this to align modalities—e.g., aligning au-\ndio and visual cues to textual anchors [41]. In contrast, we adopt a multimodal\nsupervised contrastive loss, where intra- and inter-modality representations of ut-\nterances belonging to the same emotion class are aligned. We further introduce\na consistency loss to encourage agreement among experts, reinforcing modular\ncooperation.\nLLM-based Context Modeling in ERC: Recent works have explored the use of\nlarge language models (LLMs) within speech-processing pipelines for emotion\nrecognition. For example, LLM-based generative error correction frameworks\nhave been proposed to refine ASR outputs and subsequently perform downstream\ntasks, including emotion recognition [42]. Stepachev et al. [43] leverage outputs\nfrom multiple ASR systems along with fixed conversational context windows as\ninputs to LLMs to improve post-ASR emotion recognition. Furthermore, Zhang",
+          "page": 4
+        },
+        {
+          "para_id": "2_4",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "2_5",
+          "text": "SALMONN 7B",
+          "page": 5
+        },
+        {
+          "para_id": "2_6",
+          "text": "Avg. \nPool\nFC\n￼si1\nFC\n￼es",
+          "page": 5
+        },
+        {
+          "para_id": "2_7",
+          "text": "i1",
+          "page": 5
+        },
+        {
+          "para_id": "2_8",
+          "text": "LLaMA-3.1- 8B",
+          "page": 5
+        },
+        {
+          "para_id": "2_9",
+          "text": "Avg. \nPool\nFC\n￼ti1\nFC\n￼et",
+          "page": 5
+        },
+        {
+          "para_id": "2_10",
+          "text": "i1\nExcuse me",
+          "page": 5
+        },
+        {
+          "para_id": "2_11",
+          "text": "Excuse me",
+          "page": 5
+        },
+        {
+          "para_id": "2_12",
+          "text": "Yeah",
+          "page": 5
+        },
+        {
+          "para_id": "2_13",
+          "text": "Is there a \nproblem?",
+          "page": 5
+        },
+        {
+          "para_id": "2_14",
+          "text": "￼si1 ￼si2 ￼si3",
+          "page": 5
+        },
+        {
+          "para_id": "2_15",
+          "text": "￼ti1 ￼ti2",
+          "page": 5
+        },
+        {
+          "para_id": "2_16",
+          "text": "￼ti3",
+          "page": 5
+        },
+        {
+          "para_id": "2_17",
+          "text": "Speech \nEmbed.",
+          "page": 5
+        },
+        {
+          "para_id": "2_18",
+          "text": "Text \nEmbed.",
+          "page": 5
+        },
+        {
+          "para_id": "2_19",
+          "text": "Context \nAddition \nNetwork",
+          "page": 5
+        },
+        {
+          "para_id": "2_20",
+          "text": "￼es",
+          "page": 5
+        },
+        {
+          "para_id": "2_21",
+          "text": "i1 ￼es",
+          "page": 5
+        },
+        {
+          "para_id": "2_22",
+          "text": "i2 ￼es",
+          "page": 5
+        },
+        {
+          "para_id": "2_23",
+          "text": "i3",
+          "page": 5
+        },
+        {
+          "para_id": "2_24",
+          "text": "￼et",
+          "page": 5
+        },
+        {
+          "para_id": "2_25",
+          "text": "i1 ￼et",
+          "page": 5
+        },
+        {
+          "para_id": "2_26",
+          "text": "i2 ￼et",
+          "page": 5
+        },
+        {
+          "para_id": "2_27",
+          "text": "i3",
+          "page": 5
+        },
+        {
+          "para_id": "2_28",
+          "text": "Multimodal Network",
+          "page": 5
+        },
+        {
+          "para_id": "2_29",
+          "text": "Context \nAddition \nNetwork",
+          "page": 5
+        },
+        {
+          "para_id": "2_30",
+          "text": "￼̂ys",
+          "page": 5
+        },
+        {
+          "para_id": "2_31",
+          "text": "i1\n￼̂ys",
+          "page": 5
+        },
+        {
+          "para_id": "2_32",
+          "text": "i2\n￼̂ys",
+          "page": 5
+        },
+        {
+          "para_id": "2_33",
+          "text": "i3",
+          "page": 5
+        },
+        {
+          "para_id": "2_34",
+          "text": "￼̂yt",
+          "page": 5
+        },
+        {
+          "para_id": "2_35",
+          "text": "i1\n￼̂yt",
+          "page": 5
+        },
+        {
+          "para_id": "2_36",
+          "text": "i2\n￼̂yt",
+          "page": 5
+        },
+        {
+          "para_id": "2_37",
+          "text": "i3",
+          "page": 5
+        },
+        {
+          "para_id": "2_38",
+          "text": "￼̂ym",
+          "page": 5
+        },
+        {
+          "para_id": "2_39",
+          "text": "i1\n￼̂ym",
+          "page": 5
+        },
+        {
+          "para_id": "2_40",
+          "text": "i2\n￼̂ym",
+          "page": 5
+        },
+        {
+          "para_id": "2_41",
+          "text": "i3",
+          "page": 5
+        },
+        {
+          "para_id": "2_42",
+          "text": "MoE \ngating",
+          "page": 5
+        },
+        {
+          "para_id": "2_43",
+          "text": "￼̂yi1\n￼̂yi2\n￼̂yi3",
+          "page": 5
+        },
+        {
+          "para_id": "2_44",
+          "text": "(b) MiSTER-E pipeline",
+          "page": 5
+        },
+        {
+          "para_id": "2_45",
+          "text": "(a) Embedding Extraction",
+          "page": 5
+        },
+        {
+          "para_id": "2_46",
+          "text": "Speech \nEmbed.",
+          "page": 5
+        },
+        {
+          "para_id": "2_47",
+          "text": "Text \nEmbed.",
+          "page": 5
+        },
+        {
+          "para_id": "2_48",
+          "text": "Emo. Label",
+          "page": 5
+        },
+        {
+          "para_id": "2_49",
+          "text": "Emo. Label",
+          "page": 5
+        },
+        {
+          "para_id": "2_50",
+          "text": "Figure 1: (a) Training of the unimodal feature extraction module (Sec. 3.2) (b) The entire pipeline\nof MiSTER-E. The speech and text embedding modules are frozen during training of the rest of\nthe pipeline. Two context addition networks (Sec. 3.3.1) are trained for the two modalities along\nwith a multimodal network (Sec. 3.3.2). Finally, a mixture of experts gating network (Sec. 3.4) is\ntrained to predict the emotion category for each utterance.",
+          "page": 5
+        },
+        {
+          "para_id": "2_51",
+          "text": "et al. [44] demonstrate that careful selection of contextual utterances can enhance\nemotion recognition performance, even when transcripts are derived from noisy\nASR systems. These approaches highlight the growing role of LLMs in contextual\nand post-ASR emotion recognition settings. In contrast, MiSTER-E incorporates\nLLMs as embedding encoders within a modular mixture-of-experts framework,\nwhere modality-specific contextual modeling and multimodal fusion are explic-\nitly decoupled and integrated at the decision level.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3. Proposed Method",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "A block diagram of our proposed method is shown in Fig. 1.",
+          "page": 5
+        },
+        {
+          "para_id": "3_2",
+          "text": "3.1. Problem Description Let us consider an ERC dataset D consisting of P conversations, C = {c1, c2,\nc3, . . . , cP}, where each conversation ci consists of a set of utterances, Ui =",
+          "page": 5
+        },
+        {
+          "para_id": "3_3",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "3_4",
+          "text": "Symbol\nDescription D\nEmotion Recognition in Conversations (ERC) dataset\nP\nNumber of conversations in the dataset\nC = {c1, c2, . . . , cP}\nSet of all conversations in D\nci\nThe i-th conversation\nUi = (ui1, ui2, . . . , uiNi)\nSequence of utterances in conversation ci\nNi\nNumber of utterances in conversation ci\nuik\nThe k-th utterance in conversation ci\nsik\nSpeech modality of utterance uik\ntik\nText modality of utterance uik\nyik\nEmotion label corresponding to utterance uik\nY\nSet of emotion categories in the dataset\nyi = (yi1, yi2, . . . , yiNi)\nSequence of emotion labels for conversation ci es\nik, et\nik\nSpeech and text embeddings for utterance uik\nˆys\nik, ˆyt\nik, ˆym\nik\nPre-softmax logits from speech, text, and multimodal experts\nˆyik\nFinal fused logit after mixture-of-experts gating\nβik\nMixture-of-experts weights for utterance uik\nˆps\nik, ˆpt\nik, ˆpm\nik\nClass probability distributions for speech, text and multimodal experts Li\nCAN\nFocal loss for unimodal context addition networks\nLi\nmulti\nMultimodal classification and contrastive loss\nLi\nmoe\nMoE gating loss with KL-divergence consistency regularization\nLtot\nOverall training objective",
+          "page": 6
+        },
+        {
+          "para_id": "3_5",
+          "text": "Table 1: Notations used in the problem formulation and model description.",
+          "page": 6
+        },
+        {
+          "para_id": "3_6",
+          "text": "{ui1, ui2, , . . . , uiNi}, where Ni refers to the number of utterances in the conversa-\ntion ci. In this work, only the speech and text modalities are considered, which is\nnotated as uik = {sik, tik}, k = 1..Ni, where sik and tik are speech and text data\nrespectively. Each utterance uik is associated with a corresponding emotion label\nyik ∈Y, with Y denoting the label set of emotion categories in D. The task of\nERC is to map a sequence of utterances {ui1, ui2, . . . , uiNi} to their correspond-\ning labels yi = {yi1, yi2, . . . , yiNi}. A summary of these notations is shown in\nTable 1.",
+          "page": 6
+        },
+        {
+          "para_id": "3_7",
+          "text": "3.2. Unimodal Feature Extraction\nText embeddings: While large language models (LLMs) excel in text gener-\nation, their use in emotion recognition has been limited. Prior work typically uses\nthem in autoregressive mode or as frozen feature extractors [45].\nIn this work, we fine-tune an LLM—specifically, LLaMA-3.1-8B—to act as a\ntext encoder rather than a generator. Each utterance transcript tik is tokenized and\nprocessed through the LLM. Token-level hidden states are then pooled and passed",
+          "page": 6
+        },
+        {
+          "para_id": "3_8",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "3_9",
+          "text": "through a two-layer feedforward classifier trained with task-specific supervision.\nTo preserve the pretraining knowledge while enabling efficient adaptation, we ap-\nply LoRA [46] to fine-tune the weights. We denote the resulting text embedding\nas:\net\nik = Text-Embed(tik)\n(1) where et\nik is extracted from the first fully connected layer of the classifier.\nSpeech embeddings: For speech, we adopt a similar approach using SALMONN\n-7B [47], a speech large language model (SLLM) comprising a speech encoder,\nQ-former [48], and an LLM backbone. For ERC, we fine-tune this model by up-\ndating the Q-former, the LLM, and a classification head with LoRA. This allows\nthe system to learn emotionally salient acoustic patterns while retaining the se-\nmantic features of the LLM backbone. Given a speech signal sik, we extract its\nrepresentation as:\nes\nik = Speech-Embed(sik)\n(2) where the embedding is taken from the first fully connected layer of the speech\nclassification head. Comparisons with alternative LLM and SLLM variants are\nprovided in Sec. 4.8.",
+          "page": 7
+        },
+        {
+          "para_id": "3_10",
+          "text": "3.3. Conversational Modeling\nFor a conversation ci, the text and speech embedding sequences (Sec. 3.2) are\ndenoted by Et\ni = (et\ni1, . . . , et\niNi) and Es\ni = (es\ni1, . . . , es\niNi) respectively. As shown\nin Figure 1, the fine-tuned speech and text embedding extractors are frozen.",
+          "page": 7
+        },
+        {
+          "para_id": "3_11",
+          "text": "3.3.1. Context Addition Network\nTo make utterance representations context-aware, we introduce a Context Ad-\ndition Network (CAN) that enhances both text and speech embeddings (Sec. 3.2)\nwith conversational context. At its core is a Temporal Inception Network (TIN),\nwhich applies 1D convolutions with kernel sizes of 1, 3, and 5 to capture short-\nrange dependencies—simulating varying receptive fields across local utterance\nneighborhoods. Inspired by the Inception architecture [49] originally developed\nfor image classification, TIN enables multi-scale temporal context modeling within\nconversations.\nHowever, emotional signals in dialogue often evolve over longer durations. To\ncapture such global dependencies, we append a Bi-GRU layer, allowing the model\nto integrate information across the entire conversational span. A residual con-\nnection links the original embedding with its context-enhanced version, enabling\nadditive refinement while preserving the semantic grounding of the base LLM",
+          "page": 7
+        },
+        {
+          "para_id": "3_12",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "3_13",
+          "text": "1x1  \n1D-CNN",
+          "page": 8
+        },
+        {
+          "para_id": "3_14",
+          "text": "3x1  \n1D-CNN",
+          "page": 8
+        },
+        {
+          "para_id": "3_15",
+          "text": "5x1  \n1D-CNN",
+          "page": 8
+        },
+        {
+          "para_id": "3_16",
+          "text": "Bi-GRU FC",
+          "page": 8
+        },
+        {
+          "para_id": "3_17",
+          "text": "FC",
+          "page": 8
+        },
+        {
+          "para_id": "3_18",
+          "text": "￼̂ys",
+          "page": 8
+        },
+        {
+          "para_id": "3_19",
+          "text": "i1￼̂ys",
+          "page": 8
+        },
+        {
+          "para_id": "3_20",
+          "text": "i2￼̂ys",
+          "page": 8
+        },
+        {
+          "para_id": "3_21",
+          "text": "i3\n￼̂ys",
+          "page": 8
+        },
+        {
+          "para_id": "3_22",
+          "text": "iNi",
+          "page": 8
+        },
+        {
+          "para_id": "3_23",
+          "text": "Add & Norm",
+          "page": 8
+        },
+        {
+          "para_id": "3_24",
+          "text": "MHA",
+          "page": 8
+        },
+        {
+          "para_id": "3_25",
+          "text": "QS\nKS\nVS\nQT\nKT\nVT",
+          "page": 8
+        },
+        {
+          "para_id": "3_26",
+          "text": "Concat",
+          "page": 8
+        },
+        {
+          "para_id": "3_27",
+          "text": "FC",
+          "page": 8
+        },
+        {
+          "para_id": "3_28",
+          "text": "Q K\nV",
+          "page": 8
+        },
+        {
+          "para_id": "3_29",
+          "text": "Nx\nNx",
+          "page": 8
+        },
+        {
+          "para_id": "3_30",
+          "text": "(a) Context addition network\n(b) Multimodal network",
+          "page": 8
+        },
+        {
+          "para_id": "3_31",
+          "text": "TIN",
+          "page": 8
+        },
+        {
+          "para_id": "3_32",
+          "text": "￼es",
+          "page": 8
+        },
+        {
+          "para_id": "3_33",
+          "text": "i1 ￼es",
+          "page": 8
+        },
+        {
+          "para_id": "3_34",
+          "text": "i2￼es",
+          "page": 8
+        },
+        {
+          "para_id": "3_35",
+          "text": "i3\n￼es",
+          "page": 8
+        },
+        {
+          "para_id": "3_36",
+          "text": "iNi",
+          "page": 8
+        },
+        {
+          "para_id": "3_37",
+          "text": "MHA",
+          "page": 8
+        },
+        {
+          "para_id": "3_38",
+          "text": "Add & Norm",
+          "page": 8
+        },
+        {
+          "para_id": "3_39",
+          "text": "Add & Norm MHA",
+          "page": 8
+        },
+        {
+          "para_id": "3_40",
+          "text": "MHA",
+          "page": 8
+        },
+        {
+          "para_id": "3_41",
+          "text": "Add & Norm",
+          "page": 8
+        },
+        {
+          "para_id": "3_42",
+          "text": "Q\nK\nV",
+          "page": 8
+        },
+        {
+          "para_id": "3_43",
+          "text": "￼̂ym",
+          "page": 8
+        },
+        {
+          "para_id": "3_44",
+          "text": "i1￼̂ym",
+          "page": 8
+        },
+        {
+          "para_id": "3_45",
+          "text": "i2￼̂ym",
+          "page": 8
+        },
+        {
+          "para_id": "3_46",
+          "text": "i3\n￼̂ym",
+          "page": 8
+        },
+        {
+          "para_id": "3_47",
+          "text": "iNi",
+          "page": 8
+        },
+        {
+          "para_id": "3_48",
+          "text": "￼et",
+          "page": 8
+        },
+        {
+          "para_id": "3_49",
+          "text": "i1￼et",
+          "page": 8
+        },
+        {
+          "para_id": "3_50",
+          "text": "i2￼et",
+          "page": 8
+        },
+        {
+          "para_id": "3_51",
+          "text": "i3\n￼et",
+          "page": 8
+        },
+        {
+          "para_id": "3_52",
+          "text": "iNi\n￼es",
+          "page": 8
+        },
+        {
+          "para_id": "3_53",
+          "text": "i1 ￼es",
+          "page": 8
+        },
+        {
+          "para_id": "3_54",
+          "text": "i2￼es",
+          "page": 8
+        },
+        {
+          "para_id": "3_55",
+          "text": "i3\n￼es",
+          "page": 8
+        },
+        {
+          "para_id": "3_56",
+          "text": "iNi",
+          "page": 8
+        },
+        {
+          "para_id": "3_57",
+          "text": "Figure 2: (a) The context addition network (for the speech modality) and (b) the multimodal net-\nwork used in MiSTER-E. The inputs to both the blocks are derived from the uni-modal feature\nextractor modules. TIN stands for Temporal Inception Network, MHA stands for multi-head atten-\ntion.",
+          "page": 8
+        },
+        {
+          "para_id": "3_58",
+          "text": "features. Finally, a FC layer is used to map each utterance uik to its correspond-\ning emotion category yik. We train two similar networks for the speech and text\nmodalities, respectively. These operations are denoted as:",
+          "page": 8
+        },
+        {
+          "para_id": "3_59",
+          "text": "ˆys\ni = (ˆys\ni1, . . . , ˆys\niNi) = CAN(Es\ni)\n(3)\nˆyt\ni = (ˆyt\ni1, . . . , ˆyt\niNi) = CAN(Et\ni)\n(4)",
+          "page": 8
+        },
+        {
+          "para_id": "3_60",
+          "text": "A schematic of the speech-side CAN is shown in Fig. 2(a).",
+          "page": 8
+        },
+        {
+          "para_id": "3_61",
+          "text": "3.3.2. Multimodal Network\nTo integrate information across modalities, we design a fusion module based\non cross-attention between speech and text. This mechanism allows the model to\nalign semantic cues from text with affective signals from audio. The speech and\ntext embeddings, Es\ni and Et\ni, are first projected into query, key, and value spaces.\nCross-attention is then applied bidirectionally:",
+          "page": 8
+        },
+        {
+          "para_id": "3_62",
+          "text": "Mt→s\ni\n= LN(FC(Es\ni) + MHA(Qs\ni, Kt\ni, Vt\ni))\n(5)\nMs→t\ni\n= LN(FC(Et\ni) + MHA(Qt\ni, Ks\ni, Vs\ni ))\n(6)",
+          "page": 8
+        },
+        {
+          "para_id": "3_63",
+          "text": "Here, MHA and LN refer to multi-head attention and layer normalization, respec-\ntively.",
+          "page": 8
+        },
+        {
+          "para_id": "3_64",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "3_65",
+          "text": "While this enables inter-modal alignment, it overlooks cues from the conversa-\ntional context that are essential for ERC. To address this, we apply modality-\nspecific self-attention layers over the aligned representations, capturing temporal\ncontext across the conversation:",
+          "page": 9
+        },
+        {
+          "para_id": "3_66",
+          "text": "Ms\ni = Self-attn.(Mt→s\ni\n)\n(7)\nMt\ni = Self-attn.(Ms→t\ni\n)\n(8)",
+          "page": 9
+        },
+        {
+          "para_id": "3_67",
+          "text": "The outputs Ms\ni and Mt\ni are concatenated and passed through a fully connected\n(FC) layer:\nˆym\ni = (ˆym\ni1, ˆym\ni2, . . . , ˆym\niNi) = FC([Ms\ni; Mt\ni])\n(9) An overview is presented in Fig. 2(b).",
+          "page": 9
+        },
+        {
+          "para_id": "3_68",
+          "text": "3.4. Mixture-of-Experts Gating We obtain pre-softmax logits from the three experts for each utterance uik: the\nspeech expert (ˆys\nik), the text expert (ˆyt\nik), and the multimodal expert (ˆym\nik).\nTo combine the logits, we dynamically fuse the experts’ logits using a gating\nmechanism that learns to weigh them. To compute these weights, we concatenate\nthe logits and feed them into a fully connected (FC) layer:",
+          "page": 9
+        },
+        {
+          "para_id": "3_69",
+          "text": "gik = FC([ˆys\nik; ˆyt\nik; ˆym\nik])\n(10) The gating network outputs gik ∈R3, which is transformed via a softmax opera-\ntion to produce adaptive mixture weights βik. The final logit is computed as a weighted sum of the expert predictions:",
+          "page": 9
+        },
+        {
+          "para_id": "3_70",
+          "text": "ˆyik = βs\nik · ˆys\nik + βt\nik · ˆyt\nik + βm\nik · ˆym\nik\n(11) A softmax operation is applied to ˆyik to obtain the final predictive distribu-\ntion for utterance uik. This gating network is trained end-to-end, empowering the\nmodel to flexibly integrate modalities by emphasizing the most reliable expert.",
+          "page": 9
+        },
+        {
+          "para_id": "3_71",
+          "text": "3.5. Model Training\n3.5.1. Loss Function\nERC is typically characterized by severe class imbalance, where rare emotion\nclasses are often misclassified [50]. To address this, we employ the focal loss [51],\nwhich modulates the contribution of each training example based on its complex-\nity, reducing the relative loss for well-classified examples while focusing on hard",
+          "page": 9
+        },
+        {
+          "para_id": "3_72",
+          "text": "9",
+          "page": 9
+        },
+        {
+          "para_id": "3_73",
+          "text": "(possibly minority class) instances. In MiSTER-E, this loss is applied during the\ntraining of the uni-modal embedding extractors for text and speech as well as\ntheir respective context addition networks (CANs). The loss for the speech and\ntext CAN networks is given by:",
+          "page": 10
+        },
+        {
+          "para_id": "3_74",
+          "text": "Li\nCAN =",
+          "page": 10
+        },
+        {
+          "para_id": "3_75",
+          "text": "Ni\nX",
+          "page": 10
+        },
+        {
+          "para_id": "3_76",
+          "text": "k=1\nFL(ˆys\nik, yik) +",
+          "page": 10
+        },
+        {
+          "para_id": "3_77",
+          "text": "Ni\nX",
+          "page": 10
+        },
+        {
+          "para_id": "3_78",
+          "text": "k=1\nFL(ˆyt\nik, yik)\n(12) Here, FL(·) represents the focal loss function. Description of the focal loss and\nrelated ablations are provided in Sec. 4.4.",
+          "page": 10
+        },
+        {
+          "para_id": "3_79",
+          "text": "3.5.2. Multimodal Contrastive Loss\nIn many cases, speech and text provide complementary signals about a speaker’s\nemotion. To exploit this, we incorporate a supervised contrastive loss that struc-\ntures the joint representation space based on emotion labels, drawing together ut-\nterances with shared emotional intent across modalities. Consider the multimodal\nspeech and text representations denoted by Ms\ni = {ms\ni1, ms\ni2, ms\ni3, . . . , ms\niNi} and\nMt\ni = {mt\ni1, mt\ni2, mt\ni3, . . . , mt\niNi} respectively. These embeddings are batched to\nget,\nZi = { ˜ms\ni1, . . . , ˜ms\niNi, ˜mt\ni1, . . . , ˜mt\niNi}\n(13) where ˜m·\nik =\nm·\nik\n||m·\nik|| denotes the normalized embeddings. Let za ∈Zi for a ∈\n{1, 2, . . . , 2Ni}, and let ya be the emotion label associated with za. The contrastive\nloss is given by:",
+          "page": 10
+        },
+        {
+          "para_id": "3_80",
+          "text": "Li\ncon =",
+          "page": 10
+        },
+        {
+          "para_id": "3_81",
+          "text": "2Ni\nX a=1",
+          "page": 10
+        },
+        {
+          "para_id": "3_82",
+          "text": "−1\n|P(a)|",
+          "page": 10
+        },
+        {
+          "para_id": "3_83",
+          "text": "X",
+          "page": 10
+        },
+        {
+          "para_id": "3_84",
+          "text": "p∈P(a)\nlog\nexp\n\u0000\nz⊤\na zp/τ\n\u0001",
+          "page": 10
+        },
+        {
+          "para_id": "3_85",
+          "text": "2Ni\nP q=1\nq̸=a",
+          "page": 10
+        },
+        {
+          "para_id": "3_86",
+          "text": "exp (z⊤\na zq/τ)\n(14)",
+          "page": 10
+        },
+        {
+          "para_id": "3_87",
+          "text": "where τ is the temperature and P(a) = {p ∈{1, 2, . . . , 2Ni}\\{a}|yp = ya} is\nthe set of positives for anchor za. This objective pulls together utterances with the\nsame emotion class across both speech and text, while pushing apart other sam-\nples, thereby guiding the model to learn emotionally coherent, modality-invariant\nrepresentations.\nTotal multimodal loss: The final loss used to train the multimodal model com-\nbines the classification and contrastive objectives:",
+          "page": 10
+        },
+        {
+          "para_id": "3_88",
+          "text": "Li\nmulti =",
+          "page": 10
+        },
+        {
+          "para_id": "3_89",
+          "text": "Ni\nX",
+          "page": 10
+        },
+        {
+          "para_id": "3_90",
+          "text": "k=1\nFL(ˆym\nik, yik) + λLi\ncon\n(15)",
+          "page": 10
+        },
+        {
+          "para_id": "3_91",
+          "text": "10",
+          "page": 10
+        },
+        {
+          "para_id": "3_92",
+          "text": "where ˆym\nik denotes the multimodal prediction, and λ controls the contribution of\nthe contrastive loss.",
+          "page": 11
+        },
+        {
+          "para_id": "3_93",
+          "text": "3.5.3. MoE Gating Loss\nTo train the mixture-of-experts (MoE) gating network, we combine two ob-\njectives: (i) focal loss for emotion classification, and (ii) a regularization term to\npromote consistency among the expert predictions. Specifically, we enforce sim-\nilarity in the predicted distributions of the three experts—speech-only, text-only,\nand multimodal—using the Kullback-Leibler (KL) divergence. The total loss for\nthe MoE layer is:",
+          "page": 11
+        },
+        {
+          "para_id": "3_94",
+          "text": "Li\nmoe =",
+          "page": 11
+        },
+        {
+          "para_id": "3_95",
+          "text": "Ni\nX",
+          "page": 11
+        },
+        {
+          "para_id": "3_96",
+          "text": "k=1\nFL(ˆyik, yik) + α · Li\nKL\n(16) where ˆyik is defined in Eq. 11, α controls the strength of the consistency regular-\nization, and the KL term is given by:",
+          "page": 11
+        },
+        {
+          "para_id": "3_97",
+          "text": "Li\nKL =",
+          "page": 11
+        },
+        {
+          "para_id": "3_98",
+          "text": "Ni\nX k=1",
+          "page": 11
+        },
+        {
+          "para_id": "3_99",
+          "text": "h\nKL(ˆpm\nik||ˆps\nik) + KL(ˆpm\nik||ˆpt\nik)\ni",
+          "page": 11
+        },
+        {
+          "para_id": "3_100",
+          "text": "(17)",
+          "page": 11
+        },
+        {
+          "para_id": "3_101",
+          "text": "Here, ˆp·\nik denotes the class probability distribution obtained by applying a softmax\nfunction to the corresponding expert logits ˆy·\nik. The KL consistency loss encour-\nages the unimodal speech and text experts to produce predictive distributions that\nare aligned with the multimodal expert. Since the multimodal expert jointly mod-\nels both modalities, we treat its output distribution as a stronger supervisory signal\nand therefore, employ a directional KL divergence in this manner.",
+          "page": 11
+        },
+        {
+          "para_id": "3_102",
+          "text": "3.5.4. Total Loss\nThe context addition networks, the multimodal network, and the MoE gating\nlayer are trained together. The total loss is:",
+          "page": 11
+        },
+        {
+          "para_id": "3_103",
+          "text": "Ltot =",
+          "page": 11
+        },
+        {
+          "para_id": "3_104",
+          "text": "P\nX i=1",
+          "page": 11
+        },
+        {
+          "para_id": "3_105",
+          "text": "\u0014\nLi\nCAN + Li\nmoe + Li\nmulti",
+          "page": 11
+        },
+        {
+          "para_id": "3_106",
+          "text": "\u0015\n(18)",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4. Experiments",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "4.1. Datasets\nWe evaluate MiSTER-E on three ERC datasets - IEMOCAP [12], MELD [13],\nand CMU-MOSI [14].",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "11",
+          "page": 11
+        },
+        {
+          "para_id": "4.1_2",
+          "text": "IEMOCAP consists of conversational data split into 5 sessions, 151 dialogues\nand 7433 utterances. Following prior work [32], we consider session 5 for test-\ning, while session 1 is used for validation. The remaining 3 sessions are used for\ntraining. Each utterance is classified as one of six emotions: “angry”, “happy”,\n“sad”, “frustrated”, “excited” and “neutral”. Thus, we use 92 conversations for\ntraining, 28 conversations for validation and the 31 conversations in Session 5 for\ntesting. There are a total of 5810 utterances for training and validation, while 1623\nutterances are used for testing the model.\nMELD is a multi-party conversational dataset consisting of 1433 dialogues with\n13708 utterances from the TV show Friends. This dataset has pre-defined train,\nvalidation, and test splits which are used in this work. Each utterance is catego-\nrized as one of seven emotion classes: “angry”, “joy”, “sadness”, “fear”, “dis-\ngust”, “surprise” and “neutral”. The training and validation data together amount\nto 1153 conversations (11098 utterances), while the test data comprises 280 con-\nversations (2610 utterances).\nCMU-MOSI consists of 93 monologues comprising 2,199 utterances, each an-\nnotated with a sentiment score in the range [−3, 3]. Following prior work, we\nformulate the task as a binary classification problem, where utterances with sen-\ntiment scores in the range [−3, 0) are labeled as negative and those in the range\n[0, 3] as positive. We adopt the same dataset partitioning protocol as reported in\nLian et al. [32]: the first 62 monologues are used for training and validation, and\nthe remaining 31 monologues are reserved for testing. Among the 62 monologues,\n49 are used for training and 13 for validation. This results in 1,188 training utter-\nances, 325 validation utterances, and 686 test utterances.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_3",
+          "text": "4.2. Implementation details\nThe two unimodal feature extractors (SALMONN-7B and LLaMA-3.1-8B)\nare trained using LoRA with a rank of 8 and the scaling parameter of 32 with a\ndropout of 0.1. Both models are trained with a batch size of 8 and a learning rate\nof 1e −5, with the focal loss. The hidden dimension in the FC (Sec. 3.2) is set to\n2048. For the rest of the MiSTER-E pipeline, we use a batch size of 8 for IEMO-\nCAP, MOSI and 32 for MELD. The learning rate is set to 1e −5 for all datasets.\nFor MELD and MOSI, λ (Eq. 15) is set to 1 , while for IEMOCAP, it is set to\n2. The consistency regularization term, α (Eq. 16), is set to 0.1 for IEMOCAP\nand MOSI, while it is kept at 1e −3 for MELD (Sec. 5). We report the weighted\nF1-score on the test data as the performance metric with 3 random initializations.\nAll our experiments are run using a NVIDIA RTX A6000 GPU card with Py-",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_4",
+          "text": "12",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_5",
+          "text": "torch 2.7.0 1 and CUDA 12.6. The number of trainable parameters in our model\namounts to 97M (8M each for the LLM/SLLM LoRA training and 81M for the\nconversational modeling). Training the LLM takes about 10 minutes per epoch,\nwhile the SLLM takes about 20 minutes per epoch. The rest of the model, follow-\ning feature encoders takes approximately 10 minutes for 100 epochs. We mention\nfurther hyperparameter choices for both datasets below:",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_6",
+          "text": "• The BiGRU used in the CAN network (Sec. 3.3.1) has a hidden dimension\nof 512 and we use 3 layers for IEMOCAP, MOSI, and 2 for MELD. We use\na dropout of 0.2 between each fully connected layer for regularization.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_7",
+          "text": "• For the multimodal fusion network, we use 4 layers with hidden dimension\nof 120 and 4 attention heads. We use a dropout regularization of 0.5 in the\nmultimodal fusion network. A fusion network with the same parameters\nis used for both the datasets. The temperature parameter for the contrastive\nloss, used for the fusion network (Eq. 14), is kept at 1 for IEMOCAP, MOSI,\nand 0.05 for MELD.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_8",
+          "text": "• While training the context addition networks, the multimodal network, and\nthe MoE gating network, we use gradient clipping with norm 1.0 for both\nthe datasets and train for 100 epochs. While training the LLM and the\nSLLM feature encoders, we run for 50 epochs for both datasets.2",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_9",
+          "text": "4.3. Comparison with prior work\nTable 2 presents a comparison of the proposed approach with several base-\nline methods. The competing approaches span a broad spectrum of modeling\nparadigms, including graph-based frameworks [54, 55], a state-space formula-\ntion [56], and a mixture-of-experts (MoE) based model [36]. As observed, the\nproposed method establishes new state-of-the-art performance on all the three\ndatasets, attaining a weighted F1 score of 70.9% on IEMOCAP, 69.5% on MELD,\nand 87.9% on CMU-MOSI.\nIt is also pertinent to highlight that, for IEMOCAP, the absence of a standard-\nized validation set has often resulted in prior studies performing model selection\ndirectly on the test set. Such a practice can artificially inflate performance metrics\nand limit reproducibility. To mitigate this issue, all experiments in this work (for",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_10",
+          "text": "1https://pytorch.org/blog/pytorch-2-7/\n2Code for MiSTER-E is available at https://github.com/iiscleap/MiSTER-E.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_11",
+          "text": "13",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_12",
+          "text": "Method\nIEMOCAP (6-class)\nMELD (7-class)\nMOSI (2-class) SMIN [32]##\n70.5%\n63.7%\n79.7%\nMultiEmo [52]#\n66.9%±2.0\n65.3%±0.5\n83.7%±0.3 HCAM [11]\n70.5%\n65.8%\n85.8%\nDF-ERC [53]\n69.5%\n64.5%\n–\nDER-GCN [54]\n64.7%\n62.6%\n–\nELR-GNN [55]\n64.4%\n63.2%\n–\nMamba-like-model [56]\n70.2%\n65.6%\n–\nTelME [57]\n69.3%\n67.2%\n–\nCFN-ESA [58]\n68.7%\n67.2%\n–\nMMGAT-EMO [36]#\n65.5%±0.6\n66.1%±0.4\n84.3%±0.4 MiSTER-E\n70.9%±0.2\n69.5%±0.3\n87.9%±0.2",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_13",
+          "text": "Table 2: Comparison of different methods on IEMOCAP, MELD, and MOSI datasets using\nweighted-F1 scores. All reported results are for speech-text systems. ## We report the numbers\nwhen no external emotional data is used for training SMIN. # We ran the public implementations\nprovided by the authors under our experimental settings. Superscripted results denote the mean\nand standard deviation over 3 random initializations, where applicable.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_14",
+          "text": "Weighted F1-score",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_15",
+          "text": "68",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_16",
+          "text": "69",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_17",
+          "text": "70",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_18",
+          "text": "71",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_19",
+          "text": "72",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_20",
+          "text": "0\n1\n2\n3\n4\n5",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_21",
+          "text": "IEMOCAP\nMELD",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_22",
+          "text": "γ",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_23",
+          "text": "Figure 3: Performance of MiSTER-E with different values of the focal loss hyperparameter.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_24",
+          "text": "which official implementations were available) were conducted using our own\ntrain, validation, and test splits. Consequently, certain IEMOCAP results reported\nin Table 2 may differ from those originally published.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_25",
+          "text": "4.4. Focal Loss\nFocal loss [51] is generally used to handle class imbalance. Since both ERC\ndatasets considered in this paper are imbalanced, we use focal loss in place of the\ncross-entropy loss. Denoting the predicted probability for the sample with logits",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_26",
+          "text": "14",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_27",
+          "text": "ˆy·\nik as ˆp·\nik, the focal loss is given as,",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_28",
+          "text": "FL(ˆy·\nik, yik) = −",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_29",
+          "text": "Y\nX",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_30",
+          "text": "c=1\nyc\nik(1 −ˆp·c\nik)γ log(ˆp·c\nik)\n(19) where yc\nik = 1 for the true class and 0 otherwise. ˆp·c\nik is the predicted probability\nfor class c for the sample with logits ˆy·\nik (· is replaced by s, t or m) and γ is the\nhyperparameter associated with the focal loss.\nThe performance of our proposed method for different values of γ (Eq. 19)\nis shown in Fig. 3. We note that for cross-entropy loss (γ = 0), the performance\ndrops for both datasets, indicating the need for utilizing a loss function more suited\nfor imbalanced datasets. The value of γ is set to 3 for both datasets.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_31",
+          "text": "4.5. Is modularity crucial?\nTo evaluate the importance of architectural modularity, we design a monolithic\nvariant of our model that eliminates the expert-based structure. In this baseline,\nthe contextual representations from each modality are directly passed into the fu-\nsion module, bypassing the separation between modality-specific and multimodal\nexperts. This modification leads to a notable degradation in performance, with the\nweighted F1-score dropping from 70.9% to 67.8% on the IEMOCAP dataset and\nfrom 69.5% to 67.9% on MELD. These results underscore a key insight: simply\nfusing contextual representations in a unified stream is insufficient. Instead, ex-\nplicitly decoupling context modeling from cross-modal fusion, as implemented in\nMiSTER-E, enables each component to specialize and contribute more effectively\nto the final prediction.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_32",
+          "text": "4.6. Are LLM embeddings the panacea?\nAn attentive reader might enquire whether the gains of our approach stem\nsolely from the use of LLM/SLLM features. To isolate the impact of our ar-\nchitectural design from that of the input representations, we conduct controlled\nexperiments where we retrain several prior ERC models using the same LLM and\nSLLM features employed in our proposed method. Since these baselines were\noriginally optimized for different feature types, we perform our own hyperparam-\neter tuning for each model to ensure a fair comparison (see Table 3). Our findings\nshow that while all baselines benefit to some extent from the improved represen-\ntations, the performance of MiSTER-E improves over previously published base-\nlines. This highlights a key finding: the gains achieved by our framework are not\nsolely attributable to powerful embeddings, but instead emerge from the modular",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_33",
+          "text": "15",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_34",
+          "text": "Method\n# Params\nText Feats.\nSpeech Feats.\nIEMOCAP\nMELD MultiEmo [52]\n≈450M\nRoBERTa\nOpenSMILE\n66.9%\n65.3%\n+ LLM/SLLM\n≈14B\nLLaMA\nSALMONN\n69.5%\n68.2% HCAM [11]\n≈750M\nRoBERTa\nwav2vec\n70.5%\n65.8%\n+ LLM/SLLM\n≈14B\nLLaMA\nSALMONN\n70.6%\n68.4% MMGAT-EMO [36]\n≈450M\nEmoBERTa\nOpenSMILE\n65.5%\n66.1%\n+ LLM/SLLM\n≈14B\nLLaMA\nSALMONN\n68.6%\n67.7% MiSTER-E w/o LLM/SLLM\n≈450M\nRoBERTa\nOpenSMILE\n69.5%\n66.4%\nMiSTER-E w/o LLM/SLLM\n≈750M\nRoBERTa\nwav2vec\n71.1%\n68.4%\nMiSTER-E\n≈14B\nLLaMA\nSALMONN\n70.9%\n69.5%",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_35",
+          "text": "Table 3: Comparison of some of the baseline methods when re-designed with and without LLM\nfeatures. The results show that the proposal is applicable even for non-LLM representations like\nOPENSMILE and wav2vec.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_36",
+          "text": "architectural choices—particularly the separation of context modeling and cross-\nmodal fusion, and the use of expert-level supervision and gating.\nTo further assess whether the gains of MiSTER-E are attributable to architec-\ntural design rather than encoder scale, we construct two variants of MiSTER-E by\nreplacing the LLM/SLLM encoders with more conventional pretrained represen-\ntations: RoBERTa for text and {OpenSMILE, wav2vec} features for speech. De-\nspite the substantial reduction in model capacity, both variants of MiSTER-E con-\nsistently outperform all baseline methods that use the same feature representations\n(Table 3). Notably, on IEMOCAP, MiSTER-E with RoBERTa and wav2vec fea-\ntures achieves performance comparable to—and in some cases higher than—the\ncorresponding LLM/SLLM-based configuration, suggesting improved generaliza-\ntion under reduced model capacity. These experiments demonstrate that the ad-\nvantages of our approach are not tied to any specific set of pretrained embeddings,\nbut rather stem from the modeling design that is proposed in this work.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_37",
+          "text": "4.7. Is decision-level MoE gating crucial?\nTo assess the importance of our decision-level Mixture-of-Experts (MoE) gat-\ning strategy, we conduct ablation studies by comparing MiSTER-E against two\narchitectural variants. In the first variant, termed feat-MoE, we shift the fu-\nsion point to the feature space—that is, the modality-specific and multimodal\nrepresentations are combined before classification, rather than fusing their pre-\ndictions. This design tests whether earlier integration is sufficient. In the second\nvariant, called No-Loss-MoE, we eliminate the expert-level supervision alto-",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_38",
+          "text": "16",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_39",
+          "text": "gether. Here, the model is trained solely on the final gated prediction using fo-\ncal loss, omitting the individual loss signals for the audio, text, and multimodal\nexperts. As shown in Fig. 4a, both variants degrade performance: feat-MoE\nresults in a 2.6% drop on IEMOCAP and 0.6% on MELD, while No-Loss-MoE\nleads to similar degradation. These findings reinforce two key design principles\nbehind MiSTER-E: (1) decision-level fusion is more effective than early feature\nfusion, likely because it preserves modality-specific discriminative cues; and (2)\nexpert-specific supervision is essential for encouraging each expert to specialize\nin its respective modality or fusion pattern.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_40",
+          "text": "4.8. Performance of Other LLMs/SLLMs\nWe experiment with other speech and language large models (SLLMs and\nLLMs) for encoding speech and text, respectively. All models are trained using the\nsame hyperparameters as LLaMA-3.1-8B and SALMONN - 7B. For the text\nmodality, we experiment with Qwen2.5-7B and Gemma-7B, while for speech,\nwe use Qwen2-Audio-7B and SALMONN-13B.\nAs shown in Table 4b, the performance of the speech encoders is compara-\nble across models, with SALMONN-7B achieving the best result on IEMOCAP,\nand Qwen2-Audio-7B performing best on MELD. The larger SALMONN-13B\nunderperforms compared to its smaller counterparts. For text, LLaMA-3.1-8B\noutperforms both Gemma-7B and Qwen2.5-7B on both datasets.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5. Discussion",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "5.1. Expert Behavior and Modality Imbalance We analyze the behavior of the mixture-of-experts (MoE) gating mechanism\non IEMOCAP and MELD to understand how the model adapts to dataset-specific\nmodality characteristics. As shown in Fig. 5(a), the gating network exhibits clear\ndataset-dependent preferences: it assigns higher weight to the multimodal expert\nfor IEMOCAP, while favoring the text expert for MELD. This behavior reflects\nthe relative reliability of modalities in the two datasets.\nThese trends are consistent with the performance of individual experts in Fig. 5(b).\nOn MELD, the speech expert performs substantially worse than the text expert,\nand the multimodal expert slightly underperforms the text expert due to the dif-\nficulty of aligning modalities with highly unequal predictive power. In contrast,\non IEMOCAP, where speech and text modalities exhibit comparable performance,",
+          "page": 17
+        },
+        {
+          "para_id": "5_2",
+          "text": "17",
+          "page": 17
+        },
+        {
+          "para_id": "5_3",
+          "text": "Weighted F1-score",
+          "page": 18
+        },
+        {
+          "para_id": "5_4",
+          "text": "60",
+          "page": 18
+        },
+        {
+          "para_id": "5_5",
+          "text": "63.75",
+          "page": 18
+        },
+        {
+          "para_id": "5_6",
+          "text": "67.5",
+          "page": 18
+        },
+        {
+          "para_id": "5_7",
+          "text": "71.25",
+          "page": 18
+        },
+        {
+          "para_id": "5_8",
+          "text": "75",
+          "page": 18
+        },
+        {
+          "para_id": "5_9",
+          "text": "IEMOCAP\nMELD",
+          "page": 18
+        },
+        {
+          "para_id": "5_10",
+          "text": "69.5\n70.9 69\n68.1\n68.9\n68.3",
+          "page": 18
+        },
+        {
+          "para_id": "5_11",
+          "text": "feat-MoE\nNo-Loss-MoE\nMiSTER-E",
+          "page": 18
+        },
+        {
+          "para_id": "5_12",
+          "text": "(a) Performance of MiSTER-E with changes in the MoE\ngating strategy for IEMOCAP and MELD and",
+          "page": 18
+        },
+        {
+          "para_id": "5_13",
+          "text": "Modality\nModel\nIEMOCAP\nMELD",
+          "page": 18
+        },
+        {
+          "para_id": "5_14",
+          "text": "Text",
+          "page": 18
+        },
+        {
+          "para_id": "5_15",
+          "text": "Gemma-7B\n48.2%\n58.1%\nQwen2.5-7B\n53.1%\n65.5%\nLLaMA-3.1-8B\n55.3%\n67.1%",
+          "page": 18
+        },
+        {
+          "para_id": "5_16",
+          "text": "Speech",
+          "page": 18
+        },
+        {
+          "para_id": "5_17",
+          "text": "SALMONN-7B\n59.7%\n54.3%\nQwen2-Audio-7B\n59.2%\n54.9%\nSALMONN-13B\n58.7%\n53.2%",
+          "page": 18
+        },
+        {
+          "para_id": "5_18",
+          "text": "(b) Performance of different SLLMs and LLMs on the two\ndatasets.",
+          "page": 18
+        },
+        {
+          "para_id": "5_19",
+          "text": "Figure 4: Comparison of model performance on IEMOCAP and MELD. (a) Effect of different\nMoE gating strategies in MiSTER-E. (b) Performance of unimodal SLLMs and LLMs across the\ntwo datasets.",
+          "page": 18
+        },
+        {
+          "para_id": "5_20",
+          "text": "the multimodal expert effectively fuses both sources and outperforms the best uni-\nmodal expert by 2.5%. Across both datasets, MiSTER-E consistently outperforms\nthe strongest individual expert by approximately 1%, demonstrating the benefit of\nadaptive, per-utterance expert weighting.\nThe effect of expert consistency regularization aligns with these observations. For\nIEMOCAP, a moderate consistency strength (α = 0.1) improves performance\nfrom 70.4% to 70.9%, while stronger regularization degrades performance. For\nMELD, where modality imbalance is pronounced, a small value (α = 10−3) yields\na modest gain of 0.1%, whereas larger values significantly reduce performance.",
+          "page": 18
+        },
+        {
+          "para_id": "5_21",
+          "text": "5.2. Class-wise Performance of MiSTER-E\nThe class-wise performance of our proposed method for the two datasets is\nshown in Table 7b. We note that for IEMOCAP the worst performing class is\n“happy” - likely because it is the least frequent class and it is most confused with\nthe “excited” category (Fig. 7a). Similarly, for MELD, the model performs most\npoorly on the “fear” category - again the least frequent class. However, we note\nthat for both datasets, the model performs quite well on most emotion classes,\nthereby leading to an improved overall performance.",
+          "page": 18
+        },
+        {
+          "para_id": "5_22",
+          "text": "18",
+          "page": 18
+        },
+        {
+          "para_id": "5_23",
+          "text": "(a) Expert weight distribution",
+          "page": 19
+        },
+        {
+          "para_id": "5_24",
+          "text": "Weighted F1-score 50",
+          "page": 19
+        },
+        {
+          "para_id": "5_25",
+          "text": "55",
+          "page": 19
+        },
+        {
+          "para_id": "5_26",
+          "text": "60",
+          "page": 19
+        },
+        {
+          "para_id": "5_27",
+          "text": "65",
+          "page": 19
+        },
+        {
+          "para_id": "5_28",
+          "text": "70",
+          "page": 19
+        },
+        {
+          "para_id": "5_29",
+          "text": "75",
+          "page": 19
+        },
+        {
+          "para_id": "5_30",
+          "text": "IEMOCAP\nMELD",
+          "page": 19
+        },
+        {
+          "para_id": "5_31",
+          "text": "69.5\n70.9",
+          "page": 19
+        },
+        {
+          "para_id": "5_32",
+          "text": "68.2\n69.9\n68.5\n65.7",
+          "page": 19
+        },
+        {
+          "para_id": "5_33",
+          "text": "55.8",
+          "page": 19
+        },
+        {
+          "para_id": "5_34",
+          "text": "67.4",
+          "page": 19
+        },
+        {
+          "para_id": "5_35",
+          "text": "Speech\nText\nMultimodal\nMiSTER-E",
+          "page": 19
+        },
+        {
+          "para_id": "5_36",
+          "text": "(b) Performance of the experts on the two datasets",
+          "page": 19
+        },
+        {
+          "para_id": "5_37",
+          "text": "Figure 5: (a) Distribution of weights for the experts for the different datasets and (b) The perfor-\nmance of the experts and MiSTER-E for the two datasets",
+          "page": 19
+        },
+        {
+          "para_id": "5_38",
+          "text": "5.3. Text-only Experiment\nAlthough MiSTER-E is designed for speech-text ERC, we evaluate its text-\nonly variant to compare against recent LLM-based ERC approaches that frame\nthe task as text generation and often rely on speaker metadata. We consider In-\nstructERC [24] as a representative baseline and adapt it to operate without speaker\ninformation for a fair comparison. Experiments are conducted on the EmoryNLP\ndataset [59], which contains only textual transcripts across seven emotion classes.\nFor this setting, text embeddings are extracted as described in Sec. 3.2, fol-\nlowed by the Context Addition Network, while the speech branch and MoE gat-\ning losses are removed. As shown in Fig. 8(a), MiSTER-E achieves a modest im-\nprovement of 0.2% over InstructERC. To control for model capacity, we further re-\nplace the LLaMA-2-7B-chat encoder used in InstructERC with LLaMA-3.1-8B.\nThis variant performs worse than both InstructERC and MiSTER-E, indicating\nthat the observed gains stem from the proposed training and contextual modeling\nstrategy rather than from the choice of LLM alone.",
+          "page": 19
+        },
+        {
+          "para_id": "5_39",
+          "text": "5.4. Importance of the Contrastive Loss\nFigure 8(b) analyzes the effect of the supervised contrastive loss on model\nperformance. On MELD, incorporating the contrastive objective improves perfor-\nmance from 68.2% (λ = 0) to 69.5% at λ = 1, while on IEMOCAP performance\nincreases from 70.2% to 70.9% at λ = 2. These gains indicate that contrastive\nlearning helps align emotion-relevant speech and text representations beyond what\nis achieved by focal loss alone. However, further increasing λ leads to degraded\nperformance on both datasets, suggesting that the contrastive loss serves as a ben-\neficial auxiliary signal rather than a standalone supervisory objective.",
+          "page": 19
+        },
+        {
+          "para_id": "5_40",
+          "text": "19",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "section_id": "0.07",
+      "section_title": "0.07\nHi!",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.07_1",
+          "text": "Hi!\n0.05",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_2",
+          "text": "Rachel was just helping me out. My head got all sunburned.\n0.55\n0.27\nNeutral",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_3",
+          "text": "0.20",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_4",
+          "text": "Thanks a million.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_5",
+          "text": "Oh, you're welcome a million.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_6",
+          "text": "Okay, I'll see you in our room.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_7",
+          "text": "Awww.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_8",
+          "text": "Yeah.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_9",
+          "text": "Oh my God.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_10",
+          "text": "I know.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_11",
+          "text": "Okay, I gotta go.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_12",
+          "text": "Whoa! What?! Why?!",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_13",
+          "text": "Well, I-I gotta go break up with Bonnie.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_14",
+          "text": "Here?! Now?!",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_15",
+          "text": "Well, yeah.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_16",
+          "text": "I can't-I can't stay here all night, and if I go in there she's-she's gonna wanna... do stuff.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_17",
+          "text": "0.48\n0.45\nJoy",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_18",
+          "text": "0.42\n0.53\nJoy",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_19",
+          "text": "0.17",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_20",
+          "text": "0.50\n0.30\nJoy",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_21",
+          "text": "0.09\n0.69\n0.22\nJoy",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_22",
+          "text": "0.61\n0.28\nJoy\n0.11",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_23",
+          "text": "0.69\n0.14\nNeutral\n0.17",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_24",
+          "text": "0.63\n0.18\nNeutral\n0.19",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_25",
+          "text": "0.26\n0.32\nSurprise",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_26",
+          "text": "0.59\n0.18\nNeutral\n0.24",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_27",
+          "text": "Neutral",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_28",
+          "text": "0.29\n0.51\n0.19\nSurprise",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_29",
+          "text": "0.22\n0.13\n0.65\nSadness",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_30",
+          "text": "0.19\n0.64\n0.17\nSurprise",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_31",
+          "text": "0.59\n0.25\nNeutral\n0.16",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_32",
+          "text": "0.19\n0.72\n0.09\nFear",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_33",
+          "text": "0.42",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_34",
+          "text": "0.18\n0.69\n0.12",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_35",
+          "text": "S\nT\nM\nPrediction",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_36",
+          "text": "Figure 6: A case study from MELD where there are 16 utterances in the conversation. The weights\nassigned to the different experts are shown. In most cases, text is assigned the highest weight (ex-\ncept utterance 2 and 9). S: Speech Expert, T: Text Expert, M: Multimodal Expert. The predictions\nof MiSTER-E are also shown. The model correctly predicts all the utterances in the conversation,\ninspite of the emotion transitions.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_37",
+          "text": "5.5. Case Study\nWe provide a case study from the MELD dataset in Fig. 9. A number of key\npoints that we wish to highlight from this example are as follows:",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_38",
+          "text": "• MiSTER-E does not fail when there are emotion shifts. E.g., the conversa-\ntion has 6 emotions in 7 utterances. Although, the model incorrectly pre-\ndicts the third utterance to be neutral (instead of joy), it is able to predict the\nemotion shift from surprise to sadness to anger.",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_39",
+          "text": "20",
+          "page": 20
+        },
+        {
+          "para_id": "0.07_40",
+          "text": "Happy\nSad\nNeutral\nAngry\nExcited\nFrustrated",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_41",
+          "text": "Happy\nSad\nNeutral\nAngry\nExcited\nFrustrated\nActual",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_42",
+          "text": "40\n5\n26\n0\n69\n4",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_43",
+          "text": "1\n199\n17\n0\n0\n28",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_44",
+          "text": "0\n19\n308\n5\n9\n43",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_45",
+          "text": "0\n0\n10\n106\n0\n54",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_46",
+          "text": "14\n0\n39\n0\n243\n3",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_47",
+          "text": "0\n7\n71\n29\n4\n270 0",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_48",
+          "text": "50",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_49",
+          "text": "100",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_50",
+          "text": "150",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_51",
+          "text": "200",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_52",
+          "text": "250",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_53",
+          "text": "300",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_54",
+          "text": "(a) Confusion matrix of our model on the IEMOCAP\ndataset.",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_55",
+          "text": "IEMOCAP\nMELD Category\nF1\nCategory\nF1 Angry\n68.4%\nAngry\n62.5%\nExcited\n77.9%\nDisgust\n42.9%\nFrustrated\n69.0%\nFear\n30.6%\nHappy\n40.2%\nJoy\n65.4%\nNeutral\n80.2%\nNeutral\n81.3%\nSad\n83.8%\nSad\n50.3%\n-\n-\nSurprise\n61.5%",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_56",
+          "text": "(b) Per-class F1-scores for IEMOCAP and MELD.",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_57",
+          "text": "Figure 7: (a) Confusion matrix for IEMOCAP. (b) Class-wise F1-scores on IEMOCAP and\nMELD, showing variation across different emotions.",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_58",
+          "text": "Weighted F1-score",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_59",
+          "text": "25",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_60",
+          "text": "29",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_61",
+          "text": "33",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_62",
+          "text": "37",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_63",
+          "text": "41",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_64",
+          "text": "Instruct-ERC",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_65",
+          "text": "Instruct-ERC-LLaMA-3.1-8B",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_66",
+          "text": "MiSTER-E (Text)",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_67",
+          "text": "40.7\n39.3\n40.5",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_68",
+          "text": "68",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_69",
+          "text": "69",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_70",
+          "text": "70",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_71",
+          "text": "71",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_72",
+          "text": "72",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_73",
+          "text": "0\n0.1\n0.5\n1\n2\n5",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_74",
+          "text": "IEMOCAP\nMELD",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_75",
+          "text": "λ (b) Importance of the Contrastive Loss\n(a) Results on the EmoryNLP dataset Figure 8: (a) Results of the text only experiment and, (b) Performance of MiSTER-E with varying\nvalues of λ (Eq. 18) for the two datasets. The validation set performance mirrors the trends of the\ntest set. For IEMOCAP, validation accuracy is 63% for λ = 0 and 63.6% for λ = 2. For MELD,\nλ = 1 yields the highest validation performance (65.6%) compared to 65.4% for λ = 0",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_76",
+          "text": "• Another interesting point is the output of the fifth utterance. None of the\nexperts predict sadness class, yet the MoE strategy correctly marks the ut-\nterance as sad. This indicates the utility of the MoE gating strategy in our\nproposed method and differentiates it from static ensembling techniques.",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_77",
+          "text": "21",
+          "page": 21
+        },
+        {
+          "para_id": "0.07_78",
+          "text": "Audio \nExpert",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_79",
+          "text": "Text\nExpert",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_80",
+          "text": "Fusion Expert\nPrediction",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_81",
+          "text": "Neutral\nFear\nYeah, but what if it's not? What if there is a reason \n why we can't have a baby?\nFear\nFear",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_82",
+          "text": "Oh, Chandler, look. You and Monica are meant to\n have children. I am sure it's gonna be just fine.\nNeutral\nNeutral\nNeutral\nNeutral",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_83",
+          "text": "oh, oh, yeah, ok, thanks.\nNeutral\nNeutral\nNeutral\nNeutral",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_84",
+          "text": "I can't believe I didn't even think of that.\nSurprise\nSurprise\nSurprise\nSurprise",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_85",
+          "text": "I guess I was just so worried about having to...   \n come here and do... 'that'...\nNeutral\nFear\nFear\nSadness",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_86",
+          "text": "What, you can do it in the parking lot of a Taco Bell,\n but you can't do it at a doctor's office?",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_87",
+          "text": "Anger\nSurprise\nAnger\nAnger",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_88",
+          "text": "It was a \"Wendy's!!\"\nAnger\nAnger\nAnger\nJoy",
+          "page": 22
+        },
+        {
+          "para_id": "0.07_89",
+          "text": "Figure 9: A case study from MELD where there are emotion shifts throughout the conversation.\nOut of the 7 utterances in the conversation, MiSTER-E correctly predicts 6.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6. Conclusion",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "We proposed MiSTER-E, a modular framework for ERC that explicitly sepa-\nrates contextual modeling from multimodal fusion. Leveraging LLM-based rep-\nresentations for both speech and text, we model context in the conversations using\na temporal inception block followed by a Bi-GRU, and perform modality fusion\nvia an attention-based network. A Mixture-of-Experts (MoE) gate adaptively inte-\ngrates decisions from context-aware and multimodal experts. MiSTER-E achieves\nnew state-of-the-art performance on IEMOCAP, MELD, and CMU-MOSI with-\nout using speaker identity, demonstrating the efficacy of modular context-fusion\nand decision-level gating. The auxiliary components such as focal loss, super-\nvised contrastive learning, and KL-based consistency regularization provide mod-\nest performance improvements, and hence, they are best viewed as refinements\nthat enhance training stability and robustness, rather than being essential elements\nof the proposed architecture.",
+          "page": 22
+        },
+        {
+          "para_id": "6_2",
+          "text": "22",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "section_id": "7",
+      "section_title": "7. Limitations",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "7_1",
+          "text": "While MiSTER-E achieves strong performance across multiple benchmarks,\nseveral limitations remain, (i) the use of large LLM/SLLM encoders introduces\nnon-trivial computational and memory overhead, which may limit applicability\nin low-resource or real-time settings, despite the use of parameter-efficient fine-\ntuning. We have partially addressed this concern in Table 3, where the proposed\napproach is shown to be beneficial even for non-LLM based features, (ii) our\nevaluation is primarily conducted on benchmark datasets consisting of scripted\nor semi-scripted dialogues (e.g., TV shows and acted conversations), and perfor-\nmance under domain shift to spontaneous, real-world conversational settings re-\nmains an open question, (iii) emotion inference models are known to be suscepti-\nble to dataset biases related to demographic factors, language use, and annotation\nsubjectivity and we have not performed any bias/fairness analysis in this study,\nand, (iv) throughout this work, we intentionally avoid explicit speaker identity\nmodeling, however, the utilization of speaker metadata may improve the model-\ning of interpersonal dynamics. Addressing some of these limitations forms part of\nour future work.\nDeclaration of generative AI and AI-assisted technologies in the writing pro-\ncess.",
+          "page": 23
+        },
+        {
+          "para_id": "7_2",
+          "text": "During the preparation of this work the author(s) used ChatGPT in order to polish\nthe writing. After using this tool/service, the author(s) reviewed and edited the\ncontent as needed and take(s) full responsibility for the content of the publication.",
+          "page": 23
+        }
+      ]
+    }
+  ]
+}

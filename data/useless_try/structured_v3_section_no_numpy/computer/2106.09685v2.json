@@ -1,0 +1,113 @@
+{
+  "doc_id": "2106.09685v2.pdf",
+  "sections": [
+    {
+      "section_title": "L",
+      "text": ""
+    },
+    {
+      "section_title": "O",
+      "text": ""
+    },
+    {
+      "section_title": "RA:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "L",
+      "text": ""
+    },
+    {
+      "section_title": "OW",
+      "text": ""
+    },
+    {
+      "section_title": "-R",
+      "text": ""
+    },
+    {
+      "section_title": "ANK",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "A",
+      "text": ""
+    },
+    {
+      "section_title": "DAPTATION",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "OF",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "L",
+      "text": ""
+    },
+    {
+      "section_title": "ARGE",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "L",
+      "text": ""
+    },
+    {
+      "section_title": "AN",
+      "text": ""
+    },
+    {
+      "section_title": "-",
+      "text": ""
+    },
+    {
+      "section_title": "GUAGE",
+      "text": ""
+    },
+    {
+      "section_title": "M",
+      "text": ""
+    },
+    {
+      "section_title": "ODELS",
+      "text": " Edward Hu ∗ Yelong Shen ∗ Phillip Wallis Zeyuan Allen-Zhu Yuanzhi Li Shean Wang Lu Wang Weizhu Chen Microsoft Corporation { edwardhu,  yeshe,  phwallis,  zeyuana, yuanzhil,  swang,  luw,  wzchen } @microsoft.com yuanzhil@andrew.cmu.edu (Version 2)"
+    },
+    {
+      "section_title": "A",
+      "text": " BSTRACT An important paradigm of natural language processing consists of large-scale pre- training on general domain data and adaptation to particular tasks or domains.  As we pre-train larger models, full ﬁne-tuning, which retrains all model parameters, becomes  less  feasible.  Using  GPT-3  175B  as  an  example  –  deploying  indepen- dent instances of ﬁne-tuned models,  each with 175B parameters,  is prohibitively expensive.  We propose Lo w- R ank A daptation,  or LoRA, which freezes the pre- trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable pa- rameters for downstream tasks.  Compared to GPT-3 175B ﬁne-tuned with Adam, LoRA  can  reduce  the  number  of  trainable  parameters  by  10,000  times  and  the GPU memory requirement by 3 times.  LoRA performs on-par or better than ﬁne- tuning in model quality on RoBERTa, DeBERTa, GPT-2, and GPT-3, despite hav- ing fewer trainable parameters, a higher training throughput, and, unlike adapters, no  additional  inference  latency .  We  also  provide  an  empirical  investigation  into rank-deﬁciency in language model adaptation, which sheds light on the efﬁcacy of LoRA. We release a package that facilitates the integration of LoRA with PyTorch models  and  provide  our  implementations  and  model  checkpoints  for  RoBERTa, DeBERTa, and GPT-2 at https://github.com/microsoft/LoRA ."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "I",
+      "text": " NTRODUCTION Pretrained Weights 𝑊∈ℝ 𝑑×𝑑 x h 𝐵= 0 𝐴= 𝒩(0, 𝜎 ) 𝑑 𝑟 Figure 1: Our reparametriza- tion.  We only train A and B . Many  applications  in  natural  language  processing  rely  on  adapt- ing  one  large-scale,  pre-trained  language  model  to  multiple  down- stream applications.  Such adaptation is usually done via ﬁne-tuning , which updates all the parameters of the pre-trained model.  The ma- jor downside of ﬁne-tuning is that the new model contains as many parameters  as  in  the  original  model.  As  larger  models  are  trained every  few  months,  this  changes  from  a  mere  “inconvenience”  for GPT-2  (Radford  et  al.,  b)  or  RoBERTa  large  (Liu  et  al.,  2019)  to  a critical  deployment  challenge  for  GPT-3  (Brown  et  al.,  2020)  with 175 billion trainable parameters. Many  sought  to  mitigate  this  by  adapting  only  some  parameters  or learning  external  modules  for  new  tasks.  This  way,  we  only  need to  store  and  load  a  small  number  of  task-speciﬁc  parameters  in  ad- dition  to  the  pre-trained  model  for  each  task,  greatly  boosting  the operational efﬁciency when deployed.  However, existing techniques ∗ Equal contribution. Compared to V1, this draft includes better baselines, experiments on GLUE, and more on adapter latency. While GPT-3 175B achieves non-trivial performance with few-shot learning, ﬁne-tuning boosts its perfor- mance signiﬁcantly as shown in Appendix A."
+    },
+    {
+      "section_title": "arXiv:2106.09685v2  [cs.CL]  16 Oct 2021",
+      "text": " often  introduce  inference  latency  (Houlsby  et  al.,  2019;  Rebufﬁet  al.,  2017)  by  extending  model depth  or  reduce  the  model’s  usable  sequence  length  (Li  &  Liang,  2021;  Lester  et  al.,  2021;  Ham- bardzumyan et al., 2020; Liu et al., 2021) (Section 3).  More importantly, these method often fail to match the ﬁne-tuning baselines, posing a trade-off between efﬁciency and model quality. We  take  inspiration  from  Li  et  al.  (2018a);  Aghajanyan  et  al.  (2020)  which  show  that  the  learned over-parametrized  models  in  fact  reside  on  a  low  intrinsic  dimension.  We  hypothesize  that  the change in weights during model adaptation also has a low “intrinsic rank”, leading to our proposed Lo w- R ank  A daptation  (LoRA)  approach.  LoRA  allows  us  to  train  some  dense  layers  in  a  neural network  indirectly  by  optimizing  rank  decomposition  matrices  of  the  dense  layers’  change  during adaptation instead, while keeping the pre-trained weights frozen, as shown in Figure 1. Using GPT-3 175B as an example, we show that a very low rank (i.e., r in Figure 1 can be one or two) sufﬁces even when the full rank (i.e., d ) is as high as 12,288, making LoRA both storage- and compute-efﬁcient. LoRA possesses several key advantages. •  A  pre-trained  model  can  be  shared  and  used  to  build  many  small  LoRA  modules  for  dif- ferent tasks.  We can freeze the shared model and efﬁciently switch tasks by replacing the matrices A and B  in Figure 1,  reducing the storage requirement and task-switching over- head signiﬁcantly. •  LoRA  makes  training  more  efﬁcient  and  lowers  the  hardware  barrier  to  entry  by  up  to  times  when  using  adaptive  optimizers  since  we  do  not  need  to  calculate  the  gradients  or maintain the optimizer states for most parameters.  Instead, we only optimize the injected, much smaller low-rank matrices. •  Our simple linear design allows us to merge the trainable matrices with the frozen weights when deployed, introducing no inference latency compared to a fully ﬁne-tuned model, by construction. •  LoRA is orthogonal to many prior methods and can be combined with many of them, such as preﬁx-tuning.  We provide an example in Appendix E. Terminologies  and  Conventions We  make  frequent "
+    }
+  ]
+}

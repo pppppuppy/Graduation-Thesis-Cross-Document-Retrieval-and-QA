@@ -1,0 +1,3657 @@
+{
+  "doc_id": "1206.5531v1.pdf",
+  "sections": [
+    {
+      "section_title": "arXiv:1206.5531v1  [cond-mat.supr-con]  24 Jun 2012",
+      "text": ""
+    },
+    {
+      "section_title": "Electron-phonon",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pairing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "mechanism:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cuprates",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "high",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "value",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "critical",
+      "text": ""
+    },
+    {
+      "section_title": "temperature",
+      "text": ""
+    },
+    {
+      "section_title": "R.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Szcz¸e`sniak,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "A.P.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Durajski",
+      "text": " ∗ Institute  of  Physics,  Cz¸estochowa  University  of  Technology, Al. Armii  Krajowej  19,  42-200  Cz¸estochowa,  Poland (Dated:  June  19,  2018) The  model  for  the  cuprates  based  on  the  modiﬁed  electron-phonon  pairing  mechanism  has  been tested.  For  this  purpose,  the  superconductors  with  high  value  of  the  critical  temperature  have  been taken  into  consideration.  In  particular:  YBa Cu O − y ,  HgBa CuO 4+y ,  HgBa Cu − x Zn x O 4+y ,  and HgBa Ca Cu O 8+y .  It  has  been  shown  that  the  dependence  of  the  ratio  R  ≡ 2∆ (0) tot /k B T C  on the  doping  ( p )  can  be  properly  predicted  in  the  framework  of  the  presented  theory;  the  symbol ∆ (0) tot  denotes  the  energy  gap  amplitude  at  the  temperature  of  zero  Kelvin,  and  T C  is  the  critical temperature.  The  numerical "
+    },
+    {
+      "section_title": "results",
+      "text": "  have  been  supplemented  by  the  formula  which  describes  the function  R ( p ). PACS  numbers:  74.20.-z,  74.20.Fg,  74.20.Mn,  74.25.Bt,  74.72.-h,  74.72.Bk,  74.72.Jt"
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "solid",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "state",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "physics,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "issue",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cor-",
+      "text": ""
+    },
+    {
+      "section_title": "rectly",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "determining",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pairing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "mechanism",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "high-",
+      "text": ""
+    },
+    {
+      "section_title": "temperature",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "superconductors",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(cuprates)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "very",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "contro-",
+      "text": ""
+    },
+    {
+      "section_title": "versial",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[1].",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Essentially,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "there",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "clash",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "two",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "views.",
+      "text": ""
+    },
+    {
+      "section_title": "First",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "them",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "original",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Fr¨ohlich",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "idea",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "indi-",
+      "text": ""
+    },
+    {
+      "section_title": "cating",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "interaction",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "electron",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "gas",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "phonons",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "responsible",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "formation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "super-",
+      "text": ""
+    },
+    {
+      "section_title": "conducting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "state",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[2].",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "second",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "view",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "favors",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "clean",
+      "text": ""
+    },
+    {
+      "section_title": "electron",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "correlations,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "which",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "simplest",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "way",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "can",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "be",
+      "text": ""
+    },
+    {
+      "section_title": "modeled",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "by",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "one-band",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Hubbard",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Hamiltonian",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[3].",
+      "text": ""
+    },
+    {
+      "section_title": "It",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "true",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cuprates,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "classical",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "electron-",
+      "text": ""
+    },
+    {
+      "section_title": "phonon interaction is over one level weaker than the elec-",
+      "text": ""
+    },
+    {
+      "section_title": "tron",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "correlations",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[4].",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Hence,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "it",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "may",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "seem",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "limi-",
+      "text": ""
+    },
+    {
+      "section_title": "tation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "correlations",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "electronic",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "subsystem",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "correct.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Unfortunately, in the framework of the Hubbard",
+      "text": ""
+    },
+    {
+      "section_title": "model",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "positive values of the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "potential",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(",
+      "text": ""
+    },
+    {
+      "section_title": "U",
+      "text": " H"
+    },
+    {
+      "section_title": ") it",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "very",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "diﬃcult",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "describe",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "thermodynamic",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "properties",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "high-temperature",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "superconducting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "state.",
+      "text": ""
+    },
+    {
+      "section_title": "What",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "even",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "worse,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "there",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "no",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "convincing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "evidence",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "superconducting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "state",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "can",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "exist",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "at",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "suﬃciently",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "high",
+      "text": ""
+    },
+    {
+      "section_title": "temperature",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[5].",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "On",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "other",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "hand,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "case",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "negative value",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "interaction potential",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "same",
+      "text": ""
+    },
+    {
+      "section_title": "intensity",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "U",
+      "text": " H"
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "proving",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "existence",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "supercon-",
+      "text": ""
+    },
+    {
+      "section_title": "ducting state with the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "high critical temperature is a sim-",
+      "text": ""
+    },
+    {
+      "section_title": "ple",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "matter.",
+      "text": ""
+    },
+    {
+      "section_title": "Additionally,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "it is easy to prove that the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pairing mech-",
+      "text": ""
+    },
+    {
+      "section_title": "anism",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "classical",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "electron-phonon",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "interaction",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "insuﬃcient",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "fully",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "describe",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "superconducting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "state",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cuprates",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[6],",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[7].",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "presented",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "paper,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "have",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "tested",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pairing",
+      "text": ""
+    },
+    {
+      "section_title": "mechanism,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "which",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "combines",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "two",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "opposing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "approaches.",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "new",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "mechanism",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "has",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "been",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "proposed",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "recently",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[8]",
+      "text": ""
+    },
+    {
+      "section_title": "(see",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "also",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[9]",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[10]).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "It",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "three",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "postulates:",
+      "text": ""
+    },
+    {
+      "section_title": "(i)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "superconductivity",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "domain",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cuprates",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "fundamental",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "role",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "played",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "by",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "electrons",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "CuO",
+      "text": ""
+    },
+    {
+      "section_title": "planes.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(ii)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cuprates",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "there",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "exists",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "conventional",
+      "text": " ∗ Electronic  address:  adurajski@wip.pcz.pl"
+    },
+    {
+      "section_title": "electron-phonon",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "interaction,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "which",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "does",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "not",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "have",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "be",
+      "text": ""
+    },
+    {
+      "section_title": "strong.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(iii)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cuprates",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "there",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "exist",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "strong",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "electronic",
+      "text": " correlations, but the electron-electron scattering in the su-"
+    },
+    {
+      "section_title": "perconductivity",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "domain",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "inseparably",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "connected",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ab-",
+      "text": ""
+    },
+    {
+      "section_title": "sorption",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "or",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "emission",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "vibrational",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "quanta.",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ﬁrst",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "postulate",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "emphasizes",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "importance",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "quasi",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "two-dimensionality",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "system.",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "second",
+      "text": ""
+    },
+    {
+      "section_title": "one",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "refers",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "classical",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pairing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "mechanism",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "given",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "by",
+      "text": ""
+    },
+    {
+      "section_title": "Fr¨ohlich.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The third postulate states that the strong elec-",
+      "text": ""
+    },
+    {
+      "section_title": "tron",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "correlations in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cuprates",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "are inseparably coupled",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "phonon subsystem.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The ﬁrst two postulates de-",
+      "text": ""
+    },
+    {
+      "section_title": "ﬁne",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "van",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Hove",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "scenario",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[6],",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "[7].",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "third",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "postulate",
+      "text": ""
+    },
+    {
+      "section_title": "requires",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "further",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "discussion",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "because",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "it",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "far",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "more",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "subtle.",
+      "text": ""
+    },
+    {
+      "section_title": "In particular, it should be noted that the postulated elec-",
+      "text": ""
+    },
+    {
+      "section_title": "tron",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "correlations",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "generalize",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Hubbard",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "approach;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "classical two-body interaction is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "replaced with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "three-",
+      "text": ""
+    },
+    {
+      "section_title": "body",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "interaction",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(electron-electron-phonon).",
+      "text": ""
+    },
+    {
+      "section_title": "It",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "should",
+      "text": ""
+    },
+    {
+      "section_title": "be",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pointed",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "out",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "very clearly",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "third",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "postulate",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "does",
+      "text": ""
+    },
+    {
+      "section_title": "not require the additional phonon channel to be as strong",
+      "text": ""
+    },
+    {
+      "section_title": "as",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "electron",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "channel.",
+      "text": ""
+    },
+    {
+      "section_title": "By",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "analyzing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "set",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "given",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "postulates",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": " terms of the classical theory of the superconductivity [56],"
+    },
+    {
+      "section_title": "[57],",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "it",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "can",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "be",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "noticed",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ﬁrst",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "second",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "theory",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "same",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "philosophy.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Namely,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "physical",
+      "text": ""
+    },
+    {
+      "section_title": "system",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "constantly",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "treated",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "holistic",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "manner,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with-",
+      "text": ""
+    },
+    {
+      "section_title": "out",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "artiﬁcial",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "division",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "into",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "electron",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "phonon",
+      "text": ""
+    },
+    {
+      "section_title": "subsystem.",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Hamiltonian",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "corresponding",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "presented",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pos-",
+      "text": ""
+    },
+    {
+      "section_title": "tulates has been derived in the paper [8].",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Then, using the",
+      "text": ""
+    },
+    {
+      "section_title": "canonical",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "transformation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "formalism",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ther-",
+      "text": ""
+    },
+    {
+      "section_title": "modynamic",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Green",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "functions",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "one",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "can",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "get",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "equation",
+      "text": ""
+    },
+    {
+      "section_title": "determining",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "properties",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "d",
+      "text": ""
+    },
+    {
+      "section_title": "-wave",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "superconduct-",
+      "text": ""
+    },
+    {
+      "section_title": "ing state.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "A detailed form of the equation is presented in",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    }
+  ]
+}

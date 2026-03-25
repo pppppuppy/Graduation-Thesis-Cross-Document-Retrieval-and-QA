@@ -1,0 +1,85 @@
+{
+  "doc_id": "1304.3061v1.pdf",
+  "sections": [
+    {
+      "section_title": "A",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "variational",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "eigenvalue",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "solver",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "quantum",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "processor",
+      "text": " Alberto  Peruzzo, 1, ∗ Jarrod  McClean, 2, ∗ Peter  Shadbolt,  Man-Hong  Yung, 2, 3 Xiao-Qi  Zhou,  Peter  J.  Love,  Al´an  Aspuru-Guzik,  and  Jeremy  L.  O’Brien Centre  for  Quantum  Photonics,  H.H.Wills  Physics  Laboratory  &  Department  of Electrical  and  Electronic  Engineering,  University  of  Bristol,  Bristol  BS8  1UB,  UK Department  of  Chemistry  and  Chemical  Biology,  Harvard  University,  Cambridge  MA,  Center  for  Quantum  Information,  Institute  for  Interdisciplinary  Information  Sciences, Tsinghua  University,  Beijing,  100084,  P.  R.  China Department  of  Physics,  Haverford  College,  Haverford,  PA  19041,  USA Quantum  computers  promise  to  eﬃciently  solve  important  problems  that  are  intractable  on  a  con- ventional  computer.  For  quantum  systems,  where  the  dimension  of  the  problem  space  grows  expo- nentially,  ﬁnding  the  eigenvalues  of  certain  operators  is  one  such  intractable  problem  and  remains  a fundamental  challenge.  The  quantum  phase  estimation  algorithm  can  eﬃciently  ﬁnd  the  eigenvalue of  a  given  eigenvector  but  requires  fully  coherent  evolution.  We  present  an  alternative  approach that  greatly  reduces  the  requirements  for  coherent  evolution  and  we  combine  this "
+    },
+    {
+      "section_title": "method",
+      "text": "  with  a new  approach  to  state  preparation  based  on  ans¨atze  and  classical  optimization.  We  have  imple- mented  the  algorithm  by  combining  a  small-scale  photonic  quantum  processor  with  a  conventional computer.  We  experimentally  demonstrate  the  feasibility  of  this  approach  with  an  example  from quantum  chemistry—calculating  the  ground  state  molecular  energy  for  He–H+,  to  within  chem- ical  accuracy.  The  proposed  approach,  by  drastically  reducing  the  coherence  time  requirements, enhances  the  potential  of  the  quantum  resources  available  today  and  in  the  near  future. In  chemistry,  the  properties  of  atoms  and  molecules  can be determined by solving the Schr¨odinger equation.  How- ever,  because  the  dimension  of  the  problem  grows  expo- nentially  with  the  size  of  the  physical  system  under  con- sideration,  exact  treatment  of  these  problems  remains classically  infeasible  for  compounds  with  more  than  2–3 atoms  [1].  Many  approximate  methods  [1]  have  been  de- veloped  to  treat  these  systems,  but  eﬃcient  exact  meth- ods  for  large  chemical  problems  remain  out  of  reach  for classical  computers.  Beyond  chemistry,  the  solution  of large  eigenvalue  problems  [3]  would  have  applications ranging  from  determining  the "
+    },
+    {
+      "section_title": "results",
+      "text": "  of  internet  search engines  [4]  to  designing  new  materials  and  drugs  [5]. Recent  developments  in  the  ﬁeld  of  quantum  compu- tation  oﬀer  a  way  forward  for  eﬃcient  solutions  of  many instances  of  large  eigenvalue  problems  which  are  classi- cally  intractable  [6–12].  Quantum  approaches  to  ﬁnding eigenvalues  have  previously  relied  on  the  quantum  phase estimation  (QPE)  algorithm.  The  QPE  algorithm  oﬀers an  exponential  speedup  over  classical  methods  and  re- quires a number of quantum operations O (1 /p ) to obtain an  estimate  with  precision  p  [13–18]. In  the  standard formulation  of  QPE,  one  assumes  the  eigenvector  | ψ ⟩ of a  Hermitian  operator  H  is  given  as  input  and  the  prob- lem  is  to  determine  the  corresponding  eigenvalue  λ .  The time  the  quantum  computer  must  remain  coherent  is  de- termined  by  the  necessity  of  O (1 /p )  successive  applica- tions  of  e − i H t ,  each  of  which  can  require  on  the  order  of millions  or  billions  of  quantum  gates  for  practical  appli- cations  [17,  19],  as  compared  to  the  tens  to  hundreds  of gates  achievable  in  the  short  term. Here  we  introduce  and  experimentally  demonstrate  an alternative to QPE that signiﬁcantly reduces the require- ments  for  coherent  evolution.  We  have  developed  a  re- conﬁgurable quantum processing unit (QPU), which eﬃ- ciently calculates the expectation value of a Hamiltonian ( H ), providing an exponential speedup over conventional methods.  The QPU is combined with an optimization al- gorithm  run  on  a  classical  processing  unit  (CPU),  which variationally  computes  the  eigenvalues  and  eigenvectors of  H .  By  using  a  variational  algorithm,  this  approach reduces  the  requirement  for  coherent  evolution  of  the quantum  state,  making  more  eﬃcient  use  of  quantum resources, and may oﬀer an alternative route to practical quantum-enhanced  computation. Algorithm  1:  Quantum  expectation  estimation This algorithm computes the expectation value of a given Hamiltonian  H  for  an  input  state  | ψ ⟩ .  Any  Hamiltonian may  be  written  as H = X iα h i α σ i α  + X ijαβ h ij αβ σ i α σ j β  + ... (1) for  real  h  where  Roman  indices  identify  the  subspace  on which  the  operator  acts,  and  Greek  indices  identify  the Pauli  operator,  e.g.  α = x .  By  exploiting  the  linearity  of quantum  observables,  it  follows  that ⟨H⟩ = X iα h i α  ⟨ σ i α ⟩ + X ijαβ h ij αβ  ⟨ σ i α σ j β ⟩ + ... (2) We consider Hamiltonians that can be written as a num- ber  of  terms  which  is  polynomial  in  the  size  of  the  sys- tem. This  class  of  Hamiltonians  encompasses  a  wide range  of  physical  systems,  including  the  electronic  struc- ture  Hamiltonian  of  quantum  chemistry,  the  quantum Ising Model, the Heisenberg Model [20, 21], matrices that"
+    },
+    {
+      "section_title": "arXiv:1304.3061v1  [quant-ph]  10 Apr 2013",
+      "text": " QPU Algorithm 1 Algorithm 2 CPU quantum module 1 quantum state preparation classical adder classical feedback decision quantum module 2 quantum module 3 quantum module n Adjust the parameters for the next input state FIG.  1. Architecture  of  the  quantum-variational  eigensolver. Algorithm  :  Quantum  states  that  have  been  previously prepared,  are  fed  into  the  quantum  modules  which  compute  ⟨H i ⟩ ,  where  H i  is  any  given  term  in  the  sum  deﬁning  H .  The"
+    },
+    {
+      "section_title": "results",
+      "text": "  are  passed  to  the  CPU  which  computes  ⟨H⟩ .  Algorithm  :  The  classical  minimization  algorithm,  run  on  the  CPU, takes  ⟨H⟩ and  determines  the  new  state  parameters,  which  are  then  fed  back  to  the  QPU. are  well  approximated  as  a  sum  of  n -fold  tensor  prod- ucts  [5,  22],  and  more  generally  any  k − sparse  Hamilto- nian  without  evident  tensor  product  structure  (see  Ap- pendix  for  details).  Thus  the  evaluation  of  ⟨H⟩ reduces to  the  sum  of  a  polynomial  number  of  expectation  val- ues  of  simple  Pauli  operators  for  a  quantum  state  | ψ ⟩ , multiplied  by  some  real  constants. A  quantum  device can  eﬃciently  evaluate  the  expectation  value  of  a  tensor product  of  an  arbitrary  number  of  simple  Pauli  opera- tors [5], therefore with an n -qubit state we can eﬃciently evaluate  the  expectation  value  of  this  n  × n  Hamilto- nian. One  might  attempt  this  using  a  classical  computer by  separately  optimizing  all  reduced  states  correspond- ing  to  the  desired  terms  in  the  Hamiltonian,  but  this would  suﬀer  from  the  N -representability  problem,  which is known to be intractable for both classical and quantum computers  (it  is  in  the  quantum  complexity  class  QMA- Hard  [24]).  The  power  of  our  approach  derives  from  the fact  that  quantum  hardware  can  store  a  global  quantum state with exponentially fewer resources than required by classical hardware,  and as a result the N-representability problem  does  not  arise. As the expectation value of a tensor product of an arbi- trary number of Pauli operators can be measured in con- stant time and the spectrum of each of these operators is bounded,  to  obtain  an  estimate  with  precision  p ,  our  ap- proach  incurs  a  cost  of  O ( | h | /p )  repetitions.  Thus  the total  cost  of  computing  the  expectation  value  of  a  state | ψ ⟩ is given by O ( | h max | M/p ),  where M  is the number of  terms  in  the  decomposition  of  the  Hamiltonian.  The advantage  of  this  approach  is  that  the  coherence  time  to make  a  single  measurement  after  preparing  the  state  is O (1).  In  essence,  we  dramatically  reduce  the  coherence time  requirement  while  maintaining  an  exponential  ad- vantage  over  the  classical  case,  by  adding  a  polynomial number  of  repetitions  with  respect  to  QPE. Algorithm  2:  Quantum  variational  eigensolver The  procedure  outlined  above  replaces  the  long  coher- ent  evolution  required  by  QPE  by  many  short  coherent evolutions.  In  both  QPE  and  Algorithm   we  require  a good  approximation  to  the  ground  state  wavefunction  to compute the ground state eigenvalue and we now consider this problem.  Previous approaches have proposed to pre- pare  ground  states  by  adiabatic  evolution  [15],  or  by  the quantum  metropolis  algorithm  [25].  Unfortunately  both of these require long coherent evolution.  Algorithm 2 is a variational "
+    },
+    {
+      "section_title": "method",
+      "text": "  to  prepare  the  eigenstate  and,  by  ex- ploiting  Algorithm  1,  requires  short  coherent  evolution. Algorithm   and   and  their  relationship  are  shown  in Fig.   and  detailed  in  the "
+    }
+  ]
+}

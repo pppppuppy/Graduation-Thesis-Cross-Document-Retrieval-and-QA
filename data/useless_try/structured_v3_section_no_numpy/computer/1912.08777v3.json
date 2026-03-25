@@ -1,0 +1,8457 @@
+{
+  "doc_id": "1912.08777v3.pdf",
+  "sections": [
+    {
+      "section_title": "PEGASUS: Pre-training with Extracted Gap-sentences for",
+      "text": ""
+    },
+    {
+      "section_title": "Abstractive Summarization",
+      "text": ""
+    },
+    {
+      "section_title": "Jingqing Zhang",
+      "text": "  * 1"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Yao Zhao",
+      "text": "  * 2"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Mohammad Saleh",
+      "text": " "
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Peter J. Liu",
+      "text": " "
+    },
+    {
+      "section_title": "Abstract",
+      "text": ""
+    },
+    {
+      "section_title": "Recent",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "work",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pre-training",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transformers",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "self-supervised",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "objectives",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "large",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "text",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "corpora",
+      "text": ""
+    },
+    {
+      "section_title": "has",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "shown",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "great",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "success",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "when",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ﬁne-tuned",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "downstream",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "NLP",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "tasks",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "including",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "text",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summa-",
+      "text": ""
+    },
+    {
+      "section_title": "rization.",
+      "text": ""
+    },
+    {
+      "section_title": "However,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pre-training",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "objectives",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "tai-",
+      "text": ""
+    },
+    {
+      "section_title": "lored",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "abstractive",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "text",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summarization",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "have",
+      "text": ""
+    },
+    {
+      "section_title": "not",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "been",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "explored.",
+      "text": ""
+    },
+    {
+      "section_title": "Furthermore",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "there",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "lack of systematic evaluation across diverse do-",
+      "text": ""
+    },
+    {
+      "section_title": "mains.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "this",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "work,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "propose",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pre-training",
+      "text": ""
+    },
+    {
+      "section_title": "large",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer-based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "encoder-decoder",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "mod-",
+      "text": ""
+    },
+    {
+      "section_title": "els",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "massive",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "text",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "corpora",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "new",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "self-",
+      "text": ""
+    },
+    {
+      "section_title": "supervised",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "objective.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "important",
+      "text": ""
+    },
+    {
+      "section_title": "sentences are removed/masked from an input doc-",
+      "text": ""
+    },
+    {
+      "section_title": "ument and are generated together as one output",
+      "text": ""
+    },
+    {
+      "section_title": "sequence from the remaining sentences, similar",
+      "text": ""
+    },
+    {
+      "section_title": "to an extractive summary.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We evaluated our best",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS model on 12 downstream summariza-",
+      "text": ""
+    },
+    {
+      "section_title": "tion tasks spanning news, science, stories, instruc-",
+      "text": ""
+    },
+    {
+      "section_title": "tions, emails, patents, and legislative bills.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Experi-",
+      "text": ""
+    },
+    {
+      "section_title": "ments demonstrate it achieves state-of-the-art per-",
+      "text": ""
+    },
+    {
+      "section_title": "formance on all 12 downstream datasets measured",
+      "text": ""
+    },
+    {
+      "section_title": "by ROUGE scores.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Our model also shows surpris-",
+      "text": ""
+    },
+    {
+      "section_title": "ing performance on low-resource summarization,",
+      "text": ""
+    },
+    {
+      "section_title": "surpassing previous state-of-the-art results on 6",
+      "text": ""
+    },
+    {
+      "section_title": "datasets",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "only",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "1000",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "examples.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Finally",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "validated our results using human evaluation and",
+      "text": ""
+    },
+    {
+      "section_title": "show that our model summaries achieve human",
+      "text": ""
+    },
+    {
+      "section_title": "performance on multiple datasets.",
+      "text": " *"
+    },
+    {
+      "section_title": "Equal",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "contribution",
+      "text": ""
+    },
+    {
+      "section_title": "Data",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Science",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Institute,",
+      "text": ""
+    },
+    {
+      "section_title": "Imperial",
+      "text": ""
+    },
+    {
+      "section_title": "College",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "London,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "London,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "UK",
+      "text": ""
+    },
+    {
+      "section_title": "Brain",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Team,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Google",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Re-",
+      "text": ""
+    },
+    {
+      "section_title": "search,",
+      "text": ""
+    },
+    {
+      "section_title": "Mountain",
+      "text": ""
+    },
+    {
+      "section_title": "View,",
+      "text": ""
+    },
+    {
+      "section_title": "CA,",
+      "text": ""
+    },
+    {
+      "section_title": "USA.",
+      "text": ""
+    },
+    {
+      "section_title": "Correspondence",
+      "text": ""
+    },
+    {
+      "section_title": "to:",
+      "text": ""
+    },
+    {
+      "section_title": "Jingqing",
+      "text": ""
+    },
+    {
+      "section_title": "Zhang",
+      "text": ""
+    },
+    {
+      "section_title": "<",
+      "text": ""
+    },
+    {
+      "section_title": "jingqing.zhang15@imperial.ac.uk",
+      "text": ""
+    },
+    {
+      "section_title": ">",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "Yao",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Zhao",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "<",
+      "text": ""
+    },
+    {
+      "section_title": "yaozhaoyz@google.com",
+      "text": ""
+    },
+    {
+      "section_title": ">",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "Mohammad",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Saleh",
+      "text": ""
+    },
+    {
+      "section_title": "<",
+      "text": ""
+    },
+    {
+      "section_title": "msaleh@google.com",
+      "text": ""
+    },
+    {
+      "section_title": ">",
+      "text": ""
+    },
+    {
+      "section_title": ", Peter J. Liu",
+      "text": ""
+    },
+    {
+      "section_title": "<",
+      "text": ""
+    },
+    {
+      "section_title": "peterjliu@google.com",
+      "text": ""
+    },
+    {
+      "section_title": ">",
+      "text": ""
+    },
+    {
+      "section_title": ".",
+      "text": ""
+    },
+    {
+      "section_title": "Proceedings",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "37",
+      "text": "  th"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "International",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Conference",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Machine",
+      "text": ""
+    },
+    {
+      "section_title": "Learning",
+      "text": ""
+    },
+    {
+      "section_title": ", Vienna, Austria, PMLR 119, 2020.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Copyright 2020 by",
+      "text": ""
+    },
+    {
+      "section_title": "the author(s).",
+      "text": ""
+    },
+    {
+      "section_title": "Figure 1:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The base architecture of PEGASUS is a standard",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "encoder-decoder.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Both",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "GSG",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "MLM",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "are",
+      "text": ""
+    },
+    {
+      "section_title": "applied simultaneously to this example as pre-training ob-",
+      "text": ""
+    },
+    {
+      "section_title": "jectives.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Originally there are three sentences.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "One sentence",
+      "text": ""
+    },
+    {
+      "section_title": "is masked with",
+      "text": ""
+    },
+    {
+      "section_title": "[MASK1]",
+      "text": ""
+    },
+    {
+      "section_title": "and used as target generation text",
+      "text": ""
+    },
+    {
+      "section_title": "(GSG).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "other",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "two",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentences",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "remain",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "input,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "but",
+      "text": ""
+    },
+    {
+      "section_title": "some tokens are randomly masked by",
+      "text": ""
+    },
+    {
+      "section_title": "[MASK2]",
+      "text": ""
+    },
+    {
+      "section_title": "(MLM).",
+      "text": ""
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": ""
+    },
+    {
+      "section_title": "Text summarization aims at generating accurate and concise",
+      "text": ""
+    },
+    {
+      "section_title": "summaries from input document(s).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In contrast to extractive",
+      "text": ""
+    },
+    {
+      "section_title": "summarization which merely copies informative fragments",
+      "text": ""
+    },
+    {
+      "section_title": "from",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "input,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "abstractive",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summarization",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "may",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "generate",
+      "text": ""
+    },
+    {
+      "section_title": "novel words.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "A good abstractive summary covers principal",
+      "text": ""
+    },
+    {
+      "section_title": "information in the input and is linguistically ﬂuent.",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "abstractive",
+      "text": ""
+    },
+    {
+      "section_title": "summarization,",
+      "text": ""
+    },
+    {
+      "section_title": "sequence-to-sequence",
+      "text": ""
+    },
+    {
+      "section_title": "(Sutskever et al., 2014) has become a dominant framework",
+      "text": ""
+    },
+    {
+      "section_title": "using",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "encoder-decoder",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "architectures",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "RNNs",
+      "text": ""
+    },
+    {
+      "section_title": "(Chung",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2014;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Hochreiter",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "&",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Schmidhuber,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "1997)",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "more",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "recently",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transformers",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Vaswani",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2017).",
+      "text": ""
+    },
+    {
+      "section_title": "Most",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "prior",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "work",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "neural",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "abstractive",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summarization",
+      "text": ""
+    },
+    {
+      "section_title": "relied",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "large-scale,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "high-quality",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "datasets",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "supervised",
+      "text": ""
+    },
+    {
+      "section_title": "document-summary",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pairs",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Hermann",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2015)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "achieved",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "promising",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "results",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Rush",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2015;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Nallapati",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2016;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "See",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2017).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "recent",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "years,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "there",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "has",
+      "text": ""
+    },
+    {
+      "section_title": "been",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "increased",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "interest",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "collecting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "new",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summarization",
+      "text": ""
+    },
+    {
+      "section_title": "datasets",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "have",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "more",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "abstractive",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summaries",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Narayan",
+      "text": ""
+    },
+    {
+      "section_title": "et al., 2018), have longer documents, (Cohan et al., 2018;",
+      "text": ""
+    },
+    {
+      "section_title": "Sharma",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019),",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "utilize",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "multiple",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "documents",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Fabbri",
+      "text": ""
+    },
+    {
+      "section_title": "et al., 2019), and are sourced from diverse domains (Grusky",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2018;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Koupaee",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "&",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Wang,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2018;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Kim",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": ""
+    },
+    {
+      "section_title": "Kornilova",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "&",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Eidelman,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Zhang",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "&",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Tetreault,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019);",
+      "text": ""
+    },
+    {
+      "section_title": "arXiv:1912.08777v3  [cs.CL]  10 Jul 2020",
+      "text": " PEGASUS: Pre-training with Extracted Gap-sentences for Abstractive Summarization however, there has been little work on systematic evaluation"
+    },
+    {
+      "section_title": "of models across these broad settings.",
+      "text": ""
+    },
+    {
+      "section_title": "Contemporaneously, the adoption of Transformer models",
+      "text": " (Vaswani et al., 2017) pre-trained using self-supervised ob- jectives on large text corpora (Radford et al., 2018a; Devlin"
+    },
+    {
+      "section_title": "et al., 2019) have improved performance on many NLP tasks",
+      "text": ""
+    },
+    {
+      "section_title": "(Wang et al., 2018; Rajpurkar et al., 2016).",
+      "text": ""
+    },
+    {
+      "section_title": "Recent work leveraging such pre-training for Transformer-",
+      "text": ""
+    },
+    {
+      "section_title": "based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sequence-to-sequence",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "models",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Dong",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": ""
+    },
+    {
+      "section_title": "Song",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Rothe",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Lewis",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": " Raffel et al., 2019) has extended the success to text genera-"
+    },
+    {
+      "section_title": "tion, including abstractive summarization.",
+      "text": ""
+    },
+    {
+      "section_title": "In this work, we study pre-training objectives speciﬁcally",
+      "text": ""
+    },
+    {
+      "section_title": "for abstractive text summarization and evaluate on 12 down-",
+      "text": ""
+    },
+    {
+      "section_title": "stream",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "datasets",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "spanning",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "news",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Hermann",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2015;",
+      "text": " Narayan et al., 2018; Grusky et al., 2018; Rush et al., 2015;"
+    },
+    {
+      "section_title": "Fabbri",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019),",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "science",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Cohan",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2018),",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "short",
+      "text": ""
+    },
+    {
+      "section_title": "stories (Kim et al., 2019), instructions (Koupaee & Wang,",
+      "text": ""
+    },
+    {
+      "section_title": "2018), emails (Zhang & Tetreault, 2019), patents (Sharma",
+      "text": ""
+    },
+    {
+      "section_title": "et al., 2019), and legislative bills (Kornilova & Eidelman,",
+      "text": ""
+    },
+    {
+      "section_title": "2019).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We ﬁnd that masking whole sentences from a docu-",
+      "text": " ment and generating these gap-sentences from the rest of the"
+    },
+    {
+      "section_title": "document works well as a pre-training objective for down-",
+      "text": ""
+    },
+    {
+      "section_title": "stream summarization tasks.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In particular, choosing puta-",
+      "text": ""
+    },
+    {
+      "section_title": "tively",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "important",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentences",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "outperforms",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "lead",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "or",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "randomly",
+      "text": ""
+    },
+    {
+      "section_title": "selected ones.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We hypothesize this objective is suitable for",
+      "text": ""
+    },
+    {
+      "section_title": "abstractive summarization as it closely resembles the down-",
+      "text": ""
+    },
+    {
+      "section_title": "stream task,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "encouraging whole-document understanding",
+      "text": ""
+    },
+    {
+      "section_title": "and summary-like generation.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We call this self-supervised",
+      "text": ""
+    },
+    {
+      "section_title": "objective",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Gap",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Sentences",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Generation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(GSG).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Using",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "GSG",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pre-train",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "encoder-decoder",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "large",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "cor-",
+      "text": ""
+    },
+    {
+      "section_title": "pora of documents (Web and news articles) results in our",
+      "text": ""
+    },
+    {
+      "section_title": "method, Pre-training with Extracted Gap-sentences for Ab-",
+      "text": ""
+    },
+    {
+      "section_title": "stractive SUmmarization Sequence-to-sequence models, or",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": ""
+    },
+    {
+      "section_title": ".",
+      "text": ""
+    },
+    {
+      "section_title": "With",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "our",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "best",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "568M",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "parameter",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "model",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "trained",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "re-",
+      "text": ""
+    },
+    {
+      "section_title": "cently introduced C4 (Raffel et al., 2019) corpus we equal",
+      "text": ""
+    },
+    {
+      "section_title": "or",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "exceed",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "state-of-the-art",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "12",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summarization",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "tasks",
+      "text": ""
+    },
+    {
+      "section_title": "we consider.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We further push forward the state-of-the-art",
+      "text": ""
+    },
+    {
+      "section_title": "using a newly collected text corpus comprised of news-like",
+      "text": ""
+    },
+    {
+      "section_title": "articles we call HugeNews, including the highly competitive",
+      "text": ""
+    },
+    {
+      "section_title": "XSum and CNN/DailyMail summarization datasets.",
+      "text": ""
+    },
+    {
+      "section_title": "Large-scale",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "document-summary",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "datasets",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "are",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "rare",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "practice there is a mismatch between research datasets and",
+      "text": ""
+    },
+    {
+      "section_title": "real-world use-cases where collecting summaries is expen-",
+      "text": ""
+    },
+    {
+      "section_title": "sive; the most common setting is that of low-resource sum-",
+      "text": ""
+    },
+    {
+      "section_title": "marization.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "simulate",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "this",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "setting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "show",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "our",
+      "text": ""
+    },
+    {
+      "section_title": "model is able to adapt very quickly when ﬁne-tuning with",
+      "text": " small numbers of supervised pairs, obtaining state-of-the-art"
+    },
+    {
+      "section_title": "results in 6 datasets with only 1000 examples.",
+      "text": ""
+    },
+    {
+      "section_title": "Qualitatively",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "observed",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "high",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "quality",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "outputs",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "from",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "our",
+      "text": ""
+    },
+    {
+      "section_title": "best models and validated this in human evaluation studies.",
+      "text": ""
+    },
+    {
+      "section_title": "We found that PEGASUS summaries are at least as good as",
+      "text": ""
+    },
+    {
+      "section_title": "reference summaries for the datasets we assessed – XSum,",
+      "text": ""
+    },
+    {
+      "section_title": "CNN/DailyMail, and Reddit TIFU – even at low-levels of",
+      "text": ""
+    },
+    {
+      "section_title": "supervision.",
+      "text": ""
+    },
+    {
+      "section_title": "To summarize our contributions:",
+      "text": ""
+    },
+    {
+      "section_title": "•",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We propose a new self-supervised pre-training objec-",
+      "text": ""
+    },
+    {
+      "section_title": "tive for abstractive summarization, gap-sentences gen-",
+      "text": ""
+    },
+    {
+      "section_title": "eration,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "study",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "strategies",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "selecting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "those",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sen-",
+      "text": ""
+    },
+    {
+      "section_title": "tences.",
+      "text": ""
+    },
+    {
+      "section_title": "•",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We evaluate the proposed pre-training objective on a",
+      "text": ""
+    },
+    {
+      "section_title": "broad range of downstream summarization tasks, with",
+      "text": ""
+    },
+    {
+      "section_title": "careful",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ablations",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "choose",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "best",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "model",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "settings,",
+      "text": ""
+    },
+    {
+      "section_title": "which we use to train a 568M parameter PEGASUS",
+      "text": ""
+    },
+    {
+      "section_title": "model that surpasses or is on-par with the state-of-the-",
+      "text": ""
+    },
+    {
+      "section_title": "art on all 12 downstream datasets considered.",
+      "text": ""
+    },
+    {
+      "section_title": "•",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We show how good abstractive summarization perfor-",
+      "text": ""
+    },
+    {
+      "section_title": "mance",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "can",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "be",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "achieved",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "across",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "broad",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "domains",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "very",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "little",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "supervision",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "by",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ﬁne-tuning",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": ""
+    },
+    {
+      "section_title": "model and surpassing previous state-of-the-art results",
+      "text": ""
+    },
+    {
+      "section_title": "on many tasks with as little as 1000 examples.",
+      "text": ""
+    },
+    {
+      "section_title": "•",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We conducted human evaluation studies to validate our",
+      "text": ""
+    },
+    {
+      "section_title": "experimental design and demonstrate human-level sum-",
+      "text": ""
+    },
+    {
+      "section_title": "marization",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "performance",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "XSum,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "CNN/DailyMail,",
+      "text": ""
+    },
+    {
+      "section_title": "and Reddit TIFU.",
+      "text": ""
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "Related Work",
+      "text": ""
+    },
+    {
+      "section_title": "Dai & Le (2015); Ramachandran et al. (2017) used LM and",
+      "text": ""
+    },
+    {
+      "section_title": "autoencoder pre-training on in-domain data to improve per-",
+      "text": ""
+    },
+    {
+      "section_title": "formance of RNN sequence models.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "However, the combina-",
+      "text": ""
+    },
+    {
+      "section_title": "tion of pre-training with much larger external text corpora",
+      "text": ""
+    },
+    {
+      "section_title": "(such as Wikipedia, books, or Web-pages) and Transformer-",
+      "text": ""
+    },
+    {
+      "section_title": "based sequence models has led to a dramatic improvement in",
+      "text": ""
+    },
+    {
+      "section_title": "performance when ﬁne-tuned for both natural language un-",
+      "text": " derstanding and text generation tasks (Radford et al., 2018a;"
+    },
+    {
+      "section_title": "Devlin",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Rothe",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Yang",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019;",
+      "text": " Joshi et al., 2019; Song et al., 2019; Dong et al., 2019; Lewis"
+    },
+    {
+      "section_title": "et al., 2019).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Most similar to our approach are Transformer",
+      "text": ""
+    },
+    {
+      "section_title": "encoder-decoder models pre-trained on some masked input",
+      "text": ""
+    },
+    {
+      "section_title": "pre-training objective.",
+      "text": ""
+    },
+    {
+      "section_title": "MASS",
+      "text": ""
+    },
+    {
+      "section_title": "(Song et al., 2019) proposed masked sequence-to-",
+      "text": ""
+    },
+    {
+      "section_title": "sequence generation that reconstructs a sentence fragment",
+      "text": ""
+    },
+    {
+      "section_title": "given the remaining part of the sentence.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "A single sentence",
+      "text": ""
+    },
+    {
+      "section_title": "fragment was randomly selected.",
+      "text": ""
+    },
+    {
+      "section_title": "UniLM",
+      "text": ""
+    },
+    {
+      "section_title": "(Dong et al., 2019) proposed jointly training on",
+      "text": ""
+    },
+    {
+      "section_title": "three types of language modeling tasks:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "unidirectional (left-",
+      "text": " to-right and right-to-left), bidirectional (word-level mask, PEGASUS: Pre-training with Extracted Gap-sentences for Abstractive Summarization"
+    },
+    {
+      "section_title": "with next sentence prediction), and sequence-to-sequence",
+      "text": ""
+    },
+    {
+      "section_title": "(word-level mask) prediction.",
+      "text": ""
+    },
+    {
+      "section_title": "T5",
+      "text": ""
+    },
+    {
+      "section_title": "(Raffel et al., 2019) generalized the text-to-text frame-",
+      "text": ""
+    },
+    {
+      "section_title": "work to a variety of NLP tasks and showed the advantage",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "scaling",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "up",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "model",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "size",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "11",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "billion",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "parameters)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "pre-training corpus, introducing C4, a massive text corpus",
+      "text": ""
+    },
+    {
+      "section_title": "derived from Common Crawl, which we also use in some",
+      "text": ""
+    },
+    {
+      "section_title": "of our models.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "T5 was pre-trained with randomly corrupted",
+      "text": ""
+    },
+    {
+      "section_title": "text spans of varying mask ratios and sizes of spans.",
+      "text": ""
+    },
+    {
+      "section_title": "BART",
+      "text": ""
+    },
+    {
+      "section_title": "(Lewis et al., 2019) introduced a denoising autoen-",
+      "text": ""
+    },
+    {
+      "section_title": "coder",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pre-train",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sequence-to-sequence",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "models.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "BART",
+      "text": " corrupted text with an arbitrary noising function and learned"
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "reconstruct",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "original",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "text.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "For",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "generation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "tasks,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "noising function was text inﬁlling which used single mask",
+      "text": ""
+    },
+    {
+      "section_title": "tokens to mask random sampled spans of text.",
+      "text": ""
+    },
+    {
+      "section_title": "In contrast to MASS, UniLM, BART and T5, the proposed",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "masks",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "multiple",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "whole",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentences",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "rather",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "than",
+      "text": ""
+    },
+    {
+      "section_title": "smaller",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "continuous",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "text",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "spans.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "our",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ﬁnal",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "objective",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "deterministically",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "choose",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentences",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "importance,",
+      "text": ""
+    },
+    {
+      "section_title": "rather than randomly.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "As in T5, PEGASUS does not recon-",
+      "text": ""
+    },
+    {
+      "section_title": "struct full input sequences, and only generates the masked",
+      "text": ""
+    },
+    {
+      "section_title": "sentences as a single output sequence.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In this work we focus",
+      "text": ""
+    },
+    {
+      "section_title": "entirely on downstream summarization (generative) tasks",
+      "text": ""
+    },
+    {
+      "section_title": "and do not evaluate on NLU classiﬁcation tasks.",
+      "text": ""
+    },
+    {
+      "section_title": "There",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "has",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "been",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "some",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "work",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "on",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "low-resource,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summa-",
+      "text": ""
+    },
+    {
+      "section_title": "rization setting using the CNN/DailyMail dataset.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Radford",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(2018b)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "showed",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "large",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "language",
+      "text": ""
+    },
+    {
+      "section_title": "model pre-trained on Web text could generate summaries",
+      "text": ""
+    },
+    {
+      "section_title": "if prompted with ”TL;DR”, achieving a ROUGE-2 of 8.27",
+      "text": ""
+    },
+    {
+      "section_title": "on CNN/DailyMail.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Khandelwal et al. (2019) pre-trained a",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer language model on Wikipedia, and ﬁne-tuned",
+      "text": ""
+    },
+    {
+      "section_title": "using 3000 examples, achieving 13.1 ROUGE-2.",
+      "text": ""
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "Pre-training Objectives",
+      "text": ""
+    },
+    {
+      "section_title": "We",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "propose",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "new",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pre-training",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "objective,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "GSG,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "this",
+      "text": ""
+    },
+    {
+      "section_title": "work, but for comparison, we also evaluate BERT’s masked-",
+      "text": ""
+    },
+    {
+      "section_title": "language model objective, in isolation and in conjunction",
+      "text": ""
+    },
+    {
+      "section_title": "with GSG.",
+      "text": ""
+    },
+    {
+      "section_title": "3.1",
+      "text": ""
+    },
+    {
+      "section_title": "Gap Sentences Generation (GSG)",
+      "text": " We hypothesize that using a pre-training objective that more"
+    },
+    {
+      "section_title": "closely resembles the downstream task leads to better and",
+      "text": ""
+    },
+    {
+      "section_title": "faster ﬁne-tuning performance.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Given our intended use for",
+      "text": ""
+    },
+    {
+      "section_title": "abstractive summarization, our proposed pre-training objec-",
+      "text": ""
+    },
+    {
+      "section_title": "tive involves generating summary-like text from an input",
+      "text": ""
+    },
+    {
+      "section_title": "document.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "In order to leverage massive text corpora for pre-",
+      "text": ""
+    },
+    {
+      "section_title": "training, we design a sequence-to-sequence self-supervised",
+      "text": ""
+    },
+    {
+      "section_title": "objective in the absence of abstactive summaries.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "A naive",
+      "text": ""
+    },
+    {
+      "section_title": "option would be to pre-train as an extractive summarizer;",
+      "text": ""
+    },
+    {
+      "section_title": "however, such a procedure would only train a model to copy",
+      "text": ""
+    },
+    {
+      "section_title": "sentences, thus not suitable for abstractive summarization.",
+      "text": ""
+    },
+    {
+      "section_title": "Inspired by recent success in masking words and contiguous",
+      "text": " spans (Joshi et al., 2019; Raffel et al., 2019), we select and"
+    },
+    {
+      "section_title": "mask whole sentences from documents, and concatenate the",
+      "text": ""
+    },
+    {
+      "section_title": "gap-sentences into a pseudo-summary.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The corresponding",
+      "text": " position of each selected gap sentence is replaced by a mask"
+    },
+    {
+      "section_title": "token",
+      "text": ""
+    },
+    {
+      "section_title": "[MASK1]",
+      "text": ""
+    },
+    {
+      "section_title": "to inform the model.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Gap sentences ratio",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "or",
+      "text": ""
+    },
+    {
+      "section_title": "GSR",
+      "text": ""
+    },
+    {
+      "section_title": ", refers to the number of selected gap sentences to",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "total",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "number",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentences",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "document,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "which",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "similar to",
+      "text": ""
+    },
+    {
+      "section_title": "mask rate",
+      "text": ""
+    },
+    {
+      "section_title": "in other works.",
+      "text": ""
+    },
+    {
+      "section_title": "To",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "even",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "more",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "closely",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "approximate",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summary,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "select",
+      "text": ""
+    },
+    {
+      "section_title": "sentences that appear to be important/principal to the doc-",
+      "text": ""
+    },
+    {
+      "section_title": "ument.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "resulting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "objective",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "has",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "both",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "empirically",
+      "text": ""
+    },
+    {
+      "section_title": "demonstrated beneﬁts of masking, and anticipates the form",
+      "text": ""
+    },
+    {
+      "section_title": "of the downstream task.",
+      "text": ""
+    },
+    {
+      "section_title": "We consider 3 primary strategies for selecting",
+      "text": ""
+    },
+    {
+      "section_title": "m",
+      "text": ""
+    },
+    {
+      "section_title": "gap sen-",
+      "text": ""
+    },
+    {
+      "section_title": "tences without replacement from a document,",
+      "text": ""
+    },
+    {
+      "section_title": "D",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "=",
+      "text": ""
+    },
+    {
+      "section_title": "{",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " i"
+    },
+    {
+      "section_title": "}",
+      "text": " n"
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "comprised of",
+      "text": ""
+    },
+    {
+      "section_title": "n",
+      "text": ""
+    },
+    {
+      "section_title": "sentences:",
+      "text": ""
+    },
+    {
+      "section_title": "Random",
+      "text": ""
+    },
+    {
+      "section_title": "Uniformly select",
+      "text": ""
+    },
+    {
+      "section_title": "m",
+      "text": ""
+    },
+    {
+      "section_title": "sentences at random.",
+      "text": ""
+    },
+    {
+      "section_title": "Lead",
+      "text": ""
+    },
+    {
+      "section_title": "Select the ﬁrst",
+      "text": ""
+    },
+    {
+      "section_title": "m",
+      "text": ""
+    },
+    {
+      "section_title": "sentences.",
+      "text": ""
+    },
+    {
+      "section_title": "Principal",
+      "text": ""
+    },
+    {
+      "section_title": "Select top-",
+      "text": ""
+    },
+    {
+      "section_title": "m",
+      "text": ""
+    },
+    {
+      "section_title": "scored sentences according to im-",
+      "text": ""
+    },
+    {
+      "section_title": "portance.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "As a proxy for importance we compute ROUGE1-",
+      "text": ""
+    },
+    {
+      "section_title": "F1",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Lin,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2004)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "between",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentence",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "rest",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "document,",
+      "text": ""
+    },
+    {
+      "section_title": "s",
+      "text": " i"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "=",
+      "text": ""
+    },
+    {
+      "section_title": "rouge",
+      "text": ""
+    },
+    {
+      "section_title": "(",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " i"
+    },
+    {
+      "section_title": ", D",
+      "text": ""
+    },
+    {
+      "section_title": "\\ {",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " i"
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": ")",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "∀",
+      "text": ""
+    },
+    {
+      "section_title": "i",
+      "text": ""
+    },
+    {
+      "section_title": ".",
+      "text": ""
+    },
+    {
+      "section_title": "In this formulation sentences are scored independently (",
+      "text": ""
+    },
+    {
+      "section_title": "Ind",
+      "text": ""
+    },
+    {
+      "section_title": ")",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "top",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "m",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "selected.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "also",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "consider",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "selecting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "them",
+      "text": ""
+    },
+    {
+      "section_title": "sequentially (",
+      "text": ""
+    },
+    {
+      "section_title": "Seq",
+      "text": ""
+    },
+    {
+      "section_title": ") as in Nallapati et al. (2017) by greedily",
+      "text": ""
+    },
+    {
+      "section_title": "maximizing the ROUGE1-F1 between selected sentences,",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "∪{",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " i"
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "remaining",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentences,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "D",
+      "text": ""
+    },
+    {
+      "section_title": "\\",
+      "text": ""
+    },
+    {
+      "section_title": "(",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "∪{",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " i"
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": ")",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "as",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "Algorithm 1.",
+      "text": ""
+    },
+    {
+      "section_title": "Algorithm 1",
+      "text": ""
+    },
+    {
+      "section_title": "Sequential Sentence Selection",
+      "text": ""
+    },
+    {
+      "section_title": "1:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": ":=",
+      "text": ""
+    },
+    {
+      "section_title": "∅",
+      "text": ""
+    },
+    {
+      "section_title": "2:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "j",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "←",
+      "text": ""
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "m",
+      "text": ""
+    },
+    {
+      "section_title": "do",
+      "text": ""
+    },
+    {
+      "section_title": "3:",
+      "text": ""
+    },
+    {
+      "section_title": "s",
+      "text": " i"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": ":=",
+      "text": ""
+    },
+    {
+      "section_title": "rouge",
+      "text": ""
+    },
+    {
+      "section_title": "\u0010",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "∪{",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " i"
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": ", D",
+      "text": ""
+    },
+    {
+      "section_title": "\\",
+      "text": ""
+    },
+    {
+      "section_title": "(",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "∪{",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " i"
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": ")",
+      "text": ""
+    },
+    {
+      "section_title": "\u0011",
+      "text": ""
+    },
+    {
+      "section_title": "∀",
+      "text": ""
+    },
+    {
+      "section_title": "i",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "s.t.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " i"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "/",
+      "text": ""
+    },
+    {
+      "section_title": "∈",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "4:",
+      "text": ""
+    },
+    {
+      "section_title": "k",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": ":= arg max",
+      "text": " i"
+    },
+    {
+      "section_title": "{",
+      "text": ""
+    },
+    {
+      "section_title": "s",
+      "text": " i"
+    },
+    {
+      "section_title": "}",
+      "text": " n"
+    },
+    {
+      "section_title": "5:",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": ":=",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "∪{",
+      "text": ""
+    },
+    {
+      "section_title": "x",
+      "text": " k"
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": "6:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "end for",
+      "text": ""
+    },
+    {
+      "section_title": "When calculating ROUGE1-F1, we also consider n-grams",
+      "text": ""
+    },
+    {
+      "section_title": "as a set (",
+      "text": ""
+    },
+    {
+      "section_title": "Uniq",
+      "text": ""
+    },
+    {
+      "section_title": ") instead of double-counting identical n-grams",
+      "text": ""
+    },
+    {
+      "section_title": "as",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "original",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "implementation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(",
+      "text": ""
+    },
+    {
+      "section_title": "Orig",
+      "text": ""
+    },
+    {
+      "section_title": ").",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "This",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "results",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "four",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "variants",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "principal",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentence",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "selection",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "strategy,",
+      "text": ""
+    },
+    {
+      "section_title": "choosing Ind/Seq and Orig/Uniq options.",
+      "text": ""
+    },
+    {
+      "section_title": "An example containing lead, random and principal gap sen-",
+      "text": ""
+    },
+    {
+      "section_title": "tence selection strategies are shown in Figure 2.",
+      "text": " PEGASUS: Pre-training with Extracted Gap-sentences for Abstractive Summarization"
+    },
+    {
+      "section_title": "INVITATION ONLY We are very excited to be co-hosting",
+      "text": ""
+    },
+    {
+      "section_title": "a major drinks reception with our friends at Progress.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "This",
+      "text": ""
+    },
+    {
+      "section_title": "event",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "will",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sell",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "out,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "so",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "make",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sure",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "register",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "at",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "link",
+      "text": ""
+    },
+    {
+      "section_title": "above.",
+      "text": ""
+    },
+    {
+      "section_title": "Speakers",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "include",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Rajesh",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Agrawal,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "London",
+      "text": ""
+    },
+    {
+      "section_title": "Deputy Mayor for Business, Alison McGovern, the Chair of",
+      "text": ""
+    },
+    {
+      "section_title": "Progress, and Seema Malhotra MP.",
+      "text": ""
+    },
+    {
+      "section_title": "Huge thanks to the our",
+      "text": ""
+    },
+    {
+      "section_title": "friends at the ACCA, who have supported this event.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "Labour Business Fringe at this year’s Labour Annual Con-",
+      "text": ""
+    },
+    {
+      "section_title": "ference is being co-sponsored by Labour in the City and the",
+      "text": ""
+    },
+    {
+      "section_title": "Industry Forum.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Speakers include John McDonnell, Shadow",
+      "text": ""
+    },
+    {
+      "section_title": "Chancellor,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Rebecca",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Long-Bailey,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Shadow",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Chief",
+      "text": ""
+    },
+    {
+      "section_title": "Secretary to the Treasury, and our own Chair, Kitty Ussher.",
+      "text": ""
+    },
+    {
+      "section_title": "Attendance is free, and refreshments will be provided.",
+      "text": ""
+    },
+    {
+      "section_title": "Figure 2:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "An example of sentences (from the C4 corpus)",
+      "text": ""
+    },
+    {
+      "section_title": "selected by",
+      "text": ""
+    },
+    {
+      "section_title": "Random",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "Lead",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "Ind-Orig",
+      "text": ""
+    },
+    {
+      "section_title": "respectively.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Best",
+      "text": ""
+    },
+    {
+      "section_title": "viewed in color.",
+      "text": ""
+    },
+    {
+      "section_title": "3.2",
+      "text": ""
+    },
+    {
+      "section_title": "Masked Language Model (MLM)",
+      "text": ""
+    },
+    {
+      "section_title": "Following BERT, we select 15% tokens in the input text, and",
+      "text": ""
+    },
+    {
+      "section_title": "the selected tokens are (1) 80% of time replaced by a mask",
+      "text": ""
+    },
+    {
+      "section_title": "token",
+      "text": ""
+    },
+    {
+      "section_title": "[MASK2]",
+      "text": ""
+    },
+    {
+      "section_title": ", or (2) 10% of time replaced by a random",
+      "text": ""
+    },
+    {
+      "section_title": "token, or (3) 10% of time unchanged.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We apply MLM to",
+      "text": " train the Transformer encoder as the sole pre-training objec-"
+    },
+    {
+      "section_title": "tive or along with GSG. When MLM is the sole pre-training",
+      "text": ""
+    },
+    {
+      "section_title": "objective,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "decoder",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "shares",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "all",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "parameters",
+      "text": ""
+    },
+    {
+      "section_title": "with encoder when ﬁne-tuning on downstream tasks follow-",
+      "text": ""
+    },
+    {
+      "section_title": "ing Rothe et al. (2019).",
+      "text": ""
+    },
+    {
+      "section_title": "Figure 1 simultaneously shows how both GSG and MLM",
+      "text": ""
+    },
+    {
+      "section_title": "are applied to the same example when used in conjunction.",
+      "text": ""
+    },
+    {
+      "section_title": "However,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "found",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "that",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "MLM",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "does",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "not",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "improve",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "down-",
+      "text": ""
+    },
+    {
+      "section_title": "stream tasks at large number of pre-training steps (section",
+      "text": ""
+    },
+    {
+      "section_title": "6.1.2),",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "chose",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "not",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "include",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "MLM",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ﬁnal",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "model",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": " LARGE"
+    },
+    {
+      "section_title": "(section 6.2).",
+      "text": ""
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "Pre-training Corpus",
+      "text": ""
+    },
+    {
+      "section_title": "For pre-training we considered two large text corpora:",
+      "text": ""
+    },
+    {
+      "section_title": "•",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "C4",
+      "text": ""
+    },
+    {
+      "section_title": ", or the Colossal and Cleaned version of Common",
+      "text": ""
+    },
+    {
+      "section_title": "Crawl, introduced in Raffel et al. (2019); consists of",
+      "text": ""
+    },
+    {
+      "section_title": "text from 350M Web-pages (750GB).",
+      "text": ""
+    },
+    {
+      "section_title": "•",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "HugeNews",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "dataset",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "1.5B",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "articles",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(3.8TB)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "col-",
+      "text": ""
+    },
+    {
+      "section_title": "lected from news and news-like websites from 2013-",
+      "text": ""
+    },
+    {
+      "section_title": "2019.",
+      "text": ""
+    },
+    {
+      "section_title": "A",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "whitelist",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "domains",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ranging",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "from",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "high-",
+      "text": ""
+    },
+    {
+      "section_title": "quality news publishers to lower-quality sites such as",
+      "text": ""
+    },
+    {
+      "section_title": "high-school",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "newspapers,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "blogs",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "was",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "curated",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "used to seed a web-crawler.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Heuristics were used to",
+      "text": ""
+    },
+    {
+      "section_title": "identify news-like articles,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and only the main article",
+      "text": ""
+    },
+    {
+      "section_title": "text was extracted as plain text.",
+      "text": ""
+    },
+    {
+      "section_title": "5",
+      "text": ""
+    },
+    {
+      "section_title": "Downstream Tasks/Datasets",
+      "text": ""
+    },
+    {
+      "section_title": "For",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "downstream",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summarization,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "only",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "used",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "public",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ab-",
+      "text": ""
+    },
+    {
+      "section_title": "stractive summarization datasets, and access them through",
+      "text": ""
+    },
+    {
+      "section_title": "TensorFlow",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Summarization",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Datasets",
+      "text": " "
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "which",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "provides",
+      "text": ""
+    },
+    {
+      "section_title": "publicly",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "reproducible",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "code",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "dataset",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "processing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "train/validation/test splits.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We used train/validation/test ra-",
+      "text": " tio of 80/10/10 if no split was provided, and 10% train split"
+    },
+    {
+      "section_title": "as validation if there was no validation split.",
+      "text": ""
+    },
+    {
+      "section_title": "XSum",
+      "text": ""
+    },
+    {
+      "section_title": "(Narayan et al., 2018) consists of 227k BBC articles",
+      "text": ""
+    },
+    {
+      "section_title": "from 2010 to 2017 covering a wide variety of subjects along",
+      "text": ""
+    },
+    {
+      "section_title": "with professionally written single-sentence summaries.",
+      "text": ""
+    },
+    {
+      "section_title": "CNN/DailyMail",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Hermann",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2015)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "dataset",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "contains",
+      "text": ""
+    },
+    {
+      "section_title": "93k articles from the CNN, and 220k articles the Daily Mail",
+      "text": ""
+    },
+    {
+      "section_title": "newspapers.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Both publishers supplement their articles with",
+      "text": ""
+    },
+    {
+      "section_title": "bullet point summaries.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We use the non-anonymized variant",
+      "text": ""
+    },
+    {
+      "section_title": "used in See et al. (2017).",
+      "text": ""
+    },
+    {
+      "section_title": "NEWSROOM",
+      "text": ""
+    },
+    {
+      "section_title": "(Grusky et al., 2018) is a large dataset con-",
+      "text": ""
+    },
+    {
+      "section_title": "taining 1.3M article-summary pairs written by authors and",
+      "text": ""
+    },
+    {
+      "section_title": "editors in the newsrooms of 38 major publications between",
+      "text": ""
+    },
+    {
+      "section_title": "1998 and 2017.",
+      "text": ""
+    },
+    {
+      "section_title": "Multi-News",
+      "text": ""
+    },
+    {
+      "section_title": "(Fabbri et al., 2019) is a multi-document sum-",
+      "text": ""
+    },
+    {
+      "section_title": "marization",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "dataset",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "consisting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "56k",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pairs",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "news",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ar-",
+      "text": ""
+    },
+    {
+      "section_title": "ticles",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "their",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "human-written",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summaries",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "from",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "site",
+      "text": ""
+    },
+    {
+      "section_title": "newser.com.",
+      "text": ""
+    },
+    {
+      "section_title": "Gigaword",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Rush",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2015)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "contains",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "4M",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "examples",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ex-",
+      "text": " tracted from news articles (seven publishers) from the Giga-"
+    },
+    {
+      "section_title": "word corpus (Graff et al., 2003).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The task is to generate the",
+      "text": ""
+    },
+    {
+      "section_title": "headline from the ﬁrst sentence.",
+      "text": ""
+    },
+    {
+      "section_title": "arXiv, PubMed",
+      "text": ""
+    },
+    {
+      "section_title": "(Cohan et al., 2018) are two long document",
+      "text": " datasets of scientiﬁc publications from arXiv.org (113k) and"
+    },
+    {
+      "section_title": "PubMed (215k).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The task is to generate the abstract from",
+      "text": ""
+    },
+    {
+      "section_title": "the paper body.",
+      "text": ""
+    },
+    {
+      "section_title": "BIGPATENT",
+      "text": ""
+    },
+    {
+      "section_title": "(Sharma et al., 2019) consists of 1.3 million",
+      "text": ""
+    },
+    {
+      "section_title": "U.S. patents along with human summaries under nine patent",
+      "text": ""
+    },
+    {
+      "section_title": "classiﬁcation categories.",
+      "text": ""
+    },
+    {
+      "section_title": "WikiHow",
+      "text": ""
+    },
+    {
+      "section_title": "(Koupaee & Wang, 2018) is a large-scale dataset",
+      "text": ""
+    },
+    {
+      "section_title": "of instructions from the online WikiHow.com website.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Each",
+      "text": " of 200k examples consists of multiple instruction-step para-"
+    },
+    {
+      "section_title": "graphs",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "along",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "summarizing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sentence.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "task",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "is",
+      "text": ""
+    },
+    {
+      "section_title": "to generate the concatenated summary-sentences from the",
+      "text": ""
+    },
+    {
+      "section_title": "paragraphs.",
+      "text": ""
+    },
+    {
+      "section_title": "Reddit",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "TIFU",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(Kim",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2019)",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "contains",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "120K",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "posts",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "informal stories from the online discussion forum Reddit,",
+      "text": ""
+    },
+    {
+      "section_title": "more",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "speciﬁcally",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "TIFU",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "sub-reddit",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "from",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "2013-Jan",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "2018-Mar.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The sub-reddit posts strictly follow the rule of",
+      "text": ""
+    },
+    {
+      "section_title": "writing a descriptive ”TL;DR” summary and has higher qual-",
+      "text": ""
+    },
+    {
+      "section_title": "https://www",
+      "text": ""
+    },
+    {
+      "section_title": ".",
+      "text": ""
+    },
+    {
+      "section_title": "tensorflow",
+      "text": ""
+    },
+    {
+      "section_title": ".",
+      "text": ""
+    },
+    {
+      "section_title": "org/datasets/",
+      "text": ""
+    },
+    {
+      "section_title": "catalog/overview",
+      "text": " PEGASUS: Pre-training with Extracted Gap-sentences for Abstractive Summarization"
+    },
+    {
+      "section_title": "ity than (V",
+      "text": ""
+    },
+    {
+      "section_title": "¨",
+      "text": ""
+    },
+    {
+      "section_title": "olske et al., 2017) (which used more subreddits)",
+      "text": ""
+    },
+    {
+      "section_title": "based on our manual inspection.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We uses the TIFU-long",
+      "text": ""
+    },
+    {
+      "section_title": "subset (using TLDR as summaries) in the work.",
+      "text": ""
+    },
+    {
+      "section_title": "AESLC",
+      "text": ""
+    },
+    {
+      "section_title": "(Zhang & Tetreault, 2019) consists of 18k email",
+      "text": ""
+    },
+    {
+      "section_title": "bodies and their subjects from the Enron corpus (Klimt &",
+      "text": ""
+    },
+    {
+      "section_title": "Yang, 2004), a collection of email messages of employees",
+      "text": ""
+    },
+    {
+      "section_title": "in the Enron Corporation.",
+      "text": ""
+    },
+    {
+      "section_title": "BillSum",
+      "text": ""
+    },
+    {
+      "section_title": "(Kornilova & Eidelman, 2019) contains 23k US",
+      "text": ""
+    },
+    {
+      "section_title": "Congressional bills and human-written reference summaries",
+      "text": ""
+    },
+    {
+      "section_title": "from the 103rd-115th (1993-2018) sessions of Congress. We",
+      "text": " do not use the California test set which is out-of-distribution."
+    },
+    {
+      "section_title": "Following Grusky et al., the number of examples and extrac-",
+      "text": ""
+    },
+    {
+      "section_title": "tive fragment coverage/density for all downstream datasets",
+      "text": ""
+    },
+    {
+      "section_title": "is illustrated in Appendix A.",
+      "text": ""
+    },
+    {
+      "section_title": "6",
+      "text": ""
+    },
+    {
+      "section_title": "Experiments",
+      "text": ""
+    },
+    {
+      "section_title": "In",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "similar",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "strategy",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Raffel",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "et",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "al.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(2019),",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "save",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "time",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "computation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "we",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "conducted",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "pre-training",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ablation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ex-",
+      "text": ""
+    },
+    {
+      "section_title": "periments",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "using a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "reduced-size model",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "223M param-",
+      "text": ""
+    },
+    {
+      "section_title": "eters,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": " BASE"
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "smaller",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "batch",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "size,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "only",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": " 12 datasets before scaling up pre-training with the best set-"
+    },
+    {
+      "section_title": "tings to the ﬁnal 568M parameters,",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": " LARGE"
+    },
+    {
+      "section_title": ".",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "The",
+      "text": ""
+    },
+    {
+      "section_title": "datasets",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(XSum,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "CNN/DailyMail,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "WikiHow",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Reddit",
+      "text": ""
+    },
+    {
+      "section_title": "TIFU) were chosen for diversity in abstractiveness, writing",
+      "text": ""
+    },
+    {
+      "section_title": "style, and size.",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": " BASE"
+    },
+    {
+      "section_title": "had",
+      "text": ""
+    },
+    {
+      "section_title": "L",
+      "text": ""
+    },
+    {
+      "section_title": "= 12",
+      "text": ""
+    },
+    {
+      "section_title": ", H",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "= 768",
+      "text": ""
+    },
+    {
+      "section_title": ", F",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "= 3072",
+      "text": ""
+    },
+    {
+      "section_title": ", A",
+      "text": ""
+    },
+    {
+      "section_title": "= 12",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": " LARGE"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "had",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "L",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "=",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "16",
+      "text": ""
+    },
+    {
+      "section_title": ", H",
+      "text": ""
+    },
+    {
+      "section_title": "=",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "1024",
+      "text": ""
+    },
+    {
+      "section_title": ", F",
+      "text": ""
+    },
+    {
+      "section_title": "=",
+      "text": ""
+    },
+    {
+      "section_title": "4096",
+      "text": ""
+    },
+    {
+      "section_title": ", A",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "=",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "16",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "where",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "L",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "denotes",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "number",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "lay-",
+      "text": ""
+    },
+    {
+      "section_title": "ers",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "encoder",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "decoder",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(i.e.",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "blocks),",
+      "text": ""
+    },
+    {
+      "section_title": "H",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "hidden",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "size,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "F",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "feed-forward",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "layer",
+      "text": ""
+    },
+    {
+      "section_title": "size",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "A",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "number",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "self-attention",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "heads.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We",
+      "text": ""
+    },
+    {
+      "section_title": "pre-trained",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": " BASE"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "batch",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "size",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "256",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": " LARGE"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "batch",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "size",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "8192",
+      "text": ""
+    },
+    {
+      "section_title": ".",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "We",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "refer",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "PEGASUS",
+      "text": " BASE"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "without pre-training as",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer",
+      "text": " BASE"
+    },
+    {
+      "section_title": ".",
+      "text": ""
+    },
+    {
+      "section_title": "We used sinusoidal positional encoding following",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Vaswani",
+      "text": ""
+    },
+    {
+      "section_title": "et al. (2017).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "For optimization, both pre-training and ﬁne-",
+      "text": ""
+    },
+    {
+      "section_title": "tuning used Adafactor (Shazeer & Stern, 2018) with square",
+      "text": ""
+    },
+    {
+      "section_title": "root learning rate decay and dropout rate of 0.1.",
+      "text": ""
+    },
+    {
+      "section_title": "We",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "used",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "greedy-decoding",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "studies",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Section",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "6.1,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "used beam-search with a length-penalty,",
+      "text": ""
+    },
+    {
+      "section_title": "α",
+      "text": ""
+    },
+    {
+      "section_title": ", as in Wu et al.",
+      "text": ""
+    },
+    {
+      "section_title": "(2016) for the ﬁnal large model.",
+      "text": ""
+    },
+    {
+      "section_title": "All",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "experiments’",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "hyper",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "parameters",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "can",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "be",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "found",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Ap-",
+      "text": ""
+    },
+    {
+      "section_title": "pendix",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "C",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "reported",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "numbers",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "are",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    }
+  ]
+}

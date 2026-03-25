@@ -1,0 +1,509 @@
+{
+  "doc_id": "2602.22319v1.pdf",
+  "title": "arXiv:2602.22319v1  [quant-ph]  25 Feb 2026",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "3",
+      "section_title": "3\nX k=0\npkPkρP †\nk,\n(1) where p := {pk} is a probability distribution associated\nwith the Pauli operators Pk ∈{I, X, Y, Z}. Explicitly, X =\n\u0012\n0 1\n1 0",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "\u0013\n,\nY =\n\u0012\n0 −i\ni\n0",
+          "page": 1
+        },
+        {
+          "para_id": "3_2",
+          "text": "\u0013\n,\nZ =\n\u0012\n1\n0\n0 −1",
+          "page": 1
+        },
+        {
+          "para_id": "3_3",
+          "text": "\u0013\n,\n(2)",
+          "page": 1
+        },
+        {
+          "para_id": "3_4",
+          "text": "with I being the 2 × 2 identity matrix.\nThe Pauli error probabilities can be connected with\nthe values of the QBERs in the encoding bases. If the\nsecurity of the QKD protocol is based on two MUBs,\nsuch as X and Z of the BB84 protocol, we have that the\ncorresponding QBERs, known as bit error rate EX and\nphase error rate EZ, satisfy EX = p2 + p3, EZ = p1 + p2.\n(3) If the security of the QKD protocol is based on three\nMUBs, X, Z and Y , as in the six-state protocol [2], then\nthe associated QBERs statisfy Eq. (3) and the additional\nrelation EY = p1 + p3.\nThere are some relevant speciﬁc examples of Pauli\nchannels. One is the bit-and-phase-ﬂip (BPF) channel\ncorresponding to the case with p2 = 0. Since this chan-\nnel only induces X and Z errors, it is the simplest model",
+          "page": 1
+        },
+        {
+          "para_id": "3_5",
+          "text": "arXiv:2602.22319v1  [quant-ph]  25 Feb 2026",
+          "page": 1
+        },
+        {
+          "para_id": "3_6",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "3_7",
+          "text": "compatible with QKD protocols based on two MUBs.\nAnother relevant channel is the depolarizing one, which\nis a Pauli channel with equal errors in the three bases.\nThis is typically parametrized as follows p =\n\u001a\n1 −3p",
+          "page": 2
+        },
+        {
+          "para_id": "3_8",
+          "text": "4 , p",
+          "page": 2
+        },
+        {
+          "para_id": "3_9",
+          "text": "4, p",
+          "page": 2
+        },
+        {
+          "para_id": "3_10",
+          "text": "4, p 4",
+          "page": 2
+        },
+        {
+          "para_id": "3_11",
+          "text": "\u001b\n,\n(4)",
+          "page": 2
+        },
+        {
+          "para_id": "3_12",
+          "text": "and its action on a qubit state ρ reduces to the following",
+          "page": 2
+        },
+        {
+          "para_id": "3_13",
+          "text": "Pdepol(ρ) = (1 −p)ρ + p I",
+          "page": 2
+        },
+        {
+          "para_id": "3_14",
+          "text": "2.\n(5)",
+          "page": 2
+        },
+        {
+          "para_id": "3_15",
+          "text": "III.\nCAPACITY THRESHOLDS",
+          "page": 2
+        },
+        {
+          "para_id": "3_16",
+          "text": "Ref. [5] established the ultimate rates for entangle-\nment distribution, quantum information transmission,\nand QKD in the absence of an intermediate relay. For\nspeciﬁc channels, such as the bosonic lossy channel, the\nbosonic quantum-limited ampliﬁer, and the dephasing\nand erasure channels, Ref. [5] derived the exact analytical\nexpressions of the two-way assisted entanglement distri-\nbution capacity D2, the two-way assisted quantum ca-\npacity Q2, and the two-way assisted secret-key capacity\nK2, showing that these capacities coincide for these chan-\nnels. Ref. [5] also provided lower and upper bounds for\nthe two-way assisted capacities of the Pauli channel, the\namplitude-damping channel and the thermal-loss chan-\nnel. The latter channel was studied in several other pa-\npers, where the lower bound was improved [13–17].\nLet us call C2 the generic two-way assisted capacity.\nDepending on the context, this can be D2, Q2 or K2. As\na direct consequence of Ref. [5], one obtains equivalent\ncriteria for a quantum channel to satisfy C2 = 0. For a\nqubit Pauli channel, we show that",
+          "page": 2
+        },
+        {
+          "para_id": "3_17",
+          "text": "C2(P) = 0 ⇐⇒pmax := max{pk} ≤1",
+          "page": 2
+        },
+        {
+          "para_id": "3_18",
+          "text": "2,\n(6) and, for a depolarizing channel, we therefore have",
+          "page": 2
+        },
+        {
+          "para_id": "3_19",
+          "text": "C2(Pdepol) = 0 ⇐⇒p ≥2",
+          "page": 2
+        },
+        {
+          "para_id": "3_20",
+          "text": "3.\n(7) The proof in Appendix A relies on the fact that the two-\nqubit Choi state of a qubit Pauli channel has non-positive\npartial transposition (NPT) [18–22]. Note that this sim-\nple proof cannot be extended to higher dimensions since,\nalready for qutrits (3 × 3), there is bound entanglement.",
+          "page": 2
+        },
+        {
+          "para_id": "3_21",
+          "text": "IV.\nMAXIMUM TOLERABLE QBER",
+          "page": 2
+        },
+        {
+          "para_id": "3_22",
+          "text": "We now exploit Eq. (6) to establish the maximum tol-\nerable QBER in repeaterless QKD. Let us start by con-\nsidering QKD protocols that are based on two MUBs,\nwith observed QBERs EX and EZ.\nAs the values of\nthese QBERs gradually increase, the probability of the\nidentity Pauli ‘error’ p0 = 1 −(EX + EZ) + p2 gradu-\nally decreases. Also, because the values of the QBERs",
+          "page": 2
+        },
+        {
+          "para_id": "3_23",
+          "text": "increase from zero, we have that p0 = pmax.\nAccord-\ning to Eq. (6), we ﬁnd that QKD is possible as long as\nEX + EZ < 1/2 + p2. In the worst-case scenario, Eve\ndoes not introduce Y errors (p2 = 0), so we have a BPF\nchannel and the maximum QBER is bounded as follows",
+          "page": 2
+        },
+        {
+          "para_id": "3_24",
+          "text": "EX + EZ < 1/2.\n(8) If this inequality is satisﬁed, then there certainly exists a\nQKD protocol with a positive key rate. If this is violated,\nthe key rate is certainly zero for any QKD protocol.\nAssuming the symmetric condition EX = EZ := E,\nwe see that Eq. (8) becomes E < 1/4.\nIt is interest-\ning to note that this threshold coincides with the QBER\ninduced by an intercept-resend attack against the BB84\nprotocol. While it may be intuitive to understand that\nsecurity is not possible above 1/4, it is less obvious to\nrecognize that a QKD protocol (with suitable data pro-\ncessing) exists with a positive key rate up to E = 1/4.\nPrevious studies [23] have identiﬁed that BB84 can be\nmade secure up to E = 18.9% with suitable two-way data\nprocessing. Thus, our result raises the question of identi-\nfying a more powerful mechanism (protocol and/or data\nprocessing) able to eﬀectively outperform E = 18.9% and\napproach the 1/4 limit in the symmetric scenario.\nNow consider QKD protocols based on three MUBs,\nwith observed QBERs EX, EZ and EY .\nIn this case,\nwe repeat the previous reasoning to obtain pmax = p0 =\n1 −(EX + EZ + EY )/2. Therefore, Eq. (6) leads to EX + EZ + EY < 1.\n(9) Assuming symmetry EX = EZ = EY := E, we have\nE < 1/3. No QKD protocol based on three MUBs can be\nsecure above this value in symmetric conditions. In fact,\none can show that this corresponds to the threshold for\nan intercept-resend attack. As before, the less obvious\npoint is that this result guarantees the existence of a\nQKD protocol based on three MUBs able to achieve a\npositive key rate up to E = 1/3.\nWe know that the\nsix-state protocol combined with two-way processing can\nachieve a QBER of 26.4% [23].\nSo it is another open\nquestion to discover the more powerful 3-MUB protocol\n(and/or data processing method) able to reach 1/3.",
+          "page": 2
+        },
+        {
+          "para_id": "3_25",
+          "text": "V.\nNOISE MODEL FOR QBER IN DV-QKD",
+          "page": 2
+        },
+        {
+          "para_id": "3_26",
+          "text": "The QBER of a QKD protocol can be related to the\ntotal transmissivity η of the lossy channel connecting Al-\nice and Bob. This relation allows one to translate the\nmaximum tolerable QBER into a maximum achievable\ntransmission distance. The exact translation depends on\nthe noise model valid for the QBER, as we discuss below.\nConsider the QBER E associated with a generic MUB\n(X, Z or Y ).\nWe can write the minimum value of E\ncompatible with the transmissivity η and the relevant\nparameters of Alice’s source and Bob’s detectors. This\n‘irreducible’ QBER represents the inevitable error rate",
+          "page": 2
+        },
+        {
+          "para_id": "3_27",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "3_28",
+          "text": "arising from loss and device imperfections, and therefore\nlower-bounds any observed QBER. Within the standard\nadversarial framework of QKD, all such noise is conserva-\ntively attributed to Eve and must be treated as channel\nnoise associated with her perturbation of the systems.\nAssume that Bob’s detector has dark count probabil-\nity Y0 and misalignment error probability edet, then the\nirreducible QBER has the form E = γedet + (1 −γ)Y0/2 γ + (1 −γ)Y0\n,\n(10) where the analytical form of γ = γ(η) depends on Alice’s\nsource.\nFor a k-photon source, we may write γ(η) =\n1−(1−η)k, while for an attenuated coherent-state source\nwith intensity µ, we have γ(η) = 1 −e−ηµ.\nFor a decoy-state QKD protocol [24–30] with intensi-\nties µi and corresponding probabilities qi, we can iden-\ntify the intensity µ ∈{µi} associated with the best-case\nQBER. This QBER takes the form Eµ given by the right-\nhand-side of Eq. (10) with γ(η) = 1 −e−ηµ. Then, the\noverall QBER of the protocol E is lower-bounded by Eµ.\nSee Appendix B for more details on the QBER modelling.",
+          "page": 3
+        },
+        {
+          "para_id": "3_29",
+          "text": "VI.\nMAXIMUM DISTANCE",
+          "page": 3
+        },
+        {
+          "para_id": "3_30",
+          "text": "By combining the noise models of the previous sec-\ntion with the results on the maximum QBERs, we can\nbound the maximum distance achievable by QKD pro-\ntocols under various assumptions. We consider the sym-\nmetric scenario where the QBERs associated with the\ndiﬀerent MUBs are equal to some common value E.\nThis assumption can always be seen as a best-case sce-\nnario. In fact, if the QBERs diﬀer, we can take their\nminimum E = min{EZ, EX, . . .} as a common value,\nthereby resulting in an upper bound on the maximum\ndistance. Thus, our next results will provide distances\nbeyond which QKD protocols are certainly not secure.\nFor a 2-MUB protocol, we can combine Eq. (10) with\nthe symmetric threshold E < 1/4 to get the bound γ(η) > Γ2 :=\nY0\n1 + Y0 −4edet\n≃Y0.\n(11) Then, for a 3-MUB protocol, the previous formula in\nEq. (11) is slightly modiﬁed into the following γ(η) > Γ3 :=\nY0\n2 + Y0 −6edet\n≃Y0/2.\n(12) Let us set Γ = Γ2 or Γ3 depending if we consider 2- or\n3-MUB protocols. Then, for a single-photon implemen-\ntation (γ = η), the bounds can compactly be written as\nη > Γ. For a practical implementation with an attenu-\nated source of intensity µ (or a decoy-state implementa-\ntion with best-case intensity µ), we instead have η > −1 µ ln (1 −Γ) .\n(13)",
+          "page": 3
+        },
+        {
+          "para_id": "3_31",
+          "text": "10-11\n10-10\n10-9\n10-8\n10-7\n10-6\n10-5",
+          "page": 3
+        },
+        {
+          "para_id": "3_32",
+          "text": "300",
+          "page": 3
+        },
+        {
+          "para_id": "3_33",
+          "text": "400",
+          "page": 3
+        },
+        {
+          "para_id": "3_34",
+          "text": "500",
+          "page": 3
+        },
+        {
+          "para_id": "3_35",
+          "text": "600",
+          "page": 3
+        },
+        {
+          "para_id": "3_36",
+          "text": "Dark counts",
+          "page": 3
+        },
+        {
+          "para_id": "3_37",
+          "text": "Fiber distance (km)",
+          "page": 3
+        },
+        {
+          "para_id": "3_38",
+          "text": "FIG. 1.\nMaximum ﬁber-distance in km versus dark count\nprobability for a 2-MUB protocol with a single-photon source\n(solid black line), an attenuated source with intensity µ = 0.3\n(dashed black line) and intensity µ = 2 (dashed blue line).\nWe assume α = 0.17 dB/km and edet = 1%.",
+          "page": 3
+        },
+        {
+          "para_id": "3_39",
+          "text": "The previous lower bounds for the transmissivity η can\nbe written in terms of upper bounds for the distance d\nbetween Alice and Bob. First, we notice that we may de-\ncompose η = ηeﬀηch, where ηeﬀis the setup eﬃciency, i.e.,\nthe product of the transmissivities of Alice’s and Bob’s\nsetups, while ηch is the actual channel transmissivity, de-\npending on the distance. In a ﬁber-based implementa-\ntion, the ﬁber distance d can be computed assuming a\nloss-rate α in dB/km, using ηch(d) = 10−αd/10. There-\nfore, by using γ = γ[ηeﬀηch(d)] in Eqs. (11) or (12), we\ncan bound the maximum distance achievable in ﬁber by\nrepeaterless DV-QKD protocols. We may write",
+          "page": 3
+        },
+        {
+          "para_id": "3_40",
+          "text": "d < −10 α log10 Ω,\nΩ:=",
+          "page": 3
+        },
+        {
+          "para_id": "3_41",
+          "text": "(\nΓ/ηeﬀ\n1-photon,\n−ln(1−Γ)",
+          "page": 3
+        },
+        {
+          "para_id": "3_42",
+          "text": "ηeff µ\nattenuated.\n(14)",
+          "page": 3
+        },
+        {
+          "para_id": "3_43",
+          "text": "We can now derive numerical results. We assume per-\nfect eﬃciency ηeﬀ= 1, low-loss ﬁber α = 0.17 dB/km,\nlow dark counts 10−8 (compatible with SNSPD detec-\ntors) and low misalignment error edet = 1%. We ﬁnd\nthe results in Table I, which represent distances beyond\nwhich no key can be extracted. We can appreciate that\nthe current distance records for repeaterless QKD exper-\niments are not far from these values [31].",
+          "page": 3
+        },
+        {
+          "para_id": "3_44",
+          "text": "2-MUB\n3-MUB\n1 photon µ = 0.3 1 photon µ = 0.3 470 km\n439 km\n488 km\n457 km",
+          "page": 3
+        },
+        {
+          "para_id": "3_45",
+          "text": "TABLE I. Examples of maximum ﬁber-distance for various\nprotocols (see text for the parameters used).",
+          "page": 3
+        },
+        {
+          "para_id": "3_46",
+          "text": "It is interesting to note how the maximum distance\ndepends on the dark counts, as shown in Fig. 1. Because\nY0 ≪1, we have the approximations in Eqs. (11) or (12).\nFor single-photon protocols, this means d ≃−log10 Y0.",
+          "page": 3
+        },
+        {
+          "para_id": "3_47",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "3_48",
+          "text": "VII.\nMAXIMUM FREE-SPACE DISTANCE",
+          "page": 4
+        },
+        {
+          "para_id": "3_49",
+          "text": "In free space, optical links are more generally described\nas fading channels, since pointing errors and large-scale\nturbulence induce random beam wandering across the re-\nceiver aperture [32–34]. For our upper bound, we ignore\nthe fading process and consider the maximum transmis-\nsivity of the free-space link. Its value is determined by\ndiﬀraction, small-scale turbulence, and atmospheric ab-\nsorption. In general, we may decompose ηch = ηfsηatm.\nOn the ground, the atmospheric component can be\nmodelled by the Beer-Lambert extinction equation",
+          "page": 4
+        },
+        {
+          "para_id": "3_50",
+          "text": "ηatm(d) = exp[−α(h)d],\n(15)",
+          "page": 4
+        },
+        {
+          "para_id": "3_51",
+          "text": "where d is the horizontal path length in the atmosphere,\nand α(h) is the extinction factor at the altitude h [35–37].\nA good approximation valid for the optical wavelength of\nλ = 800 nm at near sea-level is α(h) = α0 exp(−h/H),\nwhere α0 ≃5 × 10−3 km−1 and H = 6.6 km [32, 38]. For\na satellite link, the atmospheric extinction varies with\nthe altitude. For a satellite at slant distance d = d(h, θ),\nwhere h is the altitude and θ ≤1 is the zenith angle,\nwe can write ηatm(d) ≃[ηzen\natm(h)]sec(θ), where ηzen\natm is the\ntransmissivity at the zenith position. For h > 30 km, we\ncan approximate ηzen\natm ≃0.967 at λ = 800 nm [33].\nThe free-space component ηfs is associated with beam\nwaist broadening induced by diﬀraction and small-scale\nturbulence (inner-scale turbulence eﬀects). Approximate\nanalytical formulas can be written for weak and strong\nregimes of turbulence, while the intermediate behaviour\ncan only be explored numerically [39, 40]. Starting from\nthe adopted turbulence model, one can write or numeri-\ncally evaluate the spot size of the beam at distance d and\ncompute ηfs(d). Then, by using γ = γ[ηeﬀηfs(d)ηatm(d)]\nin Eqs. (11) or (12), we can bound the maximum distance\nfor free-space QKD, which can be applied to ground-\nbased or ground-satellite implementations.\nHere, we derive a universal upper bound which ig-\nnores turbulence and only considers the eﬀect induced\nby diﬀraction. This bound applies to all free-space im-\nplementations, but it is speciﬁcally meaningful for deep-\nspace communications where the atmospheric eﬀects can\nbe completely ignored.\nThis diﬀraction-limited bound\ncan be derived by using ηatm(d) ≤1 and",
+          "page": 4
+        },
+        {
+          "para_id": "3_52",
+          "text": "ηfs(d) ≤ηdiﬀ(d) = 1 −e−2a2\nR/w2\nd ≃2a2\nR\nw2\nd\n.\n(16) Here aR is the radius of the receiver circular aperture,\nand wd is the beam spot size at distance d, given by w2\nd = w2\n0\nh\n(1 −d/R0)2 + (d/dR)2i\n≥w2\n0 (d/dR)2 ,\n(17)",
+          "page": 4
+        },
+        {
+          "para_id": "3_53",
+          "text": "where w0 is the ﬁeld spot size of the Gaussian beam gen-\nerated by Alice, with carrier wavelength λ and curvature\nR0, while dR := πw2\n0λ−1 is the Rayleigh range [41–44].\nIn this way, we get the following diﬀraction-limited upper",
+          "page": 4
+        },
+        {
+          "para_id": "3_54",
+          "text": "bound for the maximum QKD distance d < πw0aR λ",
+          "page": 4
+        },
+        {
+          "para_id": "3_55",
+          "text": "r 2\nΩ′ ,\nΩ′ := −ln(1 −Ω) ≃Ω,\n(18) where Ωtakes the expressions in Eq. (14), depending on\nthe use of single-photon or attenuated QKD sources.\nLet us investigate the limits of deep-space QKD, as-\nsuming ηeﬀ= 1, Y0 = 10−8 and edet = 1% as before.\nThen, we consider Alice sending a collimated Gaussian\nbeam of initial waist w0 = 2 m at λ = 800 nm, and Bob\nreceiving it with a telescope of radius aR = 0.5 m. If\nwe adopt a 3-MUB protocol with a single-photon source,\nwe get d < 7.73 × 107 km, which is an interplanetary\ndistance, on the order of the Earth–Mars distance at a\nrelatively close approach. Of course, this would be an\nabsolute upper bound, not accounting for practical im-\nperfections such as pointing errors, etc.",
+          "page": 4
+        },
+        {
+          "para_id": "3_56",
+          "text": "VIII.\nREPEATER-BASED PROTOCOLS",
+          "page": 4
+        },
+        {
+          "para_id": "3_57",
+          "text": "In order to extend the results to repeater-based pro-\ntocols, we can leverage Ref. [45].\nLet us assume that\nAlice and Bob are connected by N repeaters, so we have\nN + 1 links. Each link i induces a lossy channel and a\nPauli channel Pi. For each Pi with probabilities {pi\nk},\nwe consider pi\nmax = max pi\nk.\nFor the entire sequence\nof Pauli channels {Pi}, we take the bottleneck value\npmin\nmax := mini pi\nmax. As brieﬂy explained in Appendix C,\nthe end-to-end two-way assisted capacity of the repeater\nchain C2({Pi}) satisﬁes pmin\nmax ≤1/2 =⇒C2({Pi}) = 0.\n(19) As before, this condition can be translated into a\nthreshold for the maximum QBER. If each link on the\nchain implements a 2-MUB protocol with QBERs Ei\nZ\nand Ei\nX, we must have max\ni {Ei\nX + Ei\nZ} < 1/2.\n(20) If this threshold is violated, then no key rate can be\nextracted.\nHowever, since the converse implication in\nEq. (19) does not hold, we cannot assert the existence\nof a repeater-based protocol that achieves a positive key\nrate when the total QBER approaches 1/2. An analogous\nsituation arises if the chain implements 3-MUB protocols,\nin which case the corresponding bound would be written\nas maxi{Ei\nX + Ei\nZ + Ei\nY } < 1.\nFinally, these results admit a straightforward interpre-\ntation in terms of maximum transmission distance. In\nparticular, the distance constraint identiﬁed for the re-\npeaterless conﬁguration also governs the longest individ-\nual segment within a repeater chain.",
+          "page": 4
+        },
+        {
+          "para_id": "3_58",
+          "text": "IX.\nCONCLUSIONS",
+          "page": 4
+        },
+        {
+          "para_id": "3_59",
+          "text": "In this work, we established the maximum tolerable\nQBER for DV-QKD protocols and bounded their max-",
+          "page": 4
+        },
+        {
+          "para_id": "3_60",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "3_61",
+          "text": "imum distance in both ﬁber-based and free-space im-\nplementations.\nWe considered protocols based on two\nor more MUBs, and whose implementation employs ei-\nther single-photon or weak coherent (attenuated) sources.\nWhile we derived the main results for the repeaterless\nconﬁguration, we also showed that their extension to the\nrepeater-based setting is immediate.\nOur results imply the existence of undiscovered QKD\nprotocols and/or data processing methods that are able\nto overcome the best performance known so far. Identi-\nfying such protocols and/or methods is left as an open\nquestion for the community. In the free-space scenario,\nwe showed that geometric diﬀraction imposes a funda-\nmental upper bound on the maximum transmission dis-\ntance; nevertheless, this limit remains suﬃciently large to\nenable long-range implementations, including deep-space\nquantum communications.",
+          "page": 5
+        },
+        {
+          "para_id": "3_62",
+          "text": "ACKNOWLEDGMENTS",
+          "page": 5
+        },
+        {
+          "para_id": "3_63",
+          "text": "This work was supported by the Integrated Quan-\ntum Networks (IQN) Research Hub (EPSRC, Grant No.\nEP/Z533208/1).",
+          "page": 5
+        },
+        {
+          "para_id": "3_64",
+          "text": "Appendix A: Zero-capacity thresholds",
+          "page": 5
+        },
+        {
+          "para_id": "3_65",
+          "text": "This is a simple proof of Eq. (6) of the main text. First\nobserve that the two-way assisted capacity of a Pauli\nchannel P with probabilities {pk} satisﬁes [5]",
+          "page": 5
+        },
+        {
+          "para_id": "3_66",
+          "text": "C2(P) ≤Φ(P) :=",
+          "page": 5
+        },
+        {
+          "para_id": "3_67",
+          "text": "(\n1 −H2(pmax),\npmax ≥1",
+          "page": 5
+        },
+        {
+          "para_id": "3_68",
+          "text": "2,\n0,\notherwise,\n(A1)",
+          "page": 5
+        },
+        {
+          "para_id": "3_69",
+          "text": "where H2 is the binary Shannon entropy computed on\npmax = max{pk}. From Eq. (A1), we see that pmax ≤1 2\nimplies C2(P) = 0. Then we ask if C2(P) = 0 implies\npmax ≤1",
+          "page": 5
+        },
+        {
+          "para_id": "3_70",
+          "text": "2, so we can write an equivalence.\nA basic strategy for distributing entanglement over a\nPauli channel P is to send half of a Bell state through the\nchannel. Alice keeps one qubit and sends the other qubit\nto Bob. After the channel, the joint two-qubit output\nis the Choi state of the qubit Pauli channel. This is a\nBell-diagonal state with spectral decomposition",
+          "page": 5
+        },
+        {
+          "para_id": "3_71",
+          "text": "ρP =",
+          "page": 5
+        },
+        {
+          "para_id": "3_72",
+          "text": "3\nX k=0\npk Φk,\n(A2) where the eigenvalues coincide with the channel proba-\nbilities and {Φk} are the four Bell states.\nIt is immediate to check that the two-qubit Choi state\nρP in Eq. (A2) is an NPT state [18, 19] for pmax > 1/2.\nBecause, in dimensions 2 × 2, all NPT states have non-\nzero distillable entanglement [20–22], we have that ρP\nhas non-zero distillable entanglement ED(ρP) > 0. Thus,\nthis basic strategy for entanglement distribution guaran-\ntees that entanglement can be distilled from the output",
+          "page": 5
+        },
+        {
+          "para_id": "3_73",
+          "text": "state of the Pauli channel if we have pmax > 1/2. This\nmeans that pmax > 1/2, implies C2(P) ≥ED(ρP) > 0 or,\nequivalently, that C2(P) = 0 implies pmax ≤1/2.\nFinally, because the depolarizing channel is a Pauli\nchannel with probabilities as in Eq. (4) of the main text,\nwe automatically derive Eq. (7) of the main text.",
+          "page": 5
+        },
+        {
+          "para_id": "3_74",
+          "text": "Appendix B: QBER noise modelling",
+          "page": 5
+        },
+        {
+          "para_id": "3_75",
+          "text": "Let us write the details of relevant formulas here. As-\nsume that Alice sends a k-photon state through a lossy\nchannel with transmissivity η, and Bob has a threshold\ndetector at its output, which is the standard case in DV-\nQKD. Then, the transmissivity of a k-photon signal is ηk = 1 −(1 −η)k,\n(B1) so that η0 = 0, η1 = η, etc. This is the probability that\nat least one photon passes the threshold detector [28].\nGiven an input k-photon state, we adopt the union\nmodel in which a detection event occurs either due to a\nsignal click or due to a dark count in the absence of a\nsignal click. For this reason, the yield takes the form",
+          "page": 5
+        },
+        {
+          "para_id": "3_76",
+          "text": "Yk = ηk + (1 −ηk)Y0,\n(B2) where Y0 is the dark count probability. Correspondingly,\nwe also consider the error yield, i.e., the overall probabil-\nity of an erroneous detection. This is given by",
+          "page": 5
+        },
+        {
+          "para_id": "3_77",
+          "text": "Pk = edetηk + (1 −ηk)Y0/2,\n(B3) where edet is the misalignment error associated with sig-\nnal clicks. Thus, the minimum QBER reads Ek = Pk",
+          "page": 5
+        },
+        {
+          "para_id": "3_78",
+          "text": "Yk\n≃edetηk + Y0/2",
+          "page": 5
+        },
+        {
+          "para_id": "3_79",
+          "text": "ηk + Y0\n.\n(B4) In particular, if Alice has an ideal single-photon source,\nthen the QBER is given by Eq. (B4) for k = 1.\nIn practical QKD implementations, Alice has an atten-\nuated coherent-state source with mean number of pho-\ntons (intensity) µ, which generates k-photon signals ac-\ncording to a Poisson distribution pµ\nA(k) = (µk/k!)e−µ.\nFor the intensity µ, we consider the gain Qµ, which is\nthe overall probability of a detection event, and the error\ngain Pµ, which is the overall probability of an error [28].\nThese are given by Pµ = edet(1 −e−ηµ) + e−ηµY0/2,\n(B5) Qµ = 1 −e−ηµ + e−ηµY0.\n(B6) The QBER associated with the intensity µ is Eµ = Pµ",
+          "page": 5
+        },
+        {
+          "para_id": "3_80",
+          "text": "Qµ\n≃edet(1 −e−ηµ) + Y0/2",
+          "page": 5
+        },
+        {
+          "para_id": "3_81",
+          "text": "1 −e−ηµ + Y0\n.\n(B7) In the case of decoy-state protocols, Alice randomly\nchooses between various intensities µi ≥0 with proba-\nbilities qi > 0. The expected minimum QBER can be",
+          "page": 5
+        },
+        {
+          "para_id": "3_82",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "3_83",
+          "text": "written as E =\nP\ni ciqiPµi\nP\ni ciqiQµi\n,\n(B8) where ci = [1 + rsQµiτdt]−1 is a factor depending on the\nrepetition rate of Alice’s source rs and the dead time τdt\nof Bob’s detector [29, 30].\nSetting Eµi = Pµi/Qµi, it is easy to check that min\ni {Eµi} ≤E ≤max\ni {Eµi} ≤\nX",
+          "page": 6
+        },
+        {
+          "para_id": "3_84",
+          "text": "i\nEµi.\n(B9) In fact, we can assume Qµi > 0 for all i, and write E =\nX i\nλi Eµi,\n(B10) where λi :=\nciqiQµi\nP\nj cjqjQµj\n, λi > 0,\nX",
+          "page": 6
+        },
+        {
+          "para_id": "3_85",
+          "text": "i\nλi = 1.\n(B11)",
+          "page": 6
+        },
+        {
+          "para_id": "3_86",
+          "text": "Because E is convex in Eµi, we have Eq. (B9).\nAs a result, we can choose i∗= arg mini Eµi and con-\nsider Eµi∗as the minimum achievable QBER. This is\nequivalent to use Eµ in Eq. (B7) where we set µ = µi∗.\nIn our study, we therefore use Eq. (B7) as the mini-\nmum achievable QBER for decoy-based QKD implemen-\ntations. It is understood that this provides a best-case\nscenario, so that using this modelling will provide an up-\nper bound for the maximum distance.",
+          "page": 6
+        },
+        {
+          "para_id": "3_87",
+          "text": "Appendix C: Zero-capacity thresholds\nfor repeater chains",
+          "page": 6
+        },
+        {
+          "para_id": "3_88",
+          "text": "For a qubit Pauli channel, the upper bound Φ(P) in\nEq. (A1) comes from the relative entropy of entanglement\nER (REE) [46, 47] computed over its Choi state σP. If we\nhave a chain of N intermediate repeaters between Alice\nand Bob, we have a total of N + 1 Pauli channels Pi on\nthe chain. According to Ref. [45, Th. 3], we have that\nthe end-to-end capacity between Alice and Bob satisﬁes",
+          "page": 6
+        },
+        {
+          "para_id": "3_89",
+          "text": "C2({Pi}) ≤min\ni\nER(σPi) = min\ni\nΦ(Pi).\n(C1)",
+          "page": 6
+        },
+        {
+          "para_id": "3_90",
+          "text": "For channel Pi with probabilities {pi\nk}, let us deﬁne\npi\nmax := maxk {pi\nk}. Then, we take the minimum along\nthe chain pmin\nmax := mini pi\nmax, and we can write",
+          "page": 6
+        },
+        {
+          "para_id": "3_91",
+          "text": "C2({Pi}) ≤",
+          "page": 6
+        },
+        {
+          "para_id": "3_92",
+          "text": "(\n1 −H2(pmin\nmax),\npmin\nmax ≥1",
+          "page": 6
+        },
+        {
+          "para_id": "3_93",
+          "text": "2,\n0,\notherwise.\n(C2)",
+          "page": 6
+        },
+        {
+          "para_id": "3_94",
+          "text": "This result means that pmin\nmax ≤1/2 certainly implies\nC2({Pi}) = 0.\nUnfortunately, the opposite cannot be\nproven using the simple approach of the repeaterless case.\nThe problem is that the Bell detections performed at the\nrepeaters (necessary to extend entanglement to the end\npoints) will gradually decrease the ﬁdelity if the states\ndistributed over the links are not perfect Bell pairs.",
+          "page": 6
+        },
+        {
+          "para_id": "3_95",
+          "text": "[1] C. H. Bennett and G. Brassard, “Quantum cryptography:\nPublic key distribution and coin tossing,” Proceedings of\nIEEE International Conference on Computers, Systems\nand Signal Processing, Bangalore, India, pp. 175–179\n(1984).\n[2] D. Bruss, “Optimal Eavesdropping in Quantum Cryptog-\nraphy with Six States,” Phys. Rev. Lett. 81, 3018 (1998)\n[3] S. Pirandola, U. L. Andersen, L. Banchi, M. Berta, D.\nBunandar, R. Colbeck, D. Englund, T. Gehring, C. Lupo,\nC. Ottaviani, et al., “Advances in quantum cryptogra-\nphy,” Advances in Optics and Photonics 12, 1012 (2020).\n[4] S. Pirandola, R. Garcia-Patron, S. L. Braunstein, and\nS. Lloyd, “Direct and Reverse Secret-Key Capacities of\na Quantum Channel,” Phys. Rev. Lett. 102, 050503\n(2009).\n[5] S. Pirandola, R. Laurenza, C. Ottaviani and L. Banchi,\n“Fundamental Limits of Repeaterless Quantum Commu-\nnications,” Nature Comm. 8, 15043 (2017)\n[6] S. L. Braunstein and S. Pirandola, “Side-Channel-Free\nQuantum Key Distribution,”\nPhys. Rev. Lett. 108,\n130502 (2012).\n[7] H.-K. Lo, M. Curty, and B. Qi, “Measurement-Device-\nIndependent Quantum Key Distribution,” Phys. Rev.\nLett. 108, 130503 (2012).",
+          "page": 6
+        },
+        {
+          "para_id": "3_96",
+          "text": "[8] M. Lucamarini, Z. L. Yuan, J. F. Dynes, and A. J.\nShields, “Overcoming the rate-distance limit of quan-\ntum key distribution without quantum repeaters,” Na-\nture 557, 400 (2018).\n[9] X.-B. Wang, Z.-W. Yu, and X.-L. Hu, “Twin-ﬁeld quan-\ntum key distribution with large misalignment error,”\nPhys. Rev. A 98, 062323 (2018).\n[10] Z.-W. Yu, X.-L. Hu, C. Jiang, H. Xu and X.-B. Wang,\n“Sending-or-not-sending twin-ﬁeld quantum key distribu-\ntion in practice,” Sci. Rep. 9, 3080 (2019).\n[11] C. Jiang, Z.-W. Yu, X.-L. Hu, and X.-B. Wang, “Un-\nconditional security of sending or not sending twin-ﬁeld\nquantum key distribution with ﬁnite pulses,” Phys. Rev.\nApplied 12, 024061 (2019).\n[12] C. Cui, Z.-Q. Yin, R. Wang, W. Chen, S. Wang, G.-C.\nGuo, and Z.-F. Han, “Twin-ﬁeld Quantum Key Distribu-\ntion without Phase Postselection,” Phys. Rev. Applied\n11, 034053 (2019).\n[13] C. Ottaviani, R. Laurenza, T. P. W. Cope, G. Spedalieri,\nS. L. Braunstein, S. Pirandola, “Secret key capacity of the\nthermal-loss channel: improving the lower bound,” SPIE\nproceedings Quantum Information Science and technol-\nogy II, 9996, 999609 (2016).\n[14] S. Pirandola, S. L Braunstein, R. Laurenza, C. Ottaviani,\nT. P. W. Cope, G. Spedalieri, and L. Banchi, “Theory of",
+          "page": 6
+        },
+        {
+          "para_id": "3_97",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "3_98",
+          "text": "channel simulation and bounds for private communica-\ntion,” Quantum Sci. Technol. 3, 035009 (2018).\n[15] G. Wang, C. Ottaviani, H. Guo, S. Pirandola, “Improving\nthe lower bound to the secret-key capacity of the thermal\nampliﬁer channel,” Eur. Phys. J. D 73, 17 (2019).\n[16] F. A. Mele, L. Lami, and V. Giovannetti, “Maximum tol-\nerable excess noise in continuous-variable quantum key\ndistribution and improved lower bound on two-way ca-\npacities”, Nature Photonics 19, 329 (2025).\n[17] G. Ortolano,\nS. Pirandola,\nand L. Banchi,\n“Lower\nBounding the Secret Key Capacity of Bosonic Gaus-\nsian Channels via Optimal Gaussian Measurements”,\narXiv:2512.15502 (2025).\n[18] A. Peres, “Separability Criterion for Density Matrices”,\nPhys. Rev. Lett. 77, 1413 (1996).\n[19] M. Horodecki, P. Horodecki, R. Horodecki, “Separabil-\nity of mixed states: necessary and suﬃcient conditions”,\nPhys. Lett. A 223, 1 (1996).\n[20] M. Horodecki, P. Horodecki and R. Horodecki, “Density\nMatrices Can Be Distilled to a Singlet Form”, Phys. Rev.\nLett. 78, 574 (1997)\n[21] M. Horodecki, P. Horodecki, R. Horodecki, “Mixed-\nState Entanglement and Distillation: Is there a “Bound”\nEntanglement in Nature?”, Phys. Rev. Lett. 80, 5239\n(1998).\n[22] R. Horodecki, “Distillation and bound entanglement”,\nPhys. Rev. A 60, 1888 (1999).\n[23] D. Gottesman, and H.-K. Lo, “Proof of security of quan-\ntum key distribution with two-way classical communica-\ntions”, IEEE Trans. Inf. Theory 49, 457 (2003).\n[24] W.-Y. Hwang, “Quantum Key Distribution with High\nLoss:\nToward Global Secure Communication,” Phys.\nRev. Lett. 91, 057901 (2003).\n[25] X.-B. Wang, “Beating the photon-number-splitting at-\ntack in practical quantum cryptography”, Phys. Rev.\nLett. 94, 230503 (2005).\n[26] X.-B. Wang, “Decoy-state protocol for quantum cryptog-\nraphy with four diﬀerent intensities of coherent light,”\nPhys. Rev. A 72, 012322 (2005).\n[27] H.-K. Lo, X. Ma, and K. Chen, “Decoy State Quantum\nKey Distribution,” Phys. Rev. Lett. 94, 230504 (2005).\n[28] X. Ma, “Quantum cryptography: from theory to prac-\ntice”, PhD Thesis (2008).\n[29] V. Burenkov, B. Qi, B. Fortescue, and H.-K. Lo, “Secu-\nrity of high speed quantum key distribution with ﬁnite\ndetector dead time,” Quantum Info. Comput. 14, 217\n(2014).\n[30] D. Rusca, A. Boaron, F. Grünenfelder, A. Martin, and H.\nZbinden, “Finite-key analysis for the 1-decoy state QKD\nprotocol,” Appl. Phys. Lett. 112, 171104 (2018).",
+          "page": 7
+        },
+        {
+          "para_id": "3_99",
+          "text": "[31] A. Boaron, G. Boso, D. Rusca, C. Vulliez, C. Autebert,\nM. Caloz, M. Perrenoud, G. Gras, F. Bussières, M.-J. Li,\nD. Nolan, A. Martin, and H. Zbinden, “Secure Quantum\nKey Distribution over 421 km of Optical Fiber,” Phys.\nRev. Lett. 121, 190502 (2018).\n[32] S. Pirandola, “Limits and Security of Free-Space Quan-\ntum Communications”, Phys. Rev. Research 3, 013279\n(2021).\n[33] S. Pirandola, “Satellite Quantum Communications: Fun-\ndamental Bounds and Practical Security”, Phys. Rev. Re-\nsearch 3, 023130 (2021).\n[34] S. Pirandola, “Composable security for continuous vari-\nable quantum key distribution: Trust levels and practical\nkey rates in wired and wireless networks”, Phys. Rev. Re-\nsearch 3, 043014 (2021).\n[35] C. F. Bohren, and D. R. Huﬀman, “Absorption and scat-\ntering of light by small particles” (John Wiley & Sons,\nInc., 2008).\n[36] H. Kaushal, V. K. Jain, and S. Kar, “Free Space Optical\nCommunication” (Springer, New York, 2017).\n[37] S. Q. Duntley, “The reduction of apparent contrast by\nthe atmosphere”, J. Opt. Soc. Am. 38, 179 (1948).\n[38] D. Vasylyev, W. Vogel, and F. Moll, “Satellite-mediated\nquantum atmospheric links”, Phys. Rev. A 99, 053830\n(2019).\n[39] H. Yura, “Short term average optical-beam spread in a\nturbulent medium”, J. Opt. Soc. Am. 63, 567-572 (1973).\n[40] R. L. Fante, “Electromagnetic Beam Propagation in Tur-\nbulent Media”, Proc. IEEE 63, 1669 (1975).\n[41] A. Siegman, “Lasers” (University Science Books, 1986).\n[42] O. Svelto, “Principles of Lasers”, 5th edn. (Springer, New\nYork 2010).\n[43] L. C. Andrews, W. B. Miller, and J. C. Ricklin, “Geo-\nmetrical representation of Gaussian beams propagating\nthrough complex paraxial optical systems”, Appl. Opt.\n32, 5918-5929 (1993).\n[44] L. C. Andrews, W. B. Miller, and J. C. Ricklin, “Spatial\ncoherence of a Gaussian-beam wave in weak and strong\noptical turbulence”, J. Opt. Soc. Am. A 11, 1653-1660\n(1994).\n[45] S. Pirandola, “End-to-end capacities of a quantum com-\nmunication network”, Commun Phys 2, 51 (2019).\n[46] V. Vedral, M. B. Plenio, M. A., Rippin, and P. L. Knight,\n“Quantifying Entanglement”, Phys. Rev. Lett. 78, 2275\n(1997).\n[47] V. Vedral, and M. B. Plenio, “Entanglement measures\nand puriﬁcation procedures”, Phys. Rev. A. 57, 1619\n(1998).",
+          "page": 7
+        }
+      ]
+    }
+  ]
+}

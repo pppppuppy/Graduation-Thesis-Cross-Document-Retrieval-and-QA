@@ -1,0 +1,161 @@
+{
+  "doc_id": "1910.10683v4.pdf",
+  "sections": [
+    {
+      "section_title": "Exploring",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Limits",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transfer",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Learning",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "with",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "a",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Unified",
+      "text": ""
+    },
+    {
+      "section_title": "Text-to-Text",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer",
+      "text": " Colin  Raffel ∗ craffel@gmail.com Noam  Shazeer ∗ noam@google.com Adam  Roberts ∗ adarob@google.com Katherine  Lee ∗ katherinelee@google.com Sharan  Narang sharannarang@google.com Michael  Matena mmatena@google.com Yanqi  Zhou yanqiz@google.com Wei  Li mweili@google.com Peter  J.  Liu peterjliu@google.com Google,  Mountain  View,  CA  94043,  USA Editor:  Ivan  Titov"
+    },
+    {
+      "section_title": "Abstract",
+      "text": " Transfer  learning,  where  a  model  is  first  pre-trained  on  a  data-rich  task  before  being  fine- tuned  on  a  downstream  task,  has  emerged  as  a  powerful  technique  in  natural  language processing  (NLP).  The  effectiveness  of  transfer  learning  has  given  rise  to  a  diversity  of approaches,  methodology,  and  practice.  In  this  paper,  we  explore  the  landscape  of  transfer learning  techniques  for  NLP  by  introducing  a  unified  framework  that  converts  all  text-based language  problems  into  a  text-to-text  format.  Our  systematic  study  compares  pre-training objectives,  architectures,  unlabeled  data  sets,  transfer  approaches,  and  other  factors  on dozens  of  language  understanding  tasks.  By  combining  the  insights  from  our  exploration with  scale  and  our  new  “Colossal  Clean  Crawled  Corpus”,  we  achieve  state-of-the-art "
+    },
+    {
+      "section_title": "results",
+      "text": " on  many  benchmarks  covering  summarization,  question  answering,  text  classification,  and more.  To  facilitate  future  work  on  transfer  learning  for  NLP,  we  release  our  data  set, pre-trained  models,  and  code. Keywords: transfer  learning,  natural  language  processing,  multi-task  learning,  attention- based  models,  deep  learning"
+    },
+    {
+      "section_title": "1.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " Training  a  machine  learning  model  to  perform  natural  language  processing  (NLP)  tasks often  requires  that  the  model  can  process  text  in  a  way  that  is  amenable  to  downstream learning.  This  can  be  loosely  viewed  as  developing  general-purpose  knowledge  that  allows the  model  to  “understand”  text.  This  knowledge  can  range  from  low-level  (e.g.  the  spelling ∗.  Equal contribution.  A description of each author’s contribution is available in Appendix A . Correspondence to  craffel@gmail.com . 1.  https://github.com/google-research/text-to-text-transfer-transformer ©2020  Colin  Raffel,  Noam  Shazeer,  Adam  Roberts,  Katherine  Lee,  Sharan  Narang,  Michael  Matena,  Yanqi  Zhou,  Wei Li,  and  Peter  J.  Liu. License:  CC-BY  4.0,  see  https://creativecommons.org/licenses/by/4.0/ .  Attribution  requirements  are  provided  at http://jmlr.org/papers/v21/20-074.html ."
+    },
+    {
+      "section_title": "arXiv:1910.10683v4  [cs.LG]  19 Sep 2023",
+      "text": " Raffel,  Shazeer,  Roberts,  Lee,  Narang,  Matena,  Zhou,  Li  and  Liu or  meaning  of  words)  to  high-level  (e.g.  that  a  tuba  is  too  large  to  fit  in  most  backpacks). In  modern  machine  learning  practice,  providing  this  knowledge  is  rarely  done  explicitly; instead,  it  is  often  learned  as  part  of  an  auxiliary  task.  For  example,  a  historically  common approach  is  to  use  word  vectors  ( Mikolov  et  al. ,  2013b , a ;  Pennington  et  al. ,  )  to  map word  identities  to  a  continuous  representation  where,  ideally,  similar  words  map  to  similar vectors.  These  vectors  are  often  learned  through  an  objective  that,  for  example,  encourages co-occurring  words  to  be  positioned  nearby  in  the  continuous  space  ( Mikolov  et  al. ,  2013b ). Recently,  it  has  become  increasingly  common  to pre-train  the entire  model  on a  data-rich task.  Ideally,  this  pre-training  causes  the  model  to  develop  general-purpose  abilities  and knowledge  that  can  then  be  transferred  to  downstream  tasks.  In  applications  of  transfer learning  to  computer  vision  ( Oquab  et  al. ,  ;  Jia  et  al. ,  ;  Huh  et  al. ,  ;  Yosinski et  al. ,  ),  pre-training  is  typically  done  via  supervised  learning  on  a  large  labeled  data  set like  ImageNet  ( Russakovsky  et  al. ,  ;  Deng  et  al. ,  ).  In  contrast,  modern  techniques for  transfer  learning  in  NLP  often  pre-train  using  unsupervised  learning  on  unlabeled  data. This  approach  has  recently  been  used  to  obtain  state-of-the-art "
+    },
+    {
+      "section_title": "results",
+      "text": "  in  many  of  the  most common  NLP  benchmarks  ( Devlin  et  al. ,  ;  Yang  et  al. ,  ;  Dong  et  al. ,  ;  Liu et  al. ,  2019c ;  Lan  et  al. ,  ).  Beyond  its  empirical  strength,  unsupervised  pre-training for  NLP  is  particularly  attractive  because  unlabeled  text  data  is  available  en  masse  thanks to  the  Internet—for  example,  the  Common  Crawl  project  produces  about  20TB  of  text data  extracted  from  web  pages  each  month.  This  is  a  natural  fit  for  neural  networks,  which have  been  shown  to  exhibit  remarkable  scalability,  i.e.  it  is  often  possible  to  achieve  better performance  simply  by  training  a  larger  model  on  a  larger  data  set  ( Hestness  et  al. ,  ; Shazeer  et  al. ,  ;  Jozefowicz  et  al. ,  ;  Mahajan  et  al. ,  ;  Radford  et  al. ,  ; Shazeer  et  al. ,  ;  Huang  et  al. ,  2018b ;  Keskar  et  al. ,  2019a ). This  synergy  has  resulted  in  a  great  deal  of  recent  work  developing  transfer  learning methodology  for  NLP,  which  has  produced  a  wide  landscape  of  pre-training  objectives ( Howard and Ruder , ; Devlin et al. , ; Yang et al. , ; Dong et al. , ), unlabeled data  sets  ( Yang  et  al. ,  ;  Liu  et  al. ,  2019c ;  Zellers  et  al. ,  ),  benchmarks  ( Wang  et  al. , 2019b ,  ;  Conneau  and  Kiela ,  ),  fine-tuning  methods  ( Howard  and  Ruder ,  ; Houlsby  et  al. ,  ;  Peters  et  al. ,  ),  and  more.  The  rapid  rate  of  progress  and  diversity of  techniques  in  this  burgeoning  field  can  make  it  difficult  to  compare  different  algorithms, tease apart the effects of new contributions, and understand the space of existing methods for transfer learning.  Motivated by a need for more rigorous understanding, we leverage a unified approach  to  transfer  learning  that  allows  us  to  systematically  study  different  approaches and  push  the  current  limits  of  the  field. The  basic  idea  underlying  our  work  is  to  treat  every  text  processing  problem  as  a “text-to-text”  problem,  i.e.  taking  text  as  input  and  producing  new  text  as  output.  This approach is inspired by previous unifying frameworks for NLP tasks, including casting all text problems  as  question  answering  ( McCann  et  al. ,  ),  language  modeling  ( Radford  et  al. , ),  or  span  extraction  Keskar  et  al.  ( 2019b )  tasks.  Crucially,  the  text-to-text  framework allows  us  to  directly  apply  the  same  model,  objective,  training  procedure,  and  decoding process  to  every  task  we  consider.  We  leverage  this  flexibility  by  evaluating  performance on  a  wide  variety  of  English-based  NLP  problems,  including  question  answering,  document 2.  http://commoncrawl.org Exploring  the  Limits  of  Transfer  Learning \"translate English to German: That is good.\" \"cola sentence: The course is jumping well.\" \"summarize: state authorities dispatched emergency crews tuesday to survey the damage after an onslaught of severe weather in mississippi…\" \"stsb sentence1: The rhino grazed on the grass. sentence2: A rhino is grazing in a field.\""
+    },
+    {
+      "section_title": "T5",
+      "text": " \"Das ist gut.\" \"not acceptable\" \"six people hospitalized after a storm in attala county.\" \"3.8\" Figure  1:  A  diagram  of  our  text-to-text  framework.  Every  task  we  consider—including translation,  question  answering,  and  classification—is  cast  as  feeding  our  model text as input and training it to generate some target text.  This allows us to use the same  model,  loss  function,  hyperparameters,  etc.  across  our  diverse  set  of  tasks.  It also  provides  a  standard  testbed  for  the  methods  included  in  our  empirical  survey. “T5”  refers  to  our  model,  which  we  dub  the  “ T ext- t o- T ext  T ransfer  T ransformer”. summarization,  and  sentiment  classification,  to  name  a  few.  With  this  unified  approach, we  can  compare  the  effectiveness  of  different  transfer  learning  objectives,  unlabeled  data sets,  and  other  factors,  while  exploring  the  limits  of  transfer  learning  for  NLP  by  scaling  up models  and  data  sets  beyond  what  has  previously  been  considered. We  emphasize  that  our  goal  is  not  to  propose  new  methods  but  instead  to  provide  a comprehensive  perspective  on  where  the  field  stands.  As  such,  our  work  primarily  comprises a  survey,  exploration,  and  empirical  comparison  of  existing  techniques.  We  also  explore  the limits  of  current  approaches  by  scaling  up  the  insights  from  our  systematic  study  (training models  up  to   billion  parameters)  to  obtain  state-of-the-art "
+    },
+    {
+      "section_title": "results",
+      "text": "  in  many  of  the  tasks we  consider.  In  order  to  perform "
+    },
+    {
+      "section_title": "experiments",
+      "text": "  at  this  scale,  we  introduce  the  “Colossal  Clean Crawled  Corpus”  (C4),  a  data  set  consisting  of  hundreds  of  gigabytes  of  clean  English  text scraped from the web.  Recognizing that the main utility of transfer learning is the possibility of  leveraging  pre-trained  models  in  data-scarce  settings,  we  release  our  code,  data  sets,  and pre-trained  models. The  remainder  of  the  paper  is  structured  as  follows:  In  the  following  section,  we  discuss our  base  model  and  its  implementation,  our  procedure  for  formulating  every  text  processing problem  as  a  text-to-text  task,  and  the  suite  of  tasks  we  consider.  In  Section  ,  we  present  a large  set  of "
+    },
+    {
+      "section_title": "experiments",
+      "text": "  that  explore  the  field  of  transfer  learning  for  NLP.  At  the  end  of  the section (Section 3.7 ), we combine insights from our systematic study to obtain state-of-the-art"
+    },
+    {
+      "section_title": "results",
+      "text": "  on  a  wide  variety  of  benchmarks.  Finally,  we  provide  a  summary  of  our "
+    },
+    {
+      "section_title": "results",
+      "text": "  and wrap  up  with  a  look  towards  the  future  in  Section  . Raffel,  Shazeer,  Roberts,  Lee,  Narang,  Matena,  Zhou,  Li  and  Liu"
+    },
+    {
+      "section_title": "2.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Setup",
+      "text": " Before  presenting  the "
+    },
+    {
+      "section_title": "results",
+      "text": "  from  our  large-scale  empirical  study,  we  review  the  necessary background  topics  required  to  understand  our  results,  including  the  Transformer  model architecture  and  the  downstream  tasks  we  evaluate  on.  We  also  introduce  our  approach for  treating  every  problem  as  a  text-to-text  task  and  describe  our  “Colossal  Clean  Crawled Corpus”  (C4),  the  Common  Crawl-based  data  set  we  created  as  a  source  of  unlabeled  text data.  We  refer  to  our  model  and  framework  as  the  “ T ext- t o- T ext  T ransfer  T ransformer” (T5). 2.1  Model Early "
+    },
+    {
+      "section_title": "results",
+      "text": "  on  transfer  learning  for  NLP  leveraged  recurrent  neural  networks  ( Peters et  al. ,  ;  Howard  and  Ruder ,  ),  but  it  has  recently  become  more  common  to  use models  based  on  the  “Transformer”  architecture  ( Vaswani  et  al. ,  ).  The  Transformer was  initially  shown  to  be  effective  for  machine  translation,  but  it  has  subsequently  been used  in  a  wide  variety  of  NLP  settings  ( Radford  et  al. ,  ;  Devlin  et  al. ,  ;  McCann et  al. ,  ;  Yu  et  al. ,  ).  Due  to  its  increasing  ubiquity,  all  of  the  models  we  study  are based  on  the  Transformer  architecture.  Apart  from  the  details  mentioned  below  and  the variants  we  explore  in  Section  3.2 ,  we  do  not  deviate  significantly  from  this  architecture  as originally  proposed.  Instead  of  providing  a  comprehensive  definition  of  this  model,  we  refer the  interested  reader  to  the  original  paper  ( Vaswani  et  al. ,  )  or  follow-up  tutorials ,  for a  more  detailed  introduction. The  primary  building  block  of  the  Transformer  is  self-attention  ( Cheng  et  al. ,  ). Self-attention  is  a  variant  of  attention  ( Graves ,  ;  Bahdanau  et  al. ,  )  that  processes a  sequence  by  replacing  each  element  by  a  weighted  average  of  the  rest  of  the  sequence. The  original  Transformer  consisted  of  an  encoder-decoder  architecture  and  was  intended for  sequence-to-sequence  ( Sutskever  et  al. ,  ;  Kalchbrenner  et  al. ,  )  tasks.  It  has recently  also  become  common  to  use  models  consisting  of  a  single  Transformer  layer  stack, with  varying  forms  of  self-attention  used  to  produce  architectures  appropriate  for  language modeling  ( Radford  et  al. ,  ;  Al-Rfou  et  al. ,  )  or  classification  and  span  prediction tasks  ( Devlin  et  al. ,  ;  Yang  et  al. ,  ).  We  empirically  explore  these  architectural variants  in  Section  3.2 . Overall,  our  encoder-decoder  Transformer  implementation  closely  follows  its  originally- proposed  form  ( Vaswani  et  al. ,  ).  First,  an  input  sequence  of  tokens  is  mapped  to a  sequence  of  embeddings,  which  is  then  passed  into  the  encoder.  The  encoder  consists of  a  stack  of  “blocks”,  each  of  which  comprises  two  subcomponents:  a  self-attention  layer followed  by  a  small  feed-forward  network.  Layer  normalization  ( Ba  et  al. ,  )  is  applied  to the  input  of  each  subcomponent.  We  use  a  simplified  version  of  layer  normalization  where the  activations  are  only  rescaled  and  no  additive  bias  is  applied.  After  layer  normalization, a  residual  skip  connection  ( He  et  al. ,  )  adds  each  subcomponent’s  input  to  its  output. Dropout  ( Srivastava  et  al. ,  )  is  applied  within  the  feed-forward  network,  on  the  skip connection,  on  the  attention  weights,  and  at  the  input  and  output  of  the  entire  stack.  The decoder  is  similar  in  structure  to  the  encoder  except  that  it  includes  a  standard  attention 3.  http://nlp.seas.harvard.edu/2018/04/03/attention.html 4.  http://jalammar.github.io/illustrated-transformer/ Exploring  the  Limits  of  Transfer  Learning mechanism  after  each  self-attention  layer  that  attends  to  the  output  of  the  encoder.  The self-attention  mechanism  in  the  decoder  also  uses  a  form  of  autoregressive  or  causal  self- attention,  which  only  allows  the  model  to  attend  to  past  outputs.  The  output  of  the  final decoder  block  is  fed  into  a  dense  layer  with  a  softmax  output,  whose  weights  are  shared  with the  input  embedding  matrix.  All  attention  mechanisms  in  the  Transformer  are  split  up  into independent  “heads”  whose  outputs  are  concatenated  before  being  further  processed. Since  self-attention  is  order-independent  (i.e.  it  is  an  operation  on  sets),  it  is  common to  provide  an  explicit  position  signal  to  the  Transformer.  While  the  original  Transformer used  a  sinusoidal  position  signal  or  learned  position  embeddings,  it  has  recently  become more  common  to  use  relative  position  embeddings  ( Shaw  et  al. ,  ;  Huang  et  al. ,  2018a ). Instead  of  using  a  fixed  embedding  for  each  position,  relative  position  embeddings  produce a  different  learned  embedding  according  to  the  offset  between  the  “key”  and  “query”  being compared  in  the  self-attention  mechanism.  We  use  a  simplified  form  of  position  embeddings where  each  “embedding”  is  simply  a  scalar  that  is  added  to  the  corresponding  logit  used for  computing  the  attention  weights.  For  efficiency,  we  also  share  the  position  embedding parameters  across  all  layers  in  our  model,  though  within  a  given  layer  each  attention  head uses  a  different  learned  position  embedding.  Typically,  a  fixed  number  of  embeddings  are learned,  each  corresponding  to  a  range  of  possible  key-query  offsets.  In  this  work,  we  use  embeddings  for  all  of  our  models  with  ranges  that  increase  in  size  logarithmically  up  to  an offset  of   beyond  which  we  assign  all  relative  positions  to  the  same  embedding.  Note that  a  given  layer  is  insensitive  to  relative  position  beyond   tokens,  but  subsequent  layers can  build  a  sensitivity  to  larger  offsets  by  combining  local  information  from  previous  layers. To  summarize,  our  model  is  roughly  equivalent  to  the  original  Transformer  proposed  by Vaswani  et  al.  ( )  with  the  exception  of  removing  the  Layer  Norm  bias,  placing  the  layer normalization  outside  the  residual  path,  and  using  a  different  position  embedding  scheme. Since  these  architectural  changes  are  orthogonal  to  the  experimental  factors  we  consider  in our  empirical  survey  of  transfer  learning,  we  leave  the  ablation  of  their  impact  for  future work. As  part  of  our  study,  we  experiment  with  the  scalability  of  these  models,  i.e.  how  their performance  changes  as  they  are  made  to  have  more  parameters  or  layers.  Training  large models can be non-trivial since they might not fit on a single machine and require a great deal of  computation.  As  a  result,  we  use  a  combination  of  model  and  data  parallelism  and  train models  on  “slices”  of  Cloud  TPU  Pods.  TPU  pods  are  are  multi-rack  ML  supercomputers that  contain  ,  TPU  v3  chips  connected  via  a  high-speed  2D  mesh  interconnect  with supporting  CPU  host  machines.  We  leverage  the  Mesh  TensorFlow  library  ( Shazeer  et  al. , ) for ease of implementation of both model parallelism and data parallelism ( Krizhevsky , ). 2.2  The  Colossal  Clean  Crawled  Corpus Much  of  the  previous  work  on  transfer  learning  for  NLP  makes  use  of  large  unlabeled  data sets  for  unsupervised  learning.  In  this  paper,  we  are  interested  in  measuring  the  effect  of  the quality,  characteristics,  and  size  of  this  unlabeled  data.  To  generate  data  sets  that  satisfy our  needs,  we  leverage  Common  Crawl  as  a  source  of  text  scraped  from  the  web.  Common 5.  https://cloud.google.com/tpu/ Raffel,  Shazeer,  Roberts,  Lee,  Narang,  Matena,  Zhou,  Li  and  Liu Crawl  has  previously  been  used  as  a  source  of  text  data  for  NLP,  for  example  to  train  an n-gram  language  model  ( Buck  et  al. ,  ),  as  training  data  for  commonsense  reasoning ( Trinh  and  Le ,  ),  for  mining  parallel  texts  for  machine  translation  ( Smith  et  al. ,  ), as  a  pre-training  data  set  ( Grave  et  al. ,  ;  Zellers  et  al. ,  ;  Liu  et  al. ,  2019c ),  and even  simply  as  a  giant  text  corpus  for  testing  optimizers  ( Anil  et  al. ,  ). Common  Crawl  is  a  publicly-available  web  archive  that  provides  “web  extracted  text” by  removing  markup  and  other  non-text  content  from  the  scraped  HTML  files.  This  process produces  around  20TB  of  scraped  text  data  each  month.  Unfortunately,  the  majority  of  the resulting  text  is  not  natural  language.  Instead,  it  largely  comprises  gibberish  or  boiler-plate text  like  menus,  error  messages,  or  duplicate  text.  Furthermore,  a  good  deal  of  the  scraped text  contains  content  that  is  unlikely  to  be  helpful  for  any  of  the  tasks  we  consider  (offensive language,  placeholder  text,  source  code,  etc.).  To  address  these  issues,  we  used  the  following heuristics  for  cleaning  up  Common  Crawl’s  web  extracted  text: •  We  only  retained  lines  that  ended  in  a  terminal  punctuation  mark  (i.e.  a  period, exclamation  mark,  question  mark,  or  end  quotation  mark). •  We  discarded  any  page  with  fewer  than   sentences  and  only  retained  lines  that contained  at  least   words. •  We removed any page that contained any word on the “List of Dirty,  Naughty,  Obscene or  Otherwise  Bad  Words”. •  Many  of  the  scraped  pages  contained  warnings  stating  that  Javascript  should  be enabled  so  we  removed  any  line  with  the  word  Javascript. •  Some  pages  had  placeholder  “lorem  ipsum”  text;  we  removed  any  page  where  the phrase  “lorem  ipsum”  appeared. •  Some  pages  inadvertently  contained  code.  Since  the  curly  bracket  “{”  appears  in many  programming  languages  (such  as  Javascript,  widely  used  on  the  web)  but  not  in natural  text,  we  removed  any  pages  that  contained  a  curly  bracket. •  Since some of the scraped pages were sourced from Wikipedia and had citation markers (e.g.  [1],  [citation  needed],  etc.),  we  removed  any  such  markers. •  Many  pages  had  boilerplate  policy  notices,  so  we  removed  any  lines  containing  the strings  “terms  of  use”,  “privacy  policy”,  “cookie  policy”,  “uses  cookies”,  “use  of cookies”,  or  “use  cookies”. •  To  deduplicate  the  data  set,  we  discarded  all  but  one  of  any  three-sentence  span occurring  more  than  once  in  the  data  set. Additionally,  since  most  of  our  downstream  tasks  are  focused  on  English-language  text, we  used  langdetect  to  filter  out  any  pages  that  were  not  classified  as  English  with  a probability  of  at  least  0.99.  Our  heuristics  are  inspired  by  past  work  on  using  Common 6.  https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words 7.  https://pypi.org/project/langdetect/ Exploring  the  Limits  of  Transfer  Learning Crawl  as  a  source  of  data  for  NLP:  For  example,  Grave  et  al.  ( )  also  filter  text  using  an automatic  language  detector  and  discard  short  lines  and  Smith  et  al.  ( );  Grave  et  al. ( )  both  perform  line-level  deduplication.  However,  we  opted  to  create  a  new  data  set because prior data sets use a more limited set of filtering heuristics, are not publicly available, and/or  are  different  in  scope  (e.g.  are  limited  to  News  data  ( Zellers  et  al. ,  ;  Liu  et  al. , 2019c ),  comprise  only  Creative  Commons  content  ( Habernal  et  al. ,  ),  or  are  focused  on parallel  training  data  for  machine  translation  ( Smith  et  al. ,  )). To  assemble  our  base  data  set,  we  downloaded  the  web  extracted  text  from  April  and  applied  the  aforementioned  filtering.  This  produces  a  collection  of  text  that  is  not  only orders of magnitude larger than most data sets used for pre-training (about 750 GB) but also comprises  reasonably  clean  and  natural  English  text.  We  dub  this  data  set  the  “ C olossal C lean  C rawled  C orpus”  (or  C4  for  short)  and  release  it  as  part  of  TensorFlow  Datasets. We  consider  the  impact  of  using  various  alternative  versions  of  this  data  set  in  Section  3.4 . 2.3  Downstream  Tasks Our  goal  in  this  paper  is  to  measure  general  language  learning  abilities.  As  such,  we  study downstream  performance  on  a  diverse  set  of  benchmarks,  including  machine  translation, question  answering,  abstractive  summarization,  and  text  classification.  Specifically,  we measure  performance  on  the  GLUE  and  SuperGLUE  text  classification  meta-benchmarks; CNN/Daily Mail abstractive summarization;  SQuAD question answering;  and WMT English to  German,  French,  and  Romanian  translation.  All  data  was  sourced  from  TensorFlow Datasets. GLUE  ( Wang  et  al. ,  )  and  SuperGLUE  ( Wang  et  al. ,  2019b )  each  comprise  a collection  of  text  classification  tasks  meant  to  test  general  language  understanding  abilities: •  Sentence  acceptability  judgment  (CoLA  ( Warstadt  et  al. ,  )) •  Sentiment  analysis  (SST-2  ( Socher  et  al. ,  )) •  Paraphrasing/sentence  similarity  (MRPC  ( Dolan  and  Brockett ,  ),  STS-B  ( Cer et  al. ,  ),  QQP  ( Iyer  et  al. ,  )) •  Natural  language  inference  (MNLI  ( Williams  et  al. ,  ),  QNLI  ( Rajpurkar  et  al. , ),  RTE  ( Dagan  et  al. ,  ),  CB  ( De  Marneff  et  al. ,  )) •  Coreference  resolution  (WNLI  and  WSC  ( Levesque  et  al. ,  )) •  Sentence  completion  (COPA  ( Roemmele  et  al. ,  )) •  Word  sense  disambiguation  (WIC  ( Pilehvar  and  Camacho-Collados ,  )) •  Question  answering  (MultiRC  ( Khashabi  et  al. ,  ),  ReCoRD  ( Zhang  et  al. ,  ), BoolQ  ( Clark  et  al. ,  )) 8.  https://www.tensorflow.org/datasets/catalog/c4 9.  https://www.tensorflow.org/datasets Raffel,  Shazeer,  Roberts,  Lee,  Narang,  Matena,  Zhou,  Li  and  Liu We  use  the  data  sets  as  distributed  by  the  GLUE  and  SuperGLUE  benchmarks. For simplicity,  when  fine-tuning  we  treat  all  of  the  tasks  in  the  GLUE  benchmark  (and  similarly for  SuperGLUE)  as  a  single  task  by  concatenating  all  of  the  constituent  data  sets.  As suggested  by  Kocijan  et  al.  ( )  we  also  include  the  Definite  Pronoun  Resolution  (DPR) data  set  ( Rahman  and  Ng ,  )  in  the  combined  SuperGLUE  task. The  CNN/Daily  Mail  ( Hermann  et  al. ,  )  data  set  was  introduced  as  a  question- answering  task  but  was  adapted  for  text  summarization  by  Nallapati  et  al.  ( );  we use  the  non-anonymized  version  from  See  et  al.  ( )  as  an  abstractive  summarization task.  SQuAD  ( Rajpurkar  et  al. ,  )  is  a  common  question-answering  benchmark.  In  our experiments,  the  model  is  fed  the  question  and  its  context  and  asked  to  generate  the  answer token-by-token.  For  WMT  English  to  German,  we  use  the  same  training  data  as  ( Vaswani et  al. ,  )  (i.e.  News  Commentary  v13,  Common  Crawl,  Europarl  v7)  and  newstest2013 as  a  validation  set  ( Bojar  et  al. ,  ).  For  English  to  French,  we  use  the  standard  training data  from   and  newstest2014  as  a  validation  set  ( Bojar  et  al. ,  ).  For  English  to Romanian,  which  is  a  standard  lower-resource  machine  translation  benchmark,  we  use  the train  and  validation  sets  from  WMT   ( Bojar  et  al. ,  ).  Note  that  we  only  pre-train on  English  data,  so  in  order  to  learn  to  translate  a  given  model  will  need  to  learn  to  generate text  in  a  new  language. 2.4  Input  and  Output  Format In  order  to  train  a  single  model  on  the  diverse  set  of  tasks  described  above,  we  cast  all  of the  tasks  we  consider  into  a  “text-to-text”  format—that  is,  a  task  where  the  model  is  fed some  text  for  context  or  conditioning  and  is  then  asked  to  produce  some  output  text.  This framework  provides  a  consistent  training  objective  both  for  pre-training  and  fine-tuning. Specifically, the model is trained with a maximum likelihood objective (using “teacher forcing” ( Williams  and  Zipser ,  ))  regardless  of  the  task.  To  specify  which  task  the  model  should perform,  we  add  a  task-specific  (text)  prefix  to  the  original  input  sequence  before  feeding  it to  the  model. As  an  example,  to  ask  the  model  to  translate  the  sentence  “That  is  good.”  from  English to  German,  the  model  would  be  fed  the  sequence  “translate  English  to  German:  That  is good.”  and  would  be  trained  to  output  “Das  ist  gut.”  For  text  classification  tasks,  the model  simply  predicts  a  single  word  corresponding  to  the  target  label.  For  example,  on  the MNLI  benchmark  ( Williams  et  al. ,  )  the  goal  is  to  predict  whether  a  premise  implies (“entailment”),  contradicts  (“contradiction”),  or  neither  (“neutral”)  a  hypothesis.  With our  preprocessing,  the  input  sequence  becomes  “mnli  premise:  I  hate  pigeons.  hypothesis: My  feelings  towards  pigeons  are  filled  with  animosity.”  with  the  corresponding  target  word “entailment”.  Note  that  an  issue  arises  if  our  model  outputs  text  on  a  text  classification task  that  does  not  correspond  to  any  of  the  possible  labels  (for  example  if  the  model outputs  “hamburger”  when  the  only  possible  labels  for  a  task  were  “entailment”,  “neutral”, or  “contradiction”).  In  this  case,  we  always  count  the  model’s  output  as  wrong,  though  we never observed this behavior in any of our trained models.  Note that the choice of text prefix used  for  a  given  task  is  essentially  a  hyperparameter;  we  found  that  changing  the  exact wording  of  the  prefix  had  limited  impact  and  so  did  not  perform  extensive "
+    },
+    {
+      "section_title": "experiments",
+      "text": "  into different  prefix  choices.  A  diagram  of  our  text-to-text  framework  with  a  few  input/output Exploring  the  Limits  of  Transfer  Learning examples  is  shown  in  Figure  .  We  provide  full  examples  of  preprocessed  inputs  for  every task  we  studied  in "
+    }
+  ]
+}

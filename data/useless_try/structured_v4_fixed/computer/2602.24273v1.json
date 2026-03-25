@@ -1,0 +1,2765 @@
+{
+  "title": "A Minimal Agent for Automated Theorem Proving",
+  "abstract": "We propose a minimal agentic baseline that enables systematic comparison across different AI-based theorem prover architectures. This design implements the core features shared among state-of-the-art systems: iterative proof refinement, library search and context management. We evaluate this agentic approach using qualitatively different benchmarks and compare various frontier language models and design choices. Our results show competitive performance compared to state-of-the-art approaches, while using a significantly simpler architecture. Additionally, we demonstrate consistent advantages of an iterative approach over multiple single-shot generations, especially in terms of sample efficiency and cost effectiveness. The implementation is released open-source as a candidate reference for future research and as an accessible prover for the community. 1 Introduction Automated theorem proving represents an avenue for verifiable scientific reasoning in artificial intelligence (AI). It can enable the validation of proposed arguments and their conclusions through a rigorous formalization, typically in the form of a theorem that, if proven, certifies the correctness of the arguments without the need of human intervention. This is a great opportunity for the research community in general: in the long run, not only can it speed up the verification of new theoretical results produced by mathematicians and scientists, but it can also help grounding generative models into logically consistent arguments, possibly enabling automated scientific contributions. A very popular interactive theorem prover, especially in the AI and math community, is Lean [1]. This programming language has been used in several mathematical formalization projects [2, 3], as well as in AI research projects that demonstrate advanced mathematical reasoning [4, 5]. However, formal methods are underused despite being powerful tools with broad applicability in scientific and engineering domains, such as theoretical physics [6, 7], control theory [8, 9], or even quantum algorithms [10, 11]. Recent advances in AI tools for argument formalization [12, 13] and theorem proving [5, 14–16] are lowering the barrier to entry and make theorem provers more accessible to a broader community. Nevertheless, these AI systems are often quite complex and difficult to adopt. When open sourced, they typically require setting up a large-scale infrastructure to deploy them, and when based on off-the-shelf proprietary models, they tend to be expensive. For larger-scale practical adoption of AI-based formalizers and theorem provers, affordability and easiness to use are key. Currently, several approaches for AI-based provers are being explored, with a particular emphasis on competition math as a proxy for evaluating mathematical reasoning capabilities [17, 18]. Many works assemble together several complex components, including fine-tuning based on reinforcement learning on large-scale synthetic datasets [19–21], enforcing supervised fine-tuning 1 arXiv:2602.24273v1 [cs.AI] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "100",
+      "section_title": "randomly selected samples that we list in Appendix A. This is motivated by two main reasons:",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "100_1",
+          "text": "reducing the overall cost of this study, which in turn allows us to conduct more experiments, and",
+          "page": 5
+        },
+        {
+          "para_id": "100_2",
+          "text": "preventing the overfitting to a particular target dataset, which can compromise the integrity of",
+          "page": 5
+        },
+        {
+          "para_id": "100_3",
+          "text": "the final performance evaluation and the generalization to other data sets.",
+          "page": 5
+        },
+        {
+          "para_id": "100_4",
+          "text": "Bottom-up system analysis",
+          "page": 5
+        },
+        {
+          "para_id": "100_5",
+          "text": "We build our system from the bottom up to understand the significance of each element in the",
+          "page": 5
+        },
+        {
+          "para_id": "100_6",
+          "text": "architecture. We consider the following configurations in order of complexity.",
+          "page": 5
+        },
+        {
+          "para_id": "100_7",
+          "text": "Starting from a bare-bones LLM with no tools, feedback, or memory, we measure",
+          "page": 5
+        },
+        {
+          "para_id": "100_8",
+          "text": "the pass@k performance with an increasingly higher number of samples k. The success rate",
+          "page": 5
+        },
+        {
+          "para_id": "100_9",
+          "text": "increases with k, although it is a rather inefficient strategy, as shown in Figures 2 and 3. With a",
+          "page": 5
+        },
+        {
+          "para_id": "100_10",
+          "text": "very low single-shot success rate, illustrated by pass@1, additional independent proof samples",
+          "page": 5
+        },
+        {
+          "para_id": "100_11",
+          "text": "barely yield any significant improvements. Indeed, we find that the most difficult theorems are",
+          "page": 5
+        },
+        {
+          "para_id": "100_12",
+          "text": "hardly-ever proven with this strategy, and only in the easier cases we see the benefits of multiple",
+          "page": 5
+        },
+        {
+          "para_id": "100_13",
+          "text": "Iterative refinement.",
+          "page": 5
+        },
+        {
+          "para_id": "100_14",
+          "text": "To increase the sample efficiency, we introduce a feedback mechanism",
+          "page": 5
+        },
+        {
+          "para_id": "100_15",
+          "text": "to inform subsequent iterations after a failure. This is implemented with the simplest memory",
+          "page": 5
+        },
+        {
+          "para_id": "100_16",
+          "text": "mechanism comprised of the history of the previous n = 1 attempts, as described in Section 3. This",
+          "page": 5
+        },
+        {
+          "para_id": "100_17",
+          "text": "allows the agent to iteratively improve on its initial proof proposal, yielding the largest performance",
+          "page": 5
+        },
+        {
+          "para_id": "100_18",
+          "text": "gain out of any other element in our architecture, as it enables the reliable development of more",
+          "page": 5
+        },
+        {
+          "para_id": "100_19",
+          "text": "Figure 2: Ablation study on different components of the minimal agent. We compare",
+          "page": 6
+        },
+        {
+          "para_id": "100_20",
+          "text": "single-shot parallel calls of a general purpose LLM with an iterative approach with feedback.",
+          "page": 6
+        },
+        {
+          "para_id": "100_21",
+          "text": "We show the performance as a function of the number of sampled proofs as additional elements",
+          "page": 6
+        },
+        {
+          "para_id": "100_22",
+          "text": "are added to the system. Starting by adding a feedback mechanism, we then evaluate two",
+          "page": 6
+        },
+        {
+          "para_id": "100_23",
+          "text": "different memory mechanisms (history of previous attempts and a context managed through",
+          "page": 6
+        },
+        {
+          "para_id": "100_24",
+          "text": "self-reflection), and we finally incorporate search tools. The entire experiment is conducted with",
+          "page": 6
+        },
+        {
+          "para_id": "100_25",
+          "text": "Claude Opus 4.5 with a thinking budget of 10, 000 tokens. The pass@k values are computed",
+          "page": 6
+        },
+        {
+          "para_id": "100_26",
+          "text": "out of 50 independent samples, and we show the 95% confidence interval around them. For the",
+          "page": 6
+        },
+        {
+          "para_id": "100_27",
+          "text": "iterative approach, we compute the mean percentage of proven theorems at each iteration and",
+          "page": 6
+        },
+        {
+          "para_id": "100_28",
+          "text": "show the standard error of the mean around it. We use two samples for the different ablations,",
+          "page": 6
+        },
+        {
+          "para_id": "100_29",
+          "text": "and three for the full system.",
+          "page": 6
+        },
+        {
+          "para_id": "100_30",
+          "text": "complex proofs. Nevertheless, we observe diminishing returns in performance as we increase the",
+          "page": 6
+        },
+        {
+          "para_id": "100_31",
+          "text": "number of iterations, as we see in Figure 2. This is mainly due to the prover entering in cycles",
+          "page": 6
+        },
+        {
+          "para_id": "100_32",
+          "text": "where it repeats the same mistakes every few iterations. We note the difference between proof",
+          "page": 6
+        },
+        {
+          "para_id": "100_33",
+          "text": "refinement iterations and attempts number k. The number of iterations is a parameter of the",
+          "page": 6
+        },
+        {
+          "para_id": "100_34",
+          "text": "prover that allows us to tune the resources spent to develop a proof in a single attempt. It is",
+          "page": 6
+        },
+        {
+          "para_id": "100_35",
+          "text": "qualitatively comparable to the prover attempts and recursion depth parameters of Hilbert [14],",
+          "page": 6
+        },
+        {
+          "para_id": "100_36",
+          "text": "or the “light”/“medium”/“heavy” test-time scaling parameter of Seed-Prover [16]. An attempt",
+          "page": 6
+        },
+        {
+          "para_id": "100_37",
+          "text": "is terminated when the prover either completes the proof successfully or exhausts the iteration",
+          "page": 6
+        },
+        {
+          "para_id": "100_38",
+          "text": "We mitigate this shortcoming by introducing a longer-term memory mechanism,",
+          "page": 6
+        },
+        {
+          "para_id": "100_39",
+          "text": "which allows the agent to keep track of relevant information from past attempts and reduce",
+          "page": 6
+        },
+        {
+          "para_id": "100_40",
+          "text": "the chances of entering in cycles. We explore two approaches: a history of past attempts with",
+          "page": 6
+        },
+        {
+          "para_id": "100_41",
+          "text": "n = 5 , and a self-managed context, described in Section 3. We find that both strategies yield a",
+          "page": 6
+        },
+        {
+          "para_id": "100_42",
+          "text": "significant performance improvement as they enable a continued iterative refinement overcoming",
+          "page": 6
+        },
+        {
+          "para_id": "100_43",
+          "text": "the shortcomings of the feedback process alone, as we show in Figure 2. However, letting the",
+          "page": 6
+        },
+        {
+          "para_id": "100_44",
+          "text": "agent manage its own context yields better results in terms of performance, cost and stability,",
+          "page": 6
+        },
+        {
+          "para_id": "100_45",
+          "text": "proving on average 7% more theorems at a 20% lower total cost (10% for equal number of",
+          "page": 6
+        },
+        {
+          "para_id": "100_46",
+          "text": "iterations) with half the dispersion between runs. Thus, we settle for this memory management",
+          "page": 6
+        },
+        {
+          "para_id": "100_47",
+          "text": "We identify that the largest source of errors in the proposed proofs are related to",
+          "page": 6
+        },
+        {
+          "para_id": "100_48",
+          "text": "misidentifying Mathlib [24] theorems and tactics. We provide the agent with tools to search",
+          "page": 6
+        },
+        {
+          "para_id": "100_49",
+          "text": "across the Mathlib library through our own LeanSearch implementation [42] (see Section 3), as",
+          "page": 6
+        },
+        {
+          "para_id": "100_50",
+          "text": "well as to look for information through the internet with Tavily search [43]. We achieve the best",
+          "page": 6
+        },
+        {
+          "para_id": "100_51",
+          "text": "performance with the addition of the search tools on top of the feedback and memory, although",
+          "page": 6
+        },
+        {
+          "para_id": "100_52",
+          "text": "Normalized cost relative to maximum",
+          "page": 7
+        },
+        {
+          "para_id": "100_53",
+          "text": "No iterations and no tools",
+          "page": 7
+        },
+        {
+          "para_id": "100_54",
+          "text": "Figure 3: (a) Comparison between LLMs. Claude Sonnet 4.5 and Opus 4.5 have a thinking",
+          "page": 7
+        },
+        {
+          "para_id": "100_55",
+          "text": "budget of 10, 000 tokens. Both Gemini 3 Flash and Pro have thinking set to \"high\". The pass@k",
+          "page": 7
+        },
+        {
+          "para_id": "100_56",
+          "text": "are computed from 50 independent proof samples for each model and we show the 95% confidence",
+          "page": 7
+        },
+        {
+          "para_id": "100_57",
+          "text": "interval around the obtained value. For the full system, we show the mean performance over 3",
+          "page": 7
+        },
+        {
+          "para_id": "100_58",
+          "text": "full runs up to 50 iterations and show the standard error of the mean. (b) Cost-performance",
+          "page": 7
+        },
+        {
+          "para_id": "100_59",
+          "text": "analysis. We compare the performance of different language models as we vary their thinking",
+          "page": 7
+        },
+        {
+          "para_id": "100_60",
+          "text": "budget and compare their performance with respect to their cost. We consider thinking budgets",
+          "page": 7
+        },
+        {
+          "para_id": "100_61",
+          "text": "of 2k, 10k and 32k tokens for both Claude models, and “low” and “high” for the Gemini models.",
+          "page": 7
+        },
+        {
+          "para_id": "100_62",
+          "text": "We also test the “minimal” option for Gemini Flash.",
+          "page": 7
+        },
+        {
+          "para_id": "100_63",
+          "text": "the improvement is not as significant as the previous two foundational elements of the agent",
+          "page": 7
+        },
+        {
+          "para_id": "100_64",
+          "text": "Finally, we run the Hilbert prover [14] on the same dataset, using its default configuration of",
+          "page": 7
+        },
+        {
+          "para_id": "100_65",
+          "text": "iterations and recursion depth, and compute its pass@1 performance as a reference. While it vastly",
+          "page": 7
+        },
+        {
+          "para_id": "100_66",
+          "text": "outperforms even the pass@40 of the base LLM, our architecture with the feedback mechanism",
+          "page": 7
+        },
+        {
+          "para_id": "100_67",
+          "text": "alone and a budget of only 20 iterations already doubles the performance. By increasing the",
+          "page": 7
+        },
+        {
+          "para_id": "100_68",
+          "text": "iteration budget to 100 samples, AxProverBase triples Hilbert’s pass@1 performance with just",
+          "page": 7
+        },
+        {
+          "para_id": "100_69",
+          "text": "the feedback mechanism, and quadruples it with the full system.",
+          "page": 7
+        },
+        {
+          "para_id": "100_70",
+          "text": "Foundation model comparison",
+          "page": 7
+        },
+        {
+          "para_id": "100_71",
+          "text": "A core component of agentic provers is their underlying language model. While state-of-the-art",
+          "page": 7
+        },
+        {
+          "para_id": "100_72",
+          "text": "LLMs are becoming increasingly better across a wide variety of tasks, we still find discrepancies",
+          "page": 7
+        },
+        {
+          "para_id": "100_73",
+          "text": "in their capabilities on specialized tasks, such as theorem proving in Lean. To get a better",
+          "page": 7
+        },
+        {
+          "para_id": "100_74",
+          "text": "understanding, as well as how to make the most out of their strengths, we conduct multiple",
+          "page": 7
+        },
+        {
+          "para_id": "100_75",
+          "text": "experiments comparing their cost and performance. In these experiments, we set the maximum",
+          "page": 7
+        },
+        {
+          "para_id": "100_76",
+          "text": "number of iterations of our system to 50, use self-managed memory, and all search tools.",
+          "page": 7
+        },
+        {
+          "para_id": "100_77",
+          "text": "LLM model comparison.",
+          "page": 7
+        },
+        {
+          "para_id": "100_78",
+          "text": "We compare the performance of several LLMs both single-shot and",
+          "page": 7
+        },
+        {
+          "para_id": "100_79",
+          "text": "within the AxProverBase framework. For single shot generation in Figure 3(a), we can observe",
+          "page": 7
+        },
+        {
+          "para_id": "100_80",
+          "text": "a rather homogeneous performance between the stand-alone models, with pass@20 completing",
+          "page": 7
+        },
+        {
+          "para_id": "100_81",
+          "text": "around 5% of tasks for all of them. However, we observe stark differences when used with our",
+          "page": 7
+        },
+        {
+          "para_id": "100_82",
+          "text": "First of all, we observe a significant performance improvement across all models with respect",
+          "page": 7
+        },
+        {
+          "para_id": "100_83",
+          "text": "to their stand-alone version, as we have already discussed in Section 4.1. Additionally, as shown",
+          "page": 7
+        },
+        {
+          "para_id": "100_84",
+          "text": "in Figure 3(b), “smarter” models, such as Claude Opus or Gemini Pro, show a relatively greater",
+          "page": 7
+        },
+        {
+          "para_id": "100_85",
+          "text": "improvement in performance than their “less smart” counterparts. Hence, a simple agentic system",
+          "page": 7
+        },
+        {
+          "para_id": "100_86",
+          "text": "can act as an enabling framework for its underlying LLM to make the most out of its capabilities.",
+          "page": 7
+        },
+        {
+          "para_id": "100_87",
+          "text": "Interestingly, we observe significant differences between Claude and Gemini models, with",
+          "page": 7
+        },
+        {
+          "para_id": "100_88",
+          "text": "Claude Sonnet and Opus 4.5 proving about three times more theorems than their Gemini 3 Flash",
+          "page": 7
+        },
+        {
+          "para_id": "100_89",
+          "text": "(Opus 4.5, 32k, 50 it)",
+          "page": 8
+        },
+        {
+          "para_id": "100_90",
+          "text": "Table 1: Comparison of various AI-based theorem provers with our minimal agent. Results for",
+          "page": 8
+        },
+        {
+          "para_id": "100_91",
+          "text": "other provers are as reported in their respective papers: DeepSeek V2 [15], Goedel Prover V2",
+          "page": 8
+        },
+        {
+          "para_id": "100_92",
+          "text": "[19], Kimina Prover [20], REAL-Prover [28], Ax-Prover [32], Hilbert [14], Seed-Prover 1.5 [23],",
+          "page": 8
+        },
+        {
+          "para_id": "100_93",
+          "text": "and Gemini 3 Pro [40]. With a simple architecture, it’s already possible to get a strong baseline",
+          "page": 8
+        },
+        {
+          "para_id": "100_94",
+          "text": "and Pro equivalents. A deeper analysis of the Gemini 3 traces reveals a clear tendency to import",
+          "page": 8
+        },
+        {
+          "para_id": "100_95",
+          "text": "and use elements from older Lean and Mathlib versions, and even incomplete or hallucinated",
+          "page": 8
+        },
+        {
+          "para_id": "100_96",
+          "text": "imports, despite having the versions specified in the prompt and having access to the search tools.",
+          "page": 8
+        },
+        {
+          "para_id": "100_97",
+          "text": "These types of mistakes typically require multiple iterations to fix, wasting the iteration budget.",
+          "page": 8
+        },
+        {
+          "para_id": "100_98",
+          "text": "Seeing that more powerful models benefit more from this framework,",
+          "page": 8
+        },
+        {
+          "para_id": "100_99",
+          "text": "another interesting direction to analyze is how the resources invested at runtime impact the",
+          "page": 8
+        },
+        {
+          "para_id": "100_100",
+          "text": "prover performance. We do so by adjusting the thinking budget parameter of these LLMs to",
+          "page": 8
+        },
+        {
+          "para_id": "100_101",
+          "text": "increase or decrease the amount of tokens that are invested in their chain of thought before",
+          "page": 8
+        },
+        {
+          "para_id": "100_102",
+          "text": "producing an answer. In Figure 3(b), we show the relationship between the cost and performance",
+          "page": 8
+        },
+        {
+          "para_id": "100_103",
+          "text": "of each model as we vary their thinking budget. As expected, higher thinking budgets generally",
+          "page": 8
+        },
+        {
+          "para_id": "100_104",
+          "text": "lead to higher costs and performance, although we observe that some models benefit more than",
+          "page": 8
+        },
+        {
+          "para_id": "100_105",
+          "text": "others. Gemini 3 Flash, Claude Sonnet and Claude Opus 4.5 can benefit significantly from an",
+          "page": 8
+        },
+        {
+          "para_id": "100_106",
+          "text": "increased thinking budget. In contrast, Gemini 3 Pro does not show significant differences in",
+          "page": 8
+        },
+        {
+          "para_id": "100_107",
+          "text": "performance between “high” and “low” settings, just like Gemini 3 Flash between “minimal” and",
+          "page": 8
+        },
+        {
+          "para_id": "100_108",
+          "text": "“low” thinking modes. We observe that Sonnet’s performance saturates, while Opus shows a",
+          "page": 8
+        },
+        {
+          "para_id": "100_109",
+          "text": "steady trend, as we increase their thinking budget from 10,000 to 32,000 tokens. This budget",
+          "page": 8
+        },
+        {
+          "para_id": "100_110",
+          "text": "increase in Opus allows it to achieve the same performance as doubling the number of iterations,",
+          "page": 8
+        },
+        {
+          "para_id": "100_111",
+          "text": "at a significantly lower cost.",
+          "page": 8
+        },
+        {
+          "para_id": "100_112",
+          "text": "Full dataset evaluations",
+          "page": 8
+        },
+        {
+          "para_id": "100_113",
+          "text": "We select the model performing best in the experiments in Sections 4.1 and 4.2: Claude Opus 4.5",
+          "page": 8
+        },
+        {
+          "para_id": "100_114",
+          "text": "with a thinking budget of 32,000 tokens and 50 iterations, and evaluate it on a series of popular",
+          "page": 8
+        },
+        {
+          "para_id": "100_115",
+          "text": "benchmarks. We assess its competition math capabilities with the PutnamBench data set [17],",
+          "page": 8
+        },
+        {
+          "para_id": "100_116",
+          "text": "and its research-level math skills on abstract algebra and category theory with the FATE [39]",
+          "page": 8
+        },
+        {
+          "para_id": "100_117",
+          "text": "and LeanCAT [40] datasets, respectively. We present a summary of the benchmark results in",
+          "page": 8
+        },
+        {
+          "para_id": "100_118",
+          "text": "This minimal prover agent vastly outperforms all the non-agentic Lean 4 theorem provers",
+          "page": 8
+        },
+        {
+          "para_id": "100_119",
+          "text": "across all datasets. Additionally, it achieves scores comparable to those of state-of-the-art highly-",
+          "page": 8
+        },
+        {
+          "para_id": "100_120",
+          "text": "complex provers, while using a significantly simpler architecture that reduces runtime at a small",
+          "page": 8
+        },
+        {
+          "para_id": "100_121",
+          "text": "fraction of their inference resources and with no dedicated training or fine-tuning, making it",
+          "page": 8
+        },
+        {
+          "para_id": "100_122",
+          "text": "readily applicable to different Lean and Mathlib versions. The high results on the FATE and",
+          "page": 8
+        },
+        {
+          "para_id": "100_123",
+          "text": "LeanCat datasets indicate that such a system can already be useful in realistic research scenarios",
+          "page": 9
+        },
+        {
+          "para_id": "100_124",
+          "text": "where it can quickly prove a large portion of the theorems involved in complex projects.",
+          "page": 9
+        },
+        {
+          "para_id": "100_125",
+          "text": "We have shown that modern foundation models can already make good formal theorem provers",
+          "page": 9
+        },
+        {
+          "para_id": "100_126",
+          "text": "when implemented within a simple, rigid scaffolding that facilitates efficient iteration. Domain-",
+          "page": 9
+        },
+        {
+          "para_id": "100_127",
+          "text": "specific tuning, as employed by Deepseek Prover or Goedel Prover, is no longer the only path to",
+          "page": 9
+        },
+        {
+          "para_id": "100_128",
+          "text": "high performance in this domain.",
+          "page": 9
+        },
+        {
+          "para_id": "100_129",
+          "text": "We show that a simple architecture can reach competitive results when compared to complex",
+          "page": 9
+        },
+        {
+          "para_id": "100_130",
+          "text": "systems at a fraction of their budget. The average cost across the datasets presented in Table 1",
+          "page": 9
+        },
+        {
+          "para_id": "100_131",
+          "text": "has been 12.6$ per sample and the execution time has consistently been an order of magnitude",
+          "page": 9
+        },
+        {
+          "para_id": "100_132",
+          "text": "lower than Hilbert. Furthermore, we show that iterative refinement is the largest driver for",
+          "page": 9
+        },
+        {
+          "para_id": "100_133",
+          "text": "performance. In combination with a simple memory mechanism, we obtain significantly better",
+          "page": 9
+        },
+        {
+          "para_id": "100_134",
+          "text": "results, demonstrating that reducing cycles of repeated mistakes gives the prover more room to",
+          "page": 9
+        },
+        {
+          "para_id": "100_135",
+          "text": "explore proof strategies and make steady progress towards a solution. Surprisingly, we notice",
+          "page": 9
+        },
+        {
+          "para_id": "100_136",
+          "text": "that although library search (LeanSearch) and web search tools improve the performance, they",
+          "page": 9
+        },
+        {
+          "para_id": "100_137",
+          "text": "do so only marginally. Armed with these three features only, AxProverBase with pass@1 can",
+          "page": 9
+        },
+        {
+          "para_id": "100_138",
+          "text": "beat pass@k on one-shot systems, even for very large k.",
+          "page": 9
+        },
+        {
+          "para_id": "100_139",
+          "text": "The presented approach performs well across domains and naturally capitalizes on advance-",
+          "page": 9
+        },
+        {
+          "para_id": "100_140",
+          "text": "ments in frontier LLM capabilities without having to retrain or fine tune models. This makes it",
+          "page": 9
+        },
+        {
+          "para_id": "100_141",
+          "text": "a baseline system that will gradually raise the floor for future research as state-of-the-art models",
+          "page": 9
+        },
+        {
+          "para_id": "100_142",
+          "text": "improve. Additionally, our simple framework allows for flexible experimentation at a relatively",
+          "page": 9
+        },
+        {
+          "para_id": "100_143",
+          "text": "low cost, and its modular and extensive architecture facilitate building upon it.",
+          "page": 9
+        },
+        {
+          "para_id": "100_144",
+          "text": "Indeed, we believe there are many opportunities to improve AxProverBase. Each of the",
+          "page": 9
+        },
+        {
+          "para_id": "100_145",
+          "text": "individual components, such as the memory management, the tools, the verification mechanism",
+          "page": 9
+        },
+        {
+          "para_id": "100_146",
+          "text": "and the choice of the base LLM can be independently replaced and tested. In this paper,",
+          "page": 9
+        },
+        {
+          "para_id": "100_147",
+          "text": "we provided the foundational implementation, and believe that each component deserves a",
+          "page": 9
+        },
+        {
+          "para_id": "100_148",
+          "text": "dedicated study. For example, future implementations of the reviewer node could include stronger",
+          "page": 9
+        },
+        {
+          "para_id": "100_149",
+          "text": "verification of the provided proof, for example using SafeVerify [48] or LeanChecker [49]. In",
+          "page": 9
+        },
+        {
+          "para_id": "100_150",
+          "text": "addition, the library search tool could be improved to support more local context across different",
+          "page": 9
+        },
+        {
+          "para_id": "100_151",
+          "text": "files. Moreover, trying or even fine-tuning specialized language models as provers could also",
+          "page": 9
+        },
+        {
+          "para_id": "100_152",
+          "text": "further boost the performance.",
+          "page": 9
+        },
+        {
+          "para_id": "100_153",
+          "text": "To sum up, AxProverBase provides a simple and interpretable framework for conducting",
+          "page": 9
+        },
+        {
+          "para_id": "100_154",
+          "text": "research on agentic theorem proving, while also providing a competitive and cost-efficient baseline",
+          "page": 9
+        },
+        {
+          "para_id": "100_155",
+          "text": "for practical use. The code to reproduce the experiments and the full architecture is available at",
+          "page": 9
+        },
+        {
+          "para_id": "100_156",
+          "text": "https://github.com/Axiomatic-AI/ax-prover-base.",
+          "page": 9
+        },
+        {
+          "para_id": "100_157",
+          "text": "We thank Benjamin Breen and Marco del Tredici for discussions.",
+          "page": 9
+        },
+        {
+          "para_id": "100_158",
+          "text": "Leonardo de Moura and Sebastian Ullrich. “The Lean 4 Theorem Prover and Program-",
+          "page": 9
+        },
+        {
+          "para_id": "100_159",
+          "text": "ming Language”. In: Automated Deduction – CADE 28: 28th International Conference on",
+          "page": 9
+        },
+        {
+          "para_id": "100_160",
+          "text": "Automated Deduction, Virtual Event, July 12–15, 2021, Proceedings. Berlin, Heidelberg:",
+          "page": 9
+        },
+        {
+          "para_id": "100_161",
+          "text": "Springer-Verlag, 2021, pp. 625–635. isbn: 978-3-030-79875-8. doi: 10.1007/978-3-030-",
+          "page": 9
+        },
+        {
+          "para_id": "100_162",
+          "text": "79876-5_37. url: https://doi.org/10.1007/978-3-030-79876-5_37.",
+          "page": 9
+        },
+        {
+          "para_id": "100_163",
+          "text": "Lars Becker et al. A blueprint for the formalization of Carleson’s theorem on convergence",
+          "page": 10
+        },
+        {
+          "para_id": "100_164",
+          "text": "of Fourier series. 2025. arXiv: 2405.06423 [math.CA]. url: https://arxiv.org/abs/",
+          "page": 10
+        },
+        {
+          "para_id": "100_165",
+          "text": "Johan Commelin and Adam Topaz. Abstraction boundaries and spec driven development in",
+          "page": 10
+        },
+        {
+          "para_id": "100_166",
+          "text": "pure mathematics. 2023. arXiv: 2309.14870 [math.HO]. url: https://arxiv.org/abs/",
+          "page": 10
+        },
+        {
+          "para_id": "100_167",
+          "text": "Thomas Hubert et al. “Olympiad-level formal mathematical reasoning with reinforcement",
+          "page": 10
+        },
+        {
+          "para_id": "100_168",
+          "text": "learning”. In: Nature (2025). doi: 10.1038/s41586-025-09833-y. url: https://doi.",
+          "page": 10
+        },
+        {
+          "para_id": "100_169",
+          "text": "Tudor Achim et al. Aristotle: IMO-level Automated Theorem Proving. 2025. arXiv: 2510.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "section_id": "01346",
+      "section_title": "[cs.AI]. url: https://arxiv.org/abs/2510.01346.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "01346_1",
+          "text": "Joseph Tooby-Smith. “HepLean: Digitalising high energy physics”. In: Computer Physics",
+          "page": 10
+        },
+        {
+          "para_id": "01346_2",
+          "text": "Communications 308 (2025), p. 109457. issn: 0010-4655. doi: https://doi.org/10.1016/",
+          "page": 10
+        },
+        {
+          "para_id": "01346_3",
+          "text": "j.cpc.2024.109457. url: https://www.sciencedirect.com/science/article/pii/",
+          "page": 10
+        },
+        {
+          "para_id": "01346_4",
+          "text": "Gergely Székely. First-Order Logic Investigation of Relativity Theory with an Emphasis on",
+          "page": 10
+        },
+        {
+          "para_id": "01346_5",
+          "text": "Accelerated Observers. 2010. arXiv: 1005.0973 [gr-qc]. url: https://arxiv.org/abs/",
+          "page": 10
+        },
+        {
+          "para_id": "01346_6",
+          "text": "Omar A. Jasim and Sandor M. Veres. “Towards formal proofs of feedback control theory”. In:",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "section_id": "2017",
+      "section_title": "21st International Conference on System Theory, Control and Computing (ICSTCC).",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2017_1",
+          "text": "2017, pp. 43–48. doi: 10.1109/ICSTCC.2017.8107009.",
+          "page": 10
+        },
+        {
+          "para_id": "2017_2",
+          "text": "Adnan Rashid and Osman Hasan. “Formal Analysis of Linear Control Systems Using",
+          "page": 10
+        },
+        {
+          "para_id": "2017_3",
+          "text": "Theorem Proving”. In: Formal Methods and Software Engineering. Ed. by Zhenhua Duan",
+          "page": 10
+        },
+        {
+          "para_id": "2017_4",
+          "text": "and Luke Ong. Cham: Springer International Publishing, 2017, pp. 345–361. isbn: 978-3-",
+          "page": 10
+        },
+        {
+          "para_id": "2017_5",
+          "text": "Yuxiang Peng et al. “A formally certified end-to-end implementation of Shor’s factorization",
+          "page": 10
+        },
+        {
+          "para_id": "2017_6",
+          "text": "algorithm”. In: Proceedings of the National Academy of Sciences 120.21 (2023), e2218775120.",
+          "page": 10
+        },
+        {
+          "para_id": "2017_7",
+          "text": "doi: 10.1073/pnas.2218775120. eprint: https://www.pnas.org/doi/pdf/10.1073/",
+          "page": 10
+        },
+        {
+          "para_id": "2017_8",
+          "text": "pnas.2218775120. url: https://www.pnas.org/doi/abs/10.1073/pnas.2218775120.",
+          "page": 10
+        },
+        {
+          "para_id": "2017_9",
+          "text": "Marco Lewis, Sadegh Soudjani, and Paolo Zuliani. “Formal Verification of Quantum",
+          "page": 10
+        },
+        {
+          "para_id": "2017_10",
+          "text": "Programs: Theory, Tools, and Challenges”. In: ACM Transactions on Quantum Computing",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "section_id": "5.1",
+      "section_title": "(Dec. 2023). doi: 10.1145/3624483. url: https://doi.org/10.1145/3624483.",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "5.1_1",
+          "text": "Jianqiao Lu et al. Process-Driven Autoformalization in Lean 4. 2024. arXiv: 2406.01940",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_2",
+          "text": "[cs.CL]. url: https://arxiv.org/abs/2406.01940.",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_3",
+          "text": "Auguste Poiroux et al. Reliable Evaluation and Benchmarks for Statement Autoformalization.",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_4",
+          "text": "2025. arXiv: 2406.07222 [cs.CL]. url: https://arxiv.org/abs/2406.07222.",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_5",
+          "text": "Sumanth Varambally et al. Hilbert: Recursively Building Formal Proofs with Informal",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_6",
+          "text": "Reasoning. 2025. arXiv: 2509.22819 [cs.AI]. url: https://arxiv.org/abs/2509.22819.",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_7",
+          "text": "Z. Z. Ren et al. DeepSeek-Prover-V2: Advancing Formal Mathematical Reasoning via",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_8",
+          "text": "Reinforcement Learning for Subgoal Decomposition. 2025. arXiv: 2504.21801 [cs.CL]. url:",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_9",
+          "text": "https://arxiv.org/abs/2504.21801.",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_10",
+          "text": "Luoxin Chen et al. Seed-Prover: Deep and Broad Reasoning for Automated Theorem Proving.",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_11",
+          "text": "2025. arXiv: 2507.23726 [cs.AI]. url: https://arxiv.org/abs/2507.23726.",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_12",
+          "text": "George Tsoukalas et al. PutnamBench: Evaluating Neural Theorem-Provers on the Putnam",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_13",
+          "text": "Mathematical Competition. 2024. arXiv: 2407.11214 [cs.AI]. url: https://arxiv.org/",
+          "page": 10
+        },
+        {
+          "para_id": "5.1_14",
+          "text": "Kunhao Zheng, Jesse Michael Han, and Stanislas Polu. “MiniF2F: a cross-system benchmark",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_15",
+          "text": "for formal Olympiad-level mathematics”. In: arXiv preprint arXiv:2109.00110 (2021).",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_16",
+          "text": "Yong Lin et al. Goedel-Prover-V2: Scaling Formal Theorem Proving with Scaffolded Data",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_17",
+          "text": "Synthesis and Self-Correction. 2025. arXiv: 2508.03613 [cs.LG]. url: https://arxiv.",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_18",
+          "text": "Haiming Wang et al. Kimina-Prover Preview: Towards Large Formal Reasoning Models",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_19",
+          "text": "with Reinforcement Learning. 2025. arXiv: 2504.11354 [cs.AI]. url: https://arxiv.",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_20",
+          "text": "Kefan Dong and Tengyu Ma. STP: Self-play LLM Theorem Provers with Iterative Con-",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_21",
+          "text": "jecturing and Proving. Mar. 2025. doi: 10.48550/arXiv.2502.00212. arXiv: 2502.00212",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_22",
+          "text": "[cs]. (Visited on 01/22/2026).",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_23",
+          "text": "Ran Xin et al. BFS-Prover: Scalable Best-First Tree Search for LLM-based Automatic",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_24",
+          "text": "Theorem Proving. Oct. 2025. doi: 10.48550/arXiv.2502.03438. arXiv: 2502.03438 [cs].",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_25",
+          "text": "(Visited on 01/22/2026).",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_26",
+          "text": "Jiangjie Chen et al. Seed-Prover 1.5: Mastering Undergraduate-Level Theorem Proving via",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_27",
+          "text": "Learning from Experience. 2025. arXiv: 2512.17260 [cs.CL]. url: https://arxiv.org/",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_28",
+          "text": "The mathlib Community. “The lean mathematical library”. In: Proceedings of the 9th ACM",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_29",
+          "text": "SIGPLAN International Conference on Certified Programs and Proofs. POPL ’20. ACM,",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_30",
+          "text": "Jan. 2020, pp. 367–381. doi: 10.1145/3372885.3373824. url: http://dx.doi.org/10.",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_31",
+          "text": "1145/3372885.3373824.",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_32",
+          "text": "Ruida Wang et al. MA-LoT: Model-Collaboration Lean-based Long Chain-of-Thought",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_33",
+          "text": "Reasoning enhances Formal Theorem Proving. 2025. arXiv: 2503.03205 [cs.CL]. url:",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_34",
+          "text": "https://arxiv.org/abs/2503.03205.",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_35",
+          "text": "Kaiyu Yang et al. LeanDojo: Theorem Proving with Retrieval-Augmented Language Models.",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_36",
+          "text": "2023. doi: 10.48550/arXiv.2306.15626. arXiv: 2306.15626 [cs]. url: http://arxiv.",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_37",
+          "text": "org/abs/2306.15626 (visited on 01/23/2026). Pre-published.",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_38",
+          "text": "Yang Li et al. HunyuanProver: A Scalable Data Synthesis Framework and Guided Tree",
+          "page": 11
+        },
+        {
+          "para_id": "5.1_39",
+          "text": "Search for Automated Theorem Proving. 2025. doi: 10.48550/arXiv.2412.20735. arXiv:",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "2412.20735",
+      "section_title": "[cs]. url: http://arxiv.org/abs/2412.20735 (visited on 01/23/2026).",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2412.20735_1",
+          "text": "Ziju Shen et al. REAL-Prover: Retrieval Augmented Lean Prover for Mathematical Reason-",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_2",
+          "text": "ing. Nov. 2025. doi: 10.48550/arXiv.2505.20613. arXiv: 2505.20613 [cs]. (Visited on",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_3",
+          "text": "Haiming Wang et al. “DT-Solver: Automated Theorem Proving with Dynamic-Tree Sampling",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_4",
+          "text": "Guided by Proof-level Value Function”. In: Proceedings of the 61st Annual Meeting of the",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_5",
+          "text": "Association for Computational Linguistics (Volume 1: Long Papers). Ed. by Anna Rogers,",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_6",
+          "text": "Jordan Boyd-Graber, and Naoaki Okazaki. Toronto, Canada: Association for Computational",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_7",
+          "text": "Linguistics, July 2023, pp. 12632–12646. doi: 10.18653/v1/2023.acl-long.706. (Visited",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_8",
+          "text": "Guillaume Lample et al. HyperTree Proof Search for Neural Theorem Proving. May 2022.",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_9",
+          "text": "doi: 10.48550/arXiv.2205.11491. arXiv: 2205.11491 [cs]. (Visited on 01/23/2026).",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_10",
+          "text": "Yong Lin et al. Goedel-Prover: A Frontier Model for Open-Source Automated Theorem",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_11",
+          "text": "Proving. 2025. arXiv: 2502.07640 [cs.LG]. url: https://arxiv.org/abs/2502.07640.",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_12",
+          "text": "Benjamin Breen et al. Ax-Prover: A Deep Reasoning Agentic Framework for Theorem",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_13",
+          "text": "Proving in Mathematics and Quantum Physics. Nov. 2025. doi: 10.48550/arXiv.2510.",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_14",
+          "text": "12787. arXiv: 2510.12787 [cs]. (Visited on 01/22/2026).",
+          "page": 11
+        },
+        {
+          "para_id": "2412.20735_15",
+          "text": "Kaito Baba et al. Prover Agent: An Agent-Based Framework for Formal Mathematical",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_16",
+          "text": "Proofs. Oct. 2025. doi: 10.48550/arXiv.2506.19923. arXiv: 2506.19923 [cs]. (Visited",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_17",
+          "text": "Chenrui Cao et al. Reviving DSP for Advanced Theorem Proving in the Era of Reasoning",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_18",
+          "text": "Models. 2025. arXiv: 2506.11487 [cs.AI]. url: https://arxiv.org/abs/2506.11487.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_19",
+          "text": "George Tsoukalas et al. PutnamBench Leaderboard. https://trishullab.github.io/PutnamBench/leaderboard.h",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_20",
+          "text": "2026. (Visited on 01/23/2026).",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_21",
+          "text": "Huajian Xin et al. DeepSeek-Prover-V1.5: Harnessing Proof Assistant Feedback for Rein-",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_22",
+          "text": "forcement Learning and Monte-Carlo Tree Search. 2024. arXiv: 2408.08152 [cs.CL]. url:",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_23",
+          "text": "https://arxiv.org/abs/2408.08152.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_24",
+          "text": "Albert Q. Jiang et al. Draft, Sketch, and Prove: Guiding Formal Theorem Provers with",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_25",
+          "text": "Informal Proofs. 2023. arXiv: 2210.12283 [cs.AI]. url: https://arxiv.org/abs/2210.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_26",
+          "text": "Logical Intelligence. Aleph Prover by Logical Intelligence. 2026. url: https : / / www .",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_27",
+          "text": "logicalintelligence.com/aleph-prover.html (visited on 01/20/2026).",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_28",
+          "text": "Jiedong Jiang et al. FATE: A Formal Benchmark Series for Frontier Algebra of Multiple",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_29",
+          "text": "Difficulty Levels. 2025. arXiv: 2511.02872 [cs.LG]. url: https://arxiv.org/abs/2511.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_30",
+          "text": "Rongge Xu et al. LeanCat: A Benchmark Suite for Formal Category Theory in Lean (Part",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_31",
+          "text": "I: 1-Categories). 2025. arXiv: 2512.24796 [cs.LO]. url: https://arxiv.org/abs/2512.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_32",
+          "text": "Shunyu Yao et al. ReAct: Synergizing Reasoning and Acting in Language Models. 2023.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_33",
+          "text": "arXiv: 2210.03629 [cs.CL]. url: https://arxiv.org/abs/2210.03629.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_34",
+          "text": "Guoxiong Gao et al. “A Semantic Search Engine for Mathlib4”. In: Findings of the As-",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_35",
+          "text": "sociation for Computational Linguistics: EMNLP 2024. Ed. by Yaser Al-Onaizan, Mohit",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_36",
+          "text": "Bansal, and Yun-Nung Chen. Miami, Florida, USA: Association for Computational Lin-",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_37",
+          "text": "guistics, Nov. 2024, pp. 8001–8013. doi: 10.18653/v1/2024.findings-emnlp.470. url:",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_38",
+          "text": "https://aclanthology.org/2024.findings-emnlp.470/.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_39",
+          "text": "Tavily. Tavily Search API. https://www.tavily.com. Accessed: 2026-01-23. 2025.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_40",
+          "text": "Auguste Poiroux, Viktor Kuncak, and Antoine Bosselut. LeanInteract: A Python Interface",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_41",
+          "text": "for Lean 4. 2025. url: https://github.com/augustepoiroux/LeanInteract.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_42",
+          "text": "Noah Shinn et al. “Reflexion: language agents with verbal reinforcement learning”. In:",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_43",
+          "text": "Advances in Neural Information Processing Systems. Ed. by A. Oh et al. Vol. 36. Curran",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_44",
+          "text": "Associates, Inc., 2023, pp. 8634–8652. url: https://proceedings.neurips.cc/paper_",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_45",
+          "text": "files/paper/2023/file/1b44b878bb782e6954cd888628510e90- Paper- Conference.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_46",
+          "text": "Liangming Pan et al. Automatically Correcting Large Language Models: Surveying the",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_47",
+          "text": "landscape of diverse self-correction strategies. 2023. arXiv: 2308.03188 [cs.CL]. url:",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_48",
+          "text": "https://arxiv.org/abs/2308.03188.",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_49",
+          "text": "Matthew Renze and Erhan Guven. Self-Reflection in LLM Agents: Effects on Problem-",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_50",
+          "text": "Solving Performance. 2024. arXiv: 2405.06682 [cs.CL]. url: https://arxiv.org/abs/",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_51",
+          "text": "GasStationManager and Paul Lezeau. SafeVerify: A Lean4 script for robustly verifying",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_52",
+          "text": "submitted proofs of theorems and implementations of functions. https://github.com/",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_53",
+          "text": "GasStationManager/SafeVerify. GitHub repository. License: Apache-2.0. Accessed 2026-",
+          "page": 12
+        },
+        {
+          "para_id": "2412.20735_54",
+          "text": "leanprover contributors. lean4checker: Replay the Environment for a given Lean module.",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_55",
+          "text": "https://github.com/leanprover/lean4checker. GitHub repository. License: Apache-2.0.",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_56",
+          "text": "Accessed 2026-01-19. 2026.",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_57",
+          "text": "Matthieu Zimmer et al. Bourbaki: Self-Generated and Goal-Conditioned MDPs for Theorem",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_58",
+          "text": "Proving. 2025. arXiv: 2507.02726 [cs.AI]. url: https://arxiv.org/abs/2507.02726.",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_59",
+          "text": "Fabian Gloeckle et al. “ABEL: Sample Efficient Online Reinforcement Learning for Neural",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_60",
+          "text": "Theorem Proving”. In: The 4th Workshop on Mathematical Reasoning and AI at NeurIPS’24.",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_61",
+          "text": "2024. url: https://openreview.net/forum?id=kk3mSjVCUO.",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_62",
+          "text": "Zijian Wu et al. InternLM2.5-StepProver: Advancing Automated Theorem Proving via",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_63",
+          "text": "Critic-Guided Search. 2025. arXiv: 2410.15700 [cs.AI]. url: https://arxiv.org/abs/",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_64",
+          "text": "Zheng Cai et al. InternLM2 Technical Report. 2024. arXiv: 2403.17297 [cs.CL]. url:",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_65",
+          "text": "https://arxiv.org/abs/2403.17297.",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_66",
+          "text": "Gheorghe Comanici et al. Gemini 2.5: Pushing the Frontier with Advanced Reasoning,",
+          "page": 13
+        },
+        {
+          "para_id": "2412.20735_67",
+          "text": "Multimodality, Long Context, and Next Generation Agentic Capabilities. 2025. arXiv:",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "2507.06261",
+      "section_title": "[cs.CL]. url: https://arxiv.org/abs/2507.06261.",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2507.06261_1",
+          "text": "Daya Guo et al. “DeepSeek-R1 incentivizes reasoning in LLMs through reinforcement",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_2",
+          "text": "learning”. In: Nature 645.8081 (Sept. 2025), pp. 633–638. issn: 1476-4687. doi: 10.1038/",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_3",
+          "text": "Amitayush Thakur et al. An In-Context Learning Agent for Formal Theorem-Proving. 2024.",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_4",
+          "text": "arXiv: 2310.04353 [cs.LG]. url: https://arxiv.org/abs/2310.04353.",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_5",
+          "text": "OpenAI et al. GPT-4o System Card. 2024. arXiv: 2410.21276 [cs.CL]. url: https:",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_6",
+          "text": "//arxiv.org/abs/2410.21276.",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_7",
+          "text": "In Table 2, we report the list of 100 problems randomly extracted from the Putnam competition",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_8",
+          "text": "to run our ablation studies.",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_9",
+          "text": "This section contains the prompts used in our experiments.",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_10",
+          "text": "You are an LLM acting as a Lean 4 proof expert in an ITERATIVE proof",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_11",
+          "text": "development process.",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_12",
+          "text": "Your task is to propose the next iteration of a Lean 4 proof",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_13",
+          "text": "(Lean version 4.24). Your code will be compiled with ‘lake build‘,",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_14",
+          "text": "and the results (successes, errors, remaining goals) will inform",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_15",
+          "text": "the next iteration. Think carefully about the current proof state",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_16",
+          "text": "and the knowledge gathered from the previous attempt to make as much",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_17",
+          "text": "progress as possible with this new attempt.",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_18",
+          "text": "**CRITICAL: While you do NOT need to produce a complete working proof",
+          "page": 13
+        },
+        {
+          "para_id": "2507.06261_19",
+          "text": "Table 2: 100 Randomly-Selected PutnamBench Samples for Ablation Studies (Sorted)",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_20",
+          "text": "in a single attempt, you DO NEED to submit a final full proof regardless",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_21",
+          "text": "of the difficulty and the time it takes to complete it.",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_22",
+          "text": "NEVER give up, if something is complex, break it down into manageable",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_23",
+          "text": "steps, sketch out the proof structure, and work relentlessly",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_24",
+          "text": "to solve it. You can prove everything that will be given to you.**",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_25",
+          "text": "## Iteration Strategy",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_26",
+          "text": "- **Incomplete proofs can help**: You may use incomplete proofs to",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_27",
+          "text": "strategically explore proof structure and understand what goals",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_28",
+          "text": "need to be proven. However, they are not a valid final result",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_29",
+          "text": "- **How ‘sorry‘ is handled**: ‘sorry‘ statements are replaced with",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_30",
+          "text": "empty strings before compilation, causing Lean to report the",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_31",
+          "text": "specific unsolved goals at those locations. This is intentional:",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_32",
+          "text": "these error messages provide detailed feedback about what remains",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_33",
+          "text": "- **Build feedback is information**: Compilation errors and goal states",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_34",
+          "text": "help you understand what to try next",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_35",
+          "text": "- **Experience is valuable**: We keep track of the main lessons learned",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_36",
+          "text": "across all previous attempts. Use this information to avoid repeating",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_37",
+          "text": "past mistakes and evaluate the current appraoch.",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_38",
+          "text": "- **Make steady progress**: Each iteration counts! Therefore, you",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_39",
+          "text": "should aim to fix existing errors, complete missing parts of the",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_40",
+          "text": "proof, or even explore a new approach if the current one is clearly",
+          "page": 14
+        },
+        {
+          "para_id": "2507.06261_41",
+          "text": "- **First attempts**: Try a promising approach and see what feedback",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_42",
+          "text": "- **Later iterations**: Analyze the feedback from the previous build",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_43",
+          "text": "and address the issues directly",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_44",
+          "text": "1. **Preserve Theorem Statement**",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_45",
+          "text": "- NEVER modify the theorem signature, name or type",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_46",
+          "text": "- Only change the proof body (after :=)",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_47",
+          "text": "- Work ONLY on the target theorem",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_48",
+          "text": "2. **Proof Development Strategy**",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_49",
+          "text": "- Use appropriate Lean 4 tactics to make progress",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_50",
+          "text": "- Leverage the build feedback and experience to inform the next",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_51",
+          "text": "action and make steady progress towards the final proof",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_52",
+          "text": "- The proof must eventually be complete and fully build without",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_53",
+          "text": "any ‘sorry‘ statements",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_54",
+          "text": "3. **Quality Standards**",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_55",
+          "text": "- Use appropriate Lean 4 tactics and syntax",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_56",
+          "text": "- Reference Mathlib lemmas when applicable",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_57",
+          "text": "- Add imports as needed for any lemmas or tactics you use",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_58",
+          "text": "Return structured output with these fields.",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_59",
+          "text": "In all cases, please produce all the fields in your output:",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_60",
+          "text": "Think carefully about the theorem at hand, analyze the state of the",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_61",
+          "text": "proof together with the experience and the build feedback from the",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_62",
+          "text": "last attempt, evaluate the most promissing approaches, and devise a",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_63",
+          "text": "suitable proof strategy.",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_64",
+          "text": "Identify what went wrong and find a suitable strategy to address it.",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_65",
+          "text": "Capitalize on the previous experience and respect the lessons learned",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_66",
+          "text": "from the past to avoid repeating mistakes.",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_67",
+          "text": "**imports**: Required imports NOT already in the file",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_68",
+          "text": "- Format: [\"Mathlib.Topology.Basic\", \"MyProject.Algebra.Ring\"]",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_69",
+          "text": "- Only include what’s necessary",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_70",
+          "text": "**opens**: Namespaces to open NOT already opened",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_71",
+          "text": "- Format: [\"Algebra\", \"MeasureTheory\"]",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_72",
+          "text": "- Only include what’s necessary",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_73",
+          "text": "**updated_theorem**: Updated code for theorem",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_74",
+          "text": "- Theorem statement and proof body",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_75",
+          "text": "- It only contains the specific theorem that was changed",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_76",
+          "text": "Target theorem: ‘theorem add_zero (n : Nat) : n + 0 = n := sorry‘",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_77",
+          "text": "**First attempt - exploring tactics**",
+          "page": 15
+        },
+        {
+          "para_id": "2507.06261_78",
+          "text": "theorem add_zero (n : Nat) : n + 0 = n := by",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_79",
+          "text": "(Next iteration would receive feedback about whether ‘simp‘ solved it",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_80",
+          "text": "or what goals remain)",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_81",
+          "text": "**Second iteration - incomplete proof with unsolved goals**",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_82",
+          "text": "The code from the previous iteration builds successfully but goals",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_83",
+          "text": "remain: ‘|- n + 0 = n‘. Therefore, the ‘simp‘ tactic alone doesn’t",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_84",
+          "text": "solve this goal. A possible strategy now is to use induction to break",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_85",
+          "text": "this into base and inductive cases, leaving sorries to see what",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_86",
+          "text": "specific goals need to be proven in each case.",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_87",
+          "text": "theorem add_zero (n : Nat) : n + 0 = n := by",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_88",
+          "text": "| succ n ih => sorry",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_89",
+          "text": "(This intentionally leaves sorries to get feedback about the base and",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_90",
+          "text": "inductive case goals)",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_91",
+          "text": "**Third iteration - Closing the goals**",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_92",
+          "text": "Sorry #1 at line 3, column 13 is |- 0 + 0 = 0, and sorry #2 at line 4,",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_93",
+          "text": "column 13 is \\|- n + 1 + 0 = n + 1. Without these sorries, we have",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_94",
+          "text": "inspected the goal state in multiple points of the proof.",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_95",
+          "text": "Now we can proceed to close these goals.",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_96",
+          "text": "imports: [\"Mathlib.Data.Nat.Basic\"]",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_97",
+          "text": "theorem add_zero_1 (n : Nat) : n + 0 = n := by",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_98",
+          "text": "| succ n ih => rw [Nat.add_succ, ih]",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_99",
+          "text": "**Fourth iteration - fixing specific error**",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_100",
+          "text": "The previous attempt’s build failed with error at line 4: ’unknown",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_101",
+          "text": "identifier Nat.add_succ’. The proof attempted to use a lemma that",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_102",
+          "text": "doesn’t exist or isn’t imported (the correct name is ‘Nat.succ_add‘).",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_103",
+          "text": "A reasonable next step is to search for the correct lemma name,",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_104",
+          "text": "although, after looking at it carefully, this is a case that",
+          "page": 16
+        },
+        {
+          "para_id": "2507.06261_105",
+          "text": "‘omega‘ (specialized for integer and natural linear arithmetic",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_106",
+          "text": "problems) can solve.",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_107",
+          "text": "theorem add_zero (n : Nat) : n + 0 = n := by",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_108",
+          "text": "You are an LLM acting as a Lean 4 proof expert in a SINGLE-SHOT process.",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_109",
+          "text": "Your task is to propose a complete and valid Lean 4 proof",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_110",
+          "text": "(Lean version 4.24).",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_111",
+          "text": "Your code will be checked with ‘lake build‘, although you will not be",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_112",
+          "text": "able to see the build result nor receive any feedback.",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_113",
+          "text": "You can use the tools provided to you to help you with your task.",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_114",
+          "text": "**CRITICAL: You MUST produce a complete proof in this single attempt",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_115",
+          "text": "without any placeholder (like ‘sorry‘ or ‘admit‘). You DO NEED to",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_116",
+          "text": "submit a final full proof regardless of the difficulty and the time",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_117",
+          "text": "it takes to complete it. NEVER give up, if something is complex, break",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_118",
+          "text": "it down into manageable steps, and think about the proof structure",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_119",
+          "text": "before writing it. You can prove everything that will be given to",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_120",
+          "text": "1. **Preserve Theorem Statement**",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_121",
+          "text": "- NEVER modify the theorem signature, name or type",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_122",
+          "text": "- Only change the proof body (after :=)",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_123",
+          "text": "- Work ONLY on the target theorem",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_124",
+          "text": "2. **Proof Development Strategy**",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_125",
+          "text": "- Use appropriate Lean 4 tactics to make progress",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_126",
+          "text": "- The proof must be complete and valid lean4 proof and fully",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_127",
+          "text": "without any ‘sorry‘ or ‘admit‘ statements, nor introducing new",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_128",
+          "text": "3. **Quality Standards**",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_129",
+          "text": "- Use appropriate Lean 4 tactics and syntax",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_130",
+          "text": "- Reference Mathlib lemmas when applicable",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_131",
+          "text": "- Add imports as needed for any lemmas or tactics you use",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_132",
+          "text": "Return structured output with these fields.",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_133",
+          "text": "In all cases, please produce all the fields in your output:",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_134",
+          "text": "Think carefully about the theorem at hand, evaluate the most promissing",
+          "page": 17
+        },
+        {
+          "para_id": "2507.06261_135",
+          "text": "approaches to prove it, and devise a suitable proof strategy.",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_136",
+          "text": "**imports**: Required imports NOT already in the file",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_137",
+          "text": "- Format: [\"Mathlib.Topology.Basic\", \"MyProject.Algebra.Ring\"]",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_138",
+          "text": "- Only include what’s necessary",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_139",
+          "text": "**opens**: Namespaces to open NOT already opened",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_140",
+          "text": "- Format: [\"Algebra\", \"MeasureTheory\"]",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_141",
+          "text": "- Only include what’s necessary",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_142",
+          "text": "**updated_theorem**: Updated code for theorem",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_143",
+          "text": "- Theorem statement and proof body",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_144",
+          "text": "- It only contains the specific theorem that was changed",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_145",
+          "text": "theorem lt_or_gt_zero_if_neq_zero {x : Real} (h : x != 0) :",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_146",
+          "text": "x < 0 \\/ x > 0 := by",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_147",
+          "text": "rcases lt_trichotomy x 0 with xlt | xeq | xgt",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_148",
+          "text": "imports: [Mathlib.Tactic]",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_149",
+          "text": "(g: Icc (1:Int) n -> X) (hg: Function.Bijective g) :",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_150",
+          "text": "(if hi:i in Icc (1:Int) n then f (g < i, hi >) else 0) := by",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_151",
+          "text": "convert sum_bij (t:=X) (fun i hi |-> g < i, hi > ) _ _ _ _",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_152",
+          "text": ". intro _ _ _ _ h; simpa [Subtype.val_inj, hg.injective.eq_iff]",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_153",
+          "text": ". intro b hb; have := hg.surjective < b, hb >; grind",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_154",
+          "text": "imports: [Mathlib.Tactic]",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_155",
+          "text": "theorem EqualCard.univ (X : Type) : EqualCard (.univ : Set X) X :=",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_156",
+          "text": "< Subtype.val, Subtype.val_injective, by intro _; aesop >",
+          "page": 18
+        },
+        {
+          "para_id": "2507.06261_157",
+          "text": "Proposer User Prompt",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_158",
+          "text": "Complete the proof for the following target theorem within the given",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_159",
+          "text": "Proposer Experience User Prompt",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_160",
+          "text": "What follows is additional context with relevant lessons learned from",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_161",
+          "text": "your previous attempts at proving this theorem.",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_162",
+          "text": "Proposer Past K User Prompt",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_163",
+          "text": "These are your most recent attempts preceding the current one (right",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_164",
+          "text": "above) in reverse chronological order (most recent first):",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_165",
+          "text": "</previous-attempts>",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_166",
+          "text": "Context Summary System Prompt",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_167",
+          "text": "An LLM agent is trying to prove a theorem in Lean 4 and it failed to",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_168",
+          "text": "successfully complete the full proof.",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_169",
+          "text": "This prover agent can work iteratively and take multiple attempts to",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_170",
+          "text": "prove the theorem, but it does not have access to its own history of",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_171",
+          "text": "previous attempts. Instead, it is your task to provide it with",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_172",
+          "text": "meaningful context condensing the experience gained from its previous",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_173",
+          "text": "attempts, which will help it succeed in its next one at proving the",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_174",
+          "text": "theorem. Therefore, when the prover takes another attempt at proving",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_175",
+          "text": "the theorem, it will be given both the current state of the proof",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_176",
+          "text": "(code and feedback) plus the context that you prepare.",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_177",
+          "text": "You will recieve a message containing the last attempt’s information:",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_178",
+          "text": "reasoning that the LLM output before generating the code, the Lean 4",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_179",
+          "text": "code itself, and the feedback that comes either from the ‘lake build‘",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_180",
+          "text": "output or a reviewer agent. Additionally, the message will contain",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_181",
+          "text": "the previous context that you had prepared for the prover agent",
+          "page": 19
+        },
+        {
+          "para_id": "2507.06261_182",
+          "text": "synthesizing its past experience to help it generate this code. If the",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_183",
+          "text": "previous context was empty, it means this was the first attempt at",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_184",
+          "text": "proving the theorem.",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_185",
+          "text": "Reflect on the current attempt in light of the previous context and",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_186",
+          "text": "experience, and extract the key lessons to avoid repeating the same",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_187",
+          "text": "mistakes and any of the previous ones in the future.",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_188",
+          "text": "Write the context that will be given to the prover agent in the next",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_189",
+          "text": "iteration. Ensure that the important information from the experience",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_190",
+          "text": "captured in the previous context is never lost when writing the new",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_191",
+          "text": "context, as we want to prevent the prover agent from repeating the",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_192",
+          "text": "same mistakes even after multiple future iterations.",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_193",
+          "text": "You should stick to the facts and refrain from proposing new actions",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_194",
+          "text": "or strategies, as the prover agent will draw the necessary conclusions",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_195",
+          "text": "by itself with the information that you provide.",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_196",
+          "text": "Keep in mind that this context should not be excessively long, and it",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_197",
+          "text": "should be concise and to the point with the goal of maximizing the",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_198",
+          "text": "performance of the prover agent.",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_199",
+          "text": "Your output will be given to the prover agent in another message,",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_200",
+          "text": "where it will be the content embedded within the <experience> tag",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_201",
+          "text": "in the following template:",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_202",
+          "text": "What follows is additional context with relevant lessons learned",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_203",
+          "text": "from your previous attempts at proving this theorem.",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_204",
+          "text": "Context Summary User Prompt",
+          "page": 20
+        },
+        {
+          "para_id": "2507.06261_205",
+          "text": "Reviewer System Prompt",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_206",
+          "text": "You are an LLM acting as a Lean 4 expert checking proofs. You focus on",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_207",
+          "text": "**Statement Preserved?**",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_208",
+          "text": "Verify the theorem statement wasn’t modified. True if identical, False",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_209",
+          "text": "**No Sorry in NEW PROOF Body?**",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_210",
+          "text": "Search for \"sorry\"/\"admit\" in the PROPOSED body only (ORIGINAL has",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_211",
+          "text": "sorry - that’sexpected).",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_212",
+          "text": "True if no sorry/admit, False if found.",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_213",
+          "text": "**No Other Issues?**",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_214",
+          "text": "Note any other issues (undefined refs, syntax errors, logic problems).",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_215",
+          "text": "True if no issues, False if problems found.",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_216",
+          "text": "theorem foo (n : Nat) : n + 0 = n := sorry",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_217",
+          "text": "theorem foo (n : Nat) : n + 0 = n := by",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_218",
+          "text": "check1: True, check2: True, check3: False, approved: False",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_219",
+          "text": "reasoning: \"Statement preserved, no sorry, but references undefined",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_220",
+          "text": "**Statement changed**",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_221",
+          "text": "theorem foo (n : Nat) : n + 0 = n := sorry",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_222",
+          "text": "theorem foo (n m : Nat) : n + m = n := by ...",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_223",
+          "text": "check1: False, check2: True, check3: True, approved: False",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_224",
+          "text": "reasoning: \"Statement changed - added parameter m\"",
+          "page": 21
+        },
+        {
+          "para_id": "2507.06261_225",
+          "text": "theorem foo (n : Nat) : n + 0 = n := sorry",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_226",
+          "text": "theorem foo (n : Nat) : n + 0 = n := by sorry",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_227",
+          "text": "check1: True, check2: False, check3: True, approved: False",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_228",
+          "text": "reasoning: \"Statement preserved but proof still contains sorry",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_229",
+          "text": "Reviewer User Prompt",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_230",
+          "text": "Previous Attempt User Prompt",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_231",
+          "text": "This is your previous attempt at proving the theorem, containing your",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_232",
+          "text": "previous reasoning, the proposed code, and the feedback that you",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_233",
+          "text": "received from either building the code or a reviewer agent.",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_234",
+          "text": "PutnamBench Leaderboard",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_235",
+          "text": "Table 3 shows the Lean section of the PutnamBench leaderboard as of January 2026. The",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_236",
+          "text": "benchmark consists of 672 problems from Putnam competitions. This table reports the number",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_237",
+          "text": "of problems solved and the computational budget used by each system.",
+          "page": 22
+        },
+        {
+          "para_id": "2507.06261_238",
+          "text": "Table 3: PutnamBench Lean Leaderboard (out of 672 problems)",
+          "page": 23
+        },
+        {
+          "para_id": "2507.06261_239",
+          "text": "Aleph Prover ($1400 limit)",
+          "page": 23
+        },
+        {
+          "para_id": "2507.06261_240",
+          "text": "Aleph Prover ($400 limit)",
+          "page": 23
+        },
+        {
+          "para_id": "2507.06261_241",
+          "text": "Seed-Prover 1.5 (ByteDance)",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "section_id": "10",
+      "section_title": "H20 days/problem",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "10_1",
+          "text": "Aleph Prover ($100 limit)",
+          "page": 23
+        },
+        {
+          "para_id": "10_2",
+          "text": "Seed-Prover (ByteDance)",
+          "page": 23
+        },
+        {
+          "para_id": "10_3",
+          "text": "pass@1, avg. 100 tool calls",
+          "page": 23
+        },
+        {
+          "para_id": "10_4",
+          "text": "GPT-5 (ReAct, 10 turns)",
+          "page": 23
+        },
+        {
+          "para_id": "10_5",
+          "text": "pass@1, 10 tool calls",
+          "page": 23
+        },
+        {
+          "para_id": "10_6",
+          "text": "Kimina-Prover-7B-Distill",
+          "page": 23
+        },
+        {
+          "para_id": "10_7",
+          "text": "Self-play Theorem Prover",
+          "page": 23
+        },
+        {
+          "para_id": "10_8",
+          "text": "InternLM2.5-StepProver",
+          "page": 23
+        },
+        {
+          "para_id": "10_9",
+          "text": "gemini-2.5-pro-exp-0325",
+          "page": 23
+        },
+        {
+          "para_id": "10_10",
+          "text": "gemini-2.0-flash-thinking-121",
+          "page": 23
+        }
+      ]
+    }
+  ]
+}

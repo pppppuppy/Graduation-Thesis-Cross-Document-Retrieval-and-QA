@@ -1,0 +1,161 @@
+{
+  "doc_id": "2602.24080v1.pdf",
+  "sections": [
+    {
+      "section_title": "H",
+      "text": ""
+    },
+    {
+      "section_title": "UMAN",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "OR",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "M",
+      "text": ""
+    },
+    {
+      "section_title": "ACHINE",
+      "text": ""
+    },
+    {
+      "section_title": "?",
+      "text": ""
+    },
+    {
+      "section_title": "A",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "P",
+      "text": ""
+    },
+    {
+      "section_title": "RELIMINARY",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "T",
+      "text": ""
+    },
+    {
+      "section_title": "URING",
+      "text": ""
+    },
+    {
+      "section_title": "T",
+      "text": ""
+    },
+    {
+      "section_title": "EST",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "FOR",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "PEECH",
+      "text": ""
+    },
+    {
+      "section_title": "-",
+      "text": ""
+    },
+    {
+      "section_title": "TO",
+      "text": ""
+    },
+    {
+      "section_title": "-S",
+      "text": ""
+    },
+    {
+      "section_title": "PEECH",
+      "text": ""
+    },
+    {
+      "section_title": "I",
+      "text": ""
+    },
+    {
+      "section_title": "NTERACTION",
+      "text": " Xiang Li , , , ∗ , Jiabao Gao ∗ , Sipei Lin , Xuan Zhou , Chi Zhang , Bo Cheng , Jiale Han ‡ , Benyou Wang , , State Key Laboratory of Networking and Switching Technology, Beijing University of Posts and Telecommunications Shenzhen Research Institute of Big Data The Chinese University of Hong Kong, Shenzhen Shenzhen Loop Area Institute The Hong Kong University of Science and Technology { lixiang2022,chengbo } @bupt.edu.cn , { jiabaogao,sipeilin,xuanzhou,122090728 } @link.cuhk.edu.cn , jialehan@ust.hk , wangbenyou@cuhk.edu.cn"
+    },
+    {
+      "section_title": "A",
+      "text": " BSTRACT The pursuit of human-like conversational agents has long been guided by the Tur- ing  test.  For  modern  speech-to-speech  (S2S)  systems,  a  critical  yet  unanswered question is whether they can converse like humans.  To tackle this, we conduct the first Turing test for S2S systems, collecting 2,968 human judgments on dialogues between   state-of-the-art  S2S  systems  and   human  participants.  Our "
+    },
+    {
+      "section_title": "results",
+      "text": " deliver  a  clear  finding:  no  existing  evaluated  S2S  system  passes  the  test,  reveal- ing  a  significant  gap  in  human-likeness.  To  diagnose  this  failure,  we  develop  a fine-grained taxonomy of 18 human-likeness dimensions and crowd-annotate our collected dialogues accordingly.  Our analysis shows that the bottleneck is not se- mantic understanding but stems from paralinguistic features, emotional expressiv- ity, and conversational persona.  Furthermore, we find that off-the-shelf AI models perform unreliably as Turing test judges.  In response, we propose an interpretable model  that  leverages  the  fine-grained  human-likeness  ratings  and  delivers  accu- rate  and  transparent  human-vs-machine  discrimination,  offering  a  powerful  tool for automatic human-likeness evaluation.  Our work  establishes the first human- likeness evaluation for S2S systems and moves beyond binary outcomes to enable detailed diagnostic insights, paving the way for human-like improvements in con- versational AI systems."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "I",
+      "text": " NTRODUCTION With  the  rapid  advancement  of  generative  artificial  intelligence,  large  language  models  (OpenAI, 2023;  Touvron  et  al.,  2023;  GLM  et  al.,  2024)  have  become  deeply  integrated  into  people’s  daily lives,  providing  intelligent  services  through  text-based  human-machine  interaction.  As  users  seek more direct, hands-free, and immersive experiences, Speech-to-Speech (S2S) systems (ByteDance, 2025; Comanici et al., 2025) are gaining increasing attention by enabling interaction through the pri- mary channel of human communication— speech .  Such systems have broad applications, including empathetic social companions (Geng et al., 2025), personalized education (Galbraith & i Mart´ınez, 2023), and interactive virtual assistants (TG et al., 2024).  As the capabilities of S2S systems grow, a fundamental question emerges:  do these systems converse like humans?  Meeting this bar is strictly harder  than  text-based  interaction,  as  it  requires  the  models  not  only  to  achieve  accurate  semantic understanding and human-like persona alignment but also to ensure acoustic fidelity and emotional expression. ∗ Equal contribution. ‡ Corresponding author. We released code, data, and models at https://github.com/Carbohydrate1001/ Turing-Test ."
+    },
+    {
+      "section_title": "arXiv:2602.24080v1  [cs.AI]  27 Feb 2026",
+      "text": " Published as a conference paper at ICLR 2026  (A) Do S2S systems converse like humans?    (B) Why Do S2S systems (Not) Appear Human?  (C) Can AI models serve as Turing test judges? Turing Test Human-Machine Human-Human Pseudo Human Fine-grained Human-likeness Diagnosis Crowdsourced Annotation Human-likeness Taxonomy Turing Test Human-Machine Human-Human Pseudo Human Figure 1:  The design of our study. In  this  work,  we  first  investigate  the  human-likeness  of  current  S2S  systems  by  conducting  Tur- ing  test. To  facilitate  this  evaluation,  we  construct  a  high-quality  dialogue  dataset  comprising human–human,  human–machine,  and  pseudo-human  (text-to-speech,  TTS)  dialogues. All  hu- man–machine dialogues are recorded in a professional studio with recruited volunteers.  The dataset covers  two  languages,   topics,   state-of-the-art  S2S  systems,  and   human  speakers.  We  then deploy a gamified online platform to run the Turing test, collecting 2,968 judgments from 397 par- ticipants. Our results lead to a clear finding: no existing evaluated S2S models passes the Turing test, underscoring a substantial gap between current systems and truly human-like spoken interaction. To move beyond a simple pass or fail outcome and understand the why behind this failure, we de- velop a fine-grained human-likeness taxonomy with 18 dimensions across five categories:  semantic and pragmatic habits (Bottazzi Grifoni & Ferrario, 2025), non-physiological paralinguistic features (Warren et al., 2025), physiological paralinguistic features (Onda et al., 2025), mechanical persona (Fanous  et  al.,  2025),  and  emotional  expression  (Wang  et  al.,  2025a).  By  annotating  our  dialogue data accordingly, we diagnose the specific weaknesses of current S2S systems.  Our analysis reveals that the artificial quality of current systems does not primarily stem from semantic deficiencies—in fact, contextual understanding is no longer the primary bottleneck, with models scoring near human levels on logical coherence and memory consistency.  Instead, failures arise from deficiencies in par- alinguistic features,  emotional expression,  and conversational persona.  These findings collectively offer a concrete roadmap for developing more human-like S2S systems. Finally, we explore the potential of automating the Turing test by asking: Can AI serve as the judge? We  first  demonstrate  that   off-the-shelf  AI  models  perform  poorly  at  this  task,  failing  to  reliably distinguish  human  from  machine-generated  speech.  In  response,  we  develop  a  specialized  and  in- terpretable AI judge.  Concretely, the model learns to score dialogues across the 18 human-likeness dimensions to capture fine-grained perceptual patterns.  These interpretable scores are then fed into a regularized linear classifier to produce a final and explainable human–machine discrimination de- cision.  This approach not only achieves strong performance but also provides transparent rationale for  its  judgments  by  linking  them  to  specific  human-likeness  attributes.  The  resulting  model  of- fers  a  practical  tool  for  diagnosing  human-likeness  of  S2S  systems  with  both  headline  scores  and fine-grained attributions, thereby empowering rapid iteration toward more human-like systems. An  overview  of  our  study  design  is  shown  in  Figure  1.  In  summary,  our  work  contributes  (1)  the first human- likeness evaluation on the current S2S systems via Turing test, (2) a comprehensive di- agnostic framework and in-depth analysis explaining the gap in human-likeness, and (3) an effective and interpretable AI judge to automate human-likeness evaluation.  Our code, dataset, and model are publicly available to foster progress in building truly human-like spoken dialogue agents."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "B",
+      "text": " ACKGROUND Table 1:  Existing Turing tests for AI. Turing Test Modality Jones & Bergen (2024a) Text Jones et al. (2025) Text Rathi et al. (2024) Text Chan (2003) Text-Speech Wang et al. (2025b) Text-Speech Ours Speech-Speech Turing Test Since its introduction in 1950, the Turing Test (TURING, 1950) has served as a cornerstone for evaluating machine  intelligence.  Rathi  et  al.  (2024)  employ  two  vari- ants  of  the  Turing  Test,  the  Displaced  Turing  Test  and  the Inverted Turing Test , to examine how well humans and large Published as a conference paper at ICLR 2026 language  models  can  discriminate  between  online  human–machine  conversations,  thereby  reflect- ing the models’ conversational perception abilities.  Similarly, Jones & Bergen (2024a); Jones et al. (2025);  Jones  &  Bergen  (2025)  design  settings  in  which  language  models  masquerade  as  humans in  Turing  Test  scenarios  to  assess  their  linguistic  expressiveness  and  emotional  characteristics.  In addition, Chan (2003); Wang et al. (2025b) extend the Turing Test paradigm to the domain of speech synthesis, evaluating the gap between synthetic speech and human dialogue to provide insights for model optimization. Inspired by these studies, we consider whether the Turing Test paradigm can be leveraged to evaluate speech-to-speech (S2S) systems, which constitute an indispensable component of contemporary human–machine interaction. Evaluation  for  S2S  Systems Current  evaluations  of  speech-to-speech  (S2S)  systems  primarily focus  on  two  dimensions:  audio  understanding  and  conversational  intelligence.  For  example,  Du et  al.  (2025)  construct  a  multi-turn  dialogue  benchmark  to  assess  pronunciation  accuracy  and  the appropriateness  of  emotional  expression  in  S2S  systems.  Jiang  et  al.  (2025)  propose  an  arena- style  evaluation  to  measure  instruction-following  performance  and  paralinguistic  expressiveness. Lin  et  al.  (2025)  assess  dialogue  fluency  by  analyzing  response  latency.  In  addition,  Sakshi  et  al. (2024);  Kumar  et  al.  (2025b)  design  a  suite  of  tasks  such  as  speaker  identification  and  emotion recognition to evaluate models’ reasoning capabilities. More recent benchmarks such as VoiceBench (Chen  et  al.,  2024)  and  MMAU-Pro  (Kumar  et  al.,  2025a)  further  expand  the  scope  of  evaluation: VoiceBench  focuses  on  speech  understanding  in  LLM-based  voice  assistants,  while  MMAU-Pro evaluates holistic audio understanding of multimodal AI models across speech, music, and general sound.  Despite these advances,  existing benchmarks differ fundamentally from our setting in both evaluation goal and evaluated modality. As summarized in Appendix A, prior work mainly measures whether models can correctly understand audio inputs or solve reasoning tasks,  typically with text as the final output.  In contrast, our work evaluates the human-likeness of S2S systems in multi-turn spoken  interaction,  where  both  input  and  output  are  speech.  This  distinction  is  important  because success on conventional intelligence-oriented benchmarks does not necessarily imply that a system behaves in a more human-like manner."
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "D",
+      "text": " ATASET"
+    },
+    {
+      "section_title": "C",
+      "text": " ONSTRUCTION  FOR  THE"
+    },
+    {
+      "section_title": "S2S T",
+      "text": " URING"
+    },
+    {
+      "section_title": "T",
+      "text": " EST We  construct  a  dialogue  dataset  to  support  a  rigorous  and  balanced  evaluation  of  human-likeness in  S2S  systems.  The  dataset  contains  three  categories  of  dialogues:  human–machine  (H-M),  hu- man–human (H-H), and pseudo human (PH). The following subsections detail the construction pro- cess. 3.1 H UMAN –M ACHINE D IALOGUE Topic  Design To  ensure  that  the  constructed  human–machine  dialogues  are  both  authentic  and diverse,  we define 10 dialogue topics guided by DailyDialog (Li et al., 2017),  which span a broad spectrum from daily life to financial activities.  The detailed topics and their distribution in the final dialogues are illustrated in Figure 2. Model Selection In our experiments, we select 9 state-of-the-art S2S systems, spanning both open- and closed-source models, for human–machine dialogue generation.  These include GPT-4o (Hurst et al., 2024), Gemini2.5-Pro (Comanici et al., 2025), Qwen3 (Yang et al., 2025), Kimi-K1.5 (Team et al., 2025b), ChatGLM-4.5 (Zeng et al., 2025), Hunyuan-TurboS (Team et al., 2025c), Doubao-Pro 1.5  (ByteDance,  2025),  Claude-Sonnet   (Anthropic,  2024),  and  iFLYTEK-Spark  (iFlytek,  2024). The detailed information about these models can be found in B.1. Dialogue  Recording We  invite   participants  from   countries  and  regions  to  record  hu- man–machine  dialogues  in  a  professional  recording  studio,  as  detailed  in "
+    }
+  ]
+}

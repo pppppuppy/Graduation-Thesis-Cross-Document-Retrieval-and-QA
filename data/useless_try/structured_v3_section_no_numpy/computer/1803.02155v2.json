@@ -1,0 +1,109 @@
+{
+  "doc_id": "1803.02155v2.pdf",
+  "sections": [
+    {
+      "section_title": "Self-Attention with Relative Position Representations",
+      "text": ""
+    },
+    {
+      "section_title": "Peter Shaw",
+      "text": ""
+    },
+    {
+      "section_title": "Google",
+      "text": ""
+    },
+    {
+      "section_title": "petershaw@google.com",
+      "text": ""
+    },
+    {
+      "section_title": "Jakob Uszkoreit",
+      "text": ""
+    },
+    {
+      "section_title": "Google Brain",
+      "text": ""
+    },
+    {
+      "section_title": "usz@google.com",
+      "text": ""
+    },
+    {
+      "section_title": "Ashish Vaswani",
+      "text": ""
+    },
+    {
+      "section_title": "Google Brain",
+      "text": ""
+    },
+    {
+      "section_title": "avaswani@google.com",
+      "text": ""
+    },
+    {
+      "section_title": "Abstract",
+      "text": " Relying  entirely  on  an  attention  mechanism, the  Transformer  introduced  by  Vaswani  et al.  ( )  achieves  state-of-the-art "
+    },
+    {
+      "section_title": "results",
+      "text": "  for machine  translation.  In  contrast  to  recurrent and  convolutional  neural  networks,  it  does not  explicitly  model  relative  or  absolute  po- sition  information  in  its  structure. Instead, it  requires  adding  representations  of  abso- lute  positions  to  its  inputs. In  this  work we  present  an  alternative  approach,  extend- ing the self-attention mechanism to efﬁciently consider  representations  of  the  relative  posi- tions, or distances between sequence elements. On  the  WMT   English-to-German  and English-to-French  translation  tasks,  this  ap- proach yields improvements of 1.3 BLEU and 0.3  BLEU  over  absolute  position  representa- tions,  respectively.  Notably,  we  observe  that combining  relative  and  absolute  position  rep- resentations  yields  no  further  improvement  in translation  quality. We  describe  an  efﬁcient implementation of our method and cast it as an instance of relation-aware self-attention mech- anisms  that  can  generalize  to  arbitrary  graph- labeled inputs."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " Recent approaches to sequence to sequence learn- ing typically leverage recurrence  ( Sutskever et al. , ),  convolution  ( Gehring  et  al. ,  ;  Kalch- brenner  et  al. ,  ),  attention ( Vaswani  et  al. , ),  or  a  combination  of  recurrence  and  atten- tion  ( Bahdanau et al. , ; Cho et al. , ; Lu- ong et al. , ; Wu et al. , ) as basic building blocks.  These approaches incorporate information about  the  sequential  position  of  elements  differ- ently. Recurrent  neural  networks  (RNNs)  typically compute  a  hidden  state  h t ,  as  a  function  of  their input  at  time  t  and  a  previous  hidden  state  h t − , capturing relative and absolute positions along the time  dimension  directly  through  their  sequential structure.  Non-recurrent  models  do  not  necessar- ily  consider  input  elements  sequentially  and  may hence  require  explicitly  encoding  position  infor- mation to be able to use sequence order. One common approach is to use position encod- ings  which  are  combined  with  input  elements  to expose  position  information  to  the  model.  These position  encodings  can  be  a  deterministic  func- tion of position  ( Sukhbaatar et al. , ; Vaswani et al. , ) or learned representations.  Convolu- tional  neural  networks  inherently  capture  relative positions  within  the  kernel  size  of  each  convolu- tion.  They  have  been  shown  to  still  beneﬁt  from position  encodings  ( Gehring  et  al. ,  ),  how- ever. For  the  Transformer,  which  employs  neither convolution nor recurrence, incorporating explicit representations of position information is an espe- cially  important  consideration  since  the  model  is otherwise entirely invariant to sequence ordering. Attention-based models have therefore used posi- tion  encodings  or  biased  attention  weights  based on distance  ( Parikh et al. , ). In  this  work  we  present  an  efﬁcient  way  of incorporating  relative  position  representations  in the  self-attention  mechanism  of  the  Transformer. Even when entirely replacing its absolute position encodings,  we  demonstrate  signiﬁcant  improve- ments in translation quality on two machine trans- lation tasks. Our approach can be cast as a special case of ex- tending the self-attention mechanism of the Trans- former  to  considering  arbitrary  relations  between any two elements of the input, a direction we plan to explore in future work on modeling labeled, di- rected graphs."
+    },
+    {
+      "section_title": "arXiv:1803.02155v2  [cs.CL]  12 Apr 2018",
+      "text": ""
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "Background",
+      "text": " 2.1 Transformer The  Transformer ( Vaswani  et  al. ,  )  em- ploys  an  encoder-decoder  structure,  consisting  of stacked  encoder  and  decoder  layers. Encoder layers  consist  of  two  sublayers: self-attention followed  by  a  position-wise  feed-forward  layer. Decoder  layers  consist  of  three  sublayers:  self- attention  followed  by  encoder-decoder  attention, followed  by  a  position-wise  feed-forward  layer. It  uses  residual  connections  around  each  of  the sublayers,  followed  by  layer  normalization ( Ba et al. , ).  The decoder uses masking in its self- attention  to  prevent  a  given  output  position  from incorporating information about future output po- sitions during training. Position encodings based on sinusoids of vary- ing  frequency  are  added  to  encoder  and  decoder input  elements  prior  to  the  ﬁrst  layer.  In  contrast to  learned,  absolute  position  representations,  the authors  hypothesized  that  sinusoidal  position  en- codings would help the model to generalize to se- quence lengths unseen during training by allowing it to learn to attend also by relative position.  This property  is  shared  by  our  relative  position  repre- sentations  which,  in  contrast  to  absolute  position representations, are invariant to the total sequence length. Residual  connections  help  propagate  position information to higher layers. 2.2 Self-Attention Self-attention sublayers employ h attention heads. To  form  the  sublayer  output, "
+    },
+    {
+      "section_title": "results",
+      "text": "  from  each head  are  concatenated  and  a  parameterized  linear transformation is applied. Each  attention  head  operates  on  an  input  se- quence,  x  =  ( x , . . . , x n )  of  n  elements  where x i  ∈ R d x ,  and  computes  a  new  sequence  z  = ( z , . . . , z n ) of the same length where z i  ∈ R d z . Each  output  element, z i , is  computed  as weighted  sum  of  a  linearly  transformed  input  el- ements: z i  = n X j =1 α ij ( x j W  V  ) (1) Each weight coefﬁcient, α ij , is computed using a softmax function: α ij  = exp e ij P n k =1  exp e ik And e ij is computed using a compatibility func- tion that compares two input elements: e ij  =  ( x i W Q )( x j W K ) T √ d z (2) Scaled dot product was chosen for the compat- ibility  function,  which  enables  efﬁcient  computa- tion.  Linear transformations of the inputs add suf- ﬁcient expressive power. W  Q , W  K , W  V  ∈ R d x × d z  are parameter matri- ces. These parameter matrices are unique per layer and attention head."
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "Proposed Architecture",
+      "text": " 3.1 Relation-aware Self-Attention We  propose  an  extension  to  self-attention  to  con- sider the pairwise relationships between input ele- ments.  In  this  sense,  we  model  the  input  as  a  la- beled, directed, fully-connected graph. The  edge  between  input  elements  x i  and  x j  is represented  by  vectors  a V ij , a K ij  ∈ R d a .  The  mo- tivation  for  learning  two  distinct  edge  represen- tations  is  that  a V ij  and  a K ij  are  suitable  for  use  in eq. ( ) and eq. ( ), respectively, without requiring additional linear transformations.  These represen- tations  can  be  shared  across  attention  heads.  We use d a  = d z . We  modify  eq.  ( )  to  propagate  edge  informa- tion to the sublayer output: z i  = n X j =1 α ij ( x j W  V  + a V ij ) (3) This  extension  is  presumably  important  for tasks  where  information  about  the  edge  types  se- lected by a given attention head is useful to down- stream encoder or decoder layers.  However, as ex- plored  in  4.3 ,  this  may  not  be  necessary  for  ma- chine translation. We also, importantly, modify eq. ( ) to consider edges when determining compatibility: e ij  = x i W  Q ( x j W  K  + a K ij  ) T √ d z (4) The  primary  motivation  for  using  simple  addi- tion to incorporate edge representations in eq. ( ) and eq. ( ) is to enable an efﬁcient implementation described in 3.3 . x x x … x n x a V 2,1 =w V -1 a K 2,1 =w K -1 a V 2,4 =w V a K 2,4 =w K a V 4,n =w V k a K 4,n =w K k Figure  1:  Example  edges  representing  relative  posi- tions, or the distance between elements.  We learn rep- resentations for each relative position within a clipping distance  k .  The  ﬁgure  assumes   < =  k  < =  n − . Note that not all edges are shown. 3.2 Relative Position Representations For  linear  sequences,  edges  can  capture  infor- mation  about  the  relative  position  differences  be- tween input elements.  The maximum relative po- sition we consider is clipped to a maximum abso- lute value of k .  We hypothesized that precise rel- ative  position  information  is  not  useful  beyond  a certain  distance.  Clipping  the  maximum  distance also  enables  the  model  to  generalize  to  sequence lengths  not  seen  during  training.  Therefore,  we consider k + 1 unique edge labels. a K ij  = w K clip( j − i,k ) a V ij  = w V clip( j − i,k ) clip( x, k ) = max( − k, min( k, x )) We  then  learn  relative  position  representations w K  = ( w K − k , . . . , w K k  ) and w V  = ( w V − k , . . . , w V k  ) where w K i  , w V i  ∈ R d a . 3.3 Efﬁcient Implementation There  are  practical  space  complexity  concerns when  considering  edges  between  input  elements, as noted by Veliˇckovi´c et al. ( ), which consid- ers unlabeled graph inputs to an attention model. For  a  sequence  of  length  n  and  h  attention heads,  we reduce  the  space complexity  of  storing relative  position  representations  from  O ( hn d a ) to  O ( n d a )  by  sharing  them  across  each  heads. Additionally, relative position representations can be  shared  across  sequences.  Therefore,  the  over- all self-attention space complexity increases from O ( bhnd z ) to O ( bhnd z  + n d a ) .  Given d a  =  d z , the size of the relative increase depends on  n bh . The  Transformer  computes  self-attention  efﬁ- ciently  for  all  sequences,  heads,  and  positions  in a batch using parallel matrix multiplication opera- tions ( Vaswani et al. , ).  Without relative posi- tion representations, each e ij  can be computed us- ing bh parallel multiplications of n × d z and d z × n matrices.  Each matrix multiplication computes e ij for  all  sequence  positions,  for  a  particular  head and  sequence.  For  any  sequence  and  head,  this requires  sharing  the  same  representation  for  each position across all compatibility function applica- tions (dot products) with other positions. When  we  consider  relative  positions  the  repre- sentations  differ  with  different  pairs  of  positions. This  prevents  us  from  computing  all  e ij  for  all pairs of positions in a single matrix multiplication. We  also  want  to  avoid  broadcasting  relative  po- sition  representations.  However,  both  issues  can be resolved by splitting the computation of eq. ( ) into two terms: e ij  = x i W  Q ( x j W  K ) T  + x i W  Q ( a K ij  ) T √ d z (5) The ﬁrst term is identical to eq. ( ), and can be computed as described above. For the second term involving  relative  position  representations,  tensor reshaping can be used to compute n parallel multi- plications of bh × d z and d z × n matrices. Each ma- trix  multiplication  computes  contributions  to  e ij for all heads and batches,  corresponding to a par- ticular  sequence  position.  Further  reshaping  al- lows  adding  the  two  terms.  The  same  approach can be used to efﬁciently compute eq. ( ). For our machine translation experiments, the re- sult  was  a  modest  7%  decrease  in  steps  per  sec- ond, but we were able to maintain the same model and  batch  sizes  on  P100  GPUs  as  Vaswani  et al. ( )."
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "Experiments",
+      "text": " 4.1 Experimental Setup We use the tensor2tensor   library for training and evaluating our model. We  evaluated  our  model  on  the  WMT  machine  translation  task,  using  the  WMT  English-German  dataset  consisting  of  approxi- mately  4.5M  sentence  pairs  and  the   WMT English-French  dataset  consisting  of  approxi- mately 36M sentence pairs. The  tensor2tensor  library  is  available  at  https:// github.com/tensorflow/tensor2tensor . Model Position Information EN-DE BLEU EN-FR BLEU Transformer (base) Absolute Position Representations 26.5 38.2 Transformer (base) Relative Position Representations 26.8 38.7 Transformer (big) Absolute Position Representations 27.9 41.2 Transformer (big) Relative Position Representations 29.2 41.5 Table 1:  Experimental results for WMT 2014 English-to-German (EN-DE) and English-to-French (EN-FR) trans- lation tasks, using newstest2014 test set. For  all  experiments,  we  split  tokens  into  a 32,768  word-piece  vocabulary  ( Wu  et  al. ,  ). We batched sentence pairs by approximate length, and  limited  input  and  output  tokens  per  batch  to 4096 per GPU. Each resulting training batch con- tained  approximately  25,000  source  and  25,000 target tokens. We used the Adam optimizer  ( Kingma and Ba , )  with  β  =  . ,  β  =  . ,  and  ϵ  =  − . We used the same warmup and decay strategy for learning rate as Vaswani et al. ( ),  with 4,000 warmup  steps.  During  training,  we  employed  la- bel smoothing of value ϵ ls  =  .  ( Szegedy et al. , ).  For evaluation,  we used beam search with a beam size of 4 and length penalty α  = 0 .  ( Wu et al. , ). For our base model, we used 6 encoder and de- coder  layers,  d x  =  ,  d z  =  ,   attention heads, 1024 feed forward inner-layer dimensions, and  P dropout  =  . .  When  using  relative  posi- tion encodings, we used clipping distance k  = 16 , and used unique edge representations per layer and head. We  trained  for  100,000  steps  on   K40 GPUs, and did not use checkpoint averaging. For  our  big  model,  we  used   encoder  and  de- coder  layers,  d x  =  ,  d z  =  ,   attention heads, 4096 feed forward inner-layer dimensions, and P dropout  = 0 . for EN-DE and P dropout  = 0 . for  EN-FR.  When  using  relative  position  encod- ings, we used k  =  , and used unique edge repre- sentations per layer.  We trained for 300,000 steps on 8 P100 GPUs, and averaged the last 20 check- points, saved at 10 minute intervals. 4.2 Machine Translation We  compared  our  model  using  only  relative  po- sition representations to the baseline Transformer ( Vaswani et al. , ) with sinusoidal position en- codings. We  generated  baseline "
+    },
+    {
+      "section_title": "results",
+      "text": "  to  iso- late the impact of relative position representations from  any  other  changes  to  the  underlying  library and experimental conﬁguration. For English-to-German our approach improved performance  over  our  baseline  by  0.3  and  1.3 BLEU for the base and big conﬁgurations, respec- tively.  For  English-to-French  it  improved  by  0.5 and 0.3 BLEU for the base and big conﬁgurations, respectively.  In  our "
+    },
+    {
+      "section_title": "experiments",
+      "text": "  we  did  not  ob- serve  any  beneﬁt  from  including  sinusoidal  posi- tion encodings in addition to relative position rep- resentations.  The results are shown in Table . 4.3 Model Variations We performed several experiments modifying var- ious  aspects  of  our  model. All  of  our  experi- ments in this section use the base model conﬁgura- tion without any absolute position representations. BLEU scores are calculated on the WMT English- to-German  task  using  the  development  set,  new- stest2013. We evaluated the effect of varying the clipping distance, k , of the maximum absolute relative po- sition  difference.  Notably,  for  k  ≥ ,  there  does not  appear  to  be  much  variation  in  BLEU  scores. However,  as  we use multiple encoder layers,  pre- cise  relative  position  information  may  be  able  to propagate  beyond  the  clipping  distance.  The  re- sults are shown in Table . k EN-DE BLEU 12.5 25.5 25.8 25.9 25.8 25.9 25.8 Table 2:  Experimental results for varying the clipping distance, k . We also evaluated the impact of ablating each of the two relative position representations deﬁned in section 3.1 , a V ij  in eq. ( ) and a K ij  in eq. ( ). Includ- ing  relative  position  representations  solely  when determining  compatibility  between  elements  may be  sufﬁcient,  but  further  work  is  needed  to  deter- mine  whether  this  is  true  for  other  tasks.  The  re- sults are shown in Table . a V ij a K ij EN-DE BLEU Yes Yes 25.8 No Yes 25.8 Yes No 25.3 No No 12.5 Table 3:  Experimental results for ablating relative po- sition representations a V ij  and a K ij  ."
+    },
+    {
+      "section_title": "5",
+      "text": ""
+    },
+    {
+      "section_title": "Conclusions",
+      "text": " In  this  paper  we  presented  an  extension  to  self- attention  that  can  be  used  to  incorporate  rela- tive position information for sequences, which im- proves performance for machine translation. For future work, we plan to extend this mecha- nism  to  consider  arbitrary  directed,  labeled  graph inputs  to  the  Transformer. We  are  also  inter- ested in nonlinear compatibility functions to com- bine  input  representations  and  edge  representa- tions.  For both of these extensions,  a key consid- eration  will  be  determining  efﬁcient  implementa- tions."
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "doc_id": "2004.04906v3.pdf",
+  "sections": [
+    {
+      "section_title": "Dense Passage Retrieval for Open-Domain Question Answering",
+      "text": ""
+    },
+    {
+      "section_title": "Vladimir Karpukhin",
+      "text": " ∗"
+    },
+    {
+      "section_title": ", Barlas O˘guz",
+      "text": " ∗"
+    },
+    {
+      "section_title": ", Sewon Min",
+      "text": " †"
+    },
+    {
+      "section_title": ", Patrick Lewis,",
+      "text": ""
+    },
+    {
+      "section_title": "Ledell Wu, Sergey Edunov, Danqi Chen",
+      "text": " ‡"
+    },
+    {
+      "section_title": ", Wen-tau Yih",
+      "text": ""
+    },
+    {
+      "section_title": "Facebook AI",
+      "text": " †"
+    },
+    {
+      "section_title": "University of Washington",
+      "text": " ‡"
+    },
+    {
+      "section_title": "Princeton University",
+      "text": ""
+    },
+    {
+      "section_title": "{",
+      "text": ""
+    },
+    {
+      "section_title": "vladk,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "barlaso,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "plewis,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "ledell,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "edunov,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "scottyih",
+      "text": ""
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": "@fb.com",
+      "text": ""
+    },
+    {
+      "section_title": "sewon@cs.washington.edu",
+      "text": ""
+    },
+    {
+      "section_title": "danqic@cs.princeton.edu",
+      "text": ""
+    },
+    {
+      "section_title": "Abstract",
+      "text": " Open-domain question answering relies on ef- ﬁcient  passage  retrieval  to  select  candidate contexts, where traditional sparse vector space models,  such  as  TF-IDF  or  BM25,  are  the  de facto  method. In  this  work,  we  show  that retrieval  can  be  practically  implemented  us- ing  dense  representations  alone,  where  em- beddings  are  learned  from  a  small  number of  questions  and  passages  by  a  simple  dual- encoder  framework. When  evaluated  on  a wide  range  of  open-domain  QA  datasets,  our dense  retriever  outperforms  a  strong  Lucene- BM25 system greatly by 9%-19% absolute in terms of top-20 passage retrieval accuracy, and helps our end-to-end QA system establish new state-of-the-art  on  multiple  open-domain  QA benchmarks."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " Open-domain question answering (QA) ( Voorhees , ) is a task that answers factoid questions us- ing a large collection of documents.  While early QA systems are often complicated and consist of multiple components ( Ferrucci ( ); Moldovan et al. ( ), inter alia ), the advances of reading comprehension models suggest a much simpliﬁed two-stage framework:  (1) a context retriever ﬁrst selects  a  small  subset  of  passages  where  some of  them  contain  the  answer  to  the  question,  and then  (2)  a  machine  reader  can  thoroughly  exam- ine the retrieved contexts and identify the correct answer  ( Chen  et  al. ,  ).  Although  reducing open-domain QA to machine reading is a very rea- sonable strategy, a huge performance degradation is often observed in practice , indicating the needs of improving retrieval. ∗ Equal contribution The  code  and  trained  models  have  been  released  at https://github.com/facebookresearch/DPR . For instance, the exact match score on SQuAD v1.1 drops from above 80% to less than 40% ( Yang et al. , 2019a ). Retrieval in open-domain QA is usually imple- mented  using  TF-IDF  or  BM25  ( Robertson  and Zaragoza ,  ),  which  matches  keywords  efﬁ- ciently  with  an  inverted  index  and  can  be  seen as  representing  the  question  and  context  in  high- dimensional, sparse vectors (with weighting).  Con- versely, the dense , latent semantic encoding is com- plementary to sparse representations by design. For example, synonyms or paraphrases that consist of completely different tokens may still be mapped to vectors close to each other.  Consider the question “Who is the bad guy in lord of the rings?” , which can be answered from the context “Sala Baker is best known for portraying the villain Sauron in the Lord of the Rings trilogy.”  A term-based system would have  difﬁculty  retrieving  such  a  context,  while a  dense  retrieval  system  would  be  able  to  better match “bad guy” with “villain” and fetch the cor- rect context.  Dense encodings are also learnable by adjusting the embedding functions, which pro- vides additional ﬂexibility to have a task-speciﬁc representation.  With special in-memory data struc- tures and indexing schemes, retrieval can be done efﬁciently  using  maximum  inner  product  search (MIPS) algorithms (e.g., Shrivastava and Li ( ); Guo et al. ( )). However,  it  is  generally  believed  that  learn- ing  a  good  dense  vector  representation  needs  a large number of labeled pairs of question and con- texts.  Dense  retrieval  methods  have  thus  never be shown to outperform TF-IDF/BM25 for open- domain QA before ORQA ( Lee et al. , ), which proposes a sophisticated inverse cloze task (ICT) objective,  predicting  the  blocks  that  contain  the masked sentence, for additional pretraining.  The question encoder and the reader model are then ﬁne- tuned using pairs of questions and answers jointly. Although  ORQA  successfully  demonstrates  that dense retrieval can outperform BM25, setting new state-of-the-art "
+    },
+    {
+      "section_title": "results",
+      "text": "  on  multiple  open-domain"
+    },
+    {
+      "section_title": "arXiv:2004.04906v3  [cs.CL]  30 Sep 2020",
+      "text": " QA datasets, it also suffers from two weaknesses. First, ICT pretraining is computationally intensive and it is not completely clear that regular sentences are good surrogates of questions in the objective function.  Second, because the context encoder is not ﬁne-tuned using pairs of questions and answers, the corresponding representations could be subop- timal. In this paper, we address the question:  can we train a better dense embedding model using only pairs of questions and passages (or answers), with- out additional pretraining?  By leveraging the now standard  BERT  pretrained  model  ( Devlin  et  al. , )  and  a  dual-encoder  architecture  ( Bromley et  al. ,  ),  we  focus  on  developing  the  right training  scheme  using  a  relatively  small  number of  question  and  passage  pairs.  Through  a  series of  careful  ablation  studies,  our  ﬁnal  solution  is surprisingly simple:  the embedding is optimized for maximizing inner products of the question and relevant passage vectors, with an objective compar- ing all pairs of questions and passages in a batch. Our Dense Passage Retriever (DPR) is exception- ally  strong.  It  not  only  outperforms  BM25  by  a large margin (65.2% vs.  42.9% in Top-5 accuracy), but  also "
+    },
+    {
+      "section_title": "results",
+      "text": "  in  a  substantial  improvement  on the end-to-end QA accuracy compared to ORQA (41.5% vs.  33.3%) in the open Natural Questions setting ( Lee et al. , ; Kwiatkowski et al. , ). Our contributions are twofold.  First, we demon- strate  that  with  the  proper  training  setup,  sim- ply ﬁne-tuning the question and passage encoders on existing question-passage pairs is sufﬁcient to greatly outperform BM25.  Our empirical results also suggest that additional pretraining may not be needed.  Second, we verify that, in the context of open-domain question answering, a higher retrieval precision indeed translates to a higher end-to-end QA accuracy.  By applying a modern reader model to the top retrieved passages, we achieve compara- ble or better results on multiple QA datasets in the open-retrieval setting, compared to several, much complicated systems."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "Background",
+      "text": " The  problem  of  open-domain  QA  studied  in  this paper can be described as follows.  Given a factoid question, such as “ Who ﬁrst voiced Meg on Family Guy? ” or “ Where was the 8th Dalai Lama born? ”, a system is required to answer it using a large corpus of diversiﬁed topics.  More speciﬁcally, we assume the extractive QA setting, in which the answer is restricted to a span appearing in one or more pas- sages  in  the  corpus.  Assume  that  our  collection contains  D  documents,  d , d , · · ·  , d D .  We  ﬁrst split each of the documents into text passages of equal lengths as the basic retrieval units  and get M total passages in our corpus C  = { p , p , . . . , p M } , where each passage p i can be viewed as a sequence of tokens w ( i )  , w ( i )  , · · ·  , w ( i ) | p i | .  Given a question q , the task is to ﬁnd a span w ( i ) s  , w ( i ) s +1 , · · ·  , w ( i ) e from one of the passages p i that can answer the question. Notice that to cover a wide variety of domains, the corpus size can easily range from millions of docu- ments (e.g., Wikipedia) to billions (e.g., the Web). As a result, any open-domain QA system needs to include an efﬁcient retriever component that can se- lect a small set of relevant texts, before applying the reader to extract the answer ( Chen et al. , ). Formally  speaking,  a  retriever  R  :  ( q, C )  →C F is a function that takes as input a question q and a corpus  C  and  returns  a  much  smaller  ﬁlter  set  of texts C F  ⊂C , where |C F | = k  ≪|C| .  For a ﬁxed k , a retriever can be evaluated in isolation on top-k retrieval accuracy ,  which is the fraction of ques- tions for which C F  contains a span that answers the question."
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "Dense Passage Retriever (DPR)",
+      "text": " We  focus  our  research  in  this  work  on  improv- ing the retrieval component in open-domain QA. Given a collection of M  text passages, the goal of our dense passage retriever (DPR) is to index all the passages in a low-dimensional and continuous space,  such that it can retrieve efﬁciently the top k  passages  relevant  to  the  input  question  for  the reader at run-time.  Note that M  can be very large (e.g., 21 million passages in our experiments, de- scribed in Section 4.1 ) and k is usually small, such as – . 3.1 Overview Our  dense  passage  retriever  (DPR)  uses  a  dense encoder E P ( · ) which maps any text passage to a d - dimensional real-valued vectors and builds an index for all the M  passages that we will use for retrieval. The ideal size and boundary of a text passage are func- tions of both the retriever and reader.  We also experimented with natural paragraphs in our preliminary trials and found that using ﬁxed-length passages performs better in both retrieval and ﬁnal QA accuracy, as observed by Wang et al. ( ). Exceptions include ( Seo et al. , ) and ( Roberts et al. , ), which retrieves and generates the answers, respectively. At run-time, DPR applies a different encoder E Q ( · ) that  maps  the  input  question  to  a  d -dimensional vector, and retrieves k  passages of which vectors are  the  closest  to  the  question  vector.  We  deﬁne the similarity between the question and the passage using the dot product of their vectors: sim( q, p ) = E Q ( q ) ⊺ E P ( p ) . (1) Although more expressive model forms for measur- ing the similarity between a question and a passage do exist, such as networks consisting of multiple layers  of  cross  attentions,  the  similarity  function needs  to  be  decomposable  so  that  the  represen- tations  of  the  collection  of  passages  can  be  pre- computed. Most decomposable similarity functions are  some  transformations  of  Euclidean  distance (L2).  For  instance,  cosine  is  equivalent  to  inner product for unit vectors and the Mahalanobis dis- tance is equivalent to L2 distance in a transformed space.  Inner product search has been widely used and  studied,  as  well  as  its  connection  to  cosine similarity and L2 distance ( Mussmann and Ermon , ; Ram and Gray , ).  As our ablation study ﬁnds other similarity functions perform compara- bly  (Section  5.2 ; "
+    }
+  ]
+}

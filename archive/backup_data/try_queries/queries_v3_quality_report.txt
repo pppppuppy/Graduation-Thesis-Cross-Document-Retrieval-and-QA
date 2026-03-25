@@ -1,0 +1,23 @@
+============================================================
+Query Quality Report v3
+============================================================
+
+Total queries: 150
+Passed: 133 (88.7%)
+Failed: 17 (11.3%)
+  - 缺少有效疑问词: 16
+  - 语法错误: 1
+
+Final saved queries: 133
+
+Sample queries (first 10):
+  - How does extension block sparse enable better representation learning?
+  - What are the advantages of using example variational auto in neural networks?
+  - How does question answering enable better representation learning?
+  - Why is full hierarchical crucial for attention mechanisms?
+  - Why does next steps improve generalization in deep learning?
+  - What is the role of efficiency pareto in transformer architectures?
+  - Why is train test effective for natural language processing?
+  - Why is free important for training deep learning models?
+  - How does extension adamnc help with sequence modeling tasks?
+  - How does solutions affect the training dynamics of neural models?

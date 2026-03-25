@@ -1,0 +1,2285 @@
+{
+  "doc_id": "2602.23087v1.pdf",
+  "title": "arXiv:2602.23087v1  [econ.EM]  26 Feb 2026",
+  "abstract": "We re-examine the traditional Mean-Squared Error (MSE) forecasting paradigm by for-\nmally integrating an accuracy–timeliness trade-off: accuracy is defined by MSE (or target\ncorrelation) and timeliness by advancement (or phase excess). While MSE-optimized predic-\ntors are accurate in tracking levels, they sacrifice dynamic lead, causing them to lag behind\nchanging targets. To address this, we introduce two ‘look-ahead’ frameworks—Decoupling-\nfrom-Present (DFP) and Peak-Correlation-Shifting (PCS)—and provide closed-form solutions\nfor their optimization. Notably, the classical MSE predictor is shown to be a special case within\nthese frameworks. Dually, our methods achieve maximum advancement for any given accu-\nracy level, so our approach reveals the complete efficient frontier of the accuracy–timeliness\ntrade-off, whereas MSE represents only a single point.\nWe also derive a universal upper\nbound on lead over MSE for any linear predictor under a consistency constraint and prove\nthat our methods hit this ceiling. We validate this approach through applications in fore-\ncasting and real-time signal extraction, introducing a leading-indicator criterion and tailored\nlinear benchmarks.\n1\nIntroduction\nPetropoulos et al. (2022), in their comprehensive treatment of forecasting theory and practice,\ncontend that “the theory of forecasting appears mature today . . .\nthe fact that forecasting is\nmature does not mean that all has been done.” Building on this perspective, we propose new\ndirections by formalizing a novel forecast accuracy–timeliness dilemma.\nForecasting involves several partly competing objectives: accuracy (predicting future levels),\ntimeliness (lead–lag behavior relative to a benchmark, i.e., retardation or advancement), and\nsmoothness (suppressing spurious high-frequency noise). In this sense, forecasting and real-time\nsignal extraction (nowcasting) rest on common methodological foundations, as our examples illus-\ntrate.\nIdeally, one would optimize accuracy, smoothness, and timeliness (AST) in a single objective,\nproducing predictors/nowcasts that track the latent level, detect turning points without system-\natic delay, and avoid spurious high-frequency noise. The AST setting, however, implies a formal\ntrilemma: improving any one component necessarily worsens at least one of the others. Wildi\n(2005) and Wildi and McElroy (2019) propose a framework based on this trilemma, but their\ncriterion lacks a closed-form solution. Wildi (2024), (2026a), and (2026b) further study a two-way\naccuracy–smoothness trade-off. Here, we instead focus on the explicit accuracy–timeliness trade-\noff in prediction.\nWe introduce two forecasting frameworks—Decoupling-From-Present (DFP) and Peak-Correlation-\nShifting (PCS)—and derive exact closed-form solutions to their respective optimization problems.\n1\narXiv:2602.23087v1  [econ.EM]  26 Feb 2026\nBoth generalize the classical minimum-MSE predictor, recovered as a special case.\nWe prove\na duality result: for any target accuracy, our predictors achieve the maximum possible phase\nexcess (lead) relative to the MSE benchmark, yielding an efficient frontier that quantifies the ac-\ncuracy–timeliness trade-off. While MSE is a single point on this frontier, DFP and PCS trace the\nfull curve. We derive an upper bound on the maximum ‘meaningful’ lead that can be achieved by\na linear predictor under a consistency constraint; our predictors attain it, restricting hyperparam-\neters to a valid admissible region.\nOur method deliberately trades accuracy at selected horizons for a systematic time lead over\nthe MSE-optimal predictor. Unlike classic forecast combinations that pool common information\nacross competing forecasts at a fixed horizon (e.g., Hsiao and Wan, 2014; Makridakis et al., 2018),\nwe exploit dissimilarities in predictors across different horizons. Counterintuitively, decoupling\nthe predictor from the latest observation—usually considered the most influential—can increase\nthe lead, and overweighting older data can extend it further. In some scenarios where timeliness\nis paramount, the conventional goal of minimizing forecast error can be inverted to maximize it\nwithin a controlled bound. This demonstrates how prioritizing speed can challenge conventional\nforecasting wisdom. We focus on stationary univariate results for brevity, but the approach ex-\ntends to nonstationary and multivariate cases.\nWe begin in Section 2 by documenting the limitations of the traditional MSE forecasting\nmodel. Section 3 then introduces the DFP and PCS predictors, deriving closed-form solutions\nand a dual formulation that yields a new accuracy–timeliness efficient frontier. Lead time is de-\nfined in Section 4, where we relate it to the key hyperparameters and derive, under a consistency\nconstraint, an upper bound on admissible lead. Applications to time-series forecasting and sig-\nnal extraction—including the construction of leading indicators and the customization of linear\npredictors—are presented in Section 5. Section 6 then summarizes the main conclusions.\n2\nLimitations of Classic Forecast Approach: a Case Study\nFor illustration we consider forecasting an MA(q) process\nxt = µ + γ0ϵt + γ1ϵt−1 + ... + γqϵt−q,\nwhere γ0 = 1. To simplify exposition, we assume that µ = 0, that γ1, ..., γq are known and that\nthe white noise innovations ϵt are observed.\nThe MSE h-step ahead forecast ˆxMSE\nhT\nof xT +h at the sample end t = T is\nˆxMSE\nhT\n=\n\u001a Pq−h\nk=0 γh+kϵT −k\n1 ≤h ≤q\n0\notherwise.\nFor h ≤q and t ∈{q −h + 1, . . . , T}, consider the forecast filter ˆxMSE\nht\n= Pq−h\nk=0 γk+hϵt−k with\nweights γh, . . . , γq. The cross correlation function (CCF) between xt+δ and ˆxMSE\nht\nat lead δ (q ≥\nδ > 0) or at lag δ (h −q ≤δ ≤0) is given by\nρ(xt+δ, ˆxMSE\nht\n)\n=\nPmin(q−h,q−δ)\nk=max(0,−δ) γk+δγk+h\nqPq\nk=0 γ2\nk\nPq−h\nk=0 γ2\nk+h\n.\nFor illustration, Fig.\n1 presents the CCF for an exponentially weighted MA(9) process,\nxt = P9\nk=0 0.9kϵt−k, together with its optimal h = 5 step-ahead forecast, ˆxMSE\nht\n= ˆxMSE\n5t\n=\nP4\nk=0 0.9k+5ϵt−k, evaluated at leads and lags δ ∈{−4, −3, ..., 9} (top panel).\n2\nBy design, ˆxMSE\n5t\nmaximizes the CCF at the designated forecast horizon h = 5, as indicated by\nthe kink at the green vertical line. The correlation also increases as the lead shrinks (δ →0, with\n0 ≤δ ≤5), peaking at 0.86 when δ = 0 (black vertical line). The lower panel plots xt (black line)\nand its h = 5-step-ahead predictor, ˆxMSE\n5t\n(green), for t = 1, . . . , 100. Instead of clearly leading\nthe series, the predictor is largely time-aligned with the process it is meant to forecast. This is\nat odds with the intent of a truly forward-looking predictor and stems from the tight coupling\nbetween ˆxMSE\nht\nand xt implied by MSE optimality, as the CCF makes clear. Increasing h does\nnot weaken this dependence, so changing the forecast horizon does not fix the problem. Although\ndeliberately simple, the example reflects common challenges in economic forecasting, including\nreal-time signal extraction and trend nowcasting (see Section 5.3). Our new methods extend this\nframework to general forecasting problems and address the issue by explicitly incorporating a left\nshift (an effective lead) in forecasts for general stationary processes (extensions to nonstationary\nintegrated processes are omitted for brevity).\nCCF at various leads and lags\nLeads (positive) and lags (negative numbers)\ncorrelation\n−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1\nIntroduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Petropoulos et al. (2022), in their comprehensive treatment of forecasting theory and practice,\ncontend that “the theory of forecasting appears mature today . . .\nthe fact that forecasting is\nmature does not mean that all has been done.” Building on this perspective, we propose new\ndirections by formalizing a novel forecast accuracy–timeliness dilemma.",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "Forecasting involves several partly competing objectives: accuracy (predicting future levels),\ntimeliness (lead–lag behavior relative to a benchmark, i.e., retardation or advancement), and\nsmoothness (suppressing spurious high-frequency noise). In this sense, forecasting and real-time\nsignal extraction (nowcasting) rest on common methodological foundations, as our examples illus-\ntrate.",
+          "page": 1
+        },
+        {
+          "para_id": "1_3",
+          "text": "Ideally, one would optimize accuracy, smoothness, and timeliness (AST) in a single objective,\nproducing predictors/nowcasts that track the latent level, detect turning points without system-\natic delay, and avoid spurious high-frequency noise. The AST setting, however, implies a formal\ntrilemma: improving any one component necessarily worsens at least one of the others. Wildi\n(2005) and Wildi and McElroy (2019) propose a framework based on this trilemma, but their\ncriterion lacks a closed-form solution. Wildi (2024), (2026a), and (2026b) further study a two-way\naccuracy–smoothness trade-off. Here, we instead focus on the explicit accuracy–timeliness trade-\noff in prediction.",
+          "page": 1
+        },
+        {
+          "para_id": "1_4",
+          "text": "We introduce two forecasting frameworks—Decoupling-From-Present (DFP) and Peak-Correlation-\nShifting (PCS)—and derive exact closed-form solutions to their respective optimization problems.",
+          "page": 1
+        },
+        {
+          "para_id": "1_5",
+          "text": "1",
+          "page": 1
+        },
+        {
+          "para_id": "1_6",
+          "text": "arXiv:2602.23087v1  [econ.EM]  26 Feb 2026",
+          "page": 1
+        },
+        {
+          "para_id": "1_7",
+          "text": "Both generalize the classical minimum-MSE predictor, recovered as a special case.\nWe prove\na duality result: for any target accuracy, our predictors achieve the maximum possible phase\nexcess (lead) relative to the MSE benchmark, yielding an efficient frontier that quantifies the ac-\ncuracy–timeliness trade-off. While MSE is a single point on this frontier, DFP and PCS trace the\nfull curve. We derive an upper bound on the maximum ‘meaningful’ lead that can be achieved by\na linear predictor under a consistency constraint; our predictors attain it, restricting hyperparam-\neters to a valid admissible region.",
+          "page": 2
+        },
+        {
+          "para_id": "1_8",
+          "text": "Our method deliberately trades accuracy at selected horizons for a systematic time lead over\nthe MSE-optimal predictor. Unlike classic forecast combinations that pool common information\nacross competing forecasts at a fixed horizon (e.g., Hsiao and Wan, 2014; Makridakis et al., 2018),\nwe exploit dissimilarities in predictors across different horizons. Counterintuitively, decoupling\nthe predictor from the latest observation—usually considered the most influential—can increase\nthe lead, and overweighting older data can extend it further. In some scenarios where timeliness\nis paramount, the conventional goal of minimizing forecast error can be inverted to maximize it\nwithin a controlled bound. This demonstrates how prioritizing speed can challenge conventional\nforecasting wisdom. We focus on stationary univariate results for brevity, but the approach ex-\ntends to nonstationary and multivariate cases.",
+          "page": 2
+        },
+        {
+          "para_id": "1_9",
+          "text": "We begin in Section 2 by documenting the limitations of the traditional MSE forecasting\nmodel. Section 3 then introduces the DFP and PCS predictors, deriving closed-form solutions\nand a dual formulation that yields a new accuracy–timeliness efficient frontier. Lead time is de-\nfined in Section 4, where we relate it to the key hyperparameters and derive, under a consistency\nconstraint, an upper bound on admissible lead. Applications to time-series forecasting and sig-\nnal extraction—including the construction of leading indicators and the customization of linear\npredictors—are presented in Section 5. Section 6 then summarizes the main conclusions.",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nLimitations of Classic Forecast Approach: a Case Study",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "For illustration we consider forecasting an MA(q) process",
+          "page": 2
+        },
+        {
+          "para_id": "2_2",
+          "text": "xt = µ + γ0ϵt + γ1ϵt−1 + ... + γqϵt−q,",
+          "page": 2
+        },
+        {
+          "para_id": "2_3",
+          "text": "where γ0 = 1. To simplify exposition, we assume that µ = 0, that γ1, ..., γq are known and that\nthe white noise innovations ϵt are observed.",
+          "page": 2
+        },
+        {
+          "para_id": "2_4",
+          "text": "The MSE h-step ahead forecast ˆxMSE\nhT\nof xT +h at the sample end t = T is ˆxMSE\nhT\n=\n\u001a Pq−h\nk=0 γh+kϵT −k\n1 ≤h ≤q\n0\notherwise.",
+          "page": 2
+        },
+        {
+          "para_id": "2_5",
+          "text": "For h ≤q and t ∈{q −h + 1, . . . , T}, consider the forecast filter ˆxMSE\nht\n= Pq−h\nk=0 γk+hϵt−k with\nweights γh, . . . , γq. The cross correlation function (CCF) between xt+δ and ˆxMSE\nht\nat lead δ (q ≥\nδ > 0) or at lag δ (h −q ≤δ ≤0) is given by",
+          "page": 2
+        },
+        {
+          "para_id": "2_6",
+          "text": "ρ(xt+δ, ˆxMSE\nht\n)\n=",
+          "page": 2
+        },
+        {
+          "para_id": "2_7",
+          "text": "Pmin(q−h,q−δ)\nk=max(0,−δ) γk+δγk+h\nqPq\nk=0 γ2\nk\nPq−h\nk=0 γ2\nk+h\n.",
+          "page": 2
+        },
+        {
+          "para_id": "2_8",
+          "text": "For illustration, Fig.\n1 presents the CCF for an exponentially weighted MA(9) process,\nxt = P9\nk=0 0.9kϵt−k, together with its optimal h = 5 step-ahead forecast, ˆxMSE\nht\n= ˆxMSE\n5t\n=\nP4\nk=0 0.9k+5ϵt−k, evaluated at leads and lags δ ∈{−4, −3, ..., 9} (top panel).",
+          "page": 2
+        },
+        {
+          "para_id": "2_9",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "2_10",
+          "text": "By design, ˆxMSE\n5t\nmaximizes the CCF at the designated forecast horizon h = 5, as indicated by\nthe kink at the green vertical line. The correlation also increases as the lead shrinks (δ →0, with\n0 ≤δ ≤5), peaking at 0.86 when δ = 0 (black vertical line). The lower panel plots xt (black line)\nand its h = 5-step-ahead predictor, ˆxMSE\n5t\n(green), for t = 1, . . . , 100. Instead of clearly leading\nthe series, the predictor is largely time-aligned with the process it is meant to forecast. This is\nat odds with the intent of a truly forward-looking predictor and stems from the tight coupling\nbetween ˆxMSE\nht\nand xt implied by MSE optimality, as the CCF makes clear. Increasing h does\nnot weaken this dependence, so changing the forecast horizon does not fix the problem. Although\ndeliberately simple, the example reflects common challenges in economic forecasting, including\nreal-time signal extraction and trend nowcasting (see Section 5.3). Our new methods extend this\nframework to general forecasting problems and address the issue by explicitly incorporating a left\nshift (an effective lead) in forecasts for general stationary processes (extensions to nonstationary\nintegrated processes are omitted for brevity).",
+          "page": 3
+        },
+        {
+          "para_id": "2_11",
+          "text": "CCF at various leads and lags",
+          "page": 3
+        },
+        {
+          "para_id": "2_12",
+          "text": "Leads (positive) and lags (negative numbers)",
+          "page": 3
+        },
+        {
+          "para_id": "2_13",
+          "text": "correlation",
+          "page": 3
+        },
+        {
+          "para_id": "2_14",
+          "text": "−4\n−3\n−2\n−1\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9",
+          "page": 3
+        },
+        {
+          "para_id": "2_15",
+          "text": "0.2\n0.6",
+          "page": 3
+        },
+        {
+          "para_id": "2_16",
+          "text": "Process (black) and optimal 5−step ahead forecast (green)",
+          "page": 3
+        },
+        {
+          "para_id": "2_17",
+          "text": "Time",
+          "page": 3
+        },
+        {
+          "para_id": "2_18",
+          "text": "1\n7\n14\n22\n30\n38\n46\n54\n62\n70\n78\n86\n94",
+          "page": 3
+        },
+        {
+          "para_id": "2_19",
+          "text": "−2 0\n2\n4",
+          "page": 3
+        },
+        {
+          "para_id": "2_20",
+          "text": "Figure 1: Top graph: CCF of MSE 5-step ahead forecast filter and MA(9) process at leads\n9 ≥δ > 0 and lags −4 ≤δ ≤0. Bottom graph: a comparison of realizations of the process (black\nline) and of the optimal 5-step ahead forecast filter (green line)",
+          "page": 3
+        },
+        {
+          "para_id": "2_21",
+          "text": "We now move beyond the MA(9) example and consider a stationary linear process",
+          "page": 3
+        },
+        {
+          "para_id": "2_22",
+          "text": "xt =",
+          "page": 3
+        },
+        {
+          "para_id": "2_23",
+          "text": "∞\nX k=−∞\nγkϵt−k,\n(1) where the impulse response sequence γk is square-summable, P∞\nk=−∞γ2\nk < ∞. We assume iid\ninnovations ϵt, though the results extend to uncorrelated white noise when focusing on best linear\nprediction. For simplicity, we take ϵt to be observed1; otherwise, ϵt can be recovered using standard\ninversion methods (see Section 5.2 for an example). Allowing k < 0 in (1) (i.e., inclusion of future\ninnovations ϵt−k) accommodates signal-extraction settings with two-sided bi-infinite filters (cf.\nSection 5.3). Consider a generic (not necessarily MSE-optimal) predictor for xt+h generated by a 1We also analyze AR inversions, but the MA impulse-response representation is generally more informative\nabout predictor dynamics.",
+          "page": 3
+        },
+        {
+          "para_id": "2_24",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "2_25",
+          "text": "causal finite-length filter of order L with coefficient vector b = (b0, . . . , bL−1)′:",
+          "page": 4
+        },
+        {
+          "para_id": "2_26",
+          "text": "ˆxht = b′ϵt =",
+          "page": 4
+        },
+        {
+          "para_id": "2_27",
+          "text": "L−1\nX k=0\nbkϵt−k, where b = b(h) generally depends on the forecast horizon h.\nDefine the length-L coefficient\nvector for horizon h as γh := (γh, γh+1, ..., γh+L−1)′, which yields the (length-L) MSE-optimal\nlinear predictor ˆxMSE\nht\n=",
+          "page": 4
+        },
+        {
+          "para_id": "2_28",
+          "text": "L−1\nX k=0\nγh+kϵt−k. For brevity, we refer to the‘MSE predictor at horizon h’ interchangeably as the weight vector γh\nor its implied predictor ˆxMSE\nht\n. When h = 0, this reduces to the nowcast, and γ0 denotes the\ncontemporaneous coefficient vector. In a stationary ARMA(p, q) setting, the nowcast coincides\nwith a truncated MA inversion (Wold decomposition, assuming no deterministic component). As\nmentioned, we restrict attention to univariate stationary processes, noting that the approaches\nextend to integrated and multivariate settings (not shown).",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3\nLook-Ahead Forecast Optimization Criteria",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "We develop two variants—Decoupling from Present (DFP) and Peak Correlation Shifting (PCS)—designed\nto advance the predictor relative to the benchmark MSE design (i.e., induce a controllable lead\nvia a leftward shift).",
+          "page": 4
+        },
+        {
+          "para_id": "3_2",
+          "text": "3.1\nDecoupling from Present As established in Section 2, the classical MSE predictor in this setting achieves its CCF maximum\nat the contemporaneous lag δ = 0, yielding a coincident rather than a leading forecast. This\nproperty is essentially invariant to increases in the forecast horizon h ≤q. To induce a systematic\nlead, we therefore seek to decouple the predictor from the present and formulate the following\ndecoupling-from-present (DFP) problem: max\nb\nγ′\nhb\n(2) s.t.\nγ′\n0b/∥γ0∥= α0\nb′b = 1,",
+          "page": 4
+        },
+        {
+          "para_id": "3_3",
+          "text": "where ∥γ0∥=\np",
+          "page": 4
+        },
+        {
+          "para_id": "3_4",
+          "text": "γ′\n0γ0. The unit-norm constraint, b′b = 1, implies that the linear objective γ′\nhb\nis proportional to the correlation ρ(xt+h, ˆxht) at δ = h. This is computationally advantageous:\nρ(xt+h, ˆxht) is a nonlinear function of b, whereas the objective in (2) is linear, yielding a tractable\noptimization while preserving the correlation-based interpretation at the target horizon. Likewise,\nunder the unit-length constraint α0 specifies the contemporaneous correlation ρ(xt, ˆxht) at δ = 0.\nSetting α0 = 0 achieves complete decoupling of the predictor from the present; see Section 5.1\nfor an example. Observe that α0 = cos(θ0b), where θ0b denotes the angle between γ0 and b.\nHence, α0 parametrizes the phase θ0b between the predictor b and the nowcast γ0 at δ = 0, see\nFig.2. Conversely, θ0b is determined by α0 up to its sign. Typically, only one of the two solutions\n(±θ0b) is genuinely forward-looking; the alternative is backward-looking and entails a correspond-\ning lag. Conceptually, this connects to Wildi and McElroy (2019), who frame a trilemma in terms\nof time-shift and amplitude functions. In what follows, we assume |α0| ≤1 (feasibility) and that\nthe implied solution delivers a strictly positive objective value (strict positivity), as is typical in\napplications (the criterion can vanish, for example, for an MA(q) process when h > q).",
+          "page": 4
+        },
+        {
+          "para_id": "3_5",
+          "text": "Remark: Decoupling the predictor from the present may seem counterintuitive, as the most\nrecent observation xT at the sample end t = T is typically regarded as highly informative for",
+          "page": 4
+        },
+        {
+          "para_id": "3_6",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "3_7",
+          "text": "forecasting. However, decoupling does not imply that xT is irrelevant. Rather, it acknowledges\nthat achieving an effective lead of the predictor requires a dynamic pattern that differs from the\ncontemporaneous behavior of xT . In this sense, a degree of decoupling—i.e., loosening the tie to\nthe present—is intrinsic to constructing a genuinely forward-looking predictor.",
+          "page": 5
+        },
+        {
+          "para_id": "3_8",
+          "text": "The following Theorem provides the closed-form solution to the DFP criterion. Theorem 1. Assume γ0 and γh (h > 0) are linearly independent and |α0| < 1. Then the solution\nto criterion (2) lies in span{γ0, γh}:",
+          "page": 5
+        },
+        {
+          "para_id": "3_9",
+          "text": "b = λ1γh + λ2γ0\n(3) for some scalars λ1, λ2. If γ′\n0γh ̸= 0, then λ1\n=\nα0∥γ0∥−λ2γ′\n0γ0\nγ′\n0γh and λ2 is determined by the quadratic λ2\n=\n−b ±\n√",
+          "page": 5
+        },
+        {
+          "para_id": "3_10",
+          "text": "b2 −4ac\n2a\n,\n(4) with coefficients",
+          "page": 5
+        },
+        {
+          "para_id": "3_11",
+          "text": "a\n=\nγ′\n0γ0",
+          "page": 5
+        },
+        {
+          "para_id": "3_12",
+          "text": "\u0012γ′\n0γ0γ′\nhγh\n(γ′\n0γh)2\n−1\n\u0013 b\n=\n2α0∥γ0∥\n\u0012\n1 −γ′\n0γ0γ′\nhγh\n(γ′\n0γh)2",
+          "page": 5
+        },
+        {
+          "para_id": "3_13",
+          "text": "\u0013",
+          "page": 5
+        },
+        {
+          "para_id": "3_14",
+          "text": "c\n=\nα2\n0γ′\n0γ0γ′\nhγh\n(γ′\n0γh)2\n−1. Among the two candidate solutions for λ2, choose the root that maximizes the objective γ′\nhb in\n(2). On the other hand, if γ′\n0γh = 0, then λ2\n=\nα0\n∥γ0∥",
+          "page": 5
+        },
+        {
+          "para_id": "3_15",
+          "text": "λ1\n=\n±",
+          "page": 5
+        },
+        {
+          "para_id": "3_16",
+          "text": "s 1 −α2\n0\nγ′\nhγh\n. where the appropriate sign maximizes the objective γ′\nhb. Finally, if |α0| = 1, then the solution is\nb = sign(α0)γ0/∥γ0∥. Proof: We first assume |α0| < 1. Then, under criterion (2), the feasible set is the intersection\nof the unit sphere (b′b = 1) and the circular cone defined by the decoupling constraint γ′\n0b =\nα0∥γ0∥∥b∥(where ∥b∥= 1 is relaxed), i.e., the cone with axis γ0 and semi-angle θ0b = arccos(α0).\nMoreover, maximizing the projection γ′\nhb implies that the optimizer—i.e., the admissible unit\nvectors on the cone—lies in the two-dimensional subspace spanned by the axis γ0 of the cone and\nthe objective direction γh (see Fig. 2). Consequently, b = λ1γh + λ2γ0, where λ1 and λ2 are determined by the decoupling and unit-norm constraints. Assuming γ′\n0γh ̸= 0,\nthe decoupling constraint implies λ1 = α0∥γ0∥−λ2γ′\n0γ0\nγ′\n0γh\n.\n(5)",
+          "page": 5
+        },
+        {
+          "para_id": "3_17",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "3_18",
+          "text": "From the unit-length constraint we deduce",
+          "page": 6
+        },
+        {
+          "para_id": "3_19",
+          "text": "1 = b′b = (λ1γh + λ2γ0)′(λ1γh + λ2γ0). Substituting (5) into the unit-length condition and simplifying yields the quadratic (4) in λ2; the\nappropriate branch (sign) is then selected by maximizing the objective function.\nOn the other hand, if γ′\n0γh = 0, then the decoupling constraint implies λ2 = α0\n∥γ0∥\nγ′\n0γ0\n=\nα0\n∥γ0∥\n(6) Inserted into the length constraint, we obtain",
+          "page": 6
+        },
+        {
+          "para_id": "3_20",
+          "text": "1 = b′b = (λ1γh + λ2γ0)′(λ1γh + λ2γ0) = λ2\n1γ′\nhγh + λ2\n2γ′\n0γ0. Inserting (6) then implies",
+          "page": 6
+        },
+        {
+          "para_id": "3_21",
+          "text": "λ1 = ±",
+          "page": 6
+        },
+        {
+          "para_id": "3_22",
+          "text": "s 1 −α2\n0\nγ′\nhγh\n, where the appropriate sign is selected to satisfy the objective (e.g., maximize alignment with γh).\nFinally, if |α0| = 1, then the cone degenerates to a ray along γ0 and the decoupling constraint\ntogether with the unit-length uniquely determine",
+          "page": 6
+        },
+        {
+          "para_id": "3_23",
+          "text": "b = sign(α0)γ0/∥γ0∥,",
+          "page": 6
+        },
+        {
+          "para_id": "3_24",
+          "text": "as claimed.",
+          "page": 6
+        },
+        {
+          "para_id": "3_25",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "3_26",
+          "text": "−0.5\n0.0\n0.5\n1.0\n1.5\n2.0\n2.5\n3.0",
+          "page": 7
+        },
+        {
+          "para_id": "3_27",
+          "text": "−1.0\n−0.5\n0.0\n0.5\n1.0\n1.5\n2.0",
+          "page": 7
+        },
+        {
+          "para_id": "3_28",
+          "text": "γ0",
+          "page": 7
+        },
+        {
+          "para_id": "3_29",
+          "text": "γh",
+          "page": 7
+        },
+        {
+          "para_id": "3_30",
+          "text": "b = λ1γh + λ2γ0",
+          "page": 7
+        },
+        {
+          "para_id": "3_31",
+          "text": "Intersection of cone with plane",
+          "page": 7
+        },
+        {
+          "para_id": "3_32",
+          "text": "θ0h",
+          "page": 7
+        },
+        {
+          "para_id": "3_33",
+          "text": "+θ0b",
+          "page": 7
+        },
+        {
+          "para_id": "3_34",
+          "text": "λ1γh",
+          "page": 7
+        },
+        {
+          "para_id": "3_35",
+          "text": "−θ0b",
+          "page": 7
+        },
+        {
+          "para_id": "3_36",
+          "text": "Intersection of cone with plane",
+          "page": 7
+        },
+        {
+          "para_id": "3_37",
+          "text": "Unit sphere (intersection with plane)",
+          "page": 7
+        },
+        {
+          "para_id": "3_38",
+          "text": "Figure 2: Geometry of the DFP predictor. The solution b = λ1γh + λ2γ0 lies at the intersection\nof the plan spanned by (γ0, γh), the circular cone with semi-angle θ0b (red), and the unit-sphere\n(blue). The cone has axis γ0 and half-angle θ0b = arccos(α0). The figure depicts one of the two\nsolutions of the quadratic in λ2 associated with +θ0b (with λ1 > 0, λ2 < 0); the mirrored solution\nat −θ0b (with λ1 < 0, λ2 > 0) does not maximize the objective γ′\nhb and corresponds to a lag, so\nit is omitted. The quantity θ0b −θ0h > 0 represents the phase excess of the DFP relative to the\nMSE predictor γh and is associated with its advancement (lead), see Section 4.",
+          "page": 7
+        },
+        {
+          "para_id": "3_39",
+          "text": "Remark:\nFigure 2 shows that, for the solution based on the root λ2 < 0, the angle θ0b between\nthe DFP predictor b and the nowcast γ0 exceeds the angle θ0h between γh and γ0. The difference\nθ0b −θ0h > 0 represents the excess phase induced by decoupling and is directly related to the\npredictor’s lead under a ‘standard’ configuration (see Section 4). The alternative root λ2 > 0,\ncorresponding to the branch at −θ0b, produces a phase-reversed solution and thus corresponds\nto a lag (i.e., a negative lead). Complete decoupling occurs when θ0b = π/2, in which case b is\northogonal to the nowcast γ0.",
+          "page": 7
+        },
+        {
+          "para_id": "3_40",
+          "text": "We can derive the distribution of the DFP predictor conditional on the distribution of an\nestimate ˆγ0 of the nowcast γ0. To this end, we approximate Equation (3) with b ≈(λ1Fh + λ2I)γ0,\n(7) where F is the L × L forward operator and I is the identity matrix. The matrix F has ones on\nits first superdiagonal and zeroes elsewhere. Note that the last h entries of Fhγ0 are zero, so the\napproximation in (7) is valid provided γk ≈0 for L−1 ≥k ≥L−1−h, which holds for sufficiently\nlarge L under stationarity. Corollary 1. Let ˆγ0 be an estimator of γ0 with mean µγ0 and covariance matrix Σγ0 and assume\nλ1, λ2 are fixed. Then the DFP predictor in Equation (3) has mean and covariance µb ≈(λ1Fh + λ2I)µγ0 and Σb ≈(λ1Fh + λ2I)Σγ0(λ1Fh + λ2I)′,\n(8)",
+          "page": 7
+        },
+        {
+          "para_id": "3_41",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "3_42",
+          "text": "where the approximations are valid for L sufficiently large. Moreover, if ˆγ0 is (asymptotically)\nGaussian, then ˆb is (asymptotically) Gaussian as well. The result follows immediately from (7) and standard properties of linear transformations. For\nthe (asymptotic) distribution of the classic MSE estimate ˆγ0 of γ0, see, for instance, Brockwell\nand Davis (1993) and Cox (1990)2.",
+          "page": 8
+        },
+        {
+          "para_id": "3_43",
+          "text": "A limitation of the corollary is that it treats λ1 and λ2 as fixed, even though both depend on\nγ0 through Theorem 1. We address this issue below.",
+          "page": 8
+        },
+        {
+          "para_id": "3_44",
+          "text": "For further consideration, we propose an alternative DFP-MSE decoupling criterion given by",
+          "page": 8
+        },
+        {
+          "para_id": "3_45",
+          "text": "min\nb (b −γh)′(b −γh)\n(9) s.t.\nγ′\n0b = α0.",
+          "page": 8
+        },
+        {
+          "para_id": "3_46",
+          "text": "This objective penalizes the squared deviation of b from the MSE-predictor γh and thus minimizes\nthe mean-squared prediction error for xt+h under the DFP predictor.\nIn particular, if α0 =\nγ′\n0γh, the solution recovers b = γh.\nIn this formulation, the unit-norm constraint from the\nearlier DFP criterion can be omitted, simplifying both the geometry and the optimization, but\nthe hyperparameter α0 loses its intuitive interpretation as a correlation and becomes harder to\ninterpret. The objective captures accuracy, while lead is enforced by the decoupling constraint,\nthereby formalizing the accuracy–timeliness trade-off in Criterion (9) (see Section 3.4). Although\nminimizing (9) is natural, some non-standard configurations instead require maximizing the MSE\n(under boundedness) to obtain a sizeable lead from b, see Appendix (A). Proposition 1. Assume that γ0 and γh (h > 0) are linearly independent. Then the solution to\ncriterion (9) is",
+          "page": 8
+        },
+        {
+          "para_id": "3_47",
+          "text": "b = γh + λγ0,\n(10) where the scalar λ is determined by λ = α0 −γ′\nhγ0\nγ′\n0γ0\n.\n(11) Proof: The solution to (9) lies on the affine hyperplane defined by the decoupling constraint\nγ′\n0b = α0. By the least-squares optimality principle, it is the orthogonal projection of γh onto\nthis hyperplane. Because γ0 is normal to the hyperplane, the optimizer must have the form b = γh + λγ0 for some scalar λ, which is determined by enforcing the decoupling constraint:",
+          "page": 8
+        },
+        {
+          "para_id": "3_48",
+          "text": "γ′\n0(γh + λγ0) = α0, as claimed.",
+          "page": 8
+        },
+        {
+          "para_id": "3_49",
+          "text": "When α0 = γ′\nhγ0 in (11), we have λ = 0 and b = γh reproduces the MSE predictor, as noted\nearlier. The distribution of the MSE-DFP predictor follows from Corollary 1 by setting λ1 = 1\nand λ2 = λ, treating λ as fixed. We now extend this result to incorporate the randomness of λ,\nwhich arises when λ is defined as a function of an estimator ˆγ0 of γ0, which is substituted into\n(11). 2For an ARMA-process, the distribution of the MA-inverted weights γk, k = 1, ..., L−1 (noting that γ0 = 1) can\nbe derived from the distribution of the AR- and MA-estimates via the delta method as elaborated in Cox (1990),\ncf. Appendix E.",
+          "page": 8
+        },
+        {
+          "para_id": "3_50",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "3_51",
+          "text": "Corollary 2. Suppose γ0 and γh (h > 0) are linearly independent. Let ˆγ0 be an estimator of\nγ0 with mean µγ0 →γ0 ̸= 0 and covariance matrix Σγ0 with Σγ0 →0 for L →∞. Then, for\nfilter length L and sample size T sufficiently large, the mean µb and covariance matrix Σb of the\nDFP-MSE (10), based on stochastic λ = λ(ˆγ0) in (11), can be approximated by µb\n≈\n(Fh + ˜λI)γ0\n(12) Σb\n≈\nJΣγ0J′\n(13)",
+          "page": 9
+        },
+        {
+          "para_id": "3_52",
+          "text": "where ˜λ\n=\nα0 −(Fhγ0)′γ0 γ′\n0γ0\n(14) J\n=\nFh + γ0∂˜λ\n′ + ˜λI\n(15) d˜λk\n=\n−I{k≥h}γk−h + I{k≤L−1−h}γk+h",
+          "page": 9
+        },
+        {
+          "para_id": "3_53",
+          "text": "∥γ0∥\n−α0 −(Fhγ0)′γ0",
+          "page": 9
+        },
+        {
+          "para_id": "3_54",
+          "text": "∥γ0∥2\n2γk\n(16) with d˜λk denoting the k-th element of the row vector ∂˜λ\n′ and I{} the indicator function. If the\nfirst weight of γ0 is held fixed (γ0 = 1), then the first row and the first column of Σγ0 are zero;\nadditionally, in (15) the first column of γ0∂˜λ\n′ + ˜λI is set to zero. Proof: When λ = λ(ˆγ0) in the DFP predictor is not treated as fixed, Equation (12) follows\nby continuity and by using the approximation γh ≈Fhγ0 when L is sufficiently large. To obtain\nthe covariance matrix in (13), we apply the delta method (see Cox, 1990) and use the first-order\nTaylor expansion\nb(ˆγ0) ≈b(γ0) + J(ˆγ0 −γ0), assuming T is large. The Jacobian J has entries Jij = ∂bi−1/∂γj−1 = Fh\nij +\n∂˜λ\n∂γj−1\nγi−1 + ˜λIij, 1 ≤i, j ≤L,\n(17) with ˜λ = ˜λ(γ0) as specified in (14) and Iij = δij the Kronecker symbol. Hence, ∂˜λ/∂γj−1 = d˜λj\nas in (16). It follows that\nΣb ≈JΣγ0J′, which establishes the claim. If the first component γ0 of γ0 is held fixed, then the first row and\nthe first column of Σγ0 vanish. In addition, the partial derivatives with respect to γ0 in (17)\ndisappear; equivalently, the first column of γ0∂˜λ\n′ + ˜λI is set to zero (the first row does generally\nnot vanish because ˜λ depends on γk, L > k > 0).",
+          "page": 9
+        },
+        {
+          "para_id": "3_55",
+          "text": "Remark: an extension of Corollary 1 to the case of random λ1, λ2 can be obtained in the same\nway. In that setting, however, λi(γ0), for i = 1, 2—and therefore b = λ1γh + λ2γ0—become more\ninvolved functions of γ0; see Theorem 1.",
+          "page": 9
+        },
+        {
+          "para_id": "3_56",
+          "text": "Both DFP predictors—those defined by criteria (2) and (9)—are linear combinations of γh\nand γ0, but entail distinct trade-offs. The mean-squared formulation (9) yields a geometrically\nsimple construction with a unique solution and is especially convenient for extensions to integrated\nprocesses (not pursued here). By contrast, (2) induces a richer geometry and reduces to quadrat-\nics with two candidate solutions.\nIts chief advantage is interpretability: under the unit-norm\nconstraint b′b = 1, the decoupling parameter has a direct correlation meaning at δ = 0, namely\nα0 = ρ(xt, ˆxht), which facilitates hyperparameter selection. Criterion (9) can be adapted to endow\nits hyperparameter with a correlation interpretation as well, albeit at the cost of a more complex\nsolution structure.",
+          "page": 9
+        },
+        {
+          "para_id": "3_57",
+          "text": "9",
+          "page": 9
+        },
+        {
+          "para_id": "3_58",
+          "text": "Let θ0b and θ0h represent the angles formed between γ0 and b, and between γ0 and γh,\nrespectively, see Fig.3. For illustration we assume the nowcast and the MSE predictor to lie in\nthe first quadrant, so that θ0h < π/2 (the general case is addressed in Section 4). When λ < 0,\na phase excess occurs where θ0b > θ0h. Intuitively, the MSE predictor’s lead over the nowcast\nis tied to θ0h , so doing more of the same—i.e., taking θ0b > θ0h—further increases b’s lead; we\nformalize this later, noting that this intuition does not always hold. Strict positivity γ′\nhb > 0\nimplies β = θhb < π/2. In some circumstances, when θ0h < π/2 (as assumed), it is meaningful to\nformulate a more stringent positivity rule",
+          "page": 10
+        },
+        {
+          "para_id": "3_59",
+          "text": "θhb < π/2 −θ0h\n(18) for the phase excess. This guarantees that the DFP predictor correlates positively with both the\nh-step ahead MSE predictor and the nowcast (or the original process xt).",
+          "page": 10
+        },
+        {
+          "para_id": "3_60",
+          "text": "The Appendix states formal results that relate these angles to λ and to the hyperparameter α0\n(Proposition 3 and Corollary 4). Unlike Fig.2, Fig.3 emphasizes the so-called DFP-triangle with\nvertices 0, γh and b; this configuration will be useful when connecting λ to an effective measure\nof the DFP predictor’s lead (or advancement); cf. Section 4.",
+          "page": 10
+        },
+        {
+          "para_id": "3_61",
+          "text": "0.0\n0.5\n1.0\n1.5\n2.0\n2.5\n3.0",
+          "page": 10
+        },
+        {
+          "para_id": "3_62",
+          "text": "0.0\n0.5\n1.0\n1.5",
+          "page": 10
+        },
+        {
+          "para_id": "3_63",
+          "text": "γ0",
+          "page": 10
+        },
+        {
+          "para_id": "3_64",
+          "text": "γh b = γh + λγ0",
+          "page": 10
+        },
+        {
+          "para_id": "3_65",
+          "text": "b =  | λγ0 |",
+          "page": 10
+        },
+        {
+          "para_id": "3_66",
+          "text": "c =  | γh + λγ0 |",
+          "page": 10
+        },
+        {
+          "para_id": "3_67",
+          "text": "θ0h",
+          "page": 10
+        },
+        {
+          "para_id": "3_68",
+          "text": "β\nθ0b",
+          "page": 10
+        },
+        {
+          "para_id": "3_69",
+          "text": "a =  | γh |",
+          "page": 10
+        },
+        {
+          "para_id": "3_70",
+          "text": "γ = θ0h α",
+          "page": 10
+        },
+        {
+          "para_id": "3_71",
+          "text": "Figure 3: Side lengths a, b and c (red) as well as angles α, β and γ of the DFP-triangle spanned\nby the vectors γh and b = γh + λγ0 (black), with λ < 0.",
+          "page": 10
+        },
+        {
+          "para_id": "3_72",
+          "text": "Complementing the MA form (10), an AR inversion further clarifies the structure of the DFP\nprinciple. For a stationary, invertible zero-mean ARMA process xt, let ϕ (ϕ0 = 1) be a finite\n(length-L) AR inversion. For sufficiently large L, ϕ′xt ≈ϵt, with xt := (xt, ..., xt−(L−1))′. The\nAR-form DFP weights a = a(λ) follow from convolving ϕ with b(λ):",
+          "page": 10
+        },
+        {
+          "para_id": "3_73",
+          "text": "a(λ) = ϕ · b(λ) = ϕ · γh + λϕ · γ0 ≈ϕ · γh + λe1,\n(19)",
+          "page": 10
+        },
+        {
+          "para_id": "3_74",
+          "text": "10",
+          "page": 10
+        },
+        {
+          "para_id": "3_75",
+          "text": "where ϕ · γh is the AR-inverted MSE predictor and e1 = (1, 0, . . . , 0). Since for large L the AR\ninversion ϕ approximately cancels the MA inversion γ0, λ affects only the lag-zero weight of the\nMSE predictor in the AR representation.",
+          "page": 11
+        },
+        {
+          "para_id": "3_76",
+          "text": "Equation (19) neatly captures the DFP criterion’s dual purpose: it matches the standard MSE\npredictor by replicating lags k > 0 in ϕ · γh, and enforces decoupling by adjusting only lag zero\nin λe1. The magnitude |a0| of the weight on xt can decrease or increase, as λ < 0 (phase excess)\nbecomes more negative, depending on the sign of the lag-zero weight, i.e., sign((ϕ · γh)0), of the\nMSE predictor (assuming |λ| < |(ϕ·γh)0|). Although the AR form (19) is simple, the MA impulse\nresponse (10) is more informative about the predictor’s dynamics, and the look-ahead predictor\nin the next section offers no comparably simple AR form; hence the impulse response (MA-) rep-\nresentation b(λ) of the prediction problem remains our focus.",
+          "page": 11
+        },
+        {
+          "para_id": "3_77",
+          "text": "To conclude, we briefly comment on the linear-independence assumption for the finite-length\npredictors γ0 and γh (length L). If it fails (i.e., γ0 ∝γh), the DFP problem becomes degenerate\nsince the objective is fixed by the constraint. A practical remedy is to slightly perturb one or both\nof γ0, γh to restore linear independence.3\nThese perturbations can be made arbitrarily small,\nleaving the performance of the underlying MSE predictor (or nowcast) essentially unchanged; we\ndo not elaborate further for brevity. Cases where γ0 ∝γh can arise naturally: when the DGP is\nan AR(1) process, γ0 is proportional to γh for all h; however, proportionality might also appear\nfor periodic or seasonal structures at specific h; finally, collinearity could be accidental, without\ndeeper implications for the DGP. In all such cases, the perturbation scheme can be used to induce\neffective leads with the modified DFP predictors.",
+          "page": 11
+        },
+        {
+          "para_id": "3_78",
+          "text": "3.2\nPeak Correlation Shifting We propose an alternative mechanism to attenuate indirectly the MSE predictor’s contemporane-\nous coupling with γ0 by relocating the peak of its CCF. As shown in Fig. 1, the MSE predictor\npeaks at δ = 0. By shifting this peak to the target forecast horizon δ = h, the predictor be-\ncomes genuinely forward-looking. Accordingly, we formulate the Peak Correlation Shifting (PCS)\nproblem:",
+          "page": 11
+        },
+        {
+          "para_id": "3_79",
+          "text": "max\nb\nγ′\nhb\n(20) (γh−1 −γh)′b = βh\nb′b = 1,",
+          "page": 11
+        },
+        {
+          "para_id": "3_80",
+          "text": "where βh is a hyperparameter that controls the shape of the CCF. As with the DFP criterion, we\nassume feasibility—i.e., |βh|/∥γh−1 −γh∥≤1—and positivity.",
+          "page": 11
+        },
+        {
+          "para_id": "3_81",
+          "text": "For interpretation, note that in many applications the CCF attains its maximum at a lead\nsmaller than h (i.e., the peak lies to the left of δ = h). As a result—often, though not always—(γh−1−\nγh)′b > 0 at δ = h (cf. Fig.1). The PCS criterion (20) directly controls this term, which measures\nthe change in the forecast CCF from lead h−1 to h. A necessary (though not sufficient) condition\nto move the peak to δ = h is (γh−1−γh)′b < 0, opposite to Fig.1; this can be enforced by choosing\nβh in (20).\nIn some settings, however, constraining only the single lead δ = h may be too weak to generate a\nmeaningful peak shift. A stronger alternative is to impose the constraint over a neighborhood of\nleads (Appendix D), but for clarity we proceed with the simple PCS specification above.",
+          "page": 11
+        },
+        {
+          "para_id": "3_82",
+          "text": "3If at least one entry γk ̸= 0 for k = L −h, . . . , L −1, then Fhγ0 (approximately γh) and γ0 are linearly\nindependent.",
+          "page": 11
+        },
+        {
+          "para_id": "3_83",
+          "text": "11",
+          "page": 11
+        },
+        {
+          "para_id": "3_84",
+          "text": "The proposed PCS criterion (20) is structurally similar to the DFP formulation (2). In partic-\nular, the solution to (20) follows directly from Theorem 1 upon the substitutions",
+          "page": 12
+        },
+        {
+          "para_id": "3_85",
+          "text": "γ0 →γh−1 −γh,\nα0 →βh/∥γh−1 −γh∥, assuming γh−1 and γh are linearly independent. Consequently, b = λ1γh + λ2(γh−1 −γh) ≈\n\u0000\n(λ1 −λ2)Fh + λ2Fh−1\u0001\nγ0,\n(21) where the approximation holds for sufficiently large L under stationarity. The distribution of the\nPCS predictor can be obtained from Corollary 1 (assuming fixed λ1, λ2) with the corresponding\nadjustments.",
+          "page": 12
+        },
+        {
+          "para_id": "3_86",
+          "text": "By analogy with (9), we can define an MSE-PCS criterion as min\nb (γh −b)′(γh −b)\n(22)\n\u0000\nγh−1 −γh\n\u0001′ b = βh, where we omit the unit-norm constraint b′b = 1. The solution is b = γh + λ(γh−1 −γh) ≈\n\u0000\nFh + λ(Fh−1 −Fh)\n\u0001\nγ0\n(23) and it follows from Proposition 1 with routine adjustments. The distribution of b is obtained as\nin Corollary 2, allowing for stochastic λ = λ(ˆγ0).",
+          "page": 12
+        },
+        {
+          "para_id": "3_87",
+          "text": "Because the DFP and PCS predictors lie in span{γ0, γh} and span{γh−1, γh}, respectively,\nthey generally differ unless these subspaces coincide—i.e., unless γh−1 is a linear combination of\nγh and γ0.4 Figure 4 illustrates the geometry of the PCS solution b in two cases, labeled b1 and\nb2, corresponding to βh = 0 (red) and βh < 0 (blue), respectively.\nWhen βh = 0 , the PCS constraint implies 0 = b′\n1γh−1 −b′\n1γh = ∥γh−1∥cos(θhb1 + θhh−1) −∥γh∥cos(θhb1),\n(24) where we use ∥b1∥= 1, θhh−1 is the angle between γh−1 and γh, and θhb1 is the angle between\nb1 and γh.\nIf L is large enough and γh−1 ̸= 0, then",
+          "page": 12
+        },
+        {
+          "para_id": "3_88",
+          "text": "∥γh∥2 −∥γh−1∥2 =",
+          "page": 12
+        },
+        {
+          "para_id": "3_89",
+          "text": "h+L−1\nX k=h\nγ2\nk −",
+          "page": 12
+        },
+        {
+          "para_id": "3_90",
+          "text": "h+L−2\nX k=h−1\nγ2\nk = γ2\nL+h−1 −γ2\nh−1 < 0\n(25) since for stationary processes γL+h−1 →0 as L →∞. Substituting this inequality into (24) gives cos(θhb1 + θhh−1) < cos(θhb1), which implies that, within the plane spanned by the two MSE predictors, b1 lies on the side of γh\nopposite to γh−1. Equivalently, θhb1 > 0 represents a positive phase excess of b1 relative to γh.\nThe same qualitative conclusion applies when βh < 0 (the blue case) or when γh−1 = 0 in (25).5 The appendix provides a formal link between the hyperparameter βh and the phase excess θhb\n(Proposition 4).",
+          "page": 12
+        },
+        {
+          "para_id": "3_91",
+          "text": "Finally, it is important to note that the AR-representation of the PCS predictor does not share\nthe simple structure of the DFP predictor shown in Eq. (19), where the influence of λ is strictly 4For an AR(2) process, the Yule–Walker equations imply this collinearity, so DFP and PCS coincide when α0\nand βh match (not shown).\n5In this case (25) becomes (asymptotically) an equality as L →∞, implying θhb1 > 0 still holds; strictness\nfollows from (24) and θhh−1 > 0, provided the two MSE predictors are not collinear.",
+          "page": 12
+        },
+        {
+          "para_id": "3_92",
+          "text": "12",
+          "page": 12
+        },
+        {
+          "para_id": "3_93",
+          "text": "limited to the lag-zero weight because the convolution term ϕ · γ0 ≈e1 is an identity. In the PCS\npredictor (23), however, the convolution term ϕ · (γh−1 −γh) does not resolve to the identity.\nConsequently, the impact of λ is not localized at lag zero; rather, it typically propagates across all\nlags, both within the MA as well as within the AR representations.",
+          "page": 13
+        },
+        {
+          "para_id": "3_94",
+          "text": "0.0\n0.5\n1.0\n1.5",
+          "page": 13
+        },
+        {
+          "para_id": "3_95",
+          "text": "0.0\n0.5\n1.0",
+          "page": 13
+        },
+        {
+          "para_id": "3_96",
+          "text": "γh−1",
+          "page": 13
+        },
+        {
+          "para_id": "3_97",
+          "text": "γh\nb1",
+          "page": 13
+        },
+        {
+          "para_id": "3_98",
+          "text": "b1γh−1=b1γh",
+          "page": 13
+        },
+        {
+          "para_id": "3_99",
+          "text": "θhh−1\nθhb1",
+          "page": 13
+        },
+        {
+          "para_id": "3_100",
+          "text": "b2",
+          "page": 13
+        },
+        {
+          "para_id": "3_101",
+          "text": "b2γh\nb2γh−1",
+          "page": 13
+        },
+        {
+          "para_id": "3_102",
+          "text": "θhb2",
+          "page": 13
+        },
+        {
+          "para_id": "3_103",
+          "text": "Figure 4: Geometry of the PCS predictor. Two solutions b1 (red) with βh = b′\n1γh−1 −b′\n1γh = 0\nand b2 (blue) with βh = b′\n2γh−1 −b′\n2γh < 0, are shown in the plane spanned by (γh−1, γh). The\npositive angles θhb1 and θhb2 denote the phase excesses of the respective PCS predictors relative\nto the MSE predictor γh.",
+          "page": 13
+        },
+        {
+          "para_id": "3_104",
+          "text": "3.3\nThe Construction of Leading Indicators and Benchmark Customization The (MSE-)PCS objective in (22) can be adapted to tasks such as constructing macroeconomic\nleading indicators or customizing benchmarks. Since these settings share the same structure, we\nfocus on the former.",
+          "page": 13
+        },
+        {
+          "para_id": "3_105",
+          "text": "Let γ be the causal, length-L MA inversion of the target (coincident) indicator, e.g., the Wold\ndecomposition of a stationary macro series (such as differenced GDP), or the causal right-half of\na (possibly acausal) trend/cycle filter applied to that Wold decomposition (for brevity we do not\ndiscuss multivariate designs). We then solve",
+          "page": 13
+        },
+        {
+          "para_id": "3_106",
+          "text": "min\nb (γ −b)′(γ −b)\n(26)\n\u0000\n(Fh−1 −Fh)γ\n\u0001′ b = βh.",
+          "page": 13
+        },
+        {
+          "para_id": "3_107",
+          "text": "Unlike the original formulation (22), criterion (26) does not aim to approximate the h-step MSE\npredictor. Instead, it targets the impulse response γ of the indicator while enforcing a constraint\nthat moves the CCF peak h periods to the right, inducing leading behavior. The solution lies in the",
+          "page": 13
+        },
+        {
+          "para_id": "3_108",
+          "text": "13",
+          "page": 13
+        },
+        {
+          "para_id": "3_109",
+          "text": "span of γ and (Fh−1−Fh)γ, and therefore generally differs from DFP and the original PCS designs.",
+          "page": 14
+        },
+        {
+          "para_id": "3_110",
+          "text": "Benchmark customization means tracking a chosen target γ as closely as possible while adjust-\ning its timeliness to satisfy the PCS constraint. This preserves a preferred design while allowing\nfavorable real-time fine-tuning; see Wildi (2024–2026) for smoothness customizations.\nWhen γ := γh, PCS customizes the MSE predictor, but γ can be any target filter, including\nstandard business-cycle tools such as Hodrick–Prescott (see Section 5.3), Christiano–Fitzgerald,\nBeveridge–Nelson, or Hamilton filters.",
+          "page": 14
+        },
+        {
+          "para_id": "3_111",
+          "text": "3.4\nAccuracy-Timeliness Dilemma For the unit-length DFP predictor in (2), lead (advancement) appears as a positive phase excess,\nθ0b > θ0h in Fig. 2 (a formal connection between lead and phase excess is established in the\nnext Section 4). In this setting, the decoupling parameter and phase are linked by α0 = cos(θ0b).\nExpressing the decoupling constraint in terms of the phase renders the accuracy–timeliness trade-\noff explicit: accuracy is encoded in the objective, while timeliness is governed by the phase-based\nconstraint.\nGeometrically, as the phase excess θ0b −θ0h increases (with θ0b > θ0h throughout)) in Fig.2, the\nprojection of b onto γh declines. Under the unit-norm constraint ∥b∥= 1, b′γh = cos(θ0b −θ0h)∥γh∥, so a larger phase excess reduces the objective value b′γh (and vice versa). An analogous argu-\nment applies to the PCS predictor, where the objective b′γh = cos(θhb)∥γh∥decreases as the\nphase excess θhb increases (a formal link between θhb and the hyperparameter βh is established\nin Appendix C, Proposition 4). This captures the inherent dilemma between timeliness (phase\nexcess or lead) and accuracy (target correlation or MSE).",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "section_id": "3.5",
+      "section_title": "3.5\nDual Interpretation and Efficient (Accuracy-Timeliness) Frontier Consider the dual DFP optimization criterion",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.5_1",
+          "text": "min\nb γ′\n0b\n(27) s.t.\nγ′\nhb/∥γh∥= αh\nb′b = 1.",
+          "page": 14
+        },
+        {
+          "para_id": "3.5_2",
+          "text": "It is obtained from the primal DFP problem by interchanging the objective and the correlation\nconstraint and switching to minimization. While the algebra is analogous, the geometry changes:\nthe feasible cone determined by the constraints is centered on γh (not γ0), i.e., the cone’s bound-\nary rays are symmetric about γh.",
+          "page": 14
+        },
+        {
+          "para_id": "3.5_3",
+          "text": "Let θprimal = θ0b be the angle between b and γ0 in the primal geometry (cf. Fig.2). In the\ndual problem, the constraint fixes θdual = θhb, the angle between b and γh. Since ∥b∥= 1, the\ncorrelation constraint gives αh = cos(θdual). Geometrically, θ0b = θ0h +θhb, where θ0h is the angle\nbetween γ0 and γh. Therefore, θprimal = θdual + θ0h = arccos(αh) + θ0h , α0 = cos(θprimal) = cos(arccos(αh) + θ0h).",
+          "page": 14
+        },
+        {
+          "para_id": "3.5_4",
+          "text": "Thus α0 (primal) and αh (dual) are linked via this identity. The dual solutions corresponding to\n±θdual yield objective values\nγ′\n0b = cos(±θdual + θ0h)∥γ0∥ in (27). Selecting the minimizing branch in (27) yields +θdual, matching the original DFP so-\nlution, with θprimal = arccos(αh) + θ0h. Hence, when α0 := cos(arccos(αh) + θ0h) (equivalently",
+          "page": 14
+        },
+        {
+          "para_id": "3.5_5",
+          "text": "14",
+          "page": 14
+        },
+        {
+          "para_id": "3.5_6",
+          "text": "αh := cos(arccos(α0) −θ0h)), the primal and dual formulations coincide, giving a dual inter-\npretation of DFP: it is the ‘fastest’ predictor—i.e., the one with maximal positive phase excess\nθdual—subject to a prescribed tracking accuracy αh, measured by the correlation γ′\nhb/∥γh∥with\nthe MSE predictor γh.",
+          "page": 15
+        },
+        {
+          "para_id": "3.5_7",
+          "text": "The equivalence of primal and dual formulations demonstrates that the DFP criterion creates\nan efficient frontier between accuracy (target correlation/MSE) and timeliness (phase excess/lead).\nUnlike the MSE predictor, which occupies only one spot on this curve, the DFP criterion spans\nthe full frontier. The PCS approach follows a similar rationale, though it defines timeliness via a\ndifferent metric (CCF shift) instead of phase excess.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nConnecting Hyperparemeters and Phase-Excess with Lead",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "For the PCS predictor, the concept of a lead is directly associated with a peak shift in its cross-\ncorrelation function (CCF). Specifically, a rightward displacement of the CCF peak constitutes\na quantifiable lead over the MSE predictor (De Jong and Nijman, 1997). Conversely, the phase\nexcess θhb > 0 exhibited by the DFP predictor does not lend itself to an immediate interpretation\nas a temporal lead. To establish a functional relationship between θhb (or the hyperparameter\nα0) and the relative lead of the DFP predictor over the MSE benchmark, we must first define the\nconcept of a lead. Notably, this definition is generalizable and can be applied equally to the PCS\npredictor.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "4.1\nTime-Shift at Frequency Zero Define the (complex) transfer function of the length-L filter γ = (γ0, ..., γL−1)′ by",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "Γ(ω) =",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_2",
+          "text": "L−1\nX k=0\nγk exp(−ikω), ω ∈[0, π]6. Write its polar form as\nΓ(ω) = A(ω) exp(iΦ(ω)), where A(ω) = |Γ(ω)| ≥0 is the amplitude response and Φ(ω) = arg(Γ(ω)) is the phase response\n(mod(2π)). For ω ̸= 0, define the associated time-shift τ(ω) := Φ(ω)/ω.\n(28) Let xt = exp(itω). The filtered output is",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_3",
+          "text": "yt =",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_4",
+          "text": "L−1\nX k=0\nγkxt−k =",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_5",
+          "text": "L−1\nX k=0\nγk exp(i(t −k)ω) = Γ(ω)xt = A(ω) exp(i(t + τ(ω))ω) = A(ω)xt+τ(ω). Hence, when a sinusoid xt = sin(tω) passes through the filter, the output is scaled by A(ω) and\ntime-shifted by τ(ω): τ(ω) > 0 indicates an advance (lead,left shift) and τ(ω) < 0 indicates a\nretardation (lag,right shift). If A(ω) = 0, the sinusoid at frequency ω is completely suppressed, so\nthe notion of a time-shift at that ω is not meaningful.\nTo extend the definition to ω = 0, differentiate Γ(ω) with respect to ω: ˙Γ(ω) = ˙A(ω) exp(iΦ(ω)) + iA(ω) exp(iΦ(ω)) ˙Φ(ω), where the dot denotes the first derivative with respect to ω. Enforcing Γ(0) > 0 rules out signal\nsuppression or phase inversion, which yields A(0) = Γ(0) > 0 and Φ(0) = 0. Since A is even,\n˙A(0) = 0, hence ˙Γ(0) = iΓ(0) ˙Φ(0),\nso ˙Φ(0) = −i\n˙Γ(0)\nΓ(0). 6Negative frequencies ω ∈[−π, 0[ can be ignored due to symmetry.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_6",
+          "text": "15",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_7",
+          "text": "Consequently, the time-shift at ω = 0 is obtained from",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_8",
+          "text": "τ(0) := lim\nω→0 τ(ω) = lim\nω→0\nΦ(ω)",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_9",
+          "text": "ω\n= lim\nω→0\nΦ(ω) −0",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_10",
+          "text": "ω −0\n= ˙Φ(0) = −i\n˙Γ(0)\nΓ(0) = −\nPL−1\nk=1 kγk\nPL−1\nk=0 γk\n.\n(29) If the filter is applied to a zero-frequency linear trend xt = t, then",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_11",
+          "text": "yt =",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_12",
+          "text": "L−1\nX k=0\nγkxt−k =",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_13",
+          "text": "L−1\nX k=0\nγk(t −k) = t",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_14",
+          "text": "L−1\nX k=0\nγk −",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_15",
+          "text": "L−1\nX k=0\nkγk = (t + τ(0))",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_16",
+          "text": "L−1\nX k=0\nγk = A(0)xt+τ(0), which confirms Equation (29). Since τ(ω) varies with ω, we fix a reference frequency ω0, taking\nω0 = 0 to emphasize low-frequency (trend) components relevant for forecasting/nowcasting (any\nω0 is possible via (28)). We assume a ‘standard’ scenario in which the MSE predictor leads the\nnowcast, τh(0) > τ0(0) (the non-standard case τh(0) ≤τ0(0) is addressed in Appendix (A)). If, at\nthis zero frequency, the DFP predictor also leads the MSE predictor, then τb(0) > τh(0) > τ0(0);\nwe later show how to tune λ within b(λ) to hit a desired τb(0). This ordering aligns the frequency-\ndomain triangle in the complex plane (with vertices 0, Γh(ω), Γb(ω)) with the time-domain DFP\ntriangle in Fig. 3, simplifying the exposition; see details below.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_17",
+          "text": "Let Γ0(ω), Γh(ω), Γb(ω) denote the transfer functions of the nowcast and the MSE and DFP\npredictors, with corresponding amplitude and phase functions A0, Ah, Ab and Φ0, Φh, Φb. Through-\nout this section, we assume that Γ0(0), Γh(0) and Γb(0) are strictly positive at ω0 = 0, thereby\nruling out signal suppression or ‘trend reversal’. In cases where this does not hold, an alternative\nreference frequency ω0 > 0 may be chosen, though we do not discuss that case here.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_18",
+          "text": "4.2\nLinking Hyperparameters to the Time-Shift We analyze the DFP-MSE predictor in (10), given by b = γh + λγ0, and begin by linking λ to\nthe phase gap Φb(ω) −Φh(ω) between the DFP and MSE predictors. The same reasoning applies\nto the PCS predictor and is therefore omitted. Unless stated otherwise, we assume the following\nbaseline assumptions: γ0 ̸∝γh (rank two), θ0b > θ0h > 0 (phase excess), Γ0(0) > 0, Γh(0) > 0,\nΓb(0) > 0 (no trend reversal) and τh(0) > τ0(0) (standard scenario). Proposition 2. Let the baseline assumptions hold and define β(ω) := Φb(ω) −Φh(ω). Then, for ω\nin a neighborhood of zero, β(ω) = arctan\n\u0012\nsin (γ(ω))\na(ω)/b(ω) −cos (γ(ω))",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_19",
+          "text": "\u0013\n≈\nγ(ω)\na(0)/b(0) −1,\n(30) where γ(ω) := Φh(ω) −Φ0(ω), b = |λ|A0(ω), and a = Ah(ω). Proof: From b = γh + λγ0 it follows that Γb(ω) = Γh(ω) + λΓ0(ω). Moreover, θ0b > θ0h > 0 implies λ < 0 (cf. Fig.3). Hence, the three transfer functions form a\nfrequency-dependent DFP-triangle in the complex plane with side lengths a(ω) = Ah(ω), b(ω) =\n|λ|A0(ω), and c(ω) = Ab(ω)7. For |ω| sufficiently small (and λ < 0), Γh(ω) lies between Γ0(ω) and\nΓb(ω), i.e., Φb(ω) ≥Φh(ω) ≥Φ0(ω).\n(31) The second inequality follows from Φh(ω) ≈˙Φh(0)ω = τh(0)ω > τ0(0)ω = ˙Φ0(h)ω ≈Φ0(ω) 7The fixed time-domain vectors b,γ0 and γh in the figure are replaced by their transfer-function counterparts\nwhich now depend on ω. Moreover, the abscissa and ordinate correspond to the real and imaginary axis, respectively.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_20",
+          "text": "16",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_21",
+          "text": "where inequality and Taylor expansions are justified by the baseline assumptions Γk(0) > 0 (so\nΦk(0) = 0) and τh(0) > τ0(0). The first inequality in (31), Φb(ω) ≥Φh(ω), is implied by λ < 0\n(reflecting phase excess θ0b > θ0h). When λ < 0, the ordering in (31) continues to hold as long as\nΦh(ω) ≤Φ0(ω) + π.8 This requirement holds for ω sufficiently close to zero: the phases are well-\ndefined at ω = 0 (all transfer functions are non-vanishing), continuous in ω, and obey Φ(0) = 0\nbecause the transfer functions are strictly positive at zero frequency (no trend reversal).\nAssume first the strict ordering Φb(ω) > Φh(ω) > Φ0(ω) in (31) which yields a well-defined,\nnondegenerate triangle. The angles opposite the sides a, b, c are α(ω), β(ω) = Φb(ω) −Φh(ω) (i.e.,\nθ0b −θ0h in Figure 3), and γ(ω) = Φh(ω)−Φ0(ω) (i.e., θ0h). Given the side lengths a(ω), b(ω) and\ntheir included angle γ(ω), we have β(ω) = arctan\n\u0012\nsin(γ(ω))b(ω)\na(ω) −cos(γ(ω))b(ω)",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_22",
+          "text": "\u0013\n= arctan\n\u0012\nsin(γ(ω))\na(ω)/b(ω) −cos(γ(ω))",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_23",
+          "text": "\u0013\n≈\nγ(ω)\na(0)/b(0) −1, (32)\nwhere the last step holds for sufficiently small |ω|, using first-order Taylor expansions of the\ntrigonometric terms. This approximation is well-defined because a(0)/b(0) −1 = Γh(0)/(|λ|Γ0(0)) −1 ̸= 0;\n(33) otherwise |λ| = Γh(0)/Γ0(0) would (with λ < 0) force Γb(0) = 0.\nNext, fix ω sufficiently close to zero and assume γ(ω) = Φh(ω) −Φ0(ω) = 0. In this case the\ntriangle degenerates into a line segment, so β(ω) ∈{0, π} depending on λ. In particular, if λ < 0\n(phase excess) and |λ| < ∥γh∥/∥γ0∥, then the side lengths satisfy b(ω) < a(ω), which implies\nβh = 0. If instead |λ| ≥∥γh∥/∥γ0∥, then β(ω) is either undefined or equal to π.\nSince phase reversal by the DFP predictor is excluded at ω = 0 (all transfer functions are strictly\npositive), the same ‘no phase reversal’ condition, arg(Γb(ω)) −arg(Γh(ω)) ̸= ±π, must hold at\nthe fixed ω, due to continuity (provided ω is sufficiently close to zero). Therefore, the second\npossibility β(ω) = π is ruled-out and β(ω) = 0 must hold, which verifies Equation (32) in the first\ndegenerate case. A similar argument applies when β(ω) = Φb(ω) −Φh(ω) = 0 (second degenerate\ncase: the triangle collapses again to a line segment): for λ < 0 this implies that the side-lengths\nsatisfy c(ω) < a(ω), implying γ(ω) = Φh(ω) −Φ0(ω) = 0, so the arctan term in (32) is zero,\ncompleting the proof.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_24",
+          "text": "If L is sufficiently large, then γh ≈Fhγ0, so Φh(ω), Ah(ω) are fully determined by γ0 (up to\nnegligible deviations). Consequently, β(ω) in (30) depends only on λ and γ0.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_25",
+          "text": "Remark: A key technical difficulty is that the frequency-domain triangle with vertices 0, Γh\nand Γb (in the complex plane) depends on ω and therefore deforms with ω, unlike the fixed time-\ndomain triangle in Fig. 3. We thus restrict ω > 0 in a sufficiently small neighborhood of zero so the\ndeformation is limited and the ordering in (31) remains unchanged. This ordering is anchored by\nthe baseline assumptions, which fix the limiting configuration as ω →0 approaches the reference\nfrequency; at ω = 0 the frequency-domain triangle degenerates to a line segment.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_26",
+          "text": "The proposition’s (final) baseline assumption τh(0) > τ0(0) is not essential for deriving Φb(ω)−\nΦh(ω), but it streamlines the analysis and the derivation. Appendix (A) treats the nonstandard\ncase τh(0) < τ0(0). Obtaining larger leads would then typically require either flipping signs (turn-\ning a maximization into a minimization) or swapping the nowcast and MSE predictor in the\nobjective and constraint, which runs counter to common sense.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_27",
+          "text": "Next, we connect λ to the relative shift τ := τb(0) −τh(0) of the DFP-MSE predictor with\nrespect to the MSE benchmark at frequency zero (the same approach extends to the unit-length\nDFP, the PCS predictors, and nonzero frequencies). A relative lead at frequency zero is produced\nby enforcing τ > 0; we now show how to choose λ = λ(τ) as a function of τ. 8Geometrically, for λ ∈] −∞, 0], the argument Φb of Γb = Γh + λΓ0 lies in [Φh, Φ0 + π], with the upper bound\nattained as λ →−∞. If Φh > Φ0 + π, then Φb < Φh which affects the ordering in (31).",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_28",
+          "text": "17",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_29",
+          "text": "Theorem 2. Let the baseline assumptions hold and let τb(0) −τh(0) = τ > 0 denote a target lead\nof the DFP relative to the MSE predictor at frequency zero, with τ ̸= τ0(0) −τh(0). Then, λ is\ndetermined by τ as λ = −\nτΓh(0)\n(τ + τh(0) −τ0(0))Γ0(0).\n(34) Proof: Observe that",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_30",
+          "text": "τ\n=\nτb(0) −τh(0) = lim\nω→0 (τb(ω) −τh(ω)) = lim\nω→0 (Φb(ω)/ω −Φh(ω)/ω) =\nlim\nω→0\nβ(ω)",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_31",
+          "text": "ω\n= lim\nω→0\nγ(ω)/ω\nAh(0)/(|λ|A0(0)) −1 =\nτh(0) −τ0(0)\nΓh(0)/(|λ|Γ0(0)) −1, where β(ω), γ(ω) are as in Proposition 2. In the present setting, with ω →0, the Taylor approxi-\nmation on the right hand side of (30) is exact. The quotient is well-defined when Γb(0) > 0; see\n(33). Solving for λ gives",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_32",
+          "text": "λ = −\nτΓh(0)\n(τ + τh(0) −τ0(0))Γ0(0), This is well defined because, by assumption, τ ̸= τ0(0) −τh(0). Moreover, under the baseline\n(standard-case) assumptions, λ must be negative to induce a lead.\nAn interesting situation occurs when τ0(0) −τh(0) = 0 (which would contradict the final baseline\nassumption). Then the formula for λ simplifies to",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_33",
+          "text": "λ = −Γh(0)/Γ0(0),",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_34",
+          "text": "so it no longer depends on τ. However,",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_35",
+          "text": "Γb(0) = Γh(0) + λΓ0(0) = 0,\n(35)",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_36",
+          "text": "which contradicts the assumption Γb(0) > 0. We may therefore assume τ0(0) −τh(0) ̸= 0, com-\npleting the proof.\nIt is nevertheless instructive to interpret this degenerate case geometrically. Since the derivative\nof phase differences\n˙Φh(0) −˙Φ0(0) = τh(0) −τ0(0) = 0 vanishes at ω = 0, the constant and linear terms in the Taylor expansion of Φh(ω) −Φ0(ω) cancel\n(the constant term is zero because the transfer functions are strictly positive), and we obtain Φh(ω) −Φ0(ω) = O(ω2).",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_37",
+          "text": "In the DFP-triangle with vertices 0, Γb(ω), Γh(ω) (cf. Fig.3 and footnote 7), the angle at Γh(ω) is γ(ω) = Φh(ω) −Φ0(ω) = O(ω2),",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_38",
+          "text": "i.e., the triangle becomes ‘super flat’ as ω →0 (in Fig. 3, γ(ω) = Φh(ω) −Φ0(ω) corresponds to\nγ = θ0h). If Γb(0) > 0 (as assumed), then β(ω) = Φb(ω) −Φh(ω) must be of the same order, i.e.,\nβ(ω) = O(ω2)9. This would imply τ = τb(0) −τh(0) = lim\nω→0( ˙Φb(ω) −˙Φh(ω)) = 0, contradicting τ > 0. Therefore, Γb(0) = 0, as predicted by (35). This analysis shows that one\ncannot have simultaneously Γb(0) > 0 and τ > 0 when τh(0) −τ0(0) = 0 (which is ruled-out by\nour assumptions).",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_39",
+          "text": "9Note that β(ω) = π + O(ω2) is excluded because Γb(0) > 0 (no phase reversal towards ω = 0).",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_40",
+          "text": "18",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_41",
+          "text": "Remark: The restriction τ ̸= τ0(0) −τh(0) in the theorem guarantees that the DFP predictor\ndoes not offset or eliminate the lead τh(0) −τ0(0) that the MSE benchmark has over the nowcast,\nwhich is a natural and intuitively desirable requirement.",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_42",
+          "text": "For τ = 0, Eq.(34) gives λ = 0 since τh(0) > τ0(0) (baseline assumption), and thus b = γh, as\nexpected. As τ →∞, λ →−Γh(0)/Γ0(0), so",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_43",
+          "text": "Γb(0) = Γh(0) + λΓ0(0) →0,",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_44",
+          "text": "i.e., the DFP predictor asymptotically removes linear trends. Although this determines the limit of\nλ = λ(τ), as a function of τ, one may choose λ < −Γh(0)/Γ0(0) if trend reversal is permitted; then\nthe left-shift typically keeps increasing (see the next section), but τb(0) is no longer well-defined\nat zero frequency (Equation (29) instead gives the time-shift of the sign-reversed filter).",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_45",
+          "text": "We can also express α0 in the DFP constraint, as well as the phase excess θhb between the\nDFP predictor and the MSE predictor, in terms of τ = τb(0) −τh(0). Corollary 3. Under the assumptions of the theorem",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_46",
+          "text": "α0\n=\nγ′\n0 (γh + λ(τ)γ0)\n(36) θhb\n=\narccos\n\u0012\nγ′\nh(γh + λ(τ)γ0\n∥γh∥∥γh + λ(τ)γ0∥",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_47",
+          "text": "\u0013\n≈arccos",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_48",
+          "text": "(Fhγ0)′ \u0000\nFh + λ(τ)I\n\u0001\nγ0\n∥Fhγ0∥∥(Fh + λ(τ)I)γ0∥",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_49",
+          "text": "! ,\n(37)",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_50",
+          "text": "where λ(τ) is defined in (34). The result follows from (11) and the identity cos(θhb) =\nγ′\nhb\n∥γh∥∥b∥=\nγ′\nh(γh + λ(τ)γ0)\n∥γh∥∥γh + λ(τ)γ0∥, using γh ≈Fhγ0 for L sufficiently large. At τ = 0, λ(τ) = 0 and cos(θ0b) =\nγ′\n0γh\n∥γ0∥∥γh∥, so θ0b = θ0h and θhb = 0 (no phase excess because\nb = γh). Since λ(τ) is strictly decreasing for τ ≥0, θhb in (37) is strictly increasing. Thus the\ndual interpretation in Section 3.4 carries over from phase excess θhb to lead τ: DFP maximizes τ\nsubject to given tracking-accuracy. By primal–dual equivalence, DFP traces the efficient frontier\nbetween timeliness τ and accuracy (max-target correlation or min-MSE).",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_51",
+          "text": "The relationship between α0 and the lead time τ makes it possible to interpret the hyperparam-\neter and to choose appropriate values using a formal decision rule, as illustrated in the applications\nbelow.",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_52",
+          "text": "4.3\nLimits on the Attainable Phase Excess and Lead under Strict Positivity To illustrate, assume γ0 and γh are nearly (but not exactly) aligned. As λ < 0 becomes more\nnegative, b = γh + λγ0 rotates to point almost opposite γh, so pushing λ too far to increase lead\ncan (almost) flip the predictor’s sign. Componentwise, such sign flips can sometimes increase lead\n(see Section 5.2), but the limit is extreme, so a criterion is needed to rule it out.",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_53",
+          "text": "A basic requirement for a meaningful DFP predictor is the strict positivity condition (Section\n3.1): the target correlation must be strictly positive, γ′\nhb(λ) > 0, equivalently θhb < π/2. Via\nλ(τ) in Equation (34) and Equation (37), this imposes bounds on admissible λ (and hence τ). We\nrequire 0 < cos(θhb) =\nγ′\nh(γh + λγ0)\n∥γh∥∥γh + λγ0∥,",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_54",
+          "text": "19",
+          "page": 19
+        },
+        {
+          "para_id": "4.1_55",
+          "text": "which implies γ′\nh(γh + λγ0) > 0. If γ′\nhγ0 > 0 then λ > −γ′\nhγh\nγ′\nhγ0\n=: λlim, (with a similar bound λ < |γ′\nhγh/γ′\nhγ0| when γ′\nhγ0 < 0). If λlimΓ0(0) + Γh(0) > 0, substituting\ninto (34) yields the upper bound:",
+          "page": 20
+        },
+        {
+          "para_id": "4.1_56",
+          "text": "τ ≤−(τh(0) −τ0(0))λlimΓ0(0) λlimΓ0(0) + Γh(0)\n= τlim > 0. If instead λlimΓ0(0)+Γh(0) ≤0, the resulting b(λlim) eliminates or reverses the trend, making τlim\nill-defined; in that case, strict positivity imposes no restriction on τ and any finite τ is admissible.",
+          "page": 20
+        },
+        {
+          "para_id": "4.1_57",
+          "text": "We contend that any predictive lead (‘left-shift’) achieved by violating positivity is ill-conditioned.\nWhile dropping positivity can seem to extend the forecast horizon (e.g., in periodic settings), pos-\nitivity ensures the predictor’s dynamics stay aligned with those of the process at horizon h. Thus\nθhb < π/2—equivalently the bounds λlim or τlim— places a hard cap on how far the DFP predictor\nb(λ(τ)) can genuinely outperform the MSE benchmark γh while remaining positively correlated\nwith the target xt+h. This coupling to xt+h prevents pushing the lead towards future points whose\ndynamics diverge from the target horizon, avoiding, among others, a sign-flip.",
+          "page": 20
+        },
+        {
+          "para_id": "4.1_58",
+          "text": "By primal–dual equivalence, for any fixed target correlation, no linear predictor can attain a\nlarger lead than DFP. Therefore, any lead beyond τlim must violate strict positivity, making τlim a\nuniversal upper bound on lead among linear predictors—and DFP achieves it. The same applies\nto PCS, where lead manifests as a rightward shift of the CCF peak.",
+          "page": 20
+        },
+        {
+          "para_id": "4.1_59",
+          "text": "Even stronger bounds on λ and τ can be established by enforcing the stricter positivity rule\nb(λ(τ))′γ0 > 0, i.e., θ0b < π/2, see Equation (18) (details omitted).",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5\nEmpirical Examples",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "We illustrate several aspects of the proposed designs. First, we apply the unit-length DFP cri-\nterion (2) to the MA process introduced in Section 2, treating ϵt as observed, and compare par-\ntial and complete decoupling.\nSecond, we implement the MSE-DFP criterion (9) for AR and\nARMA processes, where the innovations ϵt are unobserved and are recovered by inversion. We\nalso construct a predictor targeting a prespecified lead over the MSE benchmark (Theorem 2) and\nevaluate finite-sample performance via simulation. Finally, we apply the leading indicator PCS\n(26) to business-cycle analysis using quarterly GDP and the Hodrick–Prescott filter (Hodrick and\nPrescott, 1997).",
+          "page": 20
+        },
+        {
+          "para_id": "5_2",
+          "text": "5.1\nIllustration of the DFP-Criterion in the MA(9)-Case We apply the unit-length DFP criterion (2) to the MA(9) example with forecast horizon h = 5,\ntreating ϵt as observed (see Section 2). Figure 1 shows that the CCF ρ(ˆxMSE\n5t\n, xt+δ) of the MSE\npredictor attains a peak of 0.86 at δ = 0, indicating a strong tie with the present xt—i.e., a\npredominantly coincident predictor ˆxMSE\n5t\n. To mitigate this, we consider two DFP designs that\nattenuate the CCF at δ = 0: (i) partial decoupling, implemented by setting the CCF to 0.43 (i.e.,\nα0 = 0.43), and (ii) complete decoupling, imposing a vanishing CCF via α0 = 0. Solving the\nquadratic in (4) and selecting the root that maximizes the objective yields the predictors",
+          "page": 20
+        },
+        {
+          "para_id": "5_3",
+          "text": "bpartial\n=\n1.62γh −0.51γ0\nbcomplete\n=\n1.8γh −0.79γ0.",
+          "page": 20
+        },
+        {
+          "para_id": "5_4",
+          "text": "20",
+          "page": 20
+        },
+        {
+          "para_id": "5_5",
+          "text": "Figure 5 compares predictors (top-left), CCF (top-right), and forecasts (bottom). Unlike the\nMSE design, the DFP predictor can place nonzero weights up to lag k = L because b depends on\nγ0 (a similar result is reported in Wildi (2024) and (2026a), when prioritizing smoothness rather\nthan lead). The DFP criterion enforces decoupling at δ = 0 (top-right) while maximizing forecast\nperformance at the target horizon h = 5. Ideally, any degradation at δ = 0 does not propagate\nto δ = h; the criterion is meant to minimize such spillover at the target horizon. The apparent\nCCF peak shift to δ = h under full decoupling (top right, red) is incidental in this example. By\ncontrast, PCS (which also shifts the peak to δ = h) differs because its CCF does not vanish at\nδ = 0 (not shown). As decoupling strengthens, the DFP forecasts (bottom) shift progressively\nleft, indicating relative anticipation. Notably, this lead is achieved by placing more weight on\nhigher-lag observations, which is counterintuitive.",
+          "page": 21
+        },
+        {
+          "para_id": "5_6",
+          "text": "This example highlights the core trade-off underlying the DFP criterion: timeliness (advance-\nment via decoupling) versus accuracy (MSE performance at δ = h). Table 1 quantifies this trade-off\nthrough the CCF and the relative lead of the DFP design compared with the benchmark. Leads\nare measured as the shift at which the sample correlation between the MSE predictor and the\n(shifted) DFP predictor attains its maximum (cf. De Jong and Nijman, 1997).",
+          "page": 21
+        },
+        {
+          "para_id": "5_7",
+          "text": "MSE\nDFP weak decoupling\nDFP complete decoupling\nCCF at lag=0\n0.86\n0.43\n0.00\nCCF at h=5\n0.51\n0.42\n0.26\nRelative lead over MSE\n0.00\n2.00\n4.00",
+          "page": 21
+        },
+        {
+          "para_id": "5_8",
+          "text": "Table 1: CCFs of the predictors at δ = 0 and δ = h = 5 for the MSE benchmark, DFP with\nweak decoupling, and DFP with complete decoupling. Forecast loss at the target horizon (second\nrow) is minimized subject to the decoupling constraint at the present (first row).\nEmpirical\nleads of the DFP predictors (third row) quantify the left shift (earlier timing) relative to the\nMSE benchmark, defined as the lag at which the sample correlation between the DFP and MSE\npredictors is maximized. The reduction in CCF at the forecast horizon alongside the increase in\nlead highlights the accuracy–timeliness trade-off.",
+          "page": 21
+        },
+        {
+          "para_id": "5_9",
+          "text": "21",
+          "page": 21
+        },
+        {
+          "para_id": "5_10",
+          "text": "Predictor",
+          "page": 22
+        },
+        {
+          "para_id": "5_11",
+          "text": "Lags",
+          "page": 22
+        },
+        {
+          "para_id": "5_12",
+          "text": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9",
+          "page": 22
+        },
+        {
+          "para_id": "5_13",
+          "text": "−0.4\n0.0\n0.4",
+          "page": 22
+        },
+        {
+          "para_id": "5_14",
+          "text": "CCF",
+          "page": 22
+        },
+        {
+          "para_id": "5_15",
+          "text": "Leads",
+          "page": 22
+        },
+        {
+          "para_id": "5_16",
+          "text": "MSE Partial decoupling",
+          "page": 22
+        },
+        {
+          "para_id": "5_17",
+          "text": "Complete decoupling",
+          "page": 22
+        },
+        {
+          "para_id": "5_18",
+          "text": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9",
+          "page": 22
+        },
+        {
+          "para_id": "5_19",
+          "text": "0.0\n0.2\n0.4\n0.6\n0.8",
+          "page": 22
+        },
+        {
+          "para_id": "5_20",
+          "text": "Forecast",
+          "page": 22
+        },
+        {
+          "para_id": "5_21",
+          "text": "10\n20\n30\n40\n50\n60\n70\n80",
+          "page": 22
+        },
+        {
+          "para_id": "5_22",
+          "text": "−2\n−1\n0\n1\n2",
+          "page": 22
+        },
+        {
+          "para_id": "5_23",
+          "text": "Figure 5: MSE (green) and DFP predictors under weak decoupling (red) and complete decoupling\n(blue). Top-left: forecast weights. Top-right: CCF across leads (the CCF under complete decou-\npling is zero at δ = 0). Bottom: standardized forecasts. Increasing decoupling produces a leftward\nshift (advancement) of the DFP forecasts relative to the MSE benchmark.",
+          "page": 22
+        },
+        {
+          "para_id": "5_24",
+          "text": "5.2\nApplication of the Mean-Squared DFP to AR- and ARMA-Processes We apply the mean-squared-error variant (9) of the DFP predictor to the stationary AR(3) and\nARMA(3,2) processes",
+          "page": 22
+        },
+        {
+          "para_id": "5_25",
+          "text": "xt1\n=\n1.3xt−1,1 −0.46xt−2,1 + 0.048xt−3,1 + ϵt1\nxt2\n=\n0.4xt−1,2 + 0.3xt−2,2 + 0.2xt−3,2 + ϵt2 + 0.5ϵt−1,2 + 0.4ϵt−2,2.",
+          "page": 22
+        },
+        {
+          "para_id": "5_26",
+          "text": "For the first process, the characteristic polynomial admits three positive real roots.\nIn the\nARMA(3,2) case, it admits one positive real root and a complex-conjugate pair whose modu-\nlus is substantially smaller than that of the real root. Consequently, both processes are dominated\nby the positive real root, yielding slowly and monotonically decaying autocorrelation functions\n(not shown) and predominantly non-oscillatory dynamics (an application to cyclical behavior is\npresented in the final business-cycle example).",
+          "page": 22
+        },
+        {
+          "para_id": "5_27",
+          "text": "In contrast to the preceding example, the innovation sequence ϵt is not observed and must be\nrecovered by inversion to obtain the Wold decompositions",
+          "page": 22
+        },
+        {
+          "para_id": "5_28",
+          "text": "xti =",
+          "page": 22
+        },
+        {
+          "para_id": "5_29",
+          "text": "∞\nX k=0\nγkiϵt−k,i, i = 1, 2. Because the dynamics are non-oscillatory, the MSE predictor tends to be strongly contemporane-\nously coupled, with a comparatively large CCF at δ = 0, even for fairly large forecast horizons.",
+          "page": 22
+        },
+        {
+          "para_id": "5_30",
+          "text": "22",
+          "page": 22
+        },
+        {
+          "para_id": "5_31",
+          "text": "To attenuate this coupling, we employ the MSE DFP criterion (9) and vary the decoupling pa-\nrameter α0 to construct h = 5-step-ahead MSE and DFP predictors (see Fig. 6). Under complete\ndecoupling (α0 = 0), the solutions are bAR(3)\n=\nγAR(3)\nh\n−0.41γAR(3)\n0\nbARMA(3,2)\n=\nγARMA(3,2)\nh\n−0.76γARMA(3,2)\n0",
+          "page": 23
+        },
+        {
+          "para_id": "5_32",
+          "text": "As noted, a limitation of the MSE-based DFP variant (9) is that, in general, α0 lacks a correlation\ninterpretation10 (except when α0 = 0). To address this, we can instead choose α0 based on a\npre-specified time shift (advance) relative to the MSE predictor, as discussed later. Meanwhile,\nTable 2 reports the effective CCF values at δ = 0 and δ = 5 implied by the selected α0 for\nboth processes. The optimization pursues a demanding objective: minimize performance loss at\nδ = h while enforcing a controlled decline at δ = 0. This deliberate trade-off sets our method\napart from classical forecasting approaches, which generally refrain from minimizing performance\nat zero lag—or at any lag (dual interpretation).",
+          "page": 23
+        },
+        {
+          "para_id": "5_33",
+          "text": "Process 1: CCF δ = 0\nδ = 5\nProcess 2: δ = 0\nδ = 5\nα0 = 0.9\n0.72\n0.38\n0.90\n0.70\nα0 = 0.45\n0.46\n0.29\n0.72\n0.57\nα0 = 0.22\n0.24\n0.21\n0.45\n0.38\nα0 = 0.1\n0.11\n0.16\n0.22\n0.21\nα0 = 0\n0.00\n0.12\n0.00\n0.04",
+          "page": 23
+        },
+        {
+          "para_id": "5_34",
+          "text": "Table 2: CCFs of the DFP predictors for the first process (columns 1–2) and the second process\n(columns 3–4) evaluated at δ = 0 (columns 1 and 3) and at δ = h = 5 (columns 2 and 4), shown\nfor multiple values of the decoupling parameter α0. Note that α0 generally differs from the CCF\nat δ = 0 except in the case of complete decoupling (columns 1 and 3, last row).",
+          "page": 23
+        },
+        {
+          "para_id": "5_35",
+          "text": "The contrast between the MSE (green) and DFP predictors for both processes in Fig.6 high-\nlights distinctive properties of the DFP design: whereas the MSE predictors are smooth, strictly\npositive, and monotonically decaying—reflecting the influence of the dominant root of the char-\nacteristic polynomial—the DFP predictors become progressively less smooth, partially negative,\nand non-monotonic as decoupling increases. Specifically, as α0 decreases, λ in (11) becomes more\nnegative, intensifying the cancellation between γ0 and γh in the DFP expression b = γh + λγ0.\nThe consequent down-weighting of the present relative to the future in b exposes dynamics oth-\nerwise obscured by the dominant root. Beyond the increasingly irregular patterns observed for\nthe ARMA(3,2) case (right top panel), a damped cycle emerges in the AR(3) case (left top panel)\ndespite all process roots being strictly positive—a configuration that typically implies noncyclical\nbehavior (cyclical dynamics are examined in the final example of the next section).",
+          "page": 23
+        },
+        {
+          "para_id": "5_36",
+          "text": "We now select the hyperparameter α0 using a pre-specified time-shift (see Corollary 3) and\ncompare the resulting procedure with the fully decoupled DFP; both are assessed against the MSE\npredictor. For illustration, we use the (above) AR(3) process",
+          "page": 23
+        },
+        {
+          "para_id": "5_37",
+          "text": "xt = 1.3xt−1 −0.46xt−2 + 0.048xt−3 + ϵt. We construct an h = 3-step-ahead predictor and impose a relative time shift (advance) of τ =\nτb(0) −τh(0) = 2 with respect to the MSE predictor γ3 to obtain the new τ-shifted DFP. While\nthe particular forecast horizons used in this example are somewhat arbitrary, the conclusions carry\nover to any horizon. In particular, the resulting DFP predictors (based on h = 3) largely preserve 10That said, the optimization principle is simpler, yields a unique solution, and readily extends to nonstationary\nprocesses (not shown).",
+          "page": 23
+        },
+        {
+          "para_id": "5_38",
+          "text": "23",
+          "page": 23
+        },
+        {
+          "para_id": "5_39",
+          "text": "the left shift—even relative to the MSE predictor γ˜h—for arbitrarily long horizons ˜h. See Table\n3 for an illustration with ˜h = 20.",
+          "page": 24
+        },
+        {
+          "para_id": "5_40",
+          "text": "Figure 7 (top left) displays the finite-length MA inversion γ0, i.e., the truncated Wold decom-\nposition of the AR(3), (black) alongside with the MSE predictor γ3 (green), the τ-shifted DFP\n(blue), and the fully decoupled DFP (red). For ease of visual inspection, all designs are calibrated\nto unit-length; hence the Wold decomposition (black) does not start with a one. The associated\nCCFs and sample realizations are presented in the top-right and bottom panels, respectively. Table\n3 lists the time-shifts τ(ω) and transfer functions Γ(ω) at ω = 0, along with the hyperparameters\nλ and α0 (Γ(0) is based on predictors scaled to unit-length). For comparison, we also evaluate\nan additional 20-step-ahead MSE predictor to confirm that increasing the forecast horizon only\nmarginally changes the time shift. Hence, the ‘hyperparameter’ h (the forecast horizon) cannot be\nused to address a left shift (lead) of the MSE predictor. The fully decoupled DFP is obtained by\nsetting α0 = 0, with λ computed from (11). The τ-shifted DFP uses τ = 2, with λ and α0 given\nby (34) and (36), respectively.",
+          "page": 24
+        },
+        {
+          "para_id": "5_41",
+          "text": "Because the fully decoupled DFP undergoes phase reversal at zero frequency (Γ(0) < 0), its\ntime shift is not well-defined and is omitted from the table.11 While the τ-shifted DFP advances\ntrends by τ = 2 relative to the MSE predictor, the fully decoupled version does not preserve the\ndirection of a linear trend.",
+          "page": 24
+        },
+        {
+          "para_id": "5_42",
+          "text": "This inversion also reverses any nonzero mean. Yet, even as λ becomes more negative—and\nthis potentially undesirable effect becomes more pronounced—Figure7 (bottom panel) shows that\nthe fully decoupled predictor still extends lead time for our zero-mean AR(3) process. Because the\nDFP criterion limits this sign reversal to specific frequencies, we accept the trend/mean inversion\nas the cost of gaining increased phase excess, i.e., lead time, under zero-mean assumptions. Push-\ning λ too negative, however, risks violating the positivity condition, which mandates a strictly\npositive target correlation, see Section 4.3. While our proposed predictors satisfy this condition\n(Fig. 7, middle-right), the plot indicates that decreasing λ past the point of full decoupling risks\nbordering on, or effectively violating, the assumption. Thus, in this example, the fully decoupled\ndesign is near-maximal for positivity-preserving lead time.\nBroadly speaking, generating a lead in stationary mean-reverting processes requires key com-\nponents to flip signs early to anticipate the coming reversion.\nThe DFP criterion facilitates\nthis by optimally weighting these components—specifically the low-frequency ones in our exam-\nple—demonstrating efficacy even in non-periodic contexts. However, in such challenging scenarios,\nthe bounds on λ must be considered carefully if strict positivity is deemed relevant.",
+          "page": 24
+        },
+        {
+          "para_id": "5_43",
+          "text": "Enforcing accurate tracking of a nonzero mean (or linear trend)—i.e., not merely avoiding mean\ninversion but matching the level—would require adding constraints to the MSE-DFP problem (9),\nthereby trading off lead (for a given target correlation) or target correlation (for a given lead).12.\nMeanwhile, the unit-length DFP (2), which optimizes correlation, ignores the mean entirely and\ncannot recover a fixed nonzero level without an ex post adjustment.\nTo handle (stationary) nonzero-mean series, we propose a two-step procedure: first maximize\nlead for a given target correlation (or vice versa), even if this entails mean inversion; then apply a\nstatic level correction. See Heinisch et al. (2026) for an application to multi-step GDP forecasting.",
+          "page": 24
+        },
+        {
+          "para_id": "5_44",
+          "text": "11In particular, the formula for τ(0) returns the shift of the sign-reversed predictor.\n12Exact mean tracking requires Γb(0) = Γh(0) (first-order); exact trend tracking additionally requires ˙Γb(0) =\n˙Γh(0) (second-order); see McElroy and Wildi (2016).",
+          "page": 24
+        },
+        {
+          "para_id": "5_45",
+          "text": "24",
+          "page": 24
+        },
+        {
+          "para_id": "5_46",
+          "text": "τ(0)\nΓ(0)\nλ\nα0\nMSE(3)\n-4.01\n3.01\nMSE(20)\n-3.96\n3.00\nDFP-shifted\n-2.01\n1.92\n-0.49\n0.52\nDFP full dec.\n-1.07\n-0.57\n0.00",
+          "page": 25
+        },
+        {
+          "para_id": "5_47",
+          "text": "Table 3: Left to right: the time-shifts τ(ω) and transferfunctions Γ(ω) evaluated at ω = 0, followed\nby the hyperparameters λ and α0. Top to bottom: h = 3-step-ahead MSE (first row), the 20−step-\nahead MSE and then the two 3-step-ahead DFP: the τ-shifted DFP and the fully decoupled DFP\npredictors.\nAll predictors are normalized to unit length.\nIncreasing the forecast horizon only\nslightly changes the time-shift of the MSE predictor (first and second row). For the 3-step-ahead\nDFP predictors, negative λ values induce phase excess (lead). In the first column, the τ-shifted\nDFP leads the MSE by the imposed amount τ = −2.01 −(−4.01) = 2. The fully-decoupled DFP\nis phase reverting (Γ(0) < 0), so the time-shift is not well-defined at ω = 0 (and the corresponding\nentry is left blank).",
+          "page": 25
+        },
+        {
+          "para_id": "5_48",
+          "text": "Predictors: AR(3)",
+          "page": 25
+        },
+        {
+          "para_id": "5_49",
+          "text": "0\n10\n20\n30\n40\n50",
+          "page": 25
+        },
+        {
+          "para_id": "5_50",
+          "text": "−0.2\n0.0\n0.2\n0.4\n0.6\n0.8\n1.0",
+          "page": 25
+        },
+        {
+          "para_id": "5_51",
+          "text": "MSE\nDFP α0=0.9 α0=0.45 \n    α0=0.22 α0=0.1 α0=0",
+          "page": 25
+        },
+        {
+          "para_id": "5_52",
+          "text": "ARMA(3,2)",
+          "page": 25
+        },
+        {
+          "para_id": "5_53",
+          "text": "0\n10\n20\n30\n40\n50",
+          "page": 25
+        },
+        {
+          "para_id": "5_54",
+          "text": "−0.6\n−0.2\n0.0\n0.2\n0.4\n0.6",
+          "page": 25
+        },
+        {
+          "para_id": "5_55",
+          "text": "CCF",
+          "page": 25
+        },
+        {
+          "para_id": "5_56",
+          "text": "0\n2\n4\n6\n8\n10\n13\n16\n19",
+          "page": 25
+        },
+        {
+          "para_id": "5_57",
+          "text": "0.0\n0.2\n0.4\n0.6\n0.8 0\n2\n4\n6\n8\n10\n13\n16\n19",
+          "page": 25
+        },
+        {
+          "para_id": "5_58",
+          "text": "0.0\n0.2\n0.4\n0.6\n0.8\n1.0",
+          "page": 25
+        },
+        {
+          "para_id": "5_59",
+          "text": "Figure 6: L = 50-length moving-average inversions of the h = 5-step-ahead predictors for the\nAR(3) process (left panels) and the ARMA(3,2) process (right panels) are shown: DFP predictors\n(top row) and the corresponding CCFs (bottom row). To facilitate visual comparison, all predictors\nare rescaled to have unit norm. For both processes, the DFP designs are generated using the\nsequence of decoupling parameter values α0 indicated in the upper-left panel.",
+          "page": 25
+        },
+        {
+          "para_id": "5_60",
+          "text": "25",
+          "page": 25
+        },
+        {
+          "para_id": "5_61",
+          "text": "Scaled Predictors",
+          "page": 26
+        },
+        {
+          "para_id": "5_62",
+          "text": "Lags",
+          "page": 26
+        },
+        {
+          "para_id": "5_63",
+          "text": "AR(3)\nMSE  3 −step DFP−shift\nDFP−full−decouple",
+          "page": 26
+        },
+        {
+          "para_id": "5_64",
+          "text": "0\n10\n20\n30\n40\n50",
+          "page": 26
+        },
+        {
+          "para_id": "5_65",
+          "text": "0.0\n0.5\n1.0",
+          "page": 26
+        },
+        {
+          "para_id": "5_66",
+          "text": "CCF",
+          "page": 26
+        },
+        {
+          "para_id": "5_67",
+          "text": "0\n10\n20\n30\n40\n50",
+          "page": 26
+        },
+        {
+          "para_id": "5_68",
+          "text": "0.0\n0.2\n0.4\n0.6\n0.8\n1.0",
+          "page": 26
+        },
+        {
+          "para_id": "5_69",
+          "text": "Predictor Outputs",
+          "page": 26
+        },
+        {
+          "para_id": "5_70",
+          "text": "0\n10\n20\n30\n40\n50",
+          "page": 26
+        },
+        {
+          "para_id": "5_71",
+          "text": "−2\n−1\n0\n1\n2",
+          "page": 26
+        },
+        {
+          "para_id": "5_72",
+          "text": "Figure 7: Filter coefficients (top left), CCF (top right), and filter outputs (bottom) for the AR(3)\nfilter (black), the h = 3-step-ahead MSE predictor (green), DFP with a time shift τ = 2 (ad-\nvancement, blue line), and fully decoupled DFP (red). For easier visual comparison, all filters are\nnormalized to unit norm (equivalently, unit output variance when driven by standardized white\nnoise). Both DFP predictors are consistently shifted to the left relative to the MSE predictor\n(bottom panel).",
+          "page": 26
+        },
+        {
+          "para_id": "5_73",
+          "text": "26",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "section_id": "5.3",
+      "section_title": "5.3\nApplication of PCS to Real Time Business-Cycle Analysis",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "5.3_1",
+          "text": "Jan 1947\nJan 1965\nJan 1985\nJan 2005\nApr 2024",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_2",
+          "text": "US GDP\n1947−01−01 / 2024−04−01",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_3",
+          "text": "5000",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_4",
+          "text": "0000",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_5",
+          "text": "5000",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_6",
+          "text": "20000",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_7",
+          "text": "5000",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_8",
+          "text": "10000",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_9",
+          "text": "15000",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_10",
+          "text": "20000",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_11",
+          "text": "Jan 1992\nJan 2000\nJan 2008\nJan 2016\nJan 2024",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_12",
+          "text": "Log−GDP\n1992−01−01 / 2024−04−01",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_13",
+          "text": "9.4",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_14",
+          "text": "9.6",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_15",
+          "text": "9.8",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_16",
+          "text": "10.0",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_17",
+          "text": "9.4",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_18",
+          "text": "9.6",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_19",
+          "text": "9.8",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_20",
+          "text": "10.0",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_21",
+          "text": "Jan 1992\nJan 2000\nJan 2008\nJan 2016\nJan 2024",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_22",
+          "text": "Diff−log\n1992−01−01 / 2024−04−01",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_23",
+          "text": "−0.05",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_24",
+          "text": "0.00",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_25",
+          "text": "0.05",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_26",
+          "text": "−0.05",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_27",
+          "text": "0.00",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_28",
+          "text": "0.05",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_29",
+          "text": "0\n5\n10\n15\n20",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_30",
+          "text": "−0.2\n0.0\n0.2\n0.4\n0.6\n0.8\n1.0",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_31",
+          "text": "Lag",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_32",
+          "text": "ACF",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_33",
+          "text": "ACF of log−diff",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_34",
+          "text": "Figure 8: US GDP long time span (top left), log-GDP from 1992 to 2024 (top right), log-differences\n(bottom left) and ACF of log-differences (bottom right).",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_35",
+          "text": "Business cycle analysis characterizes fluctuations in macroeconomic activity either as deviations\nfrom a smooth potential-growth path (classical cycle) or via movements in growth rates (growth-\ncycle). Both perspectives require a reliable estimate of the underlying trend. We extract the trend\n(growth) component of quarterly U.S. real GDP using the Hodrick–Prescott (HP) filter (Hodrick\nand Prescott, 1997), with the conventional quarterly smoothing parameter λHP = 1600. The\ndata, retrieved from the FRED database (https://fred.stlouisfed.org/), are displayed in Fig. 8.\nThe sample covers the last three recession episodes, spanning 1992-01-01 to 2024-04-01.",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_36",
+          "text": "The HP filter is intrinsically acausal, two-sided, and bi-infinite. In real time, however, de-\npendence on future observations is infeasible, complicating estimation.\nTo accommodate this\nconstraint, the HP filter admits a finite, one-sided approximation for nowcasting that tracks the\ntwo-sided design optimally under suitable data-generating assumptions (McElroy, 2008; Cornea-\nMadeira, 2017).\nBuilding on this framework, Wildi (2024) develops a customized concurrent\n(real-time) HP filter that explicitly trades off accuracy and smoothness to improve nowcast relia-\nbility. We extend this approach by applying the PCS principle to induce a predictive lead relative\nto the MSE benchmark.",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_37",
+          "text": "We construct a leading indicator using the PCS variant in (26), targeting a one-year lead\n(h = 4) and specifying γ = γ0 as the (causal, finite-length) HP(1600) trend nowcast applied to\nthe log-differenced series (Fig. 8, bottom-left panel). Note that this leading- indicator PCS is not\na classic forecast, since the target is the nowcast, albeit with its CCF shifted.\nWe evaluate the PCS objective over a range of hyperparameter values βh = β4 and compare the",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_38",
+          "text": "27",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_39",
+          "text": "resulting filters with the classical one-year MSE predictor under a white-noise assumption (justi-\nfied by the bottom-right panel in Fig. 8). All predictors are constructed with length L = 50.",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_40",
+          "text": "Figure 9 compares the MSE predictor (green) with (leading-indicator) PCS-based predictors\nfor several values of β4 (top left panel); all designs are normalized to unit-norm. As intended, a\nCCF peak shift to δ = 4 is achieved at β4 = 0, with predictor b := γ −8.81(F3 −F4)γ",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_41",
+          "text": "(violet line), where γ = γ0 is the indicator underlying the leading-design construction (HP now-\ncast).\nThe cross-correlation functions (top right panel) indicate that, as β4 approaches zero, the peak\nmoves toward δ = h = 4 (violet line). The standardized filter outputs (bottom panel) likewise\nshow that the predictive lead of the PCS predictors increases as β4 decreases.",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_42",
+          "text": "Predictors MSE\nβ4 = 0.8\nβ4 = 0.6\nβ4 = 0.4\nβ4 = 0.2 β4 = 0",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_43",
+          "text": "0\n10\n20\n30\n40\n50",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_44",
+          "text": "−0.2\n0.0\n0.2\n0.4\n0.6",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_45",
+          "text": "CCFs",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_46",
+          "text": "0\n2\n4\n6\n8\n10\n12\n14\n16\n18",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_47",
+          "text": "0.0\n0.2\n0.4\n0.6\n0.8\n1.0",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_48",
+          "text": "Standardized forecasts",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_49",
+          "text": "1994−07−01\n2000−07−01\n2006−07−01\n2012−07−01\n2018−07−01",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_50",
+          "text": "−6\n−4\n−2\n0\n2",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_51",
+          "text": "Figure 9: Filter coefficients (top left), CCFs (top right) and leading indicators (bottom) of MSE-\n(green) and PCS-predictors under various choices of β4. When β4 = 0, the CCF attains its peak at\nthe forecast horizon (violet line top right panel). Predictors and series are normalized for clearer\nvisual inspection.",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_52",
+          "text": "28",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6\nConclusion",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "We address the inherent accuracy–timeliness conflict in prediction by embedding it in an objec-\ntive–constraint optimization framework. A formal definition of predictor ‘lead’ maps this dilemma\nto an explicit MSE–lead trade-off.",
+          "page": 29
+        },
+        {
+          "para_id": "6_2",
+          "text": "We propose new look-ahead designs: i) unit-length and MSE-DFP, which decouple the forecast\nfrom the nowcast, and ii) unit-length, MSE, and leading-indicator PCS, which shift the CCF peak\ntoward the forecast horizon. Closed-form solutions show that these designs are generally geometri-\ncally distinct, lying in different subspaces of the predictor space. We also derive their distributions,\nlinking them to standard MSE-predictor theory through appropriate transformations.",
+          "page": 29
+        },
+        {
+          "para_id": "6_3",
+          "text": "For clarity, we focus on stationary univariate processes with full-rank predictor spaces, though\nthe framework extends to nonstationary or multivariate settings and to singular (rank-deficient)\nspaces. We illustrate the approach in time-series forecasting and real-time signal extraction, in-\ncluding leading-indicator design. In each application, a single hyperparameter controls the accu-\nracy–timeliness trade-off and admits clear statistical and geometric interpretations, tracing a new\naccuracy–timeliness efficient frontier. Whereas the MSE predictor occupies a single spot on this\ncurve, our approaches span the entire frontier.",
+          "page": 29
+        },
+        {
+          "para_id": "6_4",
+          "text": "Future work could combine this framework with Wildi’s recent results (2024–2026) to develop\na unified ‘prediction trilemma’ that jointly balances accuracy, timeliness, and smoothness.",
+          "page": 29
+        },
+        {
+          "para_id": "6_5",
+          "text": "A\nLead in the Non-Standard Case τh(0) < τ0(0) We argue that the final baseline condition τh(0) > τ0(0) is not strictly necessary to derive an\nexpression for the phase differential Φb(ω)−Φh(ω) in Proposition (2), although it does simplify both\nthe analysis and the derivation. Suppose instead that this condition is violated, i.e., τh(0) < τ0(0)\n(non-standard situation). Using (29), we require",
+          "page": 29
+        },
+        {
+          "para_id": "6_6",
+          "text": "−\nPL−1\nk=1 kγk\nPL−1\nk=0 γk\n= τ0(0) > τh(0) = −\nPL−1\nk=1 kγk+h\nPL−1\nk=0 γk+h\n. As an example, for L = 2 and h = 1, with γ0 = 1, this reduces to γ2\n1 < γ2. In that case the\none-step predictor γ1 = (γ1, γ2)′ lags the nowcast γ0 = (1, γ1)′ at frequency zero.",
+          "page": 29
+        },
+        {
+          "para_id": "6_7",
+          "text": "In this non-standard case Φh(ω) ≈˙Φh(0)ω = τh(0)ω < τ0(0)ω = ˙Φ0(0)ω ≈Φ0(ω),",
+          "page": 29
+        },
+        {
+          "para_id": "6_8",
+          "text": "for small ω > 0. For λ < 0 (phase excess) in Γb = Γh + λΓ0 this suggests Φb(ω) < Φh(ω) and\nhence\nτb(0) ≈Φb(ω)/ω < Φh(ω)/ω ≈τh(0), so the DFP would lag the MSE predictor at the reference (zero) frequency. Nevertheless, a lead\nat zero frequency is still attainable. Specifically, one can distinguish two scenarios: either i)",
+          "page": 29
+        },
+        {
+          "para_id": "6_9",
+          "text": "Φ0(ω) ≥Φb(ω) ≥Φh(ω),\n(38)",
+          "page": 29
+        },
+        {
+          "para_id": "6_10",
+          "text": "or ii)",
+          "page": 29
+        },
+        {
+          "para_id": "6_11",
+          "text": "Φb(ω) ≥Φ0(ω) ≥Φh(ω),\n(39)",
+          "page": 29
+        },
+        {
+          "para_id": "6_12",
+          "text": "29",
+          "page": 29
+        },
+        {
+          "para_id": "6_13",
+          "text": "both of which differ from (31).\nIn the first scenario, λ > 0 implies Φb(ω) > Φh(ω)13 and τb(0) ≈Φb(ω)/ω > Φh(ω)/ω ≈τh(0)",
+          "page": 30
+        },
+        {
+          "para_id": "6_14",
+          "text": "inducing a lead, as desired. However, in case i) Φb(ω) < Φ0(ω) so that τb(0) ≈Φb(ω)/ω < Φ0(ω)/ω ≈τ0(0),\n(40)",
+          "page": 30
+        },
+        {
+          "para_id": "6_15",
+          "text": "that is, the DFP time shift does not exceed the nowcast. For a graphical illustration, it is convenient\nto use Fig. 2 for the unit-length DFP Criterion (2): case (i) is obtained by interchanging γh (i.e.,\nΓh(ω)) and γ0 (i.e.,Γ0(ω)), with b (i.e., Γb(ω)) lying between them. Accordingly, the DFP solution\ncorresponds to the lower branch of the cone, represented in the figure by θ0b < 0. As λ →∞\n(equivalently α0 →∞), b(λ) ∝γ0 and hence τb(0) →τ0(0).\nHere β(ω) = Φb(ω) −Φh(ω) is determined from the triangle with sides a, b, c as in Proposition (2)\nbut with\nα(ω) = Φ0(ω) −Φh(ω) > 0 (instead of γ(ω) = Φh(ω) −Φ0(ω) > 0). By the Law of Sines sin(β(ω)) b(ω)\n= sin(α(ω))",
+          "page": 30
+        },
+        {
+          "para_id": "6_16",
+          "text": "a(ω)\n, so β follows from this relation, with a = Ah, b = λA0 for λ > 0.\nIn case ii), one instead selects the upper branch of the cone, represented by θ0b > 0 in Fig.2. In\nthis non-standard setting, recovering the upper-branch solution from the unit-length criterion (2)\nrequires switching the maximization of the target correlation to a minimization, with λ > 0 again\nensuring a lead. This implies\nb = λ1γh + λ2γ0\nwith the weight on γh negative, λ1 < 0. In principle, the same sign reversal carries over to the\nMSE-DFP; however, swapping sign, i.e., maximizing MSE in (9), fails because b is not constrained\nto unit-length. An alternative is to swap the roles of γ0 (now in the objective) and γh (now in\nthe constraint) min\nb (b −γ0)′(b −γ0)\n(41) s.t.\nγ′\nhb = αh. Then Proposition 1 yields",
+          "page": 30
+        },
+        {
+          "para_id": "6_17",
+          "text": "b(λ) = γ0 + λγh.\n(42) For λ < 0, τb(0) > τ0(0), as desired.\nTo derive β(ω) = Φb(ω)−Φh(ω) in this case, Proposition 2 continues to apply with these changes:\na = A0 (instead of Ah), b = |λ|Ah (instead of |λ|A0) and flip the sign of γ = Φ0 −Φh.",
+          "page": 30
+        },
+        {
+          "para_id": "6_18",
+          "text": "Constructing ‘large’ leads over the MSE predictor under the non-standard ordering τh(0) <\nτ0(0) (case ii)) requires either flipping the sign in criterion (2) (i.e., minimizing instead of max-\nimizing) or swapping the roles of the nowcast and the MSE predictor in criterion (41), thereby\nextending the standard DFP setup.",
+          "page": 30
+        },
+        {
+          "para_id": "6_19",
+          "text": "This analysis demonstrates that the (last) baseline condition τh(0) > τ0(0) (the standard case),\nis not essential to derive β(ω) in Proposition (2); it mainly streamlines the exposition by preserv-\ning, near the reference zero frequency, the DFP-triangle geometry implied by (31). In the standard 13If λ < 0, the DFP rotates in the same direction as the MSE predictor relative to the nowcast: in that case\nθ0h < 0 and the ‘phase excess’ θ0b = θ0h + θhb < θ0h < 0 increases the lag. Rotating in the opposite direction, i.e.,\nθhb > 0, to increase the lead therefore requires λ > 0 in the non-standard case.",
+          "page": 30
+        },
+        {
+          "para_id": "6_20",
+          "text": "30",
+          "page": 30
+        },
+        {
+          "para_id": "6_21",
+          "text": "case, rotating the DFP predictor in the same direction as the MSE predictor relative to the now-\ncast (i.e., λ < 0 and minimizing MSE) produces a lead τb(0) > τh(0) at the reference frequency.\nThis matches the previous section’s DFP geometry: the phase excess θ0b −θ0h > 0 implied by\nλ < 0 corresponds to a lead at frequency zero. When τh(0) < τ0(0), the extensions based on the\nreorderings in (38) and (39) apply. Then b = γh + λγ0 with λ > 0 (case i)) or b = γ0 + λγh with\nλ < 0 (case ii)).",
+          "page": 31
+        },
+        {
+          "para_id": "6_22",
+          "text": "B\nLinking Phase Excess and Hyperparameter in the DFP Crite-\nrion",
+          "page": 31
+        },
+        {
+          "para_id": "6_23",
+          "text": "Let θ0b and θ0h denote the angles between γ0 and b, and between γ0 and γh, respectively. The\nnext proposition relates λ to these angles when θ0b > θ0h > 0 (phase excess). Proposition 3. Assume γ0 ̸∝γh (rank-two) and θ0b > θ0h > 0 (phase excess). Then λ = −|γh|",
+          "page": 31
+        },
+        {
+          "para_id": "6_24",
+          "text": "|γ0|\nsin(θ0b −θ0h)",
+          "page": 31
+        },
+        {
+          "para_id": "6_25",
+          "text": "sin(θ0b)\n≈|γh|",
+          "page": 31
+        },
+        {
+          "para_id": "6_26",
+          "text": "|γ0|",
+          "page": 31
+        },
+        {
+          "para_id": "6_27",
+          "text": "\u0012θ0h",
+          "page": 31
+        },
+        {
+          "para_id": "6_28",
+          "text": "θ0b\n−1\n\u0013\n,\n(43) where the approximation is valid for sufficiently small θ0b. Proof: Geometrically, the vectors b, γ0 and γh lie in the same plane and define the DFP-\ntriangle with side lengths a = |γh|, b = |λ||γ0|, and c = |b|; see Fig.3. When θ0b > θ0h > 0, the\ncorresponding opposite angles are β = θ0b −θ0h, γ = θ0h and α = π −(θ0b −θ0h)−θ0h = π −θ0b.14 Note that θ0b −θ0h < π by construction of b. Using the law of sines gives sin(β)",
+          "page": 31
+        },
+        {
+          "para_id": "6_29",
+          "text": "b\n= sin(α)",
+          "page": 31
+        },
+        {
+          "para_id": "6_30",
+          "text": "a\n, and\nhence |λ| = |γh| sin(θ0b −θ0h) |γ0| sin(π −θ0b) . In addition, the triangle construction together with θ0b > θ0h > 0 implies λ < 0. Therefore, 0 > λ = −|γh|",
+          "page": 31
+        },
+        {
+          "para_id": "6_31",
+          "text": "|γ0|\nsin(θ0b −θ0h)",
+          "page": 31
+        },
+        {
+          "para_id": "6_32",
+          "text": "sin(θ0b)\n≈|γh|",
+          "page": 31
+        },
+        {
+          "para_id": "6_33",
+          "text": "|γ0|",
+          "page": 31
+        },
+        {
+          "para_id": "6_34",
+          "text": "\u0012θ0h",
+          "page": 31
+        },
+        {
+          "para_id": "6_35",
+          "text": "θ0b\n−1\n\u0013\n,\n(44) where the approximation follows from a first-order Taylor expansion of the sine function when\nθ0b(> θ0h > 0) is small.",
+          "page": 31
+        },
+        {
+          "para_id": "6_36",
+          "text": "Remarks: If θ0b > θ0h > 0 (phase excess), then λ < 0, and the proposed look-ahead perspec-\ntive highlights differences rather than similarities between the MSE predictor γh and the nowcast\nγ0; see Section 5.2 for illustration. In contrast, if θ0h > θ0b > 0 (phase loss), then λ > 0 and\nthe resulting DFP design stresses their commonalities, albeit with a corresponding lag relative to\nthe MSE predictor. Finally, flipping the signs of θ0h and θ0b so that 0 > θ0h > θ0b leaves these\nconclusions unchanged, since the signs cancel in Equation (43). Geometrically, both orderings\nrequire the DFP predictor to rotate farther in the same direction than the MSE predictor within\nthe plane spanned by γ0, γh.",
+          "page": 31
+        },
+        {
+          "para_id": "6_37",
+          "text": "Corollary 4. The hyperparameter α0 of the DFP-MSE Criterion (9) can be linked to the phase\nexcess θ0b, assuming θ0b > θ0h > 0, viz. α0 = |γh||γ0|\n\u0012\ncos(θ0b) −sin(θ0b −θ0h) sin(θ0b)",
+          "page": 31
+        },
+        {
+          "para_id": "6_38",
+          "text": "\u0013\n.",
+          "page": 31
+        },
+        {
+          "para_id": "6_39",
+          "text": "The proof follows from inserting (11) into (43) and solving for α0. 14If, instead, 0 < θ0b < θ0h (phase loss), the opposite angles become β = θ0h −θ0b, γ = π −θ0h and α = θ0b.",
+          "page": 31
+        },
+        {
+          "para_id": "6_40",
+          "text": "31",
+          "page": 31
+        },
+        {
+          "para_id": "6_41",
+          "text": "C\nLinking Phase Excess and Hyperparameter in the PCS Criterion",
+          "page": 32
+        },
+        {
+          "para_id": "6_42",
+          "text": "The next proposition establishes the relationship between the phase excess θhb and the PCS\nhyperparameter βh in (20). Throughout, we assume that the constraint set is feasible and that\nthe resulting PCS solution attains a strictly positive objective value. Proposition 4. Let γh−1 and γh be linearly independent with θhh−1 > 0. Define a\n:=\n∥γh∥−cos(θhh1)∥γh−1∥ b\n:=\nsin(θhh−1)∥γh−1∥ R\n:=\np",
+          "page": 32
+        },
+        {
+          "para_id": "6_43",
+          "text": "a2 + b2 ϕ\n:=\narctan2(b, a)",
+          "page": 32
+        },
+        {
+          "para_id": "6_44",
+          "text": "and assume that R > 0 and that |βh| ≤R. Let θhb > 0 (phase excess) denote the angle between γh\nand the PCS solution b within the plane spanned by γh−1 and γh (see Fig.4). If |βh| = R, then",
+          "page": 32
+        },
+        {
+          "para_id": "6_45",
+          "text": "θhb =",
+          "page": 32
+        },
+        {
+          "para_id": "6_46",
+          "text": "\n ",
+          "page": 32
+        },
+        {
+          "para_id": "6_47",
+          "text": "ϕ\n, βh = −R\nϕ −π\n, βh = R and 0 < ϕ < π\nϕ + π\n, βh = R and π < ϕ < 2π.",
+          "page": 32
+        },
+        {
+          "para_id": "6_48",
+          "text": "If |βh| < R then θhb =\n\u001a ϕ −arccos(−βh/R)\n, 0 < ϕ < π\nϕ + arccos(−βh/R)\n, π < ϕ < 2π. Proof: We first consider the case |βh| < R. From the geometry (blue case, βh < 0 in Fig. 4)",
+          "page": 32
+        },
+        {
+          "para_id": "6_49",
+          "text": "βh = cos(θhb + θhh−1)∥γh−1∥−cos(θhb)∥γh∥= −(a cos(θhb) + b sin(θhb)), with a = ∥γh∥−cos(θhh−1)∥γh−1∥, b = sin(θhh−1)∥γh−1∥.\nLet R =\n√",
+          "page": 32
+        },
+        {
+          "para_id": "6_50",
+          "text": "a2 + b2, and consider\nthe right triangle with legs a and b and hypotenuse R, assuming a, b > 0.\nFor general sign\ncombinations, the use of ϕ = arctan2(b, a)15 accounts for possibly negative values of a or b. Let ϕ\ndesignate the angle adjacent to a and R so that cos(ϕ) = a/R and sin(ϕ) = b/R. Therefore, using\nthe identity\na cos(θhb) + b sin(θhb) = R cos(θhb −ϕ), we obtain βh = −R cos(θhb −ϕ). Inverting gives θ±\nhb = ϕ ± arccos(−βh/R). Among the two candidates, choose the branch that maximizes the objective b(θ±\nhb)′γh = cos(θ±\nhb)∥γh∥.\nUsing",
+          "page": 32
+        },
+        {
+          "para_id": "6_51",
+          "text": "cos(θ−\nhb) −cos(θ+\nhb)\n=\ncos\n\u0010\nϕ −arccos(−βh/R)\n\u0011\n−cos\n\u0010\nϕ + arccos(−βh/R)\n\u0011 =\n2 sin(ϕ) sin\n\u0010\narccos(−βh/R)\n\u0011\n= 2 sin(ϕ)\nq",
+          "page": 32
+        },
+        {
+          "para_id": "6_52",
+          "text": "1 −β2\nh/R2,",
+          "page": 32
+        },
+        {
+          "para_id": "6_53",
+          "text": "we conclude that cos\n\u0010\nθ−\nhb\n\u0011\n> cos\n\u0010\nθ+\nhb\n\u0011\nwhen ϕ ∈]0, π[, and the inequality reverses when ϕ ∈]π, 2π[. The cases ϕ = 0 (mod 2π) and ϕ = π (mod 2π) are excluded, as they would imply b = 0 (i.e.,\nsin(θhh−1) = 0), which in turn yields collinear MSE predictors. Therefore, maximization of the\nobjective implies that θhb =\n\u001a ϕ −arccos(−βh/R)\n, 0 < ϕ < π\nϕ + arccos(−βh/R)\n, π < ϕ < 2π. 15The arctan2 function returns the angle between the x-axis and the vector from the origin to (x, y), i.e., for\npositive arguments arctan2(y, x) = arctan(y/x).",
+          "page": 32
+        },
+        {
+          "para_id": "6_54",
+          "text": "32",
+          "page": 32
+        },
+        {
+          "para_id": "6_55",
+          "text": "The solution when |βh| = R follows as a special case of the above.",
+          "page": 33
+        },
+        {
+          "para_id": "6_56",
+          "text": "Remarks: When θhb = 0, the PCS predictor coincides with the h-step MSE predictor γh. In\nthis case, b′γh = ∥γh∥and b′γh−1 = ∥γh−1∥cos(θhh−1). Therefore, the PCS constraint parameter\nthat reproduces the MSE predictor is βMSE\nh\n= ∥γh−1∥cos(θhh−1) −∥γh∥. For βh < βMSE\nh\n, the\nphase excess θhb becomes positive, indicating an advancement of the PCS relative to the MSE\npredictor. Note that the positivity of the phases θhh−1 > 0 and θb > 0 is purely conventional. The\nessential requirement is that both quantities share the same sign, i.e., θhh−1θb > 0. Equivalently,\nthis condition ensures that b is positioned on the side of γh opposite to γh−1. Under this alignment,\nthe rotation from γh to b by angle θhb proceeds in the same direction as the rotation from γh−1 to\nγh: if γh constitutes an advancement relative to γh−1, then b likewise represents an advancement\nrelative to γh. The magnitude of this advancement is governed by the hyperparameter βh, with\nβh < βMSE\nh\nensuring a positive phase excess.\nFrom an interpretability standpoint, the PCS\ngeometry centers on displacing the peak correlation, yielding an intuitively appealing measure\nof advancement (see De Jong and Nijman, 1997). A link between the phase excess θhb and the\ntime-shift τb(0) at frequency ω = 0 can be derived from Section 4 (details omitted).",
+          "page": 33
+        },
+        {
+          "para_id": "6_57",
+          "text": "D\nExtension of the PCS Criterion",
+          "page": 33
+        },
+        {
+          "para_id": "6_58",
+          "text": "We extend the PCS approach by recognizing that, in some applications, imposing the PCS con-\nstraint only at the single lead δ = h—i.e., constraining (γh−1 −γh)′b in (20)—may be insufficient\nto produce an effective peak shift.\nA stronger formulation can be obtained by imposing con-\nstraints over a neighborhood of leads, which more firmly anchors the desired peak displacement.\nSpecifically, we propose max\nb\nγ′\nhb (γh−δ −γh−(δ−1))′b = βδ , δ ∈∆ b′b = 1,",
+          "page": 33
+        },
+        {
+          "para_id": "6_59",
+          "text": "where ∆is a set of lead times (e.g., ∆= {1, ..., h}) and where the constraints are assumed to be\nfeasible (unfeasibility is discussed below). Choosing βδ < 0 promotes a monotonically increasing\nCCF over δ ∈∆. However, the associated geometry—given by the intersection of |∆|-many cones\nwith the unit sphere and a plane determined by the objective (see the proof of Theorem 1)—can\nbe intricate and yield multiple solutions. For this reason, we adopt the mean-square reformulation: min\nb (γh −b)′(γh −b)\n(45) (γh−δ −γh−(δ−1))′b = βδ , δ ∈∆ which removes the unit-length constraint and allows the restrictions to be viewed as affine hyper-\nplanes rather than cones. This linearized formulation yields a unique solution (under the stated\nregularity conditions), as shown in Proposition 1.",
+          "page": 33
+        },
+        {
+          "para_id": "6_60",
+          "text": "A potential limitation of the extended (MSE-)PCS criterion (45) is the requirement to pre-\nspecify a set of hyperparameters βδ for δ ∈∆. This design choice may lead to overly restrictive\nconstraints being imposed on the system.To mitigate this, we propose an unconstrained penalized\nvariant that addresses the constraints in aggregate:",
+          "page": 33
+        },
+        {
+          "para_id": "6_61",
+          "text": "min\nb",
+          "page": 33
+        },
+        {
+          "para_id": "6_62",
+          "text": "(γh −b)′(γh −b) + ν\nX δ∈∆",
+          "page": 33
+        },
+        {
+          "para_id": "6_63",
+          "text": "\u0010\n(γδ−1 −γδ)′b −β\n\u00112\n!",
+          "page": 33
+        },
+        {
+          "para_id": "6_64",
+          "text": ",\n(46)",
+          "page": 33
+        },
+        {
+          "para_id": "6_65",
+          "text": "where ν > 0 controls the strength of the penalty. If the individual constraints in the penalty are jointly feasible, then as ν →∞, the aggregate penalty forces P",
+          "page": 33
+        },
+        {
+          "para_id": "6_66",
+          "text": "δ∈∆\n\u0010\n(γδ−1 −γδ)′b −β\n\u00112\n→0,",
+          "page": 33
+        },
+        {
+          "para_id": "6_67",
+          "text": "33",
+          "page": 33
+        },
+        {
+          "para_id": "6_68",
+          "text": "implying that (γδ−1 −γδ)′b →β for all δ ∈∆(the case of an unfeasible singular system is\ndiscussed below). For finite (positive) ν, the aggregate penalty provides greater flexibility, so that\ndifficult or misspecified individual constraints exert less adverse influence on forecast performance\n(the objective value).",
+          "page": 34
+        },
+        {
+          "para_id": "6_69",
+          "text": "We now briefly discuss the solutions to the proposed PCS criteria. As discussed, (20) is similar\nto the DFP formulation (2) and a solution can be obtained from Theorem 1 upon the substitutions",
+          "page": 34
+        },
+        {
+          "para_id": "6_70",
+          "text": "γ0 →γh−1 −γh,\nα0 →βh/∥γh−1 −γh∥, assuming γh−1 and γh are linearly independent.\nAnalogously, the extended PCS criterion (45) is closely related to the mean-square formulation\n(9). In particular, by the same argument as in Proposition 1, the solution has the form",
+          "page": 34
+        },
+        {
+          "para_id": "6_71",
+          "text": "b = γh +\nX",
+          "page": 34
+        },
+        {
+          "para_id": "6_72",
+          "text": "δ∈∆\nλδ(γh−δ −γh−(δ−1)),\n(47) where the coefficients λδ solve the linear system obtained by imposing the constraints (γh−δ −γh−(δ−1))′b = βδ , δ ∈∆. Specifically, let A be the matrix with rows a′\nδ = (γh−δ −γh−(δ−1))′, let β = (βδ)δ∈∆and denote\nλ = (λδ)δ∈∆. Then\nλ = (AA′)−1(β −Aγh)\n(48) when A has full row rank; otherwise remove redundant (linearly dependent) constraints. Alter-\nnatively, infinitesimal perturbations of the predictors (cf. Section 3.1) can be employed to restore\nrank.\nFinally, for fixed ν ≥0, the penalized extended PCS objective (46) is a strictly convex quadratic\nfunction of b and therefore admits a unique closed-form minimizer b = M−1",
+          "page": 34
+        },
+        {
+          "para_id": "6_73",
+          "text": "γh + νβ\nX",
+          "page": 34
+        },
+        {
+          "para_id": "6_74",
+          "text": "δ∈∆\ndδ",
+          "page": 34
+        },
+        {
+          "para_id": "6_75",
+          "text": "! ,\n(49)",
+          "page": 34
+        },
+        {
+          "para_id": "6_76",
+          "text": "where M =\n\u0010\nI + ν P",
+          "page": 34
+        },
+        {
+          "para_id": "6_77",
+          "text": "δ∈∆dδd′\nδ\n\u0011\n, I is the L × L dimensional identity, and dδ := γδ−1 −γδ. Since\nM is strictly positive definite for any ν ≥0, it is invertible, ensuring existence and uniqueness of\nthe solution. For finite ν, the penalty allows controlled deviations from the individual hard con-\nstraints, providing flexibility to tune the predictor (e.g., to trade off phase advancement against\ntracking accuracy). A potential drawback of this flexibility is the interaction between the two\nhyperparameters, ν and β, which can induce offsetting effects and thereby obscure identification\nof the accuracy–timeliness trade-off. In particular, choosing a more negative β (< 0)—which en-\nforces a steeper CCF slope and a larger peak shift—can be counteracted, at least to some extent,\nby selecting a smaller ν, which reduces the penalty on constraint deviations.",
+          "page": 34
+        },
+        {
+          "para_id": "6_78",
+          "text": "Remark: The constraint system underlying the extended PCS criterion (45) need not be feasi-\nble; in particular, the matrix AA′ in (48) can be rank-deficient. For example, if the data-generating\nprocess is AR(p), the MA-inversions (impulse responses) γδ at various δ ∈∆are linked by the\nYule–Walker equations, so the rank of the constraint system should not exceed p (allowing for\nnon-trivial maximization of the objective requires the rank to not exceed p −1). In effect, the\nentire CCF is determined by a finite subset of constraints, and specifying additional constraints\nmay render the system mutually inconsistent. Analogously, the penalized criterion (46) can be\nrank-deficient in the sense that the penalty term P",
+          "page": 34
+        },
+        {
+          "para_id": "6_79",
+          "text": "δ∈∆\n\u0000\n(γδ−1 −γδ)′b −β\n\u00012 does not vanish as\nν →∞when the constraints are inconsistent. Nevertheless, in this penalized case the matrix M\nin (49) remains full rank for ν ≥0, ensuring that the minimizer b exists and is unique even in the\ncase of an unfeasible system.",
+          "page": 34
+        },
+        {
+          "para_id": "6_80",
+          "text": "34",
+          "page": 34
+        },
+        {
+          "para_id": "6_81",
+          "text": "E\nSimulation Study",
+          "page": 35
+        },
+        {
+          "para_id": "6_82",
+          "text": "We conduct a simulation study on the AR(3) process of Section 5.2 with series length T = 1000,\nchosen to emphasize the asymptotic behavior described in Corollary 2. After generating 1000 se-\nries, we estimate the AR parameters via maximum likelihood. We then derive the estimated DFP\npredictors at horizon h = 5 (similar results are obtained for alternative h) by enforcing complete\ndecoupling (α0 = 0) and applying MA inversion to the empirical AR equations (Proposition 1).",
+          "page": 35
+        },
+        {
+          "para_id": "6_83",
+          "text": "Figure 10 displays the estimates, sample means, confidence intervals, and true values for the\ninitial 20 lags. Confidence intervals for the DFP predictors (middle left) utilize Corollary 2 with\nγ0 = 1 fixed. These approximations assume L and T are sufficiently large to satisfy γh ≈Fhγ0\nand justify first-order Taylor approximations, respectively. The DFP-intervals effectively capture\nthe reduced variance in sample estimates at lag 3.",
+          "page": 35
+        },
+        {
+          "para_id": "6_84",
+          "text": "Individual realizations of the DFP predictor (middle left panel) display stochastic variations\nstemming from the empirical impulse responses (top right panel). However, the averaged trajectory\n(red) aligns almost perfectly with the population values (cyan): due to overlap only the latter can\nbe distinguished. A single-run comparison (bottom panel), truncated for visibility, confirms the\nDFP predictor consistently leads the MSE benchmark.",
+          "page": 35
+        },
+        {
+          "para_id": "6_85",
+          "text": "35",
+          "page": 35
+        },
+        {
+          "para_id": "6_86",
+          "text": "AR parameters",
+          "page": 36
+        },
+        {
+          "para_id": "6_87",
+          "text": "Lags",
+          "page": 36
+        },
+        {
+          "para_id": "6_88",
+          "text": "Mean AR\nTrue AR",
+          "page": 36
+        },
+        {
+          "para_id": "6_89",
+          "text": "1\n2\n3",
+          "page": 36
+        },
+        {
+          "para_id": "6_90",
+          "text": "−0.5\n0.0\n0.5\n1.0",
+          "page": 36
+        },
+        {
+          "para_id": "6_91",
+          "text": "Impulse response Mean impulse response\nTrue impulse response",
+          "page": 36
+        },
+        {
+          "para_id": "6_92",
+          "text": "0\n5\n10\n15\n20",
+          "page": 36
+        },
+        {
+          "para_id": "6_93",
+          "text": "0.0\n0.2\n0.4\n0.6\n0.8\n1.0\n1.2\n1.4",
+          "page": 36
+        },
+        {
+          "para_id": "6_94",
+          "text": "Predictor Mean predictor\nTrue predictor",
+          "page": 36
+        },
+        {
+          "para_id": "6_95",
+          "text": "0\n5\n10\n15\n20",
+          "page": 36
+        },
+        {
+          "para_id": "6_96",
+          "text": "−0.2\n0.0\n0.1\n0.2\n0.3\n0.4",
+          "page": 36
+        },
+        {
+          "para_id": "6_97",
+          "text": "CCF: Complete Decoupling Mean CCF\nTrue CCF",
+          "page": 36
+        },
+        {
+          "para_id": "6_98",
+          "text": "0\n5\n10\n15\n20",
+          "page": 36
+        },
+        {
+          "para_id": "6_99",
+          "text": "0.00\n0.05\n0.10\n0.15\n0.20\n0.25",
+          "page": 36
+        },
+        {
+          "para_id": "6_100",
+          "text": "Data and Forecasts Data: shifted by forecast horizon h=5\nMSE\nDFP: complete decoupling",
+          "page": 36
+        },
+        {
+          "para_id": "6_101",
+          "text": "1\n5\n10\n15\n20\n25\n30\n35\n40\n45\n50",
+          "page": 36
+        },
+        {
+          "para_id": "6_102",
+          "text": "−3\n−2\n−1\n0\n1\n2\n3",
+          "page": 36
+        },
+        {
+          "para_id": "6_103",
+          "text": "Figure 10: Simulation results for the MSE-DFP predictor with complete decoupling in an AR(3)\nprocess. Top-left: estimated AR coefficients; top-right: impulse response; middle-left: DFP pre-\ndictor; middle-right: CCF (all CCFs are zero at lag 0). Each panel displays sample paths (black),\nMonte Carlo means (red) and population values (cyan); the Monte Carlo curves are largely hidden\nby the population curves because the biases vanish. In addition, 95% confidence bands (red) are\nshown for the impulse responses and the DFP predictors. The bottom panel displays one AR(3)\ntrajectory advanced by h = 5 (black), together with five-step-ahead forecasts from the MSE pre-\ndictor (green) and the DFP approach (blue). All series are scaled to unit variance for easier visual\ncomparison. The DFP forecast is consistently left-shifted relative to the MSE forecast.",
+          "page": 36
+        }
+      ]
+    }
+  ]
+}

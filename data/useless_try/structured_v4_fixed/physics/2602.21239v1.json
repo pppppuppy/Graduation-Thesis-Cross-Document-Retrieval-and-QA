@@ -1,0 +1,1944 @@
+{
+  "title": "Using Neural Networks to Accelerate TALYS-2.0 Nuclear Reaction Simulations",
+  "abstract": "Recent efforts to improve the predictability of TALYS-2.0 calculated charged-particle residual product cross sections have focused on adjusting parameters related to the optical model potential and pre-equilibrium process. Although adjusted TALYS-2.0 outputs show marked improvements in agreement with experimental data over the default parameters, the procedure is generally time- consuming due to the need for sequential TALYS-2.0 calculations. Since the models and model parameters must be defined and constrained prior to adjustment, we show in this work that an artificial neural network can serve as a surrogate model to successfully predict TALYS-2.0 outputs within this domain of input parameters. No practical differences were observed in the trained model’s performance between uniform random, Latin hypercube and Sobol sequence sampling for generating the training datasets. Once validated, trained neural network models were used to adjust TALYS-2.0 nuclear model parameters, where a multi-parameter fitting procedure was not only feasible but optimal for this process. The neural network approach is >1000x faster at generating residual product cross sections than using TALYS-2.0 directly, and a high-fidelity surrogate model could be implemented with ~1500 TALYS-2.0 files to achieve adjusted cross sections comparable to the previous publication. Keywords: Machine learning, artificial neural network, nuclear physics, TALYS-2.0, parallel computing, surrogate model 1. Introduction Nuclear transmutations have been an invaluable basis for supplying critical isotopes used in fundamental research [1, 2], medical [3, 4] and security [5] applications. The availability of high-quality nuclear cross section data is therefore essential for optimizing the production of radioisotopes from various path- ways. If experimental data does not exist, nuclear modeling codes serve as a predictive source for isotope production appli- cations [3, 6]. These codes often have adjustable parameters that could be tuned to achieve better agreement with experi- mental data and future generalizability. A comprehensive set of charged-particle nuclear cross sec- tions for various target materials of interest to the U.S. Depart- ment of Energy Isotope Program were previously measured by the Tri-lab collaboration between Brookhaven National Labora- tory, Lawrence Berkeley National Laboratory and Los Alamos National Laboratory [7, 8, 9, 10]. During the evaluation of these measured cross sections, the authors implemented a parameter ∗Corresponding author. Email addresses: wlin4@bnl.gov (Wilson Lin), ceapgar@lanl.gov (Catherine E. Apgar), labernstein@lbl.gov (Lee A. Bernstein), abby6677@berkeley.edu (Yun-Hsuan Lee), alanmcintosh@tamu.edu (Alan B. McIntosh), dmedvede@bnl.gov (Dmitri G. Medvedev), emobrien@lanl.gov (Ellen M. O’Brien), etienne@lanl.gov (Christiaan E. Vermeulen), asvoyles@lbl.gov (Andrew S. Voyles), jmorrell@bnl.gov (Jonathan T. Morrell) adjustment procedure using the TALYS-2.0 [6] nuclear reac- tion model code. However, this iterative workflow currently requires sequential TALYS-2.0 calculations, which makes the parameter adjustment process time-consuming and limits par- allelization. Alternatively, simpler models that approximate the complex function of interest, commonly referred to as surrogate models, are often implemented for computationally challenging tasks [11]. In building these models, a major advantage is that a small subset of the true model output can potentially represent the problem domain. Since surrogate models evaluate much faster than true models, the total computation time can be significantly reduced. Surrogate modeling has thus been considered in a va- riety of applications, such as data science, engineering and fun- damental physics [12, 13, 14, 15, 16]. Furthermore, by lever- aging recent technological advances in machine learning, sur- rogate modeling can become more generalizable and effective than simple analytical functions [17, 18, 19, 20, 21]. In this work, we demonstrate that the TALYS-2.0 parameter adjustment process can be facilitated by interpolating nuclear model parameters using an artificial neural network (NN) as a surrogate model (see Figure A.1). TALYS-2.0 datasets were generated in parallel using either a High-Performance Comput- ing (HPC) cluster at Brookhaven National Laboratory or a stan- dalone Ryzen 7960X CPU. Initially, datasets with three vari- able parameters were used to characterize the performance of the NN model and enable comparisons with a conventional cu- arXiv:2602.21239v1 [physics.comp-ph] 13 Feb 2026",
+  "sections": [
+    {
+      "section_id": "200",
+      "section_title": "MeV.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "200_1",
+          "text": "In a direct comparison using 9x9x9 training data (parameter",
+          "page": 2
+        },
+        {
+          "para_id": "200_2",
+          "text": "values: 0.20, 0.31, 0.47, 0.72, 1.1, 1.7, 2.6, 4.0 and 5.0), the",
+          "page": 2
+        },
+        {
+          "para_id": "200_3",
+          "text": "conventional cubic interpolator was able to achieve a root mean",
+          "page": 2
+        },
+        {
+          "para_id": "200_4",
+          "text": "squared error (RMSE) of 0.11 mb and 5.3 mb maximum abso-",
+          "page": 2
+        },
+        {
+          "para_id": "200_5",
+          "text": "lute error (MAE) for the test dataset. Similarly, the NN model",
+          "page": 2
+        },
+        {
+          "para_id": "200_6",
+          "text": "achieved 0.24 mb RMSE and 4.7 mb MAE for the test dataset.",
+          "page": 2
+        },
+        {
+          "para_id": "200_7",
+          "text": "However, in contrast to the conventional interpolator, the NN",
+          "page": 2
+        },
+        {
+          "para_id": "200_8",
+          "text": "model was more robust when trained with a 6x6x6 dataset (pa-",
+          "page": 2
+        },
+        {
+          "para_id": "200_9",
+          "text": "rameter values: 0.20, 0.38, 0.72, 1.4, 2.6, 5.0), achieving 0.22",
+          "page": 2
+        },
+        {
+          "para_id": "200_10",
+          "text": "mb RMSE (0.89 mb interpolator) and 5.6 mb MAE (50 mb in-",
+          "page": 2
+        },
+        {
+          "para_id": "200_11",
+          "text": "terpolator). This performance difference is illustrated in Figure",
+          "page": 2
+        },
+        {
+          "para_id": "200_12",
+          "text": "1, where both models trained with 6x6x6 TALYS-2.0 files were",
+          "page": 2
+        },
+        {
+          "para_id": "200_13",
+          "text": "used to generate cross sections from the test dataset. These re-",
+          "page": 2
+        },
+        {
+          "para_id": "200_14",
+          "text": "sults suggest that the NN model can achieve good agreement",
+          "page": 2
+        },
+        {
+          "para_id": "200_15",
+          "text": "with TALYS-2.0 generated cross sections for small training",
+          "page": 2
+        },
+        {
+          "para_id": "200_16",
+          "text": "2.3.2. 6-parameter model",
+          "page": 2
+        },
+        {
+          "para_id": "200_17",
+          "text": "With 6 nuclear model parameters and the increased test",
+          "page": 2
+        },
+        {
+          "para_id": "200_18",
+          "text": "dataset size (~65k files), the conventional cubic interpolator was",
+          "page": 2
+        },
+        {
+          "para_id": "200_19",
+          "text": "unable to compute ~66 million cross sections within a reason-",
+          "page": 2
+        },
+        {
+          "para_id": "200_20",
+          "text": "able amount of time (>1 day). Alternatively, the NN model",
+          "page": 2
+        },
+        {
+          "para_id": "200_21",
+          "text": "could predict the cross sections in <1 min and achieved 0.71 mb",
+          "page": 2
+        },
+        {
+          "para_id": "200_22",
+          "text": "Figure 2: Different metrics used to evaluate the performance of the surrogate",
+          "page": 3
+        },
+        {
+          "para_id": "200_23",
+          "text": "model trained using files sampled from uniform (blue triangle), Latin hyper-",
+          "page": 3
+        },
+        {
+          "para_id": "200_24",
+          "text": "cube (LHC, orange circle) or Sobol sequence (green square) sampling. All",
+          "page": 3
+        },
+        {
+          "para_id": "200_25",
+          "text": "three sampling methods are generally comparable and show a general trend of",
+          "page": 3
+        },
+        {
+          "para_id": "200_26",
+          "text": "improved performance with increasing training dataset size.",
+          "page": 3
+        },
+        {
+          "para_id": "200_27",
+          "text": "RMSE and 49 mb MAE with just 300 TALYS-2.0 files for the",
+          "page": 3
+        },
+        {
+          "para_id": "200_28",
+          "text": "training dataset. The hyperparameters obtained from evaluating",
+          "page": 3
+        },
+        {
+          "para_id": "200_29",
+          "text": "the 3-parameter NN model required only minor adjustments for",
+          "page": 3
+        },
+        {
+          "para_id": "200_30",
+          "text": "optimization. However, likely due to the increased dimension-",
+          "page": 3
+        },
+        {
+          "para_id": "200_31",
+          "text": "ality and larger test dataset size, approximately twice as many",
+          "page": 3
+        },
+        {
+          "para_id": "200_32",
+          "text": "training files were needed to achieve comparable RMSE to the",
+          "page": 3
+        },
+        {
+          "para_id": "200_33",
+          "text": "3-parameter NN model.",
+          "page": 3
+        },
+        {
+          "para_id": "200_34",
+          "text": "2.3.3. 17-parameter model",
+          "page": 3
+        },
+        {
+          "para_id": "200_35",
+          "text": "Continuing from promising results with the 6-parameter NN",
+          "page": 3
+        },
+        {
+          "para_id": "200_36",
+          "text": "model, the surrogate modeling was expanded to interpolate 17",
+          "page": 3
+        },
+        {
+          "para_id": "200_37",
+          "text": "nuclear model parameters. These parameters and associated",
+          "page": 3
+        },
+        {
+          "para_id": "200_38",
+          "text": "ranges were previously selected by Morrell et al. [10] to im-",
+          "page": 3
+        },
+        {
+          "para_id": "200_39",
+          "text": "prove agreement between TALYS-2.0 outputs and experimental",
+          "page": 3
+        },
+        {
+          "para_id": "200_40",
+          "text": "measurements for 139La(p,x). The reaction cross sections were",
+          "page": 3
+        },
+        {
+          "para_id": "200_41",
+          "text": "calculated via TALYS-2.0 using the same model selections (ld-",
+          "page": 3
+        },
+        {
+          "para_id": "200_42",
+          "text": "model 5, strength 10, deuteronomp 2, alphaomp 4, preeqspin",
+          "page": 3
+        },
+        {
+          "para_id": "200_43",
+          "text": "3). Short-lived parents of residual products from reactions used",
+          "page": 3
+        },
+        {
+          "para_id": "200_44",
+          "text": "in the parameter adjustment procedure were also included in",
+          "page": 3
+        },
+        {
+          "para_id": "200_45",
+          "text": "the NN model. As such, this scenario serves to illustrate a re-",
+          "page": 3
+        },
+        {
+          "para_id": "200_46",
+          "text": "alistic application of the TALYS-2.0 surrogate model approach",
+          "page": 3
+        },
+        {
+          "para_id": "200_47",
+          "text": "for nuclear model parameter adjustments. Three different sam-",
+          "page": 3
+        },
+        {
+          "para_id": "200_48",
+          "text": "pling methods (uniform random, Latin hypercube [33, 34, 35]",
+          "page": 3
+        },
+        {
+          "para_id": "200_49",
+          "text": "and shuffled Sobol sequence [36, 37, 38]) were selected for",
+          "page": 3
+        },
+        {
+          "para_id": "200_50",
+          "text": "the training dataset to assess potential differences in the per-",
+          "page": 3
+        },
+        {
+          "para_id": "200_51",
+          "text": "formance of the trained NN model.",
+          "page": 3
+        },
+        {
+          "para_id": "200_52",
+          "text": "Based on RMSE, 99th percentile absolute error (P99) and",
+          "page": 3
+        },
+        {
+          "para_id": "200_53",
+          "text": "MAE, NN models trained with different sampling methods",
+          "page": 3
+        },
+        {
+          "para_id": "200_54",
+          "text": "were roughly comparable with the same number of training files",
+          "page": 3
+        },
+        {
+          "para_id": "200_55",
+          "text": "(Figure 2, Figure A.2 and Table A.2). Larger training datasets",
+          "page": 3
+        },
+        {
+          "para_id": "200_56",
+          "text": "generally achieved better performance and no observable dif-",
+          "page": 3
+        },
+        {
+          "para_id": "200_57",
+          "text": "ferences in individual reaction channels were observed for the",
+          "page": 3
+        },
+        {
+          "para_id": "200_58",
+          "text": "different sampling methods (Sobol: Figure A.3, Latin hyper-",
+          "page": 3
+        },
+        {
+          "para_id": "200_59",
+          "text": "cube: Figure A.4, and uniform: Figure A.5).",
+          "page": 3
+        },
+        {
+          "para_id": "200_60",
+          "text": "To verify the robustness of the NN approach for other target",
+          "page": 3
+        },
+        {
+          "para_id": "200_61",
+          "text": "material, natCu(p,x) nuclear reactions were assessed using the",
+          "page": 3
+        },
+        {
+          "para_id": "200_62",
+          "text": "same set of nuclear model parameters, physics model selection,",
+          "page": 3
+        },
+        {
+          "para_id": "200_63",
+          "text": "NN architecture/hyperparameters and training dataset size. A",
+          "page": 3
+        },
+        {
+          "para_id": "200_64",
+          "text": "set of 26 reaction products were chosen to span cross sections",
+          "page": 3
+        },
+        {
+          "para_id": "200_65",
+          "text": "from 0.1-500 mb. The NN model’s performance was also eval-",
+          "page": 3
+        },
+        {
+          "para_id": "200_66",
+          "text": "uated using a test dataset of 25k uniform random sampled files",
+          "page": 3
+        },
+        {
+          "para_id": "200_67",
+          "text": "within the specified parameter bounds. Without any modifi-",
+          "page": 3
+        },
+        {
+          "para_id": "200_68",
+          "text": "cations to the hyperparameters, the NN model for natCu(p,x)",
+          "page": 3
+        },
+        {
+          "para_id": "200_69",
+          "text": "achieved similar results to 139La(p,x) with similarly sized train-",
+          "page": 3
+        },
+        {
+          "para_id": "200_70",
+          "text": "ing datasets (Figure A.6).",
+          "page": 3
+        },
+        {
+          "para_id": "200_71",
+          "text": "3. Parameter adjustment using the trained neural network",
+          "page": 3
+        },
+        {
+          "para_id": "200_72",
+          "text": "After validating the NN model’s ability to predict cross sec-",
+          "page": 3
+        },
+        {
+          "para_id": "200_73",
+          "text": "tions by interpolating outputs of different nuclear model param-",
+          "page": 3
+        },
+        {
+          "para_id": "200_74",
+          "text": "eters, the best performing NN model in this work (Sobol with",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2048",
+      "section_title": "files) was chosen to replicate the parameter adjustment",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2048_1",
+          "text": "procedure from [10]. Each parameter was optimized sequen-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_2",
+          "text": "tially starting from “rvadjust n” to “Cstrip a” and repeated until",
+          "page": 3
+        },
+        {
+          "para_id": "2048_3",
+          "text": "convergence criteria was not explicitly provided, this was set",
+          "page": 3
+        },
+        {
+          "para_id": "2048_4",
+          "text": "as 0.001 relative difference since the last full set of parameter",
+          "page": 3
+        },
+        {
+          "para_id": "2048_5",
+          "text": "iteration. The chi-squared figure of merit (FOM) was weighted",
+          "page": 3
+        },
+        {
+          "para_id": "2048_6",
+          "text": "by the average fractional contributions of the integral cross sec-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_7",
+          "text": "tions from 0-200 MeV and the maximum cross section of each",
+          "page": 3
+        },
+        {
+          "para_id": "2048_8",
+          "text": "reaction product based on default TALYS-2.0. Also, maintain-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_9",
+          "text": "ing the same procedure as before, the weight for Ce-134 was",
+          "page": 3
+        },
+        {
+          "para_id": "2048_10",
+          "text": "increased by a factor of 2 due to its potential as a diagnos-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_11",
+          "text": "tic congener for Ac-225 radiopharmaceuticals. The NN model",
+          "page": 3
+        },
+        {
+          "para_id": "2048_12",
+          "text": "was used to generate 100 datapoints for each parameter with",
+          "page": 3
+        },
+        {
+          "para_id": "2048_13",
+          "text": "(parameter scaled) linear spacing. The resulting best-fit param-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_14",
+          "text": "eters were then used in TALYS-2.0 calculations to verify the",
+          "page": 3
+        },
+        {
+          "para_id": "2048_15",
+          "text": "NN model. Experimental cross section data used for parameter",
+          "page": 3
+        },
+        {
+          "para_id": "2048_16",
+          "text": "adjustment were taken from [39, 40, 10, 41], where data with",
+          "page": 3
+        },
+        {
+          "para_id": "2048_17",
+          "text": "no reported uncertainties or uncertainties <5% were set to 5%.",
+          "page": 3
+        },
+        {
+          "para_id": "2048_18",
+          "text": "The 1-D parameter adjustment procedure using the NN",
+          "page": 3
+        },
+        {
+          "para_id": "2048_19",
+          "text": "model achieved comparable results to [10] (Figure A.7), and",
+          "page": 3
+        },
+        {
+          "para_id": "2048_20",
+          "text": "the NN generated cross sections mostly agree with TALYS-2.0",
+          "page": 3
+        },
+        {
+          "para_id": "2048_21",
+          "text": "(Figure A.8). However, despite the comparable residual prod-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_22",
+          "text": "uct cross sections, several parameters were noticeably different",
+          "page": 3
+        },
+        {
+          "para_id": "2048_23",
+          "text": "from the previously determined set of parameters by [10] (Table",
+          "page": 3
+        },
+        {
+          "para_id": "2048_24",
+          "text": "1). These discrepancies could be explained by the lack of sensi-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_25",
+          "text": "tivity for several parameters (Figure A.9) and slight differences",
+          "page": 3
+        },
+        {
+          "para_id": "2048_26",
+          "text": "in the convergence criteria and experimental uncertainty data.",
+          "page": 3
+        },
+        {
+          "para_id": "2048_27",
+          "text": "Several of the 1-D adjusted parameters are also at the ends of",
+          "page": 3
+        },
+        {
+          "para_id": "2048_28",
+          "text": "their respective ranges, which could contribute to greater devi-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_29",
+          "text": "ations from the true TALYS-2.0 outputs since less training data",
+          "page": 3
+        },
+        {
+          "para_id": "2048_30",
+          "text": "are expected to exist at these extremes.",
+          "page": 3
+        },
+        {
+          "para_id": "2048_31",
+          "text": "Alternatively, since the NN surrogate model effectively ap-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_32",
+          "text": "procedure was also implemented to assess potential differences",
+          "page": 3
+        },
+        {
+          "para_id": "2048_33",
+          "text": "in the two procedures. For the N-D procedure, a dual annealing",
+          "page": 3
+        },
+        {
+          "para_id": "2048_34",
+          "text": "algorithm [42, 43, 44] was used to perform a constrained opti-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_35",
+          "text": "mization for the parameters (iterated 10 times). In comparison",
+          "page": 3
+        },
+        {
+          "para_id": "2048_36",
+          "text": "to the 1-D procedure, the N-D procedure took about 8 min to",
+          "page": 3
+        },
+        {
+          "para_id": "2048_37",
+          "text": "complete (3 min for 1-D) but achieved better agreement with",
+          "page": 3
+        },
+        {
+          "para_id": "2048_38",
+          "text": "TALYS-2.0 (Figure A.8) and slightly improved FOM (Figure",
+          "page": 3
+        },
+        {
+          "para_id": "2048_39",
+          "text": "The primary aim of this work was to demonstrate that the",
+          "page": 3
+        },
+        {
+          "para_id": "2048_40",
+          "text": "nuclear model parameter adjustment procedure could be par-",
+          "page": 3
+        },
+        {
+          "para_id": "2048_41",
+          "text": "allelized to benefit from manycore processors/HPC systems.",
+          "page": 3
+        },
+        {
+          "para_id": "2048_42",
+          "text": "Table 1: Adjusted nuclear model parameters in TALYS-2.0 using the NN models. The parameter set determined from by Morrell et al. [10] is also presented for",
+          "page": 4
+        },
+        {
+          "para_id": "2048_43",
+          "text": "comparison, where clear discrepancies exist for several parameters.",
+          "page": 4
+        },
+        {
+          "para_id": "2048_44",
+          "text": "Figure 3: Resulting excitation functions after the N-D parameter adjustment",
+          "page": 4
+        },
+        {
+          "para_id": "2048_45",
+          "text": "procedure using the NN model trained with either 2048 files from Sobol se-",
+          "page": 4
+        },
+        {
+          "para_id": "2048_46",
+          "text": "quence (orange dashed) or 1536 files from uniform random sampling (pink",
+          "page": 4
+        },
+        {
+          "para_id": "2048_47",
+          "text": "dashed). The respective TALYS-2.0 cross sections (dash dotted), experimental",
+          "page": 4
+        },
+        {
+          "para_id": "2048_48",
+          "text": "data (black asterisk), default TALYS-2.0 (black solid) and previously adjusted",
+          "page": 4
+        },
+        {
+          "para_id": "2048_49",
+          "text": "output by [10] (red dotted) are shown for comparison.",
+          "page": 4
+        },
+        {
+          "para_id": "2048_50",
+          "text": "Artificial NN were identified as potential surrogate models for",
+          "page": 4
+        },
+        {
+          "para_id": "2048_51",
+          "text": "TALYS-2.0 due to their good generalization for complex and",
+          "page": 4
+        },
+        {
+          "para_id": "2048_52",
+          "text": "high-dimensional tasks [45, 46, 47]. Training datasets for the",
+          "page": 4
+        },
+        {
+          "para_id": "2048_53",
+          "text": "NN models can be generated in parallel and even prior to ex-",
+          "page": 4
+        },
+        {
+          "para_id": "2048_54",
+          "text": "perimental evaluations, but physics models and their associated",
+          "page": 4
+        },
+        {
+          "para_id": "2048_55",
+          "text": "parameters must be clearly identified. In this work, the optimal",
+          "page": 4
+        },
+        {
+          "para_id": "2048_56",
+          "text": "number of training files for adjusting 17 constrained parameters",
+          "page": 4
+        },
+        {
+          "para_id": "2048_57",
+          "text": "using a NN model was between 1024 to 2048 TALYS-2.0 out-",
+          "page": 4
+        },
+        {
+          "para_id": "2048_58",
+          "text": "put files. Using only a standard Intel i7-13700 CPU for training",
+          "page": 4
+        },
+        {
+          "para_id": "2048_59",
+          "text": "the NN model (no GPU boost) and an AMD Ryzen 7960X CPU",
+          "page": 4
+        },
+        {
+          "para_id": "2048_60",
+          "text": "for generating TALYS-2.0 files, a TALYS-2.0 surrogate model",
+          "page": 4
+        },
+        {
+          "para_id": "2048_61",
+          "text": "can be implemented in <24 h for 139La(p,x). Since both the",
+          "page": 4
+        },
+        {
+          "para_id": "2048_62",
+          "text": "dataset generation and NN training are parallelizable, access",
+          "page": 4
+        },
+        {
+          "para_id": "2048_63",
+          "text": "to modern HPC clusters and GPU(s), respectively, can further",
+          "page": 4
+        },
+        {
+          "para_id": "2048_64",
+          "text": "reduce the total processing time to a few hours, which would",
+          "page": 4
+        },
+        {
+          "para_id": "2048_65",
+          "text": "be 10-100x faster than the sequential parameter adjustment ap-",
+          "page": 4
+        },
+        {
+          "para_id": "2048_66",
+          "text": "proach. Hyperparameters for the 17-parameter NN model were",
+          "page": 4
+        },
+        {
+          "para_id": "2048_67",
+          "text": "also robust for natCu(p,x), suggesting that this approach could",
+          "page": 4
+        },
+        {
+          "para_id": "2048_68",
+          "text": "be generalized for other target nuclei. Additionally, the corre-",
+          "page": 4
+        },
+        {
+          "para_id": "2048_69",
+          "text": "sponding lightweight surrogate models enable FOM sensitivity",
+          "page": 4
+        },
+        {
+          "para_id": "2048_70",
+          "text": "analysis and conventional global optimization techniques that",
+          "page": 4
+        },
+        {
+          "para_id": "2048_71",
+          "text": "would otherwise be impractical.",
+          "page": 4
+        },
+        {
+          "para_id": "2048_72",
+          "text": "A (shuffled) Sobol sequence sampling was hypothesized to",
+          "page": 4
+        },
+        {
+          "para_id": "2048_73",
+          "text": "more effectively train the NN over uniform random and Latin",
+          "page": 4
+        },
+        {
+          "para_id": "2048_74",
+          "text": "hypercube sampling due to its favorable coverage of multi-",
+          "page": 4
+        },
+        {
+          "para_id": "2048_75",
+          "text": "dimensional space (Figure A.10). Based on the metrics used",
+          "page": 4
+        },
+        {
+          "para_id": "2048_76",
+          "text": "in this work, Sobol sequence sampling was practically indistin-",
+          "page": 4
+        },
+        {
+          "para_id": "2048_77",
+          "text": "guishable from the simple uniform random sampling method",
+          "page": 4
+        },
+        {
+          "para_id": "2048_78",
+          "text": "and requires sampling files according to a base power of 2.",
+          "page": 4
+        },
+        {
+          "para_id": "2048_79",
+          "text": "In a direct comparison, an NN model trained using 1536 uni-",
+          "page": 4
+        },
+        {
+          "para_id": "2048_80",
+          "text": "form random sampled files could achieve similar results to one",
+          "page": 4
+        },
+        {
+          "para_id": "2048_81",
+          "text": "trained with 2048 files from Sobol sequence sampling (Figure",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "and Table A.3). Similar results were also observed for 1536",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "Latin hypercube-sampled training files.",
+          "page": 5
+        },
+        {
+          "para_id": "3_2",
+          "text": "The parameter adjustment process resulted in an improved",
+          "page": 5
+        },
+        {
+          "para_id": "3_3",
+          "text": "fit to the experimental data for all methods investigated in this",
+          "page": 5
+        },
+        {
+          "para_id": "3_4",
+          "text": "work compared to default TALYS-2.0. Larger discrepancies",
+          "page": 5
+        },
+        {
+          "para_id": "3_5",
+          "text": "between the NN model and TALYS-2.0 were observed for ad-",
+          "page": 5
+        },
+        {
+          "para_id": "3_6",
+          "text": "justing parameters with the 1-D approach compared to N-D.",
+          "page": 5
+        },
+        {
+          "para_id": "3_7",
+          "text": "This behavior is likely due to the lack of training data near the",
+          "page": 5
+        },
+        {
+          "para_id": "3_8",
+          "text": "extreme bounds of the parameter values, where the 1-D pro-",
+          "page": 5
+        },
+        {
+          "para_id": "3_9",
+          "text": "cedure is more likely to compound these extremes since the",
+          "page": 5
+        },
+        {
+          "para_id": "3_10",
+          "text": "process does not vary parameters in multidimensional space.",
+          "page": 5
+        },
+        {
+          "para_id": "3_11",
+          "text": "Even with a relatively strict convergence criteria for the N-D",
+          "page": 5
+        },
+        {
+          "para_id": "3_12",
+          "text": "adjustment, the process converged in 8 min with over 100k pa-",
+          "page": 5
+        },
+        {
+          "para_id": "3_13",
+          "text": "rameter set evaluations which is >1000x faster than calculating",
+          "page": 5
+        },
+        {
+          "para_id": "3_14",
+          "text": "cross sections using TALYS-2.0. Additionally, another major",
+          "page": 5
+        },
+        {
+          "para_id": "3_15",
+          "text": "benefit of the surrogate model approach is that the parameter",
+          "page": 5
+        },
+        {
+          "para_id": "3_16",
+          "text": "adjustment process itself, such as changing the experimental",
+          "page": 5
+        },
+        {
+          "para_id": "3_17",
+          "text": "dataset/FOM and down selecting parameters/reaction channels,",
+          "page": 5
+        },
+        {
+          "para_id": "3_18",
+          "text": "can be altered without recalculating TALYS-2.0 datasets. The",
+          "page": 5
+        },
+        {
+          "para_id": "3_19",
+          "text": "resulting FOM from the N-D adjustment was also slightly bet-",
+          "page": 5
+        },
+        {
+          "para_id": "3_20",
+          "text": "ter than both 1-D and Morrell et al. [10], though improvements",
+          "page": 5
+        },
+        {
+          "para_id": "3_21",
+          "text": "to FOM were not the focus of this work.",
+          "page": 5
+        },
+        {
+          "para_id": "3_22",
+          "text": "Future work aims to further reduce the number of files",
+          "page": 5
+        },
+        {
+          "para_id": "3_23",
+          "text": "needed to implement a high-fidelity TALYS-2.0 surrogate",
+          "page": 5
+        },
+        {
+          "para_id": "3_24",
+          "text": "model, either by optimizing the NN architecture or through dif-",
+          "page": 5
+        },
+        {
+          "para_id": "3_25",
+          "text": "ferent machine learning techniques. The NN approach could",
+          "page": 5
+        },
+        {
+          "para_id": "3_26",
+          "text": "also be expanded to incorporate several target nuclei for the",
+          "page": 5
+        },
+        {
+          "para_id": "3_27",
+          "text": "same physical models and parameters, where a single multi-",
+          "page": 5
+        },
+        {
+          "para_id": "3_28",
+          "text": "target nuclei model would likely require fewer training files",
+          "page": 5
+        },
+        {
+          "para_id": "3_29",
+          "text": "than multiple standalone models.",
+          "page": 5
+        },
+        {
+          "para_id": "3_30",
+          "text": "Although not explored in",
+          "page": 5
+        },
+        {
+          "para_id": "3_31",
+          "text": "this work, an independent module to upscale the incident parti-",
+          "page": 5
+        },
+        {
+          "para_id": "3_32",
+          "text": "cle energies per reaction and excitation energy bins would also",
+          "page": 5
+        },
+        {
+          "para_id": "3_33",
+          "text": "greatly reduce the computation time for all TALYS-2.0 related",
+          "page": 5
+        },
+        {
+          "para_id": "3_34",
+          "text": "5. Summary and conclusions",
+          "page": 5
+        },
+        {
+          "para_id": "3_35",
+          "text": "A TALYS-2.0 surrogate model was implemented by using ar-",
+          "page": 5
+        },
+        {
+          "para_id": "3_36",
+          "text": "tificial neural networks to generate residual product cross sec-",
+          "page": 5
+        },
+        {
+          "para_id": "3_37",
+          "text": "tions for at least 17 variable nuclear model parameters. High",
+          "page": 5
+        },
+        {
+          "para_id": "3_38",
+          "text": "fidelity TALYS-2.0 surrogate models were established by train-",
+          "page": 5
+        },
+        {
+          "para_id": "3_39",
+          "text": "ing with ~1500 TALYS-2.0 output files and achieved >1000x",
+          "page": 5
+        },
+        {
+          "para_id": "3_40",
+          "text": "speedup in computation time for generating nuclear cross sec-",
+          "page": 5
+        },
+        {
+          "para_id": "3_41",
+          "text": "Hyperparameters used for training 139La(p,x) models",
+          "page": 5
+        },
+        {
+          "para_id": "3_42",
+          "text": "were also validated for natCu(p,x), suggesting generalizability",
+          "page": 5
+        },
+        {
+          "para_id": "3_43",
+          "text": "for other target nuclei.",
+          "page": 5
+        },
+        {
+          "para_id": "3_44",
+          "text": "A multi-parameter dual (simulated)",
+          "page": 5
+        },
+        {
+          "para_id": "3_45",
+          "text": "annealing optimization resulted in lower deviations between",
+          "page": 5
+        },
+        {
+          "para_id": "3_46",
+          "text": "TALYS-2.0 and the surrogate model with improved fitting to",
+          "page": 5
+        },
+        {
+          "para_id": "3_47",
+          "text": "experimental data. Future work aims to further reduce the num-",
+          "page": 5
+        },
+        {
+          "para_id": "3_48",
+          "text": "ber of training files needed to establish a TALYS-2.0 surrogate",
+          "page": 5
+        },
+        {
+          "para_id": "3_49",
+          "text": "model and to expand the approach for a wider range of target",
+          "page": 5
+        },
+        {
+          "para_id": "3_50",
+          "text": "Brookhaven National Laboratory (BNL) is operated by",
+          "page": 5
+        },
+        {
+          "para_id": "3_51",
+          "text": "Brookhaven Science Associates, LLC, (BSA) under a contract",
+          "page": 5
+        },
+        {
+          "para_id": "3_52",
+          "text": "with the US Department of Energy (DOE, Contract No. DE-",
+          "page": 5
+        },
+        {
+          "para_id": "3_53",
+          "text": "SC0012704). This research is supported by the U.S. Depart-",
+          "page": 5
+        },
+        {
+          "para_id": "3_54",
+          "text": "ment of Energy Isotope Program, managed by the Office of",
+          "page": 5
+        },
+        {
+          "para_id": "3_55",
+          "text": "Science for Isotope R&D and Production. We are grateful to",
+          "page": 5
+        },
+        {
+          "para_id": "3_56",
+          "text": "the Computing and Data Sciences directorate at BNL for pro-",
+          "page": 5
+        },
+        {
+          "para_id": "3_57",
+          "text": "viding access to HPC1 which helped generate data for initial",
+          "page": 5
+        },
+        {
+          "para_id": "3_58",
+          "text": "model evaluations. The authors acknowledge all members of",
+          "page": 5
+        },
+        {
+          "para_id": "3_59",
+          "text": "the BNL Isotope Research and Production department for their",
+          "page": 5
+        },
+        {
+          "para_id": "3_60",
+          "text": "Appendix A. Supplementary materials",
+          "page": 5
+        },
+        {
+          "para_id": "3_61",
+          "text": "Figure A.1: Comparison of the previous approach by Morrell et al. [10] and",
+          "page": 5
+        },
+        {
+          "para_id": "3_62",
+          "text": "the proposed approach in this work for adjusting TALYS-2.0 nuclear model",
+          "page": 5
+        },
+        {
+          "para_id": "3_63",
+          "text": "Figure A.2: Actual (TALYS-2.0) vs predicted (NN model) plots for each of the",
+          "page": 6
+        },
+        {
+          "para_id": "3_64",
+          "text": "sampling methods and respective number of training files used to train the NN",
+          "page": 6
+        },
+        {
+          "para_id": "3_65",
+          "text": "model for 139La(p,x). The TALYS-2.0 cross section data were taken from 25k",
+          "page": 6
+        },
+        {
+          "para_id": "3_66",
+          "text": "uniform random sampled files not used for training. Due to the large amount of",
+          "page": 6
+        },
+        {
+          "para_id": "3_67",
+          "text": "data, only 750k random cross sections were selected for these plots.",
+          "page": 6
+        },
+        {
+          "para_id": "3_68",
+          "text": "Figure A.3: Sample cross sections predicted by the NN model for 139La(p,x),",
+          "page": 6
+        },
+        {
+          "para_id": "3_69",
+          "text": "where each column represents a different training dataset sampled by the Sobol",
+          "page": 6
+        },
+        {
+          "para_id": "3_70",
+          "text": "sequence. Each color indicates a separate set of nuclear model parameters",
+          "page": 6
+        },
+        {
+          "para_id": "3_71",
+          "text": "which were randomly chosen from the test dataset. The NN model generated",
+          "page": 6
+        },
+        {
+          "para_id": "3_72",
+          "text": "cross sections (NN, solid line) agree well with those from TALYS-2.0 (aster-",
+          "page": 6
+        },
+        {
+          "para_id": "3_73",
+          "text": "isks) using 2048 training files, where smaller training datasets begin to incur",
+          "page": 6
+        },
+        {
+          "para_id": "3_74",
+          "text": "larger deviations. The NN model generated cross sections have the same ener-",
+          "page": 6
+        },
+        {
+          "para_id": "3_75",
+          "text": "gies as TALYS-2.0 and were linearly interpolated for better visibility.",
+          "page": 6
+        },
+        {
+          "para_id": "3_76",
+          "text": "Figure A.4: Sample 139La(p,x) cross sections predicted by the NN model for",
+          "page": 6
+        },
+        {
+          "para_id": "3_77",
+          "text": "Latin hypercube sampled training datasets.",
+          "page": 6
+        },
+        {
+          "para_id": "3_78",
+          "text": "Figure A.5: Sample 139La(p,x) cross sections predicted by the NN model for",
+          "page": 6
+        },
+        {
+          "para_id": "3_79",
+          "text": "uniform random sampled training datasets.",
+          "page": 6
+        },
+        {
+          "para_id": "3_80",
+          "text": "Table A.1: Additional information related to the datasets used for the surro-",
+          "page": 6
+        },
+        {
+          "para_id": "3_81",
+          "text": "gate models investigated in this work. The 6-parameter surrogate model in-",
+          "page": 6
+        },
+        {
+          "para_id": "3_82",
+          "text": "corporated all parameters from the 3-parameter surrogate model, and the 17-",
+          "page": 6
+        },
+        {
+          "para_id": "3_83",
+          "text": "model parameter similarly includes all parameters from the 6-parameter surro-",
+          "page": 6
+        },
+        {
+          "para_id": "3_84",
+          "text": "Table A.2: Metrics used to evaluate the NN model’s performance with different",
+          "page": 6
+        },
+        {
+          "para_id": "3_85",
+          "text": "training datasets for 139La(p,x). The same test dataset consisting of 25k uniform",
+          "page": 6
+        },
+        {
+          "para_id": "3_86",
+          "text": "random sampled files was used for all evaluations.",
+          "page": 6
+        },
+        {
+          "para_id": "3_87",
+          "text": "Figure A.6: Actual (TALYS-2.0) vs predicted (NN model) plots for each of the",
+          "page": 7
+        },
+        {
+          "para_id": "3_88",
+          "text": "sampling methods and respective number of training files used to train the NN",
+          "page": 7
+        },
+        {
+          "para_id": "3_89",
+          "text": "Table A.3: Comparison between NN models trained with either 1536 uniform",
+          "page": 7
+        },
+        {
+          "para_id": "3_90",
+          "text": "random/LHC or 2048 Sobol sequence sampled files. FOM for the surrogate",
+          "page": 7
+        },
+        {
+          "para_id": "3_91",
+          "text": "models were determined using the ND parameter adjustment procedure. For",
+          "page": 7
+        },
+        {
+          "para_id": "3_92",
+          "text": "reference, the FOM for default TALYS-2.0 and Morrell et al. [10] was 73.7 and",
+          "page": 7
+        },
+        {
+          "para_id": "3_93",
+          "text": "Figure A.7: Excitation functions of several 139La(p,x) residual products after",
+          "page": 7
+        },
+        {
+          "para_id": "3_94",
+          "text": "performing a 1-D parameter adjustment procedure using the NN model (or-",
+          "page": 7
+        },
+        {
+          "para_id": "3_95",
+          "text": "ange dashed) trained with 2048 Sobol sequenced files. The adjusted parameters",
+          "page": 7
+        },
+        {
+          "para_id": "3_96",
+          "text": "were also used for TALYS-2.0 calculations (blue dash dotted) to verify the NN",
+          "page": 7
+        },
+        {
+          "para_id": "3_97",
+          "text": "model’s outputs. The default TALYS-2.0 output (black solid) and previously",
+          "page": 7
+        },
+        {
+          "para_id": "3_98",
+          "text": "published results from Morrell et al. [10] (red dotted) are also provided for",
+          "page": 7
+        },
+        {
+          "para_id": "3_99",
+          "text": "Figure A.8: Deviations of NN generated cross sections from TALYS-2.0 scaled",
+          "page": 8
+        },
+        {
+          "para_id": "3_100",
+          "text": "by the maximum TALYS-2.0 cross section. The 1-D parameter adjustment",
+          "page": 8
+        },
+        {
+          "para_id": "3_101",
+          "text": "(blue dotted circle) incurred larger deviations than N-D using 2048 Sobol se-",
+          "page": 8
+        },
+        {
+          "para_id": "3_102",
+          "text": "quence (orange solid circle), 1536 uniform random (green dashed square) or",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "1536",
+      "section_title": "Latin hypercube (pink dashed X) sampled training files.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1536_1",
+          "text": "Figure A.9: The impact of each parameter on FOM used in this work for the 1-",
+          "page": 8
+        },
+        {
+          "para_id": "1536_2",
+          "text": "D parameter adjustment procedure. The NN model was trained with 2048 files",
+          "page": 8
+        },
+        {
+          "para_id": "1536_3",
+          "text": "from Sobol sequence sampling. Convergence was reached after 23 iterations of",
+          "page": 8
+        },
+        {
+          "para_id": "1536_4",
+          "text": "the entire parameter set. Each separate color represents one full iteration over",
+          "page": 8
+        },
+        {
+          "para_id": "1536_5",
+          "text": "Figure A.10: A comparison of the different sampling methods for the files used",
+          "page": 8
+        },
+        {
+          "para_id": "1536_6",
+          "text": "in training the NN model (256 files). For simplicity, only two parameters (rvad-",
+          "page": 8
+        },
+        {
+          "para_id": "1536_7",
+          "text": "just n and avadjust n) were chosen to demonstrate the differences between each",
+          "page": 8
+        },
+        {
+          "para_id": "1536_8",
+          "text": "[1] M. A. Brzezinski and D. R. Phillips, “Evaluation of 32si",
+          "page": 9
+        },
+        {
+          "para_id": "1536_9",
+          "text": "as a tracer for measuring silica production rates in marine",
+          "page": 9
+        },
+        {
+          "para_id": "1536_10",
+          "text": "waters,” vol. 42, no. 5, pp. 856–865.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_11",
+          "text": "surprisingly large neutron capture cross-section of 88zr,”",
+          "page": 9
+        },
+        {
+          "para_id": "1536_12",
+          "text": "vol. 565, no. 7739, pp. 328–330.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_13",
+          "text": "“Recommended nuclear data for the production of se-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_14",
+          "text": "lected therapeutic radionuclides,” vol. 155, pp. 56–74.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_15",
+          "text": "“Radiopharmaceutical therapy in cancer:",
+          "page": 9
+        },
+        {
+          "para_id": "1536_16",
+          "text": "vances and challenges,” vol. 19, no. 9, pp. 589–608.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_17",
+          "text": "Lovelock, and A. Zlatkis, “Design of a nickel-63 electron",
+          "page": 9
+        },
+        {
+          "para_id": "1536_18",
+          "text": "absorption detector and analytical significance of high-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_19",
+          "text": "temperature operation,” vol. 39, no. 12, pp. 1428–1433.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_20",
+          "text": "[6] A. Koning, S. Hilaire, and S. Goriely, “TALYS: modeling",
+          "page": 9
+        },
+        {
+          "para_id": "1536_21",
+          "text": "of nuclear reactions,” vol. 59, no. 6, p. 131.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_22",
+          "text": "L. A. Bernstein, “117msn and 119mte production via pro-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_23",
+          "text": "ton bombardment on natural antimony and implications",
+          "page": 9
+        },
+        {
+          "para_id": "1536_24",
+          "text": "for modeling charged particle reactions.”",
+          "page": 9
+        },
+        {
+          "para_id": "1536_25",
+          "text": "energy proton-induced reactions on spherical nuclei: Im-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_26",
+          "text": "plications for the preequilibrium exciton model,” vol. 103,",
+          "page": 9
+        },
+        {
+          "para_id": "1536_27",
+          "text": "O’Brien, and C. Vermeulen, “Measurement and model-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_28",
+          "text": "ing of proton-induced reactions on arsenic from 35 to 200",
+          "page": 9
+        },
+        {
+          "para_id": "1536_29",
+          "text": "MeV,” vol. 104, no. 6, p. 064615.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_30",
+          "text": "Vermeulen, “Measurement of proton-induced reactions on",
+          "page": 9
+        },
+        {
+          "para_id": "1536_31",
+          "text": "lanthanum from 55–200 MeV by stacked-foil activation.”",
+          "page": 9
+        },
+        {
+          "para_id": "1536_32",
+          "text": "[11] J. Kudela and R. Matousek, “Recent advances and ap-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_33",
+          "text": "plications of surrogate models for finite element method",
+          "page": 9
+        },
+        {
+          "para_id": "1536_34",
+          "text": "computations: a review,” vol. 26, no. 24, pp. 13709–",
+          "page": 9
+        },
+        {
+          "para_id": "1536_35",
+          "text": "[12] R. Alizadeh, J. K. Allen, and F. Mistree, “Managing com-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_36",
+          "text": "putational complexity using surrogate models: a critical",
+          "page": 9
+        },
+        {
+          "para_id": "1536_37",
+          "text": "review,” vol. 31, no. 3, pp. 275–298.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_38",
+          "text": "ing surrogate models for simulation-based optimization,”",
+          "page": 9
+        },
+        {
+          "para_id": "1536_39",
+          "text": "vol. 60, no. 6, pp. 2211–2227.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_40",
+          "text": "Peeters, “A review of surrogate models and their applica-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_41",
+          "text": "tion to groundwater modeling,” vol. 51, no. 8, pp. 5957–",
+          "page": 9
+        },
+        {
+          "para_id": "1536_42",
+          "text": "and S. Ho, “Multiple physics pretraining for spatiotempo-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_43",
+          "text": "ral surrogate models,” in Proceedings of the 38th Interna-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_44",
+          "text": "tional Conference on Neural Information Processing Sys-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_45",
+          "text": "tems, vol. 37 of NIPS ’24, pp. 119301–119335, Curran",
+          "page": 9
+        },
+        {
+          "para_id": "1536_46",
+          "text": "[16] D. Samadian, I. B. Muhit, and N. Dawood, “Application",
+          "page": 9
+        },
+        {
+          "para_id": "1536_47",
+          "text": "of data-driven surrogate models in structural engineering:",
+          "page": 9
+        },
+        {
+          "para_id": "1536_48",
+          "text": "A literature review,” vol. 32, no. 2, pp. 735–784.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_49",
+          "text": "[17] N. Bosso, M. Magelli, R. Trinchero, and N. Zampieri,",
+          "page": 9
+        },
+        {
+          "para_id": "1536_50",
+          "text": "“Application of machine learning techniques to build dig-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_51",
+          "text": "ital twins for long train dynamics simulations,” vol. 62,",
+          "page": 9
+        },
+        {
+          "para_id": "1536_52",
+          "text": "[18] I. Chahrour and J. Wells, “Comparing machine learn-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_53",
+          "text": "ing and interpolation methods for loop-level calculations,”",
+          "page": 9
+        },
+        {
+          "para_id": "1536_54",
+          "text": "vol. 12, no. 6, p. 187.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_55",
+          "text": "[19] A. Khan, E. A. Huerta, and A. Das, “Physics-inspired",
+          "page": 9
+        },
+        {
+          "para_id": "1536_56",
+          "text": "deep learning to characterize the signal manifold of quasi-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_57",
+          "text": "circular, spinning, non-precessing binary black hole merg-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_58",
+          "text": "ers,” vol. 808, p. 135628.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_59",
+          "text": "[20] A. Khan, E. A. Huerta, and P. Kumar, “AI and ex-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_60",
+          "text": "treme scale computing to learn and infer the physics of",
+          "page": 9
+        },
+        {
+          "para_id": "1536_61",
+          "text": "higher order gravitational wave modes of quasi-circular,",
+          "page": 9
+        },
+        {
+          "para_id": "1536_62",
+          "text": "spinning, non-precessing black hole mergers,” vol. 835,",
+          "page": 9
+        },
+        {
+          "para_id": "1536_63",
+          "text": "[21] R. Trinchero and F. Canavero, “Machine learning regres-",
+          "page": 9
+        },
+        {
+          "para_id": "1536_64",
+          "text": "sion techniques for the modeling of complex systems: An",
+          "page": 9
+        },
+        {
+          "para_id": "1536_65",
+          "text": "overview,” vol. 10, no. 4, pp. 71–79.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_66",
+          "text": "M. Fleming, and S. van der Marck, “TENDL: Complete",
+          "page": 9
+        },
+        {
+          "para_id": "1536_67",
+          "text": "nuclear data library for innovative nuclear science and",
+          "page": 9
+        },
+        {
+          "para_id": "1536_68",
+          "text": "technology,” vol. 155, pp. 1–55.",
+          "page": 9
+        },
+        {
+          "para_id": "1536_69",
+          "text": "ews, W. Wen, G. Chanan, P. Wu, and S. Chintala, “Py-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_70",
+          "text": "Torch 2: Faster machine learning through dynamic python",
+          "page": 10
+        },
+        {
+          "para_id": "1536_71",
+          "text": "bytecode transformation and graph compilation,” in Pro-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_72",
+          "text": "ceedings of the 29th ACM International Conference on",
+          "page": 10
+        },
+        {
+          "para_id": "1536_73",
+          "text": "Architectural Support for Programming Languages and",
+          "page": 10
+        },
+        {
+          "para_id": "1536_74",
+          "text": "Operating Systems, Volume 2, vol. 2 of ASPLOS ’24,",
+          "page": 10
+        },
+        {
+          "para_id": "1536_75",
+          "text": "pp. 929–947, Association for Computing Machinery.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_76",
+          "text": "[24] G. Van Rossum and F. L. Drake, Python 3 Reference Man-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_77",
+          "text": "[25] D. P. Kingma and J. Ba, “Adam: A method for stochastic",
+          "page": 10
+        },
+        {
+          "para_id": "1536_78",
+          "text": "[26] I. Loshchilov and F. Hutter, “Decoupled weight decay reg-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_79",
+          "text": "[27] P. J. Huber, “Robust estimation of a location parameter,”",
+          "page": 10
+        },
+        {
+          "para_id": "1536_80",
+          "text": "vol. 35, no. 1, pp. 73–101.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_81",
+          "text": "[28] G. P. Meyer, “An alternative probabilistic interpretation of",
+          "page": 10
+        },
+        {
+          "para_id": "1536_82",
+          "text": "[29] G. Klambauer, T. Unterthiner, A. Mayr, and S. Hochreiter,",
+          "page": 10
+        },
+        {
+          "para_id": "1536_83",
+          "text": "“Self-normalizing neural networks.”",
+          "page": 10
+        },
+        {
+          "para_id": "1536_84",
+          "text": "[30] D. Misra, “Mish: A self regularized non-monotonic acti-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_85",
+          "text": "[31] K. Fukushima, “Visual feature extraction by a multilay-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_86",
+          "text": "ered network of analog threshold elements,” vol. 5, no. 4,",
+          "page": 10
+        },
+        {
+          "para_id": "1536_87",
+          "text": "[32] V. Nair and G. E. Hinton, “Rectified linear units improve",
+          "page": 10
+        },
+        {
+          "para_id": "1536_88",
+          "text": "restricted boltzmann machines,” in Proceedings of the",
+          "page": 10
+        },
+        {
+          "para_id": "1536_89",
+          "text": "27th International Conference on International Confer-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_90",
+          "text": "ence on Machine Learning, ICML’10, pp. 807–814, Om-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_91",
+          "text": "[33] W.-L. Loh, “On latin hypercube sampling,” vol. 24, no. 5,",
+          "page": 10
+        },
+        {
+          "para_id": "1536_92",
+          "text": "comparison of three methods for selecting values of input",
+          "page": 10
+        },
+        {
+          "para_id": "1536_93",
+          "text": "variables in the analysis of output from a computer code,”",
+          "page": 10
+        },
+        {
+          "para_id": "1536_94",
+          "text": "vol. 21, no. 2, pp. 239–245.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_95",
+          "text": "[35] M. Stein, “Large sample properties of simulations using",
+          "page": 10
+        },
+        {
+          "para_id": "1536_96",
+          "text": "latin hypercube sampling,” vol. 29, no. 2, pp. 143–151.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_97",
+          "text": "[36] I. M. Sobol’, “On the distribution of points in a cube and",
+          "page": 10
+        },
+        {
+          "para_id": "1536_98",
+          "text": "the approximate evaluation of integrals,” vol. 7, no. 4,",
+          "page": 10
+        },
+        {
+          "para_id": "1536_99",
+          "text": "[37] A. B. Owen, “Scrambling sobol’ and niederreiter–xing",
+          "page": 10
+        },
+        {
+          "para_id": "1536_100",
+          "text": "points,” vol. 14, no. 4, pp. 466–489.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_101",
+          "text": "[38] S. Joe and F. Y. Kuo, “Constructing sobol sequences with",
+          "page": 10
+        },
+        {
+          "para_id": "1536_102",
+          "text": "better two-dimensional projections,”",
+          "page": 10
+        },
+        {
+          "para_id": "1536_103",
+          "text": "Nortier, and J. W. Engle, “Cross section measurements for",
+          "page": 10
+        },
+        {
+          "para_id": "1536_104",
+          "text": "proton induced reactions on natural la,” vol. 468, pp. 81–",
+          "page": 10
+        },
+        {
+          "para_id": "1536_105",
+          "text": "surement of 139la(p,x) cross sections from 35–60 MeV",
+          "page": 10
+        },
+        {
+          "para_id": "1536_106",
+          "text": "by stacked-target activation,” vol. 56, no. 1, p. 13.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_107",
+          "text": "[41] F. Tárkányi, A. Hermanne, F. Ditrói, and S. Takács, “Ac-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_108",
+          "text": "tivation cross section data of proton induced nuclear re-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_109",
+          "text": "actions on lanthanum in the 34–65 MeV energy range",
+          "page": 10
+        },
+        {
+          "para_id": "1536_110",
+          "text": "and application for production of medical radionuclides,”",
+          "page": 10
+        },
+        {
+          "para_id": "1536_111",
+          "text": "vol. 312, no. 3, pp. 691–704.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_112",
+          "text": "ized simulated annealing algorithm and its application to",
+          "page": 10
+        },
+        {
+          "para_id": "1536_113",
+          "text": "the thomson model,” vol. 233, no. 3, pp. 216–220.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_114",
+          "text": "[43] Y. Xiang and X. G. Gong, “Efficiency of generalized sim-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_115",
+          "text": "ulated annealing,” vol. 62, no. 3, pp. 4473–4476.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_116",
+          "text": "[44] Y. Xiang, S. Gubian, B. Suomela, and J. Hoeng, “Gener-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_117",
+          "text": "alized simulated annealing for global optimization: The",
+          "page": 10
+        },
+        {
+          "para_id": "1536_118",
+          "text": "GenSA package,” vol. 5, no. 1, p. 13.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_119",
+          "text": "[45] B. Ghorbani, S. Mei, T. Misiakiewicz, and A. Montanari,",
+          "page": 10
+        },
+        {
+          "para_id": "1536_120",
+          "text": "“Linearized two-layers neural networks in high dimen-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_121",
+          "text": "sion,” vol. 49, no. 2, pp. 1029–1054.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_122",
+          "text": "“Surprises in high-dimensional ridgeless least squares in-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_123",
+          "text": "terpolation,” vol. 50, no. 2, pp. 949–986.",
+          "page": 10
+        },
+        {
+          "para_id": "1536_124",
+          "text": "[47] T. Liang and A. Rakhlin, “Just interpolate: Kernel “ridge-",
+          "page": 10
+        },
+        {
+          "para_id": "1536_125",
+          "text": "less” regression can generalize,” vol. 48, no. 3, pp. 1329–",
+          "page": 10
+        }
+      ]
+    }
+  ]
+}

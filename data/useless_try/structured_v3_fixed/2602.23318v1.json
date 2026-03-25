@@ -1,0 +1,332 @@
+{
+  "doc_id": "2602.23318v1.pdf",
+  "title": "arXiv:2602.23318v1  [cs.AI]  26 Feb 2026",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1\nIntroduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Monte-Carlo Tree Search (MCTS) [7] is a family of asymmetric partial tree search\nalgorithms that have proven successful in a wide range of decision-making tasks,\neven in domains where domain-specific knowledge is scarce or difficult to en-\ncode symbolically. These methods, however, are typically developed under the\nimplicit assumption that sufficient memory is available to store an ever-growing\nasymmetric search tree. While this assumption is largely valid on most mod-\nern desktop and server-class hardware, it significantly limits the applicability of\nMCTS-based agents on memory-constrained platforms such as microcontrollers\nor smartphones.\nThis limitation is particularly pronounced for Generalized Rapid Action\nValue Estimation (GRAVE) [6], which improves the playing strength of agents\nbased on MCTS in several games by augmenting each node with additional\nwin/visit statistics for the All-Moves As First (AMAF) selection policy [12].\nThese additional statistics introduce a constant-factor increase in node memory\nusage, making GRAVE particularly sensitive to memory constraints. As a re-\nsult, enabling GRAVE-level performance while drastically reducing the number\nof stored nodes becomes a key challenge for deploying strong artificial agents in\nenvironments where memory is a scarce resource.",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "arXiv:2602.23318v1  [cs.AI]  26 Feb 2026",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nA. Rautureau et al.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "Beyond practical deployment concerns, this challenge also aligns naturally\nwith questions in cognitive modeling [23]. Best-first tree search algorithms have\nbeen proposed as models of human forward planning and short-term memory [9],\nyet it is unrealistic to assume that human decision makers can retain more\nthan a few dozen decision states simultaneously [3] [18]. From this perspective,\nlimiting the number of stored nodes is not merely an engineering constraint but a\ndesirable modeling property. Developing GRAVE-like algorithms that preserve\nstrong best-first behavior and playing strength while operating under a strict\nbound on the number of nodes, therefore, contributes both to the design of\nefficient agents and to the algorithmic modeling of high-level features of human\ndecision making in games. In this setting, nodes are treated as atomic units of\ninformation rather than as byte-encoded data structures, shifting the focus from\nraw memory usage to principled control over informational complexity.\nTo address this challenge, we introduce GRAVE2 and GRAVER (Generalized\nRapid Action Value Estimation with node Recycling), two variants of GRAVE\ndesigned for low memory budgets while matching the playing strength of the\noriginal algorithm. GRAVE2 extends GRAVE using a two-level search tree ap-\nproach [5], while GRAVER incorporates a node recycling scheme [22]. We further\npropose GRAVER2, which combines the two-level search of GRAVE2 with the\nnode recycling mechanism of GRAVER. To our knowledge, this is the first im-\nplementation of an MCTS algorithm that integrates both node recycling and\ntwo-level search within a single framework.\nWe evaluate these algorithms against GRAVE and corresponding UCT vari-\nants, comparing their relative playing strength under strict memory constraints.\nIn particular, we measure the number of stored nodes required to reach equal\nplaying strength, the number of playouts performed, and the empirically mea-\nsured memory footprint of our implementation. The results provide insight into\nthe trade-offs between memory usage and performance, and open new perspec-\ntives for the development of memory-bounded MCTS methods.",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nRelated work",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "MCTS algorithms typically differ in their selection and playout policies. The\nstandard selection policy, UCT, balances exploration of the search tree with\nexploitation of nodes with high estimated value using the Upper Confidence\nBound (UCB) formula:",
+          "page": 2
+        },
+        {
+          "para_id": "2_2",
+          "text": "arg max\nn (R(n)",
+          "page": 2
+        },
+        {
+          "para_id": "2_3",
+          "text": "V (n) + C",
+          "page": 2
+        },
+        {
+          "para_id": "2_4",
+          "text": "s log V (N) V (n)\n(1)",
+          "page": 2
+        },
+        {
+          "para_id": "2_5",
+          "text": "where n is a node, N its parent, V and R denote the number of visits and the\nmean sampled reward of a node, respectively, and C is the exploration parameter.\nLow values of C favor exploitation, while high values encourage exploration. The\nvalue C =\n√",
+          "page": 2
+        },
+        {
+          "para_id": "2_6",
+          "text": "2\n2 is known to provide good results when sampled rewards lie in the\nrange [0, 1] [13], and is used throughout this paper.",
+          "page": 2
+        },
+        {
+          "para_id": "2_7",
+          "text": "GRAVE in Memory-Constrained Environments\n3",
+          "page": 3
+        },
+        {
+          "para_id": "2_8",
+          "text": "GRAVE [6] is a generalization of the Rapid Action Value Estimation (RAVE)\n[11] algorithm. It relies on the All-Moves As First (AMAF) heuristic [4, 12] as\npart of its selection policy, and linearly interpolates between the exploitation of\nthe mean sampled reward of a node n and the AMAF value of a move m stored\nin a reference node ref higher up the tree. The interpolation is controlled by a\nparameter βn,m defined as:",
+          "page": 3
+        },
+        {
+          "para_id": "2_9",
+          "text": "βn,m =\nAMAFref,m\nAMAFref,m + V (n) + (bias × AMAFref,m × V (n))\n(2) We then select the most promising child node using the formula:",
+          "page": 3
+        },
+        {
+          "para_id": "2_10",
+          "text": "arg max\nn ((1 −βn) × R(n)",
+          "page": 3
+        },
+        {
+          "para_id": "2_11",
+          "text": "V (n) + βn × AMAFref,m)\n(3) The bias parameter controls the extent to which AMAF heuristics are favored\nover direct exploitation of node values, while a reference threshold specifies the\nminimum number of visits required for a node’s AMAF statistics to be reused\ndeeper in the search.\nGRAVE has been shown to outperform traditional UCT and RAVE in a\nnumber of games with permutable moves, benefiting from the additional infor-\nmation provided by AMAF heuristics. In domains where strong heuristics are not\navailable, such as General Game Playing (GGP), it often constitutes a stronger\nalternative to other MCTS algorithms [14,15,21,24].\nLike most MCTS variants, GRAVE requires storing the explored search tree\nin memory to maintain value estimates for each node. This paper focuses on\ntwo complementary approaches for reducing the size of the stored tree while\nminimizing the impact on playing strength.\nTwo-level search algorithms offer one such approach, effectively squaring the\nnumber of playouts performed while increasing the number of stored nodes by\nonly a constant factor of two. Similar techniques have been successfully applied\nto Proof-Number (PN) Search, where they are known as PN2 [2,5].\nThese algorithms operate by performing a standard search from the root\nnode (top-level search), but replace the usual leaf expansion step with a second\nsearch initiated from the newly expanded leaf node (second-level search). The\nsecond-level search tree is then discarded, and the root of this secondary search\nis added as a leaf to the top-level tree, with the collected values propagated\nupward, typically in a batch. This approach allows the algorithm to gather more\naccurate estimates before backpropagation, while enabling the reuse of a large\nfraction of the available node budget.\nWhile two-level search algorithms typically split the node budget evenly\nbetween the two levels, they can be generalized by introducing a parameter\nλ ∈[0, 1] that determines the fraction of the node budget allocated to the second-\nlevel search tree. Let Nsec = N ∗λ and Ntop = N −Nsec denote the number of\nnodes assigned to the second- and top-level trees, respectively. A two-level search\nwith total node budget N and parameter λ will therefore perform (λ −λ2) ∗N 2",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nA. Rautureau et al.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "iterations in practice, compared to only N iterations for a single-level search\nusing the same node budget.\nOrthogonal to two-level approaches, node recycling was first introduced for\nInformation Set MCTS (ISMCTS) [8,22]. The core idea is to reuse the memory\nof nodes that have been least recently accessed in order to allow continued ex-\npansion under a fixed memory budget. Such nodes are considered less relevant\nto the current search, as MCTS algorithms inherently revisit promising nodes\nmore frequently.\nIn this approach, a fixed pool of N nodes is allocated, initially containing\nempty entries. While empty entries remain, newly expanded nodes are added to\nthe pool in the same manner as in standard MCTS. Once the pool is full, the\nleast recently used node is recycled and replaced by the newly expanded node.\nThroughout this paper, we note P the number of playouts performed.\nTo efficiently identify the least recently accessed node, a Least Recently Used\n(LRU) cache is maintained during the search. When a node is visited during the\nselection phase, it is temporarily removed from the LRU and reinserted during\nbackpropagation, in the reverse order of removal. This maintains the crucial\ninvariant that only leaf nodes can appear at the front of the LRU, ensuring that\ninternal nodes are never recycled, which would otherwise render their children\nunreachable.",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3\nMethods",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "Fig. 1. Relationships between GRAVE, GRAVE2, GRAVER and GRAVER2. N indi-\ncates the total number of nodes stored, P the total number of playouts performed, and\nNsec the nodes stored in the second-level tree.",
+          "page": 4
+        },
+        {
+          "para_id": "3_2",
+          "text": "We introduce two variants of the GRAVE algorithm focusing on memory-\nconstrained environments, respectively incorporating two-level search (GRAVE2)\nand node recycling (GRAVER). These variants are finally combined into GRAVER2,\nwhich can utilize node recycling in both the top and second-level trees to further\nincrease the efficient usage of the fixed memory budget.",
+          "page": 4
+        },
+        {
+          "para_id": "3_3",
+          "text": "GRAVE in Memory-Constrained Environments\n5",
+          "page": 5
+        },
+        {
+          "para_id": "3_4",
+          "text": "These variants can be seen as generalizations of one another (Figure 1),\nproviding more parameters to fine tune the playing strength and memory usage\nof the original GRAVE algorithm.",
+          "page": 5
+        },
+        {
+          "para_id": "3_5",
+          "text": "3.1\nGRAVE2 GRAVE2 is a two-level adaptation of the GRAVE algorithm that performs a\nsecond-level search when expanding leaf nodes.\nTwo-level search algorithms typically isolate the top-level and second-level\nsearch trees, propagating only the values of the second-level root back to the top-\nlevel tree. In the case of GRAVE, however, AMAF values stored in the top-level\ntree can be reused within the second-level search. We refer to this mechanism as\nforward sharing (see Figure 2). Forward sharing enables the second-level search\nto exploit information gathered from previous second-level searches to guide\nexploration earlier, even though the corresponding trees have been discarded.\nThis property makes GRAVE2 particularly well suited to preserving playing\nstrength while further reducing the algorithm’s memory footprint.",
+          "page": 5
+        },
+        {
+          "para_id": "3_6",
+          "text": "Fig. 2. Forward node sharing in GRAVE2. The selection path in the top-level tree is\nfixed while the second-level search is running, and the latter may use AMAF values\naggregated in the top-level tree to guide its exploration as long as the second-level\nroot has fewer visits than the parameterized reference threshold. Values obtained from\nplayouts in the second-level tree are backpropagated to the top-level tree after each\niteration, rather than in a single batch once the second-level search terminates. If a\nchild of the currently referenced node exceeds the reference threshold, it becomes the\nnew referenced node.",
+          "page": 5
+        },
+        {
+          "para_id": "3_7",
+          "text": "Performing a second-level search before backing up AMAF values produces\nmore reliable estimates, thereby reducing the amount of noise propagated up\nthe tree when expanding a top-level node. By adjusting the λ parameter, we",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6\nA. Rautureau et al.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "can control the trade-off between permanently stored information, holding cru-\ncial AMAF statistics for the second-level search, and the quality of information\nobtained for newly expanded nodes.\nIn time-bounded scenarios, which represent the most common use case for\ngame-playing agents, two-level search introduces a drawback by limiting the\nanytime behavior of MCTS algorithms. The search can now only terminate every\nλ × N playouts rather than after each individual playout. To mitigate this issue\nand avoid spending computation on unpromising nodes, an early termination\nmechanism can be employed. A related idea was applied in the PN² algorithm,\nwhere the second-level search is halted when the proof number of the second-level\nroot exceeds twice its disproof number [25].",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3.2",
+      "section_title": "3.2\nGRAVER",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.2_1",
+          "text": "The data structure introduced for node recycling—based on a left-child right-\nsibling representation of the tree combined with an intrusive first-in first-out\nLRU cache—can be directly applied to the GRAVE algorithm. We refer to the\nresulting method as GRAVER (GRAVE with node Recycling) throughout the\nremainder of this paper.\nThe main difference with UCT lies in the fact that leaf nodes in GRAVE may\ncontain substantial information in the form of AMAF statistics accumulated\nfrom previous playouts, which could prove useful later in the search. Recycling\nsuch nodes may therefore have a negative impact on the playing strength of\nGRAVER. On the other hand, GRAVE’s selection policy can assign meaningful\nvalues to unexpanded or recycled nodes through AMAF heuristics. While UCT\nconventionally assigns a value UCB(n) = ∞to unexpanded nodes, ensuring\nthey are always selected for expansion, GRAVE instead relies solely on stored\nAMAF values for such nodes, since a visit count of zero forces βm = 1. This\nbehavior helps prevent pathological cycles in which the algorithm repeatedly\nexpands and recycles the same nodes.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3.3",
+      "section_title": "3.3\nGRAVER2",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.3_1",
+          "text": "Node recycling and two-level search are orthogonal methods, enabling the use of\nboth of them simultaneously. We dub the resulting algorithm GRAVER2. Re-\ncycling nodes within the top-level tree further improves memory efficiency at\nthe cost of potentially discarding additional information when leaf nodes are\nrecycled. In the second-level search, additional playouts can improve the qual-\nity of value estimates while maintaining a fixed node budget. Empirically, node\nrecycling schemes exhibit a plateau in playing strength as the ratio between per-\nformed playouts and stored nodes increases. This allows maximizing the playing\nstrength of the algorithm while bounding both memory usage and the number\nof playouts in the second-level search.\nWe use the notation Ptop (resp. Psec) to denote the number of playouts per-\nformed in the top-level (resp. second-level) tree. The total number of playouts",
+          "page": 6
+        },
+        {
+          "para_id": "3.3_2",
+          "text": "GRAVE in Memory-Constrained Environments\n7",
+          "page": 7
+        },
+        {
+          "para_id": "3.3_3",
+          "text": "is now decorrelated from the number of nodes stored and the λ parameter, with\nP = Ptop × Psec.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nExperimental results",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "We evaluate the relative playing strength of the proposed algorithms on the\ngame of Go using a 9 × 9 board. The GRAVE algorithm was first tuned against\na UCT baseline with an exploration constant of 0.7 to determine suitable values\nfor the bias and reference threshold parameters for Go 9 × 9. These parameters\nwere fixed to 10−2 and 25, respectively, for all subsequent experiments.\nAll playouts are guided by the Move Average Sampling Technique (MAST)\n[10] using an ϵ-greedy sampling strategy with ϵ = 0.4. MAST statistics are\ndecayed by a factor of 0.2 between successive turns within the same game.\nAll algorithms are evaluated against a baseline GRAVE implementation with\nP = N = 10,000. Each data point is computed from 500 games. Win rates are\nreported together with confidence intervals calculated using the Agresti–Coull\nmethod [1].",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "4.1\nTwo-level search",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "Fig. 3. Winrates of GRAVE2 with and without forward sharing and UCT² against\nGRAVE with P = N = 10, 000. The dotted lines indicate the 95% confidence interval\nof the winrate of GRAVE against itself, representing the region in which compared\nalgorithms can be considered to have playing strength equal to GRAVE.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_2",
+          "text": "We first evaluate the performance of GRAVE2 relative to GRAVE. The rel-\native win rates for λ = 0.5 are reported as a function of the number of nodes\nstored by the two-level search algorithms in Figure 3.\nGRAVE2 without forward sharing achieves playing strength comparable to\nGRAVE starting from a total node pool size of 240 (Ntop = Nsec = 120, cor-\nresponding to P = 14,400). Forward sharing does not yield a statistically sig-\nnificant improvement in overall playing strength. However, its effect is sufficient",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "8",
+      "section_title": "8\nA. Rautureau et al.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "8_1",
+          "text": "Nodes\nλ\n0.2\n0.4\n0.5\n0.6\n0.8 160\n31.7% 33.7% 40.0% 31.4% 26%\n200\n41.1% 48.4% 46.6% 47.2% 33.8%\n240\n51.8% 55.6% 54.2% 52.2% 39.2%\n280\n51.2% 57.7% 58.9% 52.4% 43%\n320\n59.3% 62.7% 60.3% 61.5% 48.6%\n360\n63.5% 64.5% 66.7% 63.7% 53.2%\n400\n62.5% 69.4% 66.5% 63.9% 58.4%\n440\n67.5% 65.3% 68.1% 66.7% 59.6% Table 1. Winrate of GRAVE2 with forward sharing for varying node pool sizes and λ\nvalues against GRAVE running for P = 10, 000. Confidence intervals are omitted for\nclarity, and lie in the range [4.0%, 4.4%].",
+          "page": 8
+        },
+        {
+          "para_id": "8_2",
+          "text": "that we cannot reject the hypothesis of equal playing strength with only 200\nnodes when forward sharing is enabled (Ntop = Nsec = 100, corresponding to\nP = 10,000). In the remainder of this paper, any reference to GRAVE2 assumes\nthat forward sharing is enabled.\nFor comparison, UCT2 requires more than 440 nodes to reach a similar\nlevel of playing strength, performing more than four times as many playouts\n(P ≥48,400). It is important to note, however, that storing AMAF statistics in\neach node results in a substantially larger memory footprint for GRAVE-based\nmethods. In Go 9×9, each GRAVE node can store up to 82 AMAF entries (one\nper intersection plus the pass move), corresponding in our implementation to an\nadditional 82 × 8 = 656 bytes per node compared to UCT.\nFinally, we assess the impact of the λ parameter, which controls the frac-\ntion of the node pool allocated to the second-level search, by varying λ over\nthe range [0.2, 0.8] for 160 ≤N ≤440. The results reported in Table 4.1 con-\nfirm that λ = 0.5 yields the best overall performance. Reducing Ntop (λ > 0.5)\ngenerally degrades performance, while reducing Nsec (λ < 0.5) does not pro-\nduce statistically significant improvements and increases the number of playouts\nperformed.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "4.2",
+      "section_title": "4.2\nNode recycling",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.2_1",
+          "text": "Node recycling is less effective at reducing the memory footprint of the search\ntree while maintaining equivalent playing strength. GRAVER matches the per-\nformance of GRAVE only from approximately N ≈1,536, with both algorithms\nrunning for 10,000 playouts.\nHowever, node recycling schemes preserve the anytime property of the MCTS\nalgorithm, which may be crucial in certain scenarios. Detailed comparative win\nrate results are shown in Figure 4.",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_2",
+          "text": "GRAVE in Memory-Constrained Environments\n9",
+          "page": 9
+        },
+        {
+          "para_id": "4.2_3",
+          "text": "Fig. 4. Winrates of GRAVER and UCT with node recycling against GRAVE with\nP = 10, 000. The node pool size used is presented on a logarithmic scale. The red\ndashed line indicates the threshold N = 10, 000, beyond which all expanded nodes can\nbe stored and node recycling no longer takes effect.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "4.3",
+      "section_title": "4.3\nNode recycling in two-level search",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.3_1",
+          "text": "We evaluate the performance of combining node recycling with two-level search\nthrough two separate experiments. In both cases, we set λ = 0.5 and vary the\nnumber of additional playouts as a ratio of the node pool size. A ratio of 1.0\ncorresponds to the setting without node recycling.",
+          "page": 9
+        },
+        {
+          "para_id": "4.3_2",
+          "text": "Fig. 5. Winrate of GRAVER2 against GRAVE (P = 10, 000), varying the ratio of\nplayouts to stored nodes in the top-level tree (Left) and second-level tree (Right).",
+          "page": 9
+        },
+        {
+          "para_id": "4.3_3",
+          "text": "We first compare GRAVE and GRAVER2 when node recycling is applied\nonly to the top-level tree (right panel of Figure 5). Our first observation is that\ncombining two-level search with node recycling improves playing strength under\nmemory constraints. In particular, we are able to reduce the node pool size to\n160 nodes while maintaining performance comparable to baseline GRAVE.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "10",
+      "section_title": "10\nA. Rautureau et al.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "10_1",
+          "text": "This threshold is noteworthy because it prevents the tree from expanding all\nlegal moves at the root while still reaching depth ≥1. This indicates that the\nalgorithm effectively prunes less promising branches in order to concentrate its\nlimited memory budget on more relevant parts of the search space. We then examine the effect of applying node recycling within the second-level\ntree (right panel of Figure 5). The impact on playing strength is not statistically\nsignificant, except at very small node pool sizes (N ≤160).",
+          "page": 10
+        },
+        {
+          "para_id": "10_2",
+          "text": "Fig. 6. Winrate of GRAVER2 against GRAVE (P = 10, 000), varying the ratio of\nplayouts to stored nodes in both the top and second-level trees. The values are given\nwith a confidence interval of ±4.2.",
+          "page": 10
+        },
+        {
+          "para_id": "10_3",
+          "text": "Finally, we evaluate the performance of GRAVER2 by varying the ratio of\nplayouts to stored nodes in both the top- and the second-level trees (Figure 6).\nIncreasing Psec appears to be less effective than increasing Ptop, and may even\ndegrade playing strength for larger values of N. One possible explanation is that results backpropagated from simulations\nguide by MAST exhibit high variance, which can negatively affect estimate qual-\nity as the number of playouts increases. In this setting, the top-level tree may\nnot accumulate sufficient information to compensate for the loss of finer-grained\nstatistics in the second-level tree, leading to reduced overall performance.",
+          "page": 10
+        },
+        {
+          "para_id": "10_4",
+          "text": "GRAVE in Memory-Constrained Environments\n11",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5\nConclusion",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "We presented two orthogonal approaches to reduce the memory usage of GRAVE\nwhile maintaining playing strength in Go 9 × 9. Two-level search (GRAVE2)\nachieves the largest reduction, reaching equivalent performance with as little as\n2% of the original node count. Node recycling (GRAVER) also reduces the node\npool size, though more moderately (approximately 15.36%), while preserving the\nanytime property of MCTS.\nCombining both approaches (GRAVER2) yields an even greater reduction in\nstored nodes, achieving the performance of GRAVE with N = 160, Ptop = 160\nand Psec = 80, corresponding to 12, 800 total playouts. This configuration re-\nduces memory usage to approximately 1.6% while maintaining equivalent playing\nstrength. Applying node recycling within the second-level tree does not produce\na statistically significant improvement beyond these results.\nWithin the scope of our experiments, we also observe that a sharing factor of\nλ = 0.5 in two-level search provides the best overall performance. Deviating from\nthis value either reduces playing strength or increases the number of playouts\nwithout yielding meaningful strength gains.",
+          "page": 11
+        },
+        {
+          "para_id": "5_2",
+          "text": "5.1\nFuture work Although this work substantially reduces the memory usage of GRAVE and in-\ntroduces several tunable parameters, further reductions may be possible through\nthe integration of stronger heuristics and heuristic-based pruning strategies [19].\nSuch approaches could shift the balance toward search-light or partially search-\nless methods [16,17], while retaining search as a component of decision making.\nFurther experiments should extend the evaluation to a wider range of games\n(e.g. on Ludii [20]) and explore additional configurations of playout budgets,\nnode pool sizes, and GRAVE parameters. An open question is whether the com-\nbination of two-level search and node recycling yields comparable or greater\nimprovements in other MCTS variants, such as HRAVE [24] or ISMCTS [8].",
+          "page": 11
+        }
+      ]
+    }
+  ]
+}

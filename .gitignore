@@ -1,34 +1,57 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 
-# Virtual environment
+# Virtual environments
 venv/
-.venv/
+env/
+env.local/
+venv.local/
 .env
 
-# IDE
+# IDEs and editors
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
-# OS
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# 原始PDF文件
-data/raw_pdfs/
-
-# 向量索引
-data/faiss.index
-data/faiss_meta.json
-
-# 备份文件夹（不提交到GitHub）
-archive/
+# API keys and secrets
+api_key.txt
 deepseek_key.txt
 
-# 运行产生的缓存
-*.log
+# Large files
+*.npy
+*.index
 
-# 无用尝试文件夹
-data/useless_try/
-scripts/parse_pdf_uesless_try/
+# Generated data
+data/raw_pdfs/
+data/bge_embeddings.npy
+data/faiss_bge_meta.json
+
+# Output files
+data/qa_dataset/multihop_qa_*.json
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.tox/
+coverage/
+
+# Build
+build/
+dist/
+*.egg-info/

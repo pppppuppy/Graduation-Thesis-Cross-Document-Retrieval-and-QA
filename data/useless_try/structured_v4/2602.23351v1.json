@@ -1,0 +1,508 @@
+{
+  "doc_id": "2602.23351v1.pdf",
+  "title": "arXiv:2602.23351v1  [cs.CL]  26 Feb 2026",
+  "abstract": "The lack of reasoning capabilities in Vision-\nLanguage Models (VLMs) has remained at\nthe forefront of research discourse. We posit\nthat this behavior stems from a reporting\nbias in their training data. That is, how peo-\nple communicate about visual content by\ndefault omits tacit information needed to su-\npervise some types of reasoning; e.g., “at\nthe game today!” is a more likely caption\nthan “a photo of 37 people standing behind\na field”. We investigate the data underly-\ning the popular VLMs OpenCLIP, LLaVA-",
+  "sections": [
+    {
+      "section_id": "2",
+      "section_title": "2\nRelated Work",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "Reporting bias is a well-studied phenomenon in\nthe area of NLP, having presented itself as the\n“common sense problem”, e.g., “people murder”\nis a more likely bigram than “people breathe” in\ntext3, leading models trained on this text to incor-\nrectly believe that the former action is more likely\nto occur than the latter (Gordon and Van Durme,\n2013; Sap et al., 2019b; Shwartz et al., 2020). This 3That people breathe is too obvious of a fact to be ex-\npressed in writing.",
+          "page": 2
+        },
+        {
+          "para_id": "2_2",
+          "text": "was overcome with the introduction of large-scale\ncommonsense corpora (Bosselut et al., 2019; Sap\net al., 2019a) to provide models the lacking in-\nformation. We study this phenomenon in vision-\nlanguage data, tackling types of reasoning beyond\ncommon sense.\nIn the vision-language domain, Ye et al. (2024)\nshow that people from different cultures describe\ndifferent features of the same image when pro-\nvided the same instructions. Nguyen et al. (2024)\nfurther show that by translating non-English cap-\ntions to English, VLMs’ zero-shot classification\nperformance increases. We acknowledge the in-\ncreased coverage of information by speakers from\ndifferent languages, and ask the question: are there\ntypes of information omitted by everyone?\nSeveral recent works have studied various fail-\nure cases of VLM reasoning (Ma et al., 2023;\nZhao et al., 2022; Kamath et al., 2023b; Hao et al.,\n2025; Yan et al., 2025). In response, other work\nfocuses on improving the quality of the training\ndata by re-captioning images (Nguyen et al., 2023;\nLai et al., 2024; Betker et al., 2020) and collecting\nproprietary data (OpenAI, 2024). We investigate\na possible cause behind these failure cases, and\nstudy open-source datasets to determine whether\nannotators require specific instructions to include\ndata otherwise omitted due to reporting bias. Cherti et al. (2023) show that the performance\nof contrastive VLMs improves across several tasks\nwith an increase in scale of model and training\ndata size. However, this has shown to not be the\ncase for reasoning tasks (Al-Tahan et al., 2024).\nIn contrast, we investigate a reason why this be-\nhavior occurs.\nFurther, our benchmarks target\nspecific types of reasoning, and contain primar-\nily real-world images. Additionally, we study both\ncontrastive and generative VLMs.",
+          "page": 2
+        },
+        {
+          "para_id": "2_3",
+          "text": "Explanatory hypotheses.\nThe aforementioned\nworks revealing poor VLM reasoning take differ-\nent stances on the cause of the issue, and thus,\nits solution.\nSome (Yuksekgonul et al., 2023;\nHsieh et al., 2023; Doveh et al., 2023a,b) hypoth-\nesize that failures arise from commonly-used con-\ntrastive objectives being too easy, and introduce\nhard negatives to each batch. Others hypothesize\nthat image-level losses are insufficient, e.g., Zeng\net al. (2021) introduces a hierarchical loss based\non regions. We complement these works by focus-\ning on the relatively under-studied training data.",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3\nReporting Bias in Vision-Language\nReasoning",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "No matter how large corpora become, if they are\nsourced from captions written largely by humans,\nthey will exhibit the natural patterns and idiosyn-\ncracies of how humans understand and describe\nimages. We leverage long-standing theories from\nlinguistics, pragmatics and cognitive science to ar-\nrive at hypotheses of reporting bias, identifying\ntypes of reasoning under-represented in web-scale\ncorpora. We then test our accuracy by investigat-\ning the training datasets of open-source contrastive\nand generative VLMs.",
+          "page": 3
+        },
+        {
+          "para_id": "3_2",
+          "text": "3.1\nTheory-based Hypotheses of Omitted\nTypes of Reasoning When people communicate, they do not do so in\na vacuum. Cognitive semantics points out that a\nvariety of sources such as intent, perspective, and\ntopic shape the words they use (Langacker, 2015;\nTalmy, 1972). People use contextual cues to be as\nexpressive as required by the context of the discus-\nsion. Moreover, theories in pragmatics tell us that\nwe are organized in how we achieve this: we abide\nby a tacit set of co-operative principles that is ex-\npected in communication (Grice, 1975; Goodman\nand Frank, 2016). These topics have been investi-\ngated extensively by various efforts in linguistics,\ncognitive science, and child language acquisition,\ninter alia.\nWe posit that such principles of communication\ncan help explain the reporting bias we observe in\nmultimodal data. In writing captions, we produce\ntext that best communicates what we observe.\nThus, we expect captions to be subject to the same\ncommunicative principles that guide much of our\nutterances. At the same time, however, caption\ndata is produced in a restricted setting that lacks\ncommunicative context that would produce the de-\nsired expressiveness. Without knowledge like the\ntopic of discussion and limited understanding of\nwho the caption consumers will be, the caption\nwriters have only basic principles and common\nknowledge to guide their writing.\nOur investigation focuses on whether or not\nthe pragmatic contexts underlying the annotation\nprocess of popular image+text pretraining corpora\nmanifests captions that operationalize the expres-\nsive cues necessary to train vision-language mod-\nels to count, to use negations, and to do spatial and\ntemporal reasoning.",
+          "page": 3
+        },
+        {
+          "para_id": "3_3",
+          "text": "People tend to omit spatial and temporal\nlanguage.\nSpatial language such as “left of”,\n“above” or “below” and temporal prepositions\nsuch as “before” or “after” are central to enabling\nspatial and temporal reasoning respectively. How-\never, unless explicitly directed, people may not\nnaturally produce such language in captioning. Pragmatics studies in conversational maxims,\nknown as Gricean Maxims (Grice, 1975), suggest\nthat what information is revealed and how much\nis revealed is counter-weighed by the expectation\nto be direct, to be concise and not to misdirect\nin communication. For example, maxims suggest\nthat even if “a cat left of a dog” is a logically\naccurate description of an image, a person might\nopt for “a cat and a dog” because “left of” as-\nsigns undue importance to one over the other. Ex-\npressive as it may be, choosing the former cap-\ntion when there is no explicit reason to do so\nwould be misleading (Maxim of Quality), more\ninformation than required (Maxim of Quantity),\nor would impose a perspective that cannot be jus-\ntified: whether it is the left of the viewer of the\nimage, or of the subject in the image (Maxim of\nManner) (Zhang et al., 2025). In the same way, given an image of a boy throw-\ning a ball, writing “and after, the ball will fall”\nwould allow for temporal reasoning for a model,\nbut such captions are likely to be avoided because\nthey are too obvious (Maxim of Quantity) or due\nto insufficient knowledge or evidence about the\ndescribed event (Maxim of Quality). Even when spatial preposition use may be mer-\nited, studies in cognitive linguistics suggest that\ncaptioning may be limited by the existence of de-\nfault relationships, which we only overlook when\nthe situation calls for it (Talmy, 1972). For ex-\nample, when grounding one object (a Figure) with\nrespect to another (a Ground), humans will natu-\nrally choose the smaller and easier to move entity\nas the Figure (e.g., “a poster above a bed” is more\nlikely than “a bed under a poster”). If they are\nequally sized and movable, we will disprefer the\nuse of spatial language without ulterior reasons. Such ulterior reasons or perspectives, as theo-\nries in linguistics suggest, are provided by dis-\ncourse mechanisms like the Question under Dis-\ncussion (QUD)—the implicit or explicitly stated\nquestion being addressed in a discourse (Von Stut-\nterheim and Klein, 1989). Something as simple as\nknowing that the image being captioned is a shot",
+          "page": 3
+        },
+        {
+          "para_id": "3_4",
+          "text": "Spatial\nCounting\nNegation\nTemporal Data\nOccurr.\nEst. True\nOccurr.\nOccurr.\nEst. True\nOccurr.\nOccurr.\nEst. True\nOccurr.\nOccurr.\nEst. True\nOccurr. LAION-2B\n0.3\n0.1\n8.8\n1.7\n0.8\n0.1\n0.9\n0.2\nCOCO\n3.7\n3.7\n10.8\n10.4\n0.2\n0.1\n0.2\n0.1\nLLAVA-1.5 (train)\n5.8\n4.7\n12.4\n6.0\n5.2\n1.4\n1.7\n0.6\nMolmo (train)\n3.3\n2.2\n28.8\n16.8\n6.0\n3.2\n2.9\n0.3",
+          "page": 4
+        },
+        {
+          "para_id": "3_5",
+          "text": "Table 1: Percentage Occurrences and Estimated True Occurrences of reasoning-related keywords in popular open-\nsource image-text corpora and training datasets of open-source VLMs.",
+          "page": 4
+        },
+        {
+          "para_id": "3_6",
+          "text": "Spatial\nCounting\nNegation\nTemporal",
+          "page": 4
+        },
+        {
+          "para_id": "3_7",
+          "text": "Operationalizes",
+          "page": 4
+        },
+        {
+          "para_id": "3_8",
+          "text": "Reasoning\nDoes Not Operationalize",
+          "page": 4
+        },
+        {
+          "para_id": "3_9",
+          "text": "Reasoning",
+          "page": 4
+        },
+        {
+          "para_id": "3_10",
+          "text": "Paddling Juniper Run under dense forest canopy",
+          "page": 4
+        },
+        {
+          "para_id": "3_11",
+          "text": "Don't Believing by \nJoyfulSongGraphics on Etsy",
+          "page": 4
+        },
+        {
+          "para_id": "3_12",
+          "text": "17 best images about hoods on pinterest traditional for Kitchen ideas under 5000",
+          "page": 4
+        },
+        {
+          "para_id": "3_13",
+          "text": "Morgan Schneiderlin celebrates with team mates after scoring \nthe equaliser for Southampton",
+          "page": 4
+        },
+        {
+          "para_id": "3_14",
+          "text": "Crown Shaving Co. Soothing After Shave Lotion-Crown Shaving Co.-ItalianBarber",
+          "page": 4
+        },
+        {
+          "para_id": "3_15",
+          "text": "Pavel Kasparek: Dancer \nand the Sun / watercolor painting / 8 x 12 inch",
+          "page": 4
+        },
+        {
+          "para_id": "3_16",
+          "text": "Solid Sheer Curtain Panels Set Of 2\nDylviw 5D DIY Diamond Painting Kit, Van Gogh Sunflower Full Paint With Round \nColourful Diamonds For Adults And Child \n12X16 inches (Frame not Included) for $8.99.",
+          "page": 4
+        },
+        {
+          "para_id": "3_17",
+          "text": "Spatial\nCounting\nNegation\nTemporal",
+          "page": 4
+        },
+        {
+          "para_id": "3_18",
+          "text": "Figure 1: Examples from LAION-2B of data points that contain reasoning-related keywords that do and do not\noperationalize the reasoning capability itself.",
+          "page": 4
+        },
+        {
+          "para_id": "3_19",
+          "text": "of someone’s newly adopted cat (given the picture\nof a dog and a cat) would provide perspectives on\nhow to frame a caption: what to (de)emphasize,\nwhat to focus on, or simply, what to talk about\n(Maxim of Relevance). This is not a natural ar-\ntifact of a restricted annotation setting. Specific\nprompting (c.f. Section 6) such as “focus on the\ncat” or “the cat was just adopted” would be neces-\nsary to provide an actionable QUD to trigger the\ntemporal or spatial language we want represented\nin the data.\nPeople tend to omit counting.\nWhy people may\nomit object counts in image captions is explained\nby the expectation that a speaker should maximize\nthe information conveyed while keeping the state-\nment brief (Maxim of Quantity; Rational Speech\nAct (Frank and Goodman, 2012; Goodman and\nFrank, 2016)). The informational value added by\n“six cats” compared to “a group of cats” is negligi-\nble without further context, while requiring more",
+          "page": 4
+        },
+        {
+          "para_id": "3_20",
+          "text": "effort on the speaker’s part (counting the objects).\nMoreover, since there are very few contexts in\nwhich the listener cares whether there were ex-\nactly “six cats” compared to “a group of cats”, i.e.,\nit is rarely the QUD, there is no need for the writer\nto assume it (Maxim of Relevance).",
+          "page": 4
+        },
+        {
+          "para_id": "3_21",
+          "text": "People tend to omit negations.\nIntuitively,\nthere is no rational reason for a person to write\n“there are no parrots” given a picture of a dog and\na cat without further context. Much like counting,\nit would provide more information than necessary\nto describe the image (Maxim of Quantity; Ratio-\nnal Speech Act) and assign importance when none\nis merited (Maxim of Quality). Additionally, con-\ncepts of sentence processing related to psycholin-\nguistics and child language acquisition (Tian and\nBreheny, 2016; Pea, 1978) suggest that negations\nare more costly and slower to process than positive\nstatements, and are thus not preferred.",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "3.2",
+      "section_title": "3.2\nTesting Hypotheses in Open-Source\nImage-Text Corpora",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.2_1",
+          "text": "In this section, we estimate the frequency of\nthe aforementioned types of reasoning in popu-\nlar open-source image-text corpora, to test our\nhypothesis that they occur rarely. We study the\ntraining data for OpenCLIP (Cherti et al., 2023),\nLLaVA-1.5 (Liu et al., 2024a) and Molmo (Deitke\net al., 2024). Where OpenCLIP is only trained on\nLAION (Schuhmann et al., 2022), LLaVA-1.5 and\nMolmo are additionally trained on open-source\nacademic datasets. We combine the text from all\nconstituent datasets to run this study, taking sam-\npling rates into account as well. To perform this study, we list keywords corre-\nsponding to each type of reasoning, e.g., to study\nthe prevalence of spatial language, we search for\nthe keyword “right of” (among other prepositions,\nc.f. Appendix). While this includes false posi-\ntives (“right of way”), it loosely upper bounds the\nprevalence of the spatial relation in the dataset.\nFor each keyword, we perform a string search in\nthe listed corpora and show the percentage occur-\nrence of the strings in Table 1 (Occurrence). We then sample 100 data points corresponding\nto each type of reasoning in each corpus and man-\nually calculate the number of data points in which\nthe reasoning is truly represented and visible in the\nimage, i.e., the true positive rate. We calculate a\nrough estimate of the true number of occurrences\nof that type of reasoning in the corpus (Estimated\nTrue Occurrence in Table 1). Examples of data\npoints that contain keywords and do or do not op-\nerationalize reasoning are shown in Figure 1. As seen in Table 1, the types of reasoning we\nstudy are indeed infrequent even in large-scale\ncorpora, verifying our hypotheses from Section\n3.1; e.g., all spatial prepositions we study form a\ncombined estimate of only 0.1% of LAION.",
+          "page": 5
+        },
+        {
+          "para_id": "3.2_2",
+          "text": "Comparison\nto\nhigher-frequency\nconcepts.\nWhile some of the aforementioned frequencies\nmay sound sufficient to learn a concept, they\nfall far behind when compared to the frequency\nof more high-occurrence words; e.g., the word\n“black” alone occurs in 3.2% of LAION captions,\nand “white” in 3%. These concepts are also easier\nto learn, as they tend to be directly visible in the\nimage (e.g., “a pair of black shoes”). This puts the\nsmall size of the earlier counts into context.",
+          "page": 5
+        },
+        {
+          "para_id": "3.2_3",
+          "text": "Comparison to concepts that compose simi-\nlarly.\nConcepts such as colors are also easier\nto learn as they compose similarly (“a pair of\nblack shoes” is approximately the same color as\n“a black horse”) (Saini et al., 2022).\nAs such,\neven if some object-attribute pairs are unlikely to\noccur due to reporting bias in text (e.g., “yellow\nbanana” is a less likely bigram than “green ba-\nnana”), vision-language models are able to decom-\npose them into their high-frequency components\nand perform well (Paik et al., 2021).\nWe thus\ndisregard such cases in our work, and focus on\nreasoning concepts omitted due to reporting bias,\nwhich are substantially more difficult to learn as\nthey do not compose similarly (“before a game”\nlooks very different from “before an exam”). It is\nthus unsurprisingly challenging to learn, e.g., tem-\nporal reasoning, from only 0.2% of the data.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nBenchmarks",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "Although we have shown that web-scale corpora\ndo not contain significant representation of lan-\nguage related to the types of reasoning we study,\nmodels trained on such data could still perform\nwell: they may not require a significant amount of\ndata to learn a skill; or our keyword-based corpus\nexploration could have missed relevant data.\nWe evaluate using four benchmarks across con-\ntrastive and generative VLMs, modified from ex-\nisting benchmarks to suit our needs. All bench-\nmarks require models to undertake a multiple-\nchoice caption task given an image, as shown in\nFigure 2. In the case of contrastive VLMs, e.g.,\nCLIP, we take the highest scoring match directly;\nin the case of generative VLMs, e.g., Molmo, we\nprovide all options at once in a QA-style prompt\n(except for counting, as we discuss below).",
+          "page": 5
+        },
+        {
+          "para_id": "4_2",
+          "text": "Spatial reasoning.\nWe use Subset A of the\nWhat’sUp benchmark (Kamath et al., 2023b), tar-\ngeting four spatial relations: on, under, left of and\nright of. The images consist of two basic house-\nhold objects in a spatial relation to each other, with\nno distractors. The dataset has 412 data points,\nperfectly balanced between the four prepositions.",
+          "page": 5
+        },
+        {
+          "para_id": "4_3",
+          "text": "Counting.\nWe use a simplified version of Count-\nBench (Paiss et al., 2023): originally consisting of\ncaptions from LAION that operationalize count-\ning (e.g., “background photo of three light bulbs”),\nwe convert to a simplified format by manually\nreducing each caption to {count}{objects} (e.g.,",
+          "page": 5
+        },
+        {
+          "para_id": "4_4",
+          "text": "A mug on a table A mug under a table A mug to the left of a table A mug to the right of a table",
+          "page": 6
+        },
+        {
+          "para_id": "4_5",
+          "text": "3 zebras",
+          "page": 6
+        },
+        {
+          "para_id": "4_6",
+          "text": "2 zebras",
+          "page": 6
+        },
+        {
+          "para_id": "4_7",
+          "text": "… 10 zebras",
+          "page": 6
+        },
+        {
+          "para_id": "4_8",
+          "text": "A bear that is not flying A bear that is not white A bear that is not tan A bear that is not furry",
+          "page": 6
+        },
+        {
+          "para_id": "4_9",
+          "text": "A dog before catching a frisbee A dog after catching a frisbee",
+          "page": 6
+        },
+        {
+          "para_id": "4_10",
+          "text": "Spatial\nCounting\nNegation\nTemporal",
+          "page": 6
+        },
+        {
+          "para_id": "4_11",
+          "text": "Contrastive",
+          "page": 6
+        },
+        {
+          "para_id": "4_12",
+          "text": "Evaluation\nGenerative",
+          "page": 6
+        },
+        {
+          "para_id": "4_13",
+          "text": "Evaluation",
+          "page": 6
+        },
+        {
+          "para_id": "4_14",
+          "text": "Pick the best caption for this from the below options. Answer in one word, the option letter only. (A) a mug on a table\n(B) a mug under a table\n(C) a mug to the left of a table\n(D) a mug to the right of a table",
+          "page": 6
+        },
+        {
+          "para_id": "4_15",
+          "text": "(A) a bear that is not flying\n(B) a bear that is not white\n(C) a bear that is not tan\n(D) a bear that is not furry",
+          "page": 6
+        },
+        {
+          "para_id": "4_16",
+          "text": "(A) a dog before catching a frisbee\n(B) a dog after catching a frisbee",
+          "page": 6
+        },
+        {
+          "para_id": "4_17",
+          "text": "How many {zebras} are there \nin this picture? Answer with \nthe number only, from 2-10. 2",
+          "page": 6
+        },
+        {
+          "para_id": "4_18",
+          "text": "Figure 2: Examples from our four benchmarks for contrastive and generative evaluations. The generative evalua-\ntion is in MCQ format but for counting, for which a free form output with a given range yielded higher scores.",
+          "page": 6
+        },
+        {
+          "para_id": "4_19",
+          "text": "“3 light bulbs”) and adding alternate captions for\neach other count within 2–10. We conduct this\nmodification to ensure the benchmark only eval-\nuates the skill of counting, as well as to avoid data\ncontamination for models that have seen the exact\nimage-text pairs from CountBench in LAION dur-\ning training. For generative VLMs, we find that all\nmodels we evaluate perform better when answer-\ning the question directly with a number within a\ngiven range, compared to our multiple-choice QA\nformat, and thus report results from the former for-\nmat for this task alone, as shown in Figure 2. The\ndataset contains 507 instances, approximately bal-\nanced across counts.4",
+          "page": 6
+        },
+        {
+          "para_id": "4_20",
+          "text": "Negations.\nWe re-purpose the VAW benchmark\n(Pham et al., 2021), which contains both positive\nand negative attributes for an object within a given\nbounding box. We crop the bounding box (dis-\ncarding those of insufficient size), then write the\ntemplated caption “a photo of a [object name] that\nis not [attribute]” with three positive attributes and\none true negative attribute, resulting in one cor-\nrect caption per image. We generate 800 such data\npoints, going through them manually to remove\nambiguous attributes such as “large”.",
+          "page": 6
+        },
+        {
+          "para_id": "4_21",
+          "text": "Temporal reasoning.\nWe use the temporal rela-\ntions subset of ControlledImCaps (Kamath et al., 4Several images from LAION are no longer available as\nof 07/2025, thus resulting in the slight imbalance.",
+          "page": 6
+        },
+        {
+          "para_id": "4_22",
+          "text": "2023a), which contains pairs of images with corre-\nsponding captions: one “before” an event, and one\n“after”—defining temporal reasoning based on\nthe dynamic context reasoning in VisualCOMET\n(Park et al., 2020). We reformat the data to pose\na task in which each instance contains one im-\nage with two caption options, obtaining 200 data\npoints balanced between “before” and “after”.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5\nExperiments and Results",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "We evaluate popular contrastive and generative\nVLMs at various scales of model+data size on our\nbenchmarks to ascertain their reasoning capabili-\nties on types of reasoning less-represented in cor-\npora due to reporting bias.\nWe then study the\neffect on contrastive model performance of scal-\ning both the model parameter size and the training\ndata size, as well as the effect of adding multilin-\ngual diversity to the training data. Finally, we dis-\ncuss the performance of popular closed-data and\nclosed-source VLMs on our benchmarks.",
+          "page": 6
+        },
+        {
+          "para_id": "5_2",
+          "text": "5.1\nModels Contrastive VLMs.\nWe consider OpenCLIP\n(Cherti et al., 2023) models of different sizes:\nViT-B/32, ViT-B/16, ViT-L/14, ViT-g/14, and ViT-\nH/14, as well as OpenCLIP ViT-B/32 trained\nwith multilingual diversity, i.e, with non-English\ncaptions translated to English added to the data\n(Nguyen et al., 2024).",
+          "page": 6
+        },
+        {
+          "para_id": "5_3",
+          "text": "Model\nSpatial\nNegation\nCounting\nTemporal CLIP ViT-B/32\n30.6\n11.5\n43.4\n58.5\n+ ML Div.\n27.4\n15.5\n23.3\n51.5\nCLIP ViT-B/16\n27.7\n12.7\n48.1\n55.0\n(a)\nCLIP ViT-L/14\n28.4\n12.3\n64.1\n52.0\nCLIP ViT-g/14\n28.4\n12.7\n59.0\n52.0\nCLIP ViT-H/14\n26.0\n13.2\n60.0\n59.0 LLAVA-1.5-7B\n37.6\n33.4\n47.3\n72.5\nLLAVA-1.5-13B\n61.7\n28.4\n48.9\n74.5\n(b)\nMolmo 7B-O\n75.5\n38.4\n77.5\n78.0\nMolmo 7B-D\n87.6\n41.3\n83.8\n80.5 LLAVA-1.6-m7B\n60.0\n40.6\n52.9\n70.0\nQwenVL 7B-Chat\n47.1\n24.2\n84.6\n67.5\nQwen2VL 7B-Inst.\n98.3\n56.1\n85.8\n84.0\nGPT4o\n91.5\n22.2\n90.9\n95.0\nGPT o1\n97.6\n64.7\n88.2\n97.0\n(c)\nGemini 1.5-Flash\n98.5\n46.4\n84.6\n81.5\nGemini 1.5-Pro\n92.0\n49.0\n87.8\n85.0\nClaude-3 Haiku\n65.5\n28.9\n83.4\n70.0\nClaude-3.5 Sonnet\n95.4\n42.0\n92.3\n83.5 Random Chance\n25.0\n25.0\n11.1\n50.0\nHuman Estimate\n100\n100\n100\n100",
+          "page": 7
+        },
+        {
+          "para_id": "5_4",
+          "text": "Table 2: Results on our benchmarks of: (a) Contrastive\nVLMs, (b) Open-Source Generative VLMs, (c) Closed-\nData Generative VLMs. All models fall far behind hu-\nman performance on multiple types of reasoning.",
+          "page": 7
+        },
+        {
+          "para_id": "5_5",
+          "text": "Generative VLMs.\nWe consider two generative\nVLMs trained on the open-source data examined\nin Section 3.2: LLaVA-1.5 (Liu et al., 2024a)\nand Molmo (Deitke et al., 2024).\nWe further\nevaluate several generative VLMs with mixed- or\nclosed-source training data: Qwen-VL (Bai et al.,\n2023), Qwen2-VL (Wang et al., 2024), LLaVA-\n1.6-Mistral (Liu et al., 2024b), GPT4o and o1\n(OpenAI, 2024), Gemini-1.5 Flash and -1.5 Pro\n(Team et al., 2024), and Claude-3 Haiku and -3.5\nSonnet (Anthropic, 2024).",
+          "page": 7
+        },
+        {
+          "para_id": "5_6",
+          "text": "5.2\nResults Contrastive VLMs.\nTable 2(a) shows the per-\nformance of OpenCLIP models on our bench-\nmarks. The contrastive VLMs score slightly above\nrandom chance on spatial reasoning and temporal\nreasoning, but score far less than random chance\non negations. We find that CLIP tends to ignore\nnegations, scoring the inverse of their attribute de-\ntection performance (c.f. Appendix). The mod-\nels perform fairly well on counting, although it is\nworth noting that the counting benchmark was ini-\ntially sourced from OpenCLIP training data. Per-\nforming poorly on spatial, negation and temporal\naligns with the extremely low occurrence of key-\nwords corresponding to those types of reasoning\nin LAION, as shown in Table 1, as does the higher",
+          "page": 7
+        },
+        {
+          "para_id": "5_7",
+          "text": "performance of CLIP on counting and the higher\noccurrence of counting keywords in LAION. Generative VLMs.\nTable 2(b) shows the perfor-\nmance of open-source generative VLMs. The gen-\nerative models outperform the contrastive models\non average, but fall far behind human performance\nacross all tasks, especially negation. Scaling up\nLLaVA-1.5 significantly improves spatial reason-\ning performance, but no other type of reasoning.\nIn the context of keyword occurrences, improve-\nments in reasoning over contrastive models align\nwith increases in corresponding keywords in re-\nspective training data in Table 1. Human Performance.\nAll models, particularly\nthose trained on open-source data, fall far behind\nhuman performance across tasks. The human per-\nformance results, estimated by collecting annota-\ntions from pairs of expert annotators, emphasize\nthat these types of reasoning are trivial to humans.",
+          "page": 7
+        },
+        {
+          "para_id": "5_8",
+          "text": "5.3\nScaling Laws In this section, we evaluate the aforementioned\nOpenCLIP models with different training data\nsizes (LAION-80M, LAION-400M, LAION-2B)\nand number of data points seen during training\n(3B, 13B, 34B), obtaining 32 models in total.\nEach of these is evaluated on our benchmarks to\nobtain scaling laws, as in Cherti et al. (2023). The\nresulting graphs are shown in Figure 3. In contrast\nto CLIP behavior on pure perception tasks such\nas ImageNet (Deng et al., 2009), where the loss\ndrops steeply with an increase in data and/or pa-\nrameter scale (Cherti et al., 2023), on our bench-\nmarks we see different patterns: on spatial rea-\nsoning, the scaling law struggles to fit the data\npoints, but it is clear that the loss does not drop\nwith an increase in compute; on counting, increas-\ning compute does seem to help, but noting the log\nscale, the amount of compute would need to be\nseveral orders of magnitude higher to reach human\nperformance (at 0% loss); on negation, increasing\ncompute helps very slightly, but the loss remains\nvery high (∼87%), and an intractable amount of\ncompute would be needed to reach human perfor-\nmance (at 0% loss); and on temporal reasoning, in-\ncreasing compute does not improve performance.\nNote that the prevalence of counting data far\nsurpasses that of negations, temporal or spatial re-\nlations (c.f. Section 3.2), explaining its relatively\nhigh performance—although the frequency is still\nlow on average compared to popular attributes,",
+          "page": 7
+        },
+        {
+          "para_id": "5_9",
+          "text": "Figure 3: Scaling laws for OpenCLIP models on ImageNet (top left) compared to our benchmarks on spatial,\ncounting, negation and temporal tasks respectively. Note the log-log plots and differing y axes across graphs.",
+          "page": 8
+        },
+        {
+          "para_id": "5_10",
+          "text": "and the model performance is far behind human\nperformance, which is 100%.\nWhen we disentangle model scale from data\nscale, we see equivalent trends. From this, we in-\nfer that neither scaling up the model size, the train-\ning data size, nor both, improves model perfor-\nmance beyond what is seen in Figure 3—proving\nthat the underlying problem of reporting bias can-\nnot be mitigated with scale alone, as an intractable\namount of compute in the form of training data\nand/or model parameters would be needed to reach\nhuman performance on these benchmarks.",
+          "page": 8
+        },
+        {
+          "para_id": "5_11",
+          "text": "5.4\nAdding Captions from Other Languages Nguyen et al. (2024) showed that adding multi-\nlingual diversity to the training data of contrastive\nVLMs by translating non-English web-scraped\nalt-text to English can significantly improve their\nperformance on classification tasks; this work was\nrooted in Ye et al. (2024), which highlighted the\ndifference in semantic content in images discussed\nwhen people using different languages captioned\nthe same image. We ask: is leveraging this mul-\ntilingual diversity sufficient to circumvent the re-\nporting bias seen in image-text corpora? To study\nthis, we evaluate the OpenCLIP ViT-B/32 model\nfrom Nguyen et al. (2024) on our benchmarks. As\nseen in Table 2, this model actually underperforms\nthe OpenCLIP ViT-B/32 model trained on LAION\nEnglish captions alone—showing that these types",
+          "page": 8
+        },
+        {
+          "para_id": "5_12",
+          "text": "of reasoning are omitted by all speakers.",
+          "page": 8
+        },
+        {
+          "para_id": "5_13",
+          "text": "5.5\nClosed-Data Generative Models Top-performing closed-data and closed-source\nmodels perform well on our benchmarks, although\nthey still fall behind human performance, espe-\ncially on negation and temporal reasoning.\nAs\nthe details behind the data collection and train-\ning are not public, it is difficult to draw infer-\nences from these results; however, the importance\nof data quality in addition to scale is clear from ef-\nforts invested in data collection (OpenAI, 2024).",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6\nLeveraging Annotator Instructions\nCan Mitigate Reporting Bias",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "Annotator instructions have a significant impact\non reporting bias. While people may default to\ncertain behaviors while communicating about im-\nages, they can be specifically instructed to discuss\ncertain concepts that they would otherwise tend\nto omit.\nWe study the correlation between an-\nnotator instructions and reporting bias in existing\ndatasets, then leverage annotator instructions in a\nuser study to mitigate reporting bias. We verify\nthat our mitigation method surfaces sufficient rep-\nresentation of reasoning-related concepts to im-\nprove VLM reasoning in a finetuning setting, and\nclose with broader implications for data collection\nmethods for vision-language corpora.",
+          "page": 8
+        },
+        {
+          "para_id": "6_2",
+          "text": "6.1\nImpact of Annotator Instructions on\nReporting Bias in Existing Datasets We study the effect of annotator instructions pro-\nvided during collection of existing datasets on re-\nporting bias, i.e., on the occurrence of reasoning-\nrelated keywords in captions, shown in Table 1.\nAnnotator instructions are provided in Appendix.\nWe first study a dataset where no annotator in-\nstructions are provided at all: LAION (Schuh-\nmann et al., 2022), which was scraped from alt-\ntext fields of images on the internet. We see from\nTable 1 that LAION has low representation across\nall four types of reasoning we study.\nThis re-\nflects the default behavior of people captioning\nimages: when not given any specific instructions,\npeople’s tendency to under-report available infor-\nmation, i.e., reporting bias, is seen clearly.\nWe next look at COCO’s (Chen et al., 2015)\ncrowdsourced captions, where annotators were\ngiven instructions, but no specific prompting that\nwould engage them in reasoning.\nIn fact, they\nwere explicitly instructed to “not describe things\nthat might have happened in the future or past”.\nAccordingly, we observe in Table 1 that the in-\nstructions lead to an even lower occurrence of\ntemporal reasoning in COCO as compared to the\nnon-existent instructions of LAION. Interestingly,\nhowever, we see that the prevalence of spatial lan-\nguage and counting in COCO is higher than that\nof LAION. Having temporal reasoning restricted,\nannotators may have turned to focus more closely\non describing the objects in the image.\nFor LLaVA-1.5 (Liu et al., 2024a), the instruc-\ntions required discussion of “object counts” and\n“relative positions between objects”, among other\nnon-reasoning-related instructions. This leads to\nhigher occurrences of both counting and spatial\nreasoning than in COCO. However, it is worth\npointing out that their estimated true occurrences\nare not higher than that of COCO. This may be ex-\nplained by LLaVA’s use of GPT-4 as annotator for\ninstruction tuning data. Our analysis shows that\nmany of the false positives are in fact spurious de-\nscriptions that incorrectly use counts and spatial\nlanguage (e.g., a “left of” that is actually a ”right\nof”), which is consistent with GPT-4’s weaknesses\nin reasoning.\nHad human annotators been em-\nployed, we expect to have observed higher true oc-\ncurrences of counting and spatial language.\nFinally, for Molmo’s (Deitke et al., 2024) pre-\ntraining data, the annotators were instructed to",
+          "page": 9
+        },
+        {
+          "para_id": "6_3",
+          "text": "Instructions\nSpatial\nCounting\nNegation\nTemporal COCO\n8\n23\n2\n2\nLLAVA-1.5\n17\n38\n3\n0\nPixMo\n21\n43\n12\n1 Ours\n14\n39\n52\n44",
+          "page": 9
+        },
+        {
+          "para_id": "6_4",
+          "text": "Table 3: Percentage True Occurrences (manually cal-\nculated) of reasoning-related keywords in each set of\n100 captions collected with different instructions for\nthe controlled study.",
+          "page": 9
+        },
+        {
+          "para_id": "6_5",
+          "text": "discuss “objects and their counts” and “posi-\ntions of the objects”, among other non-reasoning-\nrelated instructions.\nMolmo’s training data in-\ncludes PixMo as well as other academic datasets,\ne.g. TallyQA (Acharya et al., 2019) and VQAv2\n(Goyal et al., 2017). As seen in Table 1, specific\ninstructions for counting and spatial leads to in-\ncreased prevalence of spatial and counting reason-\ning. Without specific instructions, negations and\ntemporal remaining remain low, as in LLaVA and\nLAION. It is important to note that there is ad-\nditional data in PixMo to assist models with spa-\ntial reasoning and counting that is in the form of\nbounding box coordinates, and as such is not in-\ncluded in the above occurrence estimates.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "6.2",
+      "section_title": "6.2\nUser Study to Mitigate Reporting Bias\nwith Annotator Instructions",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "6.2_1",
+          "text": "From these observations, it is clear that instructing\nannotators to include a certain type of reasoning\ndoes result in representation of the same. How-\never, these observations are drawn from datasets\nwith different image distributions, in addition to\nhaving different annotator instructions.\nTo further test our hypothesis, we disentangle\nthe two by carrying out a controlled study where\nannotators are given a fixed set of 100 images ran-\ndomly sampled from COCO and requested to cap-\ntion them. We provide them with one of four sets\nof annotator instructions: the original COCO cap-\ntioning instruction, the LLaVA-1.5 captioning in-\nstruction, the PixMo captioning instruction, and\ninstructions we write. We re-format the instruc-\ntions slightly (e.g., PixMo captions were collected\nvia audio, not text), but we retain the exact word-\ning of what annotators were requested to include\nand not include in the captions. In our own in-\nstructions, we ask specifically for all four types of\nreasoning we study. All sets of instructions are\nprovided in the Appendix.",
+          "page": 9
+        },
+        {
+          "para_id": "6.2_2",
+          "text": "We use Prolific5 to collect participants for the\nstudy.\nThey were asked to write a caption of\nat least 8 words (the minimum caption length in\nCOCO), but were encouraged to make the captions\nas long as needed to include the requested infor-\nmation (which varied based on the instruction set).\nBy not constraining the caption length, we mirror\nthe tendency of people to communicate concisely\n(Maxim of Quantity). Annotators were paid $15\nper hour of estimated work, with a post-task bonus\nif they spent longer on the task. This allowed us\nto simulate the concise nature of communication\n(the annotators did not know they would be paid\nadditionally) while paying annotators fairly.\nWe then check the 100 written captions for per-\ncentage occurrences as in Section 3.2, manually\ncalculating the true positive rate. The results are\nshown in Table 3. When annotators are not asked\nto include anything specific, as in COCO, they do\nuse some spatial- and counting-related words, but\nno negation- or temporal-related words. Adding\nrequests for spatial and counting, as in LLaVA-1.5\nand PixMo, significantly increases the occurrence\nof words related to those types of reasoning, but\nnot to temporal relations or negations. By specifi-\ncally instructing all four phenomena, as in our in-\nstructions, we see that the prevalence of all four\ntypes of reasoning increases compared to COCO.\nThese results show that our findings from Sec-\ntion 6.1 hold regardless of image distribution.\nAdditionally, if the cause of the initial under-\nrepresentation of reasoning-related keywords were\nfor a different reason than simply people’s ten-\ndency to under-report available information (i.e.,\nreporting bias), e.g., if these concepts were ob-\njectively difficult to capture in text, then modify-\ning the annotator instructions would not have in-\ncreased representation of the same. As such, our\nfindings further cement reporting bias as a cause\nfor under-representation of reasoning-related key-\nwords in image-text corpora.",
+          "page": 10
+        },
+        {
+          "para_id": "6.2_3",
+          "text": "6.3\nDoes Our Method Sufficiently Mitigate\nReporting Bias? Our experiments show strong evidence that re-\nporting bias causes low occurrence of reasoning-\nrelated concepts in training data, which in turn\ncorrelates with poor model performance on tasks\nrequiring the corresponding types of reasoning.\nHaving put forward a method to mitigate report-",
+          "page": 10
+        },
+        {
+          "para_id": "6.2_4",
+          "text": "5https://www.prolific.com/ [accessed 1/2026]",
+          "page": 10
+        },
+        {
+          "para_id": "6.2_5",
+          "text": "Model\n% Count.\nData\nCounting\nPerf. LLaVA-1.5-13b\n6.0\n49.8\nFT on LLaVA-IT (26K)\n6.9\n50.7\nFT on LLaVA-IT + TallyQA (26K)\n39.0\n54.4",
+          "page": 10
+        },
+        {
+          "para_id": "6.2_6",
+          "text": "Table 4: Estimated amount of counting data and Count-\ning performance of LLaVA-1.5-13b and finetuned ver-\nsions. Our instructions (Section 6.2) elicit 39% count-\ning data (Table 3), which is sufficient to improve model\ncounting over simply increasing the data.",
+          "page": 10
+        },
+        {
+          "para_id": "6.2_7",
+          "text": "ing bias, we now ask: is this sufficient to improve\nthe reasoning capabilities of VLMs?\nAnswering this question would require the cre-\nation of a large-scale vision-language pretraining\ndataset collected with our recommended annota-\ntor instructions (or via other methods that similarly\nmitigate reporting bias). Unfortunately, this is be-\nyond our resources. Instead, we run finetuning ex-\nperiments to obtain some signal about whether our\nmethod increases the representation of reasoning-\nrelated concepts in the collected data enough to\nimprove VLM reasoning in this setting.\nWe first curate a dataset with counting data\nequivalent to the percentage occurrence of count-\ning data we surface with “our” annotation instruc-\ntions in Section 6.2, i.e., 39%. To achieve this, we\nsample a balanced subset of counting data from\nTallyQA (1000 examples per count between 2–\n10) and combine it with the corresponding propor-\ntion of LLaVA-1.5 instruction tuning data (which\nwe estimate to have 6.9% counting data6). In to-\ntal, we combine 9,000 data points from TallyQA\nwith 17,138 data points from LLaVA-1.5 instruc-\ntion tuning data, to obtain a corpus of about 26K\nexamples with 39% occurrence of counting data.\nWe finetune LLaVA-1.5-13b on this data for 1\nepoch on 2 L40S GPUs at a batch size of 4 and\nlearning rate of 1e-6, then evaluate the finetuned\nmodel on our counting benchmark (Section 4). To\nensure the proportion of counting concepts in the\nfinetuning data is the cause of this gain, we com-\npare to finetuning LLaVA-1.5-13b on a corpus of\nthe same size with less occurrence of counting\ndata, i.e., only LLaVA instruction tuning data. Our\nresults are shown in Table 4: finetuning on data\nwith less reporting bias outperforms both the base\nmodel, and finetuning on data with reporting bias.",
+          "page": 10
+        },
+        {
+          "para_id": "6.2_8",
+          "text": "6This is a subset of the LLaVA-1.5 training data studied in\nSection 3.2, and thus has a slightly different occurrence rate\nfor counting than is reported in Table 1.",
+          "page": 10
+        },
+        {
+          "para_id": "6.2_9",
+          "text": "While finetuning on a distribution of data with\nless reporting bias, i.e., with higher representation\nof reasoning-related concepts, unsurprisingly in-\ncreases model performance on those types of rea-\nsoning, this experiment shows that: (1) these types\nof reasoning are not precluded by the architec-\nture of these models, which agrees with our re-\nsults from Table 2 and findings from Paiss et al.\n(2023), Chen et al. (2024), and Ogezi and Shi\n(2025), which specifically collect data to improve\na certain type of reasoning; and (2) our annota-\ntor instructions surface sufficient representation of\nreasoning-heavy concepts (here, counting) for the\nmodel to improve on the task, i.e., they success-\nfully mitigate reporting bias.\nWhile the latter finding has promising impli-\ncations for data collection methods, the signifi-\ncant gap remaining between the finetuned model\nand human performance reported in Table 2\nhighlights room for improvement beyond simple\nfinetuning—underscoring the importance of miti-\ngating reporting bias while collecting large-scale\npre-training corpora for VLMs.",
+          "page": 11
+        },
+        {
+          "para_id": "6.2_10",
+          "text": "6.4\nImplications for Data Collection Methods Our findings have strong implications for the use\nof annotator instructions to prevent reporting bias\nin future data collection efforts.",
+          "page": 11
+        },
+        {
+          "para_id": "6.2_11",
+          "text": "Reasoning can be elicited from annotators.\nWe show that all types of reasoning we study can\nbe elicited from annotators, if they are explicitly\nasked for the same.\nIn terms of our linguistics\nstudy in Section 3.1, by making the Question Un-\nder Discussion explicit, we are able to elicit the\ndesired information.",
+          "page": 11
+        },
+        {
+          "para_id": "6.2_12",
+          "text": "Instructions to prevent reporting bias do not\ngeneralize across types of reasoning.\nWe ob-\nserve that instructing annotators to include a spe-\ncific type of reasoning encourages them to discuss\nthat type of reasoning, but not any other. This em-\nphasizes the need to be intentional with annotator\ninstructions for each type of reasoning, if repre-\nsentation of various types of reasoning is desired.",
+          "page": 11
+        },
+        {
+          "para_id": "6.2_13",
+          "text": "Reporting bias can’t be circumvented with cap-\ntion length alone.\nWe perform a study to deter-\nmine whether forcing increased caption length as\nin dense annotation schema (e.g., PixMo (Deitke\net al., 2024) requiring annotators to speak about\nthe image for a full minute) yields reasoning-\nrelated information without the need for specific",
+          "page": 11
+        },
+        {
+          "para_id": "6.2_14",
+          "text": "instructions. We find that it increases the occur-\nrence of the types of reasoning people were al-\nready predisposed to in the original COCO study,\nbut not of the other types of reasoning. Details are\nin the Appendix.",
+          "page": 11
+        },
+        {
+          "para_id": "6.2_15",
+          "text": "Reporting bias does impact model perfor-\nmance.\nAs discussed in Section 5.2, low occur-\nrence of reasoning-related data in training corre-\nsponds with poor model performance on that type\nof reasoning, and the converse (that increased oc-\ncurrence corresponds with increased performance)\nis also true. As such, our findings shed light on a\npromising method to improve VLM reasoning.",
+          "page": 11
+        },
+        {
+          "para_id": "6.2_16",
+          "text": "Reporting bias occurs in LLM-synthesized data\ntoo!\nLLaVA-1.5 serves as an interesting case\nstudy, because a significant amount of the data is\nsynthetically generated with GPT-4. With increas-\ning emphasis on scale during VLM training, data\nsynthesis methods are becoming correspondingly\nmore popular (Wang et al., 2024; Bai et al., 2025;\nLiu et al., 2024b). Our study shows that language\nmodels are not immune to reporting bias (they, too,\nare trained on primarily human-written data), and\nthat instructions given to LLMs to synthesize data\nare of the same importance as instructions given\nto human annotators, in terms of their impact on\nmitigating reporting bias from the generated data.\nFurther, a solution must be found for the chicken-\nand-egg problem of VLMs being poor at reason-\ning due to reporting bias, and in turn, generating\nlow-quality synthetic data for model training.\nAltogether, our study makes it clear that fu-\nture data collection methods must be intentional\nabout ensuring representation of various types of\nreasoning in corpora despite reporting bias.\nIn\nother words, annotator instructions (or LLM in-\nstructions, in the case of synthetically-generated\ndata) are key to overcoming reporting bias and im-\nproving model reasoning capabilities.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "7",
+      "section_title": "7\nConclusion and Future Work",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "7_1",
+          "text": "We study the reporting bias in vision-language:\nspecifically, the systematic omission of types of\ninformation by people captioning images, which\nthen form the image-text corpora popular VLMs\nare trained on. By identifying human behaviors\nrooted in linguistics, pragmatics, and cognitive\nscience, we predict the types of information omit-\nted, verify their lack in public image-text corpora,\nand show that contrastive and generative VLMs",
+          "page": 11
+        },
+        {
+          "para_id": "7_2",
+          "text": "trained on this data perform poorly on the types of\nreasoning corresponding to the missing informa-\ntion. Further, we reveal the importance of the in-\nstructions provided to annotators during data col-\nlection, showing that intentional collection shows\npromise in improving representation of reasoning-\nrelated data in training corpora, which could in\nturn improve reasoning capabilities of VLMs.\nFuture research directions include: (1) automat-\ning identification of significant gaps in image-text\ncorpora; (2) synthesizing high-quality data to fill\nthose gaps; (3) finetuning models on augmented\ndata using different methods; and (4) eliciting cap-\ntions that avoid the reporting bias in a more nat-\nural way than programmatic augmentation, e.g.,\nwith our annotation instructions, or by identifying\ncommunicative intents that naturally call for these\ntypes of reasoning-related information.",
+          "page": 12
+        },
+        {
+          "para_id": "7_3",
+          "text": "Limitations",
+          "page": 12
+        },
+        {
+          "para_id": "7_4",
+          "text": "Our work highlights reporting bias in image-text\ncorpora as a key factor behind why VLMs trained\non these corpora struggle with types of reason-\ning basic to humans. Our first major limitation\nis that, while we suggest reasoning-aware annota-\ntor instructions as a method to circumvent report-\ning bias, and show its promise in Sections 6.2 and\n6.3, actually generating training data at scale using\nour proposed method is beyond our resources. Our\nsecond limitation is that we present scaling laws in\nSection 5.3 as evidence suggesting that simply in-\ncreasing model or data scale does not improve rea-\nsoning capabilities. However, while well-studied\nin the language, vision-language and vision fields\n(Kaplan et al., 2020; Cherti et al., 2023; Al-Tahan\net al., 2024), scaling laws are technically a hypoth-\nesis, and could fail to hold at much higher scales\n(Nakkiran et al., 2021).",
+          "page": 12
+        },
+        {
+          "para_id": "7_5",
+          "text": "Acknowledgments",
+          "page": 12
+        },
+        {
+          "para_id": "7_6",
+          "text": "We would like to thank William Merrill, Ananya\nHarsh Jha, Nishant Subramani, and the mem-\nbers of the RAIVN lab for helpful discussions\nand feedback, particularly during the concep-\ntion of this project.\nThis work was partially\nsupported by the Allen Institute for AI, SRC\nJump 2.0 CoCoSys, ONR grant N00014-23-1-\n2780, DARPA ANSR program FA8750-23-2-\n0004, ECOLE HR00112390060, and Apple.",
+          "page": 12
+        }
+      ]
+    }
+  ]
+}

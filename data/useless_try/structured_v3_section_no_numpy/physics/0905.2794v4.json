@@ -1,0 +1,49 @@
+{
+  "doc_id": "0905.2794v4.pdf",
+  "sections": [
+    {
+      "section_title": "Quantum",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Error",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Correction",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Beginners",
+      "text": " Simon  J.  Devitt, 1, ∗ William  J.  Munro,  and  Kae  Nemoto National  Institute  of  Informatics  2-1-2  Hitotsubashi  Chiyoda-ku  Tokyo  101-8340.  Japan NTT  Basic  Research  Laboratories  NTT  Corporation  3-1  Morinosato-Wakamiya, Atsugi  Kanagawa  243-0198.  Japan (Dated:  November  26,  2024) Quantum  error  correction  (QEC)  and  fault-tolerant  quantum  computation  represent one  of  the  most  vital  theoretical  aspect  of  quantum  information  processing.  It  was  well known  from  the  early  developments  of  this  exciting  ﬁeld  that  the  fragility  of  coherent quantum  systems  would  be  a  catastrophic  obstacle  to  the  development  of  large  scale quantum  computers. The "
+    },
+    {
+      "section_title": "introduction",
+      "text": "  of  quantum  error  correction  in   showed that  active  techniques  could  be  employed  to  mitigate  this  fatal  problem. However, quantum  error  correction  and  fault-tolerant  computation  is  now  a  much  larger  ﬁeld and  many  new  codes,  techniques,  and  methodologies  have  been  developed  to  implement error  correction  for  large  scale  quantum  algorithms.  In  response,  we  have  attempted  to summarize  the  basic  aspects  of  quantum  error  correction  and  fault-tolerance,  not  as  a detailed guide, but rather as a basic introduction.  This development in this area has been so  pronounced  that  many  in  the  ﬁeld  of  quantum  information,  speciﬁcally  researchers who  are  new  to  quantum  information  or  people  focused  on  the  many  other  important issues  in  quantum  computation,  have  found  it  diﬃcult  to  keep  up  with  the  general formalisms  and  methodologies  employed  in  this  area. Rather  than  introducing  these concepts  from  a  rigorous  mathematical  and  computer  science  framework,  we  instead examine  error  correction  and  fault-tolerance  largely  through  detailed  examples,  which are  more  relevant  to  experimentalists  today  and  in  the  near  future. PACS  numbers:  03.67.Lx,  03.67.Pp CONTENTS I. "
+    },
+    {
+      "section_title": "Introduction",
+      "text": " II.  Preliminaries A.  Basic  structure  of  the  qubit B.  Some  general  requirements  of  quantum  error correction III.  Quantum  errors:  Cause  and  eﬀect A.  Coherent  quantum  errors:  Gates  which  are incorrectly  applied B.  Environmental  decoherence C.  Simple  models  of  loss,  leakage,  measurement  and initialization IV.  The  3-qubit  code:  a  good  starting  point  for  quantum error  correction V.  The  9-qubit  code:  The  ﬁrst  full  quantum  code VI.  Quantum  error  detection VII.  Stabiliser  formalism VIII.  Quantum  error  correction  with  stabiliser  codes A.  State  preparation B.  Error  correction IX.  Digitization  of  quantum  errors A.  Systematic  gate  errors B.  Environmental  decoherence C.  More  general  mappings ∗ electronic  address:  devitt@nii.ac.jp X.  Fault-tolerant  quantum  error  correction  and  the threshold  theorem A.  Error  propagation B.  Concatenation C.  Fault-tolerance D.  Threshold  theorem XI.  Fault-tolerant  operations  on  encoded  data A.  Single  qubit  operations B.  Two-qubit  gate XII.  Fault-tolerant  circuit  design  for  logical  state  preparation  XIII.  Loss  protection XIV.  Some  modern  developments  in  quantum  error  correction  A.  Subsystem  codes:  Bacon-Shor  codes B.  Topological  codes XV.  Conclusions  and  future  outlook XVI.  Acknowledgments"
+    }
+  ]
+}

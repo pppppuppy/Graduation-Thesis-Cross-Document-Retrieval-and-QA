@@ -1,0 +1,1977 @@
+{
+  "title": "Artificial Agency Program:",
+  "abstract": "This paper presents the Artificial Agency Program (AAP), a position and research agenda for building AI systems as reality embedded, resource-bounded agents whose development is driven by curiosity-as-learning-progress under physical and computational constraints. The central thesis is that AI is most useful when treated as part of an extended human–tool system that increases sensing, understanding, and actuation capability while reducing friction at the interface between people, tools, and environments. The agenda unifies predictive compression, intrinsic motivation, empowerment and control, interface quality (unification), and language/self-communication as selective information bottlenecks. We formulate these ideas as a falsifiable program with explicit costs, staged experiments, and a concrete multimodal tokenized testbed in which an agent allocates limited budget among observation, action, and deliberation. The aim is to provide a conceptual and experimental framework that connects intrinsic motivation, information theory, thermodynamics, bounded rationality, and modern reasoning systems1. 1 Introduction Contemporary frontier AI systems are increasingly capable, yet the dominant training and evaluation pipelines still under-emphasize the conditions under which biological agency develops: reality embedded interaction, finite compute and memory, constrained sensing and actuation, and the continual need to act under uncertainty (Sutton and Barto, 2018; Schmidhuber, 2010; Oudeyer et al., 2007; Friston, 2010; Lake et al., 2017; LeCun, 2022). We start from a practical thesis: AI should be designed as part of a larger human–tool system that improves sensing, understanding, and actuation under realistic constraints, while remaining efficient and interpretable. This framing emphasizes agency gain and interface friction simultaneously. Increasing raw capability alone is not sufficient if the resulting system is hard to steer, poorly coupled to human intent, or unable to operate efficiently under the time, energy, and communication budgets that dominate real environments. In many settings, the bottleneck is not whether a model can in principle provide a solution, but whether the coupled human–AI system can reliably gather information (observations), allocate limited compute, communicate intent, and act in an effective way. We therefore treat agency as a property of the coupled system, not just the standalone model (Clark and Chalmers, 1998; Lieder and Griffiths, 2020). The strive for ever higher agency is fundamental, as it is a direct consequence of human nature defined by curiosity and playfulness aimed at discovering—predicting—the world. A seminal work of John Archibald Wheeler postulates that physics exists due to there being someone to observe it, more precisely to ask yes/no questions (Wheeler, 1989). This motivates the curiosity 1This is a working draft. Feedback and criticism is most welcome. 1 arXiv:2602.24100v1 [cs.AI] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "−RO(bO)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "observation losslessness proxy",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "−RA(bA)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "action authority proxy",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "−RL(bL)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "communication bottleneck proxy",
+          "page": 6
+        },
+        {
+          "para_id": "1_2",
+          "text": "where R· are calibrated inefficiency measures induced by each bottleneck. The exact choice of R is",
+          "page": 6
+        },
+        {
+          "para_id": "1_3",
+          "text": "environment-specific. This way we can test whether improved agents systematically spend resources",
+          "page": 6
+        },
+        {
+          "para_id": "1_4",
+          "text": "to increase effective interface quality when allowed to do so.",
+          "page": 6
+        },
+        {
+          "para_id": "1_5",
+          "text": "One way to define the observation-interface inefficiency is equivocation:",
+          "page": 6
+        },
+        {
+          "para_id": "1_6",
+          "text": "RA and RL can be similarly defined.",
+          "page": 6
+        },
+        {
+          "para_id": "1_7",
+          "text": "H1: Pragmatic alignment of objectives",
+          "page": 6
+        },
+        {
+          "para_id": "1_8",
+          "text": "In resource-bounded embedded agents, interventions that increase learning progress on future",
+          "page": 6
+        },
+        {
+          "para_id": "1_9",
+          "text": "observations also tend to increase useful control over task-relevant environmental degrees of freedom,",
+          "page": 6
+        },
+        {
+          "para_id": "1_10",
+          "text": "and vice versa, over a substantial regime of tasks and constraints. Moreover, optimizing equation (12)",
+          "page": 6
+        },
+        {
+          "para_id": "1_11",
+          "text": "with respect to agent-side observations implies similar learning progress (or control) over the true",
+          "page": 6
+        },
+        {
+          "para_id": "1_12",
+          "text": "environment hidden state from which observations are drawn, when interfaces and bottlenecks are",
+          "page": 6
+        },
+        {
+          "para_id": "1_13",
+          "text": "flexible enough to allow for losslessness (i.e. invertibility) in the limit.",
+          "page": 6
+        },
+        {
+          "para_id": "1_14",
+          "text": "This is weaker than strict equivalence between predictive compression, hidden-state compression, and",
+          "page": 6
+        },
+        {
+          "para_id": "1_15",
+          "text": "control. It predicts alignment over a regime, not identity for all environments. It is compatible with",
+          "page": 6
+        },
+        {
+          "para_id": "1_16",
+          "text": "counterexamples where prediction is easy but uncontrollable, or control is high but not informative.",
+          "page": 6
+        },
+        {
+          "para_id": "1_17",
+          "text": "H2: Boundary pressure toward unification",
+          "page": 6
+        },
+        {
+          "para_id": "1_18",
+          "text": "When an agent can invest resources to modify its sensing/acting/communication interfaces, op-",
+          "page": 6
+        },
+        {
+          "para_id": "1_19",
+          "text": "timization of equation (12) will allocate resources toward interface improvements that increase",
+          "page": 6
+        },
+        {
+          "para_id": "1_20",
+          "text": "long-horizon learning progress and control, yielding monotonic gains in task-relative unification U",
+          "page": 6
+        },
+        {
+          "para_id": "1_21",
+          "text": "until costs dominate. In finite environments and with favorable scaling of interface cost, a stronger",
+          "page": 7
+        },
+        {
+          "para_id": "1_22",
+          "text": "boundary-collapse regime may emerge asymptotically. In an idealized limit where (i) environment",
+          "page": 7
+        },
+        {
+          "para_id": "1_23",
+          "text": "complexity is finite and (ii) marginal interface-improvement costs scale favorably, the optimizer",
+          "page": 7
+        },
+        {
+          "para_id": "1_24",
+          "text": "can drive U →1 (maximal effective interface quality). This as a limit-case conjecture about the",
+          "page": 7
+        },
+        {
+          "para_id": "1_25",
+          "text": "objective’s asymptotics, not a practical prediction for real systems.",
+          "page": 7
+        },
+        {
+          "para_id": "1_26",
+          "text": "H3: Constraint-induced predictive/control pressure",
+          "page": 7
+        },
+        {
+          "para_id": "1_27",
+          "text": "Under continued viability constraints (cannot stop interacting), coarse/noisy interfaces, and nonzero",
+          "page": 7
+        },
+        {
+          "para_id": "1_28",
+          "text": "costs for action, memory maintenance, and frequent policy updates, agents are driven toward better",
+          "page": 7
+        },
+        {
+          "para_id": "1_29",
+          "text": "prediction and selective control because these reduce costly plasticity and wasted computation.",
+          "page": 7
+        },
+        {
+          "para_id": "1_30",
+          "text": "Therefore even without directly providing the intrinsic reward of equation (11), an agent may",
+          "page": 7
+        },
+        {
+          "para_id": "1_31",
+          "text": "nevertheless be forced to optimize toward it in realistic environments.",
+          "page": 7
+        },
+        {
+          "para_id": "1_32",
+          "text": "This hypothesis aligns naturally with information-theoretic and thermodynamic arguments linking",
+          "page": 7
+        },
+        {
+          "para_id": "1_33",
+          "text": "predictive state representations to energetic efficiency (Still et al., 2012; Friston, 2010; Parr et al.,",
+          "page": 7
+        },
+        {
+          "para_id": "1_34",
+          "text": "2022; Ortega and Braun, 2013).",
+          "page": 7
+        },
+        {
+          "para_id": "1_35",
+          "text": "H4: Adaptive compute optimality",
+          "page": 7
+        },
+        {
+          "para_id": "1_36",
+          "text": "We further predict that agent performance under fixed budgets depends not only on model capacity,",
+          "page": 7
+        },
+        {
+          "para_id": "1_37",
+          "text": "but on how computation is allocated over time. A meta-controller that dynamically allocates",
+          "page": 7
+        },
+        {
+          "para_id": "1_38",
+          "text": "observation, action, and deliberation compute should outperform fixed schedules under the same",
+          "page": 7
+        },
+        {
+          "para_id": "1_39",
+          "text": "total budget, especially when task difficulty and observability vary across timesteps. This connects",
+          "page": 7
+        },
+        {
+          "para_id": "1_40",
+          "text": "to adaptive computation and metareasoning (Graves, 2016; Banino et al., 2021; Callaway et al.,",
+          "page": 7
+        },
+        {
+          "para_id": "1_41",
+          "text": "2018; Lieder and Griffiths, 2020).",
+          "page": 7
+        },
+        {
+          "para_id": "1_42",
+          "text": "H5: Self-communication bottleneck",
+          "page": 7
+        },
+        {
+          "para_id": "1_43",
+          "text": "An explicit self-communication channel (e.g., text-like or symbol-like private tokens) can improve",
+          "page": 7
+        },
+        {
+          "para_id": "1_44",
+          "text": "performance and sample efficiency on tasks requiring long-horizon credit assignment, compositional",
+          "page": 7
+        },
+        {
+          "para_id": "1_45",
+          "text": "planning, or coordination, beyond what latent recurrence/planning alone achieves, provided the",
+          "page": 7
+        },
+        {
+          "para_id": "1_46",
+          "text": "private channel is bandwidth-regularized. Importantly, the claim is not that verbalized traces are",
+          "page": 7
+        },
+        {
+          "para_id": "1_47",
+          "text": "always optimal, but that selective self-communication may be an efficient option in a broader action",
+          "page": 7
+        },
+        {
+          "para_id": "1_48",
+          "text": "space that also includes direct action and latent deliberation (Yao et al., 2023; Kim et al., 2025; Xie",
+          "page": 7
+        },
+        {
+          "para_id": "1_49",
+          "text": "et al., 2025; Wang et al., 2026).",
+          "page": 7
+        },
+        {
+          "para_id": "1_50",
+          "text": "Language as an Information Bottleneck",
+          "page": 7
+        },
+        {
+          "para_id": "1_51",
+          "text": "We view language as a selective, lossy, resource-constrained communication channel whose value",
+          "page": 7
+        },
+        {
+          "para_id": "1_52",
+          "text": "depends on the environment and on the presence of other agents/tools.",
+          "page": 7
+        },
+        {
+          "para_id": "1_53",
+          "text": "This perspective is consistent with extended cognition (Clark and Chalmers, 1998), communication",
+          "page": 7
+        },
+        {
+          "para_id": "1_54",
+          "text": "under resource rationality (Lieder and Griffiths, 2020), and recent reasoning systems that separate",
+          "page": 7
+        },
+        {
+          "para_id": "1_55",
+          "text": "or modulate explicit verbal traces from latent computation (Graves, 2016; Banino et al., 2021; Wang",
+          "page": 7
+        },
+        {
+          "para_id": "1_56",
+          "text": "et al., 2026). It also helps separate two questions that are often conflated in language-model practice:",
+          "page": 7
+        },
+        {
+          "para_id": "1_57",
+          "text": "Table 1: Hypotheses with positive predictions and disconfirmation paths.",
+          "page": 8
+        },
+        {
+          "para_id": "1_58",
+          "text": "Disconfirmation / boundary case",
+          "page": 8
+        },
+        {
+          "para_id": "1_59",
+          "text": "Across tasks, interventions improving learning",
+          "page": 8
+        },
+        {
+          "para_id": "1_60",
+          "text": "progress also improve control/empowerment",
+          "page": 8
+        },
+        {
+          "para_id": "1_61",
+          "text": "metrics under fixed budgets.",
+          "page": 8
+        },
+        {
+          "para_id": "1_62",
+          "text": "Predictive gains with no corresponding control",
+          "page": 8
+        },
+        {
+          "para_id": "1_63",
+          "text": "gain on key tasks; or control gains via exploitation",
+          "page": 8
+        },
+        {
+          "para_id": "1_64",
+          "text": "that degrade predictive competence.",
+          "page": 8
+        },
+        {
+          "para_id": "1_65",
+          "text": "sors/actions/communication",
+          "page": 8
+        },
+        {
+          "para_id": "1_66",
+          "text": "long-horizon return improves; U rises then",
+          "page": 8
+        },
+        {
+          "para_id": "1_67",
+          "text": "Agent never invests in interface improvements de-",
+          "page": 8
+        },
+        {
+          "para_id": "1_68",
+          "text": "spite clear gains; or always over-invests regardless",
+          "page": 8
+        },
+        {
+          "para_id": "1_69",
+          "text": "Under stronger cost/viability constraints, poli-",
+          "page": 8
+        },
+        {
+          "para_id": "1_70",
+          "text": "cies shift toward better predictive state and",
+          "page": 8
+        },
+        {
+          "para_id": "1_71",
+          "text": "reduced costly reactive plasticity.",
+          "page": 8
+        },
+        {
+          "para_id": "1_72",
+          "text": "Constraint increases merely collapse behavior with-",
+          "page": 8
+        },
+        {
+          "para_id": "1_73",
+          "text": "out improved predictive organization or selective",
+          "page": 8
+        },
+        {
+          "para_id": "1_74",
+          "text": "serve/act/deliberate",
+          "page": 8
+        },
+        {
+          "para_id": "1_75",
+          "text": "No gain over tuned static schedules, implying con-",
+          "page": 8
+        },
+        {
+          "para_id": "1_76",
+          "text": "trol overhead dominates.",
+          "page": 8
+        },
+        {
+          "para_id": "1_77",
+          "text": "Private self-communication tokens improve",
+          "page": 8
+        },
+        {
+          "para_id": "1_78",
+          "text": "task performance / sample efficienc.",
+          "page": 8
+        },
+        {
+          "para_id": "1_79",
+          "text": "Private channel collapses into redundant verbosity,",
+          "page": 8
+        },
+        {
+          "para_id": "1_80",
+          "text": "or latent-only recurrence dominates under equal",
+          "page": 8
+        },
+        {
+          "para_id": "1_81",
+          "text": "whether language is useful as a training substrate for acquiring broad abstractions, and whether",
+          "page": 8
+        },
+        {
+          "para_id": "1_82",
+          "text": "language is the best online medium for every intermediate computation once an agent is acting in a",
+          "page": 8
+        },
+        {
+          "para_id": "1_83",
+          "text": "From the perspective of a single embedded agent, language is one possible compression channel",
+          "page": 8
+        },
+        {
+          "para_id": "1_84",
+          "text": "among many. Its value increases sharply when the environment contains other agents, humans, and",
+          "page": 8
+        },
+        {
+          "para_id": "1_85",
+          "text": "tools whose behavior can be altered through communication. In such settings, communication is",
+          "page": 8
+        },
+        {
+          "para_id": "1_86",
+          "text": "simply another action class whose utility depends on whether the expected future gain in prediction,",
+          "page": 8
+        },
+        {
+          "para_id": "1_87",
+          "text": "control, or coordination exceeds its cost in time, bandwidth, and energy.",
+          "page": 8
+        },
+        {
+          "para_id": "1_88",
+          "text": "communication as an instrumentally selected action, not a universally privileged mode.",
+          "page": 8
+        },
+        {
+          "para_id": "1_89",
+          "text": "We also takes seriously the possibility that language-like communication can be useful internally.",
+          "page": 8
+        },
+        {
+          "para_id": "1_90",
+          "text": "A compact, lossy self-directed channel may support deliberation by forcing the system to encode",
+          "page": 8
+        },
+        {
+          "para_id": "1_91",
+          "text": "intermediate structure in a form that is easier to re-read, monitor, and compose. One plausible",
+          "page": 8
+        },
+        {
+          "para_id": "1_92",
+          "text": "mechanism is a communicator–interpreter loop: to produce useful messages (even to itself), the",
+          "page": 8
+        },
+        {
+          "para_id": "1_93",
+          "text": "agent must model how those messages will be parsed, which can induce a partial third-person",
+          "page": 8
+        },
+        {
+          "para_id": "1_94",
+          "text": "stance on its own intermediate states. This motivates concrete experiments comparing latent-only",
+          "page": 8
+        },
+        {
+          "para_id": "1_95",
+          "text": "recurrence with explicit private token channels (i.e. standard reasoning traces) under matched cost.",
+          "page": 8
+        },
+        {
+          "para_id": "1_96",
+          "text": "Implications for LLMs",
+          "page": 8
+        },
+        {
+          "para_id": "1_97",
+          "text": "All LLM-style (including VLMs and VLAs) models should have reasoning modules after having",
+          "page": 8
+        },
+        {
+          "para_id": "1_98",
+          "text": "\"learned\" language. The purpose of a reasoning module however is not to produce a stream-of-words,",
+          "page": 8
+        },
+        {
+          "para_id": "1_99",
+          "text": "but rather to allow for deliberation without action. Therefore when a model is post-trained for",
+          "page": 8
+        },
+        {
+          "para_id": "1_100",
+          "text": "reasoning on various tasks (including language itself) it should be able to produce sequential hidden",
+          "page": 8
+        },
+        {
+          "para_id": "1_101",
+          "text": "state updates without the use of language tokens. Such a model would have the flexibility to choose",
+          "page": 8
+        },
+        {
+          "para_id": "1_102",
+          "text": "when to produce and when to avoid self-communication through language and do pure deliberation",
+          "page": 8
+        },
+        {
+          "para_id": "1_103",
+          "text": "(without tokenization bottlenecks) instead. Additionally, deliberation can be expanded to any token",
+          "page": 8
+        },
+        {
+          "para_id": "1_104",
+          "text": "modality, including vision and action tokens. This is analogous to visual or motor imagery in",
+          "page": 8
+        },
+        {
+          "para_id": "1_105",
+          "text": "Such a model might observe various types of input tokens and be able to produce and interleave",
+          "page": 9
+        },
+        {
+          "para_id": "1_106",
+          "text": "these at any step. Importantly during production there is no fixed order, similar to how a human",
+          "page": 9
+        },
+        {
+          "para_id": "1_107",
+          "text": "might pause mid-sentence to do a tiny deliberation loop (with or without explicit language-thoughts).",
+          "page": 9
+        },
+        {
+          "para_id": "1_108",
+          "text": "Allowing the model to flexibly start “thinking” while it has not finished a paragraph, or continue",
+          "page": 9
+        },
+        {
+          "para_id": "1_109",
+          "text": "thinking while producing an output could help with error recovery and self-monitoring.",
+          "page": 9
+        },
+        {
+          "para_id": "1_110",
+          "text": "In the most general case we propose a modality-agnostic token taxonomy with three roles per",
+          "page": 9
+        },
+        {
+          "para_id": "1_111",
+          "text": "This yields a unified interface where the policy can interleave incoming observations, external actions,",
+          "page": 9
+        },
+        {
+          "para_id": "1_112",
+          "text": "and internal deliberation:",
+          "page": 9
+        },
+        {
+          "para_id": "1_113",
+          "text": "deliberation / imagery / reasoning",
+          "page": 9
+        },
+        {
+          "para_id": "1_114",
+          "text": "communication / output",
+          "page": 9
+        },
+        {
+          "para_id": "1_115",
+          "text": "where V denotes vision, S denotes audio, T denotes text, and A denotes action tokens. H refers to",
+          "page": 9
+        },
+        {
+          "para_id": "1_116",
+          "text": "the output hidden state. The key design question is not whether to allow private tokens, but when",
+          "page": 9
+        },
+        {
+          "para_id": "1_117",
+          "text": "they are worth emitting under budget, and which modality is most effective for deliberation at any",
+          "page": 9
+        },
+        {
+          "para_id": "1_118",
+          "text": "given step. This directly supports our compute-efficiency criterion.",
+          "page": 9
+        },
+        {
+          "para_id": "1_119",
+          "text": "It is an open and difficult question how to train such a flexible model given current LLM paradigms.",
+          "page": 9
+        },
+        {
+          "para_id": "1_120",
+          "text": "One way to train it for hidden-state deliberation would be to choose blanks (i.e. reserved non-",
+          "page": 9
+        },
+        {
+          "para_id": "1_121",
+          "text": "language tokens) whenever the confidence in the next text token is below a threshold. For example",
+          "page": 9
+        },
+        {
+          "para_id": "1_122",
+          "text": "one can take a reasoning trace written by a human and run it through a base LLM to get confidence",
+          "page": 9
+        },
+        {
+          "para_id": "1_123",
+          "text": "scores for each token. Any position whose score is below a threshold gets shifted to the right and a",
+          "page": 9
+        },
+        {
+          "para_id": "1_124",
+          "text": "\"blank\" is inserted. Then the LLM can be fine-tuned on these augmented traces for a while, and",
+          "page": 9
+        },
+        {
+          "para_id": "1_125",
+          "text": "subsequently use the fine-tuned model to regenerate scores for our augmented traces, inserting new",
+          "page": 9
+        },
+        {
+          "para_id": "1_126",
+          "text": "blanks according to confidence scores, and so on. After each step the number of positions where",
+          "page": 9
+        },
+        {
+          "para_id": "1_127",
+          "text": "blanks are included should decrease and perhaps there is an optimum where no more blanks are",
+          "page": 9
+        },
+        {
+          "para_id": "1_128",
+          "text": "required. We should expect the final trace to have many blanks in the beginning and at conceptual",
+          "page": 9
+        },
+        {
+          "para_id": "1_129",
+          "text": "jumps in the reasoning. This procedure is still somewhat artificial and not necessarily in line with",
+          "page": 9
+        },
+        {
+          "para_id": "1_130",
+          "text": "the goal of using blanks for truly free deliberation. Ultimately, choosing between blanks and other",
+          "page": 9
+        },
+        {
+          "para_id": "1_131",
+          "text": "types of imagery modalities (including text) should not be based on language modeling score.",
+          "page": 9
+        },
+        {
+          "para_id": "1_132",
+          "text": "AAP is intended to be tested in stages, starting with environments where observability, controllability,",
+          "page": 9
+        },
+        {
+          "para_id": "1_133",
+          "text": "and cost structure are explicit, and then moving toward richer interactive multimodal settings. The",
+          "page": 9
+        },
+        {
+          "para_id": "1_134",
+          "text": "objective is not only to maximize a given benchmark score, but to validate the proposed metrics,",
+          "page": 9
+        },
+        {
+          "para_id": "1_135",
+          "text": "identify counterexamples, and characterize the regimes in which the hypotheses hold.",
+          "page": 9
+        },
+        {
+          "para_id": "1_136",
+          "text": "Stage 1: Synthetic POMDPs",
+          "page": 9
+        },
+        {
+          "para_id": "1_137",
+          "text": "The first stage should use toy but diagnostic partially observed environments with known latent",
+          "page": 9
+        },
+        {
+          "para_id": "1_138",
+          "text": "dynamics and controllable bottlenecks. Gridworld-like domains with sensor coarsening, latency,",
+          "page": 9
+        },
+        {
+          "para_id": "1_139",
+          "text": "observation noise, and switchable action-set cardinality are particularly useful because they permit",
+          "page": 10
+        },
+        {
+          "para_id": "1_140",
+          "text": "direct intervention on the variables that define AAP’s unification and cost definitions. This stage is",
+          "page": 10
+        },
+        {
+          "para_id": "1_141",
+          "text": "primarily for calibrating the metrics, stress-testing H1–H3, and identifying degenerate regimes (e.g.,",
+          "page": 10
+        },
+        {
+          "para_id": "1_142",
+          "text": "environments where prediction is cheap but irrelevant, or control is high but uninformative).",
+          "page": 10
+        },
+        {
+          "para_id": "1_143",
+          "text": "Stage 2: ARC-AGI-style interactive inference",
+          "page": 10
+        },
+        {
+          "para_id": "1_144",
+          "text": "ARC-AGI-3-style tasks are attractive because they emphasize compositional priors and general-",
+          "page": 10
+        },
+        {
+          "para_id": "1_145",
+          "text": "ization under sparse data (Chollet, 2019). Here we can directly test interactive perception–action–",
+          "page": 10
+        },
+        {
+          "para_id": "1_146",
+          "text": "deliberation with explicit compute and self-communication costs. This shift makes it possible to",
+          "page": 10
+        },
+        {
+          "para_id": "1_147",
+          "text": "study when additional observation is worth requesting, when internal computation is worth spending,",
+          "page": 10
+        },
+        {
+          "para_id": "1_148",
+          "text": "and when direct action is preferable. It also creates a clean setting for evaluating self-communication",
+          "page": 10
+        },
+        {
+          "para_id": "1_149",
+          "text": "Stage 3: Multimodal VLA meta-control",
+          "page": 10
+        },
+        {
+          "para_id": "1_150",
+          "text": "The third stage introduces a pretrained multimodal model as a perception and world-model backbone,",
+          "page": 10
+        },
+        {
+          "para_id": "1_151",
+          "text": "together with a lightweight meta-controller that decides at each step whether to acquire more input,",
+          "page": 10
+        },
+        {
+          "para_id": "1_152",
+          "text": "act on the environment, or spend budget on private deliberation and adaptation. A frozen backbone",
+          "page": 10
+        },
+        {
+          "para_id": "1_153",
+          "text": "plus lightweight adaptation (e.g., LoRA, recurrent adapters, or external memory) is a practical",
+          "page": 10
+        },
+        {
+          "para_id": "1_154",
+          "text": "starting point; richer online learning can be introduced later as compute allows. This stage makes",
+          "page": 10
+        },
+        {
+          "para_id": "1_155",
+          "text": "the AAP hypotheses concrete in a setting that is close to current multimodal systems.",
+          "page": 10
+        },
+        {
+          "para_id": "1_156",
+          "text": "Efficiency and pareto optimality",
+          "page": 10
+        },
+        {
+          "para_id": "1_157",
+          "text": "A useful diagnostic is an energy/compute–performance frontier. Let P be task performance and C",
+          "page": 10
+        },
+        {
+          "para_id": "1_158",
+          "text": "a normalized cost. We can summarize each policy by (C, P) and compare to an empirical frontier",
+          "page": 10
+        },
+        {
+          "para_id": "1_159",
+          "text": "F. One scalar score is L2 distance to the frontier:",
+          "page": 10
+        },
+        {
+          "para_id": "1_160",
+          "text": "or a task-weighted regret relative to frontier points at matched cost. This formalizes one of our",
+          "page": 10
+        },
+        {
+          "para_id": "1_161",
+          "text": "core intuitions: intelligent systems should allocate compute adaptively, not just maximize score",
+          "page": 10
+        },
+        {
+          "para_id": "1_162",
+          "text": "irrespective of expenditure.",
+          "page": 10
+        },
+        {
+          "para_id": "1_163",
+          "text": "Importantly in the case of large, pre-trained models the cost should include not just inference but",
+          "page": 10
+        },
+        {
+          "para_id": "1_164",
+          "text": "the total pre-training energy usage. Ideally AI systems should be able to dynamically adjust energy",
+          "page": 10
+        },
+        {
+          "para_id": "1_165",
+          "text": "usage in a pareto-optimal way, i.e. a particular system’s distance from the pareto-optimal curve",
+          "page": 10
+        },
+        {
+          "para_id": "1_166",
+          "text": "is the same at any point. A SOTA system then should provide an upper envelope on all previous",
+          "page": 10
+        },
+        {
+          "para_id": "1_167",
+          "text": "models across varying levels of energy usage.",
+          "page": 10
+        },
+        {
+          "para_id": "1_168",
+          "text": "Proof of concept study",
+          "page": 10
+        },
+        {
+          "para_id": "1_169",
+          "text": "A minimal first study can be executed with modest resources by using an ARC-AGI-3-like grid",
+          "page": 10
+        },
+        {
+          "para_id": "1_170",
+          "text": "environment with a hidden state and patchwise observations. The agent interacts through three",
+          "page": 10
+        },
+        {
+          "para_id": "1_171",
+          "text": "meta-actions—observe, act, and deliberate—and each emitted or consumed token incurs an",
+          "page": 10
+        },
+        {
+          "para_id": "1_172",
+          "text": "explicit cost. Observation and action channels can be bottlenecked by cardinality limits, noise,",
+          "page": 11
+        },
+        {
+          "para_id": "1_173",
+          "text": "cropping, or latency, allowing direct manipulation of the quantities used in the unification proxy.",
+          "page": 11
+        },
+        {
+          "para_id": "1_174",
+          "text": "For the model backbone, a compact transformer with image-token and text-token support is sufficient",
+          "page": 11
+        },
+        {
+          "para_id": "1_175",
+          "text": "in the first instance. The meta-controller can be a lightweight sequence model over the three meta-",
+          "page": 11
+        },
+        {
+          "para_id": "1_176",
+          "text": "actions, trained with a policy-gradient or bandit-style objective on equation (12). A practical",
+          "page": 11
+        },
+        {
+          "para_id": "1_177",
+          "text": "initialization is to keep the backbone frozen, treat private deliberation as either latent recurrence",
+          "page": 11
+        },
+        {
+          "para_id": "1_178",
+          "text": "or private tokens, and permit sparse low-rank adaptation only after the meta-controller behavior",
+          "page": 11
+        },
+        {
+          "para_id": "1_179",
+          "text": "stabilizes. Additional actions aimed at modifying interface bottlenecks can be included.",
+          "page": 11
+        },
+        {
+          "para_id": "1_180",
+          "text": "The key comparisons are straightforward: adaptive meta-control versus fixed observe/act/deliberate",
+          "page": 11
+        },
+        {
+          "para_id": "1_181",
+          "text": "schedules; latent-only recurrence versus explicit private tokens; and tight versus loose observa-",
+          "page": 11
+        },
+        {
+          "para_id": "1_182",
+          "text": "tion/action bottlenecks, each with and without deliberation cost penalties. Success should not",
+          "page": 11
+        },
+        {
+          "para_id": "1_183",
+          "text": "be defined solely by raw task score. The primary criteria are frontier improvement at matched",
+          "page": 11
+        },
+        {
+          "para_id": "1_184",
+          "text": "cost, nontrivial and interpretable use of private computation, and systematic shifts in meta-action",
+          "page": 11
+        },
+        {
+          "para_id": "1_185",
+          "text": "allocation as interface bottlenecks and costs change. These outcomes would provide direct evidence",
+          "page": 11
+        },
+        {
+          "para_id": "1_186",
+          "text": "about H4–H5 while also producing diagnostic signals for H1–H3.",
+          "page": 11
+        },
+        {
+          "para_id": "1_187",
+          "text": "AAP is most directly aligned with the intrinsic-motivation and developmental-robotics literature,",
+          "page": 11
+        },
+        {
+          "para_id": "1_188",
+          "text": "especially work that treats curiosity as learning progress rather than raw novelty or surprise",
+          "page": 11
+        },
+        {
+          "para_id": "1_189",
+          "text": "(Schmidhuber, 2010; Oudeyer et al., 2007). This distinction is central to the program: novelty-only",
+          "page": 11
+        },
+        {
+          "para_id": "1_190",
+          "text": "signals invite stochasticity seeking, whereas learning-progress signals favor patterns that are currently",
+          "page": 11
+        },
+        {
+          "para_id": "1_191",
+          "text": "learnable but not yet mastered. Modern exploration methods based on prediction error or novelty",
+          "page": 11
+        },
+        {
+          "para_id": "1_192",
+          "text": "remain highly relevant as practical baselines and components, but AAP adopts learning-progress",
+          "page": 11
+        },
+        {
+          "para_id": "1_193",
+          "text": "style objectives because the agenda is explicitly concerned with the rate of improvement in predictive",
+          "page": 11
+        },
+        {
+          "para_id": "1_194",
+          "text": "compression, not merely exposure to unexpected inputs (Pathak et al., 2017; Burda et al., 2019;",
+          "page": 11
+        },
+        {
+          "para_id": "1_195",
+          "text": "A second pillar is empowerment and information-theoretic agency. Empowerment formalizes agent-",
+          "page": 11
+        },
+        {
+          "para_id": "1_196",
+          "text": "centric control as a channel-capacity-like quantity from action sequences to future observations",
+          "page": 11
+        },
+        {
+          "para_id": "1_197",
+          "text": "and provides a principled bridge between control, exploration, and interface design (Klyubin et al.,",
+          "page": 11
+        },
+        {
+          "para_id": "1_198",
+          "text": "2005a,b; Salge et al., 2014; Jung et al., 2011). AAP extends this perspective by explicitly pairing",
+          "page": 11
+        },
+        {
+          "para_id": "1_199",
+          "text": "empowerment with a complementary observation-to-action quantity (plasticity, proxied here by",
+          "page": 11
+        },
+        {
+          "para_id": "1_200",
+          "text": "directed information) and by embedding both within a resource-cost objective. This pairing is useful",
+          "page": 11
+        },
+        {
+          "para_id": "1_201",
+          "text": "because the same behavior can look desirable or undesirable depending on whether frequent reactive",
+          "page": 11
+        },
+        {
+          "para_id": "1_202",
+          "text": "updates are cheap or expensive (Massey, 1990; Kramer, 1998).",
+          "page": 11
+        },
+        {
+          "para_id": "1_203",
+          "text": "AAP also draws heavily on predictive-processing, active-inference, and world-model traditions, all",
+          "page": 11
+        },
+        {
+          "para_id": "1_204",
+          "text": "of which emphasize predictive internal structure and action under uncertainty (Rao and Ballard,",
+          "page": 11
+        },
+        {
+          "para_id": "1_205",
+          "text": "1999; Friston, 2010; Aitchison and Lengyel, 2017; Parr et al., 2022; Ha and Schmidhuber, 2018;",
+          "page": 11
+        },
+        {
+          "para_id": "1_206",
+          "text": "Hafner et al., 2023). Most relevant is the idea that good internal models support efficient action and",
+          "page": 11
+        },
+        {
+          "para_id": "1_207",
+          "text": "adaptation. AAP differs mainly in emphasis: it foregrounds explicit sensing, acting, communication,",
+          "page": 11
+        },
+        {
+          "para_id": "1_208",
+          "text": "and compute bottlenecks as manipulable interface variables, and it studies how agents allocate",
+          "page": 11
+        },
+        {
+          "para_id": "1_209",
+          "text": "resources across these channels rather than focusing only on the representational objective.",
+          "page": 11
+        },
+        {
+          "para_id": "1_210",
+          "text": "The agenda further overlaps with information-theoretic and thermodynamic treatments of learning",
+          "page": 11
+        },
+        {
+          "para_id": "1_211",
+          "text": "and decision-making. The thermodynamics-of-prediction results of Still and colleagues motivate",
+          "page": 11
+        },
+        {
+          "para_id": "1_212",
+          "text": "the coupling between predictive information and dissipative cost (Still, 2009; Still et al., 2012),",
+          "page": 12
+        },
+        {
+          "para_id": "1_213",
+          "text": "while related work on thermodynamic metrics and bounded-rational decision-making clarifies how",
+          "page": 12
+        },
+        {
+          "para_id": "1_214",
+          "text": "information-processing costs can shape optimal behavior (Sivak and Crooks, 2012; Ortega and",
+          "page": 12
+        },
+        {
+          "para_id": "1_215",
+          "text": "Braun, 2013). AAP imports this intuition at the level of design pressure: under viability constraints,",
+          "page": 12
+        },
+        {
+          "para_id": "1_216",
+          "text": "partial observability and control, and nonzero costs for memory maintenance, action, and adaptation,",
+          "page": 12
+        },
+        {
+          "para_id": "1_217",
+          "text": "prediction and selective control become economically important, not merely descriptively useful.",
+          "page": 12
+        },
+        {
+          "para_id": "1_218",
+          "text": "On the representation side, AAP is consistent with MDL and information-bottleneck perspectives,",
+          "page": 12
+        },
+        {
+          "para_id": "1_219",
+          "text": "which treat useful representations as compressed summaries that preserve task- or prediction-relevant",
+          "page": 12
+        },
+        {
+          "para_id": "1_220",
+          "text": "structure (Rissanen, 1978; Grünwald, 2007; Tishby et al., 1999; Cover and Thomas, 2006; Hutter,",
+          "page": 12
+        },
+        {
+          "para_id": "1_221",
+          "text": "2005; Bengio et al., 2013). Our contribution is a synthesis: predictive compression is evaluated",
+          "page": 12
+        },
+        {
+          "para_id": "1_222",
+          "text": "together with control, empowerment, and interface quality under explicit budgets. This matters",
+          "page": 12
+        },
+        {
+          "para_id": "1_223",
+          "text": "because predictive compression alone does not determine whether a system can alter the variables it",
+          "page": 12
+        },
+        {
+          "para_id": "1_224",
+          "text": "predicts, and control alone does not ensure that the controlled variables are informative or broadly",
+          "page": 12
+        },
+        {
+          "para_id": "1_225",
+          "text": "Our discussion of language and self-communication intersects several strands of work: extended",
+          "page": 12
+        },
+        {
+          "para_id": "1_226",
+          "text": "cognition and cognitive offloading (Clark and Chalmers, 1998); resource-rational cognition and",
+          "page": 12
+        },
+        {
+          "para_id": "1_227",
+          "text": "metareasoning (Lieder and Griffiths, 2020; Callaway et al., 2018); adaptive computation mechanisms",
+          "page": 12
+        },
+        {
+          "para_id": "1_228",
+          "text": "that decide when to spend additional internal computation (Graves, 2016; Banino et al., 2021); and",
+          "page": 12
+        },
+        {
+          "para_id": "1_229",
+          "text": "recent reasoning systems that partially decouple internal deliberation from public verbalization (Yao",
+          "page": 12
+        },
+        {
+          "para_id": "1_230",
+          "text": "et al., 2023; Kim et al., 2025; Xie et al., 2025; Wang et al., 2026). Our position is perhaps narrower",
+          "page": 12
+        },
+        {
+          "para_id": "1_231",
+          "text": "and more operational: language-like traces are one optional channel in a broader token/action",
+          "page": 12
+        },
+        {
+          "para_id": "1_232",
+          "text": "budget, and their value should be measured relative to latent alternatives under matched compute",
+          "page": 12
+        },
+        {
+          "para_id": "1_233",
+          "text": "and communication cost.",
+          "page": 12
+        },
+        {
+          "para_id": "1_234",
+          "text": "Finally, AAP is related to benchmark and systems-level discussions of intelligence that emphasize",
+          "page": 12
+        },
+        {
+          "para_id": "1_235",
+          "text": "priors, generalization, and real-world constraints. ARC-AGI-style framing highlights the importance",
+          "page": 12
+        },
+        {
+          "para_id": "1_236",
+          "text": "of priors and skill-acquisition efficiency (Chollet, 2019); broader arguments such as “Reward is",
+          "page": 12
+        },
+        {
+          "para_id": "1_237",
+          "text": "Enough” emphasize the generality of reward-driven optimization mechanisms (Silver et al., 2021);",
+          "page": 12
+        },
+        {
+          "para_id": "1_238",
+          "text": "and discussions of autonomous machine intelligence and human-like learning emphasize the need for",
+          "page": 12
+        },
+        {
+          "para_id": "1_239",
+          "text": "richer world models and action-grounded training regimes (Lake et al., 2017; LeCun, 2022).",
+          "page": 12
+        },
+        {
+          "para_id": "1_240",
+          "text": "We highlight several structural limitations and invite the community for feedback and suggestions for",
+          "page": 12
+        },
+        {
+          "para_id": "1_241",
+          "text": "improvement. First, non-equivalence between prediction, empowerment, and task reward is common",
+          "page": 12
+        },
+        {
+          "para_id": "1_242",
+          "text": "rather than exceptional; the agenda explicitly expects regimes in which these quantities diverge",
+          "page": 12
+        },
+        {
+          "para_id": "1_243",
+          "text": "because of reward misspecification, hidden confounders, or severe partial observability. Second,",
+          "page": 12
+        },
+        {
+          "para_id": "1_244",
+          "text": "some of the most interesting quantities in AAP—especially empowerment and directed information",
+          "page": 12
+        },
+        {
+          "para_id": "1_245",
+          "text": "in high-dimensional settings—are expensive to estimate and may require loose variational bounds,",
+          "page": 12
+        },
+        {
+          "para_id": "1_246",
+          "text": "which can blur interpretation.",
+          "page": 12
+        },
+        {
+          "para_id": "1_247",
+          "text": "A third limitation concerns measurement of energy and efficiency. FLOPs, wall-clock time, and",
+          "page": 12
+        },
+        {
+          "para_id": "1_248",
+          "text": "token count are convenient but imperfect proxies for physical energy expenditure, and cross-system",
+          "page": 12
+        },
+        {
+          "para_id": "1_249",
+          "text": "comparisons are sensitive to hardware, implementation details, and parallelism (Patterson et al.,",
+          "page": 12
+        },
+        {
+          "para_id": "1_250",
+          "text": "2021). A fourth limitation is that self-communication channels can become brittle or degenerate",
+          "page": 12
+        },
+        {
+          "para_id": "1_251",
+          "text": "into verbose private codes unless regularized by explicit bandwidth costs, latency constraints, or",
+          "page": 12
+        },
+        {
+          "para_id": "1_252",
+          "text": "downstream utility. Finally, human-likeness remains intrinsically multi-objective: similarity in",
+          "page": 12
+        },
+        {
+          "para_id": "1_253",
+          "text": "constraints may improve interpretability in some settings, but it does not automatically imply safety",
+          "page": 13
+        },
+        {
+          "para_id": "1_254",
+          "text": "or desirable behavior across tasks. Our manifold view of intelligence highlights the need for better",
+          "page": 13
+        },
+        {
+          "para_id": "1_255",
+          "text": "fundamental understanding and science behind how specific human-related constraints and frames",
+          "page": 13
+        },
+        {
+          "para_id": "1_256",
+          "text": "of reference shape and define human intelligence and how the broader manifold looks like.",
+          "page": 13
+        },
+        {
+          "para_id": "1_257",
+          "text": "We make the argument for treating AI systems as embedded, resource-bounded agents whose usefulness",
+          "page": 13
+        },
+        {
+          "para_id": "1_258",
+          "text": "is best understood at the level of the coupled human–tool–environment system. We formalized",
+          "page": 13
+        },
+        {
+          "para_id": "1_259",
+          "text": "this stance with (i) curiosity-as-learning-progress as an intrinsic development signal, (ii) explicit",
+          "page": 13
+        },
+        {
+          "para_id": "1_260",
+          "text": "budgets over observation, actuation, compute, and memory in a single objective (equation (12)),",
+          "page": 13
+        },
+        {
+          "para_id": "1_261",
+          "text": "(iii) complementary proxies for prediction, empowerment/plasticity, and (iv) unification as an",
+          "page": 13
+        },
+        {
+          "para_id": "1_262",
+          "text": "experimentally manipulable notion of interface quality (equation (16)), including language and self-",
+          "page": 13
+        },
+        {
+          "para_id": "1_263",
+          "text": "communication as selective information bottlenecks rather than universally privileged computation.",
+          "page": 13
+        },
+        {
+          "para_id": "1_264",
+          "text": "AAP is a call to make the tradeoffs that already govern real deployment explicit and measurable:",
+          "page": 13
+        },
+        {
+          "para_id": "1_265",
+          "text": "what to observe, when to think, what to communicate, and how much energy and latency are worth",
+          "page": 13
+        },
+        {
+          "para_id": "1_266",
+          "text": "spending for marginal gains in prediction and control. We hope this framing helps shift discussion",
+          "page": 13
+        },
+        {
+          "para_id": "1_267",
+          "text": "from single-score capability to a more grounded science of agency under constraints, and we invite",
+          "page": 13
+        },
+        {
+          "para_id": "1_268",
+          "text": "criticism, counterexamples, and sharper theoretical framing and experimental designs.",
+          "page": 13
+        },
+        {
+          "para_id": "1_269",
+          "text": "David Abel, Michael Bowling, André Barreto, Will Dabney, Shi Dong, Steven Hansen, Anna",
+          "page": 13
+        },
+        {
+          "para_id": "1_270",
+          "text": "Harutyunyan, Khimya Khetarpal, Clare Lyle, Razvan Pascanu, et al. Plasticity as the mirror of",
+          "page": 13
+        },
+        {
+          "para_id": "1_271",
+          "text": "empowerment. arXiv preprint arXiv:2505.10361, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "1_272",
+          "text": "Laurence Aitchison and Máté Lengyel. With or without you: Predictive coding and bayesian inference",
+          "page": 13
+        },
+        {
+          "para_id": "1_273",
+          "text": "in the brain. Current Opinion in Neurobiology, 46:219–227, 2017. doi: 10.1016/j.conb.2017.08.010.",
+          "page": 13
+        },
+        {
+          "para_id": "1_274",
+          "text": "Andrea Banino, Jan Balaguer, and Charles Blundell. Pondernet: Learning to ponder. arXiv preprint",
+          "page": 13
+        },
+        {
+          "para_id": "1_275",
+          "text": "arXiv:2107.05407, 2021. URL https://arxiv.org/abs/2107.05407.",
+          "page": 13
+        },
+        {
+          "para_id": "1_276",
+          "text": "Yoshua Bengio, Aaron Courville, and Pascal Vincent. Representation learning: A review and new",
+          "page": 13
+        },
+        {
+          "para_id": "1_277",
+          "text": "perspectives. IEEE Transactions on Pattern Analysis and Machine Intelligence, 35(8):1798–1828,",
+          "page": 13
+        },
+        {
+          "para_id": "1_278",
+          "text": "2013. doi: 10.1109/TPAMI.2013.50. URL https://doi.org/10.1109/TPAMI.2013.50.",
+          "page": 13
+        },
+        {
+          "para_id": "1_279",
+          "text": "Yuri Burda, Harrison Edwards, Amos Storkey, and Oleg Klimov. Exploration by random network",
+          "page": 13
+        },
+        {
+          "para_id": "1_280",
+          "text": "distillation. International Conference on Learning Representations, 2019. URL https://arxiv.",
+          "page": 13
+        },
+        {
+          "para_id": "1_281",
+          "text": "Frederick Callaway, Sayan Gul, Paul M. Krueger, Thomas L. Griffiths, and Falk Lieder. Learning to",
+          "page": 13
+        },
+        {
+          "para_id": "1_282",
+          "text": "select computations. In Proceedings of the 34th Conference on Uncertainty in Artificial Intelligence",
+          "page": 13
+        },
+        {
+          "para_id": "1_283",
+          "text": "(UAI), 2018. URL https://arxiv.org/abs/1711.06892.",
+          "page": 13
+        },
+        {
+          "para_id": "1_284",
+          "text": "François Chollet. On the measure of intelligence. arXiv preprint arXiv:1911.01547, 2019. URL",
+          "page": 13
+        },
+        {
+          "para_id": "1_285",
+          "text": "https://arxiv.org/abs/1911.01547.",
+          "page": 13
+        },
+        {
+          "para_id": "1_286",
+          "text": "Andy Clark and David J. Chalmers.",
+          "page": 14
+        },
+        {
+          "para_id": "1_287",
+          "text": "Analysis, 58(1):7–19, 1998.",
+          "page": 14
+        },
+        {
+          "para_id": "1_288",
+          "text": "10.1093/analys/58.1.7. URL https://philpapers.org/rec/CLATEM.",
+          "page": 14
+        },
+        {
+          "para_id": "1_289",
+          "text": "Thomas M. Cover and Joy A. Thomas. Elements of Information Theory. Wiley, 2 edition, 2006.",
+          "page": 14
+        },
+        {
+          "para_id": "1_290",
+          "text": "doi: 10.1002/047174882X. URL https://doi.org/10.1002/047174882X.",
+          "page": 14
+        },
+        {
+          "para_id": "1_291",
+          "text": "Karl Friston. The free-energy principle: A unified brain theory? Nature Reviews Neuroscience, 11",
+          "page": 14
+        },
+        {
+          "para_id": "1_292",
+          "text": "(2):127–138, 2010. doi: 10.1038/nrn2787. URL https://doi.org/10.1038/nrn2787.",
+          "page": 14
+        },
+        {
+          "para_id": "1_293",
+          "text": "Adaptive computation time for recurrent neural networks.",
+          "page": 14
+        },
+        {
+          "para_id": "1_294",
+          "text": "arXiv:1603.08983, 2016. URL https://arxiv.org/abs/1603.08983.",
+          "page": 14
+        },
+        {
+          "para_id": "1_295",
+          "text": "Peter D. Grünwald. The Minimum Description Length Principle. MIT Press, 2007. URL https:",
+          "page": 14
+        },
+        {
+          "para_id": "1_296",
+          "text": "//mitpress.mit.edu/9780262072816/the-minimum-description-length-principle/.",
+          "page": 14
+        },
+        {
+          "para_id": "1_297",
+          "text": "David Ha and Jürgen Schmidhuber. World models. arXiv preprint arXiv:1803.10122, 2018. URL",
+          "page": 14
+        },
+        {
+          "para_id": "1_298",
+          "text": "https://arxiv.org/abs/1803.10122.",
+          "page": 14
+        },
+        {
+          "para_id": "1_299",
+          "text": "Danijar Hafner, Jialin Pan, Mohammad Norouzi, Jimmy Ba, Pieter Abbeel, and Timothy Lillicrap.",
+          "page": 14
+        },
+        {
+          "para_id": "1_300",
+          "text": "Mastering diverse domains through world models. arXiv preprint arXiv:2301.04104, 2023. URL",
+          "page": 14
+        },
+        {
+          "para_id": "1_301",
+          "text": "https://arxiv.org/abs/2301.04104.",
+          "page": 14
+        },
+        {
+          "para_id": "1_302",
+          "text": "Marcus Hutter. Universal Artificial Intelligence: Sequential Decisions based on Algorithmic Proba-",
+          "page": 14
+        },
+        {
+          "para_id": "1_303",
+          "text": "bility. Springer, 2005. doi: 10.1007/b138233. URL https://doi.org/10.1007/b138233.",
+          "page": 14
+        },
+        {
+          "para_id": "1_304",
+          "text": "Tobias Jung, Daniel Polani, and Peter Stone. Empowerment for continuous agent–environment",
+          "page": 14
+        },
+        {
+          "para_id": "1_305",
+          "text": "systems. Adaptive Behavior, 19(1):16–39, 2011. doi: 10.1177/1059712310392389. URL https:",
+          "page": 14
+        },
+        {
+          "para_id": "1_306",
+          "text": "//doi.org/10.1177/1059712310392389.",
+          "page": 14
+        },
+        {
+          "para_id": "1_307",
+          "text": "Eunki Kim, Sangryul Kim, and James Thorne. Learning to insert [pause] tokens for better reasoning.",
+          "page": 14
+        },
+        {
+          "para_id": "1_308",
+          "text": "arXiv preprint arXiv:2506.03616, 2025. URL https://arxiv.org/abs/2506.03616.",
+          "page": 14
+        },
+        {
+          "para_id": "1_309",
+          "text": "Alexander S. Klyubin, Daniel Polani, and Chrystopher L. Nehaniv. Empowerment: A universal",
+          "page": 14
+        },
+        {
+          "para_id": "1_310",
+          "text": "agent-centric measure of control. In Proceedings of the 2005 IEEE Congress on Evolutionary",
+          "page": 14
+        },
+        {
+          "para_id": "1_311",
+          "text": "Computation (CEC), pages 128–135, 2005a.",
+          "page": 14
+        },
+        {
+          "para_id": "1_312",
+          "text": "doi: 10.1109/CEC.2005.1554676.",
+          "page": 14
+        },
+        {
+          "para_id": "1_313",
+          "text": "//doi.org/10.1109/CEC.2005.1554676.",
+          "page": 14
+        },
+        {
+          "para_id": "1_314",
+          "text": "Alexander S. Klyubin, Daniel Polani, and Chrystopher L. Nehaniv. All else being equal be empowered.",
+          "page": 14
+        },
+        {
+          "para_id": "1_315",
+          "text": "In Advances in Artificial Life, volume 3630 of Lecture Notes in Computer Science, pages 744–753.",
+          "page": 14
+        },
+        {
+          "para_id": "1_316",
+          "text": "Springer, 2005b. doi: 10.1007/11553090_75. URL https://doi.org/10.1007/11553090_75.",
+          "page": 14
+        },
+        {
+          "para_id": "1_317",
+          "text": "Directed information for channels with feedback.",
+          "page": 14
+        },
+        {
+          "para_id": "1_318",
+          "text": "URL https://www.ce.cit.tum.de/fileadmin/w00cgn/lnt/staff/kramer/",
+          "page": 14
+        },
+        {
+          "para_id": "1_319",
+          "text": "Papers/KramerThesis.pdf.",
+          "page": 14
+        },
+        {
+          "para_id": "1_320",
+          "text": "Brenden M. Lake, Tomer D. Ullman, Joshua B. Tenenbaum, and Samuel J. Gershman. Building",
+          "page": 14
+        },
+        {
+          "para_id": "1_321",
+          "text": "machines that learn and think like people. Behavioral and Brain Sciences, 40:e253, 2017. doi:",
+          "page": 14
+        },
+        {
+          "para_id": "1_322",
+          "text": "10.1017/S0140525X16001837. URL https://doi.org/10.1017/S0140525X16001837.",
+          "page": 14
+        },
+        {
+          "para_id": "1_323",
+          "text": "Yann LeCun. A path towards autonomous machine intelligence. OpenReview / Position Paper,",
+          "page": 14
+        },
+        {
+          "para_id": "1_324",
+          "text": "2022. URL https://openreview.net/forum?id=BZ5a1r-kVsf.",
+          "page": 14
+        },
+        {
+          "para_id": "1_325",
+          "text": "Falk Lieder and Thomas L. Griffiths. Resource-rational analysis: Understanding human cognition",
+          "page": 15
+        },
+        {
+          "para_id": "1_326",
+          "text": "as the optimal use of limited computational resources. Behavioral and Brain Sciences, 43:e1, 2020.",
+          "page": 15
+        },
+        {
+          "para_id": "1_327",
+          "text": "doi: 10.1017/S0140525X1900061X. URL https://doi.org/10.1017/S0140525X1900061X.",
+          "page": 15
+        },
+        {
+          "para_id": "1_328",
+          "text": "James L. Massey. Causality, feedback and directed information. Proceedings of the International",
+          "page": 15
+        },
+        {
+          "para_id": "1_329",
+          "text": "Symposium on Information Theory and its Applications (ISITA), pages 303–305, 1990. URL",
+          "page": 15
+        },
+        {
+          "para_id": "1_330",
+          "text": "https://www.isiweb.ee.ethz.ch/archive/massey_pub/pdf/BI532.pdf.",
+          "page": 15
+        },
+        {
+          "para_id": "1_331",
+          "text": "Pedro A. Ortega and Daniel A. Braun. Thermodynamics as a theory of decision-making with",
+          "page": 15
+        },
+        {
+          "para_id": "1_332",
+          "text": "information-processing costs. Proceedings of the Royal Society A, 469(2153):20120683, 2013. doi:",
+          "page": 15
+        },
+        {
+          "para_id": "1_333",
+          "text": "10.1098/rspa.2012.0683. URL https://doi.org/10.1098/rspa.2012.0683.",
+          "page": 15
+        },
+        {
+          "para_id": "1_334",
+          "text": "Pierre-Yves Oudeyer, Frédéric Kaplan, and Verena V. Hafner. Intrinsic motivation systems for",
+          "page": 15
+        },
+        {
+          "para_id": "1_335",
+          "text": "autonomous mental development.",
+          "page": 15
+        },
+        {
+          "para_id": "1_336",
+          "text": "IEEE Transactions on Evolutionary Computation, 11(2):",
+          "page": 15
+        },
+        {
+          "para_id": "1_337",
+          "text": "265–286, 2007. doi: 10.1109/TEVC.2006.890271. URL https://doi.org/10.1109/TEVC.2006.",
+          "page": 15
+        },
+        {
+          "para_id": "1_338",
+          "text": "Thomas Parr, Giovanni Pezzulo, and Karl J. Friston. Active Inference: The Free Energy Principle",
+          "page": 15
+        },
+        {
+          "para_id": "1_339",
+          "text": "in Mind, Brain, and Behavior. MIT Press, 2022. doi: 10.7551/mitpress/12444.001.0001. URL",
+          "page": 15
+        },
+        {
+          "para_id": "1_340",
+          "text": "https://mitpress.mit.edu/9780262045353/active-inference/.",
+          "page": 15
+        },
+        {
+          "para_id": "1_341",
+          "text": "Deepak Pathak, Pulkit Agrawal, Alexei A. Efros, and Trevor Darrell. Curiosity-driven exploration",
+          "page": 15
+        },
+        {
+          "para_id": "1_342",
+          "text": "by self-supervised prediction. Proceedings of the IEEE Conference on Computer Vision and",
+          "page": 15
+        },
+        {
+          "para_id": "1_343",
+          "text": "Pattern Recognition Workshops, pages 16–17, 2017. URL https://arxiv.org/abs/1705.05363.",
+          "page": 15
+        },
+        {
+          "para_id": "1_344",
+          "text": "David Patterson, Joseph Gonzalez, Quoc Le, Chen Liang, Lluis-Miquel Munguia, Daniel Rothchild,",
+          "page": 15
+        },
+        {
+          "para_id": "1_345",
+          "text": "David So, Maud Texier, and Jeff Dean. Carbon emissions and large neural network training.",
+          "page": 15
+        },
+        {
+          "para_id": "1_346",
+          "text": "arXiv preprint arXiv:2104.10350, 2021. URL https://arxiv.org/abs/2104.10350.",
+          "page": 15
+        },
+        {
+          "para_id": "1_347",
+          "text": "Rajesh P. N. Rao and Dana H. Ballard. Predictive coding in the visual cortex: A functional",
+          "page": 15
+        },
+        {
+          "para_id": "1_348",
+          "text": "interpretation of some extra-classical receptive-field effects. Nature Neuroscience, 2(1):79–87,",
+          "page": 15
+        },
+        {
+          "para_id": "1_349",
+          "text": "1999. doi: 10.1038/4580. URL https://doi.org/10.1038/4580.",
+          "page": 15
+        },
+        {
+          "para_id": "1_350",
+          "text": "Jorma Rissanen. Modeling by shortest data description. Automatica, 14(5):465–471, 1978. doi:",
+          "page": 15
+        },
+        {
+          "para_id": "1_351",
+          "text": "10.1016/0005-1098(78)90005-5. URL https://doi.org/10.1016/0005-1098(78)90005-5.",
+          "page": 15
+        },
+        {
+          "para_id": "1_352",
+          "text": "Richard M. Ryan and Edward L. Deci. Self-determination theory and the facilitation of intrinsic",
+          "page": 15
+        },
+        {
+          "para_id": "1_353",
+          "text": "motivation, social development, and well-being. American Psychologist, 55(1):68–78, 2000. doi:",
+          "page": 15
+        },
+        {
+          "para_id": "1_354",
+          "text": "10.1037/0003-066X.55.1.68.",
+          "page": 15
+        },
+        {
+          "para_id": "1_355",
+          "text": "URL https://selfdeterminationtheory.org/SDT/documents/",
+          "page": 15
+        },
+        {
+          "para_id": "1_356",
+          "text": "2000_RyanDeci_SDT.pdf.",
+          "page": 15
+        },
+        {
+          "para_id": "1_357",
+          "text": "Christoph Salge, Cornelius Glackin, and Daniel Polani.",
+          "page": 15
+        },
+        {
+          "para_id": "1_358",
+          "text": "Changing the environment based on",
+          "page": 15
+        },
+        {
+          "para_id": "1_359",
+          "text": "empowerment as intrinsic motivation. Entropy, 16(5):2789–2819, 2014. doi: 10.3390/e16052789.",
+          "page": 15
+        },
+        {
+          "para_id": "1_360",
+          "text": "URL https://arxiv.org/abs/1406.1767.",
+          "page": 15
+        },
+        {
+          "para_id": "1_361",
+          "text": "Jürgen Schmidhuber. Formal theory of creativity, fun, and intrinsic motivation (1990–2010). IEEE",
+          "page": 15
+        },
+        {
+          "para_id": "1_362",
+          "text": "Transactions on Autonomous Mental Development, 2(3):230–247, 2010. doi: 10.1109/TAMD.2010.",
+          "page": 15
+        },
+        {
+          "para_id": "1_363",
+          "text": "2056368. URL https://doi.org/10.1109/TAMD.2010.2056368.",
+          "page": 15
+        },
+        {
+          "para_id": "1_364",
+          "text": "David Silver, Satinder Singh, Doina Precup, and Richard S. Sutton. Reward is enough. Artificial",
+          "page": 15
+        },
+        {
+          "para_id": "1_365",
+          "text": "Intelligence, 299:103535, 2021. doi: 10.1016/j.artint.2021.103535. URL https://doi.org/10.",
+          "page": 15
+        },
+        {
+          "para_id": "1_366",
+          "text": "David A. Sivak and Gavin E. Crooks. Thermodynamic metrics and optimal paths. Physical",
+          "page": 16
+        },
+        {
+          "para_id": "1_367",
+          "text": "Review Letters, 108(19):190602, 2012.",
+          "page": 16
+        },
+        {
+          "para_id": "1_368",
+          "text": "doi: 10.1103/PhysRevLett.108.190602.",
+          "page": 16
+        },
+        {
+          "para_id": "1_369",
+          "text": "//doi.org/10.1103/PhysRevLett.108.190602.",
+          "page": 16
+        },
+        {
+          "para_id": "1_370",
+          "text": "Susanne Still. Information theoretic approach to interactive learning. EPL (Europhysics Letters), 85",
+          "page": 16
+        },
+        {
+          "para_id": "1_371",
+          "text": "(2):28005, 2009. doi: 10.1209/0295-5075/85/28005. URL https://arxiv.org/abs/0709.1948.",
+          "page": 16
+        },
+        {
+          "para_id": "1_372",
+          "text": "Susanne Still, David A. Sivak, Anthony J. Bell, and Gavin E. Crooks.",
+          "page": 16
+        },
+        {
+          "para_id": "1_373",
+          "text": "prediction. Physical Review Letters, 109(12):120604, 2012. doi: 10.1103/PhysRevLett.109.120604.",
+          "page": 16
+        },
+        {
+          "para_id": "1_374",
+          "text": "URL https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.109.120604.",
+          "page": 16
+        },
+        {
+          "para_id": "1_375",
+          "text": "Richard S. Sutton and Andrew G. Barto. Reinforcement Learning: An Introduction. MIT Press, 2",
+          "page": 16
+        },
+        {
+          "para_id": "1_376",
+          "text": "edition, 2018. URL http://incompleteideas.net/book/the-book-2nd.html.",
+          "page": 16
+        },
+        {
+          "para_id": "1_377",
+          "text": "Naftali Tishby, Fernando C. Pereira, and William Bialek. The information bottleneck method.",
+          "page": 16
+        },
+        {
+          "para_id": "1_378",
+          "text": "arXiv preprint physics/0004057, 1999. URL https://arxiv.org/abs/physics/0004057.",
+          "page": 16
+        },
+        {
+          "para_id": "1_379",
+          "text": "Jiecong Wang, Hao Peng, and Chunyang Liu. Latent chain-of-thought as planning: Decoupling",
+          "page": 16
+        },
+        {
+          "para_id": "1_380",
+          "text": "reasoning from verbalization. arXiv preprint arXiv:2601.21358, 2026. URL https://arxiv.org/",
+          "page": 16
+        },
+        {
+          "para_id": "1_381",
+          "text": "John Archibald Wheeler. Information, physics, quantum: The search for links. Proceedings III",
+          "page": 16
+        },
+        {
+          "para_id": "1_382",
+          "text": "International Symposium on Foundations of Quantum Mechanics, 1989.",
+          "page": 16
+        },
+        {
+          "para_id": "1_383",
+          "text": "Zhifei Xie, Ziyang Ma, Zihang Liu, Kaiyu Pang, Hongyu Li, Jialin Zhang, Yue Liao, Deheng Ye,",
+          "page": 16
+        },
+        {
+          "para_id": "1_384",
+          "text": "Chunyan Miao, and Shuicheng Yan. Mini-omni-reasoner: Token-level thinking-in-speaking in",
+          "page": 16
+        },
+        {
+          "para_id": "1_385",
+          "text": "large speech models. arXiv preprint arXiv:2508.15827, 2025. URL https://arxiv.org/abs/",
+          "page": 16
+        },
+        {
+          "para_id": "1_386",
+          "text": "Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Thomas L. Griffiths, Yuan Cao, and Karthik",
+          "page": 16
+        },
+        {
+          "para_id": "1_387",
+          "text": "Narasimhan. Tree of thoughts: Deliberate problem solving with large language models. arXiv",
+          "page": 16
+        },
+        {
+          "para_id": "1_388",
+          "text": "preprint arXiv:2305.10601, 2023. URL https://arxiv.org/abs/2305.10601.",
+          "page": 16
+        }
+      ]
+    }
+  ]
+}

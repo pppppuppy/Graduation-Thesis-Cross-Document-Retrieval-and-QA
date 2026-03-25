@@ -1,0 +1,5502 @@
+{
+  "title": "Published as a conference paper at ICLR 2026",
+  "abstract": "The fast-growing demands in using Large Language Models (LLMs) to tackle complex multi-step data science tasks create an emergent need for accurate bench- marking. There are two major gaps in existing benchmarks: (i) the lack of standardized, process-aware evaluation that captures instruction adherence and process fidelity, and (ii) the scarcity of accurately labeled training data. To bridge these gaps, we introduce DARE-bench, a benchmark designed for ma- chine learning modeling and data science instruction following. Unlike many existing benchmarks that rely on human- or model-based judges, all tasks in DARE-bench have verifiable ground truth, ensuring objective and reproducible evaluation. To cover a broad range of tasks and support agentic tools, DARE- bench consists of 6,300 Kaggle-derived tasks and provides both large-scale train- ing data and evaluation sets. Extensive evaluations show that even highly ca- pable models such as gpt-o4-mini struggle to achieve good performance, espe- cially in machine learning modeling tasks. Using DARE-bench training tasks for fine-tuning can substantially improve model performance. For example, supervised fine-tuning boosts Qwen3-32B’s accuracy by 1.83× and reinforce- ment learning boosts Qwen3-4B’s accuracy by more than 8×. These signifi- cant improvements verify the importance of DARE-bench both as an accurate evaluation benchmark and critical training data. Our data will be released at https://github.com/Snowflake-Labs/dare-bench. 1 INTRODUCTION Large language models (LLMs) (Anthropic, 2025a;b; OpenAI, 2025a;c; Yang et al., 2025) are in- creasingly employed as data-science (DS) agents to perform data reading, transformation, and mod- eling through tool-augmented code execution. Such a rapid adoption demands rigorous benchmarks to evaluate and enhance the effectiveness and reliability in performing these complex, multi-step workflows. However, due to the cost and complexity of evaluation, existing benchmarks can only evaluate final-answer accuracy, and leaving other valuable metrics such as process fidelity and re- producibility largely unmeasured (Zhang et al., 2024; Jing et al., 2024). Meanwhile, many existing works (Guo et al., 2024; Zhang et al., 2023; Hong et al., 2024) in this area focus on using prompt engineering and workflow design to improve model performance. Figure 1: DARE-bench defines each task by providing a natural-language question and structured files (metadata and train/test splits). An LLM agent executes code within a sandbox to generate predictions, which are compared against ground truth for automatic and reproducible evaluation. ∗Equal contribution. †Project lead. Work done during Fan Shu’s internship at Snowflake AI Research. 1 arXiv:2602.24288v1 [cs.AI] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "450",
+      "section_title": "financial tasks from real-world applications and DataSciBench (Zhang et al., 2025) uses Task-",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "450_1",
+          "text": "Function-Code (TFC) to evaluate programs which are then verified by human evaluators. DSBC",
+          "page": 3
+        },
+        {
+          "para_id": "450_2",
+          "text": "(Kadiyala et al., 2025) addresses private datasets via structured metadata. The research uses Chen",
+          "page": 3
+        },
+        {
+          "para_id": "450_3",
+          "text": "et al. (2024) to evaluate visualization skills and Bendinelli et al. (2025) to assess data cleaning abil-",
+          "page": 3
+        },
+        {
+          "para_id": "450_4",
+          "text": "ities and Kaggle leaderboards (Grosnit et al., 2024; Chan et al., 2024) to measure performance. The",
+          "page": 3
+        },
+        {
+          "para_id": "450_5",
+          "text": "benchmarks show a sequential development from basic unit testing code to sophisticated tool-based",
+          "page": 3
+        },
+        {
+          "para_id": "450_6",
+          "text": "agents which perform complete DS workflows and produce quantifiable results.",
+          "page": 3
+        },
+        {
+          "para_id": "450_7",
+          "text": "Reinforcement Learning with Verifiable Rewards. The implementation of verifiable program-",
+          "page": 3
+        },
+        {
+          "para_id": "450_8",
+          "text": "matic signals in reinforcement learning enables model training at scale without requiring preference",
+          "page": 3
+        },
+        {
+          "para_id": "450_9",
+          "text": "data. The automatic checking system consists of unit tests and solvers and execution traces for",
+          "page": 3
+        },
+        {
+          "para_id": "450_10",
+          "text": "math and code verification. GRPO (Shao et al., 2024) achieves learning stability through its relative",
+          "page": 3
+        },
+        {
+          "para_id": "450_11",
+          "text": "rollout feedback system which DeepSeek-R1 (Guo et al., 2025) and GPT o-series (OpenAI, 2025d)",
+          "page": 3
+        },
+        {
+          "para_id": "450_12",
+          "text": "extend by verifier-enhanced objectives. The methods combine symbolic proofs with coding tests",
+          "page": 3
+        },
+        {
+          "para_id": "450_13",
+          "text": "and retrieval/search execution graphs to improve reward-as-checker for both correct answers and",
+          "page": 3
+        },
+        {
+          "para_id": "450_14",
+          "text": "verifiable reasoning trace generation.",
+          "page": 3
+        },
+        {
+          "para_id": "450_15",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 4
+        },
+        {
+          "para_id": "450_16",
+          "text": "DARE-bench consists of three data science task-families - classification, regression and time-series",
+          "page": 4
+        },
+        {
+          "para_id": "450_17",
+          "text": "forecasting, each with two variants that probe distinct agent capabilities. For clarity, we denote",
+          "page": 4
+        },
+        {
+          "para_id": "450_18",
+          "text": "these variants using intuitive abbreviations: IF (Instruction Following) and MM (ML Modeling) for",
+          "page": 4
+        },
+        {
+          "para_id": "450_19",
+          "text": "classification and regression; XF (eXogenous Features) and CF (Canonical Forecasting) for time-",
+          "page": 4
+        },
+        {
+          "para_id": "450_20",
+          "text": "series forecasting. In classification and regression, the IF variant emphasizes instruction-following",
+          "page": 4
+        },
+        {
+          "para_id": "450_21",
+          "text": "by requiring LLM to faithfully reproduce reference workflows, whereas the MM variant targets ML",
+          "page": 4
+        },
+        {
+          "para_id": "450_22",
+          "text": "modeling with outcome-based evaluation. These variants capture complementary real-world needs.",
+          "page": 4
+        },
+        {
+          "para_id": "450_23",
+          "text": "IF simulates a workflow where an agent must strictly execute a senior scientist’s detailed design.",
+          "page": 4
+        },
+        {
+          "para_id": "450_24",
+          "text": "Conversely, MM reflects an outcome-driven scenario where customers only care about the final",
+          "page": 4
+        },
+        {
+          "para_id": "450_25",
+          "text": "accuracy, granting full freedom to the LLM. For time-series forecasting, the distinction between",
+          "page": 4
+        },
+        {
+          "para_id": "450_26",
+          "text": "the two variants is more nuanced: in the XF variant, we retain not only the timestamp and entity",
+          "page": 4
+        },
+        {
+          "para_id": "450_27",
+          "text": "identification columns but also all exogenous features from the original dataset; in the CF variant,",
+          "page": 4
+        },
+        {
+          "para_id": "450_28",
+          "text": "however, while exogenous features remain available for training, the test set is constrained to only",
+          "page": 4
+        },
+        {
+          "para_id": "450_29",
+          "text": "the timestamp and entity columns, making it closer to a classical forecasting setup. We partition our",
+          "page": 4
+        },
+        {
+          "para_id": "450_30",
+          "text": "collection of 6,300 tasks into an approximately 95/5 train/test split, designating the most recently",
+          "page": 4
+        },
+        {
+          "para_id": "450_31",
+          "text": "updated tasks as the test set. Table 2 summarizes the dataset scale and the primary capability assessed",
+          "page": 4
+        },
+        {
+          "para_id": "450_32",
+          "text": "in each task type. Tool schema and task examples are shown in Appendix K.",
+          "page": 4
+        },
+        {
+          "para_id": "450_33",
+          "text": "Figure 2: Automated pipeline of DARE-bench. The construction process consists of four stages:",
+          "page": 4
+        },
+        {
+          "para_id": "450_34",
+          "text": "(1) Dataset Sourcing, where Kaggle datasets are filtered by tags, license, size, and metadata; (2)",
+          "page": 4
+        },
+        {
+          "para_id": "450_35",
+          "text": "Task Design, where schema summaries, targets, features, and feasibility are analyzed with the help",
+          "page": 4
+        },
+        {
+          "para_id": "450_36",
+          "text": "of LLM; (3) Post-Process, including splitting, noise injection for IF tasks or resampling or entity",
+          "page": 4
+        },
+        {
+          "para_id": "450_37",
+          "text": "checks for time-series-CF tasks; and (4) Finalization, which validates solvability in a sandbox for",
+          "page": 4
+        },
+        {
+          "para_id": "450_38",
+          "text": "IF tasks and produces standardized benchmark artifacts.",
+          "page": 4
+        },
+        {
+          "para_id": "450_39",
+          "text": "To construct DARE-bench, we design an automated data curation pipeline that systematically trans-",
+          "page": 4
+        },
+        {
+          "para_id": "450_40",
+          "text": "forms raw Kaggle datasets into standardized machine learning tasks. Unlike prior benchmarks which",
+          "page": 4
+        },
+        {
+          "para_id": "450_41",
+          "text": "rely mainly on manual curation, our approach integrates web crawling, LLM-based task formulation,",
+          "page": 4
+        },
+        {
+          "para_id": "450_42",
+          "text": "controlled data transformations, and sandbox verification to ensure both quality and scale. Shown",
+          "page": 4
+        },
+        {
+          "para_id": "450_43",
+          "text": "in Figure 2, the pipeline consists of four stages. Detailed prompts are shown in Appendix I.",
+          "page": 4
+        },
+        {
+          "para_id": "450_44",
+          "text": "Dataset Sourcing with Augmented Metadata. We selected Kaggle as the primary data source due",
+          "page": 4
+        },
+        {
+          "para_id": "450_45",
+          "text": "to its breadth of real-world, user-contributed datasets. The official API of Kaggle retrieves candidate",
+          "page": 4
+        },
+        {
+          "para_id": "450_46",
+          "text": "datasets that meet specific criteria including tabular format and valid open license. Additionally,",
+          "page": 4
+        },
+        {
+          "para_id": "450_47",
+          "text": "we develop a lightweight web crawler to extract additional data from webpage descriptions that",
+          "page": 4
+        },
+        {
+          "para_id": "450_48",
+          "text": "were present in the dataset, providing additional metadata elements to the LLM through column",
+          "page": 4
+        },
+        {
+          "para_id": "450_49",
+          "text": "previews and natural-language descriptions which help the model understand the context of the task",
+          "page": 4
+        },
+        {
+          "para_id": "450_50",
+          "text": "LLM-Assisted Task Design and Feasibility Analysis. For each sourced candidate dataset, we",
+          "page": 4
+        },
+        {
+          "para_id": "450_51",
+          "text": "employ an LLM to assess whether it can support a well-posed predictive task. The model receives",
+          "page": 4
+        },
+        {
+          "para_id": "450_52",
+          "text": "both the dataset preview and the detailed description to duplicate expert assessment on a large scale.",
+          "page": 4
+        },
+        {
+          "para_id": "450_53",
+          "text": "The LLM detects a target column which can be either categorical or continuous for classification and",
+          "page": 4
+        },
+        {
+          "para_id": "450_54",
+          "text": "regression tasks along with structured features and their corresponding data types. For time-series",
+          "page": 4
+        },
+        {
+          "para_id": "450_55",
+          "text": "forecasting tasks, the model detects timestamp columns and numerical targets that evolve through",
+          "page": 4
+        },
+        {
+          "para_id": "450_56",
+          "text": "time and exogenous features in addition to identifying the temporal frequency of the data. Only",
+          "page": 4
+        },
+        {
+          "para_id": "450_57",
+          "text": "datasets deemed feasible by this automated analysis proceed to the next stage.",
+          "page": 4
+        },
+        {
+          "para_id": "450_58",
+          "text": "Post-Process. Feasible datasets are then transformed into uniform benchmarking tasks. The data",
+          "page": 4
+        },
+        {
+          "para_id": "450_59",
+          "text": "is split randomly into training and testing sets. For instruction-following tasks, controlled noise is",
+          "page": 4
+        },
+        {
+          "para_id": "450_60",
+          "text": "injected into roughly twenty percent of the training data, which simulates real-world data quality",
+          "page": 4
+        },
+        {
+          "para_id": "450_61",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 5
+        },
+        {
+          "para_id": "450_62",
+          "text": "issues through numerical values that exceed valid ranges and unexpected categorical entries, and the",
+          "page": 5
+        },
+        {
+          "para_id": "450_63",
+          "text": "testing set serves as the clean reference data. The chronological split method is used for time-series",
+          "page": 5
+        },
+        {
+          "para_id": "450_64",
+          "text": "forecasting to preserve the natural order of time in the data. LLM then detects entity identifiers to",
+          "page": 5
+        },
+        {
+          "para_id": "450_65",
+          "text": "stop data leakage between groups and it performs automatic resampling of irregular time series data",
+          "page": 5
+        },
+        {
+          "para_id": "450_66",
+          "text": "to uniform intervals through an aggregation method suggested by the model.",
+          "page": 5
+        },
+        {
+          "para_id": "450_67",
+          "text": "Finalization. After the post-process step, for instruction-following tasks, the validation process for",
+          "page": 5
+        },
+        {
+          "para_id": "450_68",
+          "text": "each task runs independently in a sandbox environment by executing the reference solution code",
+          "page": 5
+        },
+        {
+          "para_id": "450_69",
+          "text": "sequence including data loading, preprocessing, training, and prediction generation. Since these",
+          "page": 5
+        },
+        {
+          "para_id": "450_70",
+          "text": "tasks rely on reference outputs rather than fixed ground truth values, the sandbox ensures that the",
+          "page": 5
+        },
+        {
+          "para_id": "450_71",
+          "text": "instructions can be faithfully executed and the generated predictions are fully reproducible under",
+          "page": 5
+        },
+        {
+          "para_id": "450_72",
+          "text": "the same random seed. In contrast, ML modeling tasks directly use ground-truth values (e.g., class",
+          "page": 5
+        },
+        {
+          "para_id": "450_73",
+          "text": "labels or numerical targets) for evaluation and do not require sandbox execution. Finally, the task is",
+          "page": 5
+        },
+        {
+          "para_id": "450_74",
+          "text": "packaged into a standardized format that includes training and testing data, metadata describing the",
+          "page": 5
+        },
+        {
+          "para_id": "450_75",
+          "text": "dataset and task, the natural language task description, and the corresponding reference.",
+          "page": 5
+        },
+        {
+          "para_id": "450_76",
+          "text": "Input and output. Suppose we have the task description Q, an accompanying dataset description",
+          "page": 5
+        },
+        {
+          "para_id": "450_77",
+          "text": "M, a training set Dtrain = {(xi, yi)}ntrain",
+          "page": 5
+        },
+        {
+          "para_id": "450_78",
+          "text": "i=1 , a testing set without target values Dtest = {xi}ntest",
+          "page": 5
+        },
+        {
+          "para_id": "450_79",
+          "text": "access to a code execution tool T . The tool T enforces a maximum wall-clock runtime Tmax, while",
+          "page": 5
+        },
+        {
+          "para_id": "450_80",
+          "text": "the agent G is subject to an interaction budget of K turns. Given these inputs and constraints, G",
+          "page": 5
+        },
+        {
+          "para_id": "450_81",
+          "text": "produces executable code C, which is run within T on Dtrain to fit a model and subsequently on Dtest",
+          "page": 5
+        },
+        {
+          "para_id": "450_82",
+          "text": "Evaluation metrics. We evaluate models differently depending on the task type. For instruction-",
+          "page": 5
+        },
+        {
+          "para_id": "450_83",
+          "text": "following tasks (i.e., Classification-IF and Regression-IF), we compare the model’s generated pre-",
+          "page": 5
+        },
+        {
+          "para_id": "450_84",
+          "text": "diction ˆy against the simulated reference output yref obtained from the reference solution code Cref,",
+          "page": 5
+        },
+        {
+          "para_id": "450_85",
+          "text": "and assign a score of 1 if ˆy = yref and 0 otherwise. For ML modeling tasks, including Classification-",
+          "page": 5
+        },
+        {
+          "para_id": "450_86",
+          "text": "MM, Regression-MM, and both Time-series-XF and Time-series-CF, we directly compare the model",
+          "page": 5
+        },
+        {
+          "para_id": "450_87",
+          "text": "predictions ˆy against the masked ground-truth values ygt. Specifically, we adopt the macro-F1 score",
+          "page": 5
+        },
+        {
+          "para_id": "450_88",
+          "text": "for classification-MM tasks to account for class imbalance, and use the clipped coefficient of deter-",
+          "page": 5
+        },
+        {
+          "para_id": "450_89",
+          "text": "mination for regression and time-series forecasting, defined as clip(R2) = min{1, max{0, R2}}.",
+          "page": 5
+        },
+        {
+          "para_id": "450_90",
+          "text": "For tasks with multiple prediction targets, the evaluation metric is computed by averaging over all",
+          "page": 5
+        },
+        {
+          "para_id": "450_91",
+          "text": "targets. Details of our reference solution code can be found in Appendix J and calculation of macro-",
+          "page": 5
+        },
+        {
+          "para_id": "450_92",
+          "text": "F1 and R2 can be found in Appendix D.",
+          "page": 5
+        },
+        {
+          "para_id": "450_93",
+          "text": "FEATURES OF DARE-BENCH",
+          "page": 5
+        },
+        {
+          "para_id": "450_94",
+          "text": "DARE-bench introduces several key features that distinguish it from prior benchmarks in data sci-",
+          "page": 5
+        },
+        {
+          "para_id": "450_95",
+          "text": "ence and machine learning:",
+          "page": 5
+        },
+        {
+          "para_id": "450_96",
+          "text": "ML Modeling and Instruction Following. DARE-bench differs from other existing benchmarks",
+          "page": 5
+        },
+        {
+          "para_id": "450_97",
+          "text": "because it assesses two fundamental data science capabilities which are essential for real-world ap-",
+          "page": 5
+        },
+        {
+          "para_id": "450_98",
+          "text": "plications: ML modeling and task instruction following for data processing and model development.",
+          "page": 5
+        },
+        {
+          "para_id": "450_99",
+          "text": "Verifiable Ground Truth. The evaluation process of DARE-bench depends on actual labels and",
+          "page": 5
+        },
+        {
+          "para_id": "450_100",
+          "text": "simulated reference solution outputs to produce results that can be replicated. The system design",
+          "page": 5
+        },
+        {
+          "para_id": "450_101",
+          "text": "removes all dependencies on human judgment and model-based assessments that enables evaluation",
+          "page": 5
+        },
+        {
+          "para_id": "450_102",
+          "text": "metrics to directly assess task performance. This design is similar to coding benchmarks such as",
+          "page": 5
+        },
+        {
+          "para_id": "450_103",
+          "text": "SWE-bench (Jimenez et al., 2024) and math benchmarks like AIME (Balunovi´c et al., 2025), making",
+          "page": 5
+        },
+        {
+          "para_id": "450_104",
+          "text": "it extremely suitable for supervised fine-tuning (SFT) and reinforcement learning with verifiable",
+          "page": 5
+        },
+        {
+          "para_id": "450_105",
+          "text": "Dual Role as Evaluation and Training Resource. The benchmark offers a training dataset which",
+          "page": 5
+        },
+        {
+          "para_id": "450_106",
+          "text": "enables users to perform model fine-tuning and alignment. As we will demonstrate in Section 5,",
+          "page": 5
+        },
+        {
+          "para_id": "450_107",
+          "text": "the models trained on DARE-bench achieve better results than their baselines, which proves that the",
+          "page": 5
+        },
+        {
+          "para_id": "450_108",
+          "text": "dataset serves as a benchmark and a resource to improve data science LLMs.",
+          "page": 5
+        },
+        {
+          "para_id": "450_109",
+          "text": "Diversity, Realism, and Practical Constraints. Our datasets are created from Kaggle sources,",
+          "page": 5
+        },
+        {
+          "para_id": "450_110",
+          "text": "making them naturally diverse, multilingual, and spanning various domains while capturing real-",
+          "page": 5
+        },
+        {
+          "para_id": "450_111",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 6
+        },
+        {
+          "para_id": "450_112",
+          "text": "Table 3: Distribution of task domains across the DARE-bench train and test sets.",
+          "page": 6
+        },
+        {
+          "para_id": "450_113",
+          "text": "Technology Automotive",
+          "page": 6
+        },
+        {
+          "para_id": "450_114",
+          "text": "Table 4: Hyperparameter sensitivity analysis for o4-mini across different turns and sandbox maxi-",
+          "page": 6
+        },
+        {
+          "para_id": "450_115",
+          "text": "mum execution time limit configurations.",
+          "page": 6
+        },
+        {
+          "para_id": "450_116",
+          "text": "world challenges such as class imbalance, missing values, and noise. As illustrated in Table 3,",
+          "page": 6
+        },
+        {
+          "para_id": "450_117",
+          "text": "quantitative analysis confirms this broad coverage, showing that DARE-bench spans a wide spec-",
+          "page": 6
+        },
+        {
+          "para_id": "450_118",
+          "text": "trum of real-world verticals across both training and test sets. Details in categorization can be found",
+          "page": 6
+        },
+        {
+          "para_id": "450_119",
+          "text": "in Appendix M. In addition, enforced constraints—such as a 10-minute execution limit and bounded",
+          "page": 6
+        },
+        {
+          "para_id": "450_120",
+          "text": "tool invocation turns—reflect realistic user expectations for efficient, accurate solutions. See more",
+          "page": 6
+        },
+        {
+          "para_id": "450_121",
+          "text": "details on Appendix H.",
+          "page": 6
+        },
+        {
+          "para_id": "450_122",
+          "text": "In this section, we present the experimental results and analysis of several LLMs evaluated using",
+          "page": 6
+        },
+        {
+          "para_id": "450_123",
+          "text": "We experiment with state-of-the-art LLMs from open-source ones such as Qwen3-32B and Qwen3-",
+          "page": 6
+        },
+        {
+          "para_id": "450_124",
+          "text": "4B (Yang et al., 2025), to proprietary models such as gpt-o4-mini (OpenAI, 2025d), gpt-4o, gpt-",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "(OpenAI, 2025a), gpt-5 (OpenAI, 2025b), Claude-Sonnet-3.7 (Anthropic, 2025a), and Claude-",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "Sonnet-4 (Anthropic, 2025b).",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_2",
+          "text": "For all the experiments, we employ a greedy decoding strategy whenever applicable, along with",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_3",
+          "text": "sandbox (ByteDance-Seed Foundation Code Team, 2024) for code execution. To reduce random-",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_4",
+          "text": "ness, each task is repeated three times and we report the average score. We evaluate all tasks using",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_5",
+          "text": "either accuracy or the macro-F1/clipped R2 score. The ‘classification-IF’ and ‘regression-IF’ met-",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_6",
+          "text": "rics are measured using a strict, binary (0/1) accuracy. ‘classification-MM’ is measured using a",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_7",
+          "text": "graded (0.0-1.0) macro-F1 score. The remaining metrics, ‘regression-MM’, ‘time-series-XF’, and",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_8",
+          "text": "‘time-series-CF’, are all evaluated using the clipped R2 score.",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_9",
+          "text": "We conduct our evaluation in two stages. First, we perform a sensitivity analysis on the key hy-",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_10",
+          "text": "perparameters for our evaluation framework using one of the most advanced models, gpt-o4-mini,",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_11",
+          "text": "specifically turns and sandbox maximum execution time. These limits are set to simulate real-world",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_12",
+          "text": "applications, as a user would not wait infinite time for an agent to complete a task. Our goal is to find",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_13",
+          "text": "a balanced configuration. Second, with this configuration, we conduct a comprehensive comparison",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_14",
+          "text": "of several leading LLMs on our benchmark.",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_15",
+          "text": "HYPERPARAMETER SENSITIVITY ANALYSIS",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_16",
+          "text": "The results, shown in Table 4, clearly indicate a clear trend emerges: performance generally im-",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_17",
+          "text": "proves with a higher number of interactive turns. We observe a dramatic leap in performance when",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_18",
+          "text": "moving from 3-turn configurations to 5-turn configurations. For example, the classification-IF score",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_19",
+          "text": "jumps from 37.16 (at 3 turns, 300 s) to 67.56 (at 5 turns, 200 s). This suggests that allowing the",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_20",
+          "text": "agent more opportunities to iterate and refine its approach is crucial.",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_21",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_22",
+          "text": "Table 5: Main evaluation results on our benchmark (test tasks) under the configuration where turns",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_23",
+          "text": "set as 5 and sandbox maximum execution time set as 200 s. The best score in each column is",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_24",
+          "text": "The highest performance on classification-IF (76.80) was achieved at the (15 turns, 100 s) setting.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_25",
+          "text": "However, for our main model comparison, we sought a balance between performance and computa-",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_26",
+          "text": "tional efficiency (i.e., cost and latency). We selected the (5 turns, 200 s) configuration as our standard",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_27",
+          "text": "setting. This configuration (5 turns, 200 s) serves as a robust and practical baseline; it significantly",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_28",
+          "text": "outperforms 3-turn setups and achieves strong, representative scores across all metrics (e.g., 67.56",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_29",
+          "text": "on classification-IF, 53.62 on regression-IF, and 42.29 on time-series-XF) within a practical time",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_30",
+          "text": "constraint, i.e., approximately 1000 s user wait time in total.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_31",
+          "text": "Based on our sensitivity analysis, we adopt the (5 turns, 200 s) configuration for a comprehensive",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_32",
+          "text": "comparison of all models. The main results are presented in Table 5. Statistics on the average token",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_33",
+          "text": "usage and the number of tool invocations are listed in Appendix K.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_34",
+          "text": "In this standardized setting, Claude-Sonnet-3.7 emerges as the top-performing model. It achieves the",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_35",
+          "text": "highest scores on four of the six evaluation metrics: ‘classification-IF’ (69.81), ‘classification-MM’",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_36",
+          "text": "(61.03), ‘regression-MM’ (63.20), ‘time-series-XF’ (49.88) and ‘time-series-CF’ (13.70), demon-",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_37",
+          "text": "strating its strong overall capabilities for this benchmark. gpt-5 leads the two IF columns, achieving",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_38",
+          "text": "the highest ‘classification-IF’ (69.81) and ‘regression-IF’ (57.24).",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_39",
+          "text": "The results also reveal marked disparities between model generations. Claude-Sonnet-4 under-",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_40",
+          "text": "performs significantly compared to its predecessor Claude-Sonnet-3.7, with notably weaker scores",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_41",
+          "text": "across all metrics. A key reason is that Claude-Sonnet-4 tends to decompose tasks into very fine-",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_42",
+          "text": "grained substeps, executing almost every small operation separately. As a result, completing a single",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_43",
+          "text": "benchmark task often requires a very large number of steps, and the model nearly always exceeds",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_44",
+          "text": "the allowed step limit, leading to premature failures. Meanwhile, among the open-source models,",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_45",
+          "text": "Qwen3-32B and Qwen3-4B perform far below the proprietary models, struggling in all categories",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_46",
+          "text": "and failing entirely on time-series-CF. This highlights that complex, multi-step data analysis in sand-",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_47",
+          "text": "boxed environments remains a considerable challenge for current open-source LLMs.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_48",
+          "text": "Moving beyond the quantitative scores in Table 5 to understand why models fail on our benchmark,",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_49",
+          "text": "we conducted a systematic qualitative analysis of failed trajectories. Our goal is to identify the",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_50",
+          "text": "primary bottlenecks and limitations of current SOTA agents.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_51",
+          "text": "Incorrect Tool Argument Passing. A fundamental failure mode observed was that LLMs often",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_52",
+          "text": "failed to correctly interface with the code-execution tool. While the generated Python code was",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_53",
+          "text": "logically correct, they frequently mismatched tool parameters (e.g., forgetting to pass filenames),",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_54",
+          "text": "causing execution to fail before code could run. Definition of our tool can be found in Appendix K.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_55",
+          "text": "Instruction Following Failures. LLMs often ignored explicit constraints: processing steps in the",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_56",
+          "text": "wrong order, skipping required transformations, or omitting critical function arguments (Figure 3).",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_57",
+          "text": "These errors show weak adherence to task specifications.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_58",
+          "text": "Flawed Reasoning in Open-Ended Tasks. More subtle problems came from brittle reasoning.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_59",
+          "text": "Common issues included misuse of metadata (hard-coding values), risky preprocessing (e.g., naive",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_60",
+          "text": "2Due to licensing restrictions on specific source datasets, this table reports the performance on the full",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_61",
+          "text": "benchmark. We provide the performance on the strictly open-sourceable subset in Appendix E.",
+          "page": 7
+        },
+        {
+          "para_id": "4.1_62",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_63",
+          "text": "Figure 3: Example of an instruction-following task where the agent fails to respect explicit con-",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_64",
+          "text": "straints. Despite being asked to fix the random seed, the model omitted the required argument,",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_65",
+          "text": "leading to incorrect predictions and an evaluation failure.",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_66",
+          "text": "Table 6: Fine-tuning and RL improve performance over baselines. Superscripts denote absolute",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_67",
+          "text": "gains compared to the baseline of the same model.",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_68",
+          "text": "label encoding, mishandling NaNs), and unreliable type inference. Such shortcuts led to fragile",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_69",
+          "text": "pipelines and frequent errors.",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_70",
+          "text": "Time-Series Task Failures. Performance on ‘time-series-CF’ was especially poor. Reflecting a lack",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_71",
+          "text": "of exposure to complex time-series reasoning, LLMs often failed to produce valid output formats or",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_72",
+          "text": "relied on trivial heuristics (last value, mean), resulting in near-zero predictive accuracy.",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_73",
+          "text": "This qualitative analysis reveals that current agent failures are multi-faceted. They range from ba-",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_74",
+          "text": "sic API misuse and poor instruction following to, most critically, a lack of robust, generalizable",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_75",
+          "text": "reasoning for complex tasks. The widespread use of brittle preprocessing and the near-total failure",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_76",
+          "text": "on complex time-series formatting suggest that current agents, while proficient at simple code",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_77",
+          "text": "generation, still lack the deep, domain-specific reasoning required for autonomous data science.",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_78",
+          "text": "FINE-TUNING LLMS WITH DARE-BENCH",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_79",
+          "text": "To further strengthen the performance of foundation LLMs on DARE-bench, we explore two com-",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_80",
+          "text": "plementary training paradigms: supervised fine-tuning (SFT) and reinforcement learning (RL). SFT",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_81",
+          "text": "leverages curated supervision from rejection-sampled traces to align models more closely with task",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_82",
+          "text": "requirements, while RL directly optimizes models with verifiable outcome rewards. The following",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_83",
+          "text": "subsections detail each approach, their implementation, and the improvements they yield.",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_84",
+          "text": "Rejection Sampling and Supervised Fine-tuning. To obtain high-quality supervision signals, we",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_85",
+          "text": "rejection-sample traces generated across multiple runs, using task-specific filtering strategies.",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_86",
+          "text": "We generate data for supervised fine-tuning through rejection sampling using task-independent fil-",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_87",
+          "text": "ters that evaluate trajectories for validity, quality, and speed. A trajectory is valid if it achieves exact",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_88",
+          "text": "match for IF tasks or exceeds a type-specific score threshold for predictive tasks. A task is con-",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_89",
+          "text": "sidered diverse if its sampled runs contain both successes and failures (IF) or if the variance of its",
+          "page": 8
+        },
+        {
+          "para_id": "4.1_90",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_91",
+          "text": "Table 7: Ablation study on the impact of Instruction Following (IF) and ML Modeling (MM) data",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_92",
+          "text": "with SFT-DV rejection sampling data.",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_93",
+          "text": "Table 8: External validation on DSBench (Jing et al., 2024) after converting tasks into our format.",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_94",
+          "text": "Superscripts denote absolute gains over the baseline of the same model.",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_95",
+          "text": "Competition-level Accuracy",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_96",
+          "text": "predictive scores exceeds a threshold. We study four strategies: FV (Fastest-Valid), which keeps the",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_97",
+          "text": "quickest valid trace for each task; AV (All-Valid), which retains all valid traces; BV (Best-Valid),",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_98",
+          "text": "which for diverse tasks selects the single best valid trace; and DV (Duo-Valid), which for diverse",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_99",
+          "text": "tasks retains the top-2 valid traces (fastest for IF, highest-scoring above the mean for predictive).",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_100",
+          "text": "Both IF and predictive tasks use their natural evaluation metrics (exact match or macro-F1 / clipped",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_101",
+          "text": "R2) to define validity and rank trajectories. More details are provided in Appendix L.",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_102",
+          "text": "Reinforcement Learning. We perform reinforcement learning with GRPO (Shao et al., 2024) on",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_103",
+          "text": "Qwen3-4B (Yang et al., 2025) using the DARE-Bench training tasks with the verl (Sheng et al.,",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_104",
+          "text": "2025) framework. During training, we found that the group normalization used in GRPO intro-",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_105",
+          "text": "duces training instability. Therefore, we chose to remove the normalization component similar to",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_106",
+          "text": "Dr.GRPO (Liu et al., 2025), which mitigates the training stability issue. Moreover, we use sequence-",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_107",
+          "text": "level aggregation as in the original GRPO, rather that token-level aggregation used by DAPO (Yu",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_108",
+          "text": "et al., 2025). Additional training details can be found in Appendix G.",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_109",
+          "text": "Fine-tuning Results. Table 6 summarizes results for both SFT (Qwen3-32B) and RL (Qwen3-",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_110",
+          "text": "4B). Specifically, Model-Perf measures the quality of the model’s predictions by focusing solely",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_111",
+          "text": "on successful attempts for MM tasks. This metric isolates the quality dimension from the validity",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_112",
+          "text": "dimension, confirming that fine-tuning improves the model’s actual data science proficiency, not just",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_113",
+          "text": "its adherence to syntax rules. Across IF and MM tasks, fine-tuning yields substantial improvements",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_114",
+          "text": "over the baseline, with absolute gains of nearly 1.83× in total score and 10% in ModelPerf. Different",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_115",
+          "text": "strategies bring complementary benefits: AV yields the strongest overall improvements for MM",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_116",
+          "text": "tasks, while FV favors IF tasks. Reinforcement learning on Qwen3-4B provides even larger relative",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_117",
+          "text": "gains, boosting the total score from 4.39 to 37.40 and ModelPerf from 54.18 to 62.55. These results",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_118",
+          "text": "confirm that DARE-bench not only improves instruction following but also translates into better",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_119",
+          "text": "downstream modeling accuracy once correct predictions are generated.",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_120",
+          "text": "Impact of Data Composition. As shown in Table 7, we use SFT-DV to further investigate the spe-",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_121",
+          "text": "cific contributions of IF and MM data through an ablation study. Training exclusively on MM data",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_122",
+          "text": "boosts predictive modeling performance but degrades instruction adherence, while training solely",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_123",
+          "text": "on IF data shows the inverse. Only the combined approach successfully integrates both capabili-",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_124",
+          "text": "ties, achieving a robust balance. This confirms that process-oriented and outcome-oriented tasks are",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_125",
+          "text": "complementary and essential for a comprehensive data science agent.",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_126",
+          "text": "Failure Analysis. Shown in Table 9, we categorized incorrect trajectories to identify specific rea-",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_127",
+          "text": "soning bottlenecks. Proprietary models mainly face problems with Code Errors, while open-source",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_128",
+          "text": "baselines frequently exceed execution limits because of inefficient exploration. Training on DARE-",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_129",
+          "text": "bench effectively mitigates these issues; notably, RL on Qwen3-4B reduces code errors by 48 percent",
+          "page": 9
+        },
+        {
+          "para_id": "4.1_130",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_131",
+          "text": "Table 9: Failure mode analysis across different models.",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_132",
+          "text": "Table 10: Comparison between Native Function Call4 and DataWiseAgent on DARE-bench and",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_133",
+          "text": "Native Function Call Qwen3-32B",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_134",
+          "text": "Native Function Call Qwen3-32B + SFT-DV",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_135",
+          "text": "and halves code execution limit errors, demonstrating that our supervision significantly enhances",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_136",
+          "text": "both code correctness and efficiency.",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_137",
+          "text": "Case Studies of Fine-tuning Effects. To further illustrate the benefits of fine-tuning, we highlight",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_138",
+          "text": "two representative failure modes that were substantially reduced. First, a common pre-fine-tuning er-",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_139",
+          "text": "ror occurred when LLM provided tool with incorrectly generated tool arguments. The code executor",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_140",
+          "text": "tool requires three explicit arguments including code, input file and output file. However, LLMs fre-",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_141",
+          "text": "quently generated correct Python code that opened files but failed to pass the filename into the tool’s",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_142",
+          "text": "file to load argument, causing sandbox execution to fail. After fine-tuning, the frequency of",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_143",
+          "text": "such mismatches decreased remarkably. Second, the baseline models tried to use natural-language",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_144",
+          "text": "column names from the task description without checking the provided metadata.txt which",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_145",
+          "text": "led to KeyErrors. The first step of the fine-tuned models involved examining the metadata file for",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_146",
+          "text": "references to actual column identifiers which led to the development of reliable executable solutions.",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_147",
+          "text": "External Validation and Comparison. To further assess generalization and compare with state-",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_148",
+          "text": "of-the-art specialized agents, we adapt data modeling tasks from DSBench (Jing et al., 2024) into",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_149",
+          "text": "the DARE-bench task format. As shown in Table 8, all fine-tuned versions outperform the original",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_150",
+          "text": "baseline, proving that DARE-bench enhances performance beyond in-domain tasks. Specifically,",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_151",
+          "text": "inclusive sampling methods (AV and DV) yield the most significant improvements by leveraging a",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_152",
+          "text": "wider range of valid traces compared to stricter filtering (FV and BV). Furthermore, we compare",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_153",
+          "text": "our fine-tuned models with DataWiseAgent (You et al., 2025) under identical settings. As detailed",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_154",
+          "text": "in Table 10, our model compare favorably to DataWiseAgent, achieving a score of 42.41 compared",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_155",
+          "text": "to 29.17. This demonstrates that our framework offers competitive adaptability and robustness in",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_156",
+          "text": "diverse data science workflows compared to existing specialized agents.",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_157",
+          "text": "CONCLUSION AND FUTURE WORKS",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_158",
+          "text": "We present DARE-bench, a training-focused benchmark for DS agents which enables executable",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_159",
+          "text": "evaluation and trainable supervision through two verifiable task families: (i) process-aware instruc-",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_160",
+          "text": "tion following with reference-code ground truths, and (ii) ML modeling with dataset ground truths.",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_161",
+          "text": "The 6,300 Kaggle-derived tasks show poor performance from strong general-purpose LLMs until",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_162",
+          "text": "they receive task-specific data but fine-tuning on DARE-bench artifacts produce reliable and repeat-",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_163",
+          "text": "able enhancements in process fidelity and predictive performance and execution failure reduction.",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_164",
+          "text": "Our design uses the executable-benchmark approach which software engineering professionals have",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_165",
+          "text": "adopted to solve DS-specific problems that recent evaluations have identified.",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_166",
+          "text": "We will expand our task type coverage (figures/speeches/clustering), strengthen procedural con-",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_167",
+          "text": "straints and verifier-based objectives, and add anomaly detection tracks (tabular and time-series)",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_168",
+          "text": "with appropriate event/segment-level metrics and weak/unsupervised scoring protocols.",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_169",
+          "text": "4https://qwen.readthedocs.io/en/latest/framework/function_call.html",
+          "page": 10
+        },
+        {
+          "para_id": "4.1_170",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 11
+        },
+        {
+          "para_id": "4.1_171",
+          "text": "This work is partially supported by NSF CAREER-2305491. We would like to thank Jeff Rasley for",
+          "page": 11
+        },
+        {
+          "para_id": "4.1_172",
+          "text": "his help with the open-source release. We would like to thank the Area Chair and reviewers for their",
+          "page": 11
+        },
+        {
+          "para_id": "4.1_173",
+          "text": "valuable feedback and suggestions.",
+          "page": 11
+        },
+        {
+          "para_id": "4.1_174",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_175",
+          "text": "https://cloud.google.com/vertex-ai/",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_176",
+          "text": "generative-ai/docs/partner-models/claude, 2025a.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_177",
+          "text": "Extended thinking mode,",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_178",
+          "text": "step-by-step reasoning capability.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_179",
+          "text": "Anthropic. Introducing claude sonnet 4. https://www.anthropic.com/news/claude-4,",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_180",
+          "text": "2025b. Improved coding and reasoning, available via API / Bedrock / Vertex.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_181",
+          "text": "Jacob Austin, Augustus Odena, Maxwell Nye, Maarten Bosma, Henryk Michalewski, David Dohan,",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_182",
+          "text": "Ellen Jiang, Carrie Cai, Michael Terry, Quoc Le, et al. Program synthesis with large language",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_183",
+          "text": "models. arXiv preprint arXiv:2108.07732, 2021.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_184",
+          "text": "Mislav Balunovi´c, Jasper Dekoninck, Ivo Petrov, Nikola Jovanovi´c, and Martin Vechev. Matharena:",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_185",
+          "text": "Evaluating llms on uncontaminated math competitions. arXiv preprint arXiv:2505.23281, 2025.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_186",
+          "text": "Tommaso Bendinelli, Artur Dox, and Christian Holz. Exploring llm agents for cleaning tabular",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_187",
+          "text": "machine learning datasets. arXiv preprint arXiv:2503.06664, 2025.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_188",
+          "text": "ByteDance-Seed Foundation Code Team. Sandboxfusion: A multi-language code sandbox exe-",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_189",
+          "text": "cution tool for evaluating code generation models. https://github.com/bytedance/",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_190",
+          "text": "SandboxFusion, 2024. Used in FullStack Bench: Evaluating LLMs as Full Stack Coders.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_191",
+          "text": "Ruisheng Cao, Fangyu Lei, Haoyuan Wu, Jixuan Chen, Yeqiao Fu, Hongcheng Gao, Xinzhuang",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_192",
+          "text": "Xiong, Hanchong Zhang, Wenjing Hu, Yuchen Mao, et al. Spider2-v: How far are multimodal",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_193",
+          "text": "agents from automating data science and engineering workflows? Advances in Neural Informa-",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_194",
+          "text": "tion Processing Systems, 37:107703–107744, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_195",
+          "text": "Jun Shern Chan, Neil Chowdhury, Oliver Jaffe, James Aung, Dane Sherburn, Evan Mays, Giulio",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_196",
+          "text": "Starace, Kevin Liu, Leon Maksin, Tejal Patwardhan, et al. Mle-bench: Evaluating machine learn-",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_197",
+          "text": "ing agents on machine learning engineering. arXiv preprint arXiv:2410.07095, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_198",
+          "text": "Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde De Oliveira Pinto, Jared",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_199",
+          "text": "Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Evaluating large",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_200",
+          "text": "language models trained on code. arXiv preprint arXiv:2107.03374, 2021.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_201",
+          "text": "Nan Chen, Yuge Zhang, Jiahang Xu, Kan Ren, and Yuqing Yang. Viseval: A benchmark for data",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_202",
+          "text": "visualization in the era of large language models. IEEE Transactions on Visualization and Com-",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_203",
+          "text": "puter Graphics, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_204",
+          "text": "Alex Egg, Martin Iglesias Goyanes, Friso Kingma, Andreu Mora, Leandro von Werra, and Thomas",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_205",
+          "text": "Wolf. Dabstep: Data agent benchmark for multi-step reasoning. arXiv preprint arXiv:2506.23719,",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_206",
+          "text": "Alex Egg, Martin Iglesias Goyanes, Friso Kingma, Andreu Mora, Leandro von Werra, and Thomas",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_207",
+          "text": "Data agent benchmark for multi-step reasoning, 2025b.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_208",
+          "text": "//arxiv.org/abs/2506.23719.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_209",
+          "text": "Antoine Grosnit, Alexandre Maraval, James Doran, Giuseppe Paolo, Albert Thomas, Refinath",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_210",
+          "text": "Shahul Hameed Nabeezath Beevi, Jonas Gonzalez, Khyati Khandelwal, Ignacio Iacobacci, Ab-",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_211",
+          "text": "delhakim Benechehab, et al. Large language models orchestrating structured reasoning achieve",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_212",
+          "text": "kaggle grandmaster level. arXiv preprint arXiv:2411.03562, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_213",
+          "text": "Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Ruoyu Zhang, Runxin Xu, Qihao Zhu,",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_214",
+          "text": "Shirong Ma, Peiyi Wang, Xiao Bi, et al. Deepseek-r1: Incentivizing reasoning capability in llms",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_215",
+          "text": "via reinforcement learning. arXiv preprint arXiv:2501.12948, 2025.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_216",
+          "text": "Siyuan Guo, Cheng Deng, Ying Wen, Hechang Chen, Yi Chang, and Jun Wang. Ds-agent: Au-",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_217",
+          "text": "tomated data science by empowering large language models with case-based reasoning. arXiv",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_218",
+          "text": "preprint arXiv:2402.17453, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_219",
+          "text": "Sirui Hong, Yizhang Lin, Bang Liu, Bangbang Liu, Binhao Wu, Ceyao Zhang, Chenxing Wei,",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_220",
+          "text": "Danyang Li, Jiaqi Chen, Jiayi Zhang, et al. Data interpreter: An llm agent for data science. arXiv",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_221",
+          "text": "preprint arXiv:2402.18679, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "4.1_222",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_223",
+          "text": "Qian Huang, Jian Vora, Percy Liang, and Jure Leskovec. Mlagentbench: Evaluating language agents",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_224",
+          "text": "on machine learning experimentation. arXiv preprint arXiv:2310.03302, 2023.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_225",
+          "text": "Yiming Huang, Jianwen Luo, Yan Yu, Yitong Zhang, Fangyu Lei, Yifan Wei, Shizhu He, Lifu",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_226",
+          "text": "Huang, Xiao Liu, Jun Zhao, et al. Da-code: Agent data science code generation benchmark for",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_227",
+          "text": "large language models. arXiv preprint arXiv:2410.07331, 2024.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_228",
+          "text": "Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_229",
+          "text": "Narasimhan. Swe-bench: Can language models resolve real-world github issues?, 2024. URL",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_230",
+          "text": "https://arxiv.org/abs/2310.06770.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_231",
+          "text": "Liqiang Jing, Zhehui Huang, Xiaoyang Wang, Wenlin Yao, Wenhao Yu, Kaixin Ma, Hongming",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_232",
+          "text": "Zhang, Xinya Du, and Dong Yu. Dsbench: How far are data science agents from becoming data",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_233",
+          "text": "science experts? arXiv preprint arXiv:2409.07703, 2024.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_234",
+          "text": "Ram Mohan Rao Kadiyala, Siddhant Gupta, Jebish Purbey, Giulio Martini, Suman Debnath, and",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_235",
+          "text": "Hamza Farooq. Dsbc: Data science task benchmarking with context engineering. arXiv preprint",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_236",
+          "text": "arXiv:2507.23336, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_237",
+          "text": "Yuhang Lai, Chengxi Li, Yiming Wang, Tianyi Zhang, Ruiqi Zhong, Luke Zettlemoyer, Wen-tau",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_238",
+          "text": "Yih, Daniel Fried, Sida Wang, and Tao Yu. Ds-1000: A natural and reliable benchmark for data",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_239",
+          "text": "science code generation. In International Conference on Machine Learning, pp. 18319–18345.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_240",
+          "text": "Zichen Liu, Changyu Chen, Wenjun Li, Penghui Qi, Tianyu Pang, Chao Du, Wee Sun Lee,",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_241",
+          "text": "Understanding r1-zero-like training: A critical perspective.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_242",
+          "text": "arXiv:2503.20783, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_243",
+          "text": "OpenAI. Introducing GPT-4.1 in the api. https://openai.com/index/gpt-4-1/, April",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_244",
+          "text": "2025a. Lower-latency, cheaper GPT model family optimized for instruction following and long",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_245",
+          "text": "OpenAI. Introducing GPT-5. https://openai.com/index/introducing-gpt-5/, Au-",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_246",
+          "text": "gust 2025b. Latest flagship model with improved code and agentic performance.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_247",
+          "text": "https://openai.com/index/",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_248",
+          "text": "introducing-o3-and-o4-mini/, April 2025c.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_249",
+          "text": "openai.com/pdf/2221c875-02dc-4789-800b-e7758f3722c1/",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_250",
+          "text": "o3-and-o4-mini-system-card.pdf, April 2025d.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_251",
+          "text": "System card describing capa-",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_252",
+          "text": "bilities, evaluations, and safety considerations.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_253",
+          "text": "Timo Schick, Jane Dwivedi-Yu, Roberto Dess`ı, Roberta Raileanu, Maria Lomeli, Eric Hambro,",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_254",
+          "text": "Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom. Toolformer: Language models can",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_255",
+          "text": "teach themselves to use tools. Advances in Neural Information Processing Systems, 36:68539–",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_256",
+          "text": "Zhihong Shao, Peiyi Wang, Qihao Zhu, Runxin Xu, Junxiao Song, Xiao Bi, Haowei Zhang,",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_257",
+          "text": "Mingchuan Zhang, YK Li, Yang Wu, et al. Deepseekmath: Pushing the limits of mathemati-",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_258",
+          "text": "cal reasoning in open language models. arXiv preprint arXiv:2402.03300, 2024.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_259",
+          "text": "Guangming Sheng, Chi Zhang, Zilingfeng Ye, Xibin Wu, Wang Zhang, Ru Zhang, Yanghua Peng,",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_260",
+          "text": "Haibin Lin, and Chuan Wu. Hybridflow: A flexible and efficient rlhf framework. In Proceedings",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_261",
+          "text": "of the Twentieth European Conference on Computer Systems, pp. 1279–1297, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_262",
+          "text": "An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu,",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_263",
+          "text": "Chang Gao, Chengen Huang, Chenxu Lv, et al.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_264",
+          "text": "Qwen3 technical report.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_265",
+          "text": "arXiv:2505.09388, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_266",
+          "text": "Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_267",
+          "text": "React: Synergizing reasoning and acting in language models. In International Conference on",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_268",
+          "text": "Learning Representations (ICLR), 2023.",
+          "page": 13
+        },
+        {
+          "para_id": "4.1_269",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_270",
+          "text": "Pengcheng Yin, Wen-Ding Li, Kefan Xiao, Abhishek Rao, Yeming Wen, Kensen Shi, Joshua How-",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_271",
+          "text": "land, Paige Bailey, Michele Catasta, Henryk Michalewski, et al. Natural language to code gener-",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_272",
+          "text": "ation in interactive data science notebooks. arXiv preprint arXiv:2212.09248, 2022.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_273",
+          "text": "Ziming You, Yumiao Zhang, Dexuan Xu, Yiwei Lou, Yandong Yan, Wei Wang, Huaming Zhang,",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_274",
+          "text": "and Yu Huang. Datawiseagent: A notebook-centric llm agent framework for automated data",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_275",
+          "text": "science. arXiv preprint arXiv:2503.07044, 2025.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_276",
+          "text": "Qiying Yu, Zheng Zhang, Ruofei Zhu, Yufeng Yuan, Xiaochen Zuo, Yu Yue, Weinan Dai, Tiantian",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_277",
+          "text": "Fan, Gaohong Liu, Lingjun Liu, et al. Dapo: An open-source llm reinforcement learning system",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_278",
+          "text": "at scale. arXiv preprint arXiv:2503.14476, 2025.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_279",
+          "text": "Dan Zhang, Sining Zhoubian, Min Cai, Fengzu Li, Lekang Yang, Wei Wang, Tianjiao Dong, Ziniu",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_280",
+          "text": "Hu, Jie Tang, and Yisong Yue. Datascibench: An llm agent benchmark for data science. arXiv",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_281",
+          "text": "preprint arXiv:2502.13897, 2025.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_282",
+          "text": "Lei Zhang, Yuge Zhang, Kan Ren, Dongsheng Li, and Yuqing Yang.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_283",
+          "text": "ing the power of large language models in solving machine learning tasks.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_284",
+          "text": "arXiv:2304.14979, 2023.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_285",
+          "text": "Yuge Zhang, Qiyang Jiang, Xingyu Han, Nan Chen, Yuqing Yang, and Kan Ren. Benchmarking",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_286",
+          "text": "data science agents. arXiv preprint arXiv:2402.17168, 2024.",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_287",
+          "text": "Lianmin Zheng, Liangsheng Yin, Zhiqiang Xie, Chuyue Livia Sun, Jeff Huang, Cody Hao Yu, Shiyi",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_288",
+          "text": "Cao, Christos Kozyrakis, Ion Stoica, Joseph E Gonzalez, et al. Sglang: Efficient execution of",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_289",
+          "text": "structured language model programs. Advances in neural information processing systems, 37:",
+          "page": 14
+        },
+        {
+          "para_id": "4.1_290",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_291",
+          "text": "OVERVIEW OF THE APPENDIX",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_292",
+          "text": "The Appendix is organized as follows:",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_293",
+          "text": "• Appendix A contains reproducibility statement.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_294",
+          "text": "• Appendix B contains the use of LLMs in this work.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_295",
+          "text": "• Appendix C provides the limitation of the work.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_296",
+          "text": "• Appendix D contains the explanation of the evaluation metrics used in this work.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_297",
+          "text": "• Appendix E provides the performance on the strictly open-sourceable subset.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_298",
+          "text": "• Appendix F provides average number of tokens and tool calls for completions of different",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_299",
+          "text": "• Appendix G provides training details of the RL experiments in this work.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_300",
+          "text": "• Appendix H contains detailed description of DARE-bench features.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_301",
+          "text": "• Appendix I provides example prompt of the preprocessing steps of this work, including",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_302",
+          "text": "column inference and task identification.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_303",
+          "text": "• Appendix J contains reference code for instruction-following tasks in this work.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_304",
+          "text": "• Appendix K contains tool schema used in our experiments and some task examples.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_305",
+          "text": "• Appendix L provides details of the rejection sampling implementation of this work.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_306",
+          "text": "• Appendix M provides details on how we make the use of LLM to classify tasks.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_307",
+          "text": "REPRODUCIBILITY STATEMENT",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_308",
+          "text": "We have attached the subet of our test set in the supplementary materials. Once accepted, we will",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_309",
+          "text": "release the full test set of our benchmark. The training set and model checkpoints will also be",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_310",
+          "text": "provided upon request, and we plan to release them publicly depending on the feedback we receive",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_311",
+          "text": "from the research community. Also, a detailed description of our data processing procedure is",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_312",
+          "text": "included in subsection 3.1. These resources are intended to facilitate reproducibility and allow",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_313",
+          "text": "future researchers to build upon our work.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_314",
+          "text": "THE USE OF LARGE LANGUAGE MODELS (LLMS)",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_315",
+          "text": "In this project, LLMs were used as assistive tools. Specifically, we used LLMs to polish the writing",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_316",
+          "text": "of the paper and to assist in finding related works. In addition, LLMs were used during the data pro-",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_317",
+          "text": "cessing stage, for tasks such as data filtering, question rewriting, and identifying task targets. Beyond",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_318",
+          "text": "these uses, the research ideas, experimental design, and analyses were developed independently by",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_319",
+          "text": "the authors. The authors take full responsibility for all content presented in this paper.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_320",
+          "text": "While DARE-bench provides a large-scale, verifiable, and trainable benchmark, several limitations",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_321",
+          "text": "remain. First, the current tasks are primarily tabular based, so the benchmark does not yet cover",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_322",
+          "text": "multimodal inputs such as text–image combinations or code–diagram interactions. Second, the cost",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_323",
+          "text": "of generating large numbers of executable traces can be high, and the rejection sampling strategies,",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_324",
+          "text": "while effective, may introduce biases toward shorter trajectories.",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_325",
+          "text": "We report results using two standard metrics for classification and regression tasks: macro-F1 and",
+          "page": 15
+        },
+        {
+          "para_id": "4.1_326",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_327",
+          "text": "For a classification task with C classes, let TPc, FPc, and FNc denote the number of",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_328",
+          "text": "true positives, false positives, and false negatives for class c, respectively. The precision and recall",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_329",
+          "text": "for class c are defined as",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_330",
+          "text": "The F1-score for class c is",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_331",
+          "text": "F1c = 2 · Precisionc · Recallc",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_332",
+          "text": "Precisionc + Recallc",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_333",
+          "text": "The macro-F1 is then the unweighted mean across all classes:",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_334",
+          "text": "R2 (Coefficient of Determination).",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_335",
+          "text": "For regression/time-series tasks with ground-truth values",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_336",
+          "text": "i=1, define the mean of ground-truth values as ¯y = 1",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_337",
+          "text": "An R2 value close to 1 indicates strong predictive performance, while values close to 0 or nega-",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_338",
+          "text": "tive indicate weak or worse-than-baseline performance. Since R2 can be negative when the model",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_339",
+          "text": "performs worse than predicting the mean, we adopt a clipped R2 defined as",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_340",
+          "text": "clipped = max(R2, 0),",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_341",
+          "text": "to ensure that regression scores remain in [0, 1] and are comparable to classification metrics.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_342",
+          "text": "PERFORMANCE ON THE STRICTLY OPEN-SOURCEABLE SUBSET",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_343",
+          "text": "To ensure broad applicability and adherence to strict compliance standards, we constructed a strictly",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_344",
+          "text": "open-sourceable subset of our benchmark. While the full benchmark aggregates data from diverse",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_345",
+          "text": "sources to maximize coverage, certain sources impose licensing constraints (e.g., ShareAlike or",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_346",
+          "text": "Non-Commercial clauses) or lack explicit licensing information, which may limit their utility in",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_347",
+          "text": "proprietary model development.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_348",
+          "text": "The strictly open-sourceable subset explicitly excludes data sources governed by restrictive licenses,",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_349",
+          "text": "including Creative Commons ShareAlike (SA), Non-Commercial (NC), and sources with Unknown",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_350",
+          "text": "or custom restrictive terms. This subset is composed exclusively of data distributed under permissive",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_351",
+          "text": "licenses, such as MIT, Apache-2.0, CC0, and CC-BY-4.0. This ensures that the subset can be freely",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_352",
+          "text": "used, modified, and integrated into downstream applications without ”viral” licensing obligations.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_353",
+          "text": "Table 11: Performance on the Strictly Open-Sourceable Subset",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_354",
+          "text": "Table 11 presents the evaluation results on this filtered subset using the same experimental configu-",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_355",
+          "text": "ration as the main evaluation (5 turns, 200 s sandbox time).",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_356",
+          "text": "We observe that the performance trends on this subset are largely consistent with the full benchmark,",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_357",
+          "text": "indicating that the permissive subset retains sufficient difficulty and representativeness to serve as a",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_358",
+          "text": "reliable proxy for the full evaluation.",
+          "page": 16
+        },
+        {
+          "para_id": "4.1_359",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_360",
+          "text": "AVERAGE NUMBER OF TOKENS AND TOOL CALLS",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_361",
+          "text": "Detailed statistics on the average token counts and tool invocations are provided in Table 12. All",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_362",
+          "text": "token metrics are standardized using the Qwen3 tokenizer.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_363",
+          "text": "Table 12: Average number of tokens and tool calls for completions of different models and prompts.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_364",
+          "text": "All token counts are calculated using the Qwen3 tokenizer.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_365",
+          "text": "REINFORCEMENT LEARNING TRAINING DETAILS",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_366",
+          "text": "Instruction following tasks.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_367",
+          "text": "For instruction following tasks including Classification-IF and",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_368",
+          "text": "Regression-IF tasks. We have reference solution code Cref with corresponding simulated predic-",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_369",
+          "text": "tion for data Dtest as yref = Cref(Dtest). Given the model prediction ˆy = G(Q, Dtrain, Dtest, M, T )",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_370",
+          "text": "and simulated ground truth yref, we use the following reward:",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_371",
+          "text": "Note that LLMs may be unable to generate a prediction.csv file due to the max turns or",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_372",
+          "text": "sandbox execution time limit.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_373",
+          "text": "Predictive ML tasks.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_374",
+          "text": "For other tasks, including classification-PM, regression-PM, time-series-",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_375",
+          "text": "XF, and time-series-CF, we have masked ground-truth data ygt. Given the prediction provided by",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_376",
+          "text": "LLM ˆy, we define the reward as",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_377",
+          "text": "where d : X × Y →[0, 1] denotes the distance measure between the prediction and the target. For",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_378",
+          "text": "classification tasks, we adopt the macro-F1 score to account for class imbalance. For regression and",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_379",
+          "text": "time-series tasks, we use the clipped coefficient of determination, defined as",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_380",
+          "text": "clip(R2) = min{1, max{0, R2}}.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_381",
+          "text": "If there are multiple prediction targets, we compute the distance by taking the average of them.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_382",
+          "text": "OTHER TRAINING PARAMETERS",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_383",
+          "text": "Reinforcement learning.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_384",
+          "text": "We summarize our RL training hyper-parameters in Table 13.",
+          "page": 17
+        },
+        {
+          "para_id": "4.1_385",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 18
+        },
+        {
+          "para_id": "4.1_386",
+          "text": "GRPO (Shao et al., 2024)",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "× 10−6",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Training mini-batch size",
+          "page": 18
+        },
+        {
+          "para_id": "1_2",
+          "text": "Number of rollouts per question",
+          "page": 18
+        },
+        {
+          "para_id": "1_3",
+          "text": "SGLang (Zheng et al., 2024)",
+          "page": 18
+        },
+        {
+          "para_id": "1_4",
+          "text": "Model sequence length",
+          "page": 18
+        },
+        {
+          "para_id": "1_5",
+          "text": "Table 13: Hyper-parameters used for reinforcement learning experiments.",
+          "page": 18
+        },
+        {
+          "para_id": "1_6",
+          "text": "DETAILED DESCRIPTION OF OTHER DARE-BENCH FEATURES",
+          "page": 18
+        },
+        {
+          "para_id": "1_7",
+          "text": "Automated and Scalable Curation.",
+          "page": 18
+        },
+        {
+          "para_id": "1_8",
+          "text": "The task generation process in DARE-bench uses a defined",
+          "page": 18
+        },
+        {
+          "para_id": "1_9",
+          "text": "approach which collects data from Kaggle and incorporates web-scraped content before LLMs ver-",
+          "page": 18
+        },
+        {
+          "para_id": "1_10",
+          "text": "ify the tasks and produce standardized definitions. The automated pipeline generates authentic work",
+          "page": 18
+        },
+        {
+          "para_id": "1_11",
+          "text": "assignments at large scale across multiple fields through an approach that needs minimal human",
+          "page": 18
+        },
+        {
+          "para_id": "1_12",
+          "text": "Diverse and Realistic Coverage.",
+          "page": 18
+        },
+        {
+          "para_id": "1_13",
+          "text": "The benchmark contains 6,300 tasks which cover multiple do-",
+          "page": 18
+        },
+        {
+          "para_id": "1_14",
+          "text": "mains and languages, including tabular classification and regression as well as advanced time-series",
+          "page": 18
+        },
+        {
+          "para_id": "1_15",
+          "text": "forecasting. By drawing directly from real-world Kaggle datasets, it naturally incorporates common",
+          "page": 18
+        },
+        {
+          "para_id": "1_16",
+          "text": "data challenges such as class imbalance, missing values, noise, and temporal irregularities, providing",
+          "page": 18
+        },
+        {
+          "para_id": "1_17",
+          "text": "a more faithful simulation of practical data science scenarios.",
+          "page": 18
+        },
+        {
+          "para_id": "1_18",
+          "text": "Time and interaction constraints.",
+          "page": 18
+        },
+        {
+          "para_id": "1_19",
+          "text": "DARE-bench implements realistic usage scenarios through",
+          "page": 18
+        },
+        {
+          "para_id": "1_20",
+          "text": "its requirement for both time-limited wall-clock operation and restricted interaction turn counts.",
+          "page": 18
+        },
+        {
+          "para_id": "1_21",
+          "text": "In practice, end users are unlikely to wait hours for a model to train a full pipeline; hence, we",
+          "page": 18
+        },
+        {
+          "para_id": "1_22",
+          "text": "cap execution time to 10 minutes for fast-response settings. The system limits the total number of",
+          "page": 18
+        },
+        {
+          "para_id": "1_23",
+          "text": "agent-environment dialogues which forces models to find efficient solutions instead of performing",
+          "page": 18
+        },
+        {
+          "para_id": "1_24",
+          "text": "endless exploration. The established limitations in this benchmark create a testing environment",
+          "page": 18
+        },
+        {
+          "para_id": "1_25",
+          "text": "which mirrors actual operational conditions for interactive data science agents.",
+          "page": 18
+        },
+        {
+          "para_id": "1_26",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 19
+        },
+        {
+          "para_id": "1_27",
+          "text": "EXAMPLE PROMPT FOR COLUMN INFERENCE AND TASK IDENTIFICATION",
+          "page": 19
+        },
+        {
+          "para_id": "1_28",
+          "text": "The following prompt guides the model to check task suitability and identify prediction target and",
+          "page": 19
+        },
+        {
+          "para_id": "1_29",
+          "text": "relevant features from the provided dataset description and data information.",
+          "page": 19
+        },
+        {
+          "para_id": "1_30",
+          "text": "Task Target and Feature Identification Prompt",
+          "page": 19
+        },
+        {
+          "para_id": "1_31",
+          "text": "You are given a dataset along with its description.",
+          "page": 19
+        },
+        {
+          "para_id": "1_32",
+          "text": "Your tasks are as follows:",
+          "page": 19
+        },
+        {
+          "para_id": "1_33",
+          "text": "Task 1: Assess Logistic/Linear Regression Suitability",
+          "page": 19
+        },
+        {
+          "para_id": "1_34",
+          "text": "Determine whether logistic regression (for classification) or linear regression (for regression) can be",
+          "page": 19
+        },
+        {
+          "para_id": "1_35",
+          "text": "appropriately used to model this dataset.",
+          "page": 19
+        },
+        {
+          "para_id": "1_36",
+          "text": "Use this strict checklist:",
+          "page": 19
+        },
+        {
+          "para_id": "1_37",
+          "text": "• Classification: target must be categorical; features structured; manageable missing values.",
+          "page": 19
+        },
+        {
+          "para_id": "1_38",
+          "text": "• Regression: target must be numeric and continuous; features structured; manageable missing",
+          "page": 19
+        },
+        {
+          "para_id": "1_39",
+          "text": "values; categorical targets not allowed.",
+          "page": 19
+        },
+        {
+          "para_id": "1_40",
+          "text": "If all conditions are met, the method is appropriate. Otherwise, it is not. When uncertain, output False.",
+          "page": 19
+        },
+        {
+          "para_id": "1_41",
+          "text": "Task 2: Identify Task Type, Target Column, and Feature Columns",
+          "page": 19
+        },
+        {
+          "para_id": "1_42",
+          "text": "You must select column names only from the list below inside Column list:, avoid using names from",
+          "page": 19
+        },
+        {
+          "para_id": "1_43",
+          "text": "Context / description:.",
+          "page": 19
+        },
+        {
+          "para_id": "1_44",
+          "text": "Context / description:",
+          "page": 19
+        },
+        {
+          "para_id": "1_45",
+          "text": "• The task type (classification or regression)",
+          "page": 19
+        },
+        {
+          "para_id": "1_46",
+          "text": "• A list (≤3) of candidate target columns",
+          "page": 19
+        },
+        {
+          "para_id": "1_47",
+          "text": "• The best set of feature columns",
+          "page": 19
+        },
+        {
+          "para_id": "1_48",
+          "text": "Task 3: Column Type Inference",
+          "page": 19
+        },
+        {
+          "para_id": "1_49",
+          "text": "For each column in the list, classify it as:",
+          "page": 19
+        },
+        {
+          "para_id": "1_50",
+          "text": "• “numerical”: meaningful arithmetic operations",
+          "page": 19
+        },
+        {
+          "para_id": "1_51",
+          "text": "• “categorical”: groups/codes, arithmetic not meaningful",
+          "page": 19
+        },
+        {
+          "para_id": "1_52",
+          "text": "• Return a Python dictionary with every column as a key",
+          "page": 19
+        },
+        {
+          "para_id": "1_53",
+          "text": "• Value must be either “numerical” or “categorical”",
+          "page": 19
+        },
+        {
+          "para_id": "1_54",
+          "text": "• Use dataset description to guide decisions",
+          "page": 19
+        },
+        {
+          "para_id": "1_55",
+          "text": "Output exactly 5 lines, in LaTeX-boxed format:",
+          "page": 19
+        },
+        {
+          "para_id": "1_56",
+          "text": "1. Method suitability →\\boxed{True} or \\boxed{False}",
+          "page": 19
+        },
+        {
+          "para_id": "1_57",
+          "text": "2. Task type →\\boxed{classification} or \\boxed{regression}",
+          "page": 19
+        },
+        {
+          "para_id": "1_58",
+          "text": "3. Target column candidates →\\boxed{[\"target1\", \"target2\"]}",
+          "page": 19
+        },
+        {
+          "para_id": "1_59",
+          "text": "4. Feature columns →\\boxed{[\"col1\", \"col2\", ...]}",
+          "page": 19
+        },
+        {
+          "para_id": "1_60",
+          "text": "5. Column types →\\boxed{{{\"col1\": \"numerical\", \"col2\": \"categorical\"}}}",
+          "page": 19
+        },
+        {
+          "para_id": "1_61",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 20
+        },
+        {
+          "para_id": "1_62",
+          "text": "The following prompt reformulates the user question into a precise and well-structured instruction.",
+          "page": 20
+        },
+        {
+          "para_id": "1_63",
+          "text": "Rewrite Question Prompt",
+          "page": 20
+        },
+        {
+          "para_id": "1_64",
+          "text": "You are given a machine learning task described in final_question and a dictionary of column",
+          "page": 20
+        },
+        {
+          "para_id": "1_65",
+          "text": "metadata in metadata_description. Your job is to rewrite the final_question in fluent",
+          "page": 20
+        },
+        {
+          "para_id": "1_66",
+          "text": "natural language, making it easier to read while keeping the meaning and structure intact.",
+          "page": 20
+        },
+        {
+          "para_id": "1_67",
+          "text": "Here’s what you must do:",
+          "page": 20
+        },
+        {
+          "para_id": "1_68",
+          "text": "1. Replace all column names and feature names in final_question with their natural lan-",
+          "page": 20
+        },
+        {
+          "para_id": "1_69",
+          "text": "guage descriptions from metadata_description. Preserve the original ordering of",
+          "page": 20
+        },
+        {
+          "para_id": "1_70",
+          "text": "2. If a column or feature name is not present in metadata_description, rewrite it into a",
+          "page": 20
+        },
+        {
+          "para_id": "1_71",
+          "text": "natural-sounding phrase using best judgment.",
+          "page": 20
+        },
+        {
+          "para_id": "1_72",
+          "text": "3. Rewrite structured formats (lists, dicts) into natural language paragraphs, while retaining",
+          "page": 20
+        },
+        {
+          "para_id": "1_73",
+          "text": "original item order.",
+          "page": 20
+        },
+        {
+          "para_id": "1_74",
+          "text": "4. Keep existing natural language unchanged.",
+          "page": 20
+        },
+        {
+          "para_id": "1_75",
+          "text": "5. Keep all file paths unchanged.",
+          "page": 20
+        },
+        {
+          "para_id": "1_76",
+          "text": "6. File names or paths must be wrapped in backticks.",
+          "page": 20
+        },
+        {
+          "para_id": "1_77",
+          "text": "7. Target column names must be wrapped in backticks.",
+          "page": 20
+        },
+        {
+          "para_id": "1_78",
+          "text": "8. Final output must be a clear instruction in natural language.",
+          "page": 20
+        },
+        {
+          "para_id": "1_79",
+          "text": "9. If the string None appears in value ranges, treat it as a categorical value None.",
+          "page": 20
+        },
+        {
+          "para_id": "1_80",
+          "text": "10. Do not include headings, markdown, or extra explanations—return only the rewritten ques-",
+          "page": 20
+        },
+        {
+          "para_id": "1_81",
+          "text": "11. Use only standard English characters.",
+          "page": 20
+        },
+        {
+          "para_id": "1_82",
+          "text": "12. Explicitly preserve ordering requirements in the rewritten question.",
+          "page": 20
+        },
+        {
+          "para_id": "1_83",
+          "text": "Here is the final_question:",
+          "page": 20
+        },
+        {
+          "para_id": "1_84",
+          "text": "Here is the metadata_description:",
+          "page": 20
+        },
+        {
+          "para_id": "1_85",
+          "text": "Now return only the rewritten version of the question, using natural language descriptions where pos-",
+          "page": 20
+        },
+        {
+          "para_id": "1_86",
+          "text": "sible. Preserve file paths, model names, and categorical values exactly as given.",
+          "page": 20
+        },
+        {
+          "para_id": "1_87",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 21
+        },
+        {
+          "para_id": "1_88",
+          "text": "The following prompt determines whether the dataset is time-series and infers the appropriate tem-",
+          "page": 21
+        },
+        {
+          "para_id": "1_89",
+          "text": "poral type information.",
+          "page": 21
+        },
+        {
+          "para_id": "1_90",
+          "text": "Time-Series Identification and Typing Prompt",
+          "page": 21
+        },
+        {
+          "para_id": "1_91",
+          "text": "You are given a dataset and its description.",
+          "page": 21
+        },
+        {
+          "para_id": "1_92",
+          "text": "Task 1: Assess Suitability",
+          "page": 21
+        },
+        {
+          "para_id": "1_93",
+          "text": "Check if Time Series Forecasting applies. Conditions:",
+          "page": 21
+        },
+        {
+          "para_id": "1_94",
+          "text": "1. Must have a clear timestamp column (e.g., ‘date‘, ‘time‘).",
+          "page": 21
+        },
+        {
+          "para_id": "1_95",
+          "text": "2. Must have a target variable changing over time (e.g., sales, temperature).",
+          "page": 21
+        },
+        {
+          "para_id": "1_96",
+          "text": "3. Observations should be sequential and time-dependent.",
+          "page": 21
+        },
+        {
+          "para_id": "1_97",
+          "text": "4. Time interval must be regular or resample-able (e.g., daily, hourly).",
+          "page": 21
+        },
+        {
+          "para_id": "1_98",
+          "text": "If all are met, output True; otherwise False.",
+          "page": 21
+        },
+        {
+          "para_id": "1_99",
+          "text": "Task 2: Identify Key Columns",
+          "page": 21
+        },
+        {
+          "para_id": "1_100",
+          "text": "From the list below, infer:",
+          "page": 21
+        },
+        {
+          "para_id": "1_101",
+          "text": "• Best timestamp column",
+          "page": 21
+        },
+        {
+          "para_id": "1_102",
+          "text": "• Best target column",
+          "page": 21
+        },
+        {
+          "para_id": "1_103",
+          "text": "• Optional exogenous feature columns",
+          "page": 21
+        },
+        {
+          "para_id": "1_104",
+          "text": "Task 3: Column Typing",
+          "page": 21
+        },
+        {
+          "para_id": "1_105",
+          "text": "For each column, classify as: \"timestamp\", \"numerical\", \"categorical\", or \"other\".",
+          "page": 21
+        },
+        {
+          "para_id": "1_106",
+          "text": "If timestamp exists, also infer its format (Python strftime).",
+          "page": 21
+        },
+        {
+          "para_id": "1_107",
+          "text": "Final Output Format (6 lines, LaTeX-boxed):",
+          "page": 21
+        },
+        {
+          "para_id": "1_108",
+          "text": "1. Suitability →\\boxed{True} or \\boxed{False}",
+          "page": 21
+        },
+        {
+          "para_id": "1_109",
+          "text": "2. Timestamp column →\\boxed{column_name} or \\boxed{ambiguous}",
+          "page": 21
+        },
+        {
+          "para_id": "1_110",
+          "text": "3. Target column →\\boxed{column_name} or \\boxed{ambiguous}",
+          "page": 21
+        },
+        {
+          "para_id": "1_111",
+          "text": "4. Exogenous features →\\boxed{[\"col1\", ...]} or \\boxed{[]}",
+          "page": 21
+        },
+        {
+          "para_id": "1_112",
+          "text": "5. Column types →\\boxed{{\"col1\": \"timestamp\", \"col2\": \"numerical\"}}",
+          "page": 21
+        },
+        {
+          "para_id": "1_113",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 22
+        },
+        {
+          "para_id": "1_114",
+          "text": "The following prompt identifies grouping entities (e.g., users, products, or regions) that structure the",
+          "page": 22
+        },
+        {
+          "para_id": "1_115",
+          "text": "dataset for time-CF tasks.",
+          "page": 22
+        },
+        {
+          "para_id": "1_116",
+          "text": "Entity (Group) Identification Prompt",
+          "page": 22
+        },
+        {
+          "para_id": "1_117",
+          "text": "You are given a dataset for time series forecasting. The dataset includes a timestamp column, a tar-",
+          "page": 22
+        },
+        {
+          "para_id": "1_118",
+          "text": "get column to be predicted, and possibly multiple other columns representing categorical or numeric",
+          "page": 22
+        },
+        {
+          "para_id": "1_119",
+          "text": "features. Your task is to identify which column(s) represent the entity (or group ID) — that is, the",
+          "page": 22
+        },
+        {
+          "para_id": "1_120",
+          "text": "column(s) that differentiate multiple independent time series within the dataset.",
+          "page": 22
+        },
+        {
+          "para_id": "1_121",
+          "text": "Please analyze the column names and a sample of the data (including at least the first few rows), and",
+          "page": 22
+        },
+        {
+          "para_id": "1_122",
+          "text": "answer the following:",
+          "page": 22
+        },
+        {
+          "para_id": "1_123",
+          "text": "1. Which column(s) should be used to distinguish different time series entities?",
+          "page": 22
+        },
+        {
+          "para_id": "1_124",
+          "text": "2. Briefly explain why those column(s) were selected as entity identifiers.",
+          "page": 22
+        },
+        {
+          "para_id": "1_125",
+          "text": "3. If no entity column is needed because the dataset represents a single time series, say so",
+          "page": 22
+        },
+        {
+          "para_id": "1_126",
+          "text": "Additional identification suggestions (optional)",
+          "page": 22
+        },
+        {
+          "para_id": "1_127",
+          "text": "{entity_identification_suggestions}",
+          "page": 22
+        },
+        {
+          "para_id": "1_128",
+          "text": "Sample Data (first 30 rows)",
+          "page": 22
+        },
+        {
+          "para_id": "1_129",
+          "text": "Column statistics (distinct counts, top value frequency, example value patterns)",
+          "page": 22
+        },
+        {
+          "para_id": "1_130",
+          "text": "Output format (exactly 2 lines, LaTeX-boxed, nothing else):",
+          "page": 22
+        },
+        {
+          "para_id": "1_131",
+          "text": "\\boxed{[\"col_name1\", \"col_name2\", ...]}",
+          "page": 22
+        },
+        {
+          "para_id": "1_132",
+          "text": "2. Justification →\\boxed{<Your explanation here>}",
+          "page": 22
+        },
+        {
+          "para_id": "1_133",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 23
+        },
+        {
+          "para_id": "1_134",
+          "text": "The following prompt decides whether resampling is needed for the dataset and, if so, specifies the",
+          "page": 23
+        },
+        {
+          "para_id": "1_135",
+          "text": "appropriate resampling strategy.",
+          "page": 23
+        },
+        {
+          "para_id": "1_136",
+          "text": "Resampling Decision Prompt",
+          "page": 23
+        },
+        {
+          "para_id": "1_137",
+          "text": "You are an expert data scientist assisting with time series preprocessing.",
+          "page": 23
+        },
+        {
+          "para_id": "1_138",
+          "text": "Your goal is to decide whether a given time series dataset needs resampling (i.e., converting irregular",
+          "page": 23
+        },
+        {
+          "para_id": "1_139",
+          "text": "or overly fine-grained timestamps to a fixed frequency like daily/hourly).",
+          "page": 23
+        },
+        {
+          "para_id": "1_140",
+          "text": "1. A brief description of the dataset and task.",
+          "page": 23
+        },
+        {
+          "para_id": "1_141",
+          "text": "2. The first 30 rows of the dataset (including timestamps and relevant columns).",
+          "page": 23
+        },
+        {
+          "para_id": "1_142",
+          "text": "• For each time value, up to 5 rows are shown.",
+          "page": 23
+        },
+        {
+          "para_id": "1_143",
+          "text": "• If a time value had more than 5 rows, it is marked with a comment.",
+          "page": 23
+        },
+        {
+          "para_id": "1_144",
+          "text": "3. The target column for forecasting or analysis: {target col}.",
+          "page": 23
+        },
+        {
+          "para_id": "1_145",
+          "text": "• Whether the time column appears irregular, too granular, or dense.",
+          "page": 23
+        },
+        {
+          "para_id": "1_146",
+          "text": "• Whether each row represents a meaningful unit (e.g., per-day summary) or a low-level log",
+          "page": 23
+        },
+        {
+          "para_id": "1_147",
+          "text": "• Whether resampling could make the series easier to model.",
+          "page": 23
+        },
+        {
+          "para_id": "1_148",
+          "text": "• If resampling is needed, recommend:",
+          "page": 23
+        },
+        {
+          "para_id": "1_149",
+          "text": "– The resampling rule (e.g., 1min, 5min, 1H, 1D).",
+          "page": 23
+        },
+        {
+          "para_id": "1_150",
+          "text": "– The aggregation function for the target column ({target col}): choose from",
+          "page": 23
+        },
+        {
+          "para_id": "1_151",
+          "text": "\"mean\", \"sum\", \"count\", or other common aggregations.",
+          "page": 23
+        },
+        {
+          "para_id": "1_152",
+          "text": "• If resampling is not needed, it may be because the data is evenly spaced or each row is",
+          "page": 23
+        },
+        {
+          "para_id": "1_153",
+          "text": "Sample Data (first 30 rows)",
+          "page": 23
+        },
+        {
+          "para_id": "1_154",
+          "text": "Output format (exactly 4 lines, LaTeX-boxed, nothing else):",
+          "page": 23
+        },
+        {
+          "para_id": "1_155",
+          "text": "1. Should resample →\\boxed{True} or \\boxed{False}",
+          "page": 23
+        },
+        {
+          "para_id": "1_156",
+          "text": "2. Reason →\\boxed{<One-sentence explanation>}",
+          "page": 23
+        },
+        {
+          "para_id": "1_157",
+          "text": "3. Suggested rule →\\boxed{<1min/5min/1H/1D or null>}",
+          "page": 23
+        },
+        {
+          "para_id": "1_158",
+          "text": "4. Target aggregation →\\boxed{<mean/sum/count/... for ’{target_col}’>}",
+          "page": 23
+        },
+        {
+          "para_id": "1_159",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 24
+        },
+        {
+          "para_id": "1_160",
+          "text": "REFERENCE CODE FOR INSTRUCTION-FOLLOWING EVALUATION",
+          "page": 24
+        },
+        {
+          "para_id": "1_161",
+          "text": "Below we include the reference implementation used to evaluate instruction-following tasks in our",
+          "page": 24
+        },
+        {
+          "para_id": "1_162",
+          "text": "Reference Code for Instruction-Following Evaluation",
+          "page": 24
+        },
+        {
+          "para_id": "1_163",
+          "text": "from sklearn.model_selection import train_test_split",
+          "page": 24
+        },
+        {
+          "para_id": "1_164",
+          "text": "from sklearn.preprocessing import StandardScaler, OneHotEncoder",
+          "page": 24
+        },
+        {
+          "para_id": "1_165",
+          "text": "from sklearn.impute import SimpleImputer",
+          "page": 24
+        },
+        {
+          "para_id": "1_166",
+          "text": "from sklearn.compose import ColumnTransformer",
+          "page": 24
+        },
+        {
+          "para_id": "1_167",
+          "text": "from sklearn.pipeline import Pipeline",
+          "page": 24
+        },
+        {
+          "para_id": "1_168",
+          "text": "from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso",
+          "page": 24
+        },
+        {
+          "para_id": "1_169",
+          "text": "from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor",
+          "page": 24
+        },
+        {
+          "para_id": "1_170",
+          "text": "from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor",
+          "page": 24
+        },
+        {
+          "para_id": "1_171",
+          "text": "from sklearn.neural_network import MLPClassifier, MLPRegressor",
+          "page": 24
+        },
+        {
+          "para_id": "1_172",
+          "text": "from sklearn.naive_bayes import GaussianNB",
+          "page": 24
+        },
+        {
+          "para_id": "1_173",
+          "text": "from sklearn.svm import LinearSVC",
+          "page": 24
+        },
+        {
+          "para_id": "1_174",
+          "text": "from sklearn.multioutput import MultiOutputClassifier",
+          "page": 24
+        },
+        {
+          "para_id": "1_175",
+          "text": "from sklearn.metrics import accuracy_score, classification_report, mean_squared_error,",
+          "page": 24
+        },
+        {
+          "para_id": "1_176",
+          "text": "# Function to load and join tables from a SQLite file",
+          "page": 24
+        },
+        {
+          "para_id": "1_177",
+          "text": "def load_and_join(sqlite_path):",
+          "page": 24
+        },
+        {
+          "para_id": "1_178",
+          "text": "conn = sqlite3.connect(sqlite_path)",
+          "page": 24
+        },
+        {
+          "para_id": "1_179",
+          "text": "tables = pd.read_sql_query(\"SELECT name FROM sqlite_master WHERE type=’table’;\",",
+          "page": 24
+        },
+        {
+          "para_id": "1_180",
+          "text": "conn)[’name’].tolist()",
+          "page": 24
+        },
+        {
+          "para_id": "1_181",
+          "text": "for table in tables:",
+          "page": 24
+        },
+        {
+          "para_id": "1_182",
+          "text": "df_tab = pd.read_sql_query(f\"SELECT * FROM ’{table}’\", conn)",
+          "page": 24
+        },
+        {
+          "para_id": "1_183",
+          "text": "if ’row_id’ not in df_tab.columns:",
+          "page": 24
+        },
+        {
+          "para_id": "1_184",
+          "text": "df = df.merge(df_tab, on=’row_id’, how=’inner’)",
+          "page": 24
+        },
+        {
+          "para_id": "1_185",
+          "text": "def train_predict_model(train_df, eval_df, feature_cols, model_type,",
+          "page": 24
+        },
+        {
+          "para_id": "1_186",
+          "text": "column_type_inference, target_cols=[’answer’], imputer_type=\"most_frequent\",",
+          "page": 24
+        },
+        {
+          "para_id": "1_187",
+          "text": "problem_type=\"classification\", random_state=42):",
+          "page": 24
+        },
+        {
+          "para_id": "1_188",
+          "text": "print(f\"MACHINE LEARNING PIPELINE\")",
+          "page": 24
+        },
+        {
+          "para_id": "1_189",
+          "text": "# Check if target column exists in training data",
+          "page": 24
+        },
+        {
+          "para_id": "1_190",
+          "text": "for target_column in target_cols:",
+          "page": 24
+        },
+        {
+          "para_id": "1_191",
+          "text": "if target_column not in train_df.columns:",
+          "page": 24
+        },
+        {
+          "para_id": "1_192",
+          "text": "print(f\"Target column ’{target_column}’ not found in training data!\")",
+          "page": 24
+        },
+        {
+          "para_id": "1_193",
+          "text": "print(f\"Available columns in train_df: {list(train_df.columns)}\")",
+          "page": 24
+        },
+        {
+          "para_id": "1_194",
+          "text": "# Check if all feature columns exist in both datasets",
+          "page": 24
+        },
+        {
+          "para_id": "1_195",
+          "text": "missing_features_train = [col for col in feature_cols if col not in train_df.",
+          "page": 24
+        },
+        {
+          "para_id": "1_196",
+          "text": "missing_features_eval = [col for col in feature_cols if col not in eval_df.columns]",
+          "page": 24
+        },
+        {
+          "para_id": "1_197",
+          "text": "if missing_features_train:",
+          "page": 24
+        },
+        {
+          "para_id": "1_198",
+          "text": "print(f\"Missing feature columns in train_df: {missing_features_train}\")",
+          "page": 24
+        },
+        {
+          "para_id": "1_199",
+          "text": "if missing_features_eval:",
+          "page": 24
+        },
+        {
+          "para_id": "1_200",
+          "text": "print(f\"Missing feature columns in eval_df: {missing_features_eval}\")",
+          "page": 24
+        },
+        {
+          "para_id": "1_201",
+          "text": "formatted_targets = \", \".join(\"‘{}‘\".format(col) for col in target_cols)",
+          "page": 24
+        },
+        {
+          "para_id": "1_202",
+          "text": "print(f\"Target column {formatted_targets} found in training data\")",
+          "page": 24
+        },
+        {
+          "para_id": "1_203",
+          "text": "print(f\" Training dataset shape: {train_df.shape}\")",
+          "page": 24
+        },
+        {
+          "para_id": "1_204",
+          "text": "print(f\" Evaluation dataset shape: {eval_df.shape}\")",
+          "page": 24
+        },
+        {
+          "para_id": "1_205",
+          "text": "# Prepare training features and target",
+          "page": 24
+        },
+        {
+          "para_id": "1_206",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 25
+        },
+        {
+          "para_id": "1_207",
+          "text": "X_train = train_df[feature_cols].copy()",
+          "page": 25
+        },
+        {
+          "para_id": "1_208",
+          "text": "y_train = train_df[target_cols].copy()",
+          "page": 25
+        },
+        {
+          "para_id": "1_209",
+          "text": "# Prepare evaluation features (and target if it exists)",
+          "page": 25
+        },
+        {
+          "para_id": "1_210",
+          "text": "X_eval = eval_df[feature_cols].copy()",
+          "page": 25
+        },
+        {
+          "para_id": "1_211",
+          "text": "# Check if target column exists in eval_df for evaluation",
+          "page": 25
+        },
+        {
+          "para_id": "1_212",
+          "text": "has_eval_target = True",
+          "page": 25
+        },
+        {
+          "para_id": "1_213",
+          "text": "for target_column in target_cols:",
+          "page": 25
+        },
+        {
+          "para_id": "1_214",
+          "text": "if target_column not in eval_df.columns:",
+          "page": 25
+        },
+        {
+          "para_id": "1_215",
+          "text": "has_eval_target = False",
+          "page": 25
+        },
+        {
+          "para_id": "1_216",
+          "text": "y_eval = eval_df[target_cols].copy()",
+          "page": 25
+        },
+        {
+          "para_id": "1_217",
+          "text": "print(f\"Target column found in evaluation data - will compute metrics\")",
+          "page": 25
+        },
+        {
+          "para_id": "1_218",
+          "text": "print(f\" Target column not found in evaluation data - will only make",
+          "page": 25
+        },
+        {
+          "para_id": "1_219",
+          "text": "# Check for null targets in training data",
+          "page": 25
+        },
+        {
+          "para_id": "1_220",
+          "text": "null_targets_train = y_train.isnull().sum().sum()",
+          "page": 25
+        },
+        {
+          "para_id": "1_221",
+          "text": "# use two sum to get the total",
+          "page": 25
+        },
+        {
+          "para_id": "1_222",
+          "text": "if null_targets_train > 0:",
+          "page": 25
+        },
+        {
+          "para_id": "1_223",
+          "text": "print(f\" Found {null_targets_train} null targets in training data - removing",
+          "page": 25
+        },
+        {
+          "para_id": "1_224",
+          "text": "valid_indices = ˜y_train.isnull().any(axis=1)",
+          "page": 25
+        },
+        {
+          "para_id": "1_225",
+          "text": "# make sure no null target row",
+          "page": 25
+        },
+        {
+          "para_id": "1_226",
+          "text": "X_train = X_train[valid_indices]",
+          "page": 25
+        },
+        {
+          "para_id": "1_227",
+          "text": "y_train = y_train[valid_indices]",
+          "page": 25
+        },
+        {
+          "para_id": "1_228",
+          "text": "print(f\" Final training data: {X_train.shape[0]} rows\")",
+          "page": 25
+        },
+        {
+          "para_id": "1_229",
+          "text": "print(f\" Final evaluation data: {X_eval.shape[0]} rows\")",
+          "page": 25
+        },
+        {
+          "para_id": "1_230",
+          "text": "# Separate numeric and categorical features",
+          "page": 25
+        },
+        {
+          "para_id": "1_231",
+          "text": "numeric_features = []",
+          "page": 25
+        },
+        {
+          "para_id": "1_232",
+          "text": "categorical_features = []",
+          "page": 25
+        },
+        {
+          "para_id": "1_233",
+          "text": "for col in feature_cols:",
+          "page": 25
+        },
+        {
+          "para_id": "1_234",
+          "text": "# Check data type in training data",
+          "page": 25
+        },
+        {
+          "para_id": "1_235",
+          "text": "if column_type_inference[col].lower() == \"numerical\":",
+          "page": 25
+        },
+        {
+          "para_id": "1_236",
+          "text": "numeric_features.append(col)",
+          "page": 25
+        },
+        {
+          "para_id": "1_237",
+          "text": "elif column_type_inference[col].lower() == \"categorical\":",
+          "page": 25
+        },
+        {
+          "para_id": "1_238",
+          "text": "categorical_features.append(col)",
+          "page": 25
+        },
+        {
+          "para_id": "1_239",
+          "text": "print(f\" Numeric features ({len(numeric_features)}): {numeric_features}\")",
+          "page": 25
+        },
+        {
+          "para_id": "1_240",
+          "text": "print(f\" Categorical features ({len(categorical_features)}): {categorical_features",
+          "page": 25
+        },
+        {
+          "para_id": "1_241",
+          "text": "assert len(numeric_features) + len(categorical_features) == len(feature_cols)",
+          "page": 25
+        },
+        {
+          "para_id": "1_242",
+          "text": "# Create preprocessing pipeline",
+          "page": 25
+        },
+        {
+          "para_id": "1_243",
+          "text": "if numeric_features:",
+          "page": 25
+        },
+        {
+          "para_id": "1_244",
+          "text": "transformers.append((’num’, Pipeline([",
+          "page": 25
+        },
+        {
+          "para_id": "1_245",
+          "text": "(’imputer’, SimpleImputer(strategy=imputer_type)),",
+          "page": 25
+        },
+        {
+          "para_id": "1_246",
+          "text": "(’scaler’, StandardScaler())",
+          "page": 25
+        },
+        {
+          "para_id": "1_247",
+          "text": "]), numeric_features))",
+          "page": 25
+        },
+        {
+          "para_id": "1_248",
+          "text": "if categorical_features:",
+          "page": 25
+        },
+        {
+          "para_id": "1_249",
+          "text": "transformers.append((’cat’, Pipeline([",
+          "page": 25
+        },
+        {
+          "para_id": "1_250",
+          "text": "(’imputer’, SimpleImputer(strategy=\"most_frequent\")),",
+          "page": 25
+        },
+        {
+          "para_id": "1_251",
+          "text": "(’onehot’, OneHotEncoder(handle_unknown=’ignore’, sparse_output=False))",
+          "page": 25
+        },
+        {
+          "para_id": "1_252",
+          "text": "]), categorical_features))",
+          "page": 25
+        },
+        {
+          "para_id": "1_253",
+          "text": "preprocessor = ColumnTransformer(transformers=transformers)",
+          "page": 25
+        },
+        {
+          "para_id": "1_254",
+          "text": "# Choose model based on problem type",
+          "page": 25
+        },
+        {
+          "para_id": "1_255",
+          "text": "if problem_type.lower() == \"classification\":",
+          "page": 25
+        },
+        {
+          "para_id": "1_256",
+          "text": "if model_type == \"LogisticRegression\":",
+          "page": 25
+        },
+        {
+          "para_id": "1_257",
+          "text": "model = LogisticRegression(random_state=random_state)",
+          "page": 25
+        },
+        {
+          "para_id": "1_258",
+          "text": "if len(target_cols) > 1:",
+          "page": 25
+        },
+        {
+          "para_id": "1_259",
+          "text": "model = MultiOutputClassifier(model)",
+          "page": 25
+        },
+        {
+          "para_id": "1_260",
+          "text": "elif model_type == \"DecisionTreeClassifier\":",
+          "page": 25
+        },
+        {
+          "para_id": "1_261",
+          "text": "model = DecisionTreeClassifier(random_state=random_state)",
+          "page": 25
+        },
+        {
+          "para_id": "1_262",
+          "text": "elif model_type == \"GaussianNB\":",
+          "page": 25
+        },
+        {
+          "para_id": "1_263",
+          "text": "model = GaussianNB()",
+          "page": 25
+        },
+        {
+          "para_id": "1_264",
+          "text": "if len(target_cols) > 1:",
+          "page": 25
+        },
+        {
+          "para_id": "1_265",
+          "text": "model = MultiOutputClassifier(model)",
+          "page": 25
+        },
+        {
+          "para_id": "1_266",
+          "text": "elif model_type == \"LinearSVC\":",
+          "page": 25
+        },
+        {
+          "para_id": "1_267",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 26
+        },
+        {
+          "para_id": "1_268",
+          "text": "model = LinearSVC(random_state=random_state)",
+          "page": 26
+        },
+        {
+          "para_id": "1_269",
+          "text": "if len(target_cols) > 1:",
+          "page": 26
+        },
+        {
+          "para_id": "1_270",
+          "text": "model = MultiOutputClassifier(model)",
+          "page": 26
+        },
+        {
+          "para_id": "1_271",
+          "text": "elif model_type == \"MLPClassifier\":",
+          "page": 26
+        },
+        {
+          "para_id": "1_272",
+          "text": "model = MLPClassifier(random_state=random_state)",
+          "page": 26
+        },
+        {
+          "para_id": "1_273",
+          "text": "raise ValueError(f\"Invalid model type: {model_type}\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_274",
+          "text": "print(f\" Using {model_type} for classification\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_275",
+          "text": "elif problem_type.lower() == \"regression\":",
+          "page": 26
+        },
+        {
+          "para_id": "1_276",
+          "text": "if model_type == \"LinearRegression\":",
+          "page": 26
+        },
+        {
+          "para_id": "1_277",
+          "text": "model = LinearRegression()",
+          "page": 26
+        },
+        {
+          "para_id": "1_278",
+          "text": "elif model_type == \"DecisionTreeRegressor\":",
+          "page": 26
+        },
+        {
+          "para_id": "1_279",
+          "text": "model = DecisionTreeRegressor(random_state=random_state)",
+          "page": 26
+        },
+        {
+          "para_id": "1_280",
+          "text": "elif model_type == \"Ridge\":",
+          "page": 26
+        },
+        {
+          "para_id": "1_281",
+          "text": "model = Ridge(random_state=random_state)",
+          "page": 26
+        },
+        {
+          "para_id": "1_282",
+          "text": "elif model_type == \"Lasso\":",
+          "page": 26
+        },
+        {
+          "para_id": "1_283",
+          "text": "model = Lasso(random_state=random_state)",
+          "page": 26
+        },
+        {
+          "para_id": "1_284",
+          "text": "elif model_type == \"MLPRegressor\":",
+          "page": 26
+        },
+        {
+          "para_id": "1_285",
+          "text": "model = MLPRegressor(random_state=random_state)",
+          "page": 26
+        },
+        {
+          "para_id": "1_286",
+          "text": "raise ValueError(f\"Invalid model type: {model_type}\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_287",
+          "text": "print(f\" Using {model_type} for regression\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_288",
+          "text": "# Create full pipeline",
+          "page": 26
+        },
+        {
+          "para_id": "1_289",
+          "text": "ml_pipeline = Pipeline([",
+          "page": 26
+        },
+        {
+          "para_id": "1_290",
+          "text": "(’preprocessor’, preprocessor),",
+          "page": 26
+        },
+        {
+          "para_id": "1_291",
+          "text": "ml_pipeline.fit(X_train, y_train)",
+          "page": 26
+        },
+        {
+          "para_id": "1_292",
+          "text": "print(f\" Model trained successfully\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_293",
+          "text": "except Exception as e:",
+          "page": 26
+        },
+        {
+          "para_id": "1_294",
+          "text": "print(f\" Error during training: {e}\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_295",
+          "text": "y_pred = ml_pipeline.predict(X_eval)",
+          "page": 26
+        },
+        {
+          "para_id": "1_296",
+          "text": "except Exception as e:",
+          "page": 26
+        },
+        {
+          "para_id": "1_297",
+          "text": "# Evaluate model (only if we have evaluation targets)",
+          "page": 26
+        },
+        {
+          "para_id": "1_298",
+          "text": "if has_eval_target and y_eval is not None:",
+          "page": 26
+        },
+        {
+          "para_id": "1_299",
+          "text": "# Remove rows with null targets in evaluation for metrics",
+          "page": 26
+        },
+        {
+          "para_id": "1_300",
+          "text": "valid_eval_mask = y_eval.notna()",
+          "page": 26
+        },
+        {
+          "para_id": "1_301",
+          "text": "y_eval_clean = y_eval[valid_eval_mask]",
+          "page": 26
+        },
+        {
+          "para_id": "1_302",
+          "text": "y_pred_clean = y_pred[valid_eval_mask]",
+          "page": 26
+        },
+        {
+          "para_id": "1_303",
+          "text": "if len(y_eval_clean) == 0:",
+          "page": 26
+        },
+        {
+          "para_id": "1_304",
+          "text": "print(\" No valid evaluation targets found - skipping evaluation metrics\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_305",
+          "text": "if problem_type.lower() == \"classification\":",
+          "page": 26
+        },
+        {
+          "para_id": "1_306",
+          "text": "accuracy = accuracy_score(y_eval_clean, y_pred_clean)",
+          "page": 26
+        },
+        {
+          "para_id": "1_307",
+          "text": "print(f\" Accuracy: {accuracy:.4f}\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_308",
+          "text": "print(classification_report(y_eval_clean, y_pred_clean))",
+          "page": 26
+        },
+        {
+          "para_id": "1_309",
+          "text": "# Show sample predictions",
+          "page": 26
+        },
+        {
+          "para_id": "1_310",
+          "text": "for i in range(min(10, len(y_eval_clean))):",
+          "page": 26
+        },
+        {
+          "para_id": "1_311",
+          "text": "actual = y_eval_clean.iloc[i]",
+          "page": 26
+        },
+        {
+          "para_id": "1_312",
+          "text": "predicted = y_pred_clean[i]",
+          "page": 26
+        },
+        {
+          "para_id": "1_313",
+          "text": "status = \"right\" if actual == predicted else \"wrong\"",
+          "page": 26
+        },
+        {
+          "para_id": "1_314",
+          "text": "print(f\"{status} Row {i}: Actual={actual}, Predicted={predicted}\")",
+          "page": 26
+        },
+        {
+          "para_id": "1_315",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 27
+        },
+        {
+          "para_id": "1_316",
+          "text": "mse = mean_squared_error(y_eval_clean, y_pred_clean)",
+          "page": 27
+        },
+        {
+          "para_id": "1_317",
+          "text": "r2 = r2_score(y_eval_clean, y_pred_clean)",
+          "page": 27
+        },
+        {
+          "para_id": "1_318",
+          "text": "print(f\" Rˆ{2} Score: {r2:.4f}\")",
+          "page": 27
+        },
+        {
+          "para_id": "1_319",
+          "text": "print(f\" RMSE: {rmse:.4f}\")",
+          "page": 27
+        },
+        {
+          "para_id": "1_320",
+          "text": "print(f\" MSE: {mse:.4f}\")",
+          "page": 27
+        },
+        {
+          "para_id": "1_321",
+          "text": "# Show sample predictions",
+          "page": 27
+        },
+        {
+          "para_id": "1_322",
+          "text": "for i in range(min(10, len(y_eval_clean))):",
+          "page": 27
+        },
+        {
+          "para_id": "1_323",
+          "text": "actual = y_eval_clean.iloc[i]",
+          "page": 27
+        },
+        {
+          "para_id": "1_324",
+          "text": "predicted = y_pred_clean[i]",
+          "page": 27
+        },
+        {
+          "para_id": "1_325",
+          "text": "diff = abs(actual - predicted)",
+          "page": 27
+        },
+        {
+          "para_id": "1_326",
+          "text": "Row {i}: Actual={actual:.3f}, Predicted={predicted:.3f},",
+          "page": 27
+        },
+        {
+          "para_id": "1_327",
+          "text": "print(f\"EVALUATION SKIPPED - No target column in evaluation data\")",
+          "page": 27
+        },
+        {
+          "para_id": "1_328",
+          "text": "print(f\" Generated {len(y_pred)} predictions\")",
+          "page": 27
+        },
+        {
+          "para_id": "1_329",
+          "text": "y_pred_df = pd.DataFrame(y_pred, columns=y_train.columns)",
+          "page": 27
+        },
+        {
+          "para_id": "1_330",
+          "text": "y_pred_df.insert(0, ’row_id’, eval_df[\"row_id\"].values)",
+          "page": 27
+        },
+        {
+          "para_id": "1_331",
+          "text": "’pipeline’: ml_pipeline,",
+          "page": 27
+        },
+        {
+          "para_id": "1_332",
+          "text": "’predictions’: y_pred_df,",
+          "page": 27
+        },
+        {
+          "para_id": "1_333",
+          "text": "’eval_indices’: X_eval.index,",
+          "page": 27
+        },
+        {
+          "para_id": "1_334",
+          "text": "’problem_type’: problem_type,",
+          "page": 27
+        },
+        {
+          "para_id": "1_335",
+          "text": "’y_eval’: y_eval if has_eval_target else None,",
+          "page": 27
+        },
+        {
+          "para_id": "1_336",
+          "text": "’has_eval_target’: has_eval_target,",
+          "page": 27
+        },
+        {
+          "para_id": "1_337",
+          "text": "\"numeric_features\": numeric_features,",
+          "page": 27
+        },
+        {
+          "para_id": "1_338",
+          "text": "\"categorical_features\": categorical_features,",
+          "page": 27
+        },
+        {
+          "para_id": "1_339",
+          "text": "feature_cols = $feature_cols",
+          "page": 27
+        },
+        {
+          "para_id": "1_340",
+          "text": "model_type = \"$model_type\"",
+          "page": 27
+        },
+        {
+          "para_id": "1_341",
+          "text": "column_type_inference = $column_type_inference",
+          "page": 27
+        },
+        {
+          "para_id": "1_342",
+          "text": "target_cols = $target_cols",
+          "page": 27
+        },
+        {
+          "para_id": "1_343",
+          "text": "imputer_type = \"$imputer_type\"",
+          "page": 27
+        },
+        {
+          "para_id": "1_344",
+          "text": "problem_type = \"$problem_type\"",
+          "page": 27
+        },
+        {
+          "para_id": "1_345",
+          "text": "random_state = $random_state",
+          "page": 27
+        },
+        {
+          "para_id": "1_346",
+          "text": "save_file_type = \"$save_file_type\"",
+          "page": 27
+        },
+        {
+          "para_id": "1_347",
+          "text": "if save_file_type == ’sqlite’:",
+          "page": 27
+        },
+        {
+          "para_id": "1_348",
+          "text": "conn = sqlite3.connect(\"train_v1_no_err.sqlite\")",
+          "page": 27
+        },
+        {
+          "para_id": "1_349",
+          "text": "train_df = pd.read_sql(\"SELECT * FROM train_set\", conn)",
+          "page": 27
+        },
+        {
+          "para_id": "1_350",
+          "text": "train_df = train_df.replace({None: np.nan})",
+          "page": 27
+        },
+        {
+          "para_id": "1_351",
+          "text": "eval_df = load_and_join(\"val_v1.sqlite\")",
+          "page": 27
+        },
+        {
+          "para_id": "1_352",
+          "text": "eval_df = eval_df.replace({None: np.nan})",
+          "page": 27
+        },
+        {
+          "para_id": "1_353",
+          "text": "elif save_file_type == ’csv’:",
+          "page": 27
+        },
+        {
+          "para_id": "1_354",
+          "text": "train_df = pd.read_csv(’train_v1_no_err.csv’, keep_default_na=False, na_values",
+          "page": 27
+        },
+        {
+          "para_id": "1_355",
+          "text": "eval_df = pd.read_csv(’val_v1.csv’, keep_default_na=False, na_values=[\"\"])",
+          "page": 27
+        },
+        {
+          "para_id": "1_356",
+          "text": "elif save_file_type == ’parquet’:",
+          "page": 27
+        },
+        {
+          "para_id": "1_357",
+          "text": "train_df = pd.read_parquet(’train_v1_no_err.parquet’)",
+          "page": 27
+        },
+        {
+          "para_id": "1_358",
+          "text": "train_df = train_df.replace({None: np.nan})",
+          "page": 27
+        },
+        {
+          "para_id": "1_359",
+          "text": "eval_df = pd.read_parquet(’val_v1.parquet’)",
+          "page": 27
+        },
+        {
+          "para_id": "1_360",
+          "text": "eval_df = eval_df.replace({None: np.nan})",
+          "page": 27
+        },
+        {
+          "para_id": "1_361",
+          "text": "result = train_predict_model(",
+          "page": 27
+        },
+        {
+          "para_id": "1_362",
+          "text": "train_df = train_df,",
+          "page": 27
+        },
+        {
+          "para_id": "1_363",
+          "text": "feature_cols = feature_cols,",
+          "page": 27
+        },
+        {
+          "para_id": "1_364",
+          "text": "model_type = model_type,",
+          "page": 27
+        },
+        {
+          "para_id": "1_365",
+          "text": "column_type_inference=column_type_inference,",
+          "page": 27
+        },
+        {
+          "para_id": "1_366",
+          "text": "target_cols=target_cols,",
+          "page": 27
+        },
+        {
+          "para_id": "1_367",
+          "text": "imputer_type=imputer_type,",
+          "page": 27
+        },
+        {
+          "para_id": "1_368",
+          "text": "problem_type=problem_type,",
+          "page": 27
+        },
+        {
+          "para_id": "1_369",
+          "text": "random_state=random_state",
+          "page": 27
+        },
+        {
+          "para_id": "1_370",
+          "text": "result[’predictions’].to_csv(’simulated_pred_local.csv’, index=False)",
+          "page": 27
+        },
+        {
+          "para_id": "1_371",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 28
+        },
+        {
+          "para_id": "1_372",
+          "text": "TOOL SCHEMA AND TASK EXAMPLES",
+          "page": 28
+        },
+        {
+          "para_id": "1_373",
+          "text": "The following schema defines the details of our code executor tool.",
+          "page": 28
+        },
+        {
+          "para_id": "1_374",
+          "text": "Tool Schema: python executor",
+          "page": 28
+        },
+        {
+          "para_id": "1_375",
+          "text": "\"name\": \"python_executor\",",
+          "page": 28
+        },
+        {
+          "para_id": "1_376",
+          "text": "\"description\": \"Execute a Python script in an isolated HTTP sandbox with a 200-second",
+          "page": 28
+        },
+        {
+          "para_id": "1_377",
+          "text": "time limit. Each run is single-shot and stateless (no REPL, no persistent",
+          "page": 28
+        },
+        {
+          "para_id": "1_378",
+          "text": "environment between runs). You may upload input files via ‘files_to_load‘ and",
+          "page": 28
+        },
+        {
+          "para_id": "1_379",
+          "text": "retrieve results via ‘files_to_save‘. The maximum file size for both upload and",
+          "page": 28
+        },
+        {
+          "para_id": "1_380",
+          "text": "download is 200 MB. The tool returns the full program output, including both",
+          "page": 28
+        },
+        {
+          "para_id": "1_381",
+          "text": "stdout and stderr. Use explicit ‘print(...)‘ statements to capture values in the",
+          "page": 28
+        },
+        {
+          "para_id": "1_382",
+          "text": "output. This tool can be invoked up to 3 times per conversation.\",",
+          "page": 28
+        },
+        {
+          "para_id": "1_383",
+          "text": "\"description\": \"The Python code to execute.\"",
+          "page": 28
+        },
+        {
+          "para_id": "1_384",
+          "text": "\"description\": \"List of input file paths to upload prior to execution (e.g. [\\\"",
+          "page": 28
+        },
+        {
+          "para_id": "1_385",
+          "text": "input1.csv\\\", \\\"config.json\\\"]).\"",
+          "page": 28
+        },
+        {
+          "para_id": "1_386",
+          "text": "\"description\": \"List of output file paths to download after execution (e.g. [\\\"",
+          "page": 28
+        },
+        {
+          "para_id": "1_387",
+          "text": "results.csv\\\", \\\"log.txt\\\"]).\"",
+          "page": 28
+        },
+        {
+          "para_id": "1_388",
+          "text": "\"additionalProperties\": false",
+          "page": 28
+        },
+        {
+          "para_id": "1_389",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 29
+        },
+        {
+          "para_id": "1_390",
+          "text": "The following provides a example of IF task.",
+          "page": 29
+        },
+        {
+          "para_id": "1_391",
+          "text": "Instruction Following Task Example",
+          "page": 29
+        },
+        {
+          "para_id": "1_392",
+          "text": "Please complete the task as described below without asking any follow-up questions or requesting ad-",
+          "page": 29
+        },
+        {
+          "para_id": "1_393",
+          "text": "ditional information. Proceed under the assumption that all required information is provided. You are",
+          "page": 29
+        },
+        {
+          "para_id": "1_394",
+          "text": "given access to a training Parquet file named train v1.parquet, which contains a single table,",
+          "page": 29
+        },
+        {
+          "para_id": "1_395",
+          "text": "and a metadata file metadata.txt that describes the original dataset and each of its columns. Your",
+          "page": 29
+        },
+        {
+          "para_id": "1_396",
+          "text": "task is to perform classification using this data and predict the target column Personality for the",
+          "page": 29
+        },
+        {
+          "para_id": "1_397",
+          "text": "validation set located at val v1.parquet. Unless stated otherwise, you should use default parame-",
+          "page": 29
+        },
+        {
+          "para_id": "1_398",
+          "text": "ters for all steps including model training and preprocessing. First, load the training file directly. Then,",
+          "page": 29
+        },
+        {
+          "para_id": "1_399",
+          "text": "filter the training dataset using the expected ranges while retaining any rows that have missing values in",
+          "page": 29
+        },
+        {
+          "para_id": "1_400",
+          "text": "the relevant columns, excluding only those rows where a non-missing value violates its expected range.",
+          "page": 29
+        },
+        {
+          "para_id": "1_401",
+          "text": "The expected ranges are as follows in the specified order: number of close friends must be between 0.0",
+          "page": 29
+        },
+        {
+          "para_id": "1_402",
+          "text": "and 15.0; presence of stage fright must be either “No” or “Yes”; social media post frequency must be",
+          "page": 29
+        },
+        {
+          "para_id": "1_403",
+          "text": "between 0.0 and 10.0; frequency of going outside must be between 0.0 and 7.0; feeling drained after",
+          "page": 29
+        },
+        {
+          "para_id": "1_404",
+          "text": "socializing must be either “No” or “Yes”; frequency of social events must be between 0.0 and 10.0;",
+          "page": 29
+        },
+        {
+          "para_id": "1_405",
+          "text": "and hours spent alone daily must be between 0.0 and 11.0. After filtering, select only the features listed",
+          "page": 29
+        },
+        {
+          "para_id": "1_406",
+          "text": "in their original order: number of close friends, frequency of social events, presence of stage fright,",
+          "page": 29
+        },
+        {
+          "para_id": "1_407",
+          "text": "feeling drained after socializing, and hours spent alone daily. The numeric features, to be used in the",
+          "page": 29
+        },
+        {
+          "para_id": "1_408",
+          "text": "specified order, are number of close friends, frequency of social events, and hours spent alone daily,",
+          "page": 29
+        },
+        {
+          "para_id": "1_409",
+          "text": "and the categorical features, also to be used in the specified order, are presence of stage fright and feel-",
+          "page": 29
+        },
+        {
+          "para_id": "1_410",
+          "text": "ing drained after socializing. Handle missing values by imputing numeric features with the mean and",
+          "page": 29
+        },
+        {
+          "para_id": "1_411",
+          "text": "categorical features with the most frequent value. Preprocess the data by applying a standard scaler to",
+          "page": 29
+        },
+        {
+          "para_id": "1_412",
+          "text": "the numeric features and one-hot encoding to the categorical features with handle unknown set to",
+          "page": 29
+        },
+        {
+          "para_id": "1_413",
+          "text": "ignore and sparse output set to False. Train a single LogisticRegression model using",
+          "page": 29
+        },
+        {
+          "para_id": "1_414",
+          "text": "scikit-learn with random state=86. Finally, make predictions on the validation set and save the",
+          "page": 29
+        },
+        {
+          "para_id": "1_415",
+          "text": "results to a CSV file at prediction.csv, including the column row id as provided in the original",
+          "page": 29
+        },
+        {
+          "para_id": "1_416",
+          "text": "val v1.parquet and the corresponding predictions aligned with each row id so that performance",
+          "page": 29
+        },
+        {
+          "para_id": "1_417",
+          "text": "can be computed correctly.",
+          "page": 29
+        },
+        {
+          "para_id": "1_418",
+          "text": "Dive into the Extrovert vs. Introvert Personality Traits Dataset, a rich collection of behavioral and",
+          "page": 29
+        },
+        {
+          "para_id": "1_419",
+          "text": "social data designed to explore the spectrum of human personality. This dataset captures key indicators",
+          "page": 29
+        },
+        {
+          "para_id": "1_420",
+          "text": "of extroversion and introversion, making it a valuable resource for psychologists, data scientists, and",
+          "page": 29
+        },
+        {
+          "para_id": "1_421",
+          "text": "researchers studying social behavior, personality prediction, or data preprocessing techniques.",
+          "page": 29
+        },
+        {
+          "para_id": "1_422",
+          "text": "Personality traits like extroversion and introversion shape how individuals interact with their social",
+          "page": 29
+        },
+        {
+          "para_id": "1_423",
+          "text": "environments. This dataset provides insights into behaviors such as time spent alone, social event",
+          "page": 29
+        },
+        {
+          "para_id": "1_424",
+          "text": "attendance, and social media engagement, enabling applications in psychology, sociology, marketing,",
+          "page": 29
+        },
+        {
+          "para_id": "1_425",
+          "text": "and machine learning. Whether you’re predicting personality types or analyzing social patterns, this",
+          "page": 29
+        },
+        {
+          "para_id": "1_426",
+          "text": "dataset is your gateway to uncovering fascinating insights.",
+          "page": 29
+        },
+        {
+          "para_id": "1_427",
+          "text": "Size: The dataset contains 2,900 rows and 8 columns.",
+          "page": 29
+        },
+        {
+          "para_id": "1_428",
+          "text": "• Time spent Alone: Hours spent alone daily (0–11).",
+          "page": 29
+        },
+        {
+          "para_id": "1_429",
+          "text": "• Stage fear: Presence of stage fright (Yes/No).",
+          "page": 29
+        },
+        {
+          "para_id": "1_430",
+          "text": "• Social event attendance: Frequency of social events (0–10).",
+          "page": 29
+        },
+        {
+          "para_id": "1_431",
+          "text": "• Going outside: Frequency of going outside (0–7).",
+          "page": 29
+        },
+        {
+          "para_id": "1_432",
+          "text": "• Drained after socializing: Feeling drained after socializing (Yes/No).",
+          "page": 29
+        },
+        {
+          "para_id": "1_433",
+          "text": "• Friends circle size: Number of close friends (0–15).",
+          "page": 29
+        },
+        {
+          "para_id": "1_434",
+          "text": "• Post frequency: Social media post frequency (0–10).",
+          "page": 29
+        },
+        {
+          "para_id": "1_435",
+          "text": "• Personality: Target variable (Extrovert/Introvert).",
+          "page": 29
+        },
+        {
+          "para_id": "1_436",
+          "text": "Data Quality: Includes some missing values, ideal for practicing imputation and preprocessing.",
+          "page": 29
+        },
+        {
+          "para_id": "1_437",
+          "text": "Format: Single CSV file, compatible with Python, R, and other tools.",
+          "page": 29
+        },
+        {
+          "para_id": "1_438",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 30
+        },
+        {
+          "para_id": "1_439",
+          "text": "• Contains missing values in columns like Time spent Alone and Going outside, of-",
+          "page": 30
+        },
+        {
+          "para_id": "1_440",
+          "text": "fering opportunities for data cleaning practice.",
+          "page": 30
+        },
+        {
+          "para_id": "1_441",
+          "text": "• Balanced classes ensure robust model training.",
+          "page": 30
+        },
+        {
+          "para_id": "1_442",
+          "text": "• Binary categorical variables simplify encoding tasks.",
+          "page": 30
+        },
+        {
+          "para_id": "1_443",
+          "text": "• Build machine learning models to predict personality types.",
+          "page": 30
+        },
+        {
+          "para_id": "1_444",
+          "text": "• Analyze correlations between social behaviors and personality traits.",
+          "page": 30
+        },
+        {
+          "para_id": "1_445",
+          "text": "• Explore social media engagement patterns.",
+          "page": 30
+        },
+        {
+          "para_id": "1_446",
+          "text": "• Practice data preprocessing techniques like imputation and encoding.",
+          "page": 30
+        },
+        {
+          "para_id": "1_447",
+          "text": "• Create visualizations to uncover behavioral trends.",
+          "page": 30
+        },
+        {
+          "para_id": "1_448",
+          "text": "=== About this file ===",
+          "page": 30
+        },
+        {
+          "para_id": "1_449",
+          "text": "About this file This dataset contains 2,900 entries with 8 features related to social behavior and per-",
+          "page": 30
+        },
+        {
+          "para_id": "1_450",
+          "text": "sonality traits, designed to explore and classify individuals as Extroverts or Introverts.",
+          "page": 30
+        },
+        {
+          "para_id": "1_451",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 31
+        },
+        {
+          "para_id": "1_452",
+          "text": "The following provides an example of ML Modeling task.",
+          "page": 31
+        },
+        {
+          "para_id": "1_453",
+          "text": "ML Modeling Task Example",
+          "page": 31
+        },
+        {
+          "para_id": "1_454",
+          "text": "Please complete the task as described below without asking any follow-up questions or requesting",
+          "page": 31
+        },
+        {
+          "para_id": "1_455",
+          "text": "additional information.",
+          "page": 31
+        },
+        {
+          "para_id": "1_456",
+          "text": "Your task is to achieve good performance while balancing training time",
+          "page": 31
+        },
+        {
+          "para_id": "1_457",
+          "text": "and accuracy in the sandbox. You are provided with a processed dataset, along with a metadata",
+          "page": 31
+        },
+        {
+          "para_id": "1_458",
+          "text": "file metadata.txt that describes the original dataset and each of its columns.",
+          "page": 31
+        },
+        {
+          "para_id": "1_459",
+          "text": "train v2.parquet as your full training set. Once that’s done, using only CPU resources, train",
+          "page": 31
+        },
+        {
+          "para_id": "1_460",
+          "text": "a classification model on this training data. Then use val v2.parquet to generate a prediction for",
+          "page": 31
+        },
+        {
+          "para_id": "1_461",
+          "text": "Internet Access for each row id. The model should output a file named prediction.csv.",
+          "page": 31
+        },
+        {
+          "para_id": "1_462",
+          "text": "The file must contain the column row id (as provided in the original val v2.parquet and the",
+          "page": 31
+        },
+        {
+          "para_id": "1_463",
+          "text": "corresponding predictions. Each prediction should be aligned with its row id so that performance can",
+          "page": 31
+        },
+        {
+          "para_id": "1_464",
+          "text": "be computed correctly.",
+          "page": 31
+        },
+        {
+          "para_id": "1_465",
+          "text": "AI Tool Usage by Indian College Students 2025",
+          "page": 31
+        },
+        {
+          "para_id": "1_466",
+          "text": "This unique dataset, collected via a May 2025 survey, captures how 496 Indian college students use AI",
+          "page": 31
+        },
+        {
+          "para_id": "1_467",
+          "text": "tools (e.g., ChatGPT, Gemini, Copilot) in academics. It includes 16 attributes like AI tool usage, trust,",
+          "page": 31
+        },
+        {
+          "para_id": "1_468",
+          "text": "impact on grades, and internet access, ideal for education analytics and machine learning.",
+          "page": 31
+        },
+        {
+          "para_id": "1_469",
+          "text": "• Student Name: Anonymized student name.",
+          "page": 31
+        },
+        {
+          "para_id": "1_470",
+          "text": "• College Name: College attended.",
+          "page": 31
+        },
+        {
+          "para_id": "1_471",
+          "text": "• Stream: Academic discipline (e.g., Engineering, Arts).",
+          "page": 31
+        },
+        {
+          "para_id": "1_472",
+          "text": "• Year of Study: Year of study (1–4).",
+          "page": 31
+        },
+        {
+          "para_id": "1_473",
+          "text": "• AI Tools Used: Tools used (e.g., ChatGPT, Gemini).",
+          "page": 31
+        },
+        {
+          "para_id": "1_474",
+          "text": "• Daily Usage Hours: Hours spent daily on AI tools.",
+          "page": 31
+        },
+        {
+          "para_id": "1_475",
+          "text": "• Use Cases: Purposes (e.g., Assignments, Exam Prep).",
+          "page": 31
+        },
+        {
+          "para_id": "1_476",
+          "text": "• Trust in AI Tools: Trust level (1–5).",
+          "page": 31
+        },
+        {
+          "para_id": "1_477",
+          "text": "• Impact on Grades: Grade impact (-3 to +3).",
+          "page": 31
+        },
+        {
+          "para_id": "1_478",
+          "text": "• Do Professors Allow Use: Professor approval (Yes/No).",
+          "page": 31
+        },
+        {
+          "para_id": "1_479",
+          "text": "• Preferred AI Tool: Preferred tool.",
+          "page": 31
+        },
+        {
+          "para_id": "1_480",
+          "text": "• Awareness Level: AI awareness (1–10).",
+          "page": 31
+        },
+        {
+          "para_id": "1_481",
+          "text": "• Willing to Pay for Access: Willingness to pay (Yes/No).",
+          "page": 31
+        },
+        {
+          "para_id": "1_482",
+          "text": "• State: Indian state.",
+          "page": 31
+        },
+        {
+          "para_id": "1_483",
+          "text": "• Device Used: Device (e.g., Laptop, Mobile).",
+          "page": 31
+        },
+        {
+          "para_id": "1_484",
+          "text": "• Internet Access: Access quality (Poor/Medium/High).",
+          "page": 31
+        },
+        {
+          "para_id": "1_485",
+          "text": "Use Cases - Predict academic performance using AI tool usage. - Analyze trust in AI across streams",
+          "page": 31
+        },
+        {
+          "para_id": "1_486",
+          "text": "or regions. - Cluster students by usage patterns. - Study digital divide via ‘Internet Access‘.",
+          "page": 31
+        },
+        {
+          "para_id": "1_487",
+          "text": "Source: Collected via Google Forms survey in May 2025, ensuring diverse representation across India.",
+          "page": 31
+        },
+        {
+          "para_id": "1_488",
+          "text": "Note: First dataset of its kind on Kaggle!",
+          "page": 31
+        },
+        {
+          "para_id": "1_489",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 32
+        },
+        {
+          "para_id": "1_490",
+          "text": "The following provides an example of Time Series Canonical Forecasting Task.",
+          "page": 32
+        },
+        {
+          "para_id": "1_491",
+          "text": "Time Series Canonical Forecasting Task Example",
+          "page": 32
+        },
+        {
+          "para_id": "1_492",
+          "text": "Please complete the task as described below without asking any follow-up questions or requesting",
+          "page": 32
+        },
+        {
+          "para_id": "1_493",
+          "text": "additional information. Your task is to achieve good performance while balancing time and accu-",
+          "page": 32
+        },
+        {
+          "para_id": "1_494",
+          "text": "racy in the sandbox environment. You are provided with a processed dataset, along with a meta-",
+          "page": 32
+        },
+        {
+          "para_id": "1_495",
+          "text": "data file metadata.txt that describes the original dataset and each of its columns. Load the file",
+          "page": 32
+        },
+        {
+          "para_id": "1_496",
+          "text": "train.csv as your complete training data. This file contains the raw, non-resampled time series",
+          "page": 32
+        },
+        {
+          "para_id": "1_497",
+          "text": "data. Once that’s done, using only CPU resources, train time series analysis model(s) on the training",
+          "page": 32
+        },
+        {
+          "para_id": "1_498",
+          "text": "data. Then, based on the file val v2.csv, forecast the target column Close. Generate predictions",
+          "page": 32
+        },
+        {
+          "para_id": "1_499",
+          "text": "exactly for each row id present in the validation data, Output a file named prediction.csv. The",
+          "page": 32
+        },
+        {
+          "para_id": "1_500",
+          "text": "file must contain the column row id (as provided in the original val v2.csv and the corresponding",
+          "page": 32
+        },
+        {
+          "para_id": "1_501",
+          "text": "predictions. Each prediction should be aligned with its row id so that performance can be computed",
+          "page": 32
+        },
+        {
+          "para_id": "1_502",
+          "text": "Here’s to the crazy ones—the data dreamers, the analysts, the visionaries who believe that a handful",
+          "page": 32
+        },
+        {
+          "para_id": "1_503",
+          "text": "of numbers can reveal the DNA of innovation. This dataset is more than a collection of Apple Inc.’s",
+          "page": 32
+        },
+        {
+          "para_id": "1_504",
+          "text": "historical stock prices; it’s a chronicle of invention, perseverance, and thinking differently.",
+          "page": 32
+        },
+        {
+          "para_id": "1_505",
+          "text": "- Time Span: Daily stock price data for Apple Inc. over multiple years - Features: - ‘Date’: The day",
+          "page": 32
+        },
+        {
+          "para_id": "1_506",
+          "text": "of the record - ‘Close’: Price at market close - Format: CSV, clean and ready for analysis",
+          "page": 32
+        },
+        {
+          "para_id": "1_507",
+          "text": "Apple is not just a company, it’s a movement. Its stock price reflects not only financial performance,",
+          "page": 32
+        },
+        {
+          "para_id": "1_508",
+          "text": "but the world’s response to innovation—launches, leadership changes, economic cycles, and the occa-",
+          "page": 32
+        },
+        {
+          "para_id": "1_509",
+          "text": "sional “one more thing.”",
+          "page": 32
+        },
+        {
+          "para_id": "1_510",
+          "text": "- Visualize long-term growth and volatility - Model trends, moving averages, or momentum - Forecast",
+          "page": 32
+        },
+        {
+          "para_id": "1_511",
+          "text": "future prices with machine learning - Detect the impact of major product launches or events - Explore",
+          "page": 32
+        },
+        {
+          "para_id": "1_512",
+          "text": "relationships between volume and price action",
+          "page": 32
+        },
+        {
+          "para_id": "1_513",
+          "text": "As you explore this data, don’t just look for patterns—look for stories. See how moments of genius",
+          "page": 32
+        },
+        {
+          "para_id": "1_514",
+          "text": "and risk-taking ripple through the numbers. Use this dataset to inspire your own creativity, your own",
+          "page": 32
+        },
+        {
+          "para_id": "1_515",
+          "text": "analysis, your own ‘insanely great’ discoveries.",
+          "page": 32
+        },
+        {
+          "para_id": "1_516",
+          "text": "Whether you’re here to build a predictive model, craft beautiful visualizations, or simply marvel at the",
+          "page": 32
+        },
+        {
+          "para_id": "1_517",
+          "text": "journey, remember: The people who are crazy enough to think they can change the world with data. . .",
+          "page": 32
+        },
+        {
+          "para_id": "1_518",
+          "text": "are the ones who do.",
+          "page": 32
+        },
+        {
+          "para_id": "1_519",
+          "text": "=== About this file ===",
+          "page": 32
+        },
+        {
+          "para_id": "1_520",
+          "text": "About this file This file contains historical daily stock price data for Apple Inc. Each row represents",
+          "page": 32
+        },
+        {
+          "para_id": "1_521",
+          "text": "one trading day and includes key financial metrics that track Apple’s performance on the stock market.",
+          "page": 32
+        },
+        {
+          "para_id": "1_522",
+          "text": "=== Columns & descriptions ===",
+          "page": 32
+        },
+        {
+          "para_id": "1_523",
+          "text": "Date: The calendar date for the trading record (format: YYYY-MM-DD). Close: The price of Apple’s",
+          "page": 32
+        },
+        {
+          "para_id": "1_524",
+          "text": "stock at the end of the trading day.",
+          "page": 32
+        },
+        {
+          "para_id": "1_525",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 33
+        },
+        {
+          "para_id": "1_526",
+          "text": "REJECTION SAMPLING IMPLEMENTATION DETAILS",
+          "page": 33
+        },
+        {
+          "para_id": "1_527",
+          "text": "We sample up to K=8 candidate trajectories per task. Each trajectory records: (i) final score",
+          "page": 33
+        },
+        {
+          "para_id": "1_528",
+          "text": "and (ii) end-to-end wall-clock time. For IF tasks, final score is exact match ∈{0, 1}; for",
+          "page": 33
+        },
+        {
+          "para_id": "1_529",
+          "text": "predictive tasks, final score is a normalized metric such as macro-F1 or clipped R2.",
+          "page": 33
+        },
+        {
+          "para_id": "1_530",
+          "text": "VALIDITY AND DIVERSITY CONDITIONS",
+          "page": 33
+        },
+        {
+          "para_id": "1_531",
+          "text": "A trajectory is considered valid if:",
+          "page": 33
+        },
+        {
+          "para_id": "1_532",
+          "text": "• For IF tasks: final score = 1.",
+          "page": 33
+        },
+        {
+          "para_id": "1_533",
+          "text": "• For predictive tasks: final score ≥type-specific threshold:",
+          "page": 33
+        },
+        {
+          "para_id": "1_534",
+          "text": "A task is considered diverse if:",
+          "page": 33
+        },
+        {
+          "para_id": "1_535",
+          "text": "• For IF tasks: among the K trials, at least one final score = 1 and at least one",
+          "page": 33
+        },
+        {
+          "para_id": "1_536",
+          "text": "• For predictive tasks: the variance of the K scores satisfies",
+          "page": 33
+        },
+        {
+          "para_id": "1_537",
+          "text": "class-MM/reg-MM: 0.15, time-XF: 0.15, time-CF: 0.1.",
+          "page": 33
+        },
+        {
+          "para_id": "1_538",
+          "text": "REJECTION SAMPLING STRATEGIES",
+          "page": 33
+        },
+        {
+          "para_id": "1_539",
+          "text": "For every task that has at least one valid trajectory:",
+          "page": 33
+        },
+        {
+          "para_id": "1_540",
+          "text": "• IF tasks: keep the single fastest valid trajectory.",
+          "page": 33
+        },
+        {
+          "para_id": "1_541",
+          "text": "• Predictive tasks: keep the trajectory with the highest final score.",
+          "page": 33
+        },
+        {
+          "para_id": "1_542",
+          "text": "• Keep all valid trajectories (as defined above).",
+          "page": 33
+        },
+        {
+          "para_id": "1_543",
+          "text": "For every diverse task:",
+          "page": 33
+        },
+        {
+          "para_id": "1_544",
+          "text": "• IF tasks: keep the single fastest valid trajectory.",
+          "page": 33
+        },
+        {
+          "para_id": "1_545",
+          "text": "• Predictive tasks: keep the trajectory with the highest final score.",
+          "page": 33
+        },
+        {
+          "para_id": "1_546",
+          "text": "Thus BV applies the same selection rule as FV, but restricted to diverse tasks only.",
+          "page": 33
+        },
+        {
+          "para_id": "1_547",
+          "text": "For every diverse task:",
+          "page": 33
+        },
+        {
+          "para_id": "1_548",
+          "text": "• IF tasks: keep the two fastest valid trajectories (or one if fewer exist).",
+          "page": 33
+        },
+        {
+          "para_id": "1_549",
+          "text": "• Predictive tasks: keep the top-2 trajectories by score, restricted to those with s(t) > si",
+          "page": 33
+        },
+        {
+          "para_id": "1_550",
+          "text": "• FV applies to all tasks with valid traces; BV and DV apply only to diverse tasks.",
+          "page": 33
+        },
+        {
+          "para_id": "1_551",
+          "text": "• AV is the only strategy that may return multiple valid trajectories even for non-diverse",
+          "page": 33
+        },
+        {
+          "para_id": "1_552",
+          "text": "• FV/BV always select at most one trajectory; DV at most two; AV can return more.",
+          "page": 33
+        },
+        {
+          "para_id": "1_553",
+          "text": "• This design ensures a balance between efficiency (FV), diversity (AV), quality (BV), and",
+          "page": 33
+        },
+        {
+          "para_id": "1_554",
+          "text": "complementary coverage (DV).",
+          "page": 33
+        },
+        {
+          "para_id": "1_555",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 34
+        },
+        {
+          "para_id": "1_556",
+          "text": "TASK DOMAIN CLASSIFICATION METHODOLOGY",
+          "page": 34
+        },
+        {
+          "para_id": "1_557",
+          "text": "To assess the diversity of DARE-bench and verify its coverage across real-world scenarios, we clas-",
+          "page": 34
+        },
+        {
+          "para_id": "1_558",
+          "text": "sified each task into a primary domain (e.g., Finance, Health, Technology). Given the scale of the",
+          "page": 34
+        },
+        {
+          "para_id": "1_559",
+          "text": "benchmark (6,300 tasks), manual classification was infeasible. Therefore, we employed an auto-",
+          "page": 34
+        },
+        {
+          "para_id": "1_560",
+          "text": "mated LLM-based classification pipeline utilizing the rich metadata associated with each Kaggle-",
+          "page": 34
+        },
+        {
+          "para_id": "1_561",
+          "text": "Metadata Usage. The classification relies on four key metadata fields:",
+          "page": 34
+        },
+        {
+          "para_id": "1_562",
+          "text": "• Title: The official name of the dataset.",
+          "page": 34
+        },
+        {
+          "para_id": "1_563",
+          "text": "• Subtitle: A short phrase summarizing the dataset content.",
+          "page": 34
+        },
+        {
+          "para_id": "1_564",
+          "text": "• Description: The full natural language description of the dataset context.",
+          "page": 34
+        },
+        {
+          "para_id": "1_565",
+          "text": "• Keywords: User-provided tags from the original Kaggle source.",
+          "page": 34
+        },
+        {
+          "para_id": "1_566",
+          "text": "Classification Taxonomy. To ensuring consistency, we defined a controlled vocabulary of allowed",
+          "page": 34
+        },
+        {
+          "para_id": "1_567",
+          "text": "domains based on common industry verticals: finance, health, business, technology, automotive,",
+          "page": 34
+        },
+        {
+          "para_id": "1_568",
+          "text": "education, environment, and others.",
+          "page": 34
+        },
+        {
+          "para_id": "1_569",
+          "text": "Prompt Design. We constructed a strict prompt to instruct the LLM to identify the single best",
+          "page": 34
+        },
+        {
+          "para_id": "1_570",
+          "text": "domain label. The prompt enforces a hierarchical reasoning logic: it prioritizes explicit domain",
+          "page": 34
+        },
+        {
+          "para_id": "1_571",
+          "text": "terms found in the user-provided keywords before inferring the domain from the title or description.",
+          "page": 34
+        },
+        {
+          "para_id": "1_572",
+          "text": "The full prompt template is provided below:",
+          "page": 34
+        },
+        {
+          "para_id": "1_573",
+          "text": "Domain Classification Prompt",
+          "page": 34
+        },
+        {
+          "para_id": "1_574",
+          "text": "Instruction: Identify the single best domain for a task using the provided metadata.",
+          "page": 34
+        },
+        {
+          "para_id": "1_575",
+          "text": "• Subtitle: {subtitle}",
+          "page": 34
+        },
+        {
+          "para_id": "1_576",
+          "text": "• Description: {description}",
+          "page": 34
+        },
+        {
+          "para_id": "1_577",
+          "text": "• Keywords: {keywords}",
+          "page": 34
+        },
+        {
+          "para_id": "1_578",
+          "text": "Example Domains: [agriculture, finance, health, business, technology, automotive, education, envi-",
+          "page": 34
+        },
+        {
+          "para_id": "1_579",
+          "text": "1. Keyword Check: First, strictly check the provided ‘keywords’ list for any explicit domain",
+          "page": 34
+        },
+        {
+          "para_id": "1_580",
+          "text": "word (e.g., ‘finance’, ‘health’). If a match is found from the allowed list, select it immedi-",
+          "page": 34
+        },
+        {
+          "para_id": "1_581",
+          "text": "2. Inference: If no direct domain appears in the keywords, infer the most appropriate domain",
+          "page": 34
+        },
+        {
+          "para_id": "1_582",
+          "text": "based on the semantic context of the ‘title’, ‘subtitle’, and ‘description’.",
+          "page": 34
+        },
+        {
+          "para_id": "1_583",
+          "text": "3. Output Formatting: Output exactly ONE lowercase word from the allowed domains list.",
+          "page": 34
+        },
+        {
+          "para_id": "1_584",
+          "text": "Do not output punctuation, explanations, or spaces. If the domain is uncertain or does not fit",
+          "page": 34
+        },
+        {
+          "para_id": "1_585",
+          "text": "the specific categories, output ‘other’.",
+          "page": 34
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5616 @@
+{
+  "doc_id": "2602.22272v1.pdf",
+  "title": "Fluctuating polytropic processes, turbulence, and heating",
+  "abstract": "This paper explores the thermodynamics of fluctuating polytropic processes and their connection to \nturbulence. It is shown that random fluctuations of polytropic processes produce a nonzero overall heating \nof a particle system, e.g., solar wind plasma flowing out through the heliosphere; while any nonturbulent \nheating can be thermodynamically described by typical nonfluctuating polytropic processes, turbulent \nheating can be thermodynamically described through fluctuating polytropic processes. First, we derive the \nexpression of the overall process and find that polytropic fluctuations lead to heat entering the system even \nif the respective nonfluctuating process is adiabatic. The temperature of the solar wind plasma protons \ndecreases with heliospheric distance less than the adiabatic cooling, again, similar to when heating enters \nthe system; this subadiabatic cooling is proportional to the variance of the fluctuations. We derive the \nheliospheric radial profiles of the thermodynamic expressions of the polytropic index, temperature, and \nheating rates. Then, we show that the analytical profiles of heating of fluctuating polytropic processes and \nof turbulent heating are identical, suggesting that turbulence heats plasma particle populations by \nfluctuating their polytropic processes. We apply the thermodynamics of fluctuating polytropic processes to \nthe energy transfer from pickup ions (PUIs) to solar wind plasma protons, and derive the analytical \nexpressions of PUI turbulent and nonturbulent heating rates, which are well fitted to the respective \nobservations. Finally, we apply the thermodynamic model to the radial profile of PUI energy transfer to the \nsolar wind plasma protons, where we derive the portion of PUI turbulent vs. nonturbulent heating rates. \n \nKey words: Heliosphere; Solar Wind; Plasma; Polytropes; methods: analytical;",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1. Introduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Space plasma particle distributions are characterized by polytropic thermodynamic processes. Such an",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "example is the solar wind plasma proton population that expands out through the heliosphere. The solar",
+          "page": 1
+        },
+        {
+          "para_id": "1_3",
+          "text": "wind plasma protons expand in the inner heliosphere near 1 au under nearly adiabatic processes, while in",
+          "page": 1
+        },
+        {
+          "para_id": "1_4",
+          "text": "general solar wind flows under nonadiabatic polytropic processes. This is true even though the most",
+          "page": 1
+        },
+        {
+          "para_id": "1_5",
+          "text": "probable among all the processes is the adiabatic one. (For more details, see: e.g., G. Livadiotis & M.I.",
+          "page": 1
+        },
+        {
+          "para_id": "1_6",
+          "text": "Desai 2016; G. Livadiotis 2018; 2021; G. Nicolaou & G. Livadiotis 2019; G. Nicolaou et al. 2020; M.A.",
+          "page": 1
+        },
+        {
+          "para_id": "1_7",
+          "text": "Dayeh & G. Livadiotis 2022; C. Katsavrias et al. 2024; 2025).",
+          "page": 1
+        },
+        {
+          "para_id": "1_8",
+          "text": "Adiabaticity is a special case of polytropic processes where no heat enters or exits the particle system",
+          "page": 1
+        },
+        {
+          "para_id": "1_9",
+          "text": "as it flows along. Heating is precisely determined by the relationship between the polytropic γ and adiabatic",
+          "page": 1
+        },
+        {
+          "para_id": "1_10",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "1_11",
+          "text": "γα indices. When the polytropic index is smaller than the adiabatic index (γ < γα), the particle system is",
+          "page": 2
+        },
+        {
+          "para_id": "1_12",
+          "text": "heated by an external source, while when the polytropic index is larger (γ > γα), the particle system becomes",
+          "page": 2
+        },
+        {
+          "para_id": "1_13",
+          "text": "a source that heats some other external sink. In this paper, we derive the overall heat exchange of solar wind",
+          "page": 2
+        },
+        {
+          "para_id": "1_14",
+          "text": "protons, which are subject to fluctuations of a polytropic process.",
+          "page": 2
+        },
+        {
+          "para_id": "1_15",
+          "text": "In the inner heliosphere near 1 au, where there is no significant source or sink of heating of solar wind",
+          "page": 2
+        },
+        {
+          "para_id": "1_16",
+          "text": "plasma protons, the polytropic index is nearly adiabatic. Sources of solar wind heating include turbulence",
+          "page": 2
+        },
+        {
+          "para_id": "1_17",
+          "text": "and pickup ions (PUIs). Alfvén-wave turbulence is a major mechanism for heating the solar wind in the",
+          "page": 2
+        },
+        {
+          "para_id": "1_18",
+          "text": "innermost heliosphere at heliospheric distances much closer to the Sun, where the heating rate is ~4-5 orders",
+          "page": 2
+        },
+        {
+          "para_id": "1_19",
+          "text": "of magnitude larger than near 1 au (e.g., S. Bourouaine et al. 2024). On the other hand, PUIs drive",
+          "page": 2
+        },
+        {
+          "para_id": "1_20",
+          "text": "turbulence in the outer heliosphere, with radial distance, latitude, and solar cycle dependences (e.g., G. P.",
+          "page": 2
+        },
+        {
+          "para_id": "1_21",
+          "text": "Zank et al. 2018; B. Wang et al. 2023). When interstellar neutrals drifting into the heliosphere are ionized,",
+          "page": 2
+        },
+        {
+          "para_id": "1_22",
+          "text": "they become picked-up by the solar wind and immediately begin to spiral around the magnetic field lines",
+          "page": 2
+        },
+        {
+          "para_id": "1_23",
+          "text": "carried by the solar wind, becoming part of the outflowing plasma (e.g., R. Schwenn & E. Marsch 1990; H.",
+          "page": 2
+        },
+        {
+          "para_id": "1_24",
+          "text": "J. Fahr et al. 2003). But the PUI density and pressure are too low near 1au to drive substantial heating (e.g.,",
+          "page": 2
+        },
+        {
+          "para_id": "1_25",
+          "text": "G. P. Zank et al. 2018; G. Livadiotis & D.J. McComas 2025a).",
+          "page": 2
+        },
+        {
+          "para_id": "1_26",
+          "text": "Therefore, solar wind protons are nearly adiabatic around 1 au, consistent with the absence of a",
+          "page": 2
+        },
+        {
+          "para_id": "1_27",
+          "text": "significant heating source. However, purely adiabatic processes don’t actually exist since random",
+          "page": 2
+        },
+        {
+          "para_id": "1_28",
+          "text": "fluctuations always perturb these processes around their average adiabatic process. We ask: What is the",
+          "page": 2
+        },
+        {
+          "para_id": "1_29",
+          "text": "effect of random fluctuations of polytropic processes on the overall heating? Even when the fluctuations of",
+          "page": 2
+        },
+        {
+          "para_id": "1_30",
+          "text": "polytropic indices are symmetric and normally distributed around the adiabatic index, it is not ensured that",
+          "page": 2
+        },
+        {
+          "para_id": "1_31",
+          "text": "the overall heating will be zero. Namely, positive and negative fluctuations (δγ = γ – γα) may not have equal",
+          "page": 2
+        },
+        {
+          "para_id": "1_32",
+          "text": "and opposite impacts on heating, and thus their overall effect may not cancel out. In order to examine the",
+          "page": 2
+        },
+        {
+          "para_id": "1_33",
+          "text": "overall effect on heating, we calculate the heating rate and gradient of particle systems flowing under",
+          "page": 2
+        },
+        {
+          "para_id": "1_34",
+          "text": "fluctuating polytropic processes, and then apply this theory to solar wind plasma protons.",
+          "page": 2
+        },
+        {
+          "para_id": "1_35",
+          "text": "The heating of a particle system depends on the difference between its polytropic index and the",
+          "page": 2
+        },
+        {
+          "para_id": "1_36",
+          "text": "adiabatic index. However, the polytropic index does not have a constant value throughout the heliosphere,",
+          "page": 2
+        },
+        {
+          "para_id": "1_37",
+          "text": "but instead has a slowly varying radial profile (e.g., G. Livadiotis 2021), which is related to the radial profile",
+          "page": 2
+        },
+        {
+          "para_id": "1_38",
+          "text": "of heating (e.g., G. Livadiotis 2019a;b; G. Livadiotis & D.J. McComas 2023a). Indeed, a single polytropic",
+          "page": 2
+        },
+        {
+          "para_id": "1_39",
+          "text": "index corresponds to an ideal polytropic process, called a “polytrope”, but as we will see in this paper, in",
+          "page": 2
+        },
+        {
+          "para_id": "1_40",
+          "text": "general, a variable polytropic index can be decomposed into a sum or integral of polytropes, that is,",
+          "page": 2
+        },
+        {
+          "para_id": "1_41",
+          "text": "expressed as a superposition of multiple polytropes, or a “multi-polytrope.”",
+          "page": 2
+        },
+        {
+          "para_id": "1_42",
+          "text": "The paper is organized as follows. In Section 2, we present the ideal polytropic processes (polytropes),",
+          "page": 2
+        },
+        {
+          "para_id": "1_43",
+          "text": "while in Section 3, we introduce the concept of superposition of polytropic processes (multi-polytropes),",
+          "page": 2
+        },
+        {
+          "para_id": "1_44",
+          "text": "presenting the concept of fractional effective degrees of freedom, their variability, and the superposition of",
+          "page": 2
+        },
+        {
+          "para_id": "1_45",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "1_46",
+          "text": "those degrees of freedom once they are randomly distributed. In Section 4, we develop the superposition of",
+          "page": 3
+        },
+        {
+          "para_id": "1_47",
+          "text": "polytropic processes with random fluctuations; we derive the generalized polytropic relationship n(T), the",
+          "page": 3
+        },
+        {
+          "para_id": "1_48",
+          "text": "polytropic index, ν(T) and γ(T), the heating of polytropic processes. In Section 5, we apply the theory to the",
+          "page": 3
+        },
+        {
+          "para_id": "1_49",
+          "text": "solar wind protons in the inner heliosphere, and derive the temperature, T(r), the polytropic index, ν(r) and",
+          "page": 3
+        },
+        {
+          "para_id": "1_50",
+          "text": "γ(r), heating rate dq(r)/dt and gradient dq(r)/dr. In Section 6, we show the connection of fluctuating",
+          "page": 3
+        },
+        {
+          "para_id": "1_51",
+          "text": "polytropic processes with heliospheric turbulence. For this, we examine the radial profiles of ideal and",
+          "page": 3
+        },
+        {
+          "para_id": "1_52",
+          "text": "fluctuating polytropic processes and compare with the radial profile of turbulent heating. As an application,",
+          "page": 3
+        },
+        {
+          "para_id": "1_53",
+          "text": "we apply the thermodynamic model to the radial profile of PUI energy transfer to the solar wind plasma",
+          "page": 3
+        },
+        {
+          "para_id": "1_54",
+          "text": "protons, where we derive the portion of PUI turbulent vs. nonturbulent heating rates. Finally, in Section 7,",
+          "page": 3
+        },
+        {
+          "para_id": "1_55",
+          "text": "we summarize and discuss this work and provide conclusions, while the Appendices provide additional",
+          "page": 3
+        },
+        {
+          "para_id": "1_56",
+          "text": "details on the analytical derivations in this paper.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2. Ideal polytropic processes: Polytropes",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "As solar wind plasma flows outward along a streamline, its thermodynamic properties change according",
+          "page": 3
+        },
+        {
+          "para_id": "2_2",
+          "text": "to polytropic processes. In these processes, thermal pressure p and density n are related by a power-law",
+          "page": 3
+        },
+        {
+          "para_id": "2_3",
+          "text": "equation, p\nn\n\n. Given the ideal gas equation of state that generally applies for space plasmas (e.g., F.J.",
+          "page": 3
+        },
+        {
+          "para_id": "2_4",
+          "text": "Rogers 1994), \nB\np\nnk T\n\n, a similar power-law relationship exists between density n and temperature T, i.e.,",
+          "page": 3
+        },
+        {
+          "para_id": "2_5",
+          "text": "n\nT \n\n. The primary γ and secondary ν polytropic indices are related by",
+          "page": 3
+        },
+        {
+          "para_id": "2_6",
+          "text": "1 1/\n\n\n\n  \n1/ (\n1)\n\n\n\n\n.  \n(1) \nThe polytropic index of solar wind plasma is, in general, not constant over long heliospheric distances.",
+          "page": 3
+        },
+        {
+          "para_id": "2_7",
+          "text": "In the case of the solar wind protons, the further from the Sun, the more the polytropic index deviates from",
+          "page": 3
+        },
+        {
+          "para_id": "2_8",
+          "text": "its adiabatic value. It decreases slowly from 1 to 5 au (Δγ~ – 0.05 per 1au; G. Livadiotis & D.J. McComas",
+          "page": 3
+        },
+        {
+          "para_id": "2_9",
+          "text": "2023a; G. Nicolaou et al. 2023), reaching an isothermal value (γ = 1) near ~ 30 au (H.A. Elliott et al. 2019),",
+          "page": 3
+        },
+        {
+          "para_id": "2_10",
+          "text": "beyond which, it decreases further to sub-isothermal values (γ < 1) in the outer heliosphere (G. Livadiotis",
+          "page": 3
+        },
+        {
+          "para_id": "2_11",
+          "text": "& D.J. McComas 2012; 2013; G. Livadiotis et al. 2022; G. Livadiotis et al. 2025).",
+          "page": 3
+        },
+        {
+          "para_id": "2_12",
+          "text": "In the case of variable polytropic processes, the polytropic index is defined by the proportional changes",
+          "page": 3
+        },
+        {
+          "para_id": "2_13",
+          "text": "of pressure with respect to density, or, for the secondary polytropic index, by the proportional changes of",
+          "page": 3
+        },
+        {
+          "para_id": "2_14",
+          "text": "density with respect to temperature,",
+          "page": 3
+        },
+        {
+          "para_id": "2_15",
+          "text": "ln\n/\nln\nd\np d\nn\n\n , \nln\n/\nln\nd\nn d\nT\n\n, \n(2) \nwhich, again, is consistent to Eq.(1).",
+          "page": 3
+        },
+        {
+          "para_id": "2_16",
+          "text": "When the polytropic index is constant, the process is described by a single power-low exponent,",
+          "page": 3
+        },
+        {
+          "para_id": "2_17",
+          "text": "n T\n\n\n\n\n . \n(3) \nEquation (3) describes ideal polytropic processes (polytropes), as opposed to the polytropic processes of",
+          "page": 3
+        },
+        {
+          "para_id": "2_18",
+          "text": "variable polytropic index. While the value of Π remains constant along a streamline, each streamline is",
+          "page": 3
+        },
+        {
+          "para_id": "2_19",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "2_20",
+          "text": "characterized by a specific value of Π, which may be different amongst adjacent streamlines. Thus, the",
+          "page": 4
+        },
+        {
+          "para_id": "2_21",
+          "text": "duplet {T,Π} constitutes a reparameterization of the thermodynamic phase space of {T,n}, a curvilinear",
+          "page": 4
+        },
+        {
+          "para_id": "2_22",
+          "text": "grid of coordinates for describing the set of all streamlines with polytropic index ν (demonstrated in Figure",
+          "page": 4
+        },
+        {
+          "para_id": "2_23",
+          "text": "1). Therefore, the polytropic relationship does not reduce the number of independent thermodynamic",
+          "page": 4
+        },
+        {
+          "para_id": "2_24",
+          "text": "parameters (i.e., any two of the triplet n, T, P).",
+          "page": 4
+        },
+        {
+          "para_id": "2_25",
+          "text": "Figure 1. Thermodynamic grid: The two independent thermodynamic parameters of density and \ntemperature form this grid in linear coordinates. The ensemble of streamlines of all the polytropic processes \nwith some constant polytropic index represent a curvilinear system of coordinates, with the transform of \n{T,n}⟶{T,Π} given by the polytropic relationship in Eq.(3). The plot depicts the values of Π: log Π = 0.3, \n0.4, …, 1.7, for the adiabatic polytropic index ν = 3 / 2. \n \n3. Superposition of ideal polytropic processes: Multi-polytropes",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "3.1",
+      "section_title": "3.1. Fractional effective dimensionality",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.1_1",
+          "text": "Here we discuss the effective degrees of freedom, which are defined through the polytropic processes.",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_2",
+          "text": "In particular, the secondary polytropic index equals half the degrees of freedom, \n1\n2 D\n\n; these polytropic",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_3",
+          "text": "degrees of freedom become the kinetic degrees of freedom in the case of an adiabatic index, \n1\nK\n2\na\nD\n\n. Using",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_4",
+          "text": "the polytropic indices or the degrees of freedom is equivalent; we may always switch from the nomenclature",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_5",
+          "text": "of polytropic and adiabatic indices, \n1 2 / D\n\n and \nK\n1 2/\na\nD\n\n, to that of degrees of freedom, i.e., D  and",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_6",
+          "text": "K\nD , respectively, where the degrees of freedom are more fundamental as they represent an actual,",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_7",
+          "text": "physically meaningful quantity. The dimensionality or degrees of freedom can be a fractional number as",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_8",
+          "text": "the velocity distribution often does not fully populate all the possible portions of the phase space represented",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_9",
+          "text": "by integer dimensionality. This is called effective dimensionality or effective degrees of freedom, as it",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_10",
+          "text": "characterizes thermodynamics in the same way as the traditionally assumed three kinetic degrees of",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_11",
+          "text": "freedom.",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_12",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_13",
+          "text": "An important example of fractional effective dimensionality is the PUI population, whose distribution",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_14",
+          "text": "evolves from an initial 1D ring into a 3D filled sphere (e.g., S. V. Chalov & H. J. Fahr 1998; J. Y. Lu & G.",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_15",
+          "text": "P. Zank 2001; B. M. Randol et al. 2013; E. J. Zirnstein et al. 2022). In particular, the initial ring beam is",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_16",
+          "text": "unstable and drives kinetic instabilities (e.g., C. T. Russell et al. 1998; D. E. Huddleston et al. 2000; K. Min",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_17",
+          "text": "et al. 2017; S. Du et al. 2025). Immediately, the ring is transformed into a two-dimensional bispherical shell",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_18",
+          "text": "due to plasma waves that initiate pitch angle scattering (e.g., C. S. Wu & R. C. Davidson 1972; M. A. Lee",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_19",
+          "text": "& W. H. Ip 1987; H. J. Fahr 2007; E. J. Summerlin et al. 2014; V. Florinski et al. 2016; K. Min et al. 2018).",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_20",
+          "text": "With continuous scattering and advection in the expanding solar wind, the distribution eventually fills the",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_21",
+          "text": "entire velocity sphere, becoming fully isotropic and three-dimensional (e.g., S. V. Chalov & H. J. Fahr",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_22",
+          "text": "1998; J. Y. Lu & G. P. Zank 2001; E. J. Zirnstein et al. 2022). Through the fractional dimensionality, instead",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_23",
+          "text": "of thinking of the evolution of PUI distribution as discrete jumps from 1D → 2D → 3D, we can better",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_24",
+          "text": "interpret the intermediate states physically by using a fractional dimension to represent the progress in",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_25",
+          "text": "populating an increasingly large fraction of the available phase space; or, according to G. Livadiotis & D.",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_26",
+          "text": "J. McComas (2023a;b), “Due to thermal fluctuations, this one-dimensional ring is actually a higher",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_27",
+          "text": "dimensional distribution with an effective PUI dimensionality dispersed between values of D ∼ 1 and D ∼",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_28",
+          "text": "2, which is lower dimensionality (D < 3) than the three-dimensional plasma (D = 3).” Furthermore, the",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_29",
+          "text": "fractional effective dimensionality of PUIs is a measure of the order of their distribution; the lower the DPUI,",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_30",
+          "text": "the higher the order of the PUI distribution. When a solar wind proton undergoes a charge exchange with",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_31",
+          "text": "an interstellar neutral, the newly born PUI is picked-up by the frozen-in magnetic field that flows along",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_32",
+          "text": "with the solar wind, outward through the heliosphere. The newly born PUIs replace the missing charge and",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_33",
+          "text": "number of solar wind protons that were involved in the charge exchange. What is not matched, however,",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_34",
+          "text": "are the degrees of freedom because at each charge exchange a 3D solar wind proton is replaced by highly",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_35",
+          "text": "ordered PUI that has a lower number of degrees of freedom, DPUI < 3. Consequently, the entropy of the",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_36",
+          "text": "solar wind protons decreases as they continue to charge-exchange with neutrals. This is an important",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_37",
+          "text": "process that decreases the entropy and alters the thermodynamics of the solar wind protons as they move",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_38",
+          "text": "out through the heliosphere.",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_39",
+          "text": "PUIs are not the only population that is characterized by a fractional effective dimensionality. Any",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_40",
+          "text": "space plasma particles may have a fractional number of effective degrees of freedom. In the case of solar",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_41",
+          "text": "wind protons, a systematic variation of their effective dimensionality can be mostly caused by (i) the",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_42",
+          "text": "incorporation of newly born PUIs into solar wind (as described above), and (ii) the strong long-range",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_43",
+          "text": "interactions that correlates a large number of particles. Specifically, we have: (i) PUIs decrease the per",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_44",
+          "text": "particle degrees of freedom of the system of solar wind protons; the PUI dimensionality is 1 ⪅ DPUI ⪅ 3,",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_45",
+          "text": "with DPUI~1 corresponding to the ring distribution of new born PUIs, while mature PUIs correspond to",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_46",
+          "text": "higher dimensionality up to DPUI~3 corresponding to their thermalization; thus, the per particle solar wind",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_47",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_48",
+          "text": "effective dimensionality becomes 1 ⪅ Deff  ⪅ 3 (G. Livadiotis & D.J. McComas 2023b). (ii) Long-range",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_49",
+          "text": "interactions induce strong correlations among particles binding together the degrees of freedom of each",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_50",
+          "text": "individual particle into a “cloud” of degrees of freedom; the degrees of freedom are indistinguishable and",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_51",
+          "text": "among N particles correspond to an effective dimensionality higher than the traditional three degrees of",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_52",
+          "text": "freedom per particle, i.e., 3 ⪅ Deff ⪅ 3 N (G. Livadiotis et al. 2024pui). Other factors may also vary the",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_53",
+          "text": "effective dimensionality of protons, such as the interplanetary magnetic field (Cuesta et al. 2025mag), but",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_54",
+          "text": "in addition to systematic variations that may exist or not, random fluctuations always characterize the",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_55",
+          "text": "variability of degrees of freedom.",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_56",
+          "text": "Random fluctuations are intrinsic to systems composed of many particles. Even in thermodynamic",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_57",
+          "text": "equilibrium, physical quantities of particles fluctuate around mean values. Random fluctuations are often",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_58",
+          "text": "normally distributed. According to the Central Limit Theorem, the normal distribution is an attractor of",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_59",
+          "text": "statistical distributions. Namely, when many small and independent random effects contribute to a",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_60",
+          "text": "measurement, the resulting distribution converges toward a normal distribution (e.g., A.M. Selvam 2017).",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_61",
+          "text": "Systematic or random variations of the degrees of freedom lead to more complex forms of the",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_62",
+          "text": "polytropic relationship between thermodynamic parameters than the typical power-law characterizing",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_63",
+          "text": "single polytropes. Any complex form of polytropic process can be equivalently expressed by a power law",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_64",
+          "text": "such as p\nn\n\n or n\nT \n\n, where the involved polytropic index is not a constant but it varies (e.g., with",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_65",
+          "text": "temperature, γ(T) or ν(T)). Therefore, a nonconstant polytropic index is consistent with variations of the",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_66",
+          "text": "effective degrees of freedom.",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_67",
+          "text": "Next, we develop the method of decompose any functional polytropic relationship into the summation",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_68",
+          "text": "or integration of multiple polytropic processes, each characterized by a constant polytropic index or degrees",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_69",
+          "text": "of freedom. Then, we will apply this method to the case of normally distributed polytropic processes.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3.2",
+      "section_title": "3.2. Superposition of degrees of freedom",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.2_1",
+          "text": "A polytrope is described by the polytropic relationship of a single polytropic index, and it can be",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_2",
+          "text": "expressed in terms of a single value of the degrees of freedom as",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_3",
+          "text": "1\n2\n*\n*\n/\n(\n/\n)",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_4",
+          "text": "D\nn n\nT T\n\n,  \n(4) \nwhere {T*,n*} are characteristic scales of the system, universal for all the streamlines of the system; (as",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_5",
+          "text": "shown from Eq.(4), {T*,n*} represents a point only on the certain streamline with Π=1).",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_6",
+          "text": "The variation on the effective degrees of freedom D has an overall effect on the thermodynamics of",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_7",
+          "text": "space plasmas, and specifically on their polytropic processes. All the different values of the degrees of",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_8",
+          "text": "freedom contribute to the overall polytropic process, described by summing over all the variable D. At any",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_9",
+          "text": "snapshot of the system in time, the degrees of freedom D vary among the particles, described by a stationary",
+          "page": 6
+        },
+        {
+          "para_id": "3.2_10",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_11",
+          "text": "statistical distribution PD; this is similar to the variability of the energy or other physical quantities among",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_12",
+          "text": "the particles, described by stationary statistics and characterize the thermodynamics of the particle system.",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_13",
+          "text": "As an example, let a particle population described by the discrete set of degrees of freedom {D1, D2,",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_14",
+          "text": "…, Dw }, where the portion of particles in the system with degrees of freedom equal to Di is PDi. Particles",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_15",
+          "text": "are undistinguishable, thus at any snapshot of particles, all the variable degrees of freedom D1, D2, …, Dw",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_16",
+          "text": "coexist, having probabilities {PD1, PD2, …, PDw}, respectively. Each portion has a certain density nD and a",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_17",
+          "text": "polytropic process. For a given temperature T, the density of particles following the polytropic process with",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_18",
+          "text": "D degrees of freedom is",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_19",
+          "text": "1\n2\n*\n*\n/\n(\n/\n)",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_20",
+          "text": "D\nD\nD\nn\nn\nT T\n\n. Then, using the probability distribution of the degrees of",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_21",
+          "text": "freedom, we can derive the expectation value of any physical expression that involves the degrees of",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_22",
+          "text": "freedom, such as, the expectation value of the polytropic processes,",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_23",
+          "text": "1\n2\n*\n*\n*\n/\n/\n(\n/\n)",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_24",
+          "text": "D\nD\nD\nD\nD\nD\nn n\nP\nn\nn\nP\nT T\n\n\n\n\n\n\n.  \n(5a)",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_25",
+          "text": "Similarly, for the continuous description of variability of D, we have",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_26",
+          "text": "1\n2\n*\n*\n*\n/\n(\n)\n( ) /\n(\n) (\n/\n)\nD\nn n\nP D\nn D\nn dD\nP D\nT T\ndD\n\n\n\n\n\n\n. \n(5b)",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_27",
+          "text": "Therefore, the overall density is given as a superposition performed over the whole set of the effective",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_28",
+          "text": "degrees of freedom. In general, we express this polytropic process using the probability distribution of the",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_29",
+          "text": "degrees of freedom (statistical weights of each D), either in a discrete PD or continuous P(D) description,",
+          "page": 7
+        },
+        {
+          "para_id": "3.2_30",
+          "text": "respectively:",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nD\nD\nP \n\n , \n(\n)\n1\nP D dD \n\n. \n(6)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "When there is a single degree of freedom, then, the distribution becomes a delta of Kronecker’s or a delta",
+          "page": 7
+        },
+        {
+          "para_id": "1_2",
+          "text": "function (for the discrete/continuous descriptions, respectively), thus Eqs.(5a,b) recover the single",
+          "page": 7
+        },
+        {
+          "para_id": "1_3",
+          "text": "polytrope,",
+          "page": 7
+        },
+        {
+          "para_id": "1_4",
+          "text": "1\n2\n*\n*\n( /\n) (\n/\n)",
+          "page": 7
+        },
+        {
+          "para_id": "1_5",
+          "text": "D\nn n\nT T\n\n\n\n.",
+          "page": 7
+        },
+        {
+          "para_id": "1_6",
+          "text": "Any (analytical) function can be expressed as a summation of powers forming the Maclaurin series, or",
+          "page": 7
+        },
+        {
+          "para_id": "1_7",
+          "text": "as an integration on powers forming the Laplace transformation. Consequently, any functional polytropic",
+          "page": 7
+        },
+        {
+          "para_id": "1_8",
+          "text": "relationship can be analyzed into a summation or integration of polytropes, according to Eq.(5a) and",
+          "page": 7
+        },
+        {
+          "para_id": "1_9",
+          "text": "Eq.(5b), respectively. The addition or integration of all the polytropes form a multi-polytrope. Therefore,",
+          "page": 7
+        },
+        {
+          "para_id": "1_10",
+          "text": "any multi-polytropic functional relationship can be analyzed into a superposition of simple polytropes.",
+          "page": 7
+        },
+        {
+          "para_id": "1_11",
+          "text": "4. Superposition of polytropic fluctuations \n4.1. Generalized polytropic relationship n(T) \n4.1.1. Fluctuations of polytropic processes \nLet a particle system flowing along a streamline from \n0\n0\n(\n,\n)\nT n\n to [ ( ), ( )]\nT r\nn r\n\n\n under a multi-polytropic",
+          "page": 7
+        },
+        {
+          "para_id": "1_12",
+          "text": "process described in Eq.(5b), i.e.,",
+          "page": 7
+        },
+        {
+          "para_id": "1_13",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "1_14",
+          "text": "1\n1\n2\n2\n1",
+          "page": 8
+        },
+        {
+          "para_id": "1_15",
+          "text": "0\n0\n*\n*\n( ) (\n/\n)\n( ) (\n/\n)\nD\nD\nn\nn\nP D\nT\nT\ndD\nP D\nT T\ndD",
+          "page": 8
+        },
+        {
+          "para_id": "1_16",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n.  \n(7)",
+          "page": 8
+        },
+        {
+          "para_id": "1_17",
+          "text": "where the polytropic pressure",
+          "page": 8
+        },
+        {
+          "para_id": "1_18",
+          "text": "1\n2\n1",
+          "page": 8
+        },
+        {
+          "para_id": "1_19",
+          "text": "0\n*\n0\n*\n(\n/\n)\n(\n) (\n/\n)\nD\nn\nn\nP D\nT\nT\ndD",
+          "page": 8
+        },
+        {
+          "para_id": "1_20",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n remains constant along a streamline.",
+          "page": 8
+        },
+        {
+          "para_id": "1_21",
+          "text": "The polytropic processes are characterized by fluctuations of the effective degrees of freedom having",
+          "page": 8
+        },
+        {
+          "para_id": "1_22",
+          "text": "distribution \n( )\nP D , \nensemble \naverage \n(\n)\nD\nD\nD P D dD\n\n\n\n\n \nand \nstandard \ndeviation",
+          "page": 8
+        },
+        {
+          "para_id": "1_23",
+          "text": "2\n2\n(\n)\n( )\nD\nD\nP D dD\n\n\n\n\n\n.",
+          "page": 8
+        },
+        {
+          "para_id": "1_24",
+          "text": "Next, we derive the generalized polytropic relationship that characterizes the superposition of the",
+          "page": 8
+        },
+        {
+          "para_id": "1_25",
+          "text": "fluctuating polytropes. First, we work with any distribution \n( )\nP D  but in the approximation of small σ.",
+          "page": 8
+        },
+        {
+          "para_id": "1_26",
+          "text": "Thereafter, we specifically use the formalism of normally distributed fluctuations, where we end up with",
+          "page": 8
+        },
+        {
+          "para_id": "1_27",
+          "text": "the same generalized polytropic relationship, but this time the expression is exact.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "4.1.2",
+      "section_title": "4.1.2. Generalized polytropic process for any P(D).",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "4.1.2_1",
+          "text": "We observe that the superposition of",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_2",
+          "text": "1\n2\n*\n(\n/\n)",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_3",
+          "text": "D\nT T\n on D leads to its ensemble average,",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_4",
+          "text": "1\n1\n2\n2\n0\n*\n0\n*\n( )\n(\n/\n)\n/ (\n/\n)\nD\nD\nn T\nn\nT T\nT\nT\n\n\n. \n(8)",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_5",
+          "text": "The polytropic index is similarly formulated, i.e.,",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_6",
+          "text": "1\n2",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_7",
+          "text": "1\n2",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_8",
+          "text": "1\n*\n2",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_9",
+          "text": "*",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_10",
+          "text": "(\n/\n)\nln ( )\nln\n(\n/\n)",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_11",
+          "text": "D",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_12",
+          "text": "D",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_13",
+          "text": "D\nT T\nd\nn T\nd\nT\nT T\n\n\n\n\n. \n(9)",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_14",
+          "text": "In \nthe \napproximation \nof \nsmall \nσ, \nwe \nfind",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_15",
+          "text": "1\n*\n2\nln( /\n)\n2\n2\n1\n*\n8\n1\nln (\n/\n)\nD\nT T\ne\nT T\n\n\n\n\n \nand",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_16",
+          "text": "1\n*\n2\nln( /\n)\n2\n2\n1\n1\n*\n2\n4 ln (\n/\n)\nD\nT T\nD e\nT T\n\n\n\n\n\n\n, where we set D\nD\nD\n\n\n\n, thus we have \n0\nD\n\n\n and \n2\n2\nD\n\n\n\n.",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_17",
+          "text": "Hence, we find that the generalized polytropic relationship is given by the convex parabolic form",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_18",
+          "text": "2\n2\n2\n0\n1\n1\n1\n2\n4\n8\n0\n*\n0\n0\nln\nln\nln\nln\nT\nn\nT\nT\nD\nn\nT\nT\nT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n(10)",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_19",
+          "text": "while the polytropic index is",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_20",
+          "text": "2\n2\n1\n1\n*\n2\n4\n( )\nln (\n/\n)\nT\nD\nT T\n\n\n\n\n\n. \n(11)",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_21",
+          "text": "4.1.3. Generalized polytropic process for normally distributed fluctuations. \nThe effective degrees of freedom are characterized by random fluctuations, normally distributed around \ntheir mean D  with a standard deviation σ, i.e.,",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_22",
+          "text": "2",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_23",
+          "text": "2\n(\n)\n1\n2\n2\n( )",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_24",
+          "text": "D D\nP D\ne\n\n",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_25",
+          "text": "\n\n\n\n.  \n(12)",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_26",
+          "text": "The superposition is formulated according to Eq.(5b). Then, the density is given by",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_27",
+          "text": "0\n0\n( )\n( ) /\n(\n)\nn T\nn\nF T\nF T\n\n\n\n with",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_28",
+          "text": "2\n1\n*\n2\n2\n(\n)\nln( /\n)\n1\n2\n2\n( )",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_29",
+          "text": "D D\nD\nT T\nF T\ne\ndD\n\n",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_30",
+          "text": "\n\n",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_31",
+          "text": "\n\n\n\n.  \n(13)",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_32",
+          "text": "The exponent is rewritten after some calculus as",
+          "page": 8
+        },
+        {
+          "para_id": "4.1.2_33",
+          "text": "9",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_34",
+          "text": "2\n2\n1\n*\n2\n2\n2\n1\n1\n*\n*\n2\n8\n2\nln(\n/\n)\nln(\n/\n)\nln (\n/\n)\n2",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_35",
+          "text": "D\nD\nT T",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_36",
+          "text": "D\nT T\nT T\n\n\n",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_37",
+          "text": "\n\n\n\n\n\n\n\n\n.  \n(14a)",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_38",
+          "text": "The first component is equivalent to a normal distribution over",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_39",
+          "text": "2\n1\n0\n2\nln(\n/\n)\nD\nT T\n\n\n, and is integrated as",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_40",
+          "text": "2\n2\n1\n*\n2\n2\nln( /\n)",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_41",
+          "text": "1\n2\n2\n1",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_42",
+          "text": "D D\nT T\ne\ndD",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_43",
+          "text": "",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_44",
+          "text": "\n",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_45",
+          "text": "\n\n\n\n\n\n\n",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_46",
+          "text": "\n\n\n\n, \n(14b)",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_47",
+          "text": "while the other two components are constants remaining out of the integration and leading to",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_48",
+          "text": "\n\n2\n2\n1\n1\n1\n1\n*\n0\n*\n2\n8\n2\n8\nln\n( )/\nln(\n/\n)",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_49",
+          "text": "0",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_50",
+          "text": "0\n*\n*",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_51",
+          "text": "( )\n( )",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_52",
+          "text": "D\nT r\nT\nD\nT\nT\nT\nn r\nT r\nn\nT\nT",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_53",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_54",
+          "text": "\n\n\n, \n(15a)",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_55",
+          "text": "where we include the positional dependence along streamlines. On logarithmic scales (log T and log n) the",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_56",
+          "text": "expression again becomes the convex parabola of Eq.(10), but in an exact formulation rather than an",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_57",
+          "text": "approximation,",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_58",
+          "text": "2\n2\n2\n0\n1\n1\n1\n2\n4\n8\n0\n*\n0\n0",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_59",
+          "text": "( )\n( )\n( )\nln\nln\nln\nln\nT\nn r\nT r\nT r\nD\nn\nT\nT\nT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.2_60",
+          "text": "\n\n\n. \n(15b)",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "4.1.4",
+      "section_title": "4.1.4. Final expression \nThe convex parabola of Eqs.(15a,b) provides the generalized polytropic relationship n(T) that",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "4.1.4_1",
+          "text": "characterizes fluctuating polytropic processes. Expressing this relationship in (log T,log n), we obtain",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_2",
+          "text": "\n",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_3",
+          "text": "2\n0\n1\n2\nln\n( )\nln ( )\nln\n( )\nn r\nA\nA\nT r\nA\nT r\n\n\n\n\n\n, \n(16a) \nwhere \n \n2\n1\n1\n0\n0\n0\n0\n*\n0\n2\n4\nln\nln\nln\n(ln\n2ln\n)\nA\nn\nD\nT\nT\nT\nT\n\n\n\n\n\n, \n2\n1\n1\n1\n*\n2\n4 ln\nA\nD\nT\n\n\n\n, \n2\n1\n2\n8\nA\n\n\n. \n(16b)",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_4",
+          "text": "The corresponding relationship in terms of density is approximated in terms of small σ as,",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_5",
+          "text": "1\n2\n2",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_6",
+          "text": "0\n0",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_7",
+          "text": "( )\n( )\n( )",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_8",
+          "text": "D\nn r\nT r\ng r\nn\nT\n\n\n\n\n\n\n\n\n",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_9",
+          "text": "\n\n ,",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_10",
+          "text": "1\n2\n0\n1\n1\n4\n2\n0\n0\n0\n*",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_11",
+          "text": "( )\n( )\n( )\n( )\nln\nln\nln",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_12",
+          "text": "D\nT\nT r\nT r\nT r\ng r\nT\nT\nT\nT",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_13",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_14",
+          "text": "\n\n\n\n. \n(17)",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_15",
+          "text": "The degrees of freedom of each particle is a random variable Di (Figure 2a), but over a larger number",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_16",
+          "text": "of particles or many samplings of a single particle, the observed values Di converge to the ensemble",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_17",
+          "text": "distribution P(D) (Figure 2b). In Figure 2(c) the timeseries of the normally distributed random values of",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_18",
+          "text": "degrees of freedom, Di, are used to derive the respective timeseries of densities through",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_19",
+          "text": "1\n2\n*\n*\n(\n/\n)\n(\n/\n)\ni\nD\nin\nn\nT T\n\n (with Π=10 and Τ*=1); then, the derived densities are binned over ΔN=150 values",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_20",
+          "text": "to mimic the superposition of all the variable degrees of freedom. The resulting polytropic relationship is",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_21",
+          "text": "given by the concave parabola of Eq.(15b).",
+          "page": 9
+        },
+        {
+          "para_id": "4.1.4_22",
+          "text": "10",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_23",
+          "text": "Figure 2. Generalized polytropic relationship for a simulation of randomly distributed degrees of freedom. \n \n4.2. Polytropic index, ν(T) and γ(T) \nThe secondary polytropic index is given by ( )\nln\n/\nln\nT\nd\nn d\nT\n\n\n, which is the slope of the polytropic",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_24",
+          "text": "relationship, Eq.(15b), i.e.,",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_25",
+          "text": "2\n1\n1\n*\n2\n4\n( )\nln(\n/\n)\nT\nD\nT T\n\n\n\n\n\n , \n2\n1\n1\n1\n*\n2\n4\n( )\n1 [\nln(\n/\n)]\nT\nD\nT T\n\n\n\n\n\n\n. \n(18)",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_26",
+          "text": "The (half) mean effective degrees of freedom define the secondary index of a nonfluctuating polytropic \nprocess, \n1\n0\n2 D\n\n\n\n, thus, the corresponding primary polytropic index is \n0\n1\n2 / D\n\n\n\n. The secondary",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_27",
+          "text": "index of a nonfluctuating adiabatic process is \n1\n2\na\na\nD\n\n\n, thus the corresponding primary polytropic index",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_28",
+          "text": "is \n1\n2 /\na\na\nD\n\n. Hence, the deviations of the polytropic indices from their adiabatic value are given by",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_29",
+          "text": "2\n1\n0\n*\n4\n( )\nln(\n/\n)\na\na\nT\nT T\n\n\n\n\n\n\n\n\n\n\n\n\n, \n(19a)",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_30",
+          "text": "2\n2\n1\n0\n*\n4\n0\n2\n2\n1\n0\n*\n4",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_31",
+          "text": "(\n1) ln(\n/\n)\n( )\n1\n(\n1) ln(\n/\n)\na\na\nT T\nT\nT T",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_32",
+          "text": "\n\n",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_33",
+          "text": "\n\n\n\n\n\n\n",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_34",
+          "text": "\n\n",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_35",
+          "text": "\n\n\n\n\n\n\n\n , \n(19b)",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_36",
+          "text": "with the ratio",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_37",
+          "text": "1\n2\n1\n1\n*\n4\n2\n( )\n1\n1\nln(\n/\n) /\n1",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_38",
+          "text": "a\na",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_39",
+          "text": "a",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_40",
+          "text": "T\nD\nT T\nD\nD\n\n\n\n",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_41",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n. \n(19c)",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_42",
+          "text": "The \npolytropic \ndeviation \n( )\na\nT\n\n\n\n \ncan \nbe \nwritten \nfor \nsmall \nvalues \nof \nsigma \nas",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_43",
+          "text": "2\n2\n1\n0\n0\n*\n4\n( )\n(\n1) ln(\n/\n)\na\na\nT\nT T\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. It is clear now that the deviation of a fluctuating polytropic",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_44",
+          "text": "process from the ideal adiabatic process, \n( )\na\nT\n\n\n\n, is caused by two factors, (i) the deviation of the",
+          "page": 10
+        },
+        {
+          "para_id": "4.1.4_45",
+          "text": "11",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_46",
+          "text": "nonfluctuating (ideal) polytropic process from the ideal adiabatic one, expressed by the difference in their",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_47",
+          "text": "indices, \n0\na\n\n\n\n\n\n, and (ii) the fluctuations of the polytropic process characterized by the variance \n2\n. In",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_48",
+          "text": "the case of a fluctuating adiabatic process, the deviation from the ideal adiabatic process is simply caused",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_49",
+          "text": "by the fluctuations. The absolute difference between the adiabatic and fluctuating adiabatic indices increase",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_50",
+          "text": "with the variance \n2\n. Indeed, we have \n1\n1\n0\n2\n2\na\na\nD\nD\n\n\n\n\n\n\n, thus",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_51",
+          "text": "2\n1\n*\n4\n( )\nln(\n/\n)\na\nT\nT T\n\n\n\n\n\n\n, \n(20a) \nand",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_52",
+          "text": "2\n2\n1\n2\n2\n4\n*\n4\n1\n*\n4\n2\n1\n*\n4",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_53",
+          "text": "(\n1) ln(\n/\n)\n( )\n(\n1) ln(\n/\n)\n(\n)\n1\n(\n1)ln(\n/\n)",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_54",
+          "text": "a\na\na\na",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_55",
+          "text": "T T\nT\nT T\nO\nT T\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(20b)",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_56",
+          "text": "When the nonfluctuating processes are adiabatic, \n0\na\n\n\n\n\n, they become subadiabatic in the presence",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_57",
+          "text": "of fluctuations. In particular, the primary polytropic index becomes smaller with fluctuations, \n/\n0\nd\nd\n\n.",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_58",
+          "text": "When the nonfluctuating processes are superadiabatic, \n0\na\n\n\n\n\n, the resulted polytropic index is closer to",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_59",
+          "text": "the adiabatic value, and even more, for sufficiently large σ, it can be turned into subadiabatic. In particular,",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_60",
+          "text": "the standard deviation must be \nc\n\n\n\n, where \nc\n0\n*\n2 (\n) / ln(\n/\n)\na\nT T\n\n\n\n\n\n\n\n, for the resulted polytropic",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_61",
+          "text": "index to be subadiabatic, ( )\na\nT\n\n\n\n.",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_62",
+          "text": "The value of the polytropic index is related to the heat entering or exiting the system. When the primary",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_63",
+          "text": "polytropic index is smaller than the adiabatic one, \na\n\n\n\n, the particle system is heated, while when is larger,",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_64",
+          "text": "a\n\n\n\n, heat is exiting the system. The heating rate is proportional to the difference of adiabatic and",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_65",
+          "text": "polytropic indices (e.g., G. Livadiotis & D.J. McComas 2023a). Therefore, the stronger the fluctuations,",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_66",
+          "text": "that is, the larger the variance of the normally distributed fluctuations, the larger the heating of the system.",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_67",
+          "text": "In the next section, we derive the exact formulation of the heating and its dependence on the variance of",
+          "page": 11
+        },
+        {
+          "para_id": "4.1.4_68",
+          "text": "fluctuations, \n2\n.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "4.3",
+      "section_title": "4.3. Heating of polytropic processes",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.3_1",
+          "text": "For expressing heating in terms of the polytropic index, we revisit the analytical procedure in the work",
+          "page": 11
+        },
+        {
+          "para_id": "4.3_2",
+          "text": "of G. Livadiotis & D.J. McComas (2023a; 2025a) (see also: Livadiotis 2019a; G. Livadiotis & D.J.",
+          "page": 11
+        },
+        {
+          "para_id": "4.3_3",
+          "text": "McComas 2023c). According to this, the first law of thermodynamics states that heating dQ is shared",
+          "page": 11
+        },
+        {
+          "para_id": "4.3_4",
+          "text": "between changes in the internal energy dU  and the work produced dW . For a system of N particles and",
+          "page": 11
+        },
+        {
+          "para_id": "4.3_5",
+          "text": "DK kinetic degrees of freedom per particle the internal energy varies by \n1\nK\nB\n2\ndU\nD Nk dT\n\n, while from",
+          "page": 11
+        },
+        {
+          "para_id": "4.3_6",
+          "text": "expansion or contraction of the system’s volume by dV , the work varies by dW\npdV\n\n, that is,",
+          "page": 11
+        },
+        {
+          "para_id": "4.3_7",
+          "text": "1\n1\n1\nK\nK\nK\n2\n2\n2\n(\n)\n(\n1)\ndQ\ndU\ndW\nD\npdV\nVdp\npdV\nD\npdV\nD Vdp\n\n\n\n\n\n\n\n\n.  \n(21)",
+          "page": 11
+        },
+        {
+          "para_id": "4.3_8",
+          "text": "Using \nB\npV\nNk T\n\n and dividing by 1\nK\n2 D pdV , we obtain:",
+          "page": 11
+        },
+        {
+          "para_id": "4.3_9",
+          "text": "12",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_10",
+          "text": "K\n2\n1\nK\nB\n2",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_11",
+          "text": "ln\n(1\n)\nln\nln\nD\nd\np\ndq\nd\nV\nD k Td\nV\n\n\n\n,  \n(22)",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_12",
+          "text": "where we used \n/\nq\nQ N\n\n as the per-particle heating of the system. Equation (9) is written in terms of the",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_13",
+          "text": "polytropic and adiabatic indices, \nK\n1\n2 /\na\nD\n\n and \nln\n/\nln\nln\n/\nln\nd\np d\nn\nd\np d\nV\n\n\n or \n",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_14",
+          "text": "ln\n/\nln\n1\nd\nn d\nT\n\n\n, leading to",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_15",
+          "text": "B\n1\nln",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_16",
+          "text": "a",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_17",
+          "text": "a",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_18",
+          "text": "dq\nk T d\nV\n\n\n\n\n\n\n\n . \n(23)",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_19",
+          "text": "We observe that heating is proportional to the difference between the adiabatic and polytropic indices.",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_20",
+          "text": "Solving in terms of the heating rate, we obtain the radial gradient and rate of the heating to be respectively",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_21",
+          "text": "given by:",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_22",
+          "text": "B\nln\n1",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_23",
+          "text": "a",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_24",
+          "text": "a",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_25",
+          "text": "dq\nd\nV\nk T\ndr\ndr\n\n\n\n\n\n\n\n\n and \nb\ndq\ndq\nu\ndt\ndr\n\n\n, \n(24)",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_26",
+          "text": "introducing the bulk speed of the flow, ub. (Another way of characterizing heating is through the heat",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_27",
+          "text": "capacity; see the respective formulation in Appendix A). In order to express the radial profile of density,",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_28",
+          "text": "we use the conservation of flux, \n2\n2\nb\n0\nb\n0\n0\n( )\n( )\n( )\n( )\n:\n.\nn r u\nr r\nn r u\nr r\nconst\n\n, setting r0 = 1 au, and the radial",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_29",
+          "text": "exponents of density ( ) ~\nn\na\nn r\nr \n and of speed \nb( ) ~\nu\na\nu\nr\nr \n, or, \n2\n0\nn\nu\na\na\n\n\n\n\n, with \n~1.8 1.9\nna\n\n and",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_30",
+          "text": "~ 0.1\nua\n (representing the loss of solar wind protons through charge exchange with interstellar neutrals, G.",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_31",
+          "text": "Livadiotis & D.J. McComas 2025b). Therefore, we have \nb\nln\nln\nln\n(\n/ )\n(\n/ )\nn\nn\nn\nd\nV\nd\nn\na d\nr\na\nr dr\na u\nr dt\n\n\n\n",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_32",
+          "text": ", and thus, the heating gradient and rate in Eq.(24) become",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_33",
+          "text": "B\n/\n1",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_34",
+          "text": "a\nn\na",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_35",
+          "text": "dq\na k T\nr\ndr",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_36",
+          "text": "\n\n\n\n\n\n\n and \nb\ndq\ndq\nu\ndt\ndr\n\n\n. \n(25)",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_37",
+          "text": "We have already found the polytropic relationship for the fluctuating polytropic processes, e.g., see",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_38",
+          "text": "Eq.(19c). This is used in Eq.(25) to find the (logarithmic) gradient of heating,",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_39",
+          "text": "2\n1\n1\n1\n4\n2\nB\n*",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_40",
+          "text": "2\n1\n2\n2",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_41",
+          "text": "2\n2\n0\n0",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_42",
+          "text": "( )\n1\n(1\nln\n/\n)\nln",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_43",
+          "text": "1\nln",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_44",
+          "text": "(\n1)\nln\n,\n1\n4(\n1)",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_45",
+          "text": "a\nn",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_46",
+          "text": "a\na\nn\nn",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_47",
+          "text": "a\nn\nn\na\na",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_48",
+          "text": "D\nd\nq x\na\nx\nD\nx\nd\nr\nk T\nD",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_49",
+          "text": "D\nD\na\nx\na\nx\nx\nD\nD",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_50",
+          "text": "a\na\nx\nx\nx\n\n",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_51",
+          "text": "",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_52",
+          "text": "",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_53",
+          "text": "\n\n\n\n\n",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_54",
+          "text": "",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_55",
+          "text": "\n",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_56",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_57",
+          "text": ", \n(26)",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_58",
+          "text": "where we used the identity \n0\n(\n) / (\n1)\n1\n/\na\na\na\nD\nD\n\n\n\n\n\n\n\n\n and the definition \n*\n/\nx\nT T\n\n. The approximation",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_59",
+          "text": "for small σ shows clearly that the heating is the result of two factors, (a) the nonfluctuating term, which is",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_60",
+          "text": "caused by the difference between adiabatic index and the polytropic index of the nonfluctuating process,",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_61",
+          "text": "and (b) the fluctuations of the polytropic process, proportional to \n2\n. Observations that present a deviation",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_62",
+          "text": "of heating from linearity with respect to temperature, especially if this deviation is proportional to the",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_63",
+          "text": "logarithm of temperature, would be a strong indication of the effect of fluctuations:",
+          "page": 12
+        },
+        {
+          "para_id": "4.3_64",
+          "text": "13",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_65",
+          "text": "2\n2\n0\n0\n*\nB",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_66",
+          "text": "(\n1)\n1\nln(\n/\n)\nln\n1\n4(\n1)",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_67",
+          "text": "a\nn\nn\na\na",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_68",
+          "text": "a\ndq\na\nT\nT\nk T\nd\nr",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_69",
+          "text": "\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_70",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n, \n(27a)",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_71",
+          "text": "for instance, setting \n3\na\nD \n and \n2\nna \n, we have",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_72",
+          "text": "2\n2\n3\n0\n0\n*\n4\nB",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_73",
+          "text": "1\n3 (5 / 3\n)\n(\n1)\nln(\n/\n)\nln\ndq\nT\nT\nk T\nd\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(27b)",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_74",
+          "text": "Again, we clearly observer that the heating is caused by two factors, (i) the difference between the \nnonfluctuating (ideal) polytropic and the ideal adiabatic indices or degrees of freedom, \n0\na\nD\nD\n\n\n, and (ii)",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_75",
+          "text": "the variance \n2\n that measures the fluctuations of the polytropic process. \n \n5. Heliospheric radial profiles of thermodynamic parameters",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_76",
+          "text": "In this section we derive the radial profiles of thermodynamic quantities of the solar wind protons in",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_77",
+          "text": "the inner heliosphere, considering that the plasma protons flow radially outward under a fluctuating",
+          "page": 13
+        },
+        {
+          "para_id": "4.3_78",
+          "text": "polytropic process. We find the analytical expressions of temperature, polytropic index, and heating.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "5.1",
+      "section_title": "5.1. Temperature, T(r)",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "5.1_1",
+          "text": "We first invert the polytropic relationship in Eq.(15b) and express the temperature in terms of the",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_2",
+          "text": "density. For this, we solve the binomial",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_3",
+          "text": "2\n2\n2\n0\n1\n1\n1\n8\n2\n4\n0\n*\n0\n0",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_4",
+          "text": "( )\n( )\n( )\nln\nln\nln\nln\n0\nT\nT r\nT r\nn r\nD\nT\nT\nT\nn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_5",
+          "text": "\n\n\n, \n(28a)",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_6",
+          "text": "leading to",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_7",
+          "text": "2\n2\n2\n2\n0\n1\n1\n2\n2\n*\n*\n0",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_8",
+          "text": "( )\n( )\nln\n1\n1\nln\n2\nln\nT\nT r\nn r\nD\nD\nD\nT\nD\nT\nD\nn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_9",
+          "text": "\n\n. \n(28b)",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_10",
+          "text": "(Note that only positive root gives finite solution for σ tending to zero.) The expression is expanded in",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_11",
+          "text": "orders of σ2,",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_12",
+          "text": "2\n1\n1\n2\n2\n0\n0",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_13",
+          "text": "( )\n( )\nln\nln\n(\n/\n)\n( )\nT r\nn r\nD\nD\nI r\nT\nn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_14",
+          "text": "\n\n, \n(29a)",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_15",
+          "text": "where",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_16",
+          "text": "0",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_17",
+          "text": "0\n0\n*",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_18",
+          "text": "( )\n( )\n( )\nln\nln\nln T\nn r\nn r\nI r\nD\nn\nn\nT",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_19",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_20",
+          "text": "\n\n\n. \n(29b)",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_21",
+          "text": "Moreover, we approach the density expression with \n0\n0\n( )\n( /\n)\nn\na\nn r\nn\nr r\n\n\n\n, as in Eqs.(24,25). Then, we",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_22",
+          "text": "derive the radial profile of temperature",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_23",
+          "text": "2\n2\n2\n2\n0\n1\n1\n2\n2\n*\n*\n0",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_24",
+          "text": "( )\nln\n1\n1\nln\n2\nln\nn\nT\nT r\nr\nD\nD\na\nD\nT\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n(30a)",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_25",
+          "text": "approximated for small σ to the parabolic logarithmic expression",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_26",
+          "text": "2\n0\n2\n0\n0\n0\n0\n*",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_27",
+          "text": "2\n( )\nln\nln\nln\nln\nln\nn\nn\nn\na\na\na\nT\nT r\nr\nr\nr\nT\nD\nr\nD\nr\nD\nr\nT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n(30b)",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_28",
+          "text": "which reduces the power-law-like expression,",
+          "page": 13
+        },
+        {
+          "para_id": "5.1_29",
+          "text": "14",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_30",
+          "text": "0\n0\n( )",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_31",
+          "text": "T\na\nr\nT r\nT\nr",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_32",
+          "text": "\n\n\n\n\n\n\n\n, \n(31a)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_33",
+          "text": "with a radially dependent exponent",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_34",
+          "text": "2\n,0\n,1\n( )\n( )\nT\nT\nT\na\nr\na\na\nr\n\n\n\n\n with \n,0\n2\nn\nT\na\na\nD\n\n and \n0\n,1\n2\n0\n*\nln\nln\nn\nn\nT\na\na\nT\nr\na\nD\nD\nr\nT",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_35",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n(31b)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_36",
+          "text": "We observe that the radial exponent aT has two terms, the constant term that stands for the nonfluctuating",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_37",
+          "text": "polytropic process, \n2\n/\nn\na\nD\nT\nr\n\n\n, and the σ2 term that has a logarithmic radial dependence. For the typical \ncases of \n2\nna \n and the adiabatic process \n3\nD \n, we obtain the known expression of adiabatic cooling for",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_38",
+          "text": "the \nfirst \nterm, \n,0\n0\n( )\nT\na\nT r\nT\nr\n\n\n\n, \n,0\n4 / 3\nTa\n\n \nwhile \nthe \nsecond \nterm,",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_39",
+          "text": "2\n,1\nT\ns\na\nr\n\n\n\n,",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_40",
+          "text": "\n\n\n\n,1\n0\n0\n*\n(4 / 27) ln\n/\n(3 / 2)ln\n/\nTa\nr r\nT\nT\n\n\n\n\n\n, expresses the larger contribution to the nonadiabatic cooling",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_41",
+          "text": "that can be either increasing the cooling, if \n\n\n\n\n0\n0\n*\nln\n/\n(3 / 2)ln\n/\n0\nr\nr\nT\nT\n\n\n, or reducing it, if",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_42",
+          "text": "\n\n\n\n0\n0\n*\nln\n/\n(3 / 2)ln\n/\n0\nr\nr\nT\nT\n\n\n. In order to find the exact expression of the heating, we need first to derive",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_43",
+          "text": "the polytropic index radial profile. \n \n5.2. Polytropic index, ν(r) and γ(r)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_44",
+          "text": "Having found the profile of temperature in Eq.(30a), we use it in the expression of polytropic index as",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_45",
+          "text": "a function of temperature, Eq.(20a,b); the substitution leads to the radial profile of polytropic index. This",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_46",
+          "text": "derivation becomes straightforward when we observe that there is an argument Gσ, defined by",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_47",
+          "text": "2",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_48",
+          "text": "1\n2\n*",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_49",
+          "text": "( )\n( )\n1\nln T r\nG\nr\nD\nD\nT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n0\n1\nG,  \n(32a)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_50",
+          "text": "which is involved in all the thermodynamic variables we are interested in finding. Namely, for the \npolytropic index expressions,",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_51",
+          "text": "1\n2\n( )\n( )\nr\nD G\nr\n\n\n\n\n , \n1\n1\n1\n2\n( )\n1\n(\n)\n( )\nr\nD\nG\nr\n\n\n\n\n\n\n ,",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_52",
+          "text": "1\n( )\n1\n( )\n1",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_53",
+          "text": "a\na",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_54",
+          "text": "a",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_55",
+          "text": "r\nD\nG\nr\nD\n\n\n\n",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_56",
+          "text": "\n\n\n\n\n, \n(32b)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_57",
+          "text": "and the expression of temperature’s radial profile,",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_58",
+          "text": "2\n2\n2\n2\n0\n1\n1\n2\n2\n*\n*\n0",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_59",
+          "text": "( )\n1\nln\n( )\n1\nln\n2\nln\nn\nT\nT r\nr\nD\nG\nr\nD\na\nD\nT\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n(32c)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_60",
+          "text": "Therefore, we find the radial profiles of polytropic index by substituting Eq.(32a) into Eq.(32b), i.e.,",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_61",
+          "text": "2\n2\n2\n0\n1\n1\n2\n2\n*\n0\n( )\n1\nln\n2\nln\nn\nT\nr\nr\nD\nD\na\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(33a)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_62",
+          "text": "1\n2\n2\n2\n2\n1\n0\n1\n1\n2\n2\n*\n0\n( )\n1\n(\n)\n1\nln\n2\nln\nn\nT\nr\nr\nD\nD\na\nD\nT\nD\nr\n\n\n",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_63",
+          "text": "",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_64",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(33b)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_65",
+          "text": "For small sigma, the argument Gσ(r) is approximated by expanding it up to the 4th term,",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_66",
+          "text": "2\n4\n6",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_67",
+          "text": "2\n4\n( )\n1\nG\nr\ng\ng\nO\nD\nD\nD\n",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_68",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , with \n(34a)",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_69",
+          "text": "15",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_70",
+          "text": "0\n1\n2\n2\n*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_71",
+          "text": "2\nln\nln\nn\nT\na\nr\ng\nD\nT\nD\nr",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_72",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n0\n1\n4\n2\n0\n*\n0\nln\nln\nln\nn\nn\nT\na\nr\nr\ng\nDa\nr\nT\nD\nr",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_73",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n(34b)",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_74",
+          "text": "(Note: The term g2 degenerates in temperature’s radial profile, thus we use the higher term g4.)",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_75",
+          "text": "Hence, the polytropic index is approximated by",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_76",
+          "text": "2\n0\n1\n1\n2\n2\n*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_77",
+          "text": "2\n( )\n1\nln\nln\nn\nT\na\nr\nr\nD\nD\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(35a)",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_78",
+          "text": "2\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_79",
+          "text": "*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_80",
+          "text": "2\n2\n( )\n1\nln\nln\nn\nT\na\nr\nr\nD\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(35b)",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_81",
+          "text": "The deviation of the polytropic index from its value for ideal adiabatic process is important expression \ninvolved in heating formula. This deviation is given by",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_82",
+          "text": "1\n2\n2\n2\n2\n0\n1\n2\n*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_83",
+          "text": "( )\n1\n1\nln\n2\nln\n1",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_84",
+          "text": "a\na\nn\na",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_85",
+          "text": "r\nD\nT\nr\nD\na\nD\nD\nT\nD\nr\n\n\n\n\n",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_86",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n(36a)",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_87",
+          "text": "and approximated by",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_88",
+          "text": "2\n0\n1\n2\n*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_89",
+          "text": "( )\n2\n1\nln\nln\n1",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_90",
+          "text": "a\na\nn\na\na",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_91",
+          "text": "r\nD\nT\na\nr\nD\nD\nD\nT\nD\nr\n\n\n\n",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_92",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n(36b)",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_93",
+          "text": "When the nonfluctuating polytropic process is adiabatic, \n0\na\n\n\n\n\n or \na\nD\nD\n\n, then,",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_94",
+          "text": "2\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_95",
+          "text": "*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_96",
+          "text": "( )\n2\n1\nln\nln\n1\n2",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_97",
+          "text": "a\nn",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_98",
+          "text": "a\na\na",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_99",
+          "text": "r\nT\na\nr\nD\nT\nD\nr\n\n\n\n",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_100",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(36c)",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_101",
+          "text": "The deviation of the polytropic index from its value for ideal adiabatic process is proportional to the",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_102",
+          "text": "variance of the fluctuations σ2 and restores the adiabatic process when σ tends to zero. In general, for any",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_103",
+          "text": "fluctuating polytropic process, the deviation is given by both (i) the deviation of the nonfluctuating indices,",
+          "page": 15
+        },
+        {
+          "para_id": "5.1_104",
+          "text": "and (ii) the part proportional to σ2. Consequently, both of these factors contribute to heating.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "5.3",
+      "section_title": "5.3. Heating, dq(r)/dt",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "5.3_1",
+          "text": "We use Eq.(25b) that connects the heating gradient and rate with the difference of polytropic and",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_2",
+          "text": "adiabatic indices,",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_3",
+          "text": "2\n1\n1\n0\n2\n0",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_4",
+          "text": "( )\n( )\n1",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_5",
+          "text": "a\nn\na",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_6",
+          "text": "r\ndq\nT r\na\nr\ndr\nT\n\n\n\n",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_7",
+          "text": "\n\n\n\n\n\n\n, \n(37a)",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_8",
+          "text": "b\nb0\n( )\nu\na\ndq\ndq\ndq\nu r\nu r\ndt\ndr\ndr",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_9",
+          "text": "\n\n\n\n\n, \n(37b)",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_10",
+          "text": "where \n2\n1\nB\n0\n0\n2\n/\nn\nn\na k T\nm\na \n\n and \n0\nB\n0\n2\n/\nk T\nm\n\n denotes the thermal speed. Then, we substitute the radial",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_11",
+          "text": "profiles of the polytropic index and temperature, given respectively in Eq.(32b) and Eq.(32c). Then, we \nfind with the expression of the logarithmic gradient of heating rate,",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_12",
+          "text": "\n",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_13",
+          "text": "2",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_14",
+          "text": "1\n2",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_15",
+          "text": "1\n( ) 1\n1",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_16",
+          "text": "*",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_17",
+          "text": "1\n1\n( )\n/\nln",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_18",
+          "text": "G\nr\nD\nD\na\nn\nD\ndq\na\nG\nr\ne\nkT\nm d\nr\nD",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_19",
+          "text": "\n",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_20",
+          "text": "",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_21",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(38)",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_22",
+          "text": "Figure 3(b) shows the radial dependence of heating for various values of the variance σ.",
+          "page": 15
+        },
+        {
+          "para_id": "5.3_23",
+          "text": "16",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_24",
+          "text": "Figure 3. Polytropic index γ (upper), temperature (middle) and heating (lower) radial profiles and σ-dependence. Left \npanels are plotted as a function of heliocentric distance (in AU, for σ=0.2) and right panels are plotted as a function \nof the standard deviation σ (for r = 2 AU), following Eq.(36), and for the three cases of (i) \n(\n0)\na\n\n\n\n\n or",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_25",
+          "text": "2\n3\na\nD\nD\n\n\n\n (superadiabatic process, in dark blue), (ii) (\n0)\na\n\n\n\n\n or \n3\na\nD\nD\n\n\n (adiabatic process, in red),",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_26",
+          "text": "and (iii) (\n0)\na\n\n\n\n\n or \n4\n3\na\nD\nD\n\n\n\n (subadiabatic process, in green). (Note: heating is plotted on a double log",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_27",
+          "text": "scale, using \n(\n) log\nsign dq\ndq\n\n, to distinguish the cases of heat entering (dq>0) and exiting (dq<0) the system.",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_28",
+          "text": "Next, we derive the expression of heating for small sigma, which can be written as",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_29",
+          "text": "0\n0\n1\nln",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_30",
+          "text": "B\ndq\nr\nr\nA\nC\ndr\nr\nr",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_31",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(39a)",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_32",
+          "text": "where",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_33",
+          "text": "2\n0\n1\n2\n1\n*\n2",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_34",
+          "text": "0\n2\n*",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_35",
+          "text": "2\n0\n1\n2\n*",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_36",
+          "text": "1\nln\n,\n1\n,",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_37",
+          "text": "1\nln",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_38",
+          "text": ".",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_39",
+          "text": "1\nln",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_40",
+          "text": "a\nn\na\nn",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_41",
+          "text": "a\na\nn",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_42",
+          "text": "a\na",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_43",
+          "text": "D\nT\na\nA\nD\na\nB\nD\nT\nD\nD",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_44",
+          "text": "D\nT\nD\na\nD\nT\nD\nC\nD\nD\nT\nD\nD\nT\nD",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_45",
+          "text": "",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_46",
+          "text": "",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_47",
+          "text": "",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_48",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_49",
+          "text": "(39b)",
+          "page": 16
+        },
+        {
+          "para_id": "5.3_50",
+          "text": "17",
+          "page": 17
+        },
+        {
+          "para_id": "5.3_51",
+          "text": "As expected, heating becomes zero for nonfluctuating adiabatic processes, while polytropic processes, in",
+          "page": 17
+        },
+        {
+          "para_id": "5.3_52",
+          "text": "general, have two components contributing to heating, the nonadiabatic polytropic index, \na\nD\nD\n\n, and the",
+          "page": 17
+        },
+        {
+          "para_id": "5.3_53",
+          "text": "presence of fluctuations with non-zero variance σ2.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6. Connection of fluctuating polytropic processes with heliospheric turbulence",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "6.1",
+      "section_title": "6.1. Rationale",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "6.1_1",
+          "text": "We observe that the logarithmic part of the heating expression in Eq.(39a) does not exist for",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_2",
+          "text": "nonfluctuating processes (σ = 0, i.e., C = 0). We analyze the expression in two components; the first",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_3",
+          "text": "component is equivalent to a nonfluctuating process (and is independent of σ), while the second component",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_4",
+          "text": "corresponds to the fluctuations (and is proportional to σ2), i.e.,",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_5",
+          "text": "0",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_6",
+          "text": "all\ndq\ndq\ndq\ndr\ndr\ndr\n\n\n",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_7",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(40a)",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_8",
+          "text": "where the nonfluctuating term is",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_9",
+          "text": "2",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_10",
+          "text": "0\n0\n0",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_11",
+          "text": "1\n1\n/\nln",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_12",
+          "text": "n\na\nD\na\nn\nD\ndq\nr\na\nkT\nm\nd\nr\nD\nr\n",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_13",
+          "text": "",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_14",
+          "text": "",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_15",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(40b)",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_16",
+          "text": "and the fluctuating term is proportional to σ2 and equal to",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_17",
+          "text": "0\n2\n2\n*\n0\n1\n2\n0\n*\n0\n0\n0\n1\n2\n*",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_18",
+          "text": "1\nln\n1\nln\n1\nln\n/\nln\nln",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_19",
+          "text": "n\na\na\na\nD",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_20",
+          "text": "a\nn\nn",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_21",
+          "text": "a",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_22",
+          "text": "D\nT\nD\nD\nT\nD\nT\ndq\nr\nr\nD\na\na\nkT\nm\nd\nr\nD\nT\nr\nr\nT\nD\nT",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_23",
+          "text": "",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_24",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_25",
+          "text": ", \n(40c)",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_26",
+          "text": "which is again written in the form of Eq.(39a), with A, B, and C, now given by",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_27",
+          "text": "0\n2\n*\n0\n1\n2\n1\n*\n2\n0\n1\n2\n*",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_28",
+          "text": "1\nln",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_29",
+          "text": "ln\n,\n1\n,\n.\nln",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_30",
+          "text": "a\na\nn",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_31",
+          "text": "n\na\nn",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_32",
+          "text": "a",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_33",
+          "text": "D\nT\nD\na\nD\nT\nD\nT\na\nA\nD\na\nB\nC\nD\nT\nD\nT\nD\nT",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_34",
+          "text": "",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_35",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_36",
+          "text": "(41)",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_37",
+          "text": "Therefore, while the nonfluctuating heating is expressed by a power-law, the fluctuating heating also",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_38",
+          "text": "includes the logarithmic term proportional to the parameter C.",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_39",
+          "text": "The difference in the expressions of the two components is important to understand their physical",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_40",
+          "text": "interpretation and origin. While the first heating component can be the result of any coherent physical",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_41",
+          "text": "source, the second component can be the result of turbulence. In order to understand this assertion, we first",
+          "page": 17
+        },
+        {
+          "para_id": "6.1_42",
+          "text": "need to examine the radial profile of turbulent heating.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "section_id": "6.2",
+      "section_title": "6.2. Radial profile of turbulent heating",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "6.2_1",
+          "text": "The turbulent heating can be modelled by a set of 3D differential equations (e.g., Smith et al. 2001; 2006)",
+          "page": 17
+        },
+        {
+          "para_id": "6.2_2",
+          "text": "that involve the transport of turbulent energy and the energy cascade at intermediate scales. For a radially",
+          "page": 17
+        },
+        {
+          "para_id": "6.2_3",
+          "text": "18",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_4",
+          "text": "symmetric flow, the model provides steady-state equations for the radial evolution of the turbulent energy Z 2",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_5",
+          "text": "=Et (averaged between the forward Et+ and backward Et− propagating modes), the turbulence correlation length",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_6",
+          "text": "λ, and the proton temperature T:",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_7",
+          "text": "2\n3\n2\nsh\nD",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_8",
+          "text": "b\n(\n1)\nd\nZ\nZ\nZ\nC\nM\ndr\nr\nu\n\n\n\n\n\n\n\n ,  \n (42a)",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_9",
+          "text": "D\nb\nˆ\n(\n)\nd\nM\nC\nZ\ndr\nr\nu\n\n\n\n\n\n\n\n\n\n ,  \n (42b)",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_10",
+          "text": "t\np",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_11",
+          "text": "B\n(\n1)\n1)\n(\nn\na\na\nm\nE\ndT\nT\na\ndr\nr\nk\ndr\nd\n\n\n\n\n\n\n\n\n\n .  \n (42c)",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_12",
+          "text": "The involved parameters are the following: mixing constant M=1/3, normalized energy difference σD=-1/3,",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_13",
+          "text": "turbulent viscosity terms α=0.8 and β=α/2=0.4 (where the choice of α/β=2 preserves the turbulent viscosity, W.",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_14",
+          "text": "H., Matthaeus et al. 1996), constants related to shear driving turbulent energy Csh=1.4 and ˆC  (with no clearly",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_15",
+          "text": "set value), and the PUI driven turbulent energy Et,pui. (The bulk speed \nb\nu  represents the solar wind speed.) The",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_16",
+          "text": "first two equations constitute a 2D system of differential equations between Z2 and λ. The third equation",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_17",
+          "text": "gives the transport equation of temperature (e.g., see G.P. Zank et al. 2021; Livadiotis & McComas 2023a),",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_18",
+          "text": "where the gradient of the turbulent energy has been substituted by",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_19",
+          "text": "2\nb",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_20",
+          "text": "t\n3\n1\ndE\nZ\ndr\nu\n\n\n\n\n .  \n (43)",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_21",
+          "text": "In Appendix B, we solve this system of differential equations to derive the turbulent energy Z2(r) and",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_22",
+          "text": "the correlation length λ(r), with respect to the heliospheric radius r in the inner heliosphere. The subsystem",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_23",
+          "text": "of the first two equations is solved to derive Z2(r) and λ(r), and then, we substitute in Eq.(43) to derive the",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_24",
+          "text": "gradient of the turbulent energy (e.g., see L. Adhikari et al. 2015; G. Livadiotis 2019b; G. Livadiotis et al.",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_25",
+          "text": "2020), that is,",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_26",
+          "text": "D\nsh\n(2\n)\n3\n1\n0\n0 0\n2",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_27",
+          "text": "0\nb0\n0\n0\nb0\n0",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_28",
+          "text": "t\n2\n1\nln",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_29",
+          "text": "M\nC\nd\nZ\nE\nZ r\nr\nr\ndr\nu\nr\nu\nr",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_30",
+          "text": "\n\n\n\n",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_31",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (44)",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_32",
+          "text": "which is identical to the heating of a fluctuating process, shown in Eq.(40c), i.e.,",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_33",
+          "text": "0\n2\n1\n2\n*\n0\n0\n2\n0\n*\n0\n0\n0\n1\n2\n*",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_34",
+          "text": "1\nln\nln\n1\nln\n2\nln",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_35",
+          "text": "n",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_36",
+          "text": "n",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_37",
+          "text": "a\na\na\nD\nn\na",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_38",
+          "text": "a\na",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_39",
+          "text": "D\nD\nT\nD\nD\nT\na D\nkT\nT\ndq\nr\nr\ndr\nD mr\nT\nr\nr\nT\nD\nT",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_40",
+          "text": "",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_41",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_42",
+          "text": ".  \n (45)",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_43",
+          "text": "We observe that turbulent heating has the same expression as the heating of fluctuating polytropic",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_44",
+          "text": "processes, and thus can be expressed in the unique form",
+          "page": 18
+        },
+        {
+          "para_id": "6.2_45",
+          "text": "19",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_46",
+          "text": "σ",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_47",
+          "text": "0\n0",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_48",
+          "text": "t",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_49",
+          "text": "1\nln\n,",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_50",
+          "text": "B",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_51",
+          "text": "dq\nE\ndr\ndr",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_52",
+          "text": "r\nr\nA\nC\nr\nr",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_53",
+          "text": "d",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_54",
+          "text": "",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_55",
+          "text": "",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_56",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_57",
+          "text": "(46a)",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_58",
+          "text": "where the involved parameters can be expressed either in terms of thermodynamics or turbulence,",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_59",
+          "text": "3\n2\n1\n0\n0\n0\n2\n2\n0\n*\n0\nb0",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_60",
+          "text": "D\nsh",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_61",
+          "text": "0\n3\n*\n0 0\n2",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_62",
+          "text": "0\nb0\n0\n1\n2\n*",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_63",
+          "text": "ln\n,\n2",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_64",
+          "text": "2\n1\n2\n,",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_65",
+          "text": "1\nln\n(\n)\n.\nln\nn",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_66",
+          "text": "n\na",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_67",
+          "text": "n",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_68",
+          "text": "a\na",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_69",
+          "text": "a\na",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_70",
+          "text": "Z\na D\nkT\nT\nA\nD mr\nT\nu",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_71",
+          "text": "a\nB\nM\nC\nD\nD\nD\nT\nD\nD\nT\nZ r\nC\nu\nT\nD\nT",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_72",
+          "text": "\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_73",
+          "text": "\n",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_74",
+          "text": "\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_75",
+          "text": "\n\n\n\n\n\n\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_76",
+          "text": "\n\n\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_77",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_78",
+          "text": "(46b)",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_79",
+          "text": "(The arbitrary constant ε is determined by Eqs.(B10,B17) in Appendix B.) \n \n6.3. Interpretation of heating associated with fluctuating polytropic processes",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_80",
+          "text": "The heating of nonfluctuating polytropic process is only connected to deviation of the polytropic index",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_81",
+          "text": "and its deviation from the adiabatic value, where heating is entering the system, dq > 0, when γ < γa (or",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_82",
+          "text": "a\nD\nD\n\n), while heating is exiting the system, dq < 0, when γ > γa (or \na\nD\nD\n\n); trivially, no heating is",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_83",
+          "text": "associated with nonfluctuating adiabatic process. On the other hand, fluctuating polytropic process have an",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_84",
+          "text": "additional component of heating entering the system, solely caused by the fluctuations. The two",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_85",
+          "text": "components have complementary contributions to the total heating, dqtot = dqσ=0 + dqσ.",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_86",
+          "text": "The turbulent heating, dEt has the same radial profile as the heating associated with the fluctuating",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_87",
+          "text": "polytropic process, dqσ, while it differs from the component associated with the deviation of polytropic",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_88",
+          "text": "index from its adiabatic value, dqσ=0. In particular, the radial profile of dqσ=0 is a power-law, while the profile",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_89",
+          "text": "of dqσ has the additional logarithmic dependence, which makes the whole expression identical to that of",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_90",
+          "text": "turbulent heating, dqσ = dEt.",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_91",
+          "text": "Therefore, turbulence does not affect thermodynamics by decreasing the polytropic index. This is quite",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_92",
+          "text": "a surprising result! Previous related analyses sought to link heating to be related to the deviation between",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_93",
+          "text": "the local polytropic \n1\n2 / D\n\n and the adiabatic index \n1\n2 /\na\na\nD\n\n (=5/3 for Da=3) as a way to identify",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_94",
+          "text": "and estimate the turbulent heating (e.g., M.K. Verma et al. 1995; B.J. Vasquez et al. 2007; L. Sorriso-Valvo",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_95",
+          "text": "et al. 2007; R. Marino et al. 2008; G. Livadiotis 2015; 2019a; 2021; E. Gravanis et al. 2019; G. Livadiotis",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_96",
+          "text": "et al. 2020; G. Livadiotis & D.J. McComas 2023a). Here we show that this cannot be true, because any type",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_97",
+          "text": "of nonturbulent heating can be connected with this polytropic index deviation, but the turbulent heating can",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_98",
+          "text": "be only connected through the fluctuations of polytropic indices. Specifically, the turbulent heating has a",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_99",
+          "text": "specific mathematical form that cannot be matched with the expression of heating due to the deviation of",
+          "page": 19
+        },
+        {
+          "para_id": "6.2_100",
+          "text": "20",
+          "page": 20
+        },
+        {
+          "para_id": "6.2_101",
+          "text": "the polytropic index from the corresponding adiabatic index; instead, it matches the expression of heating",
+          "page": 20
+        },
+        {
+          "para_id": "6.2_102",
+          "text": "originating from fluctuations of the polytropic indices.",
+          "page": 20
+        },
+        {
+          "para_id": "6.2_103",
+          "text": "Therefore, understanding fluctuating polytropic processes reveals that turbulent and nonturbulent",
+          "page": 20
+        },
+        {
+          "para_id": "6.2_104",
+          "text": "heating have separate, distinguishable thermodynamics. Turbulent heating occurs when energy cascades",
+          "page": 20
+        },
+        {
+          "para_id": "6.2_105",
+          "text": "from large-scale motions to small scales, where it dissipates. Nonturbulent heating does not rely on",
+          "page": 20
+        },
+        {
+          "para_id": "6.2_106",
+          "text": "turbulent cascades or stochastic fluctuations. It is associated with the formation of organized patterns or",
+          "page": 20
+        },
+        {
+          "para_id": "6.2_107",
+          "text": "structures (e.g., phase-correlated electromagnetic fields or waves), shock compression, and collisional",
+          "page": 20
+        },
+        {
+          "para_id": "6.2_108",
+          "text": "heating. (See: B. T. Tsurutani et al. 2023).",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "section_id": "6.4",
+      "section_title": "6.4. Radial profile of PUI turbulent energy",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "6.4_1",
+          "text": "The main source of heating the solar wind plasma through its expansion in the heliosphere is from energy",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_2",
+          "text": "extracted for the solar wind bulk flow via PUIs. The energy transfer from PUIs is an example of both turbulent",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_3",
+          "text": "and nonturbulent heating sources. C.W. Smith et al. (2006) studied specifically these two components of PUI",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_4",
+          "text": "heating providing the radial profile of the turbulent heating and of the total, turbulent and nonturbulent heating.",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_5",
+          "text": "In particular, these authors clearly describe that PUI energy transfer that heats the solar wind protons “…",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_6",
+          "text": "contributes to turbulent fluctuations as well and is not exactly equivalent to the plasma heating rate due to pickup",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_7",
+          "text": "protons.”",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_8",
+          "text": "The thermodynamic description of these two components is the aforementioned (i) deviation of polytropic",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_9",
+          "text": "and adiabatic indices, and (ii) the fluctuations of the polytropic index. Through this correspondence, we can",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_10",
+          "text": "derive the ratio of the turbulent over the total heating, and its complementary, the ratio of the nonturbulent over",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_11",
+          "text": "the total heating; there are, respectively, given by",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_12",
+          "text": "0\n2\n*\n0\n1\n2\n*\n0\n0\n1\n2\n*",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_13",
+          "text": "0\n2\n*\n0\n1\n2\n*\n0\n1\n2\n*",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_14",
+          "text": "1\nln\nln\n1\nln\nln",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_15",
+          "text": "1\nln\n1\nln\n1\nln",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_16",
+          "text": "a\na",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_17",
+          "text": "a\nn",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_18",
+          "text": "a",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_19",
+          "text": "t\nt",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_20",
+          "text": "all\nt\nnon t\na\na",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_21",
+          "text": "a\na",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_22",
+          "text": "a",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_23",
+          "text": "D\nD\nT\nD\nD\nT\nT\nr\nD\na\nT\nD\nr\nT\nD\nT\ndE\ndE\ndq\ndE\ndE\nD\nD\nT\nD\nD\nT\nD\nT\nD\na\nD\nT\nD\nT\nD\nT",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_24",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_25",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_26",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_27",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_28",
+          "text": "0\nln\nn\nr\nr",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_29",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_30",
+          "text": ",   (47a)",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_31",
+          "text": "and",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_32",
+          "text": "0\n2\n*\n0\n1\n2\n*\n0\n0\n1\n2\n*",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_33",
+          "text": "1",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_34",
+          "text": "1\nln\n1\nln\n1\nln\nln",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_35",
+          "text": "a",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_36",
+          "text": "non t\nnon t",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_37",
+          "text": "all\nt\nnon t\na\na",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_38",
+          "text": "a\na\nn",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_39",
+          "text": "a",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_40",
+          "text": "D\ndE\ndE\nD\ndq\ndE\ndE\nD\nD\nT\nD\nD\nT\nD\nT\nr\nD\na\nD\nT\nD\nr\nT\nD\nT",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_41",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_42",
+          "text": "\n",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_43",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_44",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_45",
+          "text": ".  (47b)",
+          "page": 20
+        },
+        {
+          "para_id": "6.4_46",
+          "text": "21",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_47",
+          "text": "Furthermore, the ratio \n/\nt\nall\ndE\ndq\n can be used to estimate the turbulent heating of PUIs. For this, we need to",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_48",
+          "text": "first derive the radial profile of the total heating, \n/\nall\ndq\ndr , and then, we use the chain equation",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_49",
+          "text": "/\n(\n/\n) (\n/\n)\nt\nt\nall\nall\ndE\ndr\ndE\ndq\ndq\ndr\n\n\n. For deriving \n/\nall\ndq\ndr , we use the radial profile of the polytropic index",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_50",
+          "text": "1.7\n1.7\n( )\n5 / 3\n0.0051\n/ (1\n0.0034\n)\nr\nr\nr\n\n\n\n\n (G. Livadiotis & D.J. McComas 2023a). This is applied into the",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_51",
+          "text": "thermodynamic equation that connects it to the total heating, Eq.(25),",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_52",
+          "text": "1",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_53",
+          "text": "B\n0",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_54",
+          "text": "0\n0\n0",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_55",
+          "text": "( )\n( )\n1",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_56",
+          "text": "all\nn\na",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_57",
+          "text": "a",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_58",
+          "text": "dq\na k T\nr\nT r\nr\ndr\nmr\nT\nr\n\n\n",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_59",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n,  \n (48)",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_60",
+          "text": "where we expressed the temperature profile in terms of the polytropic index \n( )r\n\n, namely,",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_61",
+          "text": "0",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_62",
+          "text": "1\n0\n( ) /\nexp{\n[ ( )\n1]\n}\nr",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_63",
+          "text": "n\nr\nT r\nT\na\nr\nr\ndr\n\n\n\n\n\n\n; alternatively, we use the radial profiles from D.J. McComas (2025a).",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_64",
+          "text": "Then, we estimate the rate of turbulent heating through",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_65",
+          "text": "PUI\nb( )\nt\nt\nall",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_66",
+          "text": "all",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_67",
+          "text": "dE\ndE\ndq\nu r\ndt\ndq\ndr\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n (49)",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_68",
+          "text": "Figure 4(a) plots the PUI turbulent heating as derived from Voyager 2 observations by C.W. Smith et al.",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_69",
+          "text": "(2006), for which we fit the modelled radial profile of the PUI turbulent heating rate as given in Eq.(49), after",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_70",
+          "text": "substituting Eq.(47a) and Eq.(48). As shown in Figure 4(b), the deviations of the observed rates above and below",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_71",
+          "text": "the modelled ones are correlated with solar activity maxima and minima. Therefore, in order to better describe",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_72",
+          "text": "the model, we adopt two components of polytropic fluctuations, (i) one component \n0\n that exists independently",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_73",
+          "text": "of solar activity and remains stationary along the evolution of PUI distribution throughout the heliosphere, and",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_74",
+          "text": "(ii) a second component \nSN\n\n that evolves proportional to the sunspot number (normalized accordingly to",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_75",
+          "text": "its maximum value). Overall, we have",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_76",
+          "text": "2\n2\n2\n0\nSN\ntotal\n\n\n\n\n\n, with  \nSN\n0\nmax",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_77",
+          "text": "SunspotNumber\nhalf of SunspotNumber\n\n\n\n\n\n, \n (50)",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_78",
+          "text": "The local effective degrees of freedom are also scaled with \n0\n, as",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_79",
+          "text": "2\n0\n(\n) D\na\na\nD\nD\nD\nA\n\n\n\n\n. \n (51)",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_80",
+          "text": "Then, the model describes better the observations of turbulent heating rates, as shown in Figure 4(c). The",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_81",
+          "text": "fit of the model estimates the involved parameters values, i.e., \n2\n\n, \n570\nD\nA \n and \n1.17\nD\na \n, but it is",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_82",
+          "text": "independent of the value of \n0\nas it always has small value. Here we use \n0\n0.01\n\n, thus \n3.012\nD \n (for Da",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_83",
+          "text": "= 3). (For the optimization of the model to observations, we have also used the thermal scale \n*\n1K\nT \n and",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_84",
+          "text": "the initial values \n4\n0\n3 10 K\nT \n\n, \n-1\nb0\n400kms\nu\n\n.)",
+          "page": 21
+        },
+        {
+          "para_id": "6.4_85",
+          "text": "22",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_86",
+          "text": "Figure 4. PUI turbulent heating modelled thermodynamically through a fluctuating polytropic process. (a) Fit of PUI",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_87",
+          "text": "turbulent heating rate to observations for a fixed variance of fluctuations, \n2\n0\n\n. (b) The sunspots number is correlated",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_88",
+          "text": "with the deviations of the observed from the modelled rates. (c) Fit of PUI turbulent heating rate to observations for a",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_89",
+          "text": "variance given by a fixed component \n2\n0\n\n and a nonstationary component \n2\nSN\n\n, where \nSN\n\n is proportional to sunspot",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_90",
+          "text": "number.",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_91",
+          "text": "7. Discussion and conclusions \nIn this paper we studied the heating associated with fluctuating polytropic processes. The first question",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_92",
+          "text": "we faced was to determine whether fluctuating adiabatic processes produce a nonzero overall heating of",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_93",
+          "text": "the flowing particle system. We found that heating becomes zero for nonfluctuating adiabatic processes, as",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_94",
+          "text": "expected, but there is a nonzero positive value of heating entering the flowing system for fluctuating",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_95",
+          "text": "adiabatic processes. In general, there are two components contributing to the heating of fluctuating",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_96",
+          "text": "polytropic processes, (i) the nonadiabatic polytropic index, \na\n\n\n\n or \na\nD\nD\n\n, and (ii) the presence of",
+          "page": 22
+        },
+        {
+          "para_id": "6.4_97",
+          "text": "23",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_98",
+          "text": "fluctuations with variance σ2. The first component contributes either with heat entering the system for the",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_99",
+          "text": "subadiabatic processes, \na\n\n\n\n or with heat exiting the system for superadiabatic processes, \na\n\n\n\n. The",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_100",
+          "text": "second component that stands for fluctuating polytropic processes, which always contribute as heating",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_101",
+          "text": "entering the system. Furthermore, we derived the analytical expressions of radial profiles of the heating",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_102",
+          "text": "rates for fluctuating polytropic processes, which have been distinguished by the two components of",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_103",
+          "text": "adiabatic deviation and of polytropic fluctuations. In order to interpret the nature of the two components,",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_104",
+          "text": "we revisited the analytical modeling of turbulent heating and found that the radial profiles of the heating",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_105",
+          "text": "rate associated with polytropic fluctuations and of the turbulence are surprisingly identical. This suggests",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_106",
+          "text": "that turbulence, unavoidably, heats plasma particle populations through fluctuations of polytropic processes",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_107",
+          "text": "and not through polytropic indices that deviating from the adiabatic expansion.",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_108",
+          "text": "First, we developed a general way of expressing a multi-polytrope, as a superposition of polytropes.",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_109",
+          "text": "While a polytrope is described by a power-law relationship among thermodynamic parameters (Figure 1),",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_110",
+          "text": "typically, between density and temperature, the multi-polytrope can be described by any analytical function",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_111",
+          "text": "expressed as a discrete (sum) or continuous (integral) superposition of powers of temperature (Figure 2).",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_112",
+          "text": "The summation or integration holds for the effective degrees of freedom, that is, a fractional number of",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_113",
+          "text": "dimensionalities, as the velocity distribution does not fully populate the available unitary-dimensionality",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_114",
+          "text": "phase space. Then, we applied the superposition in the particular case where the nonconstant polytropic",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_115",
+          "text": "index is constructed by random fluctuations of polytropic processes. The distribution of the effective",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_116",
+          "text": "degrees of freedom is given by a normal distribution of random fluctuations. We also found the same results",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_117",
+          "text": "for any distribution function of random fluctuations but with small variance. Then, we derived the",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_118",
+          "text": "generalized polytropic relationship, temperature radial profile, and heating rates that characterized",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_119",
+          "text": "fluctuating polytropic processes; (we expressed heating using rate, gradient, and heat capacity).",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_120",
+          "text": "We derived the expression of the polytropic index and heating of particle systems flowing under",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_121",
+          "text": "fluctuating polytropic processes. In the case of fluctuating adiabatic processes, heating is proportional to",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_122",
+          "text": "the variance of the fluctuations, while in the general case of fluctuating polytropic processes, heating is",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_123",
+          "text": "entering the system because of two thermodynamic factors: (i) the difference between the nonfluctuating",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_124",
+          "text": "(ideal) polytropic and the ideal adiabatic indices or degrees of freedom, and (ii) the nonzero variance that",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_125",
+          "text": "measures the fluctuations of the polytropic process.",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_126",
+          "text": "In the case of fluctuating adiabatic processes, the polytropic index was found to be smaller than the",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_127",
+          "text": "respective ideal adiabatic, thus heat enters the system; the fluctuation of polytropic process has an impact",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_128",
+          "text": "similar to that of subadiabatic processes, for which heating is entering the system, as opposed to super-",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_129",
+          "text": "adiabatic processes, for which heat is leaving the system. The effect of fluctuations in heating is summarized",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_130",
+          "text": "as follows: The temperature radial profile was found to be decreasing with distance less than the decrease",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_131",
+          "text": "of the adiabatic process (adiabatic cooling) by a factor that is proportional to the variance of the normally",
+          "page": 23
+        },
+        {
+          "para_id": "6.4_132",
+          "text": "24",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_133",
+          "text": "distributed fluctuations. This is caused by the heating entering the system due to the fluctuations. The",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_134",
+          "text": "corresponding polytropic index is smaller than the adiabatic, decreasing with increasing the logarithm of",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_135",
+          "text": "radial distance. Recall that the polytropic index decreases while heating increases with increasing variance",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_136",
+          "text": "of the polytropic fluctuations (Figure 3).",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_137",
+          "text": "Finally, we showed that the analytical radial profiles of heating of fluctuating polytropic processes and",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_138",
+          "text": "of turbulent heating are identical. In particular, we derived the analytical solution of a differential system",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_139",
+          "text": "that models the turbulent heating, and then, compared it with the heating of fluctuating polytropic processes.",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_140",
+          "text": "We found that the two expressions of heating are identical. This suggests that turbulence heats plasma",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_141",
+          "text": "particle populations by fluctuating their polytropic processes and not by deviations of the polytropic index,",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_142",
+          "text": "as was previously thought (e.g. G. Livadiotis & D.J. McComas 2023a; 2025a). The thermodynamics of",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_143",
+          "text": "polytropic processes unfolds a connection with two different types of heating, the turbulent and",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_144",
+          "text": "nonturbulent heating. The nonturbulent heating is connected with the deviation of polytropic index from its",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_145",
+          "text": "adiabatic value, while the turbulent heating is connected with the fluctuations of the polytropic index.",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_146",
+          "text": "Moreover, the percentage of the turbulent heating over the overall turbulent and nonturbulent heating can",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_147",
+          "text": "be solely described through thermodynamics, that is, the local values of polytropic index, \n1\n2 / D\n\n, and",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_148",
+          "text": "the variance of the polytropic fluctuations, \n2\n. We have applied the theory to estimate the turbulent heating",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_149",
+          "text": "rates of PUIs through their (nonadiabatic) expansion in the heliosphere. The derived radial profile fits very",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_150",
+          "text": "well the observation turbulent heating rates. We found that the variance of fluctuations is the sum of two",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_151",
+          "text": "components, (i) a stationary component that remains fixed along the evolution of PUI distribution throughout",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_152",
+          "text": "the heliosphere, and (ii) a second component that varies proportionally to the sunspot number.",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_153",
+          "text": "In general, given a radial profile of the polytropic index ( )r\n\n, we can estimate the average degrees of",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_154",
+          "text": "freedom D  and its variance \n2\n by fitting the respective analytical equation of polytropic index, Eq.(15b),",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_155",
+          "text": "to the given profile. Alternatively, we can analytically derive the temperature profile from",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_156",
+          "text": "0",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_157",
+          "text": "1\n0\n( )\nexp{\n[ ( )\n1]\n}\nr",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_158",
+          "text": "n\nr\nT r\nT\na\nr\nr dr\n\n\n\n\n\n\n\n, while the variance can be determined from more detailed analytical",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_159",
+          "text": "forms, such as,",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_160",
+          "text": "2\n2\n( ) /\nln ( )\nD d\nr\nd\nT r\n\n\n\n\n or",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_161",
+          "text": "2\n3\n2\n2\n2\n(\n/ 2\n)\nln ( ) / (ln )\nn\nD\na\nd\nT r\nd\nr\n\n\n. Then, we can calculate",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_162",
+          "text": "the total heating associated with the fluctuating polytropic process, \n/\nall\ndq\ndt , and its portion that",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_163",
+          "text": "corresponds to the nonturbulent \n\n0\n/\ndq dt  and turbulent \n\n/\ndq dt  heating components. (See Figure 5).",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_164",
+          "text": "We remark that the treatment of determining the turbulent (and non-turbulent) heating remains",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_165",
+          "text": "unchanged even when the pressure tensor is anisotropic. In such cases, the plasma exhibits different",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_166",
+          "text": "temperature components along each physical dimension (kinetic degrees of freedom); e.g., T in the",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_167",
+          "text": "direction parallel to the magnetic field, and T for the two perpendicular directions, with the anisotropy",
+          "page": 24
+        },
+        {
+          "para_id": "6.4_168",
+          "text": "25",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_169",
+          "text": "commonly described by the ratio \n/\nT\nT\n\n\n\n. The thermal components are not true “temperatures”, because",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_170",
+          "text": "they do not conform to thermodynamics. The actual temperature T is given by their average, e.g.,",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_171",
+          "text": "(\n2\n) / 3\nT\nT\nT\n\n\n\n, and this is the temperature that enters the polytropic description of plasma processes. The",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_172",
+          "text": "anisotropy is known to affect the adiabatic degrees of freedom Da (and thereby, the adiabatic index), but",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_173",
+          "text": "does not influence the fluctuations of the effective degrees of freedom (G. Livadiotis & G. Nicolaou 2021;",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_174",
+          "text": "C. Katsavrias et al. 2024).",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_175",
+          "text": "Figure 5. Polytropic index variability can be connected with the nature of heating. Radial dependence of \npolytropic index is connected with the total heating rate, while its analysis to an average polytropic index \nfluctuating with a variance (local measurements) leads to further interpretation, as they are connected with \nthe nonturbulent and turbulent heating rates, respectively.",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_176",
+          "text": "The developments of this paper are ready to be used in further theoretical analyses and/or applications.",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_177",
+          "text": "Open topics for investigation and/or application are the following: (i) Detection of parabolic behavior in",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_178",
+          "text": "space plasmas, can be linked to fluctuating adiabatic or other polytropic processes. Identifying the value of",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_179",
+          "text": "polytropic index and variance can be used to estimate the turbulent heating. Such parabolic polytropic",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_180",
+          "text": "relationships have already been observed, e.g., in the inner heliosphere using measurements from Parker",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_181",
+          "text": "Solar Probe (Fox et al. 2016; Nicolaou et al. 2020) and the heliosheath using measurements from Interstellar",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_182",
+          "text": "Boundary Explorer (D.J. McComas et al. 2009a;b; G. Livadiotis & D.J. McComas 2013; G. Livadiotis",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_183",
+          "text": "2016). (ii) Local measurements of polytropic indices can also lead to an average polytropic index and its",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_184",
+          "text": "variance. Comparing the local measurements with the global radial profile of polytropic index, we can",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_185",
+          "text": "verify whether the superposition refers to the fluctuations of polytropic processes or to more complicate",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_186",
+          "text": "analysis. (iii) Once the average polytropic index and its variance are measured, then, the heating rate",
+          "page": 25
+        },
+        {
+          "para_id": "6.4_187",
+          "text": "26",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_188",
+          "text": "transferred into the system and its components to turbulent and nonturbulent heating, can be fully estimated.",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_189",
+          "text": "This is in contrast to previous analyses where there was no mention to nonturbulent heating. (iv) Theoretical",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_190",
+          "text": "investigation of random fluctuations described by more general statistics, such as, the q-statistics (e.g., see:",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_191",
+          "text": "Livadiotis 2017; C. Tsallis 2023; L.Y. Khoo et al. 2025); these can be linked to more general expressions",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_192",
+          "text": "of turbulent heating. Heliospheric observations from the Interstellar Mapping and Acceleration Probe",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_193",
+          "text": "(IMAP) mission (McComas et al. 2018; 2025b) will allow for more detailed characterization of fluctuating",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_194",
+          "text": "polytropic processes, and the heating of solar wind protons from PUIs (also, see: J. S. Rankin et al. 2025;",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_195",
+          "text": "S. A. Livi et al. 2025; T. S. Horbury et al. 2025; E. R. Christian et al. 2025; D.B. Reisenfeld 2025).",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_196",
+          "text": "Acknowledgments \nThis work was funded in part by the IMAP mission as a part of NASA’s Solar Terrestrial Probes (STP) \nProgram (grant No. 80GSFC19C0027).",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_197",
+          "text": "ORCID iDs \nG. Livadiotis https://orcid.org/0000-0002-7655-6019 \nD. J. McComas https://orcid.org/0000-0001-6160-1158",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_198",
+          "text": "References \nAdhikari, L., Zank, G. P., Bruno, R., et al. 2015, ApJ, 805, 63 \nBourouaine, S., Perez, J. C., Chandran, B. D. G., et al. 2024, ApJ, 967, L19 \nChalov, S. V., & Fahr, H. J. 1998, A&A, 335, 746 \nChristian, E. R., McComas, D. J., Allegrini, F., et al. 2025, SSRv, 221, 23 \nCuesta, M. E., Livadiotis, G., McComas, D. J., et al. 2025, ApJL, 984, L50 \nDayeh, M. A., & Livadiotis, G. 2022, ApJL, 941, L26 \nDu, S., Opher, M., & Kornbleuth, M. 2025, ApJL, 982, L59 \nElliott, H. A., McComas, D. J., Zirnstein, E. J., et al. 2019, ApJ, 885, 156 \nFahr, H. J. 2007, AnGeo, 25, 2649 \nFahr, H. J., Kausch, T., & Scherer, H. 2000, A&A, 357, 268 \nFlorinski, V., Heerikhuisen, J., & Zhang, M. 2016, ApJ, 827, 71 \nFox, N. J., Velli, M. C., Bale, S. D., et al. 2016, SSRv, 204, 7 \nGravanis, E., Akylas, E., Panagiotou, C., Livadiotis, G. 2019, Entr, 21, 1093 \nHorbury, T. S., Bale, S. D., Bowen, T. A., et al. 2025, SSRv, 221, 25 \nHuddleston, D. E., Strangeway, R. J., Blanco-Cano, X., et al. 2000, AdSpR, 26, 1513 \nKatsavrias, C., Nicolaou, G., & Livadiotis, G. 2024, A&A, 691, L11 \nKatsavrias, C., Nicolaou, G., Livadiotis, G., Vourlidas, A., Wilson III, L.B., Sandberg, I. 2025, A&A 695, A146 \nKhoo, L. Y., Livadiotis, G., McComas, D. J., Cuesta, M. E., & Rankin, J. S. 2025, ApJ, 990, 64 \nLee, M. A., & Ip, W. H. 1987, JGR, 92, 11041 \nLivadiotis, G. 2015, ApJ, 809, 11 \nLivadiotis, G. 2016, ApJS, 223, 13 \nLivadiotis, G. 2017, Kappa Distribution: Theory Applications in Plasmas (1st ed.; Elsevier) \nLivadiotis, G. 2018, Entrp, 20, 799 \nLivadiotis, G. 2019a, Entrp, 21, 1041 \nLivadiotis, G. 2019b, ApJ, 887, 117 \nLivadiotis, G. 2021, RNAAS, 5, 4 \nLivadiotis, G., & Desai, M. I. 2016, ApJ, 829, 88 \nLivadiotis, G., & McComas, D. J. 2012, ApJ, 749, 11 \nLivadiotis, G. & McComas, D.J. 2013, JGRA, 118, 2863",
+          "page": 26
+        },
+        {
+          "para_id": "6.4_199",
+          "text": "27",
+          "page": 27
+        },
+        {
+          "para_id": "6.4_200",
+          "text": "Livadiotis, G., & McComas, D. J. 2023a, ApJ, 956, 88 \nLivadiotis, G., & McComas, D. J. 2023b, ApJ, 954, 72 \nLivadiotis, G., & McComas, D. J. 2023c, NatSR, 13, 9033  \nLivadiotis, G. & McComas, D.J. 2025a, ApJ, 995, 49 \nLivadiotis, G., & McComas, D. J. 2025b, ApJ, 989, 174 \nLivadiotis, G., & Nicolaou, G. 2021, ApJ, 909, 127 \nLivadiotis, G., Dayeh, M. A., & Zank, G. 2020, ApJ, 905, 137 \nLivadiotis, G., Nicolaou, G., Allegrini, G. 2021, ApJS, 253, 16 \nLivadiotis, G., McComas, D. J., Funsten, H. O., et al. 2022, ApJS, 262, 53 \nLivadiotis, G., McComas, D. J., & Shrestha, B. L. 2024, ApJ, 968, 66 \nLivadiotis, G., Cuesta, M.E., Khoo, L.Y., et al. 2025, Science Adv. 11, eadz7419 \nLivi, S. A., McComas, D. J., Allegrini, F., et al. 2025, SSRv, 221, 22 \nLu, J. Y., & Zank, G. P. 2001, JGR, 106, 5709 \nMarino, R., Sorriso-Valvo, L., Carbone, V., et al. 2008, ApJL, 677, L71 \nMatthaeus, W. H., Zank, G. P., & Oughton, S. 1996, J. Plasma Phys., 56, 659 \nMcComas, D. J., Allegrini, F., Bochsler, P., et al. 2009a, SSRv, 146, 11 \nMcComas, D. J., Allegrini, F., Bochsler, P., et al. 2009b, Sci, 326, 959  \nMcComas, D. J., Christian, E. R., Schwadron, N. A., et al. 2018, SSRv, 214, 116  \nMcComas, D.J, Christian, E. R., Schwadron, N. A., et al. 2025a, SSRv, 221, 100 \nMcComas, D.J, Shrestha, B.L., Livadiotis, G., et al., 2025b, ApJ, 980, 154 \nMin, K., Liu, K., & Gary, S. P. 2017, JGR, 122, 7891 \nMin, K., Liu, K., Denton, R. E., & Boardsen, S. A. 2018, JGRA, 123, 7424 \nNicolaou, G., & Livadiotis, G. 2019, ApJ, 884, 52 \nNicolaou, G., Livadiotis, G., & McComas, D. J. 2023, ApJ, 948, 22 \nNicolaou, G., Livadiotis, G., Wicks, R. T., Verscharen, D., & Maruca, B. A. 2020, ApJ, 901, 26 \nRandol, B. M., McComas, D. J., & Schwadron, N. A. 2013, ApJ, 768, 120 \nRankin, J. S., McComas, D. J., Allegrini, F., et al. 2025, SSRv, 221, 24 \nReisenfeld, D.B., Allegrini, F., Christian, E.R., et al., 2025, SSRv, 222, 7 \nRogers, F. J. 1994, The Equation of State in Astrophysics, International Astronomical Union Colloquium, Vol. 147, \npp. 16 – 42, Cambridge University Press. \nRussell, C. T., Kivelson, M. G., Khurana, K. K., & Huddleston, D. E. 1998, P&SS, 47, 143 \nSchwenn, R., & Marsch, E. 1990, Physics of the Inner Heliosphere I: Large Scale Phenomena (Springer) \nSelvam, A.M. 2017, Pure & Applied Geophysics, 174, 413 \nSmith, C. W., Matthaeus, W. H., Zank, G. P., Ness, N. F., Oughton, S., & Richardson, J. D. 2001, JGRA, 106, 8253 \nSmith, C. W., Isenberg, P. A., Matthaeus, W. H., & Richardson, J. D. 2006, ApJ, 638, 508 \nSorriso-Valvo, L., Marino, R., Carbone, V., et al. 2007, PhRvL, 99, 115001 \nSummerlin, E. J., Viñas, A. F., Moore, T. E., Christian, E. R., & Cooper, J. F. 2014, ApJ, 793, 93  \nTsallis, C. 2023, Introduction to Nonextensive Statistical Mechanics (Cham: Springer) \nTsurutani, B.T., Zank, G.P., Sterken, V.J. et al. 2023, IEEE Trans. Plasma Sci., 51, 1595 \nVasquez, B. J., Smith, C. W., Hamilton, K., MacBride, B. T., & Leamon, R. J. 2007, JGR, 112, A07101 \nVerma, M. K., Roberts, D. A., & Goldstein, M. L. 1995, JGR, 100, 19839 \nWang, B., Zank, G.P., Shrestha, B.L., Kornbleuth, M., & Opher, M. 2023, ApJ, 944, 198 \nWu, C. S., & Davidson, R. C. 1972, JGR, 77, 5399 \nZank, G. P., Adhikari, L., Zhao, L.-L., et al. 2018, ApJ, 869, 23 \nZank, G. P., Zhao, L.-L., & Adhikari, L. 2021, PhPl, 28, 080501  \nZirnstein, E. J., Möbius, E., Zhang, M., et al. 2022, SSRv, 218, 28 \n \nAppendix A. Heat Capacity of polytropic processes \nIn this Appendix, we derive the overall heat exchange of solar wind protons, which are subject to",
+          "page": 27
+        },
+        {
+          "para_id": "6.4_201",
+          "text": "fluctuations of a polytropic process. This is carried out by calculating the heating rate and gradient, as well",
+          "page": 27
+        },
+        {
+          "para_id": "6.4_202",
+          "text": "as the heat capacity of this plasma. To achieve this, we develop a general way of constructing the",
+          "page": 27
+        },
+        {
+          "para_id": "6.4_203",
+          "text": "nonconstant polytropic index from a multi-polytropic process.",
+          "page": 27
+        },
+        {
+          "para_id": "6.4_204",
+          "text": "28",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_205",
+          "text": "A convenient way of expressing the heating in systems with varying polytropic processes is through",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_206",
+          "text": "the heat capacity. It defines how much a particle system must be heated for its temperature to be raised by",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_207",
+          "text": "1 deg K and is useful for understanding the thermodynamics of the system, as well as its interactions with",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_208",
+          "text": "other systems. The heat capacity depends on the thermodynamic process that the system undergoes, when",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_209",
+          "text": "it experiences a change in its state variables (e.g., pressure, volume, temperature, internal energy, entropy),",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_210",
+          "text": "due to interactions with its environment. First, we derived the heat capacity for an ideal polytropic process,",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_211",
+          "text": "which is characterized by a single polytropic index (i.e., a polytrope), and then, we proceed to the case of",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_212",
+          "text": "fluctuating polytropic processes.",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_213",
+          "text": "Starting from Eq.(23), and given the identity \nln\nln\n/\nln\nT d\nV\ndT d\nn d\nT\n\n\n\n, we derive the heat capacity",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_214",
+          "text": "that characterizes polytropic processes with index γ,",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_215",
+          "text": "B\nB",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_216",
+          "text": "1\n1\n/\n(\n1)(\n1)\n1\n1",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_217",
+          "text": "a",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_218",
+          "text": "a\na",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_219",
+          "text": "dq\nC\nk\nk dT\n",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_220",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(A1a)",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_221",
+          "text": "The polytropic D and kinetic Da degrees of freedom can be similarly defined by \n1\n1 /\n1\n2 / D\n\n\n\n\n\n\n and",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_222",
+          "text": "1\n1/\n1\n2 /\na\na\na\nD\n\n\n\n\n; then, Eq.(4) is written in terms of degrees of freedom instead of polytropic indices, \nthus",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_223",
+          "text": "\n\n1\nB\nK\n2\n1\n1\n/\n1\n1\na\na\nC\nk\nD\nD\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(A1b)",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_224",
+          "text": "Two characteristic processes are isobaric (i.e., constant pressure, γ ⟶ 0) and isochoric (constant",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_225",
+          "text": "volume, γ ⟶∞) with heat capacities, \n1\nP\nB\n2(\n1)\na\nC\nD\nk\n\n\n\n and \n1\nV\nB\n2\na\nC\nD\nk\n\n\n, respectively. Their ratio is",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_226",
+          "text": "frequently used as it is equal to the adiabatic index, \nP\nV\n/\n1\n2 /\na\na\nC\nC\nD\n\n\n\n. Other processes have rather",
+          "page": 28
+        },
+        {
+          "para_id": "6.4_227",
+          "text": "trivial values of heat capacities; two examples are isothermal processes (γ ⟶ 1) with infinite heat capacity,",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nC , meaning the system can exchange any amount heat before changing temperature, and adiabatic",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "processes (γ = γa) where no heat is exchanged, \n0\na\nC \n.",
+          "page": 28
+        },
+        {
+          "para_id": "1_2",
+          "text": "Next, we derive the heat capacity of the fluctuating polytropic processes. For this, we substitute the",
+          "page": 28
+        },
+        {
+          "para_id": "1_3",
+          "text": "polytropic index, expressed as a function of temperature in Eq.(19a), into the heat capacity equation of",
+          "page": 28
+        },
+        {
+          "para_id": "1_4",
+          "text": "Eq.(2b), leading to",
+          "page": 28
+        },
+        {
+          "para_id": "1_5",
+          "text": "2\n1\nB\n0\n*\n4\n/\nln(\n/\n)\na\nC\nk\nT T\n\n\n\n\n\n\n\n\n\n\n,  \n(A2a)",
+          "page": 28
+        },
+        {
+          "para_id": "1_6",
+          "text": "where \n1\n0\n2 D\n\n\n\n indicates, again, the polytropic index of the nonfluctuating process.",
+          "page": 28
+        },
+        {
+          "para_id": "1_7",
+          "text": "In the case of a fluctuating adiabatic process, \n0\na\n\n\n\n\n, the heat capacity is simplified to",
+          "page": 28
+        },
+        {
+          "para_id": "1_8",
+          "text": "2\n1\nB\n*\n4\n/\nln(\n/\n)\nC\nk\nT T\n\n\n\n\n , \n(A2b)",
+          "page": 28
+        },
+        {
+          "para_id": "1_9",
+          "text": "which is proportional to the variance of the fluctuations of adiabatic process, thus, the stronger the",
+          "page": 28
+        },
+        {
+          "para_id": "1_10",
+          "text": "fluctuations, the larger the heat capacity, while it becomes zero in the case of in ideal adiabatic process.",
+          "page": 28
+        },
+        {
+          "para_id": "1_11",
+          "text": "29",
+          "page": 29
+        },
+        {
+          "para_id": "1_12",
+          "text": "Furthermore, substituting the radial profile of temperature, given in Eq.(A1a), into the expression of",
+          "page": 29
+        },
+        {
+          "para_id": "1_13",
+          "text": "heat capacity in terms of temperature, Eq.(28b), we end up with the radial profile of heat capacity, that is,",
+          "page": 29
+        },
+        {
+          "para_id": "1_14",
+          "text": "2\n0\n1\n1\n1\n1\n1\nB\n2\n2\n2\n2\n2\n*\n0\n/\n( )\nln\nln\nn\na\na\nT\na\nr\nC\nk\nD\nD G\nr\nD\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.  \n(A3a)",
+          "page": 29
+        },
+        {
+          "para_id": "1_15",
+          "text": "In the case of a fluctuating adiabatic process, \na\nD\nD\n\n, the heat capacity is reduced to",
+          "page": 29
+        },
+        {
+          "para_id": "1_16",
+          "text": "2\n0\n1\nB\n2\n*\n0\n/\nln\nln\nn",
+          "page": 29
+        },
+        {
+          "para_id": "1_17",
+          "text": "a",
+          "page": 29
+        },
+        {
+          "para_id": "1_18",
+          "text": "T\na\nr\nC\nk\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.  \n(A3b)",
+          "page": 29
+        },
+        {
+          "para_id": "1_19",
+          "text": "As expected, the heat capacity is zero for the nonfluctuating adiabatic process. However, this is nonzero",
+          "page": 29
+        },
+        {
+          "para_id": "1_20",
+          "text": "and proportional to the variance of the polytropic fluctuations, σ2, in the case of the fluctuating adiabatic",
+          "page": 29
+        },
+        {
+          "para_id": "1_21",
+          "text": "process.",
+          "page": 29
+        },
+        {
+          "para_id": "1_22",
+          "text": "Appendix B. Model of turbulent energy \nWe work with the first two differential equations of the 3D model in Section 6.2, Eqs.(42a,b),",
+          "page": 29
+        },
+        {
+          "para_id": "1_23",
+          "text": "2\n3\n2\nsh\nD",
+          "page": 29
+        },
+        {
+          "para_id": "1_24",
+          "text": "b\n(\n1)\nd\nZ\nZ\nZ\nC\nM\ndr\nr\nu\n\n\n\n\n\n\n\n ,  \n (B1a)",
+          "page": 29
+        },
+        {
+          "para_id": "1_25",
+          "text": "D\nb\nˆ\n(\n)\nd\nM\nC\nZ\ndr\nr\nu\n\n\n\n\n\n\n\n\n\n ,  \n (B1b)",
+          "page": 29
+        },
+        {
+          "para_id": "1_26",
+          "text": "written as",
+          "page": 29
+        },
+        {
+          "para_id": "1_27",
+          "text": "1\n2\n1\nsh\nD",
+          "page": 29
+        },
+        {
+          "para_id": "1_28",
+          "text": "b",
+          "page": 29
+        },
+        {
+          "para_id": "1_29",
+          "text": "1\nln\n(\n1)\nd\nZ\nZ\nC\nM\ndr\nr\nu\n\n\n\n",
+          "page": 29
+        },
+        {
+          "para_id": "1_30",
+          "text": "\n\n\n\n\n\n\n ,  \n (B2a)",
+          "page": 29
+        },
+        {
+          "para_id": "1_31",
+          "text": "1\n1\nD",
+          "page": 29
+        },
+        {
+          "para_id": "1_32",
+          "text": "b",
+          "page": 29
+        },
+        {
+          "para_id": "1_33",
+          "text": "1\nˆ\nln\n(\n)\nd\nZ\nM\nC\ndr\nr\nu\n\n\n\n\n",
+          "page": 29
+        },
+        {
+          "para_id": "1_34",
+          "text": "\n\n\n\n\n\n ,  \n (B2b)",
+          "page": 29
+        },
+        {
+          "para_id": "1_35",
+          "text": "in order to be added to cancel out the term \nb\n/ (\n)\nZ\nu\n\n, i.e.,",
+          "page": 29
+        },
+        {
+          "para_id": "1_36",
+          "text": "\n\n1\n2\n1\n1\n1\nsh\nD\nD\nˆ\nln\nln\n(\n1)\n(\n)\nln\nd\nZ\nC\nM\nM\nC\nd\nr \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (B3)",
+          "page": 29
+        },
+        {
+          "para_id": "1_37",
+          "text": "or",
+          "page": 29
+        },
+        {
+          "para_id": "1_38",
+          "text": "2/\n1/\n1\n1\nsh\nD\nD\nˆ\nln(\n)\n(\n1)\n(\n)\n.\nln\nd\nZ\nC\nM\nM\nC\nconst\nd\nr",
+          "page": 29
+        },
+        {
+          "para_id": "1_39",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (B4)",
+          "page": 29
+        },
+        {
+          "para_id": "1_40",
+          "text": "Since the right-hand side term is constant, we obtain",
+          "page": 29
+        },
+        {
+          "para_id": "1_41",
+          "text": "1\n1\nsh\nD\nD\nˆ\n(\n1)\n(\n)\n2/\n1/\nC\nM\nM\nC\nZ\nr\n\n\n\n\n\n",
+          "page": 29
+        },
+        {
+          "para_id": "1_42",
+          "text": "\n\n\n\n\n\n\n ,  \n (B5)",
+          "page": 29
+        },
+        {
+          "para_id": "1_43",
+          "text": "or",
+          "page": 29
+        },
+        {
+          "para_id": "1_44",
+          "text": "1\n1\n1\n1\nsh\nD\nD\n2\n2\n2\n2\nˆ\n/\n/\n(\n1) (\n/\n)(\n)\n0\n0\n0\n( /\n)\nC\nM\nM\nC\nZ\nZ\nr r\n\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (B6a)",
+          "page": 29
+        },
+        {
+          "para_id": "1_45",
+          "text": "1\n1\nsh\nD\nD\n2\n2\nˆ\n/\n/\n(\n/\n)(\n1) (\n)\n0\n0\n0\n( /\n)\nC\nM\nM\nC\nZ\nZ\nr r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n (B6b)",
+          "page": 29
+        },
+        {
+          "para_id": "1_46",
+          "text": "30",
+          "page": 30
+        },
+        {
+          "para_id": "1_47",
+          "text": "Substituting (B6b) back to Eq.(B1a), we obtain",
+          "page": 30
+        },
+        {
+          "para_id": "1_48",
+          "text": "1\n2\n1\nsh\nD\nD\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_49",
+          "text": "/\n2\nˆ\n3\n/\n(\n/ )(\n1) (\n)\n2\n0\nsh\nD\n0\nb0\n0\n(\n1)\n( /\n)\nu\nC\nM\nM\nC\na\nZ\nd\nZ\nZ\nC\nM\nZ\nr r\ndr\nr\nu",
+          "page": 30
+        },
+        {
+          "para_id": "1_50",
+          "text": "\n\n\n\n\n\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_51",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (B7)",
+          "page": 30
+        },
+        {
+          "para_id": "1_52",
+          "text": "After some calculus, we derive the 1D differential equation of",
+          "page": 30
+        },
+        {
+          "para_id": "1_53",
+          "text": "1\n2\n1\n/\nZ",
+          "page": 30
+        },
+        {
+          "para_id": "1_54",
+          "text": "\n\n\n, i.e.,",
+          "page": 30
+        },
+        {
+          "para_id": "1_55",
+          "text": "1\n1\n2\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_56",
+          "text": "sh\nD\nD\n1\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_57",
+          "text": "1\n1\n1\n/\n1\n/\nsh\nD\n2\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_58",
+          "text": "1\nˆ\n(\n/\n)(\n1) (\n)\n2\n1\n0\n2\n/\nb0\n0\n0",
+          "page": 30
+        },
+        {
+          "para_id": "1_59",
+          "text": "(1\n/\n) (\n1)",
+          "page": 30
+        },
+        {
+          "para_id": "1_60",
+          "text": "(1\n/\n) ( /\n)\n,\nu\nC\nM\nM\nC\na",
+          "page": 30
+        },
+        {
+          "para_id": "1_61",
+          "text": "C\nM\nd Z\nZ\ndr\nr",
+          "page": 30
+        },
+        {
+          "para_id": "1_62",
+          "text": "r r\nu\nZ",
+          "page": 30
+        },
+        {
+          "para_id": "1_63",
+          "text": "\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_64",
+          "text": "\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_65",
+          "text": "\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_66",
+          "text": "\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_67",
+          "text": "\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_68",
+          "text": "\n\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_69",
+          "text": "\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_70",
+          "text": "\n\n\n  \n (B8)",
+          "page": 30
+        },
+        {
+          "para_id": "1_71",
+          "text": "leading to",
+          "page": 30
+        },
+        {
+          "para_id": "1_72",
+          "text": "1\n1\n1\n1\nsh\nD\nsh\nD\n2\n2\n2\n2\n1\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_73",
+          "text": "1\nˆ\n(1\n/\n) (\n1)\n1\n/\n(\n3\n1)\n2\n1\n0\n0\n2\n/\nb0\n0\n0",
+          "page": 30
+        },
+        {
+          "para_id": "1_74",
+          "text": "(1\n/\n)\n( /\n)\n( /\n)\nu\nC\nM\nC\nM\nC a\nd\nr r\nZ\nr r\ndr\nu\nZ",
+          "page": 30
+        },
+        {
+          "para_id": "1_75",
+          "text": "\n\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_76",
+          "text": "\n\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_77",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (B9)",
+          "page": 30
+        },
+        {
+          "para_id": "1_78",
+          "text": "Furthermore, we set",
+          "page": 30
+        },
+        {
+          "para_id": "1_79",
+          "text": "1\nsh\nD\n2\nˆ\n(\n3\n1)\n1\nu\nC\nM\nC\na\n\n\n\n\n\n\n\n.  \n (B10)",
+          "page": 30
+        },
+        {
+          "para_id": "1_80",
+          "text": "Then, the radial dependence in right-hand side is written as \n1\n0\n( /\n)\nr r\n\n. Its integration is expanded as",
+          "page": 30
+        },
+        {
+          "para_id": "1_81",
+          "text": "0\nln( /\n)\n2\n1\n1\n0\n0\n2\n[\n1]\nln( /\n)\nln ( /\n)\nr r\ne\nr r\nr r\n\n\n\n\n\n\n, thus Eq.(B9) gives",
+          "page": 30
+        },
+        {
+          "para_id": "1_82",
+          "text": "1\n1\n2\nsh\nD\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_83",
+          "text": "1\n1\n/\n(\n1)\n2\n0 0\n1\n1\n0\n0\n0\n0\n2\n2\nb0\n0\n( /\n)\n1\n(\n)\nln( /\n)\nln ( /\n)\nC\nM\nZ r\nZ\nZ\nr r\nr r\nr r\nu",
+          "page": 30
+        },
+        {
+          "para_id": "1_84",
+          "text": "\n\n\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_85",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ,   (B11a)",
+          "page": 30
+        },
+        {
+          "para_id": "1_86",
+          "text": "(because at r=r0, Z=Z0). Then, from Eq.(B6b) we solve for λ,",
+          "page": 30
+        },
+        {
+          "para_id": "1_87",
+          "text": "1\n2\n1\n2\nD",
+          "page": 30
+        },
+        {
+          "para_id": "1_88",
+          "text": "/",
+          "page": 30
+        },
+        {
+          "para_id": "1_89",
+          "text": "1\n/\nˆ\n2\n0 0\n1\n1\n0\n0\n0\n0\n2\n2\nb0\n0\n( /\n)\n1 (\n)\nln( /\n)\nln ( /\n)\nM\nC\nZ r\nr r\nr r\nr r\nu",
+          "page": 30
+        },
+        {
+          "para_id": "1_90",
+          "text": "\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_91",
+          "text": "\n\n\n\n\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_92",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n .  \n (B11b)",
+          "page": 30
+        },
+        {
+          "para_id": "1_93",
+          "text": "The turbulent heating is given by",
+          "page": 30
+        },
+        {
+          "para_id": "1_94",
+          "text": "3\n1\nt\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_95",
+          "text": "b",
+          "page": 30
+        },
+        {
+          "para_id": "1_96",
+          "text": "Z\ndE\ndr\nu\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_97",
+          "text": "\n\n ,  \n (B12)",
+          "page": 30
+        },
+        {
+          "para_id": "1_98",
+          "text": "i.e.,",
+          "page": 30
+        },
+        {
+          "para_id": "1_99",
+          "text": "3\nsh\nD\nD\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_100",
+          "text": "1\n2\n1\n2",
+          "page": 30
+        },
+        {
+          "para_id": "1_101",
+          "text": "3\n1\nˆ\n(\n1)\n0\nt\n2\n0\nb0\n0",
+          "page": 30
+        },
+        {
+          "para_id": "1_102",
+          "text": "3\n/",
+          "page": 30
+        },
+        {
+          "para_id": "1_103",
+          "text": "1\n/\n2\n0 0\n1\n1\n0\n0\n2\n2\nb0\n0",
+          "page": 30
+        },
+        {
+          "para_id": "1_104",
+          "text": "( /\n)",
+          "page": 30
+        },
+        {
+          "para_id": "1_105",
+          "text": "1\n(\n)\nln( /\n)\nln ( /\n)\n.",
+          "page": 30
+        },
+        {
+          "para_id": "1_106",
+          "text": "u\nC\nM\nM\nC a\nZ\ndE\nr r\ndr\nu",
+          "page": 30
+        },
+        {
+          "para_id": "1_107",
+          "text": "Z r\nr r\nr r\nu",
+          "page": 30
+        },
+        {
+          "para_id": "1_108",
+          "text": "\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_109",
+          "text": "\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_110",
+          "text": "\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_111",
+          "text": "\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_112",
+          "text": "\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_113",
+          "text": "\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_114",
+          "text": "\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_115",
+          "text": "\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_116",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 30
+        },
+        {
+          "para_id": "1_117",
+          "text": "(B13)",
+          "page": 30
+        },
+        {
+          "para_id": "1_118",
+          "text": "Expanding in terms of \n0\nln( /\n)\nr r\n, the heating is given by",
+          "page": 30
+        },
+        {
+          "para_id": "1_119",
+          "text": "31",
+          "page": 31
+        },
+        {
+          "para_id": "1_120",
+          "text": "D\nsh\n3\n1\n(2\n)\n0\nt\n2\n0\nb0\n0",
+          "page": 31
+        },
+        {
+          "para_id": "1_121",
+          "text": "0 0\n3\n0\n2\nb0\n0",
+          "page": 31
+        },
+        {
+          "para_id": "1_122",
+          "text": "2\n0 0\n0 0\n3\n3\n1\n0\n2\n2\n2\nb0\n0\nb0\n0",
+          "page": 31
+        },
+        {
+          "para_id": "1_123",
+          "text": "2",
+          "page": 31
+        },
+        {
+          "para_id": "1_124",
+          "text": "( /\n)",
+          "page": 31
+        },
+        {
+          "para_id": "1_125",
+          "text": "1\n(\n)\nln( /\n)",
+          "page": 31
+        },
+        {
+          "para_id": "1_126",
+          "text": "(\n)\n(\n)\nln ( /\n)",
+          "page": 31
+        },
+        {
+          "para_id": "1_127",
+          "text": "(\n)",
+          "page": 31
+        },
+        {
+          "para_id": "1_128",
+          "text": "M\nC\nZ\ndE\nr r\ndr\nu",
+          "page": 31
+        },
+        {
+          "para_id": "1_129",
+          "text": "Z r\nr r\nu",
+          "page": 31
+        },
+        {
+          "para_id": "1_130",
+          "text": "Z r\nZ r\nr r\nu\nu",
+          "page": 31
+        },
+        {
+          "para_id": "1_131",
+          "text": "O",
+          "page": 31
+        },
+        {
+          "para_id": "1_132",
+          "text": "\n\n\n",
+          "page": 31
+        },
+        {
+          "para_id": "1_133",
+          "text": "\n\n",
+          "page": 31
+        },
+        {
+          "para_id": "1_134",
+          "text": "\n\n\n\n\n\n",
+          "page": 31
+        },
+        {
+          "para_id": "1_135",
+          "text": "",
+          "page": 31
+        },
+        {
+          "para_id": "1_136",
+          "text": "\n\n\n\n\n",
+          "page": 31
+        },
+        {
+          "para_id": "1_137",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 31
+        },
+        {
+          "para_id": "1_138",
+          "text": "(B14)",
+          "page": 31
+        },
+        {
+          "para_id": "1_139",
+          "text": "where we used of ε as defined in Eq.(B10). Then, ignoring terms \n2\n0\n[ln ( /\n)]\nO\nr r\n, we obtain",
+          "page": 31
+        },
+        {
+          "para_id": "1_140",
+          "text": "D\nsh\n3\n1\n(2\n)\n0\nt\n0 0\n2\n3\n0\n0\n2\nb0\n0\nb0\n0\n( /\n)\n1\n(\n)\nln( /\n)\nM\nC\nZ\ndE\nZ r\nr r\nr r\ndr\nu\nu",
+          "page": 31
+        },
+        {
+          "para_id": "1_141",
+          "text": "\n\n\n\n\n\n",
+          "page": 31
+        },
+        {
+          "para_id": "1_142",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (B15)",
+          "page": 31
+        },
+        {
+          "para_id": "1_143",
+          "text": "which can be written as",
+          "page": 31
+        },
+        {
+          "para_id": "1_144",
+          "text": "t",
+          "page": 31
+        },
+        {
+          "para_id": "1_145",
+          "text": "0\n0\n1\nln",
+          "page": 31
+        },
+        {
+          "para_id": "1_146",
+          "text": "B\ndE\nr\nr\nA\nC\ndr\nr\nr",
+          "page": 31
+        },
+        {
+          "para_id": "1_147",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (B16a)",
+          "page": 31
+        },
+        {
+          "para_id": "1_148",
+          "text": "with",
+          "page": 31
+        },
+        {
+          "para_id": "1_149",
+          "text": "3\n3\n1\n0\n0 0\n2\n2\nD\nsh\n0\nb0\n0\nb0",
+          "page": 31
+        },
+        {
+          "para_id": "1_150",
+          "text": "(\n)\n,\n2\n,\nZ\nZ r\nA\nB\nM\nC\nC\nu\nu\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n (B16b)",
+          "page": 31
+        },
+        {
+          "para_id": "1_151",
+          "text": "Notes",
+          "page": 31
+        },
+        {
+          "para_id": "1_152",
+          "text": "(1) By comparing Eq.(B10) and Eq.(B15), we derive",
+          "page": 31
+        },
+        {
+          "para_id": "1_153",
+          "text": "D\nsh\n2\nB\nM\nC\n\n\n\n\n\n\n \n (B17)",
+          "page": 31
+        },
+        {
+          "para_id": "1_154",
+          "text": "(2) The arbitrary value of ˆC  is inherited to ε, and finally, to exponent B.",
+          "page": 31
+        }
+      ]
+    }
+  ]
+}

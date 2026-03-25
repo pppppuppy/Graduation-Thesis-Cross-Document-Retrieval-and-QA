@@ -1,0 +1,1665 @@
+{
+  "title": "Semantic Communication Through the Lens of",
+  "abstract": "ing paradigm for next-generation networks, yet several funda- mental challenges remain unresolved. Building on the probabilis- tic model of semantic communication and leveraging the concept of context, this paper examines a speciﬁc subclass of semantic communication problems, where semantic noise originates solely from the semantic channel, assuming an ideal physical channel. To model this system, we introduce a virtual state-dependent channel, where the staterepresenting contextplays a crucial role in shaping communication. We further analyze the representa- tional capability of the semantic encoder and explore various semantic communication scenarios in the presence of semantic noise, deriving capacity results for some cases and achievable rates for others. Index Terms—Information, probabilistic model, semantic communications, semantic information, semantic channel noise, semantic noise, state-dependent channel. I. INTRODUCTION Studies on the concept of (semantic) information, partic- ularly from a philosophical perspective, date back centuries. However, despite signiﬁcant efforts, the topic remains largely underexplored. A major breakthrough occurred in 1948 [1], when Shannon introduced a quantitative measure of informa- tion known as entropy and established fundamental limits on source compression and the reliable transmission of data over noisy channels. His work provided communication engineers with a mathematical foundation to quantify information and optimize their systems performances. Although many philoso- phers argue that Shannons theory is not a true theory of informationand it has been reported that Shannon himself regretted the widespread labeling of his work as \"information theory\"many researchers continue to view his communication model as a rigorous framework that constrains any further theorization of the concept of information [2]. One year after Shannon’s groundbreaking work [1], Weaver proposed classifying communication problems into three sub- problems: technical, semantic, and effectiveness [3]. The tech- nical problem addresses the question: \"How accurately can the symbols of communication be transmitted?\" The semantic problem concerns the precision with which the transmitted symbols convey their intended meaning. However, communi- cation does not end with the transmission of meaning; it also inﬂuences the receiver’s behavior. The effectiveness problem, therefore, focuses on how successfully the conveyed meaning impacts the informees actions. He also noted that Shannon’s model is sufﬁciently general to accommodate the semantic and effectiveness levels by incorporating relevant components. Inspired by Weaver [3], various efforts have aimed to ex- tend Shannon’s theory to the semantic and effectiveness levels of communication. Despite this, a comprehensive theory com- parable to Shannons remains elusive. One direction involves deﬁning semantic information via entropy-like measures. Bar- Hillel and Carnap [4] proposed a logical probability-based metric, but it is limited to propositional logic and leads to contradictions in speciﬁc cases. Floridi addressed these issues by adding truthfulness [5], yet his model also remains con- strained and dependent on external truth references. Overall, most semantic information measures are tailored to narrow domains and lack general applicability [6]. In a parallel effort, Bao et al. extended Shannons frame- work to include semantic elements, modeling communication within propositional logic [7]. They formulated semantic source and channel coding using Bar-Hillel and Carnap’s measure [4]. Ma et al. [8] deﬁned semantic channel capacity by treating semantics as a subset of the message set and transmitted these over noisy channels. However, we contend that natural semantic communication begins with generating semantics, followed by expressing them as messages, and ends with recovering semantics from received messages. In [9], a probabilistic model for semantic communication was proposed, inspired by Weavers extension approach [3] and grounded in the General Deﬁnition of Information (GDI) [2], [10], incorporating its key components such as well- formed data and meaningfulness. Unlike the model proposed in [11] relying solely on intuitions derived from human lan- guage, [9] is fundamentally rooted in a rigorous philosophical foundation and is thus applicable to the broader concept of information and data beyond linguistic communication. This model builds on the fundamental concept of data as Constraining Affordances and its relationship to meaning, mediated by the Levels of Abstraction (LoA) [2]. Within this framework, context is deﬁned as the sufﬁcient amount of information that ensures each message (data) has only one meaning, though its interpretation may vary across different contexts [9]. In [9], the semantic communication problemrecognized as inherently complexwas proposed to be systematically addressed by categorizing it into simpler subproblems. Additionally, an achievable rate for reliable semantic communication was derived for the subproblem, where semantic noise arises solely from the physical channel arXiv:2602.22934v1 [cs.IT] 26 Feb 2026",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "as the inputs, producing a semantic codeword Sn.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Then, based on Sn and Qn",
+          "page": 3
+        },
+        {
+          "para_id": "1_2",
+          "text": "1, it generates a message codeword",
+          "page": 3
+        },
+        {
+          "para_id": "1_3",
+          "text": "Xn associated with a message M, expressing the intended",
+          "page": 3
+        },
+        {
+          "para_id": "1_4",
+          "text": "Since the physical channel is assumed noiseless, Xn is",
+          "page": 3
+        },
+        {
+          "para_id": "1_5",
+          "text": "received directly by the receiver, which, using its available",
+          "page": 3
+        },
+        {
+          "para_id": "1_6",
+          "text": "2, reconstructs the semantic ˆW. Depending on the",
+          "page": 3
+        },
+        {
+          "para_id": "1_7",
+          "text": "relationship between Qn",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "and Qn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "2, various types of semantic",
+          "page": 3
+        },
+        {
+          "para_id": "1_2",
+          "text": "communication problems can be modeled, in which semantic",
+          "page": 3
+        },
+        {
+          "para_id": "1_3",
+          "text": "noise arises solely from the semantic channel noise. It is",
+          "page": 3
+        },
+        {
+          "para_id": "1_4",
+          "text": "worth noting that the model illustrated in Figure 2 can also",
+          "page": 3
+        },
+        {
+          "para_id": "1_5",
+          "text": "represent the semantic sender itself, in the special case where",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "= Qn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "1, and the semantic sender knows its generated",
+          "page": 3
+        },
+        {
+          "para_id": "2_2",
+          "text": "message codeword Xn.",
+          "page": 3
+        },
+        {
+          "para_id": "2_3",
+          "text": "𝑝𝑞\", 𝑢, 𝑠, 𝑥 = 𝑝𝑞\" 𝑝𝑢𝑞\" 𝑝𝑠𝑢, 𝑞\" 𝑝(𝑥|𝑠, 𝑞\")",
+          "page": 3
+        },
+        {
+          "para_id": "2_4",
+          "text": "Fig. 2. Semantic channel modeled as a context-dependent channel.",
+          "page": 3
+        },
+        {
+          "para_id": "2_5",
+          "text": "C. Representationally Capable Semantic Sender",
+          "page": 3
+        },
+        {
+          "para_id": "2_6",
+          "text": "In [9], the impact of semantic noise at the transmitter,",
+          "page": 3
+        },
+        {
+          "para_id": "2_7",
+          "text": "which affects its representational capability, was examined. To",
+          "page": 3
+        },
+        {
+          "para_id": "2_8",
+          "text": "simplify notation, the context was omitted from the mathemat-",
+          "page": 3
+        },
+        {
+          "para_id": "2_9",
+          "text": "ical formulations. In this subsection, we revisit this problem",
+          "page": 3
+        },
+        {
+          "para_id": "2_10",
+          "text": "shortly through the lens of a state-dependent channel model",
+          "page": 3
+        },
+        {
+          "para_id": "2_11",
+          "text": "depicted in Figure 2. Speciﬁcally, the semantic sender can",
+          "page": 3
+        },
+        {
+          "para_id": "2_12",
+          "text": "be modeled as a state-dependent channel, where the channel",
+          "page": 3
+        },
+        {
+          "para_id": "2_13",
+          "text": "state informationcorresponding to the contextis assumed to be",
+          "page": 3
+        },
+        {
+          "para_id": "2_14",
+          "text": "non-causally available at both the transmitter and the receiver,",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "= Qn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "1. Consistent with the results in [9], we establish",
+          "page": 3
+        },
+        {
+          "para_id": "2_2",
+          "text": "that a semantic sender can express itself for itself without",
+          "page": 3
+        },
+        {
+          "para_id": "2_3",
+          "text": "ambiguity and is representationally capable if and only if its",
+          "page": 3
+        },
+        {
+          "para_id": "2_4",
+          "text": "semantic rate does not exceed its representational capacity.",
+          "page": 3
+        },
+        {
+          "para_id": "2_5",
+          "text": "Theorem 1: The semantic sender illustrated in Figure 2,",
+          "page": 3
+        },
+        {
+          "para_id": "2_6",
+          "text": "is representationally capable if and only if the semantic",
+          "page": 3
+        },
+        {
+          "para_id": "2_7",
+          "text": "information rate does not exceed its representational capacity:",
+          "page": 3
+        },
+        {
+          "para_id": "2_8",
+          "text": "The proof follows a similar approach to that of the capacity",
+          "page": 3
+        },
+        {
+          "para_id": "2_9",
+          "text": "analysis for state-dependent DMC, as presented in [18]. In the",
+          "page": 3
+        },
+        {
+          "para_id": "2_10",
+          "text": "following, we provide an outline of the achievability part of",
+          "page": 3
+        },
+        {
+          "para_id": "2_11",
+          "text": "R independent and identically distributed",
+          "page": 3
+        },
+        {
+          "para_id": "2_12",
+          "text": "• Partition the set of 2n ˜",
+          "page": 3
+        },
+        {
+          "para_id": "2_13",
+          "text": "sized bins. Therefore, each bin contains 2n( ˜",
+          "page": 3
+        },
+        {
+          "para_id": "2_14",
+          "text": "• Associate each semantic w to a bin.",
+          "page": 3
+        },
+        {
+          "para_id": "2_15",
+          "text": "• For the semantic w and the context qn",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": ", look for a",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "codeword un inside the associated bin with w, such that:",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": ") ∈T n",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "• The probability of not ﬁnding such a sequence un inside",
+          "page": 3
+        },
+        {
+          "para_id": "1_2",
+          "text": "the bin asymptotically tends to zero, if:",
+          "page": 3
+        },
+        {
+          "para_id": "1_3",
+          "text": "fore, given un and qn",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": ", the semantic encoder generates",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "the semantic codeword sn according to s = f(u, q1).",
+          "page": 3
+        },
+        {
+          "para_id": "1_2",
+          "text": "• Given the semantic codeword sn and the context qn",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": ", the",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "semantic source express itself via a message codeword",
+          "page": 3
+        },
+        {
+          "para_id": "1_2",
+          "text": "Xn associated with a message M, according to the",
+          "page": 3
+        },
+        {
+          "para_id": "1_3",
+          "text": "• Given the context qn",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "= qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "and the received message",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "codeword xn, the semantic decoder looks for a unique",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": ") ∈T n",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "• The probability of not ﬁnding such a unique sequence",
+          "page": 4
+        },
+        {
+          "para_id": "1_2",
+          "text": "un asymptotically tends to zero, if:",
+          "page": 4
+        },
+        {
+          "para_id": "1_3",
+          "text": "• Combining (5) and (7), the semantic source is unam-",
+          "page": 4
+        },
+        {
+          "para_id": "1_4",
+          "text": "biguously expressible, and therefore is representational",
+          "page": 4
+        },
+        {
+          "para_id": "1_5",
+          "text": "• Due to the Markov chain U →S →X conditioned on",
+          "page": 4
+        },
+        {
+          "para_id": "1_6",
+          "text": "D. Semantic Communication over a Semantic Channel",
+          "page": 4
+        },
+        {
+          "para_id": "1_7",
+          "text": "As mentioned earlier, the model illustrated in Figure 2 can",
+          "page": 4
+        },
+        {
+          "para_id": "1_8",
+          "text": "represent not only the semantic sender for analyzing its repre-",
+          "page": 4
+        },
+        {
+          "para_id": "1_9",
+          "text": "sentational capability, but also a semantic communication sce-",
+          "page": 4
+        },
+        {
+          "para_id": "1_10",
+          "text": "nario where semantic noise arises solely from the discrepancy",
+          "page": 4
+        },
+        {
+          "para_id": "1_11",
+          "text": "between the transmitter’s and receiver’s background knowl-",
+          "page": 4
+        },
+        {
+          "para_id": "1_12",
+          "text": "edge. This discrepancy is modeled through the availability of",
+          "page": 4
+        },
+        {
+          "para_id": "1_13",
+          "text": "context information, while the absence of physical channel",
+          "page": 4
+        },
+        {
+          "para_id": "1_14",
+          "text": "noise ensures that Xn is directly received without distortion.",
+          "page": 4
+        },
+        {
+          "para_id": "1_15",
+          "text": "In what follows, we analyze three possible scenarios: (1) the",
+          "page": 4
+        },
+        {
+          "para_id": "1_16",
+          "text": "sender and receiver have similar background knowledge, (2)",
+          "page": 4
+        },
+        {
+          "para_id": "1_17",
+          "text": "the receivers background knowledge is a subset of the senders",
+          "page": 4
+        },
+        {
+          "para_id": "1_18",
+          "text": "knowledge, (3) the senders background knowledge is a subset",
+          "page": 4
+        },
+        {
+          "para_id": "1_19",
+          "text": "of the receivers knowledge, and (4) the Sender and receiver",
+          "page": 4
+        },
+        {
+          "para_id": "1_20",
+          "text": "share partial background Knowledge.",
+          "page": 4
+        },
+        {
+          "para_id": "1_21",
+          "text": "1) Sender and Receiver with Similar Background Knowl-",
+          "page": 4
+        },
+        {
+          "para_id": "1_22",
+          "text": "edge: Consider the scenario where the sender and the receiver",
+          "page": 4
+        },
+        {
+          "para_id": "1_23",
+          "text": "have the same context information.",
+          "page": 4
+        },
+        {
+          "para_id": "1_24",
+          "text": "Theorem 2: The capacity of the semantic channel depicted",
+          "page": 4
+        },
+        {
+          "para_id": "1_25",
+          "text": "in Figure 2, which accounts for semantic noise while assum-",
+          "page": 4
+        },
+        {
+          "para_id": "1_26",
+          "text": "ing a noiseless physical channel, in the scenario where the",
+          "page": 4
+        },
+        {
+          "para_id": "1_27",
+          "text": "sender and the receiver have the same context information,",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "= Qn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "The proof follows a similar approach to that of the capacity",
+          "page": 4
+        },
+        {
+          "para_id": "2_2",
+          "text": "analysis for state-dependent DMC, as presented in [18]. The",
+          "page": 4
+        },
+        {
+          "para_id": "2_3",
+          "text": "outline of the achievability proof follows exactly the same",
+          "page": 4
+        },
+        {
+          "para_id": "2_4",
+          "text": "structure as that of Theorem 1.",
+          "page": 4
+        },
+        {
+          "para_id": "2_5",
+          "text": "2) Receivers Background Knowledge as a Subset of the",
+          "page": 4
+        },
+        {
+          "para_id": "2_6",
+          "text": "senders Knowledge: Consider the scenario where the re-",
+          "page": 4
+        },
+        {
+          "para_id": "2_7",
+          "text": "ceiver’s context information is already known to the sender,",
+          "page": 4
+        },
+        {
+          "para_id": "2_8",
+          "text": "as depicted in Figure 3analogous to a mother communicating",
+          "page": 4
+        },
+        {
+          "para_id": "2_9",
+          "text": "with her little child, where the mother is aware of the child’s",
+          "page": 4
+        },
+        {
+          "para_id": "2_10",
+          "text": "limited contextual understanding and adjusts her communica-",
+          "page": 4
+        },
+        {
+          "para_id": "2_11",
+          "text": "𝑝𝑞#, 𝑞-\", 𝑢, 𝑠, 𝑥= 𝑝𝑞#, 𝑞-\" 𝑝𝑢𝑞#, 𝑞-\" 𝑝𝑠𝑢, 𝑞#, 𝑞-\" 𝑝(𝑥|𝑠, 𝑞#, 𝑞-\")",
+          "page": 4
+        },
+        {
+          "para_id": "2_12",
+          "text": "Semantic channel modeled as a context-dependent channel, where",
+          "page": 4
+        },
+        {
+          "para_id": "2_13",
+          "text": "the semantic receiver’s background knowledge is a subset of the semantic",
+          "page": 4
+        },
+        {
+          "para_id": "2_14",
+          "text": "Theorem 3: The capacity of the semantic channel depicted",
+          "page": 4
+        },
+        {
+          "para_id": "2_15",
+          "text": "in Figure 3, which accounts for semantic noise while as-",
+          "page": 4
+        },
+        {
+          "para_id": "2_16",
+          "text": "suming a noiseless physical channel, in the scenario where",
+          "page": 4
+        },
+        {
+          "para_id": "2_17",
+          "text": "the receiver’s context information is already known to the",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "= (Qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": "= Qn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "The proof follows a similar approach to that of the capacity",
+          "page": 4
+        },
+        {
+          "para_id": "2_2",
+          "text": "analysis for state-dependent DMC, as presented in [18]. In the",
+          "page": 4
+        },
+        {
+          "para_id": "2_3",
+          "text": "following, we provide an outline of the achievability part of",
+          "page": 4
+        },
+        {
+          "para_id": "2_4",
+          "text": "• Partition the set of 2n ˜",
+          "page": 4
+        },
+        {
+          "para_id": "2_5",
+          "text": "sized bins. Therefore, each bin contains 2n( ˜",
+          "page": 4
+        },
+        {
+          "para_id": "2_6",
+          "text": "• Associate each semantic w to a bin.",
+          "page": 4
+        },
+        {
+          "para_id": "2_7",
+          "text": "• For the semantic w and the context qn",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "= (qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "), look",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "for a codeword un inside the associated bin with w, such",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": ") ∈T n",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "• The probability of not ﬁnding such a sequence un inside",
+          "page": 4
+        },
+        {
+          "para_id": "1_2",
+          "text": "the bin asymptotically tends to zero, if:",
+          "page": 4
+        },
+        {
+          "para_id": "1_3",
+          "text": "Therefore, given un and (qn",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "), the semantic encoder",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "generates the semantic codeword sn according to s =",
+          "page": 4
+        },
+        {
+          "para_id": "1_2",
+          "text": "• Given the semantic codeword sn and the context",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "), the semantic source express itself via a message",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "codeword Xn associated with a message M, according",
+          "page": 4
+        },
+        {
+          "para_id": "1_2",
+          "text": "• Given the context qn",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "= qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0",
+      "section_title": "and the received message",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "codeword xn, the semantic decoder looks for a unique",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ") ∈T n",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "• The probability of not ﬁnding such a unique sequence",
+          "page": 4
+        },
+        {
+          "para_id": "0_2",
+          "text": "un asymptotically tends to zero, if:",
+          "page": 4
+        },
+        {
+          "para_id": "0_3",
+          "text": "𝑝𝑞#, 𝑢, 𝑠, 𝑥= 𝑝𝑞# 𝑝𝑢𝑞# 𝑝𝑠𝑢, 𝑞# 𝑝(𝑥|𝑠, 𝑞#)",
+          "page": 5
+        },
+        {
+          "para_id": "0_4",
+          "text": "Fig. 4. Semantic channel modeled as a context-dependent channel, where the",
+          "page": 5
+        },
+        {
+          "para_id": "0_5",
+          "text": "semantic senders background knowledge is a subset of the semantic receivers",
+          "page": 5
+        },
+        {
+          "para_id": "0_6",
+          "text": "• Combining (13) and (15), the semantic source is unam-",
+          "page": 5
+        },
+        {
+          "para_id": "0_7",
+          "text": "biguously expressible, if:",
+          "page": 5
+        },
+        {
+          "para_id": "0_8",
+          "text": "which, because Q2 = Q0, simpliﬁes to:",
+          "page": 5
+        },
+        {
+          "para_id": "0_9",
+          "text": "• Due to the Markov chain U →S →X conditioned on",
+          "page": 5
+        },
+        {
+          "para_id": "0_10",
+          "text": "3) Senders Background Knowledge as a Subset of the Re-",
+          "page": 5
+        },
+        {
+          "para_id": "0_11",
+          "text": "ceivers Knowledge: Consider the scenario where the sender’s",
+          "page": 5
+        },
+        {
+          "para_id": "0_12",
+          "text": "context information is already known to the receiver, as",
+          "page": 5
+        },
+        {
+          "para_id": "0_13",
+          "text": "depicted in Figure 4analogous to a little child communicating",
+          "page": 5
+        },
+        {
+          "para_id": "0_14",
+          "text": "with the mother, where the mother is aware of the child’s",
+          "page": 5
+        },
+        {
+          "para_id": "0_15",
+          "text": "limited contextual understanding and adjusts her interpretation",
+          "page": 5
+        },
+        {
+          "para_id": "0_16",
+          "text": "accordingly, enabling her to comprehend the intended mean-",
+          "page": 5
+        },
+        {
+          "para_id": "0_17",
+          "text": "ing even though the childs speech may appear nonsensical to",
+          "page": 5
+        },
+        {
+          "para_id": "0_18",
+          "text": "Theorem 4: For the semantic channel depicted in Figure 4,",
+          "page": 5
+        },
+        {
+          "para_id": "0_19",
+          "text": "which accounts for semantic noise while assuming a noiseless",
+          "page": 5
+        },
+        {
+          "para_id": "0_20",
+          "text": "physical channel, in the scenario where the sender’s context",
+          "page": 5
+        },
+        {
+          "para_id": "0_21",
+          "text": "information is already known to the receiver, e.g., Qn",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "= Qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": "= (Qn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "2), the following rate is achievable:",
+          "page": 5
+        },
+        {
+          "para_id": "2_2",
+          "text": "The proof is inspired by the similar approach to the capacity",
+          "page": 5
+        },
+        {
+          "para_id": "2_3",
+          "text": "analysis of state-dependent DMC, as presented in [18]. In the",
+          "page": 5
+        },
+        {
+          "para_id": "2_4",
+          "text": "following, we provide an outline of the proof:",
+          "page": 5
+        },
+        {
+          "para_id": "2_5",
+          "text": "• Partition the set of 2n ˜",
+          "page": 5
+        },
+        {
+          "para_id": "2_6",
+          "text": "sized bins. Therefore, each bin contains 2n( ˜",
+          "page": 5
+        },
+        {
+          "para_id": "2_7",
+          "text": "• Associate each semantic w to a bin.",
+          "page": 5
+        },
+        {
+          "para_id": "2_8",
+          "text": "• For the semantic w and the context qn",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "= qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0",
+      "section_title": ", look for",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "a codeword un inside the associated bin with w, such",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ") ∈T n",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "• The probability of not ﬁnding such a sequence un inside",
+          "page": 5
+        },
+        {
+          "para_id": "0_2",
+          "text": "the bin asymptotically tends to zero, if:",
+          "page": 5
+        },
+        {
+          "para_id": "0_3",
+          "text": "𝑝𝑞#, 𝑞-\", 𝑢, 𝑠, 𝑥= 𝑝𝑞#, 𝑞-\" 𝑝𝑢𝑞#, 𝑞-\" 𝑝𝑠𝑢, 𝑞#, 𝑞-\" 𝑝(𝑥|𝑠, 𝑞#, 𝑞-\")",
+          "page": 5
+        },
+        {
+          "para_id": "0_4",
+          "text": "Semantic channel modeled as a context-dependent channel, where",
+          "page": 5
+        },
+        {
+          "para_id": "0_5",
+          "text": "the semantic sender and receiver share partial background knowledge.",
+          "page": 5
+        },
+        {
+          "para_id": "0_6",
+          "text": "fore, given un and qn",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", the semantic encoder generates",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "the semantic codeword sn according to s = f(u, q0).",
+          "page": 5
+        },
+        {
+          "para_id": "0_2",
+          "text": "• Given the semantic codeword sn and the context qn",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", the",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "semantic source express itself via a message codeword",
+          "page": 5
+        },
+        {
+          "para_id": "0_2",
+          "text": "Xn associated with a message M, according to the",
+          "page": 5
+        },
+        {
+          "para_id": "0_3",
+          "text": "• Given the context qn",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": ") and the received",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "message codeword xn, the semantic decoder looks for",
+          "page": 5
+        },
+        {
+          "para_id": "2_2",
+          "text": "a unique un, such that:",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": ") ∈T n",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "• The probability of not ﬁnding such a unique sequence",
+          "page": 5
+        },
+        {
+          "para_id": "2_2",
+          "text": "un asymptotically tends to zero, if:",
+          "page": 5
+        },
+        {
+          "para_id": "2_3",
+          "text": "• Combining (21) and (23), the semantic source is unam-",
+          "page": 5
+        },
+        {
+          "para_id": "2_4",
+          "text": "biguously expressible, if:",
+          "page": 5
+        },
+        {
+          "para_id": "2_5",
+          "text": "which, because Q2 = (Q0, ˜Q2), simpliﬁes to:",
+          "page": 5
+        },
+        {
+          "para_id": "2_6",
+          "text": "4) Sender and Receiver Share Partial Background Knowl-",
+          "page": 5
+        },
+        {
+          "para_id": "2_7",
+          "text": "edge: Consider the general scenario where the sender and",
+          "page": 5
+        },
+        {
+          "para_id": "2_8",
+          "text": "receiver share partial context information, as depicted in",
+          "page": 5
+        },
+        {
+          "para_id": "2_9",
+          "text": "Theorem 5: For the semantic channel depicted in Figure 5,",
+          "page": 5
+        },
+        {
+          "para_id": "2_10",
+          "text": "which accounts for semantic noise while assuming a noiseless",
+          "page": 5
+        },
+        {
+          "para_id": "2_11",
+          "text": "physical channel, in the general scenario where the sender and",
+          "page": 5
+        },
+        {
+          "para_id": "2_12",
+          "text": "receiver share partial context information Qn",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "= (Qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": "= (Qn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "2), the following rate",
+          "page": 5
+        },
+        {
+          "para_id": "2_2",
+          "text": "The proof is inspired by the similar approach to the capacity",
+          "page": 5
+        },
+        {
+          "para_id": "2_3",
+          "text": "analysis of state-dependent DMC, as presented in [18]. In the",
+          "page": 5
+        },
+        {
+          "para_id": "2_4",
+          "text": "following, we provide an outline of the proof:",
+          "page": 5
+        },
+        {
+          "para_id": "2_5",
+          "text": "• Partition the set of 2n ˜",
+          "page": 5
+        },
+        {
+          "para_id": "2_6",
+          "text": "sized bins. Therefore, each bin contains 2n( ˜",
+          "page": 5
+        },
+        {
+          "para_id": "2_7",
+          "text": "• Associate each semantic w to a bin.",
+          "page": 5
+        },
+        {
+          "para_id": "2_8",
+          "text": "• For the semantic w and the context qn",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "= (qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "), look",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "for a codeword un inside the associated bin with w, such",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": ") ∈T n",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "• The probability of not ﬁnding such a sequence un inside",
+          "page": 6
+        },
+        {
+          "para_id": "1_2",
+          "text": "the bin asymptotically tends to zero, if:",
+          "page": 6
+        },
+        {
+          "para_id": "1_3",
+          "text": "Therefore, given un and (qn",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "), the semantic encoder",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "generates the semantic codeword sn according to s =",
+          "page": 6
+        },
+        {
+          "para_id": "1_2",
+          "text": "• Given the semantic codeword sn and the context",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "), the semantic source express itself via a message",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "codeword Xn associated with a message M, according",
+          "page": 6
+        },
+        {
+          "para_id": "1_2",
+          "text": "• Given the context qn",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": ") and the received",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "message codeword xn, the semantic decoder looks for",
+          "page": 6
+        },
+        {
+          "para_id": "2_2",
+          "text": "a unique un, such that:",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": ", ˜qn",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": ") ∈T n",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "• The probability of not ﬁnding such a unique sequence",
+          "page": 6
+        },
+        {
+          "para_id": "2_2",
+          "text": "un asymptotically tends to zero, if:",
+          "page": 6
+        },
+        {
+          "para_id": "2_3",
+          "text": "• Combining (28) and (30), the semantic source is unam-",
+          "page": 6
+        },
+        {
+          "para_id": "2_4",
+          "text": "biguously expressible, if:",
+          "page": 6
+        },
+        {
+          "para_id": "2_5",
+          "text": "which, because Q2 = (Q0, ˜Q2), simpliﬁes to:",
+          "page": 6
+        },
+        {
+          "para_id": "2_6",
+          "text": "In summary, for various conﬁgurations of background",
+          "page": 6
+        },
+        {
+          "para_id": "2_7",
+          "text": "knowledge, the following achievable rates are derived:",
+          "page": 6
+        },
+        {
+          "para_id": "2_8",
+          "text": "1) Sender and receiver have similar knowledge:",
+          "page": 6
+        },
+        {
+          "para_id": "2_9",
+          "text": "2) When the receiver’s knowledge is a subset of the",
+          "page": 6
+        },
+        {
+          "para_id": "2_10",
+          "text": "sender’s, the sender needs to adjust the communication",
+          "page": 6
+        },
+        {
+          "para_id": "2_11",
+          "text": "by transmitting at a lower rate compared to the case in",
+          "page": 6
+        },
+        {
+          "para_id": "2_12",
+          "text": "(33), in order to remain understandable to the receiver.",
+          "page": 6
+        },
+        {
+          "para_id": "2_13",
+          "text": "3) When the sender’s knowledge is a subset of the re-",
+          "page": 6
+        },
+        {
+          "para_id": "2_14",
+          "text": "ceiver’s, the receiver can adapt the interpretation accord-",
+          "page": 6
+        },
+        {
+          "para_id": "2_15",
+          "text": "ingly, allowing the sender to communicate at a higher",
+          "page": 6
+        },
+        {
+          "para_id": "2_16",
+          "text": "rate compared to the case in (33):",
+          "page": 6
+        },
+        {
+          "para_id": "2_17",
+          "text": "4) When the sender and receiver share partial knowledge,",
+          "page": 6
+        },
+        {
+          "para_id": "2_18",
+          "text": "the achievable communication ratecompared to the case",
+          "page": 6
+        },
+        {
+          "para_id": "2_19",
+          "text": "in (33)can be either lower or higher, depending on the",
+          "page": 6
+        },
+        {
+          "para_id": "2_20",
+          "text": "nature of their shared and private knowledge.",
+          "page": 6
+        },
+        {
+          "para_id": "2_21",
+          "text": "This paper investigated the evolving paradigm of semantic",
+          "page": 6
+        },
+        {
+          "para_id": "2_22",
+          "text": "communication. In this paper, we explored a speciﬁc subclass",
+          "page": 6
+        },
+        {
+          "para_id": "2_23",
+          "text": "arises solely from the semantic channel, assuming a noiseless",
+          "page": 6
+        },
+        {
+          "para_id": "2_24",
+          "text": "physical channel. Building on the probabilistic model of",
+          "page": 6
+        },
+        {
+          "para_id": "2_25",
+          "text": "semantic communication and leveraging the role of context,",
+          "page": 6
+        },
+        {
+          "para_id": "2_26",
+          "text": "we proposed a virtual state-dependent channel model to cap-",
+          "page": 6
+        },
+        {
+          "para_id": "2_27",
+          "text": "ture the impact of contextual information on communication.",
+          "page": 6
+        },
+        {
+          "para_id": "2_28",
+          "text": "Through this model, we analyzed the representational capabil-",
+          "page": 6
+        },
+        {
+          "para_id": "2_29",
+          "text": "ity of the semantic encoder and examined different semantic",
+          "page": 6
+        },
+        {
+          "para_id": "2_30",
+          "text": "communication scenarios affected by semantic noise. Finally,",
+          "page": 6
+        },
+        {
+          "para_id": "2_31",
+          "text": "we derived the capacity results for these scenarios, providing",
+          "page": 6
+        },
+        {
+          "para_id": "2_32",
+          "text": "fundamental insights into reliable semantic communication in",
+          "page": 6
+        },
+        {
+          "para_id": "2_33",
+          "text": "the absence of physical channel noise. These ﬁndings enhance",
+          "page": 6
+        },
+        {
+          "para_id": "2_34",
+          "text": "our understanding of semantic communication and provide",
+          "page": 6
+        },
+        {
+          "para_id": "2_35",
+          "text": "a foundation for future research aimed at unlocking its full",
+          "page": 6
+        },
+        {
+          "para_id": "2_36",
+          "text": "potential for next-generation communication networks.",
+          "page": 6
+        },
+        {
+          "para_id": "2_37",
+          "text": "[1] C. E. Shannon, \"A mathematical theory of communication,\" Bell Syst.",
+          "page": 6
+        },
+        {
+          "para_id": "2_38",
+          "text": "Tech. J., vol. 27, no. 3, pp. 379-423, 1948.",
+          "page": 6
+        },
+        {
+          "para_id": "2_39",
+          "text": "[2] L. Floridi, \"Philosophical Conceptions of Information. In: G. Som-",
+          "page": 6
+        },
+        {
+          "para_id": "2_40",
+          "text": "maruga. (eds) Formal Theories of Information.,\" Lecture Notes in",
+          "page": 6
+        },
+        {
+          "para_id": "2_41",
+          "text": "Computer Science, vol 5363. Springer, Berlin, Heidelberg, 2009.",
+          "page": 6
+        },
+        {
+          "para_id": "2_42",
+          "text": "[3] C. E. Shannon, and W. Weaver, \"The Mathematical Theory of Commu-",
+          "page": 6
+        },
+        {
+          "para_id": "2_43",
+          "text": "nication,\" Urbana, IL, USA:Univ. Illinois Press, 1949.",
+          "page": 6
+        },
+        {
+          "para_id": "2_44",
+          "text": "[4] R. Carnap, and Y. Bar-Hillel, \"An outline of a theory of semantic",
+          "page": 6
+        },
+        {
+          "para_id": "2_45",
+          "text": "information,\" Oct. 1952.",
+          "page": 6
+        },
+        {
+          "para_id": "2_46",
+          "text": "[5] L. Floridi, \"Outline of a theory of strongly semantic information,\" Minds",
+          "page": 6
+        },
+        {
+          "para_id": "2_47",
+          "text": "Mach. 14, 2 (2004), 197221.",
+          "page": 6
+        },
+        {
+          "para_id": "2_48",
+          "text": "[6] D. Gündüz et al, \"Beyond Transmitting Bits: Context, Semantics,",
+          "page": 6
+        },
+        {
+          "para_id": "2_49",
+          "text": "and Task-Oriented Communications,\" IEEE Journal on Selected Ar-",
+          "page": 6
+        },
+        {
+          "para_id": "2_50",
+          "text": "eas in Communications, vol. 41, no. 1, pp. 5-41, Jan. 2023, doi:",
+          "page": 6
+        },
+        {
+          "para_id": "2_51",
+          "text": "10.1109/JSAC.2022.3223408.",
+          "page": 6
+        },
+        {
+          "para_id": "2_52",
+          "text": "[7] J. Bao et al, \"Towards a theory of semantic communication,\" In Pro-",
+          "page": 6
+        },
+        {
+          "para_id": "2_53",
+          "text": "ceedings of the 2011 IEEE Network Science Workshop, West Point, NY,",
+          "page": 6
+        },
+        {
+          "para_id": "2_54",
+          "text": "USA, 2224 June 2011; IEEE: New York, NY, USA, 2011; pp. 110117.",
+          "page": 6
+        },
+        {
+          "para_id": "2_55",
+          "text": "[8] S. Ma et al, \"A Theory for Semantic Communications,\" arXiv 2023,",
+          "page": 6
+        },
+        {
+          "para_id": "2_56",
+          "text": "[9] J. Gholipour et al, \"Semantic Communication: From Philosophical Con-",
+          "page": 6
+        },
+        {
+          "para_id": "2_57",
+          "text": "ceptions Towards a Mathematical Framework,\" in Proc. IEEE WCNC26,",
+          "page": 6
+        },
+        {
+          "para_id": "2_58",
+          "text": "Kuala Lumpur, Malaysia, 2026. arXiv:2505.01342.",
+          "page": 6
+        },
+        {
+          "para_id": "2_59",
+          "text": "[10] L. Floridi, \"Is Information Meaningful Data?,\" Philosophy and Phe-",
+          "page": 6
+        },
+        {
+          "para_id": "2_60",
+          "text": "nomenological Research 70(2), 351370 (2005).",
+          "page": 6
+        },
+        {
+          "para_id": "2_61",
+          "text": "[11] Y. Shao et al, \"A Theory of Semantic Communication,\" IEEE Trans.",
+          "page": 6
+        },
+        {
+          "para_id": "2_62",
+          "text": "Mobile Computing. 2024, vol. 23, no. 12, 12211-12228.",
+          "page": 6
+        },
+        {
+          "para_id": "2_63",
+          "text": "[12] G. Shi et al, \"From semantic communication to semantic-aware net-",
+          "page": 6
+        },
+        {
+          "para_id": "2_64",
+          "text": "working: Model, architecture, and open problems,\" IEEE Commun. Mag.",
+          "page": 6
+        },
+        {
+          "para_id": "2_65",
+          "text": "[13] Z. Qin et al, \"Semantic communications: Principles and challenges,\"",
+          "page": 6
+        },
+        {
+          "para_id": "2_66",
+          "text": "arXiv 2021, arXiv:2201.01389.",
+          "page": 6
+        },
+        {
+          "para_id": "2_67",
+          "text": "[14] Q. Hu et al, \"Robust semantic communications with masked VQ-VAE",
+          "page": 6
+        },
+        {
+          "para_id": "2_68",
+          "text": "enabled codebook,\" IEEE Trans. Wirel. Commun. 2023, 22, 87078722.",
+          "page": 6
+        },
+        {
+          "para_id": "2_69",
+          "text": "[15] C. E. Shannon, \"Channels with side information at the transmitter,\"",
+          "page": 6
+        },
+        {
+          "para_id": "2_70",
+          "text": "IBM Journal Research and Development, vol. 2, pp. 289293, October",
+          "page": 6
+        },
+        {
+          "para_id": "2_71",
+          "text": "[16] S. I. Gelfand, and M. S. Pinsker, \"Coding for channel with random",
+          "page": 6
+        },
+        {
+          "para_id": "2_72",
+          "text": "parameters,\" Problems of Control and Information Theory, vol. 9, no.",
+          "page": 6
+        },
+        {
+          "para_id": "2_73",
+          "text": "[17] C. Heegard, and A. E. Gamal, \"On the capacity of computer memory",
+          "page": 6
+        },
+        {
+          "para_id": "2_74",
+          "text": "with defects,\" in IEEE Transactions on Information Theory, vol. 29, no.",
+          "page": 6
+        },
+        {
+          "para_id": "2_75",
+          "text": "5, pp. 731-739, September 1983, doi: 10.1109/TIT.1983.1056723.",
+          "page": 6
+        },
+        {
+          "para_id": "2_76",
+          "text": "[18] T. M. Cover, and M. Chiang, \"Duality between channel capacity and",
+          "page": 6
+        },
+        {
+          "para_id": "2_77",
+          "text": "rate distortion with two-sided state information,\" in IEEE Transactions",
+          "page": 6
+        },
+        {
+          "para_id": "2_78",
+          "text": "on Information Theory, vol. 48, no. 6, pp. 1629-1638, June 2002, doi:",
+          "page": 6
+        },
+        {
+          "para_id": "2_79",
+          "text": "10.1109/TIT.2002.1003843.",
+          "page": 6
+        }
+      ]
+    }
+  ]
+}

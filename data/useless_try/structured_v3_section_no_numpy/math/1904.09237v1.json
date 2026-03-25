@@ -1,0 +1,193 @@
+{
+  "doc_id": "1904.09237v1.pdf",
+  "sections": [
+    {
+      "section_title": "Published as a conference paper at ICLR 2018",
+      "text": ""
+    },
+    {
+      "section_title": "O",
+      "text": ""
+    },
+    {
+      "section_title": "N",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "THE",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "CONVERGENCE",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "OF",
+      "text": ""
+    },
+    {
+      "section_title": "A",
+      "text": ""
+    },
+    {
+      "section_title": "DAM",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "AND",
+      "text": ""
+    },
+    {
+      "section_title": "B",
+      "text": ""
+    },
+    {
+      "section_title": "EYOND",
+      "text": " Sashank J. Reddi, Satyen Kale & Sanjiv Kumar Google New York New York, NY 10011, USA { sashank,satyenkale,sanjivk } @google.com"
+    },
+    {
+      "section_title": "A",
+      "text": " BSTRACT Several  recently  proposed  stochastic  optimization  methods  that  have  been  suc- cessfully used in training deep networks such as RMS PROP , A DAM , A DADELTA , N ADAM are based on using gradient updates scaled by square roots of exponential moving  averages  of  squared  past  gradients.  In  many  applications,  e.g.  learning with  large  output  spaces,  it  has  been  empirically  observed  that  these  algorithms fail to converge to an optimal solution (or a critical point in nonconvex settings). We show that one cause for such failures is the exponential moving average used in  the  algorithms.  We  provide  an  explicit  example  of  a  simple  convex  optimiza- tion setting where A DAM does not converge to the optimal solution, and describe the  precise  problems  with  the  previous  analysis  of  A DAM  algorithm.  Our  anal- ysis  suggests  that  the  convergence  issues  can  be  ﬁxed  by  endowing  such  algo- rithms  with  “long-term  memory”  of  past  gradients,  and  propose  new  variants  of the A DAM algorithm which not only ﬁx the convergence issues but often also lead to improved empirical performance."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "I",
+      "text": " NTRODUCTION Stochastic gradient descent (S GD ) is the dominant method to train deep networks today. This method iteratively updates the parameters of a model by moving them in the direction of the negative gra- dient  of  the  loss  evaluated  on  a  minibatch.  In  particular,  variants  of  S GD  that  scale  coordinates of  the  gradient  by  square  roots  of  some  form  of  averaging  of  the  squared  coordinates  in  the  past gradients  have  been  particularly  successful,  because  they  automatically  adjust  the  learning  rate  on a per-feature basis.  The ﬁrst popular algorithm in this line of research is  A DAGRAD  (Duchi et al., 2011; McMahan & Streeter, 2010), which can achieve signiﬁcantly better performance compared to vanilla S GD when the gradients are sparse, or in general small. Although A DAGRAD works well for sparse settings, its performance has been observed to deteriorate in settings where the loss functions are nonconvex and gradients are dense due to rapid decay of the learning  rate  in  these  settings  since  it  uses  all  the  past  gradients  in  the  update.  This  problem  is especially exacerbated in high dimensional problems arising in deep learning.  To tackle this issue, several  variants  of  A DAGRAD ,  such  as  RMS PROP  (Tieleman  &  Hinton,  2012),  A DAM  (Kingma &  Ba,  2015),  A DADELTA  (Zeiler,  2012),  N ADAM  (Dozat,  2016),  etc,  have  been  proposed  which mitigate the rapid decay of the learning rate using the exponential moving averages of squared past gradients, essentially limiting the reliance of the update to only the past few gradients.  While these algorithms  have  been  successfully  employed  in  several  practical  applications,  they  have  also  been observed to not converge in some other settings.  It has been typically observed that in these settings some  minibatches  provide  large  gradients  but  only  quite  rarely,  and  while  these  large  gradients are quite informative, their inﬂuence dies out rather quickly due to the exponential averaging, thus leading to poor convergence. In  this  paper,  we  analyze  this  situation  in  detail.  We  rigorously  prove  that  the  intuition  conveyed in the above paragraph is indeed correct; that limiting the reliance of the update on essentially only the past few gradients can indeed cause signiﬁcant convergence issues.  In particular,  we make the following key contributions: •  We elucidate how the exponential moving average in the RMS PROP and A DAM algorithms can cause non-convergence by providing an example of simple convex optimization prob-"
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "arXiv:1904.09237v1  [cs.LG]  19 Apr 2019",
+      "text": ""
+    },
+    {
+      "section_title": "Published as a conference paper at ICLR 2018",
+      "text": " lem  where  RMS PROP  and  A DAM  provably  do  not  converge  to  an  optimal  solution.  Our analysis  easily  extends  to  other  algorithms  using  exponential  moving  averages  such  as A DADELTA  and  N ADAM  as  well,  but  we  omit  this  for  the  sake  of  clarity.  In  fact,  the analysis  is  ﬂexible  enough  to  extend  to  other  algorithms  that  employ  averaging  squared gradients over essentially a ﬁxed size window (for exponential moving averages, the inﬂu- ences of gradients beyond a ﬁxed window size becomes negligibly small) in the immediate past.  We omit the general analysis in this paper for the sake of clarity. •  The  above  result  indicates  that  in  order  to  have  guaranteed  convergence  the  optimization algorithm  must  have  “long-term  memory”  of  past  gradients.  Speciﬁcally,  we  point  out  a problem  with  the  proof  of  convergence  of  the  A DAM  algorithm  given  by  Kingma  &  Ba (2015).  To resolve this issue, we propose new variants of  A DAM  which rely on long-term memory of past gradients, but can be implemented in the same time and space requirements as the original  A DAM  algorithm.  We provide a convergence analysis for the new variants in  the  convex  setting,  based  on  the  analysis  of  Kingma  &  Ba  (2015),  and  show  a  data- dependent regret bound similar to the one in A DAGRAD . •  We  provide  a  preliminary  empirical  study  of  one  of  the  variants  we  proposed  and  show that  it  either  performs  similarly,  or  better,  on  some  commonly  used  problems  in  machine learning."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "P",
+      "text": " RELIMINARIES Notation. We use S + d  to denote the set of all positive deﬁnite d × d matrices.  With slight abuse of notation, for a vector a  ∈ R d  and a positive deﬁnite matrix M  ∈ R d  × R d , we use a/M  to denote M  − a ,  ∥ M i ∥  to  denote  ℓ -norm  of  i th  row  of  M  and √ M  to  represent  M  / .  Furthermore,  for any  vectors  a, b  ∈ R d ,  we  use  √ a  for  element-wise  square  root,  a  for  element-wise  square,  a/b to  denote  element-wise  division  and  max( a, b )  to  denote  element-wise  maximum.  For  any  vector θ i  ∈ R d , θ i,j denotes its j th  coordinate where j  ∈ [ d ] . The projection operation Π F ,A ( y ) for A ∈S d + is deﬁned as arg min x ∈F ∥ A / ( x − y ) ∥ for y  ∈ R d .  Finally, we say F  has bounded diameter D ∞ if ∥ x − y ∥ ∞ ≤ D ∞ for all x, y  ∈F . Optimization setup. A ﬂexible framework to analyze iterative optimization methods is the online optimization  problem  in  the  full  information  feedback  setting.  In  this  online  setup,  at  each  time step  t ,  the  optimization  algorithm  picks  a  point  (i.e.  the  parameters  of  the  model  to  be  learned) x t  ∈F ,  where  F  ∈ R d  is  the  feasible  set  of  points.  A  loss  function  f t  (to  be  interpreted  as the  loss  of  the  model  with  the  chosen  parameters  in  the  next  minibatch)  is  then  revealed,  and  the algorithm incurs loss f t ( x t ) .  The algorithm’s regret at the end of T  rounds of this process is given by R T  =  P T i =1  f t ( x t ) − min x ∈F P T i =1  f t ( x ) .  Throughout this paper, we assume that the feasible set F  has bounded diameter and ∥∇ f t ( x ) ∥ ∞ is bounded for all t ∈ [ T ] and x ∈F . Our  aim  to  is  to  devise  an  algorithm  that  ensures  R T  =  o ( T ) ,  which  implies  that  on  average, the  model’s  performance  converges  to  the  optimal  one.  The  simplest  algorithm  for  this  setting  is the standard online gradient descent algorithm (Zinkevich, 2003), which moves the point x t  in the opposite direction of the gradient g t  = ∇ f t ( x t ) while maintaining the feasibility by projecting onto the set F  via the update rule x t +1  = Π F ( x t − α t g t ) , where Π F ( y ) denotes the projection of y  ∈ R d onto the set F  i.e.,  Π F ( y )  =  min x ∈F ∥ x − y ∥ ,  and α t  is typically set to α/ √ t for some constant α .  The  aforementioned  online  learning  problem  is  closely  related  to  the  stochastic  optimization problem: min x ∈F E z [ f ( x, z )] , popularly referred to as empirical risk minimization (ERM), where z is a training example drawn training sample over which a model with parameters x is to be learned, and  f ( x, z )  is  the  loss  of  the  model  with  parameters  x  on  the  sample  z .  In  particular,  an  online optimization algorithm with vanishing average regret yields a stochastic optimization algorithm for the ERM problem (Cesa-Bianchi et al., 2004).  Thus, we use online gradient descent and stochastic gradient descent (S GD ) synonymously. Generic adaptive  methods setup. We now provide a framework of adaptive methods that gives us insights into the differences between different adaptive methods and is useful for understanding the  ﬂaws  in  a  few  popular  adaptive  methods.  Algorithm   provides  a  generic  adaptive  framework that  encapsulates  many  popular  adaptive  methods.  Note  the  algorithm  is  still  abstract  because  the"
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "Published as a conference paper at ICLR 2018",
+      "text": " Algorithm 1 Generic Adaptive Method Setup Input:  x  ∈F , step size { α t  > } T t =1 , sequence of functions { φ t , ψ t } T t =1 for t = 1 to T  do g t  = ∇ f t ( x t ) m t  = φ t ( g , . . . , g t ) and V t  = ψ t ( g , . . . , g t ) ˆ x t +1  = x t − α t m t / √ V t x t +1  = Π F , √ V  t (ˆ x t +1 ) end for “averaging” functions φ t  and ψ t  have not been speciﬁed.  Here φ t  :  F t  → R d  and ψ t  :  F t  →S d + . For ease of exposition, we refer to α t as step size and α t V  − / t as learning rate of the algorithm and furthermore, restrict ourselves to diagonal variants of adaptive methods encapsulated by Algorithm 1 where  V t  =  diag ( v t )  .  We  ﬁrst  observe  that  standard  stochastic  gradient  algorithm  falls  in  this framework by using: φ t ( g , . . . , g t ) = g t  and  ψ t ( g , . . . , g t ) = I , (S GD ) and α t  = α/ √ t for all t ∈ [ T ] .  While the decreasing step size is required for convergence, such an aggressive decay of learning rate typically translates into poor empirical performance.  The key idea of adaptive methods is to choose averaging functions appropriately so as to entail good convergence. For instance, the ﬁrst adaptive method A DAGRAD (Duchi et al., 2011), which propelled the research on adaptive methods, uses the following averaging functions: φ t ( g , . . . , g t ) = g t  and  ψ t ( g , . . . , g t ) =  diag ( P t i =1  g i  ) t , (A DAGRAD ) and step size α t  = α/ √ t for all t ∈ [ T ] . In contrast to a learning rate of α/ √ t in S GD , such a setting effectively implies a modest learning rate decay of α/ qP i  g i,j  for j  ∈ [ d ] .  When the gradients are sparse,  this  can  potentially  lead  to  huge  gains  in  terms  of  convergence  (see  Duchi  et  al.  (2011)). These gains have also been observed in practice for even few non-sparse settings. Adaptive methods based on Exponential Moving Averages. Exponential moving average vari- ants of  A DAGRAD  are popular in the deep learning community.  RMS PROP ,  A DAM ,  N ADAM ,  and A DADELTA  are  some  prominent  algorithms  that  fall  in  this  category. The  key  difference  is  to use  an  exponential  moving  average  as  function  ψ t  instead  of  the  simple  average  function  used  in A DAGRAD .  A DAM , a particularly popular variant, uses the following averaging functions: φ t ( g , . . . , g t ) = (1 − β ) t X i =1 β t − i g i  and  ψ t ( g , . . . , g t ) = (1 − β ) diag ( t X i =1 β t − i g i  ) ,  (A DAM ) for some β , β  ∈ [0 , 1) .  This update can alternatively be stated by the following simple recursion: m t,i  = β m t − ,i + (1 − β ) g t,i  and v t,i  = β v t − ,i + (1 − β ) g t,i (1) and  m ,i  =   and  v ,i  =   for  all  i  ∈ [ d ] .  and  t  ∈ [ T ] .  A  value  of  β  =  .  and  β  =  . is  typically  recommended  in  practice.  We  note  the  additional  projection  operation  in  Algorithm  in  comparison  to  A DAM .  When  F  =  R d ,  the  projection  operation  is  an  identity  operation  and this  corresponds  to  the  algorithm  in  (Kingma  &  Ba,  2015).  For  theoretical  analysis,  one  requires α t  = 1 / √ t for t ∈ [ T ] , although, a more aggressive choice of constant step size seems to work well in practice.  RMS PROP , which appeared in an earlier unpublished work (Tieleman & Hinton, 2012) is essentially a variant of A DAM with β  =  .  In practice, especially in deep learning applications, the  momentum  term  arising  due  to  non-zero  β  appears  to  signiﬁcantly  boost  the  performance. We  will  mainly  focus  on  A DAM  algorithm  due  to  this  generality  but  our  arguments  also  apply  to RMS PROP and other algorithms such as A DADELTA , N ADAM . Here, for simplicity, we remove the debiasing step used in the version of A DAM used in the original paper by Kingma & Ba (2015).  However, our arguments also apply to the debiased version as well."
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "Published as a conference paper at ICLR 2018",
+      "text": ""
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "T",
+      "text": " HE"
+    },
+    {
+      "section_title": "N",
+      "text": " ON"
+    },
+    {
+      "section_title": "-C",
+      "text": " ONVERGENCE  OF"
+    },
+    {
+      "section_title": "A",
+      "text": " DAM With the problem setup in the previous section, we discuss fundamental ﬂaw in the current exponen- tial moving  average  methods  like  A DAM .  We show that  A DAM  can fail to  converge to an optimal solution even in simple one-dimensional convex settings.  These examples of non-convergence con- tradict the claim of convergence in (Kingma & Ba, 2015),  and the main issue lies in the following quantity of interest: Γ t +1  = p V t +1 α t +1 − √ V t α t ! . (2) This quantity essentially measures the change in the inverse of learning rate of the adaptive method with  respect  to  time.  One  key  observation  is  that  for  S GD  and  A DAGRAD ,  Γ t  ⪰  for  all  t  ∈ [ T ] .  This  simply  follows  from  update  rules  of  S GD  and  A DAGRAD  in  the  previous  section.  In particular,  update rules for these algorithms lead to “non-increasing” learning rates.  However,  this is not necessarily the case for exponential moving average variants like A DAM and RMS PROP i.e., Γ t  can potentially be indeﬁnite for t ∈ [ T ] .  We show that this violation of positive deﬁniteness can lead to undesirable convergence behavior for A DAM and RMS PROP .  Consider the following simple sequence of linear functions for F  = [ − , 1] : f t ( x ) = \u001a Cx, for t mod 3 = 1 − x, otherwise , where  C  >  .  For  this  function  sequence,  it  is  easy  to  see  that  the  point  x  =  −  provides  the minimum  regret.  Suppose  β  =   and  β  =  / (1 + C ) .  We  show  that  A DAM  converges  to  a highly suboptimal solution of x  =  +1 for this setting.  Intuitively, the reasoning is as follows.  The algorithm obtains the large gradient C  once every 3 steps, and while the other 2 steps it observes the gradient − , which moves the algorithm in the wrong direction.  The large gradient C  is unable to counteract this effect since it is scaled down by a factor of almost C  for the given value of β , and hence the algorithm converges to rather than − .  We formalize this intuition in the result below. Theorem  1.  There  is  an  online  convex  optimization  problem  where  A DAM  has  non-zero  average regret i.e., R T /T  ↛ as T  →∞ . We relegate all proofs to the appendix.  A few remarks are in order.  One might wonder if adding a small constant in the denominator of the update helps in circumventing this problem i.e., the update for A DAM in Algorithm 1 of  ˆ x t +1 is modiﬁed as follows: ˆ x t +1  = x t − α t m t / p V t + ϵ I . (3) The  algorithm  in  (Kingma  &  Ba,  2015)  uses  such  an  update  in  practice,  although  their  analysis does not.  In practice,  selection of the ϵ parameter appears to be critical for the performance of the algorithm.  However, we show that for any constant ϵ > , there exists an online optimization setting where, again, A DAM has non-zero average regret asymptotically (see Theorem 6 in Section F of the appendix). The  above  examples  of  non-convergence  are  catastrophic  insofar  that  A DAM  and  RMS PROP  con- verge  to  a  point  that  is  worst  amongst  all  points  in  the  set  [ − , 1] .  Note  that  above  example  also holds for constant step size α t  =  α .  Also note that classic  S GD  and  A DAGRAD  do not suffer from this problem and for these algorithms, average regret asymptotically goes to 0. This problem is espe- cially aggravated in high dimensional settings and when the variance of the gradients with respect to time is large.  This example also provides intuition for why large β is advisable while using A DAM algorithm,  and  indeed  in  practice  using  large  β  helps.  However  the  following  result  shows  that for any constant β  and β  with β  <  √ β , we can design an example where  A DAM  has non-zero average rate asymptotically. Theorem  2.  For  any  constant  β , β  ∈ [0 , 1)  such  that  β  <  √ β ,  there  is  an  online  convex optimization problem where A DAM has non-zero average regret i.e., R T /T  ↛ as T  →∞ . The above results show that with constant β and β , momentum or regularization via ϵ will not help in convergence of the algorithm to the optimal solution.  Note that the condition β  <  √ β is benign and is typically satisﬁed in the parameter settings used in practice.  Furthermore,  such condition is assumed in convergence proof of Kingma & Ba (2015).  We can strengthen this result by providing a similar example of non-convergence even in the easier stochastic optimization setting:"
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "Published as a conference paper at ICLR 2018",
+      "text": " Algorithm 2 AMSG RAD Input:  x  ∈F , step size { α t } T t =1 , { β t } T t =1 , β Set m  = 0 , v  = 0 and ˆ v  = 0 for t = 1 to T  do g t  = ∇ f t ( x t ) m t  = β t m t − + (1 − β t ) g t v t  = β v t − + (1 − β ) g t ˆ v t  = max(ˆ v t − , v t ) and  ˆ V t  = diag (ˆ v t ) x t +1  = Π F , √ ˆ V t ( x t − α t m t / √ ˆ v t ) end for Theorem  3.  For  any  constant  β , β  ∈ [0 , 1)  such  that  β  <  √ β ,  there  is  a  stochastic  convex optimization problem for which A DAM does not converge to the optimal solution. These "
+    },
+    {
+      "section_title": "results",
+      "text": "  have  important  consequences  insofar  that  one  has  to  use  “problem-dependent”  ϵ, β and  β  in  order  to  avoid  bad  convergence  behavior.  In  high-dimensional  problems,  this  typically amounts  to  using,  unlike  the  update  in  Equation  (3),  a  different  ϵ, β  and  β  for  each  dimension. However,  this  defeats  the  purpose  of  adaptive  methods  since  it  requires  tuning  a  large  set  of  pa- rameters.  We would also like to emphasize that while the example of non-convergence is carefully constructed to demonstrate the problems in  A DAM , it is not unrealistic to imagine scenarios where such an issue can at the very least slow down convergence. We end this section with the following important remark. While the results stated above use constant β and β , the analysis of A DAM in (Kingma & Ba, 2015) actually relies on decreasing β over time. It is quite easy to extend our examples to the case where β is decreased over time, since the critical parameter is β rather than β , and as long as β is bounded away from , our analysis goes through. Thus  for  the  sake  of  clarity,  in  this  paper  we  only  prove  non-convergence  of  A DAM  in  the  setting where β is held constant."
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "A",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "N",
+      "text": " EW"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "E",
+      "text": " XPONENTIAL"
+    },
+    {
+      "section_title": "M",
+      "text": " OVING"
+    },
+    {
+      "section_title": "A",
+      "text": " VERAGE"
+    },
+    {
+      "section_title": "V",
+      "text": " ARIANT"
+    },
+    {
+      "section_title": ":",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "AMSG",
+      "text": " RAD In  this  section,  we  develop  a  new  principled  exponential  moving  average  variant  and  provide  its convergence analysis.  Our aim is to devise a new strategy with guaranteed convergence while pre- serving the practical beneﬁts of A DAM and RMS PROP .  To understand the design of our algorithms, let us revisit the quantity Γ t in (2).  For A DAM and RMS PROP , this quantity can potentially be nega- tive.  The proof in the original paper of A DAM erroneously assumes that Γ t  is positive semi-deﬁnite and  is  hence,  incorrect  (refer  to "
+    }
+  ]
+}

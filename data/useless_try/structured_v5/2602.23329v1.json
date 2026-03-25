@@ -1,0 +1,666 @@
+{
+  "doc_id": "2602.23329v1.pdf",
+  "title": "arXiv:2602.23329v1  [cs.AI]  26 Feb 2026",
+  "abstract": "Large language models (LLMs) perform increasingly well on biology benchmarks,\nbut it remains unclear whether they uplift novice users—i.e., enable humans to\nperform better than with internet-only resources. This uncertainty is central to\nunderstanding both scientific acceleration and dual-use risk. We conducted a multi-\nmodel, multi-benchmark human uplift study comparing novices with LLM access\nversus internet-only access across eight biosecurity-relevant task sets. Participants\nworked on complex problems with ample time (up to 13 hours for the most involved\ntasks). We found that LLM access provided substantial uplift: novices with\nLLMs were 4.16× more accurate than controls (95% CI [2.63, 6.87]). On four\nbenchmarks with available expert baselines (internet-only), novices with LLMs\noutperformed experts on three of them. Perhaps surprisingly, standalone LLMs\noften exceeded LLM-assisted novices, indicating that users were not eliciting\nthe strongest available contributions from the LLMs. Most participants (89.6%)\nreported little difficulty obtaining dual-use-relevant information despite safeguards.\nOverall, LLMs substantially uplift novices on biological tasks previously reserved\nfor trained practitioners, underscoring the need for sustained, interactive uplift\nevaluations alongside traditional benchmarks.\n1",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1\nIntroduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "The rapid progress of large language model (LLM) capabilities presents a significant dual-use\ndilemma. While these models offer enormous societal benefits, they have the potential to empower\nmisuse. One way LLMs could change the risk landscape is by providing expert-level support on tasks\nthat historically required expert assistance. Prior work has been done to quantify this risk for biosecurity. Benchmarks such as the Virology\nCapabilities Test (VCT) [Götting et al., 2025] and LAB-Bench [Laurent et al., 2024] measure the\npotential impact of LLMs on practical life sciences tasks, revealing that frontier LLMs can often\noutperform experts. In the case of VCT, the leading reasoning model was found to outperform 94%\nof expert virologists, even within their sub-areas of specialization, in providing practical assistance\non complex virology troubleshooting [Götting et al., 2025]. However, prior benchmark studies primarily tested LLMs’ single-shot performance. Although this\napproach is a helpful proxy measurement, it could systematically underestimate or overestimate\nthe true effect of LLMs on the realizable capabilities of humans who use the LLMs. One reason ∗Equal contribution. Correspondence to: chen.zhang@scale.com, christina.knight@scale.com.",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "Preprint.",
+          "page": 1
+        },
+        {
+          "para_id": "1_3",
+          "text": "arXiv:2602.23329v1  [cs.AI]  26 Feb 2026",
+          "page": 1
+        },
+        {
+          "para_id": "1_4",
+          "text": "single-shot evaluation could be an underestimate is that humans can, if desired, use LLMs in a\nmuch more hands-on and interactive manner. Actors could converse with multiple models for hours,\ntroubleshooting, learning, and iteratively refining their plans. Given that this process could, at\nleast in theory, enhance the unified capabilities of the actor using an LLM, a critical question for\nassessing AI-enabled biological misuse risk is to what extent LLMs provide a meaningful additive\nadvantage—or “uplift”. To answer this question, we conducted a long-form, multi-model, and multi-benchmark human uplift\nstudy, examining how LLM access changes the performance of “novices” on in silico biosecurity-\nrelevant tasks over extended interactions, up to 13 hours. For the study, we defined novices as\nindividuals with little to no experience conducting complex biological experiments. We compare two\nconditions: a Treatment condition, in which novices had access to multiple LLMs to be used at will,\nand a Control condition, in which novices were limited to internet-only access. We evaluated both\ngroups across eight short-answer and long-form problem-solving benchmarks. The Treatment group\nhad access to a range of frontier LLMs, including o3 [OpenAI, 2025a], Gemini 2.5 Pro [Google,\n2025a], Gemini Deep Research [Google, 2025b], and Claude Opus 4 [Anthropic, 2025b], simulating\nreal-world malicious use scenarios in which actors can use and cross-validate responses from multiple\nmodels. Our results demonstrated substantial uplift for novices in the Treatment condition. Compared to\nControl, Treatment participants performed significantly better on nearly all tasks. In the most extreme\ncase, performance on the Human Pathogen Capabilities Test (HPCT) increased approximately 4×.\nCrucially, LLM-equipped novices even surpassed expert baselines on several benchmarks. However, these results also revealed a notable complication: LLM-equipped novices were often\noutperformed by standalone LLMs. This suggests that the participants were generally using sub-\noptimal strategies for the use of LLMs. Humans are still learning how best to wield LLMs, and this\nwill be a complex and uncertain process because we are reaching a point where even human experts\ncan no longer reliably evaluate LLM performance. Our analysis indicates that individuals from diverse non-expert backgrounds can match or exceed\nexpert performance on biosecurity-relevant tasks with LLM assistance. Consequently, the pool of\npeople is growing who could access enough rare knowledge to attempt harmful misuse of biology.",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "section_id": "1.1",
+      "section_title": "1.1\nOur Contribution",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.1_1",
+          "text": "Our study aimed to fill the gaps mentioned in Section 2 by evaluating the relative uplift that extended\ninteractions with multiple LLMs can provide to novices on a diverse set of in silico biosecurity-\nrelevant tasks.",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_2",
+          "text": "Extended Interactions\nFirst, while most benchmarks assess uplift based only on the final answer,\nwe collect longitudinal data from participants, including their “best guess” answer at regular intervals,\ntheir perceived confidence, and their ongoing notes. This ongoing data collection is necessary to\nevaluate (1) the phase of decision-making in which models are the most helpful, (2) when LLM\nassistance “saturates” or stops providing uplift, and (3) when LLMs might detract from novice\nperformance.",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_3",
+          "text": "Multiple Models\nSecond, our design reflects a more realistic environment for participants, in which\nthey had access to multiple LLMs and could use them in coordination. Most existing studies, by\ncontrast, only measured the impact of only one specific LLM. The single-model design misses key\nelements of coordinated LLM use, such as verifying information across different platforms, checking\nlogic, and dialectically engaging with multiple sources. Our study provided novices with access to\no4-mini, o3, Gemini 2.5 Pro, Claude 3.7 Sonnet, Claude Opus 4, and a range of other models (refer\nto Figure 5 for the exact breakdown).",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_4",
+          "text": "Diverse Questions & Actors\nThis study tests the impact of LLMs on a diverse set of biosecurity-\nrelevant tasks. These tasks cover various formats (i.e., multiple choice, long-answer, multiple select),\ndifferent biosecurity-relevant topics of concern, knowledge, and procedural tasks, and a range of\nrequired skills (i.e., software engineering, logical reasoning, fundamental knowledge).",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_5",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_6",
+          "text": "STEM COHORT\nN = 47 (STEM Background)",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_7",
+          "text": "ABC-Bench",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_8",
+          "text": "Long-Form Virology",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_9",
+          "text": "Agentic Benchmarks",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_10",
+          "text": "Control Human + Search",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_11",
+          "text": "Treatment Human + LLM",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_12",
+          "text": "Single Assignment",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_13",
+          "text": "NON-STEM COHORT\nN = 10 (Humanities Background)",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_14",
+          "text": "LAB-Bench\nWCB\nHLE",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_15",
+          "text": "MBCT\nVCT\nHPCT",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_16",
+          "text": "Static Benchmarks",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_17",
+          "text": "Control Human + Search",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_18",
+          "text": "Treatment Human + LLM",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_19",
+          "text": "Alternating Assignment",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_20",
+          "text": "Progress Report\nConfidence Scores\nGoogle Doc Notes\nBenchmark Scores",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_21",
+          "text": "(a) Overview of the experimental design, illustrating the participant\ngroups, the Control (internet-only) and Treatment (LLM-access)\nconditions, and the set of biosecurity benchmarks used in the study.",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_22",
+          "text": "Expert\nControl\nLLM\nTreatment\n0.0",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_23",
+          "text": "0.1",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_24",
+          "text": "0.2",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_25",
+          "text": "0.3",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_26",
+          "text": "0.4",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_27",
+          "text": "0.5",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_28",
+          "text": "0.6",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_29",
+          "text": "Score (0.0 - 1.0)",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_30",
+          "text": "26.4% 19.8%",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_31",
+          "text": "33.8%\n33.1%",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_32",
+          "text": "48.6%",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_33",
+          "text": "33.8%",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_34",
+          "text": "61.2%",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_35",
+          "text": "(b) Overall Performance Across All\nBenchmarks.\nAggregate performance\ncomparing four groups:\nhuman Ex-\nperts, novices without AI (Control), stan-\ndalone LLMs, and LLM-assisted novices\n(Treatment).\nBars show mean scores\nacross all participants/runs (solid) and the\ntop 50% of performers (translucent). Figure 1: Experimental design and resulting performance scores.",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_36",
+          "text": "We also assessed a diverse set of novices to represent different threat vectors. Our participants range\nfrom undergraduate and graduate-level STEM majors to expert red teamers. Evaluating these different\nnovice profiles allowed us to recover more robust evidence of LLM uplift.",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_37",
+          "text": "Qualitative Analysis\nFinally, we conducted a qualitative analysis, contributing three elements\nthat distinguish our study from existing work. We conducted a deeply comprehensive qualitative\ncharacterizations of human-LLM collaboration on long-duration tasks, cataloging 28 behaviors\nspanning various categories, such as deference, independence, sentiments, and safety. Moreover, we\nintroduce a cross-benchmark qualitative comparison, providing insight into how LLM assistance\naffects novice performance and what behaviors are associated with better outcomes—an analysis\ntypically absent from evaluations focused on between-condition comparisons. Lastly, we present the\nfirst qualitative account of biosecurity-specific interactions between novices and LLMs, documenting\nhow these models affect the novice experience with dual-use tasks.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nRelated Work",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "Dual-Use Biological Capabilities.\nLLMs have demonstrated significant advances in biological\ncapabilities, such as analyzing genomic data and designing complex molecular biology workflows.\nModels have exhibited capabilities that match or even, in some cases, exceed the performance of\nhuman experts [Götting et al., 2025, Arora et al., 2025, Dev et al., 2025, Justen, 2025, Hou et al., 2025,\nSarwal et al., 2023, Hendrycks et al., 2021, Rein et al., 2023, Li et al., 2024b, FutureHouse, 2025,\nStribling et al., 2024, Singhal et al., 2025, Pal et al., 2025, Jumper et al., 2021]. These capabilities\nhave helped propel biotechnology research in areas like gene editing and protein folding prediction,\nbut they could also increase the scale, prevalence, and impact of biological malicious use [Urbina\net al., 2022].",
+          "page": 3
+        },
+        {
+          "para_id": "2_2",
+          "text": "Biological Capability Uplift.\nA particular concern is that dual-use capabilities may lower the\nbarrier for novice actors who lack deep resources or biological knowledge, potentially assisting them\nwith information on how to design, disseminate, or acquire biological hazards [Pannu et al., 2025,\nNational Telecommunications and Information Administration, 2024, Facini, 2024, Knight et al.,\n2025, Grinbaum and Adomaitis, 2024, Egan and Rosenbach, 2023, Gopal et al., 2023, Sandbrink,\n2023, Soice et al., 2023, Mouton et al., 2024, Chen et al., 2024, Rose et al., 2024, Wang et al., 2025a].\nResearchers and policymakers have expressed concern about this potential for LLMs to provide",
+          "page": 3
+        },
+        {
+          "para_id": "2_3",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "2_4",
+          "text": "“uplift” to novices, decreasing the expertise, time, or resources necessary to operationalize complex\nbiological risks [Anthropic, 2025b, Soice et al., 2023, Knight et al., 2025].",
+          "page": 4
+        },
+        {
+          "para_id": "2_5",
+          "text": "Benchmarking Biorisk.\nIn response to these concerns, biosecurity experts, AI safety researchers,\nand frontier AI companies have begun to create specialized benchmarks and conduct internal and pub-\nlic risk assessments to evaluate this relative uplift [Götting et al., 2025, Li et al., 2024b, FutureHouse,\n2025, Engler et al., 2008, Gibson et al., 2009, Kosuri and Church, 2014, Neumann, 2021, Neumann\net al., 1999, Sharkey et al., 2024, Lorenz, 2012, Bird et al., 2022, Pryor et al., 2020, Engler et al.,\n2009, xAi, 2025, Phuong et al., 2024, OpenAI, 2025b, Meta, 2025, Peppin et al., 2025]. Based on\ncurrent evaluations, LLMs demonstrate particular strength in virology troubleshooting and molecular\ncloning workflow design, both of which could, under certain scenarios, reduce bottlenecks for novices\nseeking to produce a bioweapon of their own [Götting et al., 2025, Li et al., 2024b, FutureHouse,\n2025, Engler et al., 2008, Gibson et al., 2009, Kosuri and Church, 2014, Neumann, 2021, Neumann\net al., 1999, Sharkey et al., 2024, Lorenz, 2012, Bird et al., 2022, Pryor et al., 2020, Engler et al.,\n2009].",
+          "page": 4
+        },
+        {
+          "para_id": "2_6",
+          "text": "Challenges of Current Benchmarks.\nMost previous biology benchmark studies relied on single-\nturn evaluations, thereby testing a model’s knowledge from a single query. This static approach\nlikely underestimates the risk of assistance across an extended interaction [Li et al., 2024a, Gibbs\net al., 2024]. Recognizing this gap, Anthropic has conducted sustained novice uplift trials in their\ninternal evaluations of Claude 3.7 [Anthropic, 2025a] and Claude 4 [Anthropic, 2025b]. These trials\ndemonstrated notable uplift on bioweapons acquisition, a factor that contributed to Claude 4 Opus’s\nmore stringent safety designation (Anthropic’s AI Safety Level 3). While such sustained pre-deployment uplift studies are valuable, they typically assess the uplift\ncapacity of a single model at a time. This overlooks how adversaries might exploit combinations\nof LLMs in a mosaic to synthesize capabilities or bypass individual safeguards [Jones et al., 2024].\nPrevious uplift studies have also had extremely small sample sizes (e.g., 8 to 10 participants) and\nshorter time horizons. To address those gaps, and build upon previous work, we set up to evaluate\nnovices on a diverse set of public and private benchmarks, measuring user interaction with multiple\nmodels over extended time horizons.",
+          "page": 4
+        },
+        {
+          "para_id": "2_7",
+          "text": "Qualitative Analysis of Human-LLM Interaction.\nPrior qualitative research on human-LLM\ninteraction has generally fallen into two broad categories. The first includes abstract taxonomies\nthat map the high-level space of risks, categories, and tags [Schulhoff et al., 2024, Yu et al., 2025].\nThe second, in contrast, consists of task-centered empirical studies that typically report compact\nschemes of about 4 to 16 themes [Gao et al., 2024, Ammari et al., 2025, Bijker et al., 2024]. One\nstudy has also demonstrated the use of LLMs to assist in the analysis itself, finding the approach\nto be sound [Wang et al., 2025b]. Until now, however, these qualitative techniques have not been\napplied to biosecurity-relevant LLM usage.",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3\nMethod",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "The methodology detailed below outlines the experimental design, participant recruitment, task\nbenchmarks, and data collection procedures used to measure the performance uplift provided by\nLLM assistance.",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "3.1",
+      "section_title": "3.1\nParticipants",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.1_1",
+          "text": "We recruited two distinct cohorts of participants, all deemed biology novices based on their self-\nreported backgrounds (see Section A.3). We divided tasks into two categories: (1) multiple-choice\nand written tasks, and (2) coding and agentic tasks requiring basic programming skills. • Non-STEM Cohort (N = 10): Participants from diverse non-STEM backgrounds (e.g.,\nEnglish, philosophy, political science) completed multiple written and multiple-choice tasks\nover two months.\n• STEM Cohort (N = 47): Participants with STEM backgrounds and Python programming\nexperience completed the long-form coding and agentic tasks. Each participant in this cohort\ntypically completed one task.",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_2",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "3.1_3",
+          "text": "Table 1: Summary of benchmarks used in the uplift study. Includes task format for each benchmark\n(e.g., set choice, agentic).",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_4",
+          "text": "BENCHMARK NAME\nFORMAT Long-Form Virology (Separated)\nAgentic\nAgentic Bio-Capabilities Benchmark\nAgentic\nWorld Class Biology\nShort Response\nVirology Capabilities Test\nMulti-Select\nHuman Pathogen Capabilities Test\nMulti-Select\nMolecular Biology Capabilities Test\nMulti-Select\nLAB-Bench\nSingle-Select\nHumanity’s Last Exam\nSingle-Select",
+          "page": 5
+        },
+        {
+          "para_id": "3.1_5",
+          "text": "Some participants across both cohorts had prior experience in language model evaluation and prompt\nengineering.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "3.2",
+      "section_title": "3.2\nExperimental Design",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.2_1",
+          "text": "The study employed an experimental design contrasting two conditions: a Treatment condition with\nLLM access and a Control condition without. The assignment methodology differed by cohort: • The Non-STEM cohort (N = 10) followed a within-subjects design. Participants were\ndeterministically alternated between Control and Treatment conditions for successive tasks.\nThis design controls for individual differences in ability and background knowledge.\n• The STEM cohort (N = 47) followed a between-subjects design. Participants were\nassigned to a single condition (either Control or Treatment) for their assigned coding task. All participants were only allowed to use LLMs only if assigned to the Treatment condition. • Control Condition: Participants in the Control condition were restricted from using any\nLLMs. This included disabling AI-powered search features like Google’s “AI Overview” by\nusing the “Web” tab for searches. Control participants could use standard internet search\nand other information sources for their research.\n• Treatment Condition: Participants in the Treatment condition were encouraged to use\nLLMs to assist them in completing the tasks. They were provided access to a tool that\nhas interfaces connected to Gemini 2.5 Pro, o3, o4-mini, Claude 3.7 Sonnet, and Claude\nOpus 4 (after release), as well as a range of other models (refer to Figure 5 for the exact\nbreakdown). Additionally, they had access to Gemini Deep Research, a model with internet\naccess capable of generating detailed research reports. Participants were advised to use\nDeep Research judiciously, with a rate limit of one request per hour. Participants were assigned difficult, biology-related questions from various public and proprietary\nbenchmarks designed to assess the complex biological understanding. Each benchmark had a code\nname to help protect against cheating. For each task, participants were required to use a specific set\nof materials, including a new Google Doc for note-taking, the PDF of the assigned task question, the\ntask submission page on the platform, and a timer to track their work. Table 1 summarizes the benchmarks studied in this paper. Detailed descriptions of each benchmark,\nour participant allocations, and time constraints are provided in Section A.2.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "3.3",
+      "section_title": "3.3\nHuman Data Collection",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.3_1",
+          "text": "For the static benchmarks (VCT, WCB, MBCT, HPCT, LAB-Bench, and HLE), participants selected\ntheir task labels from a Google Sheet, which specified their starting assignment for condition (Control\nor Treatment) and used a simple prioritization system: participants worked on whichever benchmark\nhad the fewest completed tasks. This approach ensured balanced progress across all benchmarks and\nprotected against any single benchmark being disproportionately impacted by changes during the\nstudy.",
+          "page": 5
+        },
+        {
+          "para_id": "3.3_2",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "3.3_3",
+          "text": "For the long-form problem solving and coding benchmarks (Long-Form Virology and Agentic Bio-\nCapabilities Benchmark), novices with engineering backgrounds were randomly assigned a condition\nand task. For Long-Form Virology, an expert-level virology design challenge, novices were given\nthe specific published paper documenting the eight-plasmid reverse-genetics system underlying the\ntask; its results are closer to “paper interpretation with or without LLM assistance” than “de novo\nliterature search.” This framing likely compresses the potential uplift window by front-loading the\nkey resource. Additionally, LLMs were not provided with the paper given to participants, requiring\nthem to locate appropriate literature. To ensure scientific integrity, the subset of the study authors who conducted human data collection did\nnot have access to any of the ground truth answers (except the publicly released HLE and LAB-Bench)\nand was not provided results of the study until the completion of data collection. Further, to protect\nagainst participant cheating in the Control conditions, the platform, which hosted a range of frontier\nmodels, tracked all LLM calls. We cannot rule out that participants might have used LLMs off the\nplatform, but most of the written task participants were in-person staff who were paid on an hourly\nbasis without performance incentives, and who therefore had little to no incentive to cheat. The procedure for task completion is detailed in Section A.5.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3.4",
+      "section_title": "3.4\nLLM and Expert Baseline Data Collection",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.4_1",
+          "text": "For Long-Form Virology, LLM baseline data was collected from ten trials each on four models:\nOpenAI’s o3, Anthropic’s Claude Sonnet 4 and Opus 4, and Google’s Gemini 2.5 Pro Preview\n(05-06). Scores were averaged across all LFV tasks to compute the overall score of a model.\nRefusals were treated as scores of 0. The non-agentic, static benchmarks were evaluated with zero-shot prompting in a multiple-response\nformat, where LLMs had to identify all correct statements from a set of 4 to 10 true/false answer\nstatements. We used the Inspect evaluation framework developed by the UK AI Safety Institute\n[AI Security Institute, 2024] with its built-in multiple-choice solver and scorer. The multiple-response\nformat of the benchmarks was also used for determining the expert baseline. Experts, who had not\nseen the question before, were given 15 to 30 minutes to answer each question using any resources\nthey found helpful, except the assistance of LLMs or colleagues.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3.5",
+      "section_title": "3.5\nQualitative Techniques",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.5_1",
+          "text": "We use condition-blind LLM annotators, text embeddings, and regular expression patterns to analyze\npredominantly free-text responses from novices. We examine two different bases of analysis. First, we focused on responses, testing for comparative differences between conditions. We computed\nresponse-level summaries and differences by modeling each response as an observation indexed\nby participant, benchmark, and question. For continuous metrics, we fit linear mixed models with\nparticipant random effects and benchmark-nested question random intercepts; if these models failed\nto converge, we fell back to OLS with question fixed effects and cluster-robust standard errors. For\nbinary metrics, we fit logistic mixed models (variational Bayes), with GEE, clustered-SE logistic\nregression, and ridge-penalized logistic regression as fallbacks (including a separation guard). When\nquestion fixed effects were used, we also computed question-equal estimated marginal means and a\ncount-weighted sensitivity check. We formed 95% confidence intervals and two-sided p-values using\n2,000 Monte Carlo draws from a multivariate-normal approximation to the fixed-effect estimates, and\nwe controlled false discovery rate across benchmarks within each metric using Benjamini-Hochberg. Second, we focused on participants, illustrating (1) proportions of participants whose responses had\ncertain qualities and (2) numeric characteristics of an average response from an average participant.\nIt provides descriptive figures not designed to make comparisons between conditions. For the full methodology and definitions of included qualitative variables, see Section C.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3.6",
+      "section_title": "3.6\nLimitations",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.6_1",
+          "text": "The set of models to which the participants had access was not consistent throughout the study.\nClaude Opus 4 was released halfway through data collection and made available to participants to",
+          "page": 6
+        },
+        {
+          "para_id": "3.6_2",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "3.6_3",
+          "text": "simulate real-world conditions. Only 11% of participants used Opus 4, and analysis showed no\nsignificant impact on results. A few participants identified the specific questions for HLE and LAB-Bench that were posted in full\nonline. To mitigate this impact, we concluded the collection of data for HLE early and collected more\ndata samples from the other benchmarks. We did not conclude LAB-Bench early because the number\nof questions they could find online was minimal. Instead, we asked the participants not to look at the\ndirect answers and, by the same logic that prevented cheating above, are confident that they abided\nby this request. The absence of double-blinding may induce a subject-expectancy effect, which could bias estimates\nof LLM treatment effect on benchmark performance. The lack of subject blinding is due to practical\nconstraints since no placebo for LLM treatment exists. The accidental omission of a required section of the prompt for human participants and some instances\nof model refusal introduce limitations to our results on the Long-Form Virology (LFV) benchmark\nspecifically. More information on this is provided in Section B.1.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nEvaluation",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "Our evaluation demonstrates that access to multiple frontier LLMs over extended interactions provides\na substantial performance uplift to novices across a wide range of digital, dual-use biology-relevant\ntasks. Disaggregating results by benchmark, LLM-assisted novices outperformed their Control counterparts\non 7 out of 8 benchmarks (see Figure 2). Moreover, LLM-assisted novices outperformed expert\nbaselines on three of the four benchmarks for which expert data were available. Performance gains\nextend beyond answer accuracy. Across all tasks, participants in the Treatment condition reported\nsignificantly higher confidence than those in the Control condition. At the same time, novices in the Treatment condition were frequently outperformed by standalone\nLLMs. This pattern suggests that while LLM access confers a large advantage over existing non-AI\ntools, optimal performance on many tasks can be achieved without human intervention. The primary\nexception is the short-answer Humanity’s Last Exam (HLE). This divergence suggests that the value\nof human-in-the-loop interaction depends strongly on task structure and openness. Below, we present\nresults separately for short-answer knowledge benchmarks and longer, multi-step coding and agentic\ntasks (10 tasks total, spanning 8 benchmark suites).",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "4.1\nOverall Performance",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "Access to LLMs provides a large and statistically robust uplift in novice performance. Overall,\nnovices with LLM access are 4.16× more accurate than novices without LLM access (95% odds-\nratio confidence interval [2.63, 6.87]). After adjusting for variability, LLM access increases novice\naccuracy from approximately 5% to over 17%. Figure 1b visualizes aggregate performance across all\nbenchmarks. Figure 10 in the Appendix shows that the same qualitative pattern holds when restricting\nanalysis to benchmarks with expert baselines, indicating that observed human-AI collaboration gains\nare not driven by benchmark selection or difficulty.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "4.2",
+      "section_title": "4.2\nBenchmark-Specific Performance",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.2_1",
+          "text": "4.2.1\nTreatment vs. Control Condition Across both short-answer and coding benchmarks, LLM-assisted novices consistently and substan-\ntially outperformed novices restricted to standard internet access (Figure 2). For example, on the\nVirology Capabilities Test (VCT), the Treatment condition achieved a mean score of 0.277, compared\nto just 0.051 in the Control condition. This gap was even larger on the Human Pathogen Capabilities\nTest (HPCT), where the Treatment condition scored 0.413—nearly four times the Control score of\n0.104. The largest observed performance difference occurred in the ABC-Bench (Fragment) coding sub-task,\nwhere Treatment participants achieved a mean score of 0.778 versus 0.167 for Control participants\n(see Figure 13). For benchmarks with multiple-select answers (VCT, MBCT, HPCT), performance",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_2",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_3",
+          "text": "VCT\nWCB\nMBCT\nHPCT\nLAB-Bench\nHLE\nLFV\nABC-Bench\n0.0",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_4",
+          "text": "0.1",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_5",
+          "text": "0.2",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_6",
+          "text": "0.3",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_7",
+          "text": "0.4",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_8",
+          "text": "0.5",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_9",
+          "text": "0.6",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_10",
+          "text": "0.7",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_11",
+          "text": "0.8",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_12",
+          "text": "Score (0.0 - 1.0)",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_13",
+          "text": "Scores by Benchmark",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_14",
+          "text": "Control\nControl (Top 50%)\nTreatment\nTreatment (Top 50%)\nLLM\nLLM (Best)\nExpert Figure 2: Task accuracy across benchmarks. LLM assistance substantially elevates novice perfor-\nmance, often bringing Treatment accuracy close to or beyond that of LLM-only systems and human\nexperts.",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_15",
+          "text": "was also evaluated using edit distance, which captures partial correctness by counting additions\nor removals needed to match the correct answer set. Across all such benchmarks and at every\nintermediate checkpoint, the Treatment condition achieved consistently lower (i.e., better) edit\ndistances than the Control condition. The sole exception to this pattern is the Long-Form Virology (LFV) benchmark, where Control\n(0.582) and Treatment (0.534) performance were statistically similar. We hypothesize that this\nresult arises from paper provision: participants were given the canonical reverse-genetics paper,\ntransforming the task from literature discovery to paper interpretation.",
+          "page": 8
+        },
+        {
+          "para_id": "4.2_16",
+          "text": "4.2.2\nTreatment vs. Expert and LLM Baselines Comparisons between LLM-assisted novices, experts, and standalone LLMs reveal a nuanced\npattern. On most benchmarks with available data, the best-performing standalone LLM achieved the\nhighest mean score. For instance, on MBCT and LAB-Bench, LLM-only scores (0.492 and 0.633,\nrespectively) substantially exceeded Treatment means (0.253 and 0.422). However, this dominance is not universal. On HPCT, the Treatment condition’s mean score (0.413)\nnarrowly exceeded the average LLM-only score (0.411). More strikingly, on HLE, the Treatment\ncondition (0.278) clearly outperformed both the average (0.107) and best (0.211) LLM-only results,\nsuggesting that iterative human–LLM interaction provides particular value on less structured, open-\nended tasks. Relative to human experts, Treatment participants also demonstrated a strong advantage on several\nbenchmarks. On HPCT and VCT, LLM-assisted novices exceeded expert performance (0.413 vs.\n0.310 and 0.277 vs. 0.222, respectively). The primary exception is MBCT, where experts (0.325)\nretained an advantage over Treatment participants (0.253).",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "4.3",
+      "section_title": "4.3\nPerformance and Confidence Over Time",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.3_1",
+          "text": "Temporal dynamics further highlight the benefits of LLM access (see Section D). Across all bench-\nmarks, Treatment participants reported higher confidence than Control participants at every time\nstep. Performance trajectories mirror these confidence patterns. Scores for the Treatment condition\nimproved over time on most benchmarks, including World Class Biology, HPCT, and ABC-Bench\n(Fragment), indicating sustained benefits from extended interaction. In contrast, Control performance\nremained largely static. The primary exception was LFV, where Treatment performance slightly\ndeclined over time.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "4.4",
+      "section_title": "4.4\nConfidence Calibration",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.4_1",
+          "text": "Despite improved performance, participants in both conditions exhibited substantial overconfidence,\nwith observed scores falling well below perfect calibration (Figure 3). The calibration curves\nare consistently below the diagonal, indicating that reported confidence exceeds realized accuracy",
+          "page": 8
+        },
+        {
+          "para_id": "4.4_2",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "4.4_3",
+          "text": "Table 2: Key LLM effects on qualitative metrics. Stars indicate significance: * padj < 0.05, **\npadj < 0.01, *** padj < 0.001. Full results in Table 4.",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_4",
+          "text": "METRIC\nLLM EFFECT\npadj Chain-of-thought lists\n+0.223\n< 0.001***\nWord count\n+37.810\n< 0.001***\nResource count\n+0.382\n< 0.001***\nMajor error correction\n+0.372\n0.010**\nConfidence\n+0.333\n< 0.001***\nLLM refusal\n−0.019\n0.711",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_5",
+          "text": "across much of the range. Nevertheless, Treatment participants were better calibrated than Controls:\nfor the same stated confidence, they achieved higher average scores, and the Treatment curve is\ncloser to the diagonal at moderate-to-high confidence levels. Above 40% self-reported confidence,\nTreatment participants consistently achieved higher average scores. At 100% confidence, Treatment\nparticipants averaged approximately 0.45 accuracy, compared to roughly 0.35 for Controls. These\nresults suggest that while LLMs do not eliminate overconfidence, they improve the mapping from\nsubjective confidence to objective performance.",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_6",
+          "text": "0\n20\n40\n60\n80\n100\nConfidence",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_7",
+          "text": "0.0",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_8",
+          "text": "0.2",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_9",
+          "text": "0.4",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_10",
+          "text": "0.6",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_11",
+          "text": "0.8",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_12",
+          "text": "1.0",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_13",
+          "text": "Score",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_14",
+          "text": "Treatment\nControl",
+          "page": 9
+        },
+        {
+          "para_id": "4.4_15",
+          "text": "Figure 3: Confidence calibration. Both conditions exhibit overconfidence (curves below the\ndiagonal), but Treatment participants are better calibrated than Controls, particularly at moderate-to-\nhigh confidence.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "4.5",
+      "section_title": "4.5\nQualitative Analysis",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.5_1",
+          "text": "Our qualitative analysis provides insight into how LLM-assisted novices outperformed Control\nparticipants, why they underperformed LLMs alone on certain benchmarks, and whether current\nsafeguards could prevent malicious use effectively. Most notably, we find that (1) the vast majority of\nparticipants with LLM access did not express difficulty jailbreaking safeguards, and (2) participants\nin the Treatment condition generally exhibited a high degree of deference to the LLM’s suggestions. LLM access measurably changed how participants wrote. Treatment responses were longer and\ncontained more explicit “step-by-step” structure. For example, LLM access increased the presence of\nchain-of-thought lists by 22.3 percentage points of responses (95% CI [18.5%, 26.0%]; padj < 0.001)\nand increased discourse connectors (e.g., “therefore”) by 0.8 percentage points of tokens (95% CI\n[0.2%, 1.3%]; padj = 0.018). These patterns match the stylistic signatures of modern “thinking”\nmodels, which are trained to produce explicit lists and connective reasoning OpenAI [2024], Chung\net al. [2024], Reinhart et al. [2024].",
+          "page": 9
+        },
+        {
+          "para_id": "4.5_2",
+          "text": "9",
+          "page": 9
+        },
+        {
+          "para_id": "4.5_3",
+          "text": "At the same time, LLM access increased verbosity and slightly reduced clarity. Treatment responses\nwere about 37.8 words longer on average (95% CI [23.849, 51.019]; padj < 0.001) and had clarity\nscores about 0.1 standard deviations lower (95% CI [−0.150, −0.023]; padj = 0.020). This aligns\nwith prior evidence that LLM-generated text can be verbose and harder to read Singhal et al. [2023],\nShen et al. [2023], Bu et al. [2025], Saito et al. [2023], Hancı et al. [2024], Günay et al. [2024], Collins\net al. [2025], Cacciamani et al. [2024], Gencer [2024], Thia and Saluja [2024], Soon and Perry [2025],\nCohen et al. [2024a,b], Onder et al. [2024], Kabir et al. [2024], Li et al. [2025]. Overall, these results\nsuggest that Treatment responses often contained model-generated text, not only model-informed\nreasoning. LLM-assisted novices also did not defer completely to the models. Many participants attempted\nto verify outputs (83.1%), and about half expressed uncertainty when comparing answers across\ndifferent LLMs (51.9%). Given the evidence that novices can under-rely on LLMs even when the\nmodels outperform them [Vaccaro et al., 2024, Chung et al., 2024], suboptimal reliance strategies may\npartly explain why LLM-assisted novices underperformed standalone LLMs on many benchmarks.\nWe summarize participant-level behaviors and perceptions here and defer the full response-level\nresults to Tables 4 to 6. The most common reported forms of assistance were research (93.5% of\nLLM-assisted novices), direct answers to key questions (80.5%), and resource consultation (+0.161\naverage model-estimated sources per response). Participants most often rated conceptual explanations\n(35%) and information retrieval (25%) as the most useful forms of assistance; only a small minority\n(12%) rated error detection as most useful (Figure 6, Section D). Perceived usefulness also did not cleanly track measured drivers of performance. LLMs increased\nthe model-estimated frequency of major error correction by 37.2 percentage points of responses\n(95% CI [5.6%, 66.5%]; padj = 0.010) and resource lists by 16.1 percentage points. In contrast, LLM\naccess did not significantly change the rates of independent explanation (padj = 0.740) or independent\nresearch (padj = 0.381). This suggests that error correction—and, secondarily, resource consultation—\nmay better explain LLM-driven improvements than explanation or information gathering. LLM\nassistance also had mixed effects on sentiment. It increased model-estimated confidence by 33.3\npercentage points (95% CI [11.8, 51.5]; padj < 0.001) and gratitude by 45.0 percentage points (95%\nCI [0.042, 0.786]; padj = 0.039). Counterintuitively, LLM usage increased response frustration by 38.6 percentage points. We tenta-\ntively interpret this as evidence that LLMs do not necessarily make tasks feel easier. Instead, they\nmay help with tedious work and provide confident answers (raising confidence and gratitude), while\nalso producing verbose or hard-to-parse text and occasional failure modes (raising frustration and\noverwhelm). Most strikingly, 89.6% of Treatment participants provided no indication of difficulty overcoming\nsafeguards placed on the LLMs they used. This implies that current safety techniques not only fail\nto prevent dangerous, successful LLM use in biology but hardly even mitigate such use in realistic\nsituations.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5\nDiscussion",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "Across multiple benchmarks, large language model (LLM) safeguards failed to meaningfully impede\nnovice users from engaging with dual-use biological tasks. At the same time, LLM access substantially\nelevated novice performance—often to expert or super-expert levels. This combination implies\nthat LLMs may be materially lowering one of the most important historical barriers to biological\nweapons development: specialized expertise and tacit technical knowledge Ouagrham-Gormley\n[2014], National Academies of Sciences, Engineering and Medicine [2018]. Tasks that once required years of formal training, such as experimental design, protocol troubleshoot-\ning, and elements of sensitive sequence reasoning, can now be performed by individuals with limited\nprior experience. This expansion in access creates risk pathways both for deliberate misuse by\nmalicious actors and for harm from well-intentioned but insufficiently cautious individuals. Our results also highlight emerging dynamics in human-LLM collaboration. We observe that\nincreased human deference to LLM outputs is associated with improved novice performance in\nbenchmark settings, clarifying when under-reliance becomes detrimental to performance Zhang\net al. [2020], Buçinca et al. [2021]. If current trends continue and LLMs surpass humans across an",
+          "page": 10
+        },
+        {
+          "para_id": "5_2",
+          "text": "10",
+          "page": 10
+        },
+        {
+          "para_id": "5_3",
+          "text": "expanding set of tasks Grace et al. [2024], Müller and Bostrom [2016], Turing [1950], Brundage\n[2015], then under-reliance may become more prevalent and costly. From a safeguards perspective, we observe that outright refusals to answer dual-use queries are often\nless effective than providing plausible but incorrect or misleading information. Because refusals\nare easily identifiable as safety interventions, they may prompt determined users to seek alternative\npathways. In contrast, misleading responses can increase user confidence while diverting effort\ntoward unproductive or dead-end approaches, potentially offering a stronger deterrent in practice. There are several avenues for important future work. Further research should examine how to optimize\nhuman contributions to safe problem solving, including whether ensembles of LLMs can effectively\nevaluate and constrain one another’s outputs. Additionally, because our study was confined to digital\ntasks, understanding how these dynamics translate to physical wet-lab environments remains an\nurgent open question. Overall, our results provide evidence that LLMs can expand the pool of actors who can access\nbiological expertise and then use it to complete a wide range of in silico dual-use tasks. As such,\ngovernments and AI developers must either demonstrate that deployed models do not meaningfully\nreduce the difficulty of dangerous biology, or implement substantially stronger guardrails before such\nsystems are widely accessible.",
+          "page": 11
+        },
+        {
+          "para_id": "5_4",
+          "text": "Acknowledgements",
+          "page": 11
+        },
+        {
+          "para_id": "5_5",
+          "text": "We greatly appreciate the feedback from the entire SecureBio and Scale AI teams on the methodology,\nstudy development, and conceptual grounding of this paper. We are also grateful to the Scale Red\nTeam and the engineering volunteers for their countless hours, hard work, and dedication to ensuring\nthe comprehensiveness, scientific validity, and robustness of the study.",
+          "page": 11
+        },
+        {
+          "para_id": "5_6",
+          "text": "Impact Statement",
+          "page": 11
+        },
+        {
+          "para_id": "5_7",
+          "text": "This work documents a potential “barrier-lowering” attention hazard [Bostrom, 2011, Sandbrink,\n2023, Pannu et al., 2025] by demonstrating that LLMs can enable individuals with limited bioscience\ntraining to perform at or above expert levels, it reveals that cognitive and procedural expertise—\npreviously a natural barrier to potentially hazardous experimentation—can be externalized to a\ngeneral-purpose model. However, the decision to publish is ethically justified under the principle\nof informed openness [National Science Advisory Board for Biosecurity (US), 2023, Holmes et al.,\n2023]. Concealing evidence of this capability would obscure a rapidly changing risk landscape\nand impede the development of effective governance, training, and access controls. Importantly,\nthis publication omits any operational or instructional detail that could facilitate misuse, focusing\ninstead on aggregated results and implications for oversight. In this context, disclosure serves a\npreventive purpose: providing the biosecurity community with early evidence of capability erosion\nin expertise-based containment, and supporting the design of anticipatory safeguards before such\ncapacities become ubiquitous.",
+          "page": 11
+        },
+        {
+          "para_id": "5_8",
+          "text": "11",
+          "page": 11
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "doc_id": "2602.24273v1.pdf",
+  "sections": [
+    {
+      "section_title": "A",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Minimal",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Agent",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Automated",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Theorem",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Proving",
+      "text": ""
+    },
+    {
+      "section_title": "Borja",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Requena",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Austin",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Letson",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Krystian",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Nowakowski",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "Izan",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Beltran",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Ferreiro",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Leopoldo",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Sarra",
+      "text": ""
+    },
+    {
+      "section_title": "Axiomatic",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "AI,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Barcelona,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Spain",
+      "text": ""
+    },
+    {
+      "section_title": "{borja,leopoldo}@axiomatic-ai.com",
+      "text": " Abstract We propose a minimal agentic baseline that enables systematic comparison across different AI-based  theorem  prover  architectures.  This  design  implements  the  core  features  shared among  state-of-the-art  systems:  iterative  proof  refinement,  library  search  and  context management.  We evaluate this agentic approach using qualitatively different benchmarks and compare  various  frontier  language  models  and  design  choices.  Our "
+    },
+    {
+      "section_title": "results",
+      "text": "  show  competitive performance  compared  to  state-of-the-art  approaches,  while  using  a  significantly  simpler architecture.  Additionally, we demonstrate consistent advantages of an iterative approach over multiple single-shot generations, especially in terms of sample efficiency and cost effectiveness. The  implementation  is  released  open-source  as  a  candidate  reference  for  future  research  and as  an  accessible  prover  for  the  community."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " Automated  theorem  proving  represents  an  avenue  for  verifiable  scientific  reasoning  in  artificial intelligence  (AI).  It  can  enable  the  validation  of  proposed  arguments  and  their  conclusions through  a  rigorous  formalization,  typically  in  the  form  of  a  theorem  that,  if  proven,  certifies  the correctness of the arguments without the need of human intervention.  This is a great opportunity for the research community in general:  in the long run, not only can it speed up the verification of new theoretical results produced by mathematicians and scientists,  but it can also help grounding generative  models  into  logically  consistent  arguments,  possibly  enabling  automated  scientific contributions. A  very  popular  interactive  theorem  prover,  especially  in  the  AI  and  math  community,  is  Lean [1].  This  programming  language  has  been  used  in  several  mathematical  formalization  projects  [2, 3],  as  well  as  in  AI  research  projects  that  demonstrate  advanced  mathematical  reasoning  [4,  5]. However,  formal  methods  are  underused  despite  being  powerful  tools  with  broad  applicability in  scientific  and  engineering  domains,  such  as  theoretical  physics  [6,  7],  control  theory  [8,  9], or  even  quantum  algorithms  [10,  11].  Recent  advances  in  AI  tools  for  argument  formalization [12,  13]  and  theorem  proving  [5,  14–16]  are  lowering  the  barrier  to  entry  and  make  theorem provers  more  accessible  to  a  broader  community.  Nevertheless,  these  AI  systems  are  often  quite complex and difficult to adopt.  When open sourced, they typically require setting up a large-scale infrastructure  to  deploy  them,  and  when  based  on  off-the-shelf  proprietary  models,  they  tend  to be  expensive.  For  larger-scale  practical  adoption  of  AI-based  formalizers  and  theorem  provers, affordability  and  easiness  to  use  are  key. Currently,  several  approaches  for  AI-based  provers  are  being  explored,  with  a  particular emphasis  on  competition  math  as  a  proxy  for  evaluating  mathematical  reasoning  capabilities  [17, 18].  Many  works  assemble  together  several  complex  components,  including  fine-tuning  based  on reinforcement  learning  on  large-scale  synthetic  datasets  [19–21],  enforcing  supervised  fine-tuning"
+    },
+    {
+      "section_title": "arXiv:2602.24273v1  [cs.AI]  27 Feb 2026",
+      "text": " on  proof  traces  [4,  22],  or  proposing  agentic  architectures  with  advanced  recursive  decomposition and  several  tools  [14,  23]. While  these  systems  demonstrate  great  performance  on  the  established  benchmarks,  they may  quickly  lose  their  practical  applicability  due  to  the  fast  release  cadence  of  new  versions  of Lean  and  Mathlib  [24],  a  formal  mathematical  library  for  Lean.  Moreover,  unlike  a  few  years ago  when  the  general  large  language  model  (LLM)  capabilities  to  write  Lean  code  were  limited, making  fine-tuning  a  Lean-specialized  model  a  must,  recent  state-of-the-art  models  have  made significant  progress  in  closing  this  gap.  The  constant  improvement  of  LLMs  makes  it  hard  to disentangle  the  source  of  performance  improvements  between  different  provers:  do  we  observe  a better  performance  thanks  to  an  architectural  innovation,  or  is  it  mainly  due  to  using  a  more capable LLM? This is a critical distinction to make when trying to improve on the state-of-the-art. In this paper,  we propose AxProverBase,  a minimal agent for automated theorem proving.  Its design  is  shown  in  Figure  1.  We  identify  iterative  proof  refinement,  a  simple  context  management mechanism,  and  the  ability  to  search  as  the  current  main  sources  of  success  in  the  field,  in addition  to  the  choice  of  the  base  model  that  proposes  a  proof.  Thus,  we  design  a  modular architecture  that  features  these  main  components,  which  is  simple  enough  to  allow  us  to  conduct multiple  ablation  studies  as  we  build  it  from  the  bottom  up  to  clearly  understand  their  impact on  the  overall  performance.  We  show  that: •  The  ability  to  perform  iterative  proof  refinement  is  the  biggest  factor  for  the  performance and  it  alone  is  sufficient  to  outperform  many  complex  state-of-the-art  approaches. •  Memory  mechanisms  prevent  the  prover  from  running  in  circles,  yielding  the  second  largest performance  boost. •  Tools  to  search  through  Lean  libraries  like  Mathlib  are  helpful,  although  not  nearly  as impactful  as  the  previous  two  points. •  More  powerful  models  see  the  largest  performance  improvements  when  provided  with  the right  scaffolding,  capitalizing  on  their  capabilities  pays  off. •  Simple  agentic  approaches,  like  AxProverBase,  can  already  achieve  competitive  results, making  them  an  appealing  accessible  option  for  regular  use  in  real  projects. We  open  source  this  design  together  with  the  evaluation  infrastructure  to  encourage  its  use  as a  baseline  model  that  naturally  improves  over  time  with  the  progress  of  LLMs,  and  that  can be  improved  upon  by  tuning  each  of  its  main  parts.  In  addition,  the  proven  effectiveness  and simplicity  of  this  approach  may  also  encourage  its  adoption  by  the  theorem-proving  community."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "Related",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "work",
+      "text": ""
+    },
+    {
+      "section_title": "2.1",
+      "text": ""
+    },
+    {
+      "section_title": "Automated",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Theorem",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Provers",
+      "text": " In  recent  years,  two  main  directions  have  emerged  in  automated  theorem  proving:  tree-search methods  [4,  5,  22,  25–30]  and  whole  proof  generation  [14–16,  19,  21,  23,  31–34].  Tree-search methods  construct  the  proof  line-by-line,  interacting  with  the  Lean  environment  to  inform subsequent  proof  steps.  In  contrast,  whole  proof  generation  approaches  attempt  to  close  the proof  providing  all  the  code  at  once  before  compiling. Tree-search  methods. Tree-search  methods,  have  recently  achieved  significant  milestones  in automated  theorem  proving.  AlphaProof  [4]  is  perhaps  the  most  prominent  example.  It  achieved a  silver  medal  at  the  International  Mathematical  Olympiad  2024,  scored  56%  on  PutnamBench, and  saturated  the  MiniF2F  benchmark.  REAL-Prover  [28]  integrates  a  retrieval  mechanism  for Mathlib  search  (using  embedded  vector  space).  This  addition  shows  a  clear  advantage,  improving Tools Valid proof! Feedback Target theorem Proposed proof Figure  1:  Minimal  agent  for  theorem  proving.  The  design  focuses  on  three  main  aspects: iterative  proof  refinement,  memory  system,  and  access  to  tools.  A  proposer  agent  writes  Lean code  to  prove  a  given  theorem.  Then,  a  compiler  verifies  if  the  proposed  proof  works.  If  so,  it  is double-checked  by  a  reviewer  agent  to  prevent  any  form  of  cheating.  If  the  code  does  not  compile, or  the  reviewer  objects,  the  feedback  is  sent  to  the  memory  module,  and  the  cycle  starts  over with  the  proposer  refining  its  previous  proof.  In  addition,  the  proposer  can  be  given  access  to tools  such  as  library  search  or  web  search,  and  call  them  a  fixed  number  of  times  before  giving its  proposal. performance on the FATE-M benchmark by over 10%.  Aristotle [5] introduces interleaved informal reasoning  moments  and  a  specialized  geometry-solving  engine  to  a  tree-search-like  method. Whole-proof  methods. Whole-proof  methods,  on  the  other  hand,  are  currently  dominating the  PutnamBench  leaderboard  [17,  35]  (see "
+    }
+  ]
+}

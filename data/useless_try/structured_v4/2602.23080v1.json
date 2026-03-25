@@ -1,0 +1,2354 @@
+{
+  "doc_id": "2602.23080v1.pdf",
+  "title": "arXiv:2602.23080v1  [math.OA]  26 Feb 2026",
+  "abstract": ". Motivated by coarse geometry and the classical role of Roe algebras as large-scale\ninvariants of proper metric spaces, we show that proper quantum metric spaces as introduced by\nLatr´emoli`ere are noncommutative coarse spaces. This further allows us to develop a bridge between\nLatr´emoli`ere’s framework and the W*-metric approach to quantum metric spaces. Furthermore,\nwe construct Roe algebras for locally compact quantum metric spaces and verify that they recover\nthe classical Roe algebras in the commutative case. We furthermore apply this framework to some\nexamples of locally compact quantum metric spaces and show that it leads to the natural conclusion.\nFinally we use this framework to introduce notions of higher index theory for locally compact quantum\nmetric spaces.",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1. Introduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "1.1. Quantum metric spaces. Noncommutative geometry centers around the idea of generalizing\ngeometric and topological notions to the setting of noncommutative C*-algebras. One of these\nstructures is that of metric spaces. There have been two main approaches to define a noncommutative\nnotion of metric spaces:\nLipschitz seminorms approach: The first approach has its roots in the work of Alain Connes [1]\nwhere he introduced spectral triples as a noncommutative counterpart to Spin manifolds, and noted\nthat this structure can be used to construct a metric on the state space of the underlying C*-algebra.\nIndeed, if (𝔄, H, 𝐷) is a spectral triple with 𝔄a C*-algebra represented on a Hilbert space H\nand 𝐷the “Dirac operator”, an unbounded operator on H with compact resolvent, then the norm of\nthe commutator ∥[𝐷, 𝑎]∥has properties of the Lipschitz seminorm of 𝑎, and corresponds to the\nclassical case (𝐶(𝑀), 𝐿2(𝑀, 𝑆), 𝐷) of a spin manifold 𝑀. This leads to the definition of a distance\non the state space S(𝔄) of 𝔄by: 𝑑(𝜇, 𝜈) = sup{|𝜇(𝑎) −𝜈(𝑎)| : 𝑎∈𝔄, ∥[𝐷, 𝑎]∥≤1}. This approach was further axiomatized and developed by Rieffel [2], who introduced the notion\nof compact quantum metric spaces considering an arbitrary Lipschitz seminorm 𝐿on a unital\nC∗-algebra 𝔄. More recently, Latr´emoli`ere [3] extended this framework to locally compact quantum",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "E-mail address: hafid@ms.u-tokyo.ac.jp. 1",
+          "page": 1
+        },
+        {
+          "para_id": "1_3",
+          "text": "arXiv:2602.23080v1  [math.OA]  26 Feb 2026",
+          "page": 1
+        },
+        {
+          "para_id": "1_4",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "1_5",
+          "text": "metric spaces. Finding examples of compact and noncompact quantum metric spaces is an active\narea of research due to the analytical condition that the distance 𝑑(𝜇, 𝜈) = sup{|𝜇(𝑎) −𝜈(𝑎)| : 𝑎∈\n𝔄, ∥[𝐷, 𝑎]∥≤1} should metrize the weak* topology of the set of states (or a subset of it in the case\nof locally compact quantum metric spaces).\nThe Quantum relations approach: A different approach to define noncommutative metric\nspaces was introduced by Kuperberg and Weaver [4] using the notion of quantum relations. In this\nframework, a quantum relation on a von Neumann algebra 𝑀is defined as a weak* closed operator\nbimodule over its commutant 𝑀′. Kuperberg and Weaver then define a W*-quantum metric on 𝑀\nas a family of weak* closed operator systems (V𝑟)𝑟≥0 satisfying properties analogous to those of\noperators of propagation less than or equal to 𝑟on a metric space. This approach has as natural\nexamples quantum graphs (e.g. quantum expanders), and constructions related to quantum error\ncorrection in quantum computing. These examples are quite different from the ”geometrical” ones\narising in the Lipschitz seminorm approach, and a bridge between the two approaches becomes\ndesirable.\nIn [4], starting from this definition spaces corresponding to Lip(X) the space of Lipschitz functions\nhave been constructed, with technical subtleties. Furthermore, a W*-quantum metric structure was\nassociated to spectral triples. But the link between this approach and that of Rieffel/Latr´emoli`ere\nhas not been fully explored.",
+          "page": 2
+        },
+        {
+          "para_id": "1_6",
+          "text": "1.2. Coarse geometry. The definition of [4] is reminiscent of that of Roe algebras in the classical\nsetting. These algebras are coarse invariants (they only care about the large scale structure of the\nunderlying space) and have been widely studied and used in relation with index theory, the Novikov\nconjecture and coarse properties of the metric spaces [5] [6].\nIn the classical case, we thus have: • Any proper metric space is a coarse space.\n• For any coarse space, and a representation of the algebra of functions on a Hilbert space,\none can associate a Roe algebra.",
+          "page": 2
+        },
+        {
+          "para_id": "1_7",
+          "text": "Proper Metric Spaces\nforgetful functor\n−−−−−−−−−−−→\nCoarse Spaces\nRoe algebra\n−−−−−−−−−−→\n(not a functor) 𝐶∗-Algebras Based on the discussion above, we wish to replicate this construction to the noncommutative\nsetting. A notion of proper quantum metric spaces has been introduced in the framework of locally\ncompact quantum metric spaces of Latr´emoli`ere [7], furthermore a notion of noncommutative\ncoarse geometry has been developed in [8]. But the link between the two notions has not been yet\nestablished.",
+          "page": 2
+        },
+        {
+          "para_id": "1_8",
+          "text": "1.3. Seminorms on Roe algebras: Relative commutants. Again, in the case of 𝑋being a metric\nspace, we have the following folklore inequality (see for instance [6])",
+          "page": 2
+        },
+        {
+          "para_id": "1_9",
+          "text": "∥[𝑇, 𝑓]∥≤8prop(𝑇)∥𝑇∥𝐿( 𝑓),",
+          "page": 2
+        },
+        {
+          "para_id": "1_10",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "1_11",
+          "text": "where 𝐿is the Lipschitz seminorm of 𝑓∈𝐶𝑏(𝑋) and 𝑇is a finite propagation operator. In some\nsense this inequality indicates a duality between prop(𝑇)∥𝑇∥and 𝐿( 𝑓). More precisely, if we\ndefine:",
+          "page": 3
+        },
+        {
+          "para_id": "1_12",
+          "text": "𝐿∗(𝑇) = sup{∥[𝑇, 𝑓]∥: 𝑓∈𝐶0(𝑋), 𝐿( 𝑓) ≤1},",
+          "page": 3
+        },
+        {
+          "para_id": "1_13",
+          "text": "then 𝐿∗is a seminorm that satisfies:",
+          "page": 3
+        },
+        {
+          "para_id": "1_14",
+          "text": "∥[𝑇, 𝑓]∥≤𝐿( 𝑓)𝐿∗(𝑇)",
+          "page": 3
+        },
+        {
+          "para_id": "1_15",
+          "text": "and satisfies the Leibniz inequality 𝐿∗(𝑆𝑇) ≤∥𝑆∥𝐿∗(𝑇) + 𝐿∗(𝑆)∥𝑇∥.\nWhile the Roe algebra is contained within the C∗algebra generated by finite 𝐿∗seminorm locally\ncompact operators, the inverse inclusion does not hold in general; in fact, the equality is closely\nrelated to a conjecture of Roe that was solved in [9]. To what extent is this seminorm 𝐿∗related to\nthe propagation?",
+          "page": 3
+        },
+        {
+          "para_id": "1_16",
+          "text": "1.4. Summary of results. In this work we give the following answers to the questions/program\nabove: • Theorem 3.5: With the additional datum given by a representation on a Hilbert space, locally\ncompact quantum metric spaces in the sense of Latr´emoli`ere [3] give rise to W*-metric\nspaces in the sense of Kuperberg and Weaver [4].\n• Theorem 4.5 and 4.7: With the additional datum given by a representation on a Hilbert space,\nW*-metric spaces, and thus locally compact quantum metric spaces are noncommutative\ncoarse spaces in the sense of [8].\n• Theorems 5.2 and 5.5: In the case of classical metric spaces, the spectral Roe algebra and\nthe Higson compactification coincide with the classical notions.\n• Section 5: New examples of locally compact quantum metric spaces are provided: coarse\ndisjoint unions, and almost-commutative locally compact quantum metric spaces, furthermore\nalmost-commutative locally compact quantum metric spaces are shown to be coarsely\nequivalent to the underlying classical metric space: theorem 5.15.\n• Theorem 6.5: A Higher index can be defined for locally compact quantum metric spaces,\nand under further assumptions on the asymptotic behavior of commutators of elements in\nthese spaces, this higher index can be defined for all K-homology classes. Remarkably, this\ncrucially uses the fundamental characterization of locally compact quantum metric spaces\n(theorem 2.9).\n• Proposition 6.1: In the case of nonunital spectral triples, one can define the Higher index of\nthe Dirac operator without further assumptions.\n• Theorem 3.16 and section 6.3.1: As a side result relevant to classical setting, we show that\nrelative commutant Lipschitz seminorm and finite propagation are essentially the same in\nthe case of classical metric spaces with finite dimension at all scales (Finite Assouad-Nagata\ndimension).",
+          "page": 3
+        },
+        {
+          "para_id": "1_17",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "1_18",
+          "text": "Contents",
+          "page": 4
+        },
+        {
+          "para_id": "1_19",
+          "text": "1.\nIntroduction\n1\n1.1.\nQuantum metric spaces\n1\n1.2.\nCoarse geometry\n2\n1.3.\nSeminorms on Roe algebras: Relative commutants\n2\n1.4.\nSummary of results\n3\n2.\nPreliminaries\n5\n2.1.\nLocally Compact Quantum Metric Spaces\n5\n2.2.\nNoncommutative coarse geometry\n8\n2.3.\nW*-quantum metric spaces\n10\n3.\nRoe algebras: Propagation and Commutation seminorm quantum metric spaces\n11\n3.1.\nSpectral Roe algebras\n11\n3.2.\nRelative commutant Roe algebra\n14\n3.3.\nSpectral Roe algebras relative to a subalgebra and topographic Roe algebra\n18\n4.\nGeneralized Higson compactification\n20\n4.1.\nSpectral Higson compactification\n20\n4.2.\nRelative commutant algebra Higson compactification\n22\n5.\nExamples of Coarse quantum metric spaces\n22\n5.1.\nThe commutative case\n22\n5.2.\nCompact Quantum Metric spaces\n26\n5.3.\nCoarse disjoint unions of Compact Quantum Metric spaces\n27\n5.4.\nAlmost-commutative Lipschitz triples\n29\n5.5.\nDirac operators in spectral triples and finite Lipschitz commutant seminorm\n35\n6.\nHigher index theory\n37\n6.1.\nRelative commutant Roe algebras valued index\n37\n6.2.\nLipschitz controlled K-theory and quantitative K-theory, a comparison for finite\nAssouad-Nagata dimension\n42\n6.3.\nIndex valued in the Roe algebra of a commutative subalgebra\n42\n7.\nOutlook\n45\n7.1.\nMore examples of spectral Roe algebra computations\n45\n7.2.\nGeometric realization of (finite) W*-quantum metric spaces\n45\n7.3.\nSpectral triples\n46\n7.4.\nIndex theory\n46\n7.5.\n𝐿∗seminorms\n46\nReferences\n46",
+          "page": 4
+        },
+        {
+          "para_id": "1_20",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "1_21",
+          "text": "Acknowledgments . The author would like to express his gratitude to his supervisor, Professor\nKAWAHIGASHI Yasuyuki, for his constant support and encouragement. He is also grateful to\nProfessor KUBOTA Yosuke for valuable remarks and comments that significantly improved this\nwork. Finally, he would like to thank Professor LATR´EMOLI`ERE Fr´ed´eric for insightful discussions\nduring a short visit to the University of Denver. This work was partly supported by the Forefront\nPhysics and Mathematics Program to Drive Transformation.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2. Preliminaries",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "Here and there after we adopt the following notation conventions for the objects considered: – H, K denote Hilbert spaces,\n– 𝔄, 𝔅, 𝔐. . . denote C∗-algebras (underlying quantum metric spaces),\n– 𝑋for locally compact spaces,\n– 𝑀for von Neumann algebras. Along with the following notations of standard constructions on these objects: – B(H) denotes the set of bounded operators on H,\n– K(H) denotes the set compact operators on H,\n– 𝜎(𝔐) denotes the Gelfand spectrum of an abelian C∗-algebra 𝔐,\n– 𝔰𝔞(𝔄) denotes the self-adjoint part of a C∗-algebra 𝔄,\n– 𝔲𝔄denotes the unitization of a C∗-algebra 𝔄,\n– M(𝔄) denotes the multiplier algebra of a C∗-algebra 𝔄.",
+          "page": 5
+        },
+        {
+          "para_id": "2_2",
+          "text": "2.1. Locally Compact Quantum Metric Spaces. The notion of compact quantum metric spaces\nwas defined, based on the formula of the distance between probability measures on compact metric\nspaces due to Kantorovich, and considered by Connes and by Rieffel in [2]. This notion was later\nextended to the locally compact case by Latr´emoli`ere in [3]. We present here this definition of locally\ncompact quantum metric spaces. As we will be dealing mainly with proper quantum metric spaces,\nall the algebras 𝔄and 𝔐involved in this section and thereafter will be assumed to be separable.\nQuantum metric spaces (at least in their C*-version) are defined by equipping a C∗∗-algebra with a\nLipschitz seminorms. Indeed in the classical case, the Lipschitz seminorms recover the distance.",
+          "page": 5
+        },
+        {
+          "para_id": "2_3",
+          "text": "Definition 2.1 (Lipschitz pair). A Lipschitz pair (𝔄, 𝐿) is given by a C∗-algebra 𝔄and a seminorm\n𝐿defined on a dense subspace dom(𝐿) of the self-adjoint part of the unitization 𝔰𝔞(𝔲𝔄) of 𝔄, such\nthat: {𝑎∈𝔰𝔞(𝔲𝔄) : 𝐿(𝑎) = 0} = R1𝔲𝔄",
+          "page": 5
+        },
+        {
+          "para_id": "2_4",
+          "text": "The seminorm 𝐿generalizes the notion of the Lipschitz seminorm for functions on a metric space.\nGiven a Lipschitz pair (𝔄, 𝐿), one can define a metric on the state space S(𝔄) of 𝔄by:",
+          "page": 5
+        },
+        {
+          "para_id": "2_5",
+          "text": "mk𝐿(𝜇, 𝜈) = sup{|𝜇(𝑎) −𝜈(𝑎)| | 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1}",
+          "page": 5
+        },
+        {
+          "para_id": "2_6",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "2_7",
+          "text": "Looking at the classical case, while for compact metric spaces, this metric metrizes the weak*\ntopology on the state space, for locally compact metric spaces this is no longer true in general.\nThis is because, in some sense, the fact that measures can escape to infinity prevents sequential\ncompactness. Instead, Dobrushin [10] shows that if one restricts to sets of measures satisfying a\ntightness condition, then the Monge-Kantorovich metric metrizes the weak* topology on these sets:",
+          "page": 6
+        },
+        {
+          "para_id": "2_8",
+          "text": "Theorem 2.2 (Dobrushin [10]). If S is a set of Borel probability measures on a locally compact\nmetric space (𝑋, 𝑑) such that for some 𝑥0 ∈𝑋: lim\n𝑟→∞sup{\n∫",
+          "page": 6
+        },
+        {
+          "para_id": "2_9",
+          "text": "𝑥:𝑑(𝑥,𝑥0)>𝑟\n𝑑(𝑥, 𝑥0)𝑑𝜇(𝑥) : 𝜇∈S} = 0, then the Monge-Kantorovich metric mk𝐿metrizes the weak* topology on S. Quantum compact metric spaces are required to satisfy the condition that the Monge-Kantorovich\nmetric metrizes the weak* topology on the state space, or equivalently that the unit ball of the\nLipschitz seminorm is totally bounded for the quotient norm on 𝔰𝔞(𝔄)/R1.",
+          "page": 6
+        },
+        {
+          "para_id": "2_10",
+          "text": "Definition 2.3 (quantum compact metric spaces [2]). A quantum compact metric space is a unital\nLipschitz pair (𝔄, 𝐿) such that the Monge-Kantorovich metric mk𝐿metrizes the weak* topology on\nthe state space S(𝔄).",
+          "page": 6
+        },
+        {
+          "para_id": "2_11",
+          "text": "It was shown in [2] that this definition is equivalent to the total boundedness of the unit ball of the\nLipschitz seminorm for the quotient norm on 𝔰𝔞(𝔄)/R1.\nSimilarly, in [3] locally compact quantum metric spaces were required to satisfy the condition that\nthe Monge-Kantorovich metric metrizes the weak* topology on certain subsets of the state space\nthat generalize the above Dobrushin tightness condition. To this end, the notion of topography was\nintroduced to play the role of specifying a notion lim𝑟→∞∗= 0. Definition 2.4 (Lipschitz triple). A Lipschitz triple is a triple (𝔄, 𝔐, 𝐿) where: • (𝔄, 𝐿) is a Lipschitz pair,\n• 𝔐is an abelian C∗-subalgebra of 𝔄, called the topography, such that 𝔐contains an\napproximate unit for 𝔄,",
+          "page": 6
+        },
+        {
+          "para_id": "2_12",
+          "text": "The topography 𝔐plays the role of specifying which elements of 𝔄vanish at infinity, and allows\none to define local states.",
+          "page": 6
+        },
+        {
+          "para_id": "2_13",
+          "text": "Definition 2.5 (Local states [3]). We introduce the following: • A state 𝜇∈S(𝔄) is a local state supported in 𝐾⊂𝜎(𝔐) compact if 𝜇(𝜒𝐾) = 1. If this\ncondition is satisfied we shall say that 𝜇is in S(𝔄|𝐾).\n• The set of local states is denoted by S(𝔄|𝔐): S(𝔄|𝔐) =\nØ",
+          "page": 6
+        },
+        {
+          "para_id": "2_14",
+          "text": "𝐾⊂𝜎(𝔐) compact\nS(𝔄|𝐾). We define tame subsets of the state space S(𝔄) that generalize the Dobrushin tightness condition.",
+          "page": 6
+        },
+        {
+          "para_id": "2_15",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "2_16",
+          "text": "Definition 2.6 (Tame subsets of the state space [3]). A subset S ⊆S(𝔄) is tame if for some (hence\nany) local state 𝜇∈S(𝔄|𝔐) we have: lim\n𝐾∈K(𝜎(𝔐)) sup{|𝜑(𝑎−𝜒𝐾𝑎𝜒𝐾)| : 𝜑∈S, 𝑎∈𝔰𝔞(𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0} = 0. With these notions we can now define locally compact quantum metric spaces.",
+          "page": 7
+        },
+        {
+          "para_id": "2_17",
+          "text": "Definition 2.7 (locally compact quantum metric spaces [3]). A Lipschitz triple (𝔄, 𝔐, 𝐿) is called\na locally compact quantum metric space if the Monge-Kantorovich metric mk𝐿metrizes the weak*\ntopology on any tame subset of the state space S(𝔄).",
+          "page": 7
+        },
+        {
+          "para_id": "2_18",
+          "text": "Remark 2.8. Note that for any compact 𝐾in 𝜎(𝔐), the set of local states S(𝔄|𝐾) is tame. Thus\nthe Monge-Kantorovich metric metrizes the weak* topology on S(𝔄|𝐾), in particular: diam(S(𝔄|𝐾), mk𝐿) < ∞. Lipschitz triples satisfying this condition are called regular.",
+          "page": 7
+        },
+        {
+          "para_id": "2_19",
+          "text": "Generalizing the characterization of compact quantum metric spaces in [2], [3] provides a\ncharacterization of locally compact quantum metric spaces in terms of total boundedness of certain\nsets.",
+          "page": 7
+        },
+        {
+          "para_id": "2_20",
+          "text": "Theorem 2.9 (See [3]). A Lipschitz triple (𝔄, 𝔐, 𝐿) is a locally compact quantum metric space if\nand only if one of the following equivalent conditions holds: • For all local states 𝜇∈S(𝔄|𝔐) and for all compactly supported 𝑠, 𝑡∈𝔐, the set: {𝑠𝑎𝑡| 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0}",
+          "page": 7
+        },
+        {
+          "para_id": "2_21",
+          "text": "is totally bounded for the norm topology of 𝔄.\n• There exists a local state 𝜇∈S(𝔄|𝔐) such that for all compactly supported 𝑠, 𝑡∈𝔐, the\nset:\n{𝑠𝑎𝑡| 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0} is totally bounded for the norm topology of 𝔄.\n• (only if 𝔄is separable) There exists a local state 𝜇∈S(𝔄|𝔐) and a strictly positive element\nℎ∈𝔐such that the set: {ℎ𝑎ℎ| 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0}",
+          "page": 7
+        },
+        {
+          "para_id": "2_22",
+          "text": "is totally bounded for the norm topology of 𝔄.",
+          "page": 7
+        },
+        {
+          "para_id": "2_23",
+          "text": "Remark 2.10. In particular all the Lipschitz triples in this paper will be assumed to be separable\n(since we will be working with proper quantum metric spaces, see below).",
+          "page": 7
+        },
+        {
+          "para_id": "2_24",
+          "text": "Recall that in the classical case, Lipschitz seminorms satisfy the Leibniz condition:",
+          "page": 7
+        },
+        {
+          "para_id": "2_25",
+          "text": "𝐿( 𝑓𝑔) ≤∥𝑓∥𝐿(𝑔) + 𝐿( 𝑓)∥𝑔∥. This condition has been considered in the quantum case as well.",
+          "page": 7
+        },
+        {
+          "para_id": "2_26",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "2_27",
+          "text": "Definition 2.11 (Leibniz Lipschitz pair [7]). A Leibniz Lipschitz pair is a Lipschitz pair (𝔄, 𝐿)\nsuch that: • the domain dom(𝐿) is a Jordan-Lie subalgebra of 𝔰𝔞(𝔲𝔄) i.e. it is closed under the Jordan\nbracket 𝑎◦𝑏= 𝑎𝑏+𝑏𝑎",
+          "page": 8
+        },
+        {
+          "para_id": "2_28",
+          "text": "2\nand the Lie bracket {𝑎, 𝑏} = 𝑎𝑏−𝑏𝑎",
+          "page": 8
+        },
+        {
+          "para_id": "2_29",
+          "text": "2𝑖\n,\n• for all 𝑎, 𝑏∈dom(𝐿), we have: 𝐿(𝑎◦𝑏) ≤∥𝑎∥𝐿(𝑏) + 𝐿(𝑎)∥𝑏∥, 𝐿({𝑎, 𝑏}) ≤∥𝑎∥𝐿(𝑏) + 𝐿(𝑎)∥𝑏∥. As the spaces considered in coarse geometry are proper metric spaces, we will need a definition\nof properness for quantum metric spaces.\nDenote by 𝔏𝔬𝔠(𝔄, ∗) the set of local elements: 𝔏𝔬𝔠(𝔄, ∗) =\nØ",
+          "page": 8
+        },
+        {
+          "para_id": "2_30",
+          "text": "𝐾⊂𝜎(𝔐) compact\n𝔰𝔞(𝜒𝐾𝔄𝜒𝐾) ∩dom(𝐿). Definition 2.12 (locally compact proper quantum metric spaces [3]). A locally compact quantum\nmetric space (𝔄, 𝔐, 𝐿) is said to be proper if • 𝔄is separable,\n• (𝔄, 𝐿) is a Leibniz Lipschitz pair,\n• 𝐿is lower semi-continuous with respect to the norm topology on 𝔰𝔞(𝔄),\n• 𝔏𝔬𝔠(𝔄, ∗) ∩dom(𝐿) is norm dense in dom(𝐿),\n• 𝔏𝔬𝔠(𝔄, ∗) ∩dom(𝐿) ∩𝔐is norm dense in 𝔐,\n• (𝜎(𝔐), mk𝐿|𝔐) induced by (𝔐, 𝐿|𝔐) is a proper metric space, i.e., all closed balls are\ncompact. (note that 𝐿|𝔐is densely defined on 𝔐by the conditions above). A more restrictive, easier to deal with notion of properness, called strong properness, was also\nintroduced in [3].",
+          "page": 8
+        },
+        {
+          "para_id": "2_31",
+          "text": "Definition 2.13 (strongly proper quantum metric spaces [3]). A locally compact quantum metric\nspace (𝔄, 𝔐, 𝐿) is said to be strongly proper if: • 𝐿can be extended to a dense subset of 𝔄, such that: 𝐿(𝑎𝑏) ≤∥𝑎∥𝐿(𝑏) + 𝐿(𝑎)∥𝑏∥. • 𝔄is separable and 𝐿is lower semi-continuous,\n• {𝑚∈𝔰𝔞(𝔐) | 𝐿(𝑚) < ∞},\n• there exists an approximate unit (𝑒𝑛)𝑛∈N in 𝔐for 𝔄such that for all 𝑛∈N, we have\n∥𝑒𝑛∥≤1, 𝑒𝑛∈𝜒𝐾𝑛𝔄𝜒𝐾𝑛for some compact 𝐾𝑛⊂𝜎(𝔐), and lim𝑛→∞𝐿(𝑒𝑛) = 0. 2.2. Noncommutative coarse geometry. Definition 2.14 (noncommutative coarse geometry [8]). A noncommutative coarse space is a pair\n(𝔄, 𝔄) where 𝔄is a 𝐶∗-algebra and 𝔄is a unital 𝐶∗-subalgebra of the multiplier algebra M(𝔄)\ncontaining 𝔄.",
+          "page": 8
+        },
+        {
+          "para_id": "2_32",
+          "text": "9",
+          "page": 9
+        },
+        {
+          "para_id": "2_33",
+          "text": "Remark 2.15. The datum above is equivalent to the datum of a unital 𝐶∗-algebra 𝔄of which 𝔄is an\nessential ideal.",
+          "page": 9
+        },
+        {
+          "para_id": "2_34",
+          "text": "In the above, the algebra 𝔄plays the role of the algebra of “slowly oscillating functions” and\ngeneralizes the Higson compactification in the commutative case. The pair encodes the large-scale\n(coarse) geometry of the noncommutative space. We recall below the precise statements in the\nmotivating classical case, we refer to [11] and [8] for more details.",
+          "page": 9
+        },
+        {
+          "para_id": "2_35",
+          "text": "Definition 2.16 (Higson compactification). For 𝑋a proper coarse space: • The algebra of slowly oscillating functions is given by: 𝐶ℎ(𝑋) = { 𝑓∈𝐶𝑏(𝑋) : d 𝑓vanishes at infinity on controlled sets}. where d 𝑓(𝑥, 𝑦) = 𝑓(𝑥) −𝑓(𝑦) for all (𝑥, 𝑦) ∈𝑋× 𝑋.\n• The spectrum of 𝐶ℎ(𝑋) is called the Higson compactification of 𝑋and is denoted by ℎ𝑋.\n• In the case of proper metric spaces (𝑋, 𝑑), this definition can be made more explicit, and\none has:",
+          "page": 9
+        },
+        {
+          "para_id": "2_36",
+          "text": "𝐶ℎ(𝑋) = { 𝑓∈𝐶𝑏(𝑋) :∀𝑅> 0, ∀𝜀> 0, ∃𝐾⊂𝑋compact, ∀𝑥, 𝑦∉𝐾, 𝑑(𝑥, 𝑦) ≤𝑅⇒| 𝑓(𝑥) −𝑓(𝑦)| ≤𝜀}.",
+          "page": 9
+        },
+        {
+          "para_id": "2_37",
+          "text": "Furthermore if one starts from a compactification 𝑋of a locally compact space 𝑋, one can define\na coarse structure on 𝑋, denoted by 𝑡𝑋, by declaring a subset 𝐸⊂𝑋× 𝑋to be controlled if and\nonly if nets in 𝐸, (𝑥𝑖, 𝑦𝑖) converge to 𝜕𝑋only mutually, i.e. if 𝑥𝑖→𝜔∈𝜕𝑋then 𝑦𝑖→𝜔as well.\nIt is then shown in [11], [8] that these two constructions are inverse of each other in the case of\nproper metric spaces, i.e. starting from a proper metric space 𝑋, the coarse structure induced by the\nHigson compactification coincides with the coarse structure coming from the metric, and starting\nfrom a compactification 𝑋of a locally compact space 𝑋, the Higson compactification of the coarse\nstructure induced by 𝑋coincides with 𝑋. This motivates the noncommutative definition relying on\nfixing an analogue to the algebra of slowly oscillating functions.\nAlthough the two constructions are in some sense equivalent to each other, the coarse structures\nobtained from considering a compactified topological space (with respect to some natural compacti-\nfication, for instance if one considers a manifold with boundary), and those obtained from the metric\ncoarse structure can be very different. For instance, already for R with its usual metric, the Higson\ncompactification associated with the metric coarse structure is not second countable. If one has a\nlocally compact Riemannian manifold 𝑀that can be viewed as the interior of a compact manifold\nwith boundary 𝑀, then the coarse structure induced by the compactification 𝑀is in general different\nfrom the metric coarse structure. The interplay between the two can lead to interesting results, in\nindex theory in particular, see for instance [12].",
+          "page": 9
+        },
+        {
+          "para_id": "2_38",
+          "text": "Example 2.17 (The Euclidean plane). Consider R2, then one obtains two coarse structures: • The metric coarse structure coming from the usual Euclidean metric.",
+          "page": 9
+        },
+        {
+          "para_id": "2_39",
+          "text": "10 • The coarse structure induced by the compactification R2 \u001b D2 ⊂D\n2. Where D\n2 (resp. D2)\nis the closed (resp. open) unit disk. In [8] two constructions of noncommutative coarse structures are considered: • One obtained from continuously square-integrable, cocompact actions of locally compact\ngroups on 𝐶∗-algebras, which generalizes the fact that a cocompact action of a locally\ncompact group 𝐺on a locally compact space 𝑋induces a coarse structure on 𝑋, that makes\n𝑋coarsely equivalent to 𝐺. This construction is reminiscent of the metric coarse structure\non R2, if one considers the action of R2 (or Z2) on R2 by translations, but it starts from an\naction of a group, rather than from a metric.\n• One obtained from Rieffel deformation of 𝑋, 𝑋, again equipped with a continuous action\nof 𝐺. The main example being the Moyal plane, obtained from the Rieffel deformation of\nR2, along with the Rieffel deformation of D\n2. This construction is thus reminiscent of the\nsecond coarse structure above.",
+          "page": 10
+        },
+        {
+          "para_id": "2_40",
+          "text": "In this paper we take a different approach since we start from a quantum metric space, in particular\nwe are motivated by the case of the Moyal plane, where we can start from the quantum metric\nstructure constructed in [3], rather than from a Rieffel deformation, this is reminiscient of the metric\ncoarse structure on R2. Comparing with the “topological coarse struture” on the Moyal plane\nconsidered in [8] in order to conceptualize some index computations on the Moyal plane would be\nan interesting question for future research.",
+          "page": 10
+        },
+        {
+          "para_id": "2_41",
+          "text": "2.3. W*-quantum metric spaces. Kuperberg and Weaver in [4] introduced a notion of quantum\nmetric spaces in the setting of von Neumann algebras, inspired by the notion of finite propagation\noperators. We recall here some of their definitions.",
+          "page": 10
+        },
+        {
+          "para_id": "2_42",
+          "text": "Definition 2.18 (W*-filtration [4]). A W*-filtration of B(H) is a family V = (V𝑟)𝑟≥0 of dual\noperator systems (i.e. weak* closed self-adjoint unital subspaces) in B(H) such that: (1) ∀𝑟, 𝑠≥0, V𝑟· V𝑠⊆V𝑟+𝑠,\n(2) ∀𝑟≥0, V𝑟= Ñ\n𝑠>𝑟V𝑠. Definition 2.19 (W*-quantum metric space [4]). A W*-quantum pseudometric space is a von\nNeumann algebra M ⊂B(H) such that B(H) has a W*-filtration V = (V𝑟)𝑟≥0 such that M′ ⊆V0.\nIf in addition M′ = V0, then we say that (M, V) is a W*-quantum metric space.",
+          "page": 10
+        },
+        {
+          "para_id": "2_43",
+          "text": "The intuition is that the elements of V𝑟are operators of propagation at most 𝑟. In the commutative\ndiscrete case, if 𝑋is a discrete metric space with metric 𝑑, and H = 𝑙2(𝑋), then one can define: V𝑑\n𝑟= {𝑇∈B(𝑙2(𝑋)) : 𝑑(𝑥, 𝑦) > 𝑟⇒⟨𝑇𝛿𝑥, 𝛿𝑦⟩= 0}. Then (𝑙∞(𝑋), V𝑑) is a W*-quantum metric space. V0 are operator of propagation 0, i.e. multiplica-\ntion operators.",
+          "page": 10
+        },
+        {
+          "para_id": "2_44",
+          "text": "11",
+          "page": 11
+        },
+        {
+          "para_id": "2_45",
+          "text": "If M is represented on two Hilbert spaces H1 and H2, then [4] shows that there is 1-1\ncorrespondence between W*-filtrations on B(H1) and B(H2) making (M, V(1)) and (M, V(2))\nW*-quantum metric spaces. Thus the notion of W*-quantum metric space does not depend on the\nrepresentation.\nFurthermore, [4] defines the following notion of reflexivity for W*-quantum metric spaces.",
+          "page": 11
+        },
+        {
+          "para_id": "2_46",
+          "text": "Definition 2.20 (Reflexive W*-quantum metric space [4]). A W*-quantum metric space (M, V) is\nsaid to be reflexive if for all 𝑟≥0, V𝑟is reflexive as a dual operator space, i.e. : V𝑟= {𝐵∈B(H) | 𝑃V𝑟𝑄= 0 =⇒𝑃𝐵𝑄= 0}",
+          "page": 11
+        },
+        {
+          "para_id": "2_47",
+          "text": "Noting that projections in M can be endowed with a notion of distance coming from the W*-\nfiltration, the definition is useful in that it allows one to recover the W*-filtration from the distance\nbetween projections of M.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3. Roe algebras: Propagation and Commutation seminorm quantum metric spaces",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "Notation 3.1 (Setting). We set the following notations throughout this section: • (𝔄, 𝔐, 𝐿) a proper locally compact quantum metric space.\n• 𝔅a subset of 𝔄.\n• 𝜌: 𝔄→B(H) a faithful nondegenerate representation of 𝔄on a Hilbert space H.\n• As an abuse of notation we shall write 𝑎for 𝜌(𝑎) if 𝑎is an element of 𝔄and whenever it is\ndeemed that this will not cause confusion.",
+          "page": 11
+        },
+        {
+          "para_id": "3_2",
+          "text": "Notation 3.2 (Distance on 𝜎(𝔐)). If 𝔐= 𝐶0(𝜎(𝔐)) is equipped with the restriction of the\nLipschitz semi-norm 𝐿|𝔐, then 𝜎(𝔐) is a metric space with the usual distance that we denote: 𝑑(𝑥, 𝑦) := mk𝐿|𝔐(𝛿𝑥, 𝛿𝑦) = sup{| 𝑓(𝑥) −𝑓(𝑦)| : 𝑓∈𝔐∩dom(𝐿), 𝐿( 𝑓) ≤1}. In particular since (𝔄, 𝔐, 𝐿) is proper, (𝜎(𝔐), 𝑑) is a proper metric space.\nMore generally if 𝔅is a commutative subalgebra of 𝔄, we denote by 𝑑𝔅the distance on 𝜎(𝔅)\ndefined by the restriction of 𝐿to 𝔅.",
+          "page": 11
+        },
+        {
+          "para_id": "3_3",
+          "text": "3.1. Spectral Roe algebras. For a locally compact quantum metric space (𝔄, 𝔐, 𝐿) and a\nrepresentation 𝜌: 𝔄→B(H), we shall define a notion of spectral Roe algebra. 3.1.1. Definition and first properties.",
+          "page": 11
+        },
+        {
+          "para_id": "3_4",
+          "text": "Definition 3.3 (Spectral propagation). Let 𝑇∈B(H). We say that 𝑇has spectral propagation less\nthan or equal to 𝑅if:\nFor all 𝑎∈𝔰𝔞(𝔲𝔄) such that 𝐿(𝑎) ≤1: 𝜒(−∞,0](𝑎)𝑇𝜒(𝑅,+∞)(𝑎) = 0 We define prop(𝑇) to be the smallest such 𝑅: prop(𝑇) = inf{𝑅∈R+ : 𝑇has propagation less than or equal to 𝑅}",
+          "page": 11
+        },
+        {
+          "para_id": "3_5",
+          "text": "12",
+          "page": 12
+        },
+        {
+          "para_id": "3_6",
+          "text": "Furthermore let, • 𝐵∗denote the closure of the set of operators of finite propagation,\n• 𝐵∗\n𝑅be the set of operators of propagation less than or equal to 𝑅.",
+          "page": 12
+        },
+        {
+          "para_id": "3_7",
+          "text": "Remark 3.4. By applying an affine transformation, 𝑇having spectral propagation less than or equal\nto 𝑅is equivalent to:",
+          "page": 12
+        },
+        {
+          "para_id": "3_8",
+          "text": "𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤𝐶=⇒𝜒(−∞,𝛼](𝑎)𝑇𝜒(𝛽,+∞)(𝑎) = 0,\nwhenever 𝛽−𝛼> 𝐶𝑅.",
+          "page": 12
+        },
+        {
+          "para_id": "3_9",
+          "text": "We then have the following properties:",
+          "page": 12
+        },
+        {
+          "para_id": "3_10",
+          "text": "Proposition 3.1. For operators 𝑇, 𝑆∈B(H) the following holds: (1) prop(𝑇+ 𝑆) ≤max(prop(𝑇), prop(𝑆)),\n(2) prop(𝑇𝑆) ≤prop(𝑇) + prop(𝑆),\n(3) prop(𝑇∗) = prop(𝑇). Furthermore for all 𝑅> 0: (4) 𝐵∗\n𝑅is an operator system in B(H) that is closed in the weak operator topology.\n(5) 𝐵∗\n𝑅= Ñ\n𝑅′>𝑅𝐵∗\n𝑅′,\n(6) 𝐵∗\n0 = 𝔄′: the elements of zero propagation are precisely the elements of the commutant of\n𝔄.",
+          "page": 12
+        },
+        {
+          "para_id": "3_11",
+          "text": "Proof. (1) : Suppose that prop(𝑇) ≤𝑅and prop(𝑆) ≤𝑅. Let 𝑎∈𝔰𝔞(𝔲𝔄) such that 𝐿(𝑎) ≤1, then:",
+          "page": 12
+        },
+        {
+          "para_id": "3_12",
+          "text": "𝜒(−∞,0](𝑎)𝑇𝜒(𝑅,+∞)(𝑎) = 0,\n𝜒(−∞,0](𝑎)𝑆𝜒(𝑅,+∞)(𝑎) = 0,",
+          "page": 12
+        },
+        {
+          "para_id": "3_13",
+          "text": "hence: 𝜒(−∞,0](𝑎)(𝑇+ 𝑆)𝜒(𝑅,+∞)(𝑎) = 0. (2) : Suppose that prop(𝑇) ≤𝑅1 and prop(𝑆) ≤𝑅2. Let 𝑎∈𝔰𝔞(𝔲𝔄) such that 𝐿(𝑎) ≤1, then:",
+          "page": 12
+        },
+        {
+          "para_id": "3_14",
+          "text": "𝜒(−∞,0](𝑎)𝑇𝑆𝜒(𝑅1+𝑅2,+∞)(𝑎) = 𝜒(−∞,0](𝑎)𝑇𝜒(−∞,𝑅1](𝑎)𝑆𝜒(𝑅1+𝑅2,+∞)(𝑎) = 0",
+          "page": 12
+        },
+        {
+          "para_id": "3_15",
+          "text": "Since 𝜒(−∞,0](𝑎)𝑇= 𝜒(−∞,0](𝑎)𝑇\u0000𝜒(−∞,𝑅1](𝑎) + 𝜒(𝑅1,+∞)(𝑎)\u0001 = 𝜒(−∞,0](𝑎)𝑇𝜒(−∞,𝑅1](𝑎) by the\npropagation condition on 𝑇, and 𝜒(−∞,𝑅1](𝑎)𝑆𝜒(𝑅1+𝑅2,+∞)(𝑎) = 0 by the propagation condition on\n𝑆.\n(3) : Indeed 𝜒(−∞,0](𝑎)𝑇∗𝜒(𝑅,+∞)(𝑎) = 𝜒(𝑅,+∞)(𝑎)𝑇𝜒(−∞,0](𝑎) and we can conclude by applying\nan affine transformation on 𝑎.\n(4) : By the above properties 𝐵∗\n𝑅is a unital operator system. Let (𝑇𝑖)𝑖be a net in 𝐵∗\n𝑅that converges\nto 𝑇in the weak* topology. For 𝑎∈𝔰𝔞(𝔲𝔄) such that 𝐿(𝑎) ≤1, and 𝜉, 𝜂∈H, we have:",
+          "page": 12
+        },
+        {
+          "para_id": "3_16",
+          "text": "0 = ⟨𝜂, 𝜒(−∞,0](𝑎)𝑇𝑖𝜒(𝑅,+∞)(𝑎)𝜉⟩−→\n𝑖⟨𝜂, 𝜒(−∞,0](𝑎)𝑇𝜒(𝑅,+∞)(𝑎)𝜉⟩.",
+          "page": 12
+        },
+        {
+          "para_id": "3_17",
+          "text": "13",
+          "page": 13
+        },
+        {
+          "para_id": "3_18",
+          "text": "(5): Indeed if 𝑇∈Ñ\n𝑅′>𝑅𝐵∗\n𝑅′, then for all 𝑎∈𝔰𝔞(𝔲𝔄) such that 𝐿(𝑎) ≤1 and for all 𝜂∈H and\n𝑅′ > 𝑅:",
+          "page": 13
+        },
+        {
+          "para_id": "3_19",
+          "text": "𝜒(−∞,0](𝑎)𝑇𝜒(𝑅′,+∞)(𝑎)𝜂= 0 Taking the limit 𝑅′ →𝑅, we obtain, since the Borel functional calculus is continuous from pointwise\nconvergence to the strong operator topology and since 𝜒(𝑅′,+∞)(𝑎) converges pointwise to 𝜒(𝑅,+∞)(𝑎)\nthat:",
+          "page": 13
+        },
+        {
+          "para_id": "3_20",
+          "text": "𝜒(−∞,0](𝑎)𝑇𝜒(𝑅,+∞)(𝑎)𝜂= 0.",
+          "page": 13
+        },
+        {
+          "para_id": "3_21",
+          "text": "(6): If 𝑇∈𝐵∗\n0, then it follows from proposition 3.3 below that for all 𝑎∈𝔰𝔞(𝔄): [𝑇, 𝑎] = 0\n(since in the notation of proposition 3.3, 𝐿∗(𝑇) = 0), hence 𝑇∈𝔄′. The reverse inclusion is clear:\n𝜒(−∞,0](𝑎)𝑇𝜒(𝑅,+∞)(𝑎) = 𝜒(−∞,0](𝑎)𝜒(𝑅,+∞)(𝑎)𝑇= 0.\n□",
+          "page": 13
+        },
+        {
+          "para_id": "3_22",
+          "text": "Recall that for 𝔄, we denote by 𝔄∗∗the enveloping von Neumann algebra, if 𝜌is a faithful\nnondegenerate representation of 𝔄then 𝔄∗∗can be identified with 𝜌(𝔄)′′ the 𝑊∗-algebra generated\nby 𝜌(𝔄). From the above discussion, we get then the following as a corollary, this is essentially a\nrestatement of the definitions.",
+          "page": 13
+        },
+        {
+          "para_id": "3_23",
+          "text": "Theorem 3.5. If (𝔄, 𝔐, 𝐿) is a locally compact quantum metric space, then the family (𝐵∗\n𝑅)𝑅\ndefines a W*-quantum metric on 𝔄∗∗[4].\nFurthermore this quantum metric is reflexive.",
+          "page": 13
+        },
+        {
+          "para_id": "3_24",
+          "text": "Proof of reflexivity. We need to show that if 𝑇∈B(H) is such that if:",
+          "page": 13
+        },
+        {
+          "para_id": "3_25",
+          "text": "𝑃𝐵∗\n𝑅𝑄= {0} =⇒𝑃𝑇𝑄= 0, for all projections 𝑃, 𝑄∈𝔄∗∗,\n(3.1)",
+          "page": 13
+        },
+        {
+          "para_id": "3_26",
+          "text": "then 𝑇is in 𝐵∗\n𝑅.\nSuppose 𝑇satisfies 3.1, and let 𝑎∈𝔰𝔞(𝔲𝔄) such that 𝐿(𝑎) ≤1. If we denote by 𝑃= 𝜒(−∞,0](𝑎)\nand 𝑄= 𝜒(𝑅,+∞)(𝑎), then by the definition of spectral propagation 𝑃𝐵∗\n𝑅𝑄= {0}, hence by 3.1:",
+          "page": 13
+        },
+        {
+          "para_id": "3_27",
+          "text": "𝜒(−∞,0](𝑎)𝑇𝜒(𝑅,+∞)(𝑎) = 0.",
+          "page": 13
+        },
+        {
+          "para_id": "3_28",
+          "text": "Thus 𝑇∈𝐵∗\n𝑅.\n□",
+          "page": 13
+        },
+        {
+          "para_id": "3_29",
+          "text": "Recall that an operator 𝑇is locally compact if for all 𝑎∈𝔄: 𝑇𝑎∈K(H) and 𝑎𝑇∈K(H).",
+          "page": 13
+        },
+        {
+          "para_id": "3_30",
+          "text": "Definition 3.6 (Spectral Roe algebra). The Spectral Roe algebra associated with (𝔄, 𝔐, 𝐿) and 𝜌is\nthe 𝐶∗-algebra generated by locally compact finite propagation operators.",
+          "page": 13
+        },
+        {
+          "para_id": "3_31",
+          "text": "𝐶∗\nspec(𝔄) = {𝑇∈B(H) : 𝑇has finite spectral propagation and T is locally compact}.",
+          "page": 13
+        },
+        {
+          "para_id": "3_32",
+          "text": "Furthermore we denote by 𝐷∗\nspec(𝔄) the C∗algebra generated by the operators of finite spectral\npropagation that commute with 𝔄modulo compacts.",
+          "page": 13
+        },
+        {
+          "para_id": "3_33",
+          "text": "14",
+          "page": 14
+        },
+        {
+          "para_id": "3_34",
+          "text": "3.2. Relative commutant Roe algebra. Definition 3.7 (Commutant seminorm). For 𝑇∈B(H), we define the commutant seminorm of 𝑇\nwith respect to (𝔄, 𝔐, 𝐿) as: 𝐿∗(𝑇) = sup{∥[𝑇, 𝑎]∥: 𝑎∈𝔰𝔞(𝔄), 𝐿(𝑎) ≤1}. Remark 3.8. We then have ∥[𝑇, 𝑎]∥≤𝐿∗(𝑇)𝐿(𝑎)\nfor all 𝑎∈𝔰𝔞(𝔲𝔄). Proposition 3.2. For operators 𝑇, 𝑆∈B(H) and a scalar 𝜆the following holds: (1) 𝐿∗(𝜆𝑇) = |𝜆|𝐿∗(𝑇),\n(2) 𝐿∗(𝑇+ 𝑆) ≤𝐿∗(𝑇) + 𝐿∗(𝑆),\n(3) 𝐿∗(𝑇𝑆) ≤∥𝑇∥𝐿∗(𝑆) + ∥𝑆∥𝐿∗(𝑇),\n(4) 𝐿∗(𝑇∗) = 𝐿∗(𝑇). Proof. 1,2 and 4 follow from the corresponding properties for the norm, and from the fact that the\ncommutator is bilinear and that [𝑇∗, 𝑎] = [𝑇, 𝑎]∗.\n3 follows from the fact that [𝑇𝑆, 𝑎] = 𝑇[𝑆, 𝑎] + [𝑇, 𝑎]𝑆.\n□ Proposition 3.3 (From Spectral to Relative commutant). Let (𝔄, 𝔐, 𝐿) be locally compact quantum\nmetric space represented on H, then for any 𝑇∈B(H): 𝐿∗(𝑇) ≤3prop(𝑇)∥𝑇∥ Proof. We show that for 𝑎∈𝔰𝔞(𝔄) such that 𝐿(𝑎) ≤1, and denoting 𝑅= prop(𝑇), we have\n∥[𝑇, 𝑎]∥≤3𝑅∥𝑇∥.\nFix the following: • (𝛼𝑖)𝑖a sequence of real numbers such that: 𝛼𝑖+1 −𝛼𝑖= 𝑅,\n• (𝜆𝑖)𝑖the medians of 𝛼𝑖and 𝛼𝑖+1 : 𝜆𝑖= (𝛼𝑖+ 𝛼𝑖+1) /2,\n• (𝜒𝑖)𝑖are the elements of 𝔄∗∗defined by : 𝜒𝑖= 𝜒[𝛼𝑖,𝛼𝑖+1)(𝑎),\n• 𝑎′ is the element : 𝑎′ = Í\n𝑖𝜆𝑖𝜒𝑖\nWe then have :",
+          "page": 14
+        },
+        {
+          "para_id": "3_35",
+          "text": "∥𝑎−𝑎′∥≤𝑅/2. Thus :",
+          "page": 14
+        },
+        {
+          "para_id": "3_36",
+          "text": "∥[𝑇, 𝑎]∥≤∥[𝑇, 𝑎′]∥+ ∥[𝑇, 𝑎−𝑎′]∥≤∥[𝑇, 𝑎′]∥+ 𝑅∥𝑇∥.\n(3.2) By the definition of spectral propagation we have 𝜒𝑖𝑇= 𝜒𝑖𝑇(𝜒𝑖−1 + 𝜒𝑖+ 𝜒𝑖+1),\n𝑇𝜒𝑖= (𝜒𝑖−1 + 𝜒𝑖+ 𝜒𝑖+1) 𝑇𝜒𝑖, thus : [𝑇, 𝑎′] =\n∑︁",
+          "page": 14
+        },
+        {
+          "para_id": "3_37",
+          "text": "𝑖\n𝜆𝑖[𝑇, 𝜒𝑖] =\n∑︁",
+          "page": 14
+        },
+        {
+          "para_id": "3_38",
+          "text": "𝑖\n(𝜆𝑖𝜒𝑖−1𝑇𝜒𝑖−𝜆𝑖𝜒𝑖𝑇𝜒𝑖−1) −\n∑︁",
+          "page": 14
+        },
+        {
+          "para_id": "3_39",
+          "text": "𝑖\n(𝜆𝑖𝜒𝑖𝑇𝜒𝑖+1 −𝜆𝑖𝜒𝑖+1𝑇𝜒𝑖) =\n∑︁",
+          "page": 14
+        },
+        {
+          "para_id": "3_40",
+          "text": "𝑖\n(𝜆𝑖−𝜆𝑖−1) (𝜒𝑖−1𝑇𝜒𝑖−𝜒𝑖𝑇𝜒𝑖−1) = 𝑅\n∑︁",
+          "page": 14
+        },
+        {
+          "para_id": "3_41",
+          "text": "𝑖\n(𝜒𝑖−1𝑇𝜒𝑖−𝜒𝑖𝑇𝜒𝑖−1) .",
+          "page": 14
+        },
+        {
+          "para_id": "3_42",
+          "text": "15",
+          "page": 15
+        },
+        {
+          "para_id": "3_43",
+          "text": "Since the terms in the sums Í\n𝑖𝜒𝑖−1𝑇𝜒𝑖and Í\n𝑖𝜒𝑖𝑇𝜒𝑖−1 are orthogonal, we have : ∥[𝑇, 𝑎′]∥≤2𝑅∥𝑇∥.\n(3.3)",
+          "page": 15
+        },
+        {
+          "para_id": "3_44",
+          "text": "Combining (3.2) and (3.3) we obtain the desired result : ∥[𝑇, 𝑎]∥≤3𝑅∥𝑇∥.\n□",
+          "page": 15
+        },
+        {
+          "para_id": "3_45",
+          "text": "Definition 3.9 (Relative commutant Roe algebra). The relative commutant Roe algebra associated\nwith (𝔄, 𝔐, 𝐿) and 𝜌is the 𝐶∗-algebra generated by locally compact operators of finite commutant\nseminorm.",
+          "page": 15
+        },
+        {
+          "para_id": "3_46",
+          "text": "𝐶∗\ncomm(𝔄) = {𝑇∈B(H) : 𝑇has finite commutant seminorm and 𝑇is locally compact}.",
+          "page": 15
+        },
+        {
+          "para_id": "3_47",
+          "text": "Furthermore we denote by 𝐷∗\ncomm(𝔄) the C∗algebra generated by the operators of finite commutant\nseminorm that commute with 𝔄modulo compacts.",
+          "page": 15
+        },
+        {
+          "para_id": "3_48",
+          "text": "3.2.1. Finite asymptotic dimension : equality of the algebras. In this part, as a motivation, we\nspecialize to the classical context and recall the methods introduced in section 4 of [9], rephrasing\nthem in our context to show how finite asymptotic dimension leads to equality between spectral\nRoe algebra and the relative commutant Roe algebra. In fact, the equality there is proven for a\nlarger algebra, the so-called quasi-local algebra 𝐶∗\n𝑞(𝑋), which contains the relative commutant Roe\nalgebra. In general we have the inclusions:",
+          "page": 15
+        },
+        {
+          "para_id": "3_49",
+          "text": "𝐶∗\nspec(𝑋) ⊂𝐶∗\ncomm(𝑋) ⊂𝐶∗\n𝑞(𝑋). where:",
+          "page": 15
+        },
+        {
+          "para_id": "3_50",
+          "text": "Definition 3.10 (Quasi-local operators). An operator 𝑇∈B(H) is quasi-local if for every 𝜀> 0\nthere exists 𝑅> 0 such that for all 𝑓, 𝑔∈𝐶𝑏(𝑋) with 𝑑(supp( 𝑓), supp(𝑔)) > 𝑅:",
+          "page": 15
+        },
+        {
+          "para_id": "3_51",
+          "text": "∥𝑓𝑇𝑔∥≤𝜀∥𝑓∥∥𝑔∥.",
+          "page": 15
+        },
+        {
+          "para_id": "3_52",
+          "text": "The quasi-local algebra 𝐶∗\n𝑞(𝑋) is the C*-algebra of locally compact quasi-local operators.",
+          "page": 15
+        },
+        {
+          "para_id": "3_53",
+          "text": "Definition 3.11 (Asymptotic dimension). For a proper metric space 𝑋, we say that asdim 𝑋≤𝑛\nif and only if for every 𝑅> 0 there exists 𝐷= 𝐷(𝑅) < ∞and a cover U of 𝑋consisting of sets\nof diameter ≤𝐷such that every ball of radius 𝑅meets at most 𝑛+ 1 members of U (i.e. the\n𝑅-multiplicity of U is ≤𝑛+ 1).",
+          "page": 15
+        },
+        {
+          "para_id": "3_54",
+          "text": "Theorem 3.12 (A variation of the results of [9]). Let (𝑋, 𝑑) be a proper metric space such that\nasdim 𝑋≤𝑛. Then for any representation 𝜌: 𝐶0(𝑋) →B(H), we have: 𝐶∗\nspec(𝑋) = 𝐶∗\ncomm(𝑋). (In fact more generally 𝐶∗\nspec(𝑋) = 𝐶∗\n𝑞(𝑋).)",
+          "page": 15
+        },
+        {
+          "para_id": "3_55",
+          "text": "The proof of the theorem relies on the following version of corollary 4.3 of [9].",
+          "page": 15
+        },
+        {
+          "para_id": "3_56",
+          "text": "16",
+          "page": 16
+        },
+        {
+          "para_id": "3_57",
+          "text": "Lemma 3.13. Let (𝑋, 𝑑) be a proper metric space, 𝑇∈B(H) and (𝑒𝑗) 𝑗a family of positive\ncontractions in 𝐶𝑏(𝑋) with 𝑅-disjoint supports, and let 𝑒:= Í\n𝑗𝑒𝑗, then: ∥𝑒𝑇𝑒−\n∑︁",
+          "page": 16
+        },
+        {
+          "para_id": "3_58",
+          "text": "𝑗\n𝑒𝑗𝑇𝑒𝑗∥≤2",
+          "page": 16
+        },
+        {
+          "para_id": "3_59",
+          "text": "𝑅𝐿∗(𝑇).",
+          "page": 16
+        },
+        {
+          "para_id": "3_60",
+          "text": "The following cutting procedure allows us then to approximate an operator with finite commutant\nseminorm by a sum of operators with finite propagation. Since we will use it in the stronger control\ncase of finite Assouad-Nagata dimension, we state it as a lemma.",
+          "page": 16
+        },
+        {
+          "para_id": "3_61",
+          "text": "Lemma 3.14. Let (𝑋, 𝑑) be a proper metric space, 𝜀> 0, 𝑅> 0 and 𝑇∈B(H). Furthermore let\nU be a cover of uniformly bounded diameter 𝐷and 𝑅-multiplicity less than or equal 𝑛+ 1.\nThen there exists 𝑇𝑖𝑖′, for 0 ≤𝑖, 𝑖′ ≤𝑛such that : • The following approximation inequality holds: ∥𝑇−\n∑︁",
+          "page": 16
+        },
+        {
+          "para_id": "3_62",
+          "text": "𝑖,𝑖′\n𝑇𝑖𝑖′∥≤16(𝑛+ 1)2 𝐿∗(𝑇)",
+          "page": 16
+        },
+        {
+          "para_id": "3_63",
+          "text": "𝑅\n.",
+          "page": 16
+        },
+        {
+          "para_id": "3_64",
+          "text": "• The 𝑇𝑖𝑖′’s have propagation less than or equal 𝑅/2 + 𝐷.\n• More precisely, each 𝑇𝑖𝑖′ is of the form Í\n𝑘𝑒𝑘𝑔𝑇𝑔′𝑒𝑘for some contractions 𝑔, 𝑔′ in 𝐶𝑏(𝑋)\nand some family of 4/𝑅-Lipschitz positive contractions (𝑒𝑘)𝑘in 𝐶𝑏(𝑋) with disjoint supports,\nsuch that the support of each 𝑒𝑘is contained in a set 𝐵3𝑅/8(𝑈) where 𝑈∈U. Proof. Let U(0), . . . , U(𝑛) be a partition of U such that each U(𝑖) is 𝑅-disjoint.\nWe write\nU(𝑖) = {𝑈(𝑖)\n𝑗} 𝑗and let (𝑒(𝑖)\n𝑗) 𝑗,𝑖be a partition of unity subordinate to U, such that each 𝑒(𝑖)\n𝑗\nis a 4/𝑅-Lipschitz positive contraction such that the support of 𝑒(𝑖)\n𝑗\nis contained in 𝐵𝑅/4(𝑈(𝑖)\n𝑗). Then the supports of {𝑒(𝑖)\n𝑗} 𝑗are (𝑅/2)-disjoint for each fixed 𝑖. For each 𝑖∈{0, . . . , 𝑛} define 𝑒(𝑖) = Í\n𝑗𝑒(𝑖)\n𝑗. Then:",
+          "page": 16
+        },
+        {
+          "para_id": "3_65",
+          "text": "𝑇=\n∑︁",
+          "page": 16
+        },
+        {
+          "para_id": "3_66",
+          "text": "𝑖𝑖′\n𝑒(𝑖)𝑇𝑒(𝑖′). For the case 𝑖= 𝑖′, we have by lemma 3.13 above: ∥𝑒(𝑖)𝑇𝑒(𝑖) −\n∑︁",
+          "page": 16
+        },
+        {
+          "para_id": "3_67",
+          "text": "𝑗\n𝑒(𝑖)\n𝑗𝑇𝑒(𝑖)\n𝑗∥≤4𝐿∗(𝑇)",
+          "page": 16
+        },
+        {
+          "para_id": "3_68",
+          "text": "𝑅\n.",
+          "page": 16
+        },
+        {
+          "para_id": "3_69",
+          "text": "note that since the support of each 𝑒(𝑖)\n𝑗is contained in 𝐵𝑅/4(𝑈(𝑖)\n𝑗) , 𝑇𝑖𝑖has propagation less than or\nequal to 𝑅/4 + 𝐷.\nFor the case 𝑖≠𝑖′, we will use a similar reasoning as above, applied to the family (𝐵3𝑅/8(𝑈(𝑖)\n𝑗) ∩ 𝐵3𝑅/8(𝑈(𝑖′)\n𝑗′ )) 𝑗,𝑗′ and using the fact that it is an 𝑅/4-disjoint family. For each 𝑗, let 𝑝(𝑖)\n𝑗\nbe the characteristic function associated with the support of 𝑒(𝑖)\n𝑗, and let 𝑝(𝑖) := Í\n𝑗𝑝(𝑖)\n𝑗, then: 𝑒(𝑖)𝑇𝑒(𝑖′) = 𝑝(𝑖)𝑒(𝑖)𝑇𝑒(𝑖′) 𝑝(𝑖′)",
+          "page": 16
+        },
+        {
+          "para_id": "3_70",
+          "text": "17",
+          "page": 17
+        },
+        {
+          "para_id": "3_71",
+          "text": "Thus, using the definition of 𝐿∗(𝑇) and the fact that 𝐿(𝑒(𝑖)) ≤4/𝑅, we have: ∥𝑒(𝑖)𝑇𝑒(𝑖′) −𝑝(𝑖)𝑒(𝑖′)𝑇𝑒(𝑖) 𝑝(𝑖′)∥≤8",
+          "page": 17
+        },
+        {
+          "para_id": "3_72",
+          "text": "𝑅𝐿∗(𝑇).\n(3.4) For each 𝑗, 𝑗′, there is 𝑓𝑗,𝑗′, a 8/𝑅-Lipschitz positive contraction that is 1 on 𝐵𝑅/4(𝑈(𝑖)\n𝑗)∩𝐵𝑅/4(𝑈(𝑖′)\n𝑗′ ) and supported in 𝐵3𝑅/8(𝑈(𝑖)\n𝑗) ∩𝐵3𝑅/8(𝑈(𝑖′)\n𝑗′ ). If we let 𝑓= Í\n𝑗,𝑗′ 𝑓𝑗,𝑗′ then: 𝑓𝑝(𝑖)𝑒(𝑖′) = 𝑝(𝑖)𝑒(𝑖′) 𝑒(𝑖) 𝑝(𝑖′) 𝑓= 𝑒(𝑖) 𝑝(𝑖′), and by lemma 3.13, since the supports of 𝑓𝑗,𝑗′ are 𝑅/4-disjoint : ∥𝑓𝑝(𝑖)𝑒(𝑖′)𝑇𝑒(𝑖) 𝑝(𝑖′) 𝑓−\n∑︁",
+          "page": 17
+        },
+        {
+          "para_id": "3_73",
+          "text": "𝑗,𝑗′\n𝑓𝑗,𝑗′ 𝑝(𝑖)𝑒(𝑖′)𝑇𝑒(𝑖) 𝑝(𝑖′) 𝑓𝑗,𝑗′∥≤8",
+          "page": 17
+        },
+        {
+          "para_id": "3_74",
+          "text": "𝑅𝐿∗(𝑇).\n(3.5)",
+          "page": 17
+        },
+        {
+          "para_id": "3_75",
+          "text": "Combining 3.4 with 3.5, it follows that :",
+          "page": 17
+        },
+        {
+          "para_id": "3_76",
+          "text": "∥𝑒(𝑖)𝑇𝑒(𝑖′) −\n∑︁",
+          "page": 17
+        },
+        {
+          "para_id": "3_77",
+          "text": "𝑗,𝑗′\n𝑓𝑗,𝑗′𝑒(𝑖) ˆ𝑒(𝑖′)𝑇ˆ𝑒(𝑖)𝑒(𝑖′) 𝑓𝑗,𝑗′∥≤16",
+          "page": 17
+        },
+        {
+          "para_id": "3_78",
+          "text": "𝑅𝐿∗(𝑇). Setting Í\n𝑗,𝑗′ 𝑓𝑗,𝑗′𝑒(𝑖) ˆ𝑒(𝑖′)𝑇ˆ𝑒(𝑖)𝑒(𝑖′) 𝑓𝑗,𝑗′ =: 𝑇𝑖𝑖′, noting that it has propagation less than or equal\n3𝑅/8 + 𝐷, and adding the (𝑛+ 1)2 terms corresponding to 𝑖and 𝑖′ concludes the proof.\n□",
+          "page": 17
+        },
+        {
+          "para_id": "3_79",
+          "text": "The above lemma allows us to conclude.",
+          "page": 17
+        },
+        {
+          "para_id": "3_80",
+          "text": "Proof of theorem 3.12. Let 𝑇∈𝐶∗\ncomm(𝑋) of finite 𝐿∗-seminorm, and 𝜀> 0. By the lemma above,\nif we choose 𝑅> 16(𝑛+ 1)2 𝐿∗(𝑇)",
+          "page": 17
+        },
+        {
+          "para_id": "3_81",
+          "text": "𝜀\n, and a decomposition of 𝑋into 𝑛+ 1 collections of sets, each\ncollection being 𝑅-disjoint, then by lemma 3.13 there exists 𝑇𝑖𝑖′, for 0 ≤𝑖, 𝑖′ ≤𝑛such that : • The following approximation inequality holds: ∥𝑇−\n∑︁",
+          "page": 17
+        },
+        {
+          "para_id": "3_82",
+          "text": "𝑖,𝑖′\n𝑇𝑖𝑖′∥≤𝜀. • Í\n𝑖,𝑖′ 𝑇𝑖𝑖′ has propagation less than or equal 𝑅/2 + 𝐷.\n• Í\n𝑖,𝑖′ 𝑇𝑖𝑖′ is locally compact. It follows by taking 𝜀→0 that 𝑇is in 𝐶∗\nspec(𝑋).\n□ 3.2.2. Assouad-Nagata dimension : controlling propagation from commutation semi-norm. First\nwe recall the definition of Assouad-Nagata dimension, stated in similar terms as in the definition of\nasymptotic dimension. The difference is that the diameters of the sets partitioniong the space can be\ncontrolled.",
+          "page": 17
+        },
+        {
+          "para_id": "3_83",
+          "text": "Definition 3.15 (Assouad-Nagata dimension). For a proper metric space 𝑋, we say that dim𝐴𝑁𝑋≤𝑛\nif and only if there exists a constant 𝐶> 0 such that for every 𝑅> 0 there exists a cover U of 𝑋\nconsisting of sets of diameter less than or equal 𝐶𝑅such that every ball of radius 𝑅meets at most\n𝑛+ 1 members of U (i.e. the 𝑅-multiplicity of U is ≤𝑛+ 1).",
+          "page": 17
+        },
+        {
+          "para_id": "3_84",
+          "text": "18",
+          "page": 18
+        },
+        {
+          "para_id": "3_85",
+          "text": "In this case we can see, as follows, that the commutation semi-norm controls, up to perturbation,\nthe propagation. This can be seen as a kind a weaker converse to the fact we saw earlier that\n𝐿∗(𝑇) ≤3prop(𝑇)∥𝑇∥. Theorem 3.16. Let (𝑋, 𝑑) be a proper metric space such that dim𝐴𝑁𝑋≤𝑛. Then there exists a\nconstant 𝐶> 0 (depending only on 𝑋) such that for any operator 𝑇∈B(H) and 𝛼> 0, there exists\n𝑇′ ∈B(H) such that: ∥𝑇−𝑇′∥< 𝛼, prop(𝑇′) ≤𝐶𝐿∗(𝑇)",
+          "page": 18
+        },
+        {
+          "para_id": "3_86",
+          "text": "𝛼\n. Proof. For 𝑇∈B(H) and 𝛼> 0. Following the same reasoning as in the proof of theorem 3.12,\ntaking 𝑅= 𝐿∗(𝑇)",
+          "page": 18
+        },
+        {
+          "para_id": "3_87",
+          "text": "𝛼16(𝑛+ 1)2 and applying lemma 3.13 with 𝑅-disjoint families of sets of diameter\n≤𝐶′𝑅, and taking 𝐶= 16(𝑛+ 1)2(𝐶′ + 1/2) we conclude.\n□ Remark 3.17. In particular by taking 𝛼= ∥𝑇∥, we obtain 𝑇′ such that: ∥𝑇−𝑇′∥< ∥𝑇∥, ∥𝑇′∥prop(𝑇′) ≤2𝐶𝐿∗(𝑇). 3.3. Spectral Roe algebras relative to a subalgebra and topographic Roe algebra. In this\nsection, we define Roe algebras relative to a subset 𝔅of 𝔄. In this case, using the restriction of the\nlipschitz seminorm 𝜌to 𝔅, one can define finite propagation operators as follows: Definition 3.18 (Spectral propagation relatively to 𝔅). Let 𝑇∈B(H). We say that 𝑇has spectral\npropagation less than or equal to 𝑅if:\nFor all 𝑎∈𝔰𝔞(𝔲𝔄) ∩𝔅such that 𝐿(𝑎) ≤1: 𝜒(−∞,0](𝑎)𝑇𝜒(𝑅,+∞)(𝑎) = 0 We define prop𝔅(𝑇) to be the smallest such 𝑅: prop𝔅(𝑇) = inf{𝑅∈R+ : 𝑇has propagation smaller than or equal to 𝑅} Properties from proposition 3.1 obviously still hold in this relative setting:",
+          "page": 18
+        },
+        {
+          "para_id": "3_88",
+          "text": "Proposition 3.4. For operators 𝑇, 𝑆∈𝔅(H) the following holds: (1) prop𝔅(𝑇+ 𝑆) ≤max(prop𝔅(𝑇), prop𝔅(𝑆)),\n(2) prop𝔅(𝑇𝑆) ≤prop𝔅(𝑇) + prop𝔅(𝑆),\n(3) prop𝔅(𝑇∗) = prop𝔅(𝑇). Furthermore for all 𝑅> 0: (4) 𝐵∗\n𝑅is an operator system in B(H) that is closed in the weak operator topology.\n(5) 𝐵∗\n𝑅= Ñ\n𝑅′>𝑅𝐵∗\n𝑅′,\n(6) 𝐵∗\n0 = 𝔅′: the elements of zero propagation are precisely the elements of the commutant of\n𝔅.",
+          "page": 18
+        },
+        {
+          "para_id": "3_89",
+          "text": "19",
+          "page": 19
+        },
+        {
+          "para_id": "3_90",
+          "text": "This time the relative propagation defines a W*-filtration on B(H) that leads to a W*-quantum\nmetric on 𝔅∗∗.",
+          "page": 19
+        },
+        {
+          "para_id": "3_91",
+          "text": "Definition 3.19 (Spectral Roe algebra relatively to 𝔅). The Spectral Roe algebra associated with\n(𝔄, 𝔐, 𝐿) and 𝜌is the 𝐶∗-algebra generated by locally compact operators of finite propagation with\nrespect to 𝔅. 𝐶∗\nspec,𝔅(𝔄) = {𝑇∈B(H) : prop𝔅(𝑇) < +∞and T is locally compact}. For instance, one could take 𝔅to be a commutative subalgebra 𝔄containing 𝔐. Then 𝜎(𝔐) is\na quotient space of 𝜎(𝔅), by the map taking characters on 𝔅to their restriction to 𝔐: 𝑝:𝜎(𝔅) →𝜎(𝔐) 𝜙↦→𝜙|𝔐. We have then metric spaces (𝜎(𝔐), 𝑑𝔐) and (𝜎(𝔅), 𝑑𝔅) defined from the lipschitz seminorms\n𝐿|𝔐and 𝐿|𝔅respectively, they make 𝑝into a contractive map. Since (𝔄, 𝔐, 𝐿) is a proper locally\ncompact quantum metric space, (𝔐, 𝔐, 𝐿|𝔐) defines a proper locally compact metric space and,\ntaking a strictly positive element ℎin 𝔐and a local state 𝜇such that : {ℎ𝑎ℎ| 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0} is norm precompact, then :\n{ℎ𝑏ℎ| 𝑏∈𝔰𝔞(𝔲𝔅), 𝐿(𝑏) ≤1, 𝜇(𝑏) = 0} is norm precompact. Now since 𝔐contains an approximate unit for 𝔅(since 𝔐⊂𝔅⊂𝔄), ℎis strictly positive in 𝔅\nas well, thus (𝔅, 𝔅, 𝐿|𝔅) is a commutative locally compact quantum metric space, in other words\n(𝜎(𝔅), 𝑑𝔅) is a locally compact metric space.\nNow if 𝐸is a closed and bounded subset of (𝜎(𝔅), 𝑑𝔅), 𝐹= 𝑝(𝐸) is closed and bounded in\n(𝜎(𝔐), 𝑑𝔐) thus compact since (𝜎(𝔐), 𝑑𝔐) is proper. Thus the set ℎ(𝑥) (ℎ∈𝔐being the strictly\npositive element above) for 𝑥∈𝐹has a positive lower bound 𝑚> 0. Now 𝐸is a closed subset of : 𝐸⊂𝑝−1(𝐹) = {𝜑∈𝜎(𝔅) | 𝜑|𝔐∈𝐹} ⊂{𝜑∈𝜎(𝔅) | 𝜑(ℎ) ≥𝑚} Where we identify elements of 𝜎(𝔅) with characters on 𝔅. The set {𝜑∈𝜎(𝔅) | 𝜑(ℎ) ≥𝑚} is\nweak*-compact since it is closed in unit ball of 𝔅∗, thus 𝐸is compact. Therefore (𝜎(𝔅), 𝑑𝔅) is a\nproper metric space. We have shown that:",
+          "page": 19
+        },
+        {
+          "para_id": "3_92",
+          "text": "Proposition 3.5. If 𝔅is a commutative C*-subalgebra of 𝔄containing 𝔐, then the Monge-\nKantorovich metric associated with 𝐿|𝔅makes 𝜎(𝔅) into a proper metric space. The following is then obvious:",
+          "page": 19
+        },
+        {
+          "para_id": "3_93",
+          "text": "Proposition 3.6. If 𝔅is a commutative C*-subalgebra of 𝔄containing 𝔐, then the spectral\nRoe algebra associated with (𝔄, 𝔐, 𝐿) relatively to 𝔅is isomorphic to the classical Roe algebra\n𝐶∗(𝜎(𝔅)).",
+          "page": 19
+        },
+        {
+          "para_id": "3_94",
+          "text": "20",
+          "page": 20
+        },
+        {
+          "para_id": "3_95",
+          "text": "In particular if we take 𝔅= 𝔐then we call 𝐶∗(𝜎(𝔐)) the topographic Roe algebra associated\nwith (𝔄, 𝔐, 𝐿).",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4. Generalized Higson compactification",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "4.1. Spectral Higson compactification. In this section we show that given a locally compact\nquantum metric space (𝔄, 𝔐, 𝐿) represented on a Hilbert space H, we can define a noncommutative\ncoarse structure on 𝔄that generalizes the Higson compactification for metric spaces. This structure\nshall depend (at least a priori) on the choice of the representation 𝜌: 𝔄→B(H). We will\nbriefly give an alternative construction, using the relative commutant algebra as well, the study of\nthe relationship between these two constructions, wether they agree or not, starting from specific\n(noncommutative) examples, is left for future work, and the main computations in the example\nsection will be done using the spectral Higson compactification.\nMore generally, we consider a C∗-algebra 𝔄represented faithfully and nondegenerately on a\nHilbert space H, together with a topography 𝔐⊂𝔄, along with a W*-quantum metric on 𝔄∗∗,\nV ⊂B(H). We shall call the triple (𝔄, 𝔐, V) a topographic W*-quantum metric space, and we\nshall write prop(𝑇) ≤𝑅for 𝑇∈V𝑅.\nNote that since 𝜌: 𝔄→B(H) is faithful and nondegenerate, we can identify the multiplier\nalgebra M(𝔄) with a subalgebra of B(H). We shall define the generalized Higson compactification\nas a unital subalgebra of M(𝔄).\nWe need to have a notion for vanishing at infinity, and this is what the topography 𝔐is for.",
+          "page": 20
+        },
+        {
+          "para_id": "4_2",
+          "text": "Example 4.1 (locally compact quantum metric space is a topographic W*-quantum metric space). If\n(𝔄, 𝔐, 𝐿) is a proper locally compact quantum metric space represented on H, then (𝔄, 𝔐, (𝐵∗\n𝑅))\nis a topographic W*-quantum metric space, where (𝐵∗\n𝑅)𝑅is the filtration defined using the spectral\npropagation as in section 3.",
+          "page": 20
+        },
+        {
+          "para_id": "4_3",
+          "text": "Notation 4.2. We fix ( 𝑓𝛼)𝛼an approximate unit of 𝔄made from elements of 𝔐.",
+          "page": 20
+        },
+        {
+          "para_id": "4_4",
+          "text": "Definition 4.3 (Generalized Higson compactification). Let (𝔄, 𝔐, V) be a topographic W*-quantum\nmetric space: • We shall say that an operator 𝑆in M(𝔄) is slowly oscillating if for all 𝑅> 0 and all 𝜀> 0,\nthere is an 𝛼0 such that if 𝛼≥𝛼0, ∥𝑇∥≤1 and 𝑇∈V𝑅then ∥(1 −𝑓𝛼)[𝑇, 𝑆]∥≤𝜀and\n∥[𝑇, 𝑆](1 −𝑓𝛼)∥≤𝜀.\n• We define the Generalized Higson compactification of (𝔄, 𝔐, V), to be the set 𝔄\n𝐻of\nelements of M(𝔄) that are slowly oscillating.",
+          "page": 20
+        },
+        {
+          "para_id": "4_5",
+          "text": "Lemma 4.4. An element 𝑆in M(𝔄) is slowly oscillating if and only if for all 𝑅> 0 and 𝜀> 0 there\nis 𝐾⊂𝜎(𝔐) compact such that ∥𝜒𝐾∁[𝑇, 𝑆]∥≤𝜀and ∥[𝑇, 𝑆]𝜒𝐾∁∥≤𝜀for all 𝑇such that 𝑇∈V𝑅\nand ∥𝑇∥≤1.\nAs a consequence definition 4.3 does not depend on the approximate unit ( 𝑓𝛼).",
+          "page": 20
+        },
+        {
+          "para_id": "4_6",
+          "text": "21",
+          "page": 21
+        },
+        {
+          "para_id": "4_7",
+          "text": "Proof. Let 𝑓𝛼be an approximate unit of 𝔄made of elements in 𝔐and 𝑆∈M(𝔄) and suppose\nthat 𝑆satisfies definition 4.3 for 𝑓𝛼. Let 𝜀> 0 and 𝑅> 0 and 𝛼0 as in definition 4.3. Then let\n𝐾⊂𝜎(𝔐) such that ( 𝑓𝛼0)|𝐾∁≤𝜀, then 𝑓𝛼≤𝜒𝐾+ 𝜀thus 1 −𝜒𝐾≤1 −𝑓𝛼0 + 𝜀. Then, for 𝑇such\nthat ∥𝑇∥≤1 and prop(𝑇) ≤𝑅:",
+          "page": 21
+        },
+        {
+          "para_id": "4_8",
+          "text": "∥(1 −𝜒𝐾)[𝑇, 𝑆]∥2 = ∥[𝑇, 𝑆]∗(1 −𝜒𝐾)2[𝑇, 𝑆]∥ ≤∥[𝑇, 𝑆]∗(1 −𝑓𝛼0 + 𝜀)2[𝑇, 𝑆]∥ ≤(2𝜀+ 𝜀2)∥[𝑇, 𝑆]∥2 + ∥(1 −𝑓𝛼0)[𝑇, 𝑆]∥2 ≤(2𝜀+ 2𝜀2)∥[𝑇, 𝑆]∥2.",
+          "page": 21
+        },
+        {
+          "para_id": "4_9",
+          "text": "(4.1)",
+          "page": 21
+        },
+        {
+          "para_id": "4_10",
+          "text": "And similarly for [𝑇, 𝑆](1 −𝜒𝐾).\nConversely if 𝑆satisfies the condition in the lemma, let 𝜀> 0, 𝑅> 0 and 𝐾such that\n∥𝜒𝐾∁[𝑇, 𝑆]∥≤𝜀for all 𝑇such that prop(𝑇) ≤𝑅and ∥𝑇∥≤1. Then let 𝛼0 such that 𝑓𝛼|𝐾≥1 −𝜀\nfor 𝛼≥𝛼0. Then, for 𝛼≥𝛼0, 𝜒𝐾≤𝑓𝛼+ 𝜀and a counterpart to inequality 4.1 allows us to\nconclude.\n□",
+          "page": 21
+        },
+        {
+          "para_id": "4_11",
+          "text": "Theorem 4.5. The algebra 𝔄\n𝐻is a unital 𝐶∗-subalgebra of M(𝔄) that contains 𝔄. In other words\nit defines a noncommutative coarse structure on 𝔄. Proof. The C∗algebra 𝔄\n𝐻contains the identity ([𝑇, 𝐼𝑑] = 0) and is closed under addition\n(by the triangle inequality), scalar multiplication and the involution (since ((1 −𝑓𝛼) [𝑇, 𝑆])∗=\n−[𝑇∗, 𝑆∗](1 −𝑓𝛼)∗).\nThe algebra 𝔄\n𝐻is closed under multiplication. Indeed, let ( 𝑓𝛼) be an approximate unit of 𝔄as\nabove. By taking finite convex combinations of elements of this approximate unit, we can assume\nthat it is quasicentral with respect to M(𝔄) (see for instance [12] Section 3.2). If 𝑆1, 𝑆2 are slowly\noscillating then,",
+          "page": 21
+        },
+        {
+          "para_id": "4_12",
+          "text": "(1 −𝑓𝛼) [𝑇, 𝑆1𝑆2] = (1 −𝑓𝛼) [𝑇, 𝑆1]𝑆2 + (1 −𝑓𝛼) 𝑆1[𝑇, 𝑆2] = (1 −𝑓𝛼) [𝑇, 𝑆1]𝑆2\n|                 {z                 } (1)",
+          "page": 21
+        },
+        {
+          "para_id": "4_13",
+          "text": "+ 𝑆1 (1 −𝑓𝛼) [𝑇, 𝑆2]\n|                 {z                 } (2)",
+          "page": 21
+        },
+        {
+          "para_id": "4_14",
+          "text": "+ [1 −𝑓𝛼, 𝑆1][𝑇, 𝑆2]\n|                  {z                  } (3) We see that 𝑆1𝑆2 is slowly oscillating as well since 𝑆1 (resp. 𝑆2) is slowly oscillating for term (1)\n(resp. (2)) above, and since [1 −𝑓𝛼, 𝑆1] →\n𝛼0 for term (3), and since a similar reasoning can be done\nfor [𝑇, 𝑆1𝑆2](1 −𝑓𝛼).\nThe algebra 𝔄\n𝐻is norm-closed. Indeed, if 𝑆𝑛→𝑆in M(𝔄) such that 𝑆𝑛are slowly oscillating,\nthen for 𝑅> 0 and 𝜀> 0, let 𝑛such that ∥𝑆𝑛−𝑆∥≤𝜀and 𝐾compact such that ∥𝜒𝐾∁[𝑇, 𝑆𝑛]∥≤𝜀\nand ∥[𝑇, 𝑆𝑛]𝜒𝐾∁∥≤𝜀for 𝑇such that prop(𝑇) ≤𝑅and ∥𝑇∥≤1. Then for such 𝑇:",
+          "page": 21
+        },
+        {
+          "para_id": "4_15",
+          "text": "∥[𝑇, 𝑆]𝜒𝐾∁∥≤2𝜀",
+          "page": 21
+        },
+        {
+          "para_id": "4_16",
+          "text": "22",
+          "page": 22
+        },
+        {
+          "para_id": "4_17",
+          "text": "and",
+          "page": 22
+        },
+        {
+          "para_id": "4_18",
+          "text": "∥𝜒𝐾∁[𝑇, 𝑆]∥≤2𝜀. The algebra 𝔄\n𝐻contains 𝔄since for 𝑆∈𝔄, (1 −𝑓𝛼)𝑆→0 as 𝛼→∞, thus (1 −𝑓𝛼)[𝑇, 𝑆] →0.\n□",
+          "page": 22
+        },
+        {
+          "para_id": "4_19",
+          "text": "4.2. Relative commutant algebra Higson compactification. In this section we consider a different\ngeneralization of the Higson compactification, based on the relative commutant Roe algebra, we\nthus consider (𝔄, 𝔐, 𝐿) a proper quantum metric space represented on a Hilbert space H. We\ndefine the relative commutant Higson compactification as follows:",
+          "page": 22
+        },
+        {
+          "para_id": "4_20",
+          "text": "Definition 4.6 (Relative commutant Higson compactification). If (𝔄, 𝔐, 𝐿) is a proper quan-\ntum metric space represented on a Hilbert space H, we define the relative commutant Higson\ncompactification of (𝔄, 𝔐, 𝐿) to be the set 𝔄\n𝐻,comm of elements 𝑆in M(𝔄) such that :",
+          "page": 22
+        },
+        {
+          "para_id": "4_21",
+          "text": "[𝑆,𝑇] ∈K(H) for all 𝑇∈𝐶∗\ncomm(𝔄). Theorem 4.7. The algebra 𝔄\n𝐻,comm is a unital 𝐶∗-subalgebra of M(𝔄) that contains 𝔄. In other\nwords it defines a noncommutative coarse structure on 𝔄. Proof. That 𝔄\n𝐻,comm contains the identity, is closed for the norm, closed under addition, scalar\nmultiplication and involution is straightforward. That it contains 𝔄is straightforward from the\ndefinition of 𝐶∗\ncomm(𝔄).\n□",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5. Examples of Coarse quantum metric spaces",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "5.1. The commutative case. In this section, we verify that in the case of locally compact metric\nspaces, the spectral Roe algebra corresponds to the usual Roe algebra and the spectral Higson\ncompactification defined above coincides with the usual Higson compactification for proper metric\nspaces.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "section_id": "5.1.1",
+      "section_title": "5.1.1. The spectral Roe algebra. For convenience we recall the definition of propagation in the\nclassical case:",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "5.1.1_1",
+          "text": "Definition 5.1. Let (𝑋, 𝑑) be a metric space, and 𝜌: 𝐶0(𝑋) →B(H) be a faithful nondegenerate\nrepresentation of 𝐶0(𝑋) on a Hilbert space H. For 𝑇∈B(H), its propagation is defined as:",
+          "page": 22
+        },
+        {
+          "para_id": "5.1.1_2",
+          "text": "prop(𝑇) = sup{𝑑(𝑥, 𝑦) : (𝑥, 𝑦) ∈supp(𝑇)}",
+          "page": 22
+        },
+        {
+          "para_id": "5.1.1_3",
+          "text": "where supp(𝑇) := 𝑋× 𝑋\\\nØ 𝑈,𝑉open\n𝜌(𝜒𝑈)𝑇𝜌(𝜒𝑉)=0",
+          "page": 22
+        },
+        {
+          "para_id": "5.1.1_4",
+          "text": "𝑈× 𝑉.",
+          "page": 22
+        },
+        {
+          "para_id": "5.1.1_5",
+          "text": "23",
+          "page": 23
+        },
+        {
+          "para_id": "5.1.1_6",
+          "text": "Theorem 5.2. Let (𝑋, 𝑑) be a proper metric space, and consider the Lipschitz triple (𝐶0(𝑋), 𝐶0(𝑋), 𝐿𝑑)\nwhere 𝐿𝑑is the usual Lipschitz seminorm. Furthermore, let 𝜌: 𝐶0(𝑋) →B(H) be a faithful\nnondegenerate representation of 𝐶0(𝑋).\nThen the propagation prop(𝑇) defined in section 3 coincides with the propagation defined above\nin definition 5.1.\nAs a consequence, the spectral Roe algebra 𝐶∗\nspec(𝐶0(𝑋)) coincides with the usual Roe algebra\n𝐶∗(𝑋). Proof. Let 𝑇∈B(H), we denote by prop(𝑇) the spectral propagation as defined in section 3, and\nprop(𝑇) the propagation as defined above in definition 5.1 and we show the two inequalities: • prop(𝑇) ≤prop(𝑇): Let prop(𝑇) ≤𝑅, in other words for any open 𝑈,𝑉such that 𝑑(𝑈,𝑉) >\n𝑅, we have 𝜌(𝜒𝑈)𝑇𝜌(𝜒𝑉) = 0. Let us show that 𝑇has spectral propagation less than or\nequal to 𝑅. If 𝑓∈𝔰𝔞(𝐶0(𝑋)) is such that 𝐿( 𝑓) ≤1, then the sets 𝑈= {𝑥∈𝑋: 𝑓(𝑥) ≤𝛼}\nand 𝑉= {𝑥∈𝑋: 𝑓(𝑥) ≥𝛽} are such that 𝑑(𝑈,𝑉) ≥𝛽−𝛼. Thus if 𝛽−𝛼> 𝑅, then\n𝜌(𝜒𝑈)𝑇𝜌(𝜒𝑉) = 0, which shows that 𝑇has spectral propagation less than or equal to 𝑅.\n• prop(𝑇) ≤prop(𝑇): Suppose 𝑇has spectral propagation less than or equal to 𝑅, we\nwill show that prop(𝑇) ≤𝑅.\nIf 𝑈,𝑉are open sets such that 𝑑(𝑈,𝑉) > 𝑅, then we\ncan find 𝑓∈𝔰𝔞(𝐶0(𝑋)) such that 𝐿( 𝑓) ≤1 and 𝑓|𝑈= 0 and 𝑓|𝑉> 𝑅. It follows\nthat 𝜌(𝜒𝑉) ≤𝜒(𝑅,+∞)( 𝑓) and 𝜒(−∞,0]( 𝑓) ≤𝜌(𝜒𝑈). Then by the definition of spectral\npropagation we have 𝜒(−∞,0]( 𝑓)𝑇𝜒(𝑅,+∞)( 𝑓) = 0, thus 𝜌(𝜒𝑈)𝑇𝜌(𝜒𝑉) = 0. This shows that\nprop(𝑇) ≤𝑅. □",
+          "page": 23
+        },
+        {
+          "para_id": "5.1.1_7",
+          "text": "5.1.2. The spectral Higson compactification. Recall first the definition of the Higson compactifica-\ntion for proper metric spaces:",
+          "page": 23
+        },
+        {
+          "para_id": "5.1.1_8",
+          "text": "Definition 5.3 (Higson compactification for proper metric spaces). Let (𝑋, 𝑑) be a proper metric\nspace. • For 𝑓∈𝐶𝑏(𝑋) and 𝑅> 0 denote Δ𝑅𝑓(𝑥) = sup{| 𝑓(𝑥) −𝑓(𝑦)| : 𝑑(𝑥, 𝑦) ≤𝑅}. • A function 𝑓∈𝐶𝑏(𝑋) is said to be slowly oscillating if for all 𝑅> 0, Δ𝑅𝑓(𝑥) −−−−→\n𝑥→∞0. • The Higson compactification of 𝑋is the spectrum of the unital C∗-algebra 𝐶ℎ(𝑋) generated\nby the set of slowly oscillating functions.",
+          "page": 23
+        },
+        {
+          "para_id": "5.1.1_9",
+          "text": "Remark 5.4. Unpacking the definitions, a function is slowly oscillating if and only if for all 𝑅> 0\nand 𝜀> 0, there exists 𝐾⊂𝑋compact such that:",
+          "page": 23
+        },
+        {
+          "para_id": "5.1.1_10",
+          "text": "𝑑(𝑥, 𝑦) ≤𝑅⇒| 𝑓(𝑥) −𝑓(𝑦)| ≤𝜀\nfor all 𝑥, 𝑦∈𝑋\\ 𝐾",
+          "page": 23
+        },
+        {
+          "para_id": "5.1.1_11",
+          "text": "24",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_12",
+          "text": "The following theorem motivates our generalization of the Higson compactification to the quantum\nsetting, showing that it is consistent with the definition above.",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_13",
+          "text": "Theorem 5.5. Let (𝑋, 𝑑) be a proper metric space, and consider the Lipschitz triple (𝐶0(𝑋), 𝐶0(𝑋), 𝐿𝑑)\nwhere 𝐿𝑑is the usual Lipschitz seminorm. Furthermore, let 𝜌: 𝐶0(𝑋) →B(H) be a faithful\nnondegenerate representation of 𝐶0(𝑋).\nThen the generalized Higson compactification of (𝐶0(𝑋), 𝐶0(𝑋), 𝐿𝑑) as in definition 4.3 coincides\nwith 𝜌(𝐶ℎ(𝑋)), where 𝐶ℎ(𝑋) is the classical Higson compactification as in definition 5.3.",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_14",
+          "text": "𝐶0(𝑋)\nℎ= 𝜌(𝐶ℎ(𝑋)).",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_15",
+          "text": "Proof. Before diving in the proofs of each inclusion recall that for any vector 𝜉∈H, the support of\n𝜉is defined to be the set supp(𝜉) defined by:",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_16",
+          "text": "supp(𝜉) := 𝑋\\\nØ 𝑈open\n𝜌(𝜒𝑈)𝜉=0",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_17",
+          "text": "𝑈.",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_18",
+          "text": "Furthermore for 𝑇∈B(H), its support is the set:",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_19",
+          "text": "supp(𝑇) := 𝑋× 𝑋\\\nØ 𝑈×𝑉open\n𝜌(𝜒𝑈)𝑇𝜌(𝜒𝑉)=0",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_20",
+          "text": "𝑈× 𝑉.",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_21",
+          "text": "And we have that prop(𝑇) = sup{𝑑(𝑥, 𝑦) : (𝑥, 𝑦) ∈supp(𝑇)}.\nStep 1: From Roe algebra commutants to slow oscillation\nSuppose that 𝑆∈𝐶0(𝑋)\nℎ, in particular 𝑆∈𝜌(𝔐(𝐶0(𝑋))) = 𝜌(𝐶𝑏(𝑋)), let 𝑆= 𝜌( 𝑓) where\n𝑓∈𝐶𝑏(𝑋) and let us show that 𝑓is slowly oscillating. Let 𝑅> 0 and 𝜀> 0, since 𝜌( 𝑓) ∈𝐶0(𝑋)\nℎ, there is 𝐾⊂𝑋compact such that for all 𝑇such that\nprop(𝑇) ≤𝑅+ 1 and ∥𝑇∥≤1:",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_22",
+          "text": "∥[𝑇, 𝜌( 𝑓)](1 −𝜒𝐾)∥≤𝜀.\n(5.1)",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_23",
+          "text": "We use the following claim:",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_24",
+          "text": "Claim. For all 𝑥∈𝑋and 𝛿> 0, there exists a unit vector 𝜉𝑥∈H such that:",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_25",
+          "text": "supp(𝜉𝑥) ⊂𝐵𝛿(𝑥)",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_26",
+          "text": "Proof of claim. By nondegeneracy, there is a 𝜉such that 𝑥∈supp(𝜉). It then suffices to take: 𝜉𝑥=\n𝜌(𝜒𝐵𝛿(𝑥))𝜉\n∥𝜌(𝜒𝐵𝛿(𝑥))𝜉∥ □",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_27",
+          "text": "Now let 𝑥, 𝑦∈𝑋\\ 𝐾such that 𝑑(𝑥, 𝑦) ≤𝑅, we shall prove that | 𝑓(𝑥) −𝑓(𝑦)| ≤3𝜀.",
+          "page": 24
+        },
+        {
+          "para_id": "5.1.1_28",
+          "text": "25",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_29",
+          "text": "Choose 0 < 𝛿< 1/2 such that 𝐵𝛿(𝑥) ⊂𝑋\\ 𝐾and 𝐵𝛿(𝑦) ⊂𝑋\\ 𝐾and: | 𝑓(𝑥′) −𝑓(𝑥)| ≤𝜀for all 𝑥′ ∈𝐵𝛿(𝑥), | 𝑓(𝑦′) −𝑓(𝑦)| ≤𝜀for all 𝑦′ ∈𝐵𝛿(𝑦)",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_30",
+          "text": "By claim 5.1.2, there exists unit vectors 𝜉𝑥and 𝜉𝑦such that supp(𝜉𝑥) ⊂𝐵𝛿(𝑥) and supp(𝜉𝑦) ⊂\n𝐵𝛿(𝑦). The operator 𝑇𝑥𝑦= |𝜉𝑥⟩⟨𝜉𝑦| is supported within 𝐵𝛿(𝑥) × 𝐵𝛿(𝑦) thus prop(𝑇𝑥𝑦) ≤𝑑(𝑥, 𝑦) +\n2𝛿≤𝑅+ 1 and ∥𝑇𝑥𝑦∥= 1.\nThen ∥(𝜌( 𝑓) −𝑓(𝑥)) 𝜉𝑥∥≤𝜀and ∥(𝜌( 𝑓) −𝑓(𝑦)) 𝜉𝑦∥≤𝜀.\nThus by equation 5.1:",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_31",
+          "text": "𝜀≥| ⟨𝜉𝑦|[𝑇𝑥𝑦, 𝜌( 𝑓)](1 −𝜒𝐾)𝜉𝑥⟩| = | ⟨𝜉𝑦|[𝑇𝑥𝑦, 𝜌( 𝑓)]|𝜉𝑥⟩| = | ⟨𝜉𝑦|𝑇𝑥𝑦|𝜌( 𝑓)𝜉𝑥⟩−⟨𝜌( ¯𝑓)𝜉𝑦|𝑇𝑥𝑦|𝜉𝑥⟩| ≥| 𝑓(𝑥) ⟨𝜉𝑦|𝑇𝑥𝑦|𝜉𝑥⟩−𝑓(𝑦) ⟨𝜉𝑦|𝑇𝑥𝑦|𝜉𝑥⟩| −2𝜀 = | 𝑓(𝑥) −𝑓(𝑦)| −2𝜀",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_32",
+          "text": "Thus | 𝑓(𝑥) −𝑓(𝑦)| ≤3𝜀as needed.\nStep 2: From slow oscillation to Roe algebra commutants\nIf 𝑓is slowly oscillating, let us show that it satisfies the condition 4.3. We have the following fact\n(recorded for instance in [6]) , that can be proven essentially in the same way as in proposition 3.3",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_33",
+          "text": "Claim (Commutation inequality). For any 𝑓∈𝐶𝑏(𝑋), 𝑇∈B(H):",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_34",
+          "text": "∥[𝜌( 𝑓),𝑇]∥≤8𝜔prop(𝑇)( 𝑓)∥𝑇∥.",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_35",
+          "text": "Where for 𝑅≥0, 𝜔𝑅( 𝑓) is defined by:",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_36",
+          "text": "𝜔𝑅( 𝑓) = sup{| 𝑓(𝑥) −𝑓(𝑦)| 𝑥, 𝑦∈𝑋, 𝑑(𝑥, 𝑦) < 𝑅}",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_37",
+          "text": "Now for 𝜀> 0 and 𝑅> 0, let 𝐾such that:",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_38",
+          "text": "𝑑(𝑥, 𝑦) ≤𝑅⇒| 𝑓(𝑥) −𝑓(𝑦)| ≤𝜀\nfor all 𝑥, 𝑦∈𝑋\\ 𝐾",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_39",
+          "text": "Thus if 𝑇∈𝐶∗(𝑋) such that prop(𝑇) ≤𝑅and ∥𝑇∥≤1: consider the corners of 𝜌and 𝑇by the\nprojection 𝜌(𝜒𝐾𝑐) and the restriction 𝑓𝐾𝑐of 𝑓to 𝐾𝑐, we then have 𝜔𝑅( 𝑓|𝐾𝑐) ≤𝜀, thus applying the\ncommutation inequality:",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_40",
+          "text": "∥𝜌(𝜒𝐾𝑐) [𝜌( 𝑓|𝐾𝑐), 𝜌(𝜒𝐾𝑐)𝑇𝜌(𝜒𝐾𝑐)] 𝜌(𝜒𝐾𝑐)∥≤𝜀. Thus ∥𝜌(𝜒𝐾𝑐) [𝜌( 𝑓),𝑇] 𝜌(𝜒𝐾𝑐)∥≤𝜀. Now since [𝑇, 𝜌( 𝑓)] has propagation less than or equal 𝑅, for a compact 𝐿such that 𝐵𝑅(𝐾) ⊂𝐿:",
+          "page": 25
+        },
+        {
+          "para_id": "5.1.1_41",
+          "text": "26",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_42",
+          "text": "∥[𝜌( 𝑓),𝑇] 𝜌(𝜒𝐿𝑐)∥= ∥𝜌(𝜒𝐵𝑅(𝐿𝑐))[𝜌( 𝑓),𝑇]𝜌(𝜒𝐿𝑐)∥ ≤∥𝜌(𝜒𝐾𝑐) [𝜌( 𝑓|𝐾𝑐),𝑇] 𝜌(𝜒𝐾𝑐)∥≤𝜀.",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_43",
+          "text": "□",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_44",
+          "text": "5.2. Compact Quantum Metric spaces. For compact quantum metric spaces represented on\na Hilbert space H, as is expected, all operators in B(H) have finite spectral propagation, finite\ncommutant seminorm, and finite topographic propagation. The coarse structure is of course trivial since the C∗-algebra is unital thus 𝔄= 𝔄\nℎ= M(𝔄).\nFirst recall from [3] that a unital lipschitz pair (𝔄, 𝐿) is a compact quantum metric space if and\nonly if (𝔄, 𝐿, C1) is a locally compact quantum metric space. We thus can consider a compact\nquantum metric space in the sense of Rieffel, as a locally compact quantum metric space.",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_45",
+          "text": "Proposition 5.1. Let (𝔄, 𝐿) be a compact quantum metric space and 𝜌: 𝔄→B(H) be a\nrepresentation of 𝔄, and let 𝑅0 be its diameter, then for any operator 𝑇in B(H) • The spectral propagation of 𝑇is bounded by 𝑅0: prop(𝑇) ≤𝑅0.\n• The commutation seminorm of 𝑇is bounded.",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_46",
+          "text": "Proof. If𝑇∈B(H) and 𝑎∈𝔄is self-adjoint such that 𝐿(𝑎) ≤1, let us show that 𝜒(−∞,0](𝑎)𝑇𝜒(𝑅0,+∞)(𝑎) =\n0.",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_47",
+          "text": "Claim. For 𝜉∈H, either 𝜒[𝑅0,+∞)(𝑎)𝜉= 0 or 𝜒(−∞,0)(𝑎)𝜉= 0.",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_48",
+          "text": "Proof of claim. Note that by the definition of the diameter as the diameter of the space of states\n𝑆(𝔄) under the Monge-Kantorovich distance,",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_49",
+          "text": "|𝜇(𝑎) −𝜈(𝑎)| ≤𝑅0 for all 𝜇and 𝜈states on 𝔄.",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_50",
+          "text": "For 𝜉∈H denote 𝜉+ = 𝜒[𝑅0,+∞)(𝑎)𝜉and 𝜉−= 𝜒(−∞,0)(𝑎)𝜉, and suppose, by absurd that 𝜉+ ≠0\nand 𝜉−≠0, it follows then by considering the states: 𝑎↦→⟨𝜉+,𝜌(𝑎)𝜉+⟩",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_51",
+          "text": "∥𝜉+∥2\nand 𝑎↦→⟨𝜉−,𝜌(𝑎)𝜉−⟩",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_52",
+          "text": "∥𝜉−∥2\nthat ⟨𝜉+, 𝜌(𝑎)𝜉+⟩",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_53",
+          "text": "∥𝜉+∥2\n−⟨𝜉−, 𝜌(𝑎)𝜉−⟩",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_54",
+          "text": "∥𝜉−∥2\n≤𝑅0 Furthermore since by the definition of 𝜉+ and 𝜉−we have that ⟨𝜉+, 𝜌(𝑎)𝜉+⟩",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_55",
+          "text": "∥𝜉+∥2\n≥𝑅0, ⟨𝜉−, 𝜌(𝑎)𝜉−⟩",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_56",
+          "text": "∥𝜉−∥2\n< 0, thus ⟨𝜉+, 𝜌(𝑎)𝜉+⟩",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_57",
+          "text": "∥𝜉+∥2\n−⟨𝜉−, 𝜌(𝑎)𝜉−⟩",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_58",
+          "text": "∥𝜉−∥2\n> 𝑅0, a contradiction, and it follows that: 𝜉+ = 0 or 𝜉−= 0.\n□",
+          "page": 26
+        },
+        {
+          "para_id": "5.1.1_59",
+          "text": "27",
+          "page": 27
+        },
+        {
+          "para_id": "5.1.1_60",
+          "text": "Now if 𝑇∈B(H) and 𝜉∈H: ⟨𝜉|𝜒(−∞,0)(𝑎)𝑇𝜒[𝑅0,+∞)(𝑎)𝜉⟩= ⟨𝜒(−∞,0)(𝑎)𝜉|𝑇𝜒[𝑅0,+∞)(𝑎)𝜉⟩= 0, since by the claim above either 𝜒(−∞,0)(𝑎)𝜉= 0 or 𝜒[𝑅0,+∞)(𝑎)𝜉= 0. It follows that 𝜒(−∞,0)(𝑎)𝑇𝜒[𝑅0,+∞)(𝑎) =\n0.\n□",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "section_id": "5.3",
+      "section_title": "5.3. Coarse disjoint unions of Compact Quantum Metric spaces.",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "5.3_1",
+          "text": "5.3.1. General setting. We consider the coarse disjoint union of a sequence of compact quantum\nmetric spaces (𝔄𝑛, 𝐿𝑛) where 𝔄𝑛is unital for all 𝑛. We endow the direct sum É",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_2",
+          "text": "𝑛𝔄𝑛with a\nLip-norm and a topography that make it into a locally compact quantum metric space, one of the\nmotivations is the study of quantum expanders.",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_3",
+          "text": "Definition 5.6 (Coarse disjoint union of compact quantum metric spaces). Let (𝔄𝑛, 𝐿𝑛) be a\nsequence of compact quantum metric spaces. Fix 𝜑𝑛states on 𝔄𝑛, and 𝑅𝑛a sequence of positive\nreal numbers that satisfies 𝑅𝑛→∞.\nWe define the coarse disjoint union of (𝔄𝑛, 𝐿𝑛), with distances 𝑅𝑛between states 𝜑𝑛, to be the\nLipschitz triple (𝔄, 𝔐, 𝐿) where: • 𝔄= É",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_4",
+          "text": "𝑛𝔄𝑛,\n• 𝔐= É",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_5",
+          "text": "𝑛C1𝑛is the topography,\n• 𝐿is defined for 𝑎= (𝑎𝑛)𝑛∈𝔰𝔞(𝔄) by: 𝐿((𝑎𝑛)𝑛) = max\n\u0012\nsup\n𝑛\n𝐿𝑛(𝑎𝑛), sup\n𝑛\n|𝜑𝑛+1(𝑎𝑛+1) −𝜑𝑛(𝑎𝑛)|",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_6",
+          "text": "𝑅𝑛",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_7",
+          "text": "\u0013",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_8",
+          "text": "In order to show that this is indeed a locally compact quantum metric space, the main technical\nhurdle is to show that the Monge-Kantorovich metric metrizes the weak* topology on the set of\n(tame) states. Alternatively it suffices to show the characterization stated in theorem 2.9 in terms of\nprecompactness of certain subsets of 𝔲𝔄.\nWe will ultimately reduce to using this characterization for the compact parts 𝔄𝑛, in the following\nform:",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_9",
+          "text": "Lemma 5.7. Let (𝔄0, 𝐿0) be a compact quantum metric space, 𝜑0 a state on 𝔄0 and 𝐼a bounded\nsubset of R. Then the set: {𝑎∈𝔰𝔞(𝔄) : 𝐿0(𝑎) ≤1, 𝜑0(𝑎) ∈𝐼}",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_10",
+          "text": "is norm precompact in 𝔄0.",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_11",
+          "text": "Proof. Denote 𝐸𝐼= {𝑎∈𝔰𝔞(𝔄) : 𝐿0(𝑎) ≤1, 𝜑0(𝑎) ∈𝐼} for any 𝐼⊂R.\nNow assume 𝐼is bounded. By the fundamental characterization of compact quantum metric\nspaces [2], 𝐸0 = {𝑎∈𝔰𝔞(𝔄) : 𝐿0(𝑎) ≤1, 𝜑0(𝑎) = 0} is norm precompact in 𝔄. The function\n𝐸0 × R →𝐸R defined by (𝑎, 𝑡) ↦→𝑎+ 𝑡1 is continuous and maps the compact set 𝐸0 × 𝐼onto a\ncompact set containing 𝐸𝐼, thus 𝐸𝐼is precompact in 𝔄.\n□",
+          "page": 27
+        },
+        {
+          "para_id": "5.3_12",
+          "text": "28",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_13",
+          "text": "Theorem 5.8. Any coarse disjoint union of compact quantum metric spaces (𝔄𝑛, 𝐿𝑛) is a locally\ncompact quantum metric space.\nFurthermore if (𝔄𝑛, 𝐿𝑛) are separable, 𝐿is lower semi-continuous defined on a dense subset\nof 𝔄𝑛(as compared with 𝔰𝔞(𝔄𝑛)) ,and satisfy the Leibniz inequality, then their coarse disjoint is\nstrongly proper, in the sense of [7], Definition 3.2.12.",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_14",
+          "text": "Proof. Step 1: weak*-metrizability condition Denote by (𝔄, 𝔐, 𝐿) the coarse disjoint union of\n(𝔄𝑛, 𝐿𝑛) as above, let 𝜑𝑛and 𝑅𝑛be respectively the states and distances used in the definition of 𝐿.\nRecall that by theorem 2.9 to show that the Lipschitz triple (𝔄, 𝔐, 𝐿) is a locally compact\nquantum metric space, it suffices to show that, for a local state 𝜓∈S(𝔄|𝔐) for all 𝑠, 𝑡∈𝔐with\ncompact support, the set:",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_15",
+          "text": "{𝑠𝑎𝑡: 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜓(𝑎) = 0} is norm precompact in 𝔄.\nSince 𝔐= É",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_16",
+          "text": "𝑛C1𝑛\u001b 𝑐0(N), compactly supported elements of 𝔐are finite sequences\ncorresponding to elements of finite sums É𝑛\n𝑘=0 C1𝑘, and correspondingly, local states are states\nsupported on finite sums É𝑛\n𝑘=0 𝔄𝑘.\nIn particular (𝑎𝑛)𝑛↦→𝜑0(𝑎0) defines a local state on 𝔄.\nThus in the setting above, it suffices to show that for any 𝑛∈N, the set: 𝐸0 = {(𝑎0, . . . , 𝑎𝑛, 0, . . . ) ∈𝔰𝔞(𝔲𝔄) : 𝐿((𝑎0, . . . , 𝑎𝑛, 𝑎𝑛+1, . . . )) ≤1, 𝜑0(𝑎0) = 0} is norm precompact in 𝔄.\nThe condition\n𝐿((𝑎0, . . . , 𝑎𝑛, . . . )) ≤1, 𝜑0(𝑎0) = 0 implies",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_17",
+          "text": "𝐿𝑘(𝑎𝑘) ≤1, |𝜑𝑘+1(𝑎𝑘+1) −𝜑𝑘(𝑎𝑘)| ≤𝑅𝑘for 0 ≤𝑘≤𝑛−1, and 𝜑0(𝑎0) = 0 which in turn implies",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_18",
+          "text": "𝐿𝑘(𝑎𝑘) ≤1 and |𝜑𝑘(𝑎𝑘)| ≤\n∑︁",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_19",
+          "text": "0≤𝑘′≤𝑘−1\n𝑅𝑘for 0 ≤𝑘≤𝑛−1. Thus 𝐸0 can be continuously embedded in:\nÖ",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_20",
+          "text": "0≤𝑘≤𝑛\n{𝑎𝑘∈𝔰𝔞(𝔲𝔄𝑘) : 𝐿𝑘(𝑎𝑘) ≤1, |𝜑𝑘(𝑎𝑘)| ≤𝐶} which are precompact sets by Lemma 5.7. Thus 𝐸0 is precompact.\nStep 2: Strong properness: By definition 2.13, it suffices to show that there exists an approximate\nunit (𝑒𝑛)𝑛in 𝔰𝔞(𝔐) for 𝔄, comprized of elements with compact supports in 𝔐and such that\n𝐿(𝑒𝑛) −−−−→\n𝑛→∞0. Choosing 𝑒𝑛= (10, . . . , 1𝑛, 0, · · · ), this is compactly supported in the topography and 𝐿(𝑒𝑛) =\n1\n𝑅𝑛−−−−→\n𝑛→∞0.\n□",
+          "page": 28
+        },
+        {
+          "para_id": "5.3_21",
+          "text": "29",
+          "page": 29
+        },
+        {
+          "para_id": "5.3_22",
+          "text": "5.4. Almost-commutative Lipschitz triples. Riemannian manifolds and in particular spin mani-\nfolds provide a rich source of metric spaces. In noncommutative geometry, the counterpart, and\none of the motivating examples for C*-quantum metric spaces, are spectral triples. In this context,\nsome of the simplest examples after commutative spectral triples (i.e. spin manifolds), which led to\nmodels for the Standard Model of particle physics, are almost-commutative spectral triples, which\nare tensor products of commutative spectral triples with finite-dimensional spectral triples. That is,\ntriples of the form (𝐶∞(𝑀) ˆ⊗𝔄𝐹, 𝐿2(𝑀, 𝑆) ˆ⊗H𝐹, /𝐷ˆ⊗1 + 𝜖ˆ⊗𝐷𝐹) where • 𝑀is a compact spin manifold, 𝑆the spinor bundle over 𝑀, /𝐷the associated Dirac operator,\nand 𝜖the (constant) graduation of 𝐿2(𝑀, 𝑆) in the even case (even spinors are +1 eigenvectors,\nand odd spinors are −1), and 𝜖= 1 in the odd case,\n• 𝔄𝐹is a finite dimensional C*-algebra,\n• H𝐹is a finite dimensional Hilbert space,\n• 𝐷𝐹is a self-adjoint operator on H𝐹, making (𝔄𝐹, H𝐹, 𝐷𝐹) a finite dimensional spectral\ntriple. In this model the algebra 𝔄𝐹encodes the internal degrees of freedom of the elementary particles,\nwhile the manifold 𝑀encodes the spacetime. Since we are interested in the metric coarse structure\nwe shall consider models inspired by these construction where: • 𝑀is a complete Riemannian manifold (not necessarily compact).\n• We focus on the quantum metric structure (and forget about other structures carried by the\nspinor bundle and the Dirac operator). In this context, to motivate the right class of Lipschitz seminorms to consider on 𝐶0(𝑀) ˆ⊗𝔄𝐹, we\nnote that all Lipschitz seminorms on finite dimensional C*-algebras are equivalent (in the sense that\nthey are comparable up to multiplicative constants), since the formula inf{∥𝑎−𝑐1 | for 𝑐∈C∥}\ndefines a Lipschitz seminorm on 𝔄𝐹, we obtain the following:",
+          "page": 29
+        },
+        {
+          "para_id": "5.3_23",
+          "text": "Proposition 5.2. For any Lipschitz seminorm 𝐿𝐹on a finite dimensional C*-algebra 𝔄𝐹, there\nexists 𝐶> 0 such that for all 𝑎∈𝔰𝔞(𝔄𝐹): 1\n𝐶inf\n𝑐∈C ∥𝑎−𝑐1∥≤𝐿𝐹(𝑎) ≤𝐶inf\n𝑐∈C ∥𝑎−𝑐1∥ Proof. Since 𝔄𝐹is finite dimensional, all norms on 𝔰𝔞(𝔄𝐹)/C1 are equivalent, in particular the\nquotient norm induced by the C*-norm and the norm induced by 𝐿𝐹.\n□",
+          "page": 29
+        },
+        {
+          "para_id": "5.3_24",
+          "text": "Based on this observation we fix the following notation:",
+          "page": 29
+        },
+        {
+          "para_id": "5.3_25",
+          "text": "Definition 5.9. Let 𝔄𝐹be a finite dimensional C∗-algebra, we denote by 𝐿0 the Lipschitz seminorm\ndefined for 𝑎∈𝔰𝔞(𝔄𝐹) by:",
+          "page": 29
+        },
+        {
+          "para_id": "5.3_26",
+          "text": "𝐿𝔄𝐹(𝑎) = inf\n𝑐∈C ∥𝑎−𝑐1∥",
+          "page": 29
+        },
+        {
+          "para_id": "5.3_27",
+          "text": "30",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_28",
+          "text": "Furthermore, almost-commutative spectral triples where shown to satisfy a triangle inequality\n(even in the non unital case) [13], of the form:",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_29",
+          "text": "𝑑(𝜑⊗𝜑𝐹, 𝜓⊗𝜓𝐹) ≤𝑑𝑀(𝜑, 𝜓) + 𝑑𝐹(𝜑𝐹, 𝜓𝐹)",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_30",
+          "text": "For states 𝜑, 𝜓on 𝐶0(𝑀) and 𝜑𝐹, 𝜓𝐹on 𝔄𝐹, where 𝑑𝑀and 𝑑𝐹are the Monge-Kantorovich metrics\non 𝑀and on 𝔄𝐹respectively. In fact, in the unital (compact) case, a lower bound is also satisfied in\nthe form of a Pythagoras inequality. Here we shall only consider the upper bound.\nBased on the observations above we define the following class of almost-commutative Lipschitz\ntriples:",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_31",
+          "text": "Definition 5.10 (Almost-commutative Lipschitz triple). Let 𝑋be a proper metric space and let 𝔄𝐹\nbe finite dimensional C∗-algebra.\nAn almost-commutative Lipschitz triple on 𝑋with fibers modeled on 𝔄𝐹is: • A Lipschitz triple (𝐶0(𝑋) ⊗𝔄𝐹, 𝐶0(𝑋) ⊗C1, 𝐿) such that:\n• There exists 𝐶> 0, such that for 𝐹∈𝐶0(𝑋) ⊗𝔄𝐹, whenever 𝐿(𝐹) < ∞: 𝐿(𝐹) ≤𝐶\n\u0012\nsup\n𝑥∈𝑋\n(𝐿0(𝐹(𝑥))) + 𝐿𝑋(𝐹)\n\u0013 • The Monge-Kantorovich metric 𝑑associated to (𝐶0(𝑋) ⊗𝔄𝐹, 𝐶0(𝑋) ⊗C1, 𝐿) satisfies the\nfollowing triangle inequality: for any states 𝜑, 𝜓on 𝐶0(𝑋) and 𝜑𝐹, 𝜓𝐹on 𝔄𝐹:",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_32",
+          "text": "𝑑(𝜑⊗𝜑𝐹, 𝜓⊗𝜓𝐹) ≤𝐶(𝑑𝑋(𝜑, 𝜓) + 𝑑𝐹(𝜑𝐹, 𝜓𝐹))",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_33",
+          "text": "where 𝑑𝑋and 𝑑𝐹are the Monge-Kantorovich metrics associated to (𝐶0(𝑋), 𝐶0(𝑋), 𝐿𝑑) and\n(𝔄𝐹, C1, 𝐿0) respectively.",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_34",
+          "text": "Remark 5.11. We make the following straightforward (but nonetheless important) observations\nabout the definition above: • In the above definition, recalling that 𝐶0(𝑋) ⊗𝔄𝐹\u001b 𝐶0(𝑋, 𝔄𝐹), 𝐿𝑋denotes:",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_35",
+          "text": "𝐿𝑋(𝐹) = sup\n𝑥≠𝑦",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_36",
+          "text": "\u0012 ∥𝐹(𝑥) −𝐹(𝑦)∥ 𝑑(𝑥, 𝑦)",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_37",
+          "text": "\u0013",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_38",
+          "text": "• It follows automatically that 𝐿is densely defined.\n• Since 𝔄𝐹is finite dimensional, states on 𝐶0(𝑋) ⊗𝔄𝐹can be written as finite sums of\ntensor products of states on 𝐶0(𝑋) and states on 𝔄𝐹. This, combined with the fact that the\ntopography is 𝐶0(𝑋) ⊗C1 allows us to show that tame sets of states on 𝐶0(𝑋) ⊗𝔄𝐹are\nconstructed from tame sets of states on 𝐶0(𝑋), thus the triangle inequality on product states\nsuffices to show that the Monge-Kantorovich metric metrizes the weak* topology on tame\nsets of states on 𝐶0(𝑋) ⊗𝔄𝐹: any almost-commutative Lipschitz triple is a locally compact\nquantum metric space.\n• Given the above we shall also call (𝐶0(𝑋) ⊗𝔄𝐹, 𝐶0(𝑋) ⊗C1, 𝐿) a locally compact\nalmost-commutative quantum metric space.",
+          "page": 30
+        },
+        {
+          "para_id": "5.3_39",
+          "text": "31",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_40",
+          "text": "• If 𝑋is proper and 𝐿is lower semi-continuous, satisfying Leibniz inequality, then (𝐶0(𝑋) ⊗\n𝔄𝐹, 𝐶0(𝑋) ⊗C1, 𝐿) is strongly proper in the sense of [7]. Proposition 5.3. If (𝐶0(𝑀) ⊗𝔄𝐹, 𝐿2(𝑀, 𝑆), 𝐷) is an almost-commutative spectral triple on a\n(nonnecessarily compact) spin manifold then, with 𝐿the Lipschitz seminorm defined by ∥[𝐷, ·]∥,\n(𝐶0(𝑀) ⊗𝔄𝐹, 𝐶0(𝑀) ⊗C1, 𝐿) is an almost-commutative Lipschitz triple. 5.4.1. Spectral propagation and Roe algebras: Let us first fix a representation of 𝐶0(𝑋) ⊗𝔄𝐹\non a Hilbert space. Let 𝜌𝑋be an ample representation of 𝐶0(𝑋) on H𝑋and 𝜌𝐹be a faithful\nrepresentation of 𝔄𝐹on H𝐹, and consider: • The representation 𝜌= 𝜌𝑋⊗𝜌𝐹of 𝐶0(𝑋) ⊗𝔄𝐹on H𝑋⊗H𝐹.\n• For any operator 𝑇∈B(H𝑋⊗H𝐹), and any 𝜉1, 𝜉2 ∈H𝐹, we denote by 𝑇𝜉1𝜉2 ∈B(H𝑋) the\noperators defined by:",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_41",
+          "text": "⟨𝜂1|𝑇𝜉1𝜉2|𝜂2⟩= ⟨𝜂1 ⊗𝜉1|𝑇|𝜂2 ⊗𝜉2⟩for all 𝜂1, 𝜂2 ∈H𝑋. • In particular if 𝑒𝑖is an orthonormal basis of H𝐹, we can write 𝑇as a matrix of operators\n(𝑇𝑖𝑗)𝑖,𝑗with entries in B(H𝑋), where 𝑇𝑖𝑗= 𝑇𝑒𝑖𝑒𝑗. We want to relate the spectral propagation of 𝑇with respect to 𝐶0(𝑋) ⊗𝔄𝐹, to the spectral\npropagation of its blocks 𝑇𝑖𝑗with respect to 𝐶0(𝑋).",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_42",
+          "text": "Proposition 5.4. Let (𝐶0(𝑋) ⊗𝔄𝐹, 𝐶0(𝑋) ⊗C1, 𝐿) be an almost-commutative locally compact\nmetric space represented on H𝑋⊗H𝐹. Let 𝑅0 be the radius of the quantum metric space (𝔄𝐹, 𝐿𝐹).\nThen there exists 𝐶> 0 such that for 𝑇∈B(H𝑋⊗H𝐹): 1\n𝐶sup\n𝑖,𝑗",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_43",
+          "text": "\u0002\nprop(𝑇𝑖𝑗)\n\u0003\n≤prop(𝑇) ≤𝐶",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_44",
+          "text": "sup\n𝑖,𝑗",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_45",
+          "text": "\u0002\nprop(𝑇𝑖𝑗)\n\u0003\n+ 𝑅0",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_46",
+          "text": "!",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_47",
+          "text": "Let us first recall the following notation, which we shall use in the second part of the proof, for\n𝜂∈H𝑋, let supp(𝜂) be the closed subset of 𝑋defined by: supp(𝜉) = {𝑥∈𝑋: for all open 𝑈∋𝑥, we have 𝜌(𝜒𝑈)𝜉≠0} Proof. By the definition of almost-commutative Lipschitz triples, there exists 𝐶> 0 such that for all\n𝑓∈𝐶0(𝑋) ⊗𝔄𝐹with 𝐿( 𝑓) ≤1: 1\n𝐶",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_48",
+          "text": "\u0012\nsup\n𝑥∈𝑋\n(𝐿0( 𝑓(𝑥))) + 𝐿𝑋( 𝑓)\n\u0013\n≤𝐿( 𝑓) ≤𝐶\n\u0012\nsup\n𝑥∈𝑋\n(𝐿0( 𝑓(𝑥))) + 𝐿𝑋( 𝑓)\n\u0013 and for any states 𝜑, 𝜓on 𝐶0(𝑋) and 𝜑𝐹, 𝜓𝐹on 𝔄𝐹: 𝑑(𝜑⊗𝜑𝐹, 𝜓⊗𝜓𝐹) ≤𝐶(𝑑𝑋(𝜑, 𝜓) + 𝑑𝐹(𝜑𝐹, 𝜓𝐹)) • sup𝑖,𝑗\n\u0002\nprop(𝑇𝑖𝑗)\n\u0003\n≤𝐶prop(𝑇):\nLet 𝑅= prop(𝑇), if 𝑓∈𝐶0(𝑋) is such that 𝐿𝑋( 𝑓) ≤1, then 𝐿𝑋( 𝑓⊗1) ≤1 thus\n𝐿( 𝑓⊗1) ≤𝐶, it follows that: 𝜒(−∞,0)( 𝑓⊗1)𝑇𝜒[𝐶𝑅,+∞)( 𝑓⊗1) = 0",
+          "page": 31
+        },
+        {
+          "para_id": "5.3_49",
+          "text": "32",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_50",
+          "text": "Which implies that 𝜒(−∞,0)( 𝑓)𝑇𝑖𝑗𝜒[𝐶𝑅,+∞)( 𝑓) = 0 for all 𝑖, 𝑗, thus prop(𝑇𝑖𝑗) ≤𝐶𝑅for all\n𝑖, 𝑗.\n• prop(𝑇) ≤𝐶\n\u0010\nsup𝑖,𝑗\n\u0002\nprop(𝑇𝑖𝑗)\n\u0003\n+ 𝑅0\n\u0011\n: Let 𝑅= sup𝑖,𝑗\n\u0002\nprop(𝑇𝑖𝑗)\n\u0003\n, it follows more generally that for all 𝜉1, 𝜉2 ∈H𝐹, prop(𝑇𝜉1𝜉2) ≤𝑅.\nNow if 𝐹∈𝐶0(𝑋) ⊗𝔄𝐹is such that 𝐿(𝐹) ≤1, then if 𝑥, 𝑦∈𝑋and 𝜉1, 𝜉2 ∈H𝐹unit\nvectors:",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_51",
+          "text": "| ⟨𝜉1, 𝐹(𝑥)𝜉1⟩−⟨𝜉2, 𝐹(𝑦)𝜉2⟩| ≤𝐶(𝑑(𝑥, 𝑦) + 𝑅0)",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_52",
+          "text": "by the triangle inequality applied to the states 𝐹↦→⟨𝜉1, 𝐹(𝑥)𝜉1⟩and 𝐹↦→⟨𝜉2, 𝐹(𝑦)𝜉2⟩on\n𝐶0(𝑋) ⊗𝔄𝐹. Thus if 𝜂1, 𝜂2 ∈H𝑋and 𝜉1, 𝜉2 ∈H𝐹are such that",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_53",
+          "text": "𝜂1 ⊗𝜉1 ∈(1 ⊗|𝜉1⟩⟨𝜉1|) 𝜒(−∞,0)(𝐹)(H𝑋⊗H𝐹), 𝜂2 ⊗𝜉2 ∈(1 ⊗|𝜉2⟩⟨𝜉2|) 𝜒[𝐶(𝑅+𝑅0),+∞)(𝐹)(H𝑋⊗H𝐹)",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_54",
+          "text": "Then",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_55",
+          "text": "⟨𝜂1 ⊗𝜉1, 𝐹𝜂1 ⊗𝜉1⟩≤0, ⟨𝜂2 ⊗𝜉2, 𝐹𝜂2 ⊗𝜉2⟩> 𝐶(𝑅+ 𝑅0).",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_56",
+          "text": "Which shows that 𝐶(𝑑(supp(𝜂1), supp(𝜂2)) + 𝑅0) ≥𝐶(𝑅+ 𝑅0), thus:",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_57",
+          "text": "𝑑(supp(𝜂1), supp(𝜂2)) ≥𝑅,",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_58",
+          "text": "and it follows that:",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_59",
+          "text": "⟨𝜂1 ⊗𝜉1|𝑇|𝜂2 ⊗𝜉2⟩= ⟨𝜉1|𝑇𝜉1,𝜉2|𝜉2⟩= 0",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_60",
+          "text": "By the propagation condition on 𝑇𝜉1𝜉2. Thus 𝜒(−∞,0)(𝐹)𝑇𝜒[𝐶(𝑅+𝑅0),+∞)(𝐹) = 0, and it\nfollows that prop(𝑇) ≤𝐶(𝑅+ 𝑅0). □",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_61",
+          "text": "The following is then straightforward:",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_62",
+          "text": "Theorem 5.12. For an almost-commutative Lipschitz triple (𝐶0(𝑋)⊗𝔄𝐹, 𝐶0(𝑋)⊗C1, 𝐿) represented\non H𝑋⊗H𝐹:",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_63",
+          "text": "𝐶∗\nspec(𝐶0(𝑋) ⊗𝔄𝐹) \u001b 𝐶∗(𝑋) ⊗B(H𝐹)",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_64",
+          "text": "5.4.2. Spectral Higson compactification and coarse structure: In this section we describe the\nspectral Higson compactification of almost-commutative Lipschitz triples. We first note that since\n𝔄𝐹is unital, M(𝐶0(𝑋) ⊗𝔄𝐹) \u001b 𝐶𝑏(𝑋) ⊗𝔄𝐹\u001b 𝐶0(𝛽𝑋) ⊗𝔄𝐹. The following computation then\nfollows straightforwardly from the definitions:",
+          "page": 32
+        },
+        {
+          "para_id": "5.3_65",
+          "text": "33",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_66",
+          "text": "Proposition 5.5. Let (𝐶0(𝑋) ⊗𝔄𝐹, 𝐶0(𝑋) ⊗C1, 𝐿) be an almost-commutative Lipschitz triple, then\nwith respect to a representation of the form H𝑋⊗H𝐹, the spectral Higson compactification, as a\nsubset of 𝐶0(𝑋) ⊗𝔄𝐹, is given by: 𝐶0(𝑋) ⊗𝔄𝐹\nℎ= 𝐶0(𝑋) ⊗𝔄𝐹+ 𝐶ℎ(𝑋) ⊗C1",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_67",
+          "text": "Where 𝐶0(𝑋) ⊗𝔄𝐹+ 𝐶ℎ(𝑋) ⊗C1 is identified with its image under the representation on H𝑋⊗H𝐹.",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_68",
+          "text": "Proof. We show the double inclusion: • 𝐶0(𝑋) ⊗𝔄𝐹\nℎ⊂𝐶0(𝑋) ⊗𝔄𝐹+ 𝐶ℎ(𝑋) ⊗C1: Fix an orthonormal basis (𝑒𝑖)𝑖for H𝐹. Let\n𝑆∈𝐶0(𝑋) ⊗𝔄𝐹\nℎ, and denote by 𝑆𝑖𝑗∈B(H𝑋) its blocks with respect to the basis (𝑒𝑖)𝑖. By\napplying the definition of the spectral Higson compactification, since operators of the form\n1 ⊗|𝑒𝑖⟩⟨𝑒𝑗| have finite spectral propagation by proposition 5.4 [1 ⊗|𝑒𝑖⟩⟨𝑒𝑗| , 𝑆] \u0000𝜌𝑋(𝜒𝐾∁) ⊗1\u0001 −−−−→\n𝐾→𝑋0 \u00001 ⊗|𝑒𝑖⟩⟨𝑒𝑗|\u0001 𝑆written as a matrix of operators on H𝑋has entries 𝑆𝑗,𝑙in the 𝑖-th row and\n𝑙-th column, and 0 elsewhere, while 𝑆\u00001 ⊗|𝑒𝑖⟩⟨𝑒𝑗|\u0001 has entries 𝑆𝑘,𝑖in the 𝑘-th row and 𝑗-th\ncolumn, and 0 elsewhere. It follows by taking 𝑖≠𝑗that the (𝑖, 𝑖) entry of [\u00001 ⊗|𝑒𝑖⟩⟨𝑒𝑗|\u0001 , 𝑆]\nis 𝑆𝑗,𝑖and thus:",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_69",
+          "text": "𝑆𝑗,𝑖𝜌𝑋(𝜒𝐾∁) −−−−→\n𝐾→𝑋0 for 𝑗≠𝑖. Thus",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_70",
+          "text": "𝑆𝑗,𝑖∈𝐶0(𝑋) for 𝑗≠𝑖.\n(5.2) Furthermore the (𝑖, 𝑗) entry of [\u00001 ⊗|𝑒𝑖⟩⟨𝑒𝑗|\u0001 , 𝑆] is 𝑆𝑗,𝑗−𝑆𝑖,𝑖, thus similarly:",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_71",
+          "text": "𝑆𝑗,𝑗−𝑆𝑖,𝑖∈𝐶0(𝑋) for 𝑗≠𝑖.\n(5.3)",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_72",
+          "text": "Combining (5.2) and (5.3), we obtain that:",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_73",
+          "text": "𝑆−𝑆11 ⊗1 ∈𝐶0(𝑋) ⊗𝔄𝐹. Furthermore, if 𝑇∈B(H𝑋) then prop(𝑇⊗1) ≤𝐶(prop(𝑇) + 𝑅0) for some 𝐶> 0 and 𝑅0\nindependent of 𝑇by proposition 5.4, thus since 𝑆∈𝐶0(𝑋) ⊗𝔄𝐹\nℎ, we obtain that for any\n𝑅> 0 and 𝜀there exists 𝐾such that:",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_74",
+          "text": "∥[𝑆,𝑇⊗1]𝜒𝐾∁∥≤𝜀, ∥𝜒𝐾∁[𝑆,𝑇⊗1]∥≤𝜀\nfor any 𝑇∈(B(H𝑋))1 with prop(𝑇) ≤𝑅 thus taking the (1, 1) element, with the identification in the commutative case (theorem 5.5)",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_75",
+          "text": "𝑆11 ∈𝐶ℎ(𝑋)",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_76",
+          "text": "and it follows that 𝑆= (𝑆−𝑆11 ⊗1) + 𝑆11 ⊗1 ∈𝐶0(𝑋) ⊗𝔄𝐹+ 𝐶ℎ(𝑋) ⊗C1.",
+          "page": 33
+        },
+        {
+          "para_id": "5.3_77",
+          "text": "34",
+          "page": 34
+        },
+        {
+          "para_id": "5.3_78",
+          "text": "• 𝐶0(𝑋) ⊗𝔄𝐹+ 𝐶ℎ(𝑋) ⊗C1 ⊂𝐶0(𝑋) ⊗𝔄𝐹\nℎ:\nIt suffices to show that for 𝑓∈𝐶ℎ(𝑋), 𝑓⊗1 ∈𝐶0(𝑋) ⊗𝔄𝐹\nℎ. Let 𝑅> 0 and 𝜀> 0, by the\ncharacterization of Higson functions from theorem 5.5, there exists a compact set 𝐾⊂𝑋\nsuch that for all ˜𝑇∈(B(H𝑋))1 with prop( ˜𝑇) ≤𝐶𝑅: ∥[ 𝑓, ˜𝑇]𝜒𝐾∁∥≤𝜀/dim(H𝐹),\n∥𝜒𝐾∁[ 𝑓, ˜𝑇]∥≤𝜀/dim(H𝐹). It follows that for all 𝑇∈B(H𝑋⊗H𝐹) with prop(𝑇) ≤𝑅, prop \u0000𝑇𝑖𝑗\n\u0001 ≤𝐶𝑅(proposition\n5.4), thus since:",
+          "page": 34
+        },
+        {
+          "para_id": "5.3_79",
+          "text": "[ 𝑓⊗1,𝑇]𝜒𝐾∁= ([ 𝑓,𝑇𝑖𝑗]𝜒𝐾∁)𝑖𝑗,\n𝜒𝐾∁[ 𝑓⊗1,𝑇] = (𝜒𝐾∁[ 𝑓,𝑇𝑖𝑗])𝑖𝑗 we have : ∥[ 𝑓⊗1,𝑇]𝜒𝐾∁∥≤𝜀,\n∥𝜒𝐾∁[ 𝑓⊗1,𝑇]∥≤𝜀. □ Looking at the Higson coronas: 𝐶0(𝑋) ⊗𝔄𝐹\nℎ/𝐶0(𝑋) ⊗𝔄𝐹\u001b 𝐶ℎ(𝑋)/𝐶0(𝑋) = 𝐶(𝜈𝑋), we\nnaturally expect that the spectral coarse structure on 𝐶0(𝑋) ⊗𝔄𝐹is coarsely isomorphic to 𝐶0(𝑋).\nA notion of coarse equivalence, and more generally coarse map has been introduced in [8], let us\nrecall the definitions first. For (𝔄, 𝔄) a noncommutative coarse space, we denote by 𝜕𝔄= 𝔄/𝔄its\ncorona.",
+          "page": 34
+        },
+        {
+          "para_id": "5.3_80",
+          "text": "Definition 5.13 (Noncommutative coarse map). If (𝔄, 𝔄) and (𝔅, 𝔅) are noncommutative coarse\nspaces, a noncommutative coarse map from (𝔄, 𝔄) to (𝔅, 𝔅) is a unital completely positive map\n𝜑: 𝔄→𝔅continuous with respect to the strict topology of 𝔄and 𝔅such that: • 𝜑= 𝜑|𝔄: 𝔄→𝔅maps 𝔄to 𝔅,\n• the induced map on the coronas 𝜕𝜑: 𝜕𝔄→𝜕𝔅is a *-homomorphism.",
+          "page": 34
+        },
+        {
+          "para_id": "5.3_81",
+          "text": "Definition 5.14 (Noncommutative coarse equivalence). For two noncommutative coarse spaces\n(𝔄, 𝔄) and (𝔅, 𝔅) and a noncommutative coarse map 𝜑: 𝔄→𝔅, 𝜑is a coarse equivalent if there\nexists a noncommutative coarse map 𝜓: 𝔅→𝔄such that the compositions 𝜓◦𝜑and 𝜑◦𝜓are\nclose to the respective identity maps, i.e. the induced maps on the coronas are the identity maps.",
+          "page": 34
+        },
+        {
+          "para_id": "5.3_82",
+          "text": "Theorem 5.15. Let (𝐶0(𝑋) ⊗𝔄𝐹, 𝐶0(𝑋) ⊗C1, 𝐿) be an almost-commutative Lipschitz triple, then\nwith respect to a representation of the form H𝑋⊗H𝐹, the spectral coarse structure on 𝐶0(𝑋) ⊗𝔄𝐹\nis coarse equivalent to the coarse structure on 𝐶0(𝑋). 𝐶0(𝑋) ⊗𝔄𝐹\n\u001b\ncoarse 𝐶0(𝑋) Proof. Let 𝜏: 𝔄𝐹→C a (tracial) state on 𝔄𝐹.\nDefine 𝜑: 𝐶0(𝑋) ⊗𝔄𝐹\nℎ→𝐶ℎ(𝑋) and\n𝜓: 𝐶ℎ(𝑋) →𝐶0(𝑋) ⊗𝔄𝐹\nℎby: 𝜑( 𝑓⊗𝑎) = 𝜏(𝑎) 𝑓,\n𝜓( 𝑓) = 𝑓⊗1.",
+          "page": 34
+        },
+        {
+          "para_id": "5.3_83",
+          "text": "35",
+          "page": 35
+        },
+        {
+          "para_id": "5.3_84",
+          "text": "Then:",
+          "page": 35
+        },
+        {
+          "para_id": "5.3_85",
+          "text": "𝜑◦𝜓(𝑔) = 𝑔, 𝜓◦𝜑(𝑔⊗1) = 𝑔⊗1, 𝜓◦𝜑( 𝑓⊗𝑎) = 𝜏(𝑎) 𝑓⊗1 = 𝑓⊗𝑎\nmod 𝐶0(𝑋) ⊗𝔄𝐹,",
+          "page": 35
+        },
+        {
+          "para_id": "5.3_86",
+          "text": "for 𝑓∈𝐶0(𝑋), 𝑔∈𝐶ℎ(𝑋), 𝑎∈𝔄𝐹. Recalling that 𝐶0(𝑋) ⊗𝔄𝐹\nℎ\u001b 𝐶0(𝑋) ⊗𝔄𝐹+ 𝐶ℎ(𝑋) ⊗C1,\nthe induced maps on the coronas are the identity maps.\n□",
+          "page": 35
+        },
+        {
+          "para_id": "5.3_87",
+          "text": "Remark 5.16. The commutative version of the above theorem is the fact that a space 𝑌made of\nfinitely many copies of a proper metric space 𝑋, whith uniformly bounded distances between the\ncopies of 𝑋, satisfies 𝑌\n\u001b\ncoarse 𝑋. 5.5. Dirac operators in spectral triples and finite Lipschitz commutant seminorm. In this\nsection we consider general (nonunital) spectral triples (𝔄, H, 𝐷), computing the Roe algebra\n(spectral or relative commutant) is expected to be more subtle in general (than in the previous\nsection) but we can show that if we fix the Lipschitz seminorm defined by 𝐿(𝑎) = ∥[𝐷, 𝑎]∥,\nthen if one takes a bounded function 𝜑whose Fourier transform is compactly supported, then\n𝜑(𝐷) has finite Lipschitz commutant seminorm with respect to (𝔄, 𝐿). In particular this shows\nthat 𝜑(𝐷) ∈𝐶∗\ncomm(𝔄) for any 𝜑∈𝐶0(R), thus, at least we know that 𝐶∗\ncomm(𝔄) is not trivial.\nFurthermore these results will be used to construct the higher index of 𝐷in section 6.\nTo keep the exposition as general as possible, we will make minimal assumptions on the spectral\ntriple (𝔄, H, 𝐷), in particular we make no mention of summability or regularity conditions, nor of\nreal structures. As we are mainly concerned with the relative commutant Lipschitz seminorm, we\nwill not fix any topography on 𝔄either.\nWe thus make the following assumptions: • 𝔄is a C∗-algebra represented faithfully on the Hilbert space H,\n• 𝐷is an unbounded self-adjoint operator on H such that the set {𝑎∈𝔄: [𝐷, 𝑎] is densely defined and extends to a bounded operator on H} contains a dense *-subalgebra A of 𝔄.\n• 𝐷satisfies local compactness: 𝑎(1 + 𝐷2)−1/2 is compact for all 𝑎∈𝔄. We denote by 𝐿(𝑎) the Lipschitz seminorm defined for 𝑎∈𝔰𝔞(A) by: 𝐿(𝑎) = ∥[𝐷, 𝑎]∥ We then have the following:",
+          "page": 35
+        },
+        {
+          "para_id": "5.3_88",
+          "text": "Proposition 5.6. In the above setting, for any 𝑡∈R, the operator 𝑒𝑖𝑡𝐷has finite Lipschitz commutant\nseminorm with respect to (𝔄, 𝐿): 𝐿∗(𝑒𝑖𝑡𝐷) ≤|𝑡|",
+          "page": 35
+        },
+        {
+          "para_id": "5.3_89",
+          "text": "36",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_90",
+          "text": "Proof. For 𝑎∈𝔰𝔞(A), we have: 𝑑\n𝑑𝑡",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_91",
+          "text": "\u0010\n𝑒𝑖𝑡𝐷𝑎𝑒−𝑖𝑡𝐷\u0011\n= 𝑖𝑒𝑖𝑡𝐷[𝐷, 𝑎]𝑒−𝑖𝑡𝐷.",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_92",
+          "text": "It follows that: ∥[𝑒𝑖𝑡𝐷, 𝑎]∥= ∥𝑒𝑖𝑡𝐷𝑎𝑒−𝑖𝑡𝐷−𝑎∥=",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_93",
+          "text": "∫𝑡 0",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_94",
+          "text": "𝑑\n𝑑𝑠",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_95",
+          "text": "\u0010\n𝑒𝑖𝑠𝐷𝑎𝑒−𝑖𝑠𝐷\u0011\n𝑑𝑠 ≤|𝑡|∥[𝐷, 𝑎]∥= |𝑡|𝐿(𝑎).",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_96",
+          "text": "Since A is dense in 𝔄for the C∗-norm, it follows that 𝐿∗(𝑒𝑖𝑡𝐷) ≤|𝑡|.\n□",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_97",
+          "text": "It follows that:",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_98",
+          "text": "Proposition 5.7. In the above setting, for any 𝜑: R →C a bounded Borel function whose Fourier\ntransform ˆ𝜑is compactly supported, the operator 𝜑(𝐷) has finite Lipschitz commutant seminorm\nwith respect to (𝔄, 𝐿), and more precisely: 𝐿∗(𝜑(𝐷)) ≤\n∫",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_99",
+          "text": "R\n|𝑡|| ˆ𝜑(𝑡)|𝑑𝑡 Proof. Indeed by the Fourier inversion formula: 𝜑(𝐷) =\n∫",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_100",
+          "text": "R\nˆ𝜑(𝑡)𝑒𝑖𝑡𝐷𝑑𝑡 where the integral converges in the strong operator topology. Thus for 𝑎∈𝔰𝔞(A): [𝜑(𝐷), 𝑎] =\n∫",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_101",
+          "text": "R\nˆ𝜑(𝑡)[𝑒𝑖𝑡𝐷, 𝑎]𝑑𝑡 where the integral converges in the strong operator topology, and it follows that:",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_102",
+          "text": "∥[𝜑(𝐷), 𝑎]∥≤\n∫",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_103",
+          "text": "R\n| ˆ𝜑(𝑡)|∥[𝑒𝑖𝑡𝐷, 𝑎]∥𝑑𝑡≤\n\u0012∫",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_104",
+          "text": "R\n|𝑡|| ˆ𝜑(𝑡)|𝑑𝑡\n\u0013\n𝐿(𝑎). which shows that: 𝐿∗(𝜑(𝐷)) ≤\n∫",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_105",
+          "text": "R\n|𝑡|| ˆ𝜑(𝑡)|𝑑𝑡. □",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_106",
+          "text": "Now since 𝐶0(R) is generated by\n1\n√",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_107",
+          "text": "1+𝑥2 we see that by local compactness of 𝐷, 𝜑(𝐷) ∈B(H) is\nlocally compact with respect to 𝔄for any 𝜑∈𝐶0(R): 𝑎𝜑(𝐷) and 𝜑(𝐷)𝑎are compact for all 𝑎∈𝔄.\nFurthermore since the set of functions in 𝐶0(R) whose Fourier transform is compactly supported\nis dense in 𝐶0(R), it follows that 𝜑(𝐷) ∈𝐶∗\ncomm(𝔄) for any 𝜑∈𝐶0(R).",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_108",
+          "text": "Corollary 5.1. In the above setting, for any 𝜑∈𝐶0(R), we have:",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_109",
+          "text": "𝜑(𝐷) ∈𝐶∗\ncomm(𝔄).",
+          "page": 36
+        },
+        {
+          "para_id": "5.3_110",
+          "text": "37",
+          "page": 37
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6. Higher index theory",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "In this section, we fix a proper locally compact quantum metric space (𝔄, 𝔐, 𝐿) represented\nnon-degenerately and amply on a Hilbert space H. Using our definition of Roe algebras, we deduce\nsome aspects of Higher index theory for locally compact quantum metric spaces.\nAs operators of finite spectral propagation with respect to the full algebra are difficult to construct\nin general we shall consider the following two types of Higher index: • The first version is valued in the relative commutant Roe algebras 𝐶∗\ncomm(𝔄) defined in\nsection 3, for which one can use the functoriality properties. (Note that the larger 𝐶∗\n𝑞(𝔄) in\nthe commutative case has been used to define the Higher index of some pseudodifferential\noperators). While this Higher index can be defined in general for Dirac operators coming\nfrom spectral triples, in order to define it for general elements of the K-homology of 𝔄, we\nshall need to assume the existence of a partition of unity that commutes sufficiently well\nwith elements of 𝔄.\n• The second version is valued in the spectral Roe algebra with respect to an arbitrary\ncommutative subalgebra 𝔐⊂𝔅⊂𝔄, (for instance 𝔅= 𝔐) for which one can construct\nfinite propagation operators by the usual cutting procedure. We first introduce the dual algebras 𝐷∗\ncomm(𝔄) (respectively 𝐷∗\nspec,𝔅(𝔄)) and show that under\nsome assumptions on the regularity of commutants in 𝔄with respect to the Lipschitz norm,\nthe K-homology of 𝔄can be obtained from the K-theory of 𝐷∗\ncomm(𝔄)/𝐶∗\ncomm(𝔄) (respectively\n𝐷∗\nspec,𝔅(𝔄)/𝐶∗\nspec,𝔅(𝔄)), using the 6-term exact sequence of K-theory thus allows us to define a\nHigher index Ind : 𝐾𝑖(𝔄) →𝐾𝑖\n\u0000𝐶∗\ncomm(𝔄)\u0001 (respectively 𝐶∗\nspec,𝔅(𝔄)).",
+          "page": 37
+        }
+      ]
+    },
+    {
+      "section_id": "6.1",
+      "section_title": "6.1. Relative commutant Roe algebras valued index.",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "6.1_1",
+          "text": "Definition 6.1. Denote by 𝐷∗\ncomm(𝔄) the 𝐶∗-algebra generated by operators on H that commute\nwith 𝔄up to compacts and are of finite relative commutant seminorm.",
+          "page": 37
+        },
+        {
+          "para_id": "6.1_2",
+          "text": "𝐷∗\ncomm(𝔄) = {𝑇∈B(H) : 𝐿∗(𝑇) < ∞and ∀𝑎∈𝔄: [𝑇, 𝑎] ∈K(H)}",
+          "page": 37
+        },
+        {
+          "para_id": "6.1_3",
+          "text": "We further recall the following 𝐶∗-algebras used in Paschke duality: • C(𝔄) = {𝑇∈B(H) : ∀𝑎∈𝔄: 𝑇𝑎∈K(H), 𝑎𝑇∈K(H)} the set of operators that are\nlocally compact.\n• D(𝔄) = {𝑇∈B(H) : ∀𝑎∈𝔄: [𝑇, 𝑎] ∈K(H)} the set of operators that commute up to\ncompacts with 𝔄. Then it is known that:",
+          "page": 37
+        },
+        {
+          "para_id": "6.1_4",
+          "text": "Theorem 6.2 (Paschke duality).",
+          "page": 37
+        },
+        {
+          "para_id": "6.1_5",
+          "text": "𝐾𝑖+1 (D(𝔄)/C(𝔄)) = 𝐾𝑖(𝔄).",
+          "page": 37
+        },
+        {
+          "para_id": "6.1_6",
+          "text": "38",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_7",
+          "text": "Definition 6.3. We shall say that (𝔄, 𝔐, 𝐿) has an approximate unit satisfying the commutant-\nLipschitz condition if there exists a sequence of strictly positive constants 𝐶𝑛such that 𝐶𝑛→\n𝑛→∞0\nand an approximate unit 𝑒𝑛made of local elements in 𝔐such that:",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_8",
+          "text": "∥[𝑒𝑛, 𝑎]∥≤𝐶𝑛𝐿(𝑎) for all 𝑎∈𝔄",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_9",
+          "text": "and for any compact set 𝐾in 𝜎(𝔐) there exists 𝑁such that 𝑒𝑁𝜒𝐾= 𝜒𝐾.",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_10",
+          "text": "Note that the above definition entails that for any 𝑛, there exists 𝐾𝑛⊂𝐿𝑛compact sets in 𝜎(𝔐)\nsuch that 𝑒𝑛𝜒𝐾𝑛= 𝜒𝐾𝑛and 𝑒𝑛𝜒𝐿∁\n𝑛= 0.\nFurthermore the above holds if 𝔄satisfies the inequality ∥[𝑎, 𝑏]∥≤𝐶𝐿(𝑎)𝐿(𝑏) for some 𝐶and\nthere exists an approximate unit 𝑒𝑛made of local elements in 𝔐such that 𝐿(𝑒𝑛) →0 and, for any\ncompact set 𝐾in 𝜎(𝔐), 𝑒𝑁𝜒𝐾= 1 for some 𝑁.\nLet us first record the following consequence of the characterization of locally compact quantum\nmetric spaces and of the existence of commutant-Lipschitz approximate units:",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_11",
+          "text": "Lemma 6.4. If (𝔄, 𝔐, 𝐿) a locally compact quantum metric space, 𝜇∈S(𝔄|𝔐) and (𝑒𝑛)𝑛an\napproximate unit of 𝔄in 𝔐satisfying the commutant-Lipschitz condition, then for all 𝑛:",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_12",
+          "text": "{𝑒𝑛𝑎| 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0}",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_13",
+          "text": "is totally bounded for the norm topology of 𝔄.",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_14",
+          "text": "Proof. Let 𝜀> 0 we shall show that {𝑒𝑛𝑎| 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0} can be covered by a\nfinite number of balls of radius less than or equal 𝜀. Let 𝐾be a compact set such that 𝑒𝑛𝜒𝐾∁= 0\n(i.e. 𝑒𝑛is supported within 𝐾). Let then 𝑁such that 𝑒𝑁𝜒𝐾= 𝜒𝐾. (i.e. 𝑒𝑁= 1 on 𝐾), and such that\n∥[𝑎, 𝑒𝑁]∥≤𝜀𝐿(𝑎). Such 𝐾and 𝑁exist by assumption. By the characterization of locally compact\nquantum metric spaces (theorem 2.9), the set",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_15",
+          "text": "{𝑒𝑛𝑎𝑒𝑁| 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0}",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_16",
+          "text": "is totally bounded for the norm topology of 𝔄. It follows that there exists a finite set 𝐹⊂𝔰𝔞(𝔲𝔄)\nwith 𝐿(𝑏) ≤1 and 𝜇(𝑏) = 0 for all 𝑏∈𝐹such that for all 𝑎∈𝔰𝔞(𝔲𝔄) with 𝐿(𝑎) ≤1 and 𝜇(𝑎) = 0,\nthere exists 𝑏∈𝐹such that: ∥𝑒𝑛𝑎𝑒𝑁−𝑒𝑛𝑏𝑒𝑁∥≤𝜀. We then have, since 𝑒𝑛𝑒𝑁= 𝑒𝑛:",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_17",
+          "text": "∥𝑒𝑛𝑎−𝑒𝑛𝑏∥≤∥𝑒𝑛[𝑒𝑁, 𝑎]∥+ ∥𝑒𝑛[𝑒𝑁, 𝑏]∥+ ∥𝑒𝑛𝑎𝑒𝑁−𝑒𝑛𝑏𝑒𝑁∥≤3𝜀.",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_18",
+          "text": "Which shows the desired total boundedness.\n□",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_19",
+          "text": "If 𝔄has an approximate unit satisfying the commutant-Lipschitz condition then in the above\nequality we can replace D(𝔄) by 𝐷∗\ncomm(𝔄) and C(𝔄) by 𝐶∗\ncomm(𝔄):",
+          "page": 38
+        },
+        {
+          "para_id": "6.1_20",
+          "text": "39",
+          "page": 39
+        },
+        {
+          "para_id": "6.1_21",
+          "text": "Theorem 6.5. If (𝔄, 𝔐, 𝐿) has an approximate unit satisfying the commutant-Lipschitz condition\nthen the following equality of 𝐶∗algebras holds: 𝐷∗\ncomm(𝔄)/𝐶∗\ncomm(𝔄) = D(𝔄)/C(𝔄).",
+          "page": 39
+        },
+        {
+          "para_id": "6.1_22",
+          "text": "Before diving in the proof we recall the following lemma from [14] that will be useful in the\nproof:",
+          "page": 39
+        },
+        {
+          "para_id": "6.1_23",
+          "text": "Lemma 6.6. Let 𝐼be an ideal of a 𝐶∗-algebra 𝐿. For any separable 𝐶∗-algebra 𝐷⊂I𝐿there is a\npositive contraction 𝑥∈I𝐼such that: • [𝑥, 𝑑] ∈I0𝐼for all 𝑑∈𝐷,\n• (1 −𝑥)𝑑∈I0𝐼for all 𝑑∈𝐷∩I𝐼.",
+          "page": 39
+        },
+        {
+          "para_id": "6.1_24",
+          "text": "Proof of theorem 6.5. It suffices to show that D(𝔄) ⊂𝐷∗\ncomm(𝔄)+C(𝔄). Let 𝑒𝑛be an approximate\nunit of 𝔄in 𝔐with\n∥[𝑒𝑛, 𝑎]∥≤𝐶𝑛𝐿(𝑎) for all 𝑎∈𝔄. By eventually taking a subsequence of (𝑒𝑛)𝑛, we can assume 𝐶𝑛≤\n1\n2𝑛+2. Let 𝑓𝑛= 𝑒𝑛−𝑒𝑛−1 with\n𝑓1 = 𝑒1. We therefore have that: ∥[ 𝑓𝑛, 𝑎]∥≤𝐿(𝑎)",
+          "page": 39
+        },
+        {
+          "para_id": "6.1_25",
+          "text": "2𝑛\nfor all 𝑎∈𝔄, 𝑛∈N, and\n∑︁",
+          "page": 39
+        },
+        {
+          "para_id": "6.1_26",
+          "text": "𝑛\n𝑓𝑛= 1 strictly. If 𝑇∈D(𝔄), then applying lemma 6.6 for the separable 𝐶∗-algebra 𝐷generated by 𝑇and 𝔄,\nviewed as constant elements of IB(H), and with 𝐼= K(H) viewed as an ideal of 𝐿= B(H). We\nget that there exists 𝑥∈IK(H) such that: • [𝑥, 𝑑] ∈I0K(H) for all 𝑑∈𝐷,\n• (1 −𝑥)𝑑∈I0K(H) for all 𝑑∈𝐷∩IK(H). taking 𝑦= 1 −𝑥, and denote by 𝑦𝑡the evaluation at 𝑡, we have in particular that: (1) [𝑦𝑡𝑇, 𝑎] →\n𝑡→∞0 for all 𝑎∈𝔄:\nIndeed [𝑦𝑡𝑇, 𝑎] = (1 −𝑥𝑡)[𝑇, 𝑎] + [𝑥𝑡, 𝑎]𝑇, looking at the terms of the sum, [𝑇, 𝑎] is an\nelement of 𝐷∩IK(H) thus (1 −𝑥𝑡)[𝑇, 𝑎] →0 and 𝑎is in 𝐷thus [𝑥𝑡, 𝑎]𝑇→0.\n(2) (1 −𝑦𝑡)𝑇is compact (thus locally compact):\nIndeed (1 −𝑦𝑡)𝑇= 𝑥𝑡𝑇compact since 𝑥∈IK(H). Now we are going to construct an operator ˜𝑇of the form ˜𝑇=\n∑︁",
+          "page": 39
+        },
+        {
+          "para_id": "6.1_27",
+          "text": "𝑛\n𝑦𝑡𝑛𝑇𝑓𝑛, for a well chosen sequence 𝑡𝑛→∞, such that: 𝐿∗( ˜𝑇) < ∞and 𝑇−˜𝑇∈C(𝔄). Fix 𝜇a local state on 𝔄. For any 𝑛∈N, by the lemma above the set { 𝑓𝑛𝑎: 𝑎∈𝔰𝔞(𝔲𝔄), 𝐿(𝑎) ≤1, 𝜇(𝑎) = 0}",
+          "page": 39
+        },
+        {
+          "para_id": "6.1_28",
+          "text": "40",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_29",
+          "text": "is totally bounded since it is a sum of two totally bounded sets. Now, since [𝑦𝑡𝑇, 𝑓𝑛𝑎] →\n𝑡0 for all 𝑎∈𝔰𝔞(𝔲𝔄) (property (1) above), we can choose 𝑡𝑛large enough such that for all 𝑎∈𝔰𝔞(𝔲𝔄) with\n𝐿(𝑎) ≤1 and 𝜇(𝑎) = 0: ∥[𝑦𝑡𝑛𝑇, 𝑓𝑛𝑎]∥≤1",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_30",
+          "text": "2𝑛. By eventually taking a larger 𝑡𝑛, we can furthermore require that: ∥[𝑦𝑡𝑛𝑇, 𝑓𝑛]∥≤1",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_31",
+          "text": "2𝑛. Then we have:\n𝑎𝑦𝑡𝑛𝑇𝑓𝑛= 𝑓𝑛𝑎𝑦𝑡𝑛𝑇+ [𝑎, 𝑓𝑛]𝑦𝑡𝑛𝑇+ 𝑎[𝑦𝑡𝑛𝑇, 𝑓𝑛]. It follows that, for 𝑎∈𝔰𝔞(𝔲𝔄) with 𝐿(𝑎) ≤1 and 𝜇(𝑎) = 0: ∥[𝑦𝑡𝑛𝑇𝑓𝑛, 𝑎]∥= ∥𝑦𝑡𝑛𝑇𝑓𝑛𝑎−𝑎𝑦𝑡𝑛𝑇𝑓𝑛∥ ≤∥(𝑦𝑡𝑛𝑇𝑓𝑛𝑎−𝑓𝑛𝑎𝑦𝑡𝑛𝑇)∥+ ∥[𝑎, 𝑓𝑛]𝑦𝑡𝑛𝑇∥+ ∥𝑎[𝑦𝑡𝑛𝑇, 𝑓𝑛]∥ ≤∥[𝑦𝑡𝑛𝑇, 𝑓𝑛𝑎]∥+ ∥[𝑎, 𝑓𝑛]𝑦𝑡𝑛𝑇∥+ ∥𝑎[𝑦𝑡𝑛𝑇, 𝑓𝑛]∥ ≤3 2𝑛 By summing over 𝑛it follows that [ ˜𝑇, 𝑎] ≤3 for all 𝑎∈𝔰𝔞(𝔲𝔄) with 𝐿(𝑎) ≤1 and 𝜇(𝑎) = 0. Now if 𝑎∈𝔰𝔞(𝔄) with 𝐿(𝑎) ≤1, then setting ˜𝑎= 𝑎−𝜇(𝑎)1, we have that 𝐿( ˜𝑎) = 𝐿(𝑎) ≤1 and\n𝜇( ˜𝑎) = 0, thus:\n∥[ ˜𝑇, 𝑎]∥= ∥[ ˜𝑇, ˜𝑎+ 𝜇(𝑎)1]∥= ∥[ ˜𝑇, ˜𝑎]∥≤3. It follows that: 𝐿∗( ˜𝑇) ≤3 < ∞.\nFinally, we have that: 𝑇−˜𝑇=\n∑︁",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_32",
+          "text": "𝑛\n𝑇𝑓𝑛−𝑦𝑡𝑛𝑇𝑓𝑛=\n∑︁",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_33",
+          "text": "𝑛\n(1 −𝑦𝑡𝑛)𝑇𝑓𝑛. If 𝑎is an element of 𝜒𝐾𝔄𝜒𝐾∩𝔄for a compact 𝐾in 𝔐, then by the assumption on the approximate\nunit 𝑒𝑛, there exists 𝑁such that for all 𝑛≥𝑁, 𝑓𝑛𝑎= 0. It follows that the sum Í\n𝑛(1 −𝑦𝑡𝑛)𝑇𝑓𝑛𝑎is\na finite sums of compact terms, (see property (2) above), from which we see 𝑇−˜𝑇∈C(𝔄). We\nconclude that D(𝔄) ⊂𝐷∗\ncomm(𝔄) + C(𝔄) and thus the two quotients are equal.\n□",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_34",
+          "text": "Corollary 6.1. With 𝔄as in theorem 6.5, we have the following isomorphism: 𝐾𝑖+1\n\u0000𝐷∗\ncomm(𝔄)/𝐶∗\ncomm(𝔄)\u0001 = 𝐾𝑖(𝔄) Now, if we consider the following short exact sequence,",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_35",
+          "text": "0 →𝐶∗\ncomm(𝔄) →𝐷∗\ncomm(𝔄) →𝐷∗\ncomm(𝔄)/𝐶∗\ncomm(𝔄) →0 we get a boundary map:",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_36",
+          "text": "Ind : 𝐾𝑖+1(𝐷∗\ncomm(𝔄)/𝐶∗\ncomm(𝔄)) →𝐾𝑖(𝐶∗\ncomm(𝔄)).",
+          "page": 40
+        },
+        {
+          "para_id": "6.1_37",
+          "text": "41",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_38",
+          "text": "In particular if 𝔄satisfies the conditions of theorem 6.5, we get a map: Ind : 𝐾𝑖(𝔄) →𝐾𝑖(𝐶∗\ncomm(𝔄)).",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_39",
+          "text": "Definition 6.7. We call the above map the Higher index map of 𝔄valued in the relative commutant\nRoe algebra of 𝔄.",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_40",
+          "text": "In particular if (𝔄, H, 𝐷) is a nonunital spectral triple (and without additional assumption on 𝔄\nor on the eventual topography) we can construct an element of 𝐷∗\ncomm(𝔄), and thus a Higher index\nassociated with dirac operator 𝐷as follows. Let us first recall the following denomniation:",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_41",
+          "text": "Definition 6.8. A bounded function 𝜓: R →R is called a normalizing function if it is odd, and\nsatisfies lim𝑥→∞𝜓(𝑥) = 1 and lim𝑥→−∞𝜓(𝑥) = −1.",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_42",
+          "text": "Proposition 6.1. Let (𝔄, H, 𝐷) be a nonunital spectral triple, and let 𝜓be a normalizing function\nthen 𝜓(𝐷) ∈𝐷∗\ncomm(𝔄), furthermore the class [𝜓(𝐷)] ∈𝐷∗\ncomm(𝔄)/𝐶∗\ncomm(𝔄) does not depend\non the choice of 𝜓.\nIt follows that we get an element Ind(𝐷) = Ind(𝜓(𝐷)) ∈𝐾𝑖(𝐶∗\ncomm(𝔄)).",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_43",
+          "text": "Proof. Recall first that if 𝜓1 and 𝜓2 are two normalizing functions then 𝜓1 −𝜓2 ∈𝐶0(R), thus\n𝜓1(𝐷) −𝜓2(𝐷) ∈𝐶∗\ncomm(𝔄).\nThe operator 𝜓(𝐷) commutes up to compacts with 𝔄: We reproduce for completeness what\nwe need from the proof in [15] (section 3) and [16] (theorem 4.1). Consider the normalizing function\n𝜓0 : 𝑥↦→\n𝑥\n√",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_44",
+          "text": "1+𝑥2 then for 𝑎and 𝑏such that [𝐷, 𝑎] is bounded we have: [𝜓0(𝐷), 𝑎]𝑏= [𝐷(1 + 𝐷2)−1",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_45",
+          "text": "2, 𝑎]𝑏= [𝐷, 𝑎](1 + 𝐷2)−1",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_46",
+          "text": "2 𝑏+ 𝐷[(1 + 𝐷2)−1",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_47",
+          "text": "2, 𝑎]𝑏 [𝐷, 𝑎](1 + 𝐷2)−1",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_48",
+          "text": "2 𝑏is compact since it is the product of a bounded operator with a compact one.\nFurthermore using the integral formula for the functional calculus of (1 + 𝐷2)−1",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_49",
+          "text": "2 we have:",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_50",
+          "text": "𝐷[(1 + 𝐷2)−1",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_51",
+          "text": "2, 𝑎]𝑏= 1 𝜋",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_52",
+          "text": "∫∞ 0\n𝜆−1",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_53",
+          "text": "2 𝐷2(𝜆+ 1 + 𝐷2)−1[𝐷, 𝑎](𝜆+ 1 + 𝐷2)−1𝑏𝑑𝜆+",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_54",
+          "text": "1\n𝜋",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_55",
+          "text": "∫∞ 0\n𝜆−1",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_56",
+          "text": "2 𝐷(𝜆+ 1 + 𝐷2)−1[𝐷, 𝑎](𝜆+ 1 + 𝐷2)−1𝐷𝑏𝑑𝜆",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_57",
+          "text": "Each of the two integrals above converges in operator norm and is compact since it is the\nnorm limit of compact operators (using that (𝜆+ 1 + 𝐷2)−1𝑏is compact). Thus [𝜓0(𝐷), 𝑎]𝑏is\ncompact, and by density of A in 𝔄, we see that it is compact for any 𝑎and 𝑏in 𝔄. It follows\n[𝜓0(𝐷), 𝑎𝑏] = [𝜓0(𝐷), 𝑎]𝑏+ 𝑎[𝜓0(𝐷), 𝑏] is compact as well. By density of products in 𝔄, it\nfollows that [𝜓0(𝐷), 𝑎] is compact for any 𝑎∈𝔄.\nFor a general normalizing function 𝜓, we can write 𝜓= 𝜓0 + 𝜙where 𝜙∈𝐶0(R) thus 𝜙(𝐷) is\nlocally compact, it follows that [𝜓(𝐷), 𝑎] is compact for any 𝑎∈𝔄.\nThe operator 𝜓(𝐷) is in 𝐷∗\ncomm(𝔄): Taking a normalizing function 𝜓1 whose Fourier transform\nis compactly supported (such a function exists), we have by proposition 5.7 that 𝐿∗(𝜓1(𝐷)) < ∞. It\nfollows by the previous step that 𝜓1(𝐷) ∈𝐷∗\ncomm(𝔄).",
+          "page": 41
+        },
+        {
+          "para_id": "6.1_58",
+          "text": "42",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_59",
+          "text": "Now, again for a general normalizing function 𝜓, we can write 𝜓= 𝜓1 + 𝜙where 𝜙∈𝐶0(R) thus\n𝜙(𝐷) ∈𝐶∗\ncomm(𝔄) by corollary 5.1, it follows that 𝜓(𝐷) ∈𝐷∗\ncomm(𝔄).\n□",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_60",
+          "text": "6.2. Lipschitz controlled K-theory and quantitative K-theory, a comparison for finite Assouad-\nNagata dimension. In this brief section, we note that the above construction of localized relative\ncommutant Roe algebras, along with theorem 3.16, allows to compare two different approaches to\napproximate K-homology of metric spaces, namely quantitative K-theory [17] [18] and Lipschitz\ncontrolled K-theory [19]. With the filtration given by the propagation prop, quantitative K-theory of\nthe Roe algebra was used to approximate K-homology. While Lipschitz controlled K-theory [19]\nwas mainly used to approximate K-theory of metric spaces, but if we instead consider the Lipschitz\ncontrolled K-theory for the relative commutant algebras introduced above, with Lipschitz seminorm\n𝐿∗, and in the case of metric spaces of finite Assouad-Nagata dimension, then this is equivalent to\nusing quantitative K-theory to approximate the K-homology of the space as in [18] for instance.\nWe invite the interested reader to refer to [19] and [17] [18] for the definitions of these two notions\nof controlled K-theory, the result then follows immediately from theorem 3.16.",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_61",
+          "text": "6.3. Index valued in the Roe algebra of a commutative subalgebra. Let 𝔅be commutative\nsubalgebra of 𝔄, such that 𝔐⊂𝔅⊂𝔄. Then we have defined in section 3 the propagation with\nrespect to 𝔅and the corresponding Roe algebra 𝐶∗\nspec,𝔅(𝔄) \u001b 𝐶∗\nspec(𝔅). We can then define the\nfollowing dual algebra:",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_62",
+          "text": "Definition 6.9. Denote by 𝐷∗\nspec,𝔅(𝔄) the 𝐶∗-algebra generated by operators on H that commute\nwith 𝔄up to compacts and are of finite spectral propagation with respect to 𝔅.",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_63",
+          "text": "𝐷∗\nspec,𝔅(𝔄) = {𝑇∈B(H) : prop𝔅(𝑇) < ∞and ∀𝑎∈𝔄: [𝑇, 𝑎] ∈K(H)} Again we have the following:",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_64",
+          "text": "Theorem 6.10. The following equality of 𝐶∗algebras holds:",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_65",
+          "text": "𝐷∗\nspec,𝔅(𝔄)/𝐶∗\nspec,𝔅(𝔄) = D(𝔄)/C(𝔄). Proof. It suffices to show that D(𝔄) = 𝐷∗\nspec,𝔅(𝔄) + C(𝔄). In other words, it suffices to show that\nany operator that commutes with 𝔄up to compact can be decomposed into a ”finite propagation”\npart and a locally compact part.\nSince 𝔄is proper, 𝜎(𝔅) is a proper separable metric space (in the classical sense), we can fix a\npartition of unity 𝜒𝑛∈𝔅such that diam (supp (𝜒𝑛)) ≤1.\nNow for 𝑇∈D(𝔄), let 𝑇′ =\n∑︁ 𝑛",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_66",
+          "text": "√𝜒𝑛𝑇√𝜒𝑛.",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_67",
+          "text": "Then • 𝑇′ is well-defined and prop(𝑇′) ≤1:",
+          "page": 42
+        },
+        {
+          "para_id": "6.1_68",
+          "text": "43 Indeed for 𝑎∈𝔏𝔬𝔠(𝔄|𝐾) where 𝐾is compact in 𝜎(𝔐), then the sum √𝜒𝑛𝑇√𝜒𝑛𝑎has a\nfinite number of non-zero terms, and we can conclude strong convergence of the sum since\n𝔏𝔬𝔠(𝔄|∗) is dense and the representation is non-degenerate.\nFurthermore if 𝑓, 𝑔∈𝔅have supports of distance at least 1, then 𝑓√𝜒𝑛𝑇√𝜒𝑛𝑔= 0, since\n𝑓having support in supp(𝜒𝑛) would imply that 𝑔does not and vice versa. Thus 𝑓𝑇′𝑔= 0\nand prop(𝑇′) ≤1.\n• 𝑇−𝑇′ is locally compact. Indeed",
+          "page": 43
+        },
+        {
+          "para_id": "6.1_69",
+          "text": "(𝑇−𝑇′)𝑎=\n∑︁",
+          "page": 43
+        },
+        {
+          "para_id": "6.1_70",
+          "text": "𝑛\n(𝑇𝜒𝑛−√𝜒𝑛𝑇√𝜒𝑛𝑎) =\n∑︁",
+          "page": 43
+        },
+        {
+          "para_id": "6.1_71",
+          "text": "𝑛\n[𝑇, √𝜒𝑛]√𝜒𝑛𝑎 For 𝑎∈𝔏𝔬𝔠(𝔄|∗) this is a finite sum of compact operators and is thus a compact. We can\nconlude since 𝔏𝔬𝔠(𝔄|∗) is norm-dense and K(H) is closed. Note that in the above we get that furthermore 𝑇′ commmutes up to compacts with 𝔄, since 𝑇and\n𝑇−𝑇′ both do. Thus 𝑇′ ∈𝐷∗\nspec,𝔅(𝔄) and 𝑇∈C(𝔄).\nFurthermore, it is clear each √𝜒𝑛𝑇√𝜒𝑛has finite spectral propagation with respect to 𝔅, thus so\ndoes 𝑇′.\n□",
+          "page": 43
+        },
+        {
+          "para_id": "6.1_72",
+          "text": "Remark 6.11. The only difference with the case where 𝔄is commutative is that we need to assume\nthat 𝔏𝔬𝔠(𝔄|∗) is dense, this is true for proper quantum metric spaces.",
+          "page": 43
+        },
+        {
+          "para_id": "6.1_73",
+          "text": "Corollary 6.2. 𝐾𝑖+1\n\u0010\n𝐷∗\nspec,𝔅(𝔄)/𝐶∗\nspec,𝔅(𝔄)\n\u0011\n= 𝐾𝑖(𝔄) Considering the following short exact sequence,",
+          "page": 43
+        },
+        {
+          "para_id": "6.1_74",
+          "text": "0 →𝐶∗\nspec,𝔅(𝔄) →𝐷∗\nspec,𝔅(𝔄) →𝐷∗\nspec,𝔅(𝔄)/𝐶∗\nspec,𝔅(𝔄) →0 We get boundary maps:",
+          "page": 43
+        },
+        {
+          "para_id": "6.1_75",
+          "text": "Ind : 𝐾𝑖(𝔄) →𝐾𝑖(𝐶∗\nspec,𝔅(𝔄)) = 𝐾𝑖(𝐶∗(𝜎(𝔅))) .",
+          "page": 43
+        }
+      ]
+    },
+    {
+      "section_id": "6.3.1",
+      "section_title": "6.3.1. K-homology through finite propagation valued localization algebras.",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "6.3.1_1",
+          "text": "Definition 6.12. Define 𝐶∗\n𝐿,spec,𝔅(𝔄) to be the closure of the set of uniformly continuous bounded\nmaps 𝑓: [0, ∞) →𝐶∗\nspec,𝔅(𝔄), with bounded propagation with respect to 𝔅, such that for all 𝑎∈𝔄,\n[ 𝑓(𝑡), 𝑎] →\n𝑡→∞0. We then have the following:",
+          "page": 43
+        },
+        {
+          "para_id": "6.3.1_2",
+          "text": "Theorem 6.13. We have a natural isomorphism: 𝐾𝑖\n\u0010\n𝐶∗\n𝐿,spec,𝔅(𝔄)\n\u0011\n\u001b 𝐾𝑖(𝔄)",
+          "page": 43
+        },
+        {
+          "para_id": "6.3.1_3",
+          "text": ".",
+          "page": 43
+        },
+        {
+          "para_id": "6.3.1_4",
+          "text": "44",
+          "page": 44
+        },
+        {
+          "para_id": "6.3.1_5",
+          "text": "Under the above isomorphisms the coarse index is induced by the evaluation map ev0 :\n𝐶∗\n𝐿,spec,𝔅(𝔄) →𝐶∗\nspec,𝔅(𝔄) \u001b 𝐶∗(𝜎(𝔅)) given by ev0( 𝑓) = 𝑓(0). Ind = (ev0)∗: 𝐾𝑖\n\u0010\n𝐶∗\n𝐿,spec,𝔅(𝔄)\n\u0011\n→𝐾𝑖(𝐶∗(𝜎(𝔅))) We first introduce the corresponding “compactly commuting” algebras:",
+          "page": 44
+        },
+        {
+          "para_id": "6.3.1_6",
+          "text": "Definition 6.14. Define 𝐷∗\n𝐿,spec,𝔅(𝔄) to be the closure of the set of uniformly continuous bounded\nmaps 𝑓: [0, ∞) →𝐷∗\nspec,𝔅(𝔄) such that for all 𝑎∈𝔄, [ 𝑓(𝑡), 𝑎] →\n𝑡→∞0. Then we prove the following path regularization lemma:",
+          "page": 44
+        },
+        {
+          "para_id": "6.3.1_7",
+          "text": "Lemma 6.15. 𝐷∗\n𝐿,spec,𝔅(𝔄)/𝐶∗\n𝐿,spec,𝔅(𝔄) = I𝐷∗\nspec,𝔅(𝔄)/I𝐶∗\nspec,𝔅(𝔄) Proof. It suffices to show that I𝐷∗\nspec,𝔅(𝔄) = 𝐷∗\n𝐿,spec,𝔅(𝔄) + I𝐶∗\nspec,𝔅(𝔄). If 𝑓is in I𝐷∗\nspec,𝔅(𝔄) we construct ˜𝑓∈𝐷∗\n𝐿,spec,𝔅(𝔄) such that 𝑓−˜𝑓is in I𝐶∗\nspec,𝔅(𝔄). For this, let 𝐵∗be the 𝐶∗-algebra\ngenerated by operators of finite propagation with respect to 𝔅, and let 𝐾∗= 𝐵∗∩K(H). The\nalgebra 𝐾∗is an ideal of 𝐵∗. Furthermore, let 𝐷the separable 𝐶∗-algebra generated by { 𝑓} and by\nthe elements of 𝔄viewed as constant functions. The elements of 𝔄are limits of finite propagation\noperators in 𝜒𝐾𝔄𝜒𝐾for 𝐾compact in 𝜎(𝔐), thus 𝔄⊂𝐿∗and thus 𝐷⊂I𝐵∗.\nUsing lemma 6.6, we can find 𝑥∈I𝐾∗such that [𝑥, 𝑑] →\n𝑡→∞0 for all 𝑑∈𝐷and (1 −𝑥)𝑑→\n𝑡→∞0\nfor all 𝑑∈𝐷∩I𝐾∗.\nThen setting ˜𝑓= 𝑓−𝑥𝑓: • 𝑓−˜𝑓= 𝑥𝑓is in I𝐶∗\nspec,𝔅(𝔄). Indeed 𝑥∈I𝐾∗, thus 𝑥𝑓is a uniformly continuous path of\noperators in 𝐾∗· 𝐶∗\nspec,𝔅(𝔄) ⊂𝐶∗\nspec,𝔅(𝔄).\n• ˜𝑓∈𝐷∗\n𝐿,spec,𝔅(𝔄). That it is in I𝐷∗\nspec,𝔅(𝔄) is obvious from the above, furthermore, for\n𝑎∈𝔄, [ ˜𝑓(𝑡), 𝑎] = [𝑥, 𝑎] 𝑓(𝑡) + (1 −𝑥)[ 𝑓(𝑡), 𝑎] →\n𝑡→∞0, by applying the conditions on 𝑥above to 𝑑= 𝑓and 𝑑= 𝑎respectively. □",
+          "page": 44
+        },
+        {
+          "para_id": "6.3.1_8",
+          "text": "Using the following short term exact sequence:",
+          "page": 44
+        },
+        {
+          "para_id": "6.3.1_9",
+          "text": "0 →𝐶∗\n𝐿,spec,𝔅(𝔄) →𝐷∗\n𝐿,spec,𝔅(𝔄) →I𝐷∗\nspec,𝔅(𝔄)/I𝐶∗\nspec,𝔅(𝔄) →0",
+          "page": 44
+        },
+        {
+          "para_id": "6.3.1_10",
+          "text": "We obtain boundary maps 𝐾𝑖+1\n\u0010\nI𝐷∗\nspec,𝔅(𝔄)/I𝐶∗\nspec,𝔅(𝔄)\n\u0011\n→𝐾𝑖\n\u0010\n𝐶∗\n𝐿,spec,𝔅(𝔄)\n\u0011\n. It suffices\nthen to show that: • We have the vanishing formula: 𝐾𝑖\n\u0010\n𝐷∗\n𝐿,spec,𝔅(𝔄)\n\u0011\n= 0.",
+          "page": 44
+        },
+        {
+          "para_id": "6.3.1_11",
+          "text": "45",
+          "page": 45
+        },
+        {
+          "para_id": "6.3.1_12",
+          "text": "• The map induced by constant functions 𝐷∗\nspec,𝔅(𝔄)/𝐶∗\nspec,𝔅(𝔄) →I𝐷∗\nspec,𝔅(𝔄)/I𝐶∗\nspec,𝔅(𝔄)\ninduces an isomorpism on K-theory: 𝐾𝑖\n\u0010\nI𝐷∗\nspec,𝔅(𝔄)/I𝐶∗\nspec,𝔅(𝔄)\n\u0011\n= 𝐾𝑖\n\u0010\n𝐷∗\nspec,𝔅(𝔄)/𝐶∗\nspec,𝔅(𝔄)\n\u0011\n. The proof of these two points relies on an Eilenberg swindle argument with the following two\nobservations: • Independence of the Roe algebra of 𝔅( recall 𝔅is commutative), and of the localization\nalgebra on the representation used 𝜌. (Take an intertwining path of isometries for the\nlocalization algebras and cut it by elements in 𝔅to get finite propagation with respect to 𝔅).\n• The fact that if 𝑓∈𝐷∗\n𝐿,spec,𝔅(𝔄) then ˆ𝑓∈IB(H ⊕∞) defined by:",
+          "page": 45
+        },
+        {
+          "para_id": "6.3.1_13",
+          "text": "ˆ𝑓(𝑡) :=",
+          "page": 45
+        },
+        {
+          "para_id": "6.3.1_14",
+          "text": "∞\nÊ",
+          "page": 45
+        },
+        {
+          "para_id": "6.3.1_15",
+          "text": "𝑛=0\n𝑓(𝑡+ 𝑛) is also in 𝐷∗\n𝐿,spec,𝔅(𝔄) with respect to the representation É∞\n𝑛=0 𝜌, since for fixed 𝑡, [ ˆ𝑓(𝑡), 𝑎]\nis a direct sum of compact operators of vanishing norm, it is compact. The rest of the proof then follows from the same arguments as in the classical case (see [20]).",
+          "page": 45
+        }
+      ]
+    },
+    {
+      "section_id": "7",
+      "section_title": "7. Outlook",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "7_1",
+          "text": "In this paper we have established a link between locally compact quantum metric spaces and\nnoncommutative coarse geometry, furthermore we have defined notions of Roe algebras and higher\nindex theory in this framework. We believe that we have only scrached the surface of this new\nconnection, and there are many open questions and directions that we leave for future research, in\nparticular in connection with other developments in other fields of noncommutative geometry. We\noutline some of these directions below.",
+          "page": 45
+        },
+        {
+          "para_id": "7_2",
+          "text": "7.1. More examples of spectral Roe algebra computations. One direction is to compute the\nspectral Roe algebra for more examples of locally compact quantum metric spaces with more\nfundamental noncommutativity. One promising example is the Moyal plane, with the spectral triple\nstrucuture defined on it in [21] and considered as locally compact quantum metric space as in [3].\nWe expect that in such cases, the relative commutant Roe algebra and the spectral Roe algebra will\ndiffer significantly. Indeed the relative commutant Roe algebra, along with the noncommutative\ncoarse structure arising from it, looks to be more natural in the noncommutative setting.",
+          "page": 45
+        },
+        {
+          "para_id": "7_3",
+          "text": "7.2. Geometric realization of (finite) W*-quantum metric spaces. In relation with the point\nabove, it would be interesting to study, even in the simplest cases (for instance M𝑛(C) with a\nLipschitz seminorm), what kind of W* quantum metric structure arise from the spectral propagation,\nand from the spetral propagation with respect to the diagonal subalgebra C𝑛, furthermore one could\nstudy what happens when different representations of M𝑛(C) are considered. As arbitrary quantum\ngraphs (and in particular those giving rise to quantum expanders) can be naturally viewed in the\nframework of quantum relations and thus of W* quantum metric spaces, this could allow us to",
+          "page": 45
+        },
+        {
+          "para_id": "7_4",
+          "text": "46",
+          "page": 46
+        },
+        {
+          "para_id": "7_5",
+          "text": "construct “geometric realizations” of quantum graphs (and in particular quantum expanders) in the\nsense of Lipschitz seminorms.",
+          "page": 46
+        },
+        {
+          "para_id": "7_6",
+          "text": "7.3. Spectral triples. In [4], W* quantum metric structures were associated to spectral triples,\nroughly by declaring that 𝑒𝑖𝑡𝐷has propagation |𝑡|. In our construction, we have shown that locally\ncompact quantum metric spaces with a faithful representation give rise to W* quantum metric\nspaces. It would be interesting to compare these two constructions, and see if they agree in some\ncases. Again we expect this to fail in general and that the relative commutant Roe algebra is the\ncloser concept.",
+          "page": 46
+        },
+        {
+          "para_id": "7_7",
+          "text": "7.4. Index theory. While we have defined two types of higher indices for locally compact quantum\nmetric spaces, and in parallel with the classical case, it would be interesting to study more concrete\nexamples and compute these indices in some cases. The Moyal plane appears to be a promising\nexample in this direction as well.",
+          "page": 46
+        },
+        {
+          "para_id": "7_8",
+          "text": "7.5. 𝐿∗seminorms. The seminorm 𝐿∗satisfies basic properties that make it a good candidate for a\nnoncommutative Lipschitz seminorm, aside from the fact that 𝐿∗(𝑇) = 0 does not imply that 𝑇is a\nscalar multiple of the identity. For finite dimensional algebras represented irreducibly on a finite\ndimensional Hilbert H𝐹space, this issue does not arise, and one gets a Lipschitz seminorm on\nB(H𝐹). It would be interesting to study this seminorm in more detail, and see if it can be used to\nconstruct new examples of (finite) quantum metric spaces, or if it can be used to give new insights\non existing examples. For more general, nonfinite spaces, one can ask if one can take subspaces or\nquotient spaces of the relative commutant Roe algebra where 𝐿∗is a Lipschitz seminorm, and see if\nthis can lead to new examples of quantum metric spaces.",
+          "page": 46
+        }
+      ]
+    }
+  ]
+}

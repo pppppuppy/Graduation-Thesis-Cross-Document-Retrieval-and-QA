@@ -1,0 +1,44 @@
+[
+  {
+    "question": "What is the primary limitation of teacher forcing in NLP, and what alternative training method was developed to address this issue?",
+    "answer": "The primary limitation of teacher forcing is exposure bias, which occurs because the model is trained on ground truth tokens but must generate its own tokens during inference, leading to error accumulation. To address this, scheduled sampling was developed as an alternative training method that gradually transitions from using ground truth tokens to using the model's own predictions during training.",
+    "evidence": [
+      {
+        "doc_id": "teacher_forcing_limitations",
+        "page": 1
+      },
+      {
+        "doc_id": "scheduled_sampling_method",
+        "page": 2
+      }
+    ]
+  },
+  {
+    "question": "What are the two main factors that make transfer learning particularly effective for NLP tasks, and how do they complement each other?",
+    "answer": "Transfer learning is effective for NLP tasks because (1) pre-trained language models capture rich linguistic knowledge and contextual representations from large unlabeled corpora, and (2) fine-tuning allows these models to adapt to specific downstream tasks with relatively small labeled datasets. These factors complement each other by leveraging general language understanding from pre-training while efficiently specializing for particular applications through fine-tuning.",
+    "evidence": [
+      {
+        "doc_id": "nlp_transfer_learning_survey",
+        "page": 3
+      },
+      {
+        "doc_id": "bert_paper",
+        "page": 2
+      }
+    ]
+  },
+  {
+    "question": "What are the advantages of feed-forward networks in terms of computational efficiency and training stability?",
+    "answer": "Feed-forward networks offer computational efficiency due to their parallel processing capabilities and training stability through the absence of feedback loops that can cause vanishing or exploding gradients.",
+    "evidence": [
+      {
+        "doc_id": "neural_networks_fundamentals",
+        "page": 3
+      },
+      {
+        "doc_id": "deep_learning_architectures",
+        "page": 7
+      }
+    ]
+  }
+]

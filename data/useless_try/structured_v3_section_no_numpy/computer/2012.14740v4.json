@@ -1,0 +1,233 @@
+{
+  "doc_id": "2012.14740v4.pdf",
+  "sections": [
+    {
+      "section_title": "LayoutLMv2:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Multi-modal Pre-training for Visually-rich",
+      "text": ""
+    },
+    {
+      "section_title": "Document Understanding",
+      "text": ""
+    },
+    {
+      "section_title": "Yang Xu",
+      "text": " ∗"
+    },
+    {
+      "section_title": ", Yiheng Xu",
+      "text": " ∗"
+    },
+    {
+      "section_title": ", Tengchao Lv",
+      "text": " ∗"
+    },
+    {
+      "section_title": ", Lei Cui",
+      "text": ""
+    },
+    {
+      "section_title": ", Furu Wei",
+      "text": ""
+    },
+    {
+      "section_title": ", Guoxin Wang",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "Yijuan Lu",
+      "text": ""
+    },
+    {
+      "section_title": ", Dinei Florencio",
+      "text": ""
+    },
+    {
+      "section_title": ", Cha Zhang",
+      "text": ""
+    },
+    {
+      "section_title": ", Wanxiang Che",
+      "text": ""
+    },
+    {
+      "section_title": ", Min Zhang",
+      "text": ""
+    },
+    {
+      "section_title": ", Lidong Zhou",
+      "text": " Research Center for Social Computing and Information Retrieval,"
+    },
+    {
+      "section_title": "Harbin Institute of Technology",
+      "text": ""
+    },
+    {
+      "section_title": "Microsoft Research Asia",
+      "text": ""
+    },
+    {
+      "section_title": "Microsoft Azure AI",
+      "text": ""
+    },
+    {
+      "section_title": "Soochow University",
+      "text": ""
+    },
+    {
+      "section_title": "{",
+      "text": ""
+    },
+    {
+      "section_title": "yxu,car",
+      "text": ""
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": "@ir.hit.edu.cn",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "{",
+      "text": ""
+    },
+    {
+      "section_title": "v-yixu,v-telv,lecu,fuwei,lidongz",
+      "text": ""
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": "@microsoft.com",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "{",
+      "text": ""
+    },
+    {
+      "section_title": "guow,yijlu,dinei,chazhang",
+      "text": ""
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": "@microsoft.com",
+      "text": " "
+    },
+    {
+      "section_title": "minzhang@suda.edu.cn",
+      "text": ""
+    },
+    {
+      "section_title": "Abstract",
+      "text": " Pre-training  of  text  and  layout  has  proved effective  in  a  variety  of  visually-rich  docu- ment  understanding  tasks  due  to  its  effec- tive  model  architecture  and  the  advantage of  large-scale  unlabeled  scanned/digital-born documents.  We  propose  LayoutLMv2  archi- tecture  with  new  pre-training  tasks  to  model the  interaction  among  text,  layout,  and  image in  a  single  multi-modal  framework. Specif- ically,  with  a  two-stream  multi-modal  Trans- former  encoder,  LayoutLMv2  uses  not  only the  existing  masked  visual-language  model- ing  task  but  also  the  new  text-image  align- ment  and  text-image  matching  tasks,  which make  it  better  capture  the  cross-modality  in- teraction in the pre-training stage.  Meanwhile, it also integrates a spatial-aware self-attention mechanism  into  the  Transformer  architecture so  that  the  model  can  fully  understand  the relative  positional  relationship  among  differ- ent  text  blocks. Experiment "
+    },
+    {
+      "section_title": "results",
+      "text": "  show that  LayoutLMv2  outperforms  LayoutLM  by a  large  margin  and  achieves  new  state-of- the-art "
+    },
+    {
+      "section_title": "results",
+      "text": "  on  a  wide  variety  of  down- stream  visually-rich  document  understanding tasks,  including  FUNSD  (0.7895  → 0.8420), CORD  (0.9493  → 0.9601),  SROIE  (0.9524 → 0.9781), Kleister-NDA (0.8340 → 0.8520), RVL-CDIP (0.9443 → 0.9564), and DocVQA (0.7295  → 0.8672).  We  made  our  model  and code  publicly  available  at  https://aka.ms /layoutlmv2 ."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " Visually-rich  Document  Understanding  (VrDU) aims to analyze scanned/digital-born business doc- uments (images of invoices, forms in PDF format, etc.)  where structured information can be automat- ically extracted and organized for many business ∗ Equal contributions during internship at MSRA applications.  Distinct from conventional informa- tion extraction tasks, the VrDU task relies on not only  textual  information  but  also  visual  and  lay- out information that is vital for visually-rich docu- ments.  Different types of documents indicate that the text ﬁelds of interest located at different posi- tions  within  the  document,  which  is  often  deter- mined by the style and format of each type as well as the document content.  Therefore, to accurately recognize the text ﬁelds of interest, it is inevitable to take advantage of the cross-modality nature of visually-rich documents, where the textual, visual, and layout information should be jointly modeled and learned end-to-end in a single framework. The  recent  progress  of  VrDU  lies  primarily in  two  directions.  The  ﬁrst  direction  is  usually built  on  the  shallow  fusion  between  textual  and visual/layout/style information ( Yang et al. , ; Liu et al. , ; Sarkhel and Nandi , ; Yu et al. , ;  Majumder  et  al. ,  ;  Wei  et  al. ,  ; Zhang  et  al. ,  ).  These  approaches  leverage the pre-trained NLP and CV models individually and combine the information from multiple modali- ties for supervised learning.  Although good perfor- mance has been achieved, the domain knowledge of one document type cannot be easily transferred into  another,  so  that  these  models  often  need  to be re-trained once the document type is changed. Thereby the local invariance in general document layout (key-value pairs in a left-right layout, tables in a grid layout, etc.)  cannot be fully exploited.  To this end, the second direction relies on the deep fu- sion among textual, visual, and layout information from a great number of unlabeled documents in dif- ferent domains, where pre-training techniques play an  important  role  in  learning  the  cross-modality interaction in an end-to-end fashion ( Lockard et al. , ; Xu et al. , ).  In this way, the pre-trained"
+    },
+    {
+      "section_title": "arXiv:2012.14740v4  [cs.CL]  10 Jan 2022",
+      "text": " models  absorb  cross-modal  knowledge  from  dif- ferent document types, where the local invariance among these layouts and styles is preserved.  Fur- thermore, when the model needs to be transferred into another domain with different document for- mats,  only  a  few  labeled  samples  would  be  suf- ﬁcient  to  ﬁne-tune  the  generic  model  in  order  to achieve  state-of-the-art  accuracy.  Therefore,  the proposed model in this paper follows the second direction, and we explore how to further improve the pre-training strategies for the VrDU tasks. In  this  paper,  we  present  an  improved  version of LayoutLM ( Xu et al. , ), aka LayoutLMv2 . Different from the vanilla LayoutLM model where visual embeddings are combined in the ﬁne-tuning stage,  we  integrate  the  visual  information  in  the pre-training  stage  in  LayoutLMv2  by  taking  ad- vantage  of  the  Transformer  architecture  to  learn the cross-modality interaction between visual and textual  information.  In  addition,  inspired  by  the 1-D relative position representations ( Shaw et al. , ; Raffel et al. , ; Bao et al. , ), we pro- pose the spatial-aware self-attention mechanism for LayoutLMv2, which involves a 2-D relative posi- tion representation for token pairs.  Different from the  absolute  2-D  position  embeddings  that  Lay- outLM uses to model the page layout, the relative position embeddings explicitly provide a broader view for the contextual spatial modeling.  For the pre-training strategies, we use two new training ob- jectives for LayoutLMv2 in addition to the masked visual-language modeling.  The ﬁrst is the proposed text-image alignment strategy, which aligns the text lines and the corresponding image regions. The sec- ond is the text-image matching strategy popular in previous vision-language pre-training models ( Tan and Bansal , ; Lu et al. , ; Su et al. , ; Chen  et  al. ,  ;  Sun  et  al. ,  ),  where  the model learns whether the document image and tex- tual content are correlated. We  select  six  publicly  available  benchmark datasets as the downstream tasks to evaluate the per- formance of the pre-trained LayoutLMv2 model, which are the FUNSD dataset ( Jaume et al. , ) for form understanding, the CORD dataset ( Park et al. , ) and the SROIE dataset ( Huang et al. , ) for receipt understanding, the Kleister-NDA dataset  ( Grali ´ nski  et  al. ,  )  for  long  docu- ment  understanding  with  a  complex  layout,  the RVL-CDIP  dataset  ( Harley  et  al. ,  )  for  doc- ument  image  classiﬁcation,  and  the  DocVQA dataset ( Mathew et al. , ) for visual question an- swering on document images.  Experiment results show that the LayoutLMv2 model signiﬁcantly out- performs  strong  baselines,  including  the  vanilla LayoutLM,  and  achieves  new  state-of-the-art  re- sults in all of these tasks. The contributions of this paper are summarized as follows: •  We propose a multi-modal Transformer model to  integrate  the  document  text,  layout,  and visual  information  in  the  pre-training  stage, which learns the cross-modal interaction end- to-end  in  a  single  framework.  Meanwhile, a  spatial-aware  self-attention  mechanism  is integrated into the Transformer architecture. •  In  addition  to  the  masked  visual-language model, we add text-image alignment and text- image matching as the new pre-training strate- gies to enforce the alignment among different modalities. •  LayoutLMv2  signiﬁcantly  outperforms  and achieves  new  SOTA "
+    },
+    {
+      "section_title": "results",
+      "text": "  not  only  on  the conventional VrDU tasks but also on the VQA task  for  document  images,  which  demon- strates the great potential for the multi-modal pre-training for VrDU."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "Approach",
+      "text": " In this section, we will introduce the model archi- tecture and the multi-modal pre-training tasks of LayoutLMv2, which is illustrated in Figure . 2.1 Model Architecture We build a multi-modal Transformer architecture as the backbone of LayoutLMv2, which takes text, visual,  and  layout  information  as  input  to  estab- lish deep cross-modal interactions.  We also intro- duce a spatial-aware self-attention mechanism to the model architecture for better modeling the doc- ument layout.  Detailed descriptions of the model are as follows. Text  Embedding Following  the  common  prac- tice,  we  use  WordPiece  ( Wu  et  al. ,  )  to  tok- enize the OCR text sequence and assign each token to a certain segment s i  ∈{ [A] , [B] } .  Then, we add [CLS] at the beginning of the sequence and [SEP]  at  the  end  of  each  text  segment.  Extra [PAD] tokens are appended to the end so that the"
+    },
+    {
+      "section_title": "Transformer Layers",
+      "text": " with Spatial-Aware Self-Attention Mechanism #3 Text-Image Matching #2 Text-Image Alignment Pre-training Objectives Visual/Text Token Representations [SEP] V1 V2 V3 V4 [CLS] Matched T1 Covered T3 Covered T5 Not Covered T6 Not Covered T7 Not Covered T4 T2 #1 Masked Visual-Language Modeling 1D Position Embeddings V2 V1 V3 V4 Document Page with Covered OCR Lines Document Page OCR/PDF Parser Visual Encoder V1 V2 V3 V4 Feature Maps OCR Lines Line 1 (covered): Line 2 (not covered): T1      [MASK]      T3 [MASK]      T5      T6      T7 Visual/Text Token Embeddings 2D Position Embeddings [SEP] Box PAD V1 Box V1 V2 Box V2 V3 Box V3 V4 Box V4 [CLS] Box PAD T1 Box T1 T3 Box T3 T5 Box T5 T6 Box T6 T7 Box T7 Box T4 Box T2 Line Covering Token Masking [MASK] [MASK] [MASK] [MASK] Segment Embeddings A C C C C A A A A A A A A Figure 1:  An illustration of the model architecture and pre-training strategies for LayoutLMv2 ﬁnal sequence’s length is exactly the maximum se- quence length L .  The ﬁnal text embedding is the sum of three embeddings.  Token embedding rep- resents the token itself, 1D positional embedding represents  the  token  index,  and  segment  embed- ding is used to distinguish different text segments. Formally,  we have the i -th (  ≤ i  <  L ) text em- bedding t i  = TokEmb( w i )+PosEmb1D( i )+SegEmb( s i ) Visual Embedding Although all information we need  is  contained  in  the  page  image,  the  model has difﬁculty capturing detailed features in a sin- gle  information-rich  representation  of  the  entire page.  Therefore,  we  leverage  the  output  feature map of a CNN-based visual encoder,  which con- verts  the  page  image  to  a  ﬁxed-length  sequence. We use ResNeXt-FPN ( Xie et al. , ; Lin et al. , )  architecture  as  the  backbone  of  the  visual encoder, whose parameters can be updated through backpropagation. Given a document page image I , it is resized to × then fed into the visual backbone.  After that, the output feature map is average-pooled to a ﬁxed size with the width being W  and height being H .  Next,  it  is  ﬂattened  into  a  visual  embedding sequence of length W × H .  The sequence is named VisTokEmb( I ) .  A linear projection layer is then applied  to  each  visual  token  embedding  to  unify the dimensionality with the text embeddings.  Since the CNN-based visual backbone cannot capture the positional information, we also add a 1D positional embedding to these visual token embeddings.  The 1D  positional  embedding  is  shared  with  the  text embedding layer.  For the segment embedding, we attach all visual tokens to the visual segment [C] . The i -th ( ≤ i < WH ) visual embedding can be represented as v i  = Proj \u0000 VisTokEmb( I ) i \u0001 +PosEmb1D( i )+SegEmb( [C] ) Layout Embedding The layout embedding layer is  for  embedding  the  spatial  layout  information represented by axis-aligned token bounding boxes from  the  OCR  results,  in  which  box  width  and height together with  corner coordinates are iden- tiﬁed.  Following  the  vanilla  LayoutLM,  we  nor- malize and discretize all coordinates to integers in the  range  [0 , 1000] ,  and  use  two  embedding  lay- ers  to  embed  x -axis  features  and  y -axis  features separately.  Given  the  normalized  bounding  box of the i -th (  ≤ i  <  WH  + L ) text/visual token box i  =  ( x min , x max , y min , y max , width, height ) , the layout embedding layer concatenates six bound- ing box features to construct a token-level 2D posi- tional embedding, aka the layout embedding l i  = Concat \u0000 PosEmb2D x ( x min , x max , width ) , PosEmb2D y ( y min , y max , height ) \u0001 Note  that  CNNs  perform  local  transformation, thus the visual token embeddings can be mapped back  to  image  regions  one  by  one  with  neither overlap  nor  omission.  When  calculating  bound- ing  boxes,  the  visual  tokens  can  be  treated  as evenly  divided  grids.  An  empty  bounding  box box PAD  =  (0 , , , , , 0)  is  attached  to  special tokens [CLS] , [SEP] and [PAD] . Multi-modal  Encoder  with  Spatial-Aware  Self- Attention  Mechanism The  encoder  concate- nates visual embeddings { v , ..., v WH − } and text embeddings  { t , ..., t L − }  to  a  uniﬁed  sequence and fuses spatial information by adding the layout embeddings  to  get  the  i -th  (  ≤ i  <  WH  + L ) ﬁrst layer input x (0) i = X i + l i ,  where X  = { v , ..., v WH − , t , ..., t L − } Following the architecture of Transformer,  we build  our  multi-modal  encoder  with  a  stack  of multi-head self-attention layers followed by a feed- forward  network. However,  the  original  self- attention  mechanism  can  only  implicitly  capture the  relationship  between  the  input  tokens  with the absolute position hints.  In order to efﬁciently model local invariance in the document layout, it is necessary to insert relative position information ex- plicitly.  Therefore, we introduce the spatial-aware self-attention mechanism into the self-attention lay- ers.  For simplicity, the following description is for a single head in a single self-attention layer with hidden size of d head  and projection matrics W Q , W K , W V  .  The original self-attention mechanism captures the correlation between query x i and key x j  by  projecting  the  two  vectors  and  calculating the attention score α ij  = √ d head \u0000 x i W Q \u0001 \u0000 x j W K \u0001 T Considering the large range of positions, we model the semantic relative position and spatial relative position as bias terms to prevent adding too many parameters.  Similar practice has been shown effec- tive on text-only Transformer architectures ( Raffel et  al. ,  ;  Bao  et  al. ,  ).  Let  b (1D) ,  b (2D x ) and  b (2D y )  denote  the  learnable  1D  and  2D  rela- tive  position  biases  respectively.  The  biases  are different among attention heads but shared in all encoder layers.  Assuming ( x i , y i ) anchors the top left  corner  coordinates  of  the  i -th  bounding  box, we obtain the spatial-aware attention score α ′ ij  = α ij  + b (1D) j − i  + b (2D x ) x j − x i  + b (2D y ) y j − y i Finally, the output vectors are represented as the weighted average of all the projected value vectors with respect to normalized spatial-aware attention scores h i  = X j exp \u0010 α ′ ij \u0011 P k  exp \u0000 α ′ ik \u0001 x j W V 2.2 Pre-training Tasks Masked Visual-Language Modeling Similar to the vanilla LayoutLM, we use the Masked Visual- Language Modeling (MVLM) to make the model learn  better  in  the  language  side  with  the  cross- modality clues.  We randomly mask some text to- kens and ask the model to recover the masked to- kens.  Meanwhile, the layout information remains unchanged,  which  means  the  model  knows  each masked token’s location on the page.  The output representations of masked tokens from the encoder are fed into a classiﬁer over the whole vocabulary, driven by a cross-entropy loss.  To avoid visual clue leakage, we mask image regions corresponding to masked tokens on the raw page image input before feeding it into the visual encoder. Text-Image Alignment To help the model learn the spatial location correspondence between image and  coordinates  of  bounding  boxes,  we  propose the Text-Image Alignment (TIA) as a ﬁne-grained cross-modality  alignment  task.  In  the  TIA  task, some tokens lines are randomly selected, and their image regions are covered on the document image. We call this operation covering to avoid confusion with the masking operation in MVLM. During pre- training,  a  classiﬁcation  layer  is  built  above  the encoder  outputs.  This  layer  predicts  a  label  for each text token depending on whether it is covered, i.e., [Covered] or [Not  Covered] , and com- putes the binary cross-entropy loss.  Considering the input image’s resolution is limited, and some document  elements  like  signs  and  bars  in  a  ﬁg- ure may look like covered text regions, the task of ﬁnding a word-sized covered image region can be noisy.  Thus, the covering operation is performed at the line-level.  When MVLM and TIA are per- formed simultaneously,  TIA losses of the tokens masked in MVLM are not taken into account.  This prevents the model from learning the useless but straightforward correspondence from [MASK] to [Covered] . Text-Image  Matching Furthermore,  a  coarse- grained cross-modality alignment task, Text-Image Matching (TIM) is applied to help the model learn the correspondence between document image and textual content.  We feed the output representation at  [CLS]  into  a  classiﬁer  to  predict  whether  the image and text are from the same document page. Regular inputs are positive samples.  To construct a negative sample, an image is either replaced by a page image from another document or dropped. To prevent the model from cheating by ﬁnding task features, we perform the same masking and cover- ing operations to images in negative samples.  The TIA target labels are all set to [Covered] in neg- ative samples.  We apply the binary cross-entropy loss in the optimization process."
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "Experiments",
+      "text": " 3.1 Data In  order  to  pre-train  and  evaluate  LayoutLMv2 models, we select datasets in a wide range from the visually-rich  document  understanding  area.  Fol- lowing LayoutLM, we use IIT-CDIP Test Collec- tion ( Lewis et al. , ) as the pre-training dataset. Six datasets are used as down-stream tasks.  The FUNSD ( Jaume et al. , ), CORD ( Park et al. , ),  SROIE  ( Huang  et  al. ,  )  and  Kleister- NDA  ( Grali ´ nski  et  al. ,  )  datasets  deﬁne  en- tity  extraction  tasks  that  aim  to  extract  the  value of a set of pre-deﬁned keys,  which we formalize as a sequential labeling task.  RVL-CDIP ( Harley et al. , ) is for document image classiﬁcation. DocVQA ( Mathew et al. , ), as the name sug- gests, is a dataset for visual question answering on document images.  Statistics of datasets are shown in Table .  Refer to the Appendix for details. Dataset # of keys or categories # of examples (train/dev/test) IIT-CDIP – 11M/0/0 FUNSD 149/0/50 CORD 800/100/100 SROIE 626/0/347 Kleister-NDA 254/83/203 RVL-CDIP 320K/4K/4K DocVQA – 39K/5K/5K Table 1:  Statistics of datasets 3.2 Settings Following the typical pre-training and ﬁne-tuning strategy,  we  update  all  parameters  including  the visual encoder layers, and train whole models end- to-end for all the settings.  Training details can be found in the Appendix. Pre-training LayoutLMv2 We train Lay- outLMv2 models with two different pa- rameter  sizes. We  use  a  12-layer  12-head Transformer encoder and set hidden size d  =   in  LayoutLMv2 BASE . While  in  the LayoutLMv2 LARGE ,  the  encoder  has   Trans- former layers with 16 heads and d = 1024 .  Visual backbones  in  the  two  models  are  based  on  the same ResNeXt101-FPN architecture.  The numbers of parameters are 200M and 426M approximately for  LayoutLMv2 BASE  and  LayoutLMv2 LARGE , respectively. For the encoder along with the text embedding layer, LayoutLMv2 uses the same architecture as UniLMv2 ( Bao et al. , ), thus it is initialized from UniLMv2.  For the ResNeXt-FPN part in the visual embedding layer, the backbone of a Mask- RCNN  ( He  et  al. ,  )  model  trained  on  Pub- LayNet  ( Zhong  et  al. ,  )  is  leveraged.  The rest of the parameters in the model are randomly initialized. During pre-training, we sample pages from the IIT-CDIP dataset and select a random sliding win- dow of the text sequence if the sample is too long. We  set  the  maximum  sequence  length  L  =  and assign all text tokens to the segment [A] . The output shape of the average pooling layer is set to W  = H  = 7 , so that it transforms the feature map into visual tokens.  In MVLM, 15% text tokens are masked among which 80% are replaced by a special token [MASK] , 10% are replaced by a ran- dom token sampled from the whole vocabulary, and “MaskRCNN  ResNeXt101  32x8d  FPN  3X”  setting  in https://github.com/hpanwar08/detectron2 Model FUNSD CORD SROIE Kleister-NDA BERT BASE 0.6026 0.8968 0.9099 0.7790 UniLMv2 BASE 0.6890 0.9092 0.9459 0.7950 BERT LARGE 0.6563 0.9025 0.9200 0.7910 UniLMv2 LARGE 0.7257 0.9205 0.9488 0.8180 LayoutLM BASE 0.7866 0.9472 0.9438 0.8270 LayoutLM LARGE 0.7895 0.9493 0.9524 0.8340 LayoutLMv2 BASE 0.8276 0.9495 0.9625 0.8330 LayoutLMv2 LARGE 0.8420 0.9601 0.9781 0.8520 BROS ( Hong et al. , ) 0.8121 0.9536 0.9548 – SPADE ( Hwang et al. , ) – 0.9150 – – PICK ( Yu et al. , ) – – 0.9612 – TRIE ( Zhang et al. , ) – – 0.9618 – Top-1 on SROIE Leaderboard (until 2020-12-24) – – 0.9767 – RoBERTa BASE  in ( Grali´nski et al. , ) – – – 0.7930 Table  2:  Entity-level  F1  scores  of  the  four  entity  extraction  tasks:  FUNSD,  CORD,  SROIE  and  Kleister-NDA. Detailed per-task results are in the Appendix. 10% remains the same.  In TIA, 15% of the lines are covered.  In TIM, 15% images are replaced, and 5% are dropped. Fine-tuning  LayoutLMv2 We  use  the  [CLS] output along with pooled visual token representa- tions as global features in the document-level classi- ﬁcation task RVL-CDIP. For the extractive question answering task DocVQA and the other four entity extraction tasks, we follow common practice like ( Devlin et al. , ) and build task speciﬁed head layers over the text part of LayoutLMv2 outputs. In the DocVQA paper, experiment results show that  the  BERT  model  ﬁne-tuned  on  the  SQuAD dataset  ( Rajpurkar  et  al. ,  )  outperforms  the original BERT model.  Inspired by this fact, we add an extra setting, which is that we ﬁrst ﬁne-tune Lay- outLMv2  on  a  question  generation  (QG)  dataset followed by the DocVQA dataset.  The QG dataset contains almost one million question-answer pairs generated  by  a  generation  model  trained  on  the SQuAD dataset. Baselines We  select  three  baseline  models  in the "
+    },
+    {
+      "section_title": "experiments",
+      "text": "  to  compare  LayoutLMv2  with the  text-only  pre-trained  models  as  well  as  the vanilla  LayoutLM  model.  Speciﬁcally,  we  com- pare LayoutLMv2 with BERT ( Devlin et al. , ), UniLMv2 ( Bao et al. , ), and LayoutLM ( Xu et  al. ,  )  for  all  the  experiment  settings.  We use  the  publicly  available  PyTorch  models  for BERT  ( Wolf  et  al. ,  )  and  LayoutLM,  and use our in-house implementation for the UniLMv2 models.  For each baseline approach, experiments are conducted using both the BASE and LARGE parameter settings. 3.3"
+    },
+    {
+      "section_title": "Results",
+      "text": " Entity  Extraction  Tasks Table   shows  the model  accuracy  on  the  four  datasets  FUNSD, CORD, SROIE, and Kleister-NDA, which we re- gard as  sequential labeling tasks evaluated  using entity-level  F1  score.  We  report  the  evaluation"
+    },
+    {
+      "section_title": "results",
+      "text": "  of  Kleister-NDA  on  the  validation  set  be- cause the ground-truth labels and the submission website for the test set are not available right now. For  text-only  models,  the  UniLMv2  models  out- perform  the  BERT  models  by  a  large  margin  in terms  of  the  BASE  and  LARGE  settings.  For text+layout  models,  the  LayoutLM  family,  espe- cially the LayoutLMv2 models, brings signiﬁcant performance improvement over the text-only base- lines.  Compared to the baselines, the LayoutLMv2 models are superior to the SPADE ( Hwang et al. , ) decoder method, as well as the text+layout pre-training  approach  BROS  ( Hong  et  al. ,  ) that is built on the SPADE decoder, which demon- strates the effectiveness of our modeling approach. Moreover, with the same modal information, our LayoutLMv2  models  also  outperform  existing multi-modal  approaches  PICK  ( Yu  et  al. ,  ), TRIE  ( Zhang  et  al. ,  )  and  the  previous  top- "
+    },
+    {
+      "section_title": "method",
+      "text": "  on  the  leaderboard,  conﬁrming  the effectiveness  of  our  pre-training  for  text,  lay- out,  and  visual  information. The  best  perfor- mance  on  all  the  four  datasets  is  achieved  by Unpublished  results, the  leaderboard  is  available at https://rrc.cvc.uab.es/?ch=13&com=eval uation&task=3 Model Accuracy BERT BASE 89.81% UniLMv2 BASE 90.06% BERT LARGE 89.92% UniLMv2 LARGE 90.20% LayoutLM BASE  (w/ image) 94.42% LayoutLM LARGE  (w/ image) 94.43% LayoutLMv2 BASE 95.25% LayoutLMv2 LARGE 95.64% VGG-16 ( Afzal et al. , ) 90.97% Single model ( Das et al. , ) 91.11% Ensemble ( Das et al. , ) 92.21% InceptionResNetV2 ( Szegedy et al. , ) 92.63% LadderNet ( Sarkhel and Nandi , ) 92.77% Single model ( Dauphinee et al. , ) 93.03% Ensemble ( Dauphinee et al. , ) 93.07% Table  3:  Classiﬁcation  accuracy  on  the  RVL-CDIP dataset the LayoutLMv2 LARGE , which illustrates that the multi-modal  pre-training  in  LayoutLMv2  learns better from the interactions from different modali- ties, thereby leading to the new SOTA on various document understanding tasks. RVL-CDIP Table shows the classiﬁcation ac- curacy on the RVL-CDIP dataset,  including text- only pre-trained models, the LayoutLM family as well as several image-based baseline models.  As shown  in  the  table,  both  the  text  and  visual  in- formation  are  important  to  the  document  image classiﬁcation  task  because  document  images  are text-intensive and represented by a variety of lay- outs and formats.  Therefore, we observed that the LayoutLM family outperforms those text-only or image-only models as it leverages the multi-modal information within the documents.  Speciﬁcally, the LayoutLMv2 LARGE model signiﬁcantly improves the classiﬁcation accuracy by more than 1.2% point over the previous SOTA results, which achieves an accuracy  of  95.64%.  This  also  veriﬁes  that  the pre-trained LayoutLMv2 model beneﬁts not only the information extraction tasks in document under- standing but also the document image classiﬁcation task through effective multi-model training. DocVQA Table lists the Average Normalized Levenshtein  Similarity  (ANLS)  scores  on  the DocVQA dataset of text-only baselines, LayoutLM family  models,  and  the  previous  top-1  on  the leaderboard.  With multi-modal pre-training, Lay- outLMv2  models  outperform  LayoutLM  models and text-only baselines by a large margin when ﬁne- Model Fine-tuning set ANLS BERT BASE train 0.6354 UniLMv2 BASE train 0.7134 BERT LARGE train 0.6768 UniLMv2 LARGE train 0.7709 LayoutLM BASE train 0.6979 LayoutLM LARGE train 0.7259 LayoutLMv2 BASE train 0.7808 LayoutLMv2 LARGE train 0.8348 LayoutLMv2 LARGE train + dev 0.8529 LayoutLMv2 LARGE  + QG train + dev 0.8672 Top-1 (30 models ensemble) on DocVQA Leaderboard (until 2020-12-24) - 0.8506 Table  4:  ANLS  score  on  the  DocVQA  dataset,  “QG” denotes the data augmentation with the question gener- ation dataset. tuned on the train set. By using all data (train + dev) as the ﬁne-tuning dataset, the LayoutLMv2 LARGE single model outperforms the previous top-1 on the leaderboard which ensembles 30 models.  Under the setting of ﬁne-tuning LayoutLMv2 LARGE on a question generation dataset (QG) and the DocVQA dataset successively, the single model performance increases by more than 1.6% ANLS and achieves the new SOTA. 3.4 Ablation Studies To fully understand the underlying impact of dif- ferent components, we conduct an ablation study to explore the effect of visual information, the pre- training  tasks,  spatial-aware  self-attention  mech- anism, as well as different text-side initialization models.  Table shows model performance on the DocVQA validation set.  Under all the settings, we pre-train the models using all IIT-CDIP data for one epoch.  The hyper-parameters are the same as those used to pre-train LayoutLMv2 BASE in Section 3.2 . “LayoutLM” denotes the vanilla LayoutLM archi- tecture in ( Xu et al. , ), which can be regarded as a LayoutLMv2 architecture without visual mod- ule  and  spatial-aware  self-attention  mechanism. “X101-FPN” denotes the ResNeXt101-FPN visual backbone described in Section 3.2 . We  ﬁrst  evaluate  the  effect  of  introducing  vi- sual  information.  From  #1  to  #2a,  we  add  the visual  module  without  changing  the  pre-training strategy, where results show that LayoutLMv2 pre- Unpublished  results, the  leaderboard  is  available at https://rrc.cvc.uab.es/?ch=17&com=eval uation&task=1 # Model Architecture Initialization SASAM MVLM TIA TIM ANLS LayoutLM BASE BERT BASE ✓ 0.6841 2a LayoutLMv2 BASE BERT BASE  + X101-FPN ✓ 0.6915 2b LayoutLMv2 BASE BERT BASE  + X101-FPN ✓ ✓ 0.7061 2c LayoutLMv2 BASE BERT BASE  + X101-FPN ✓ ✓ 0.6955 2d LayoutLMv2 BASE BERT BASE  + X101-FPN ✓ ✓ ✓ 0.7124 LayoutLMv2 BASE BERT BASE  + X101-FPN ✓ ✓ ✓ ✓ 0.7217 LayoutLMv2 BASE UniLMv2 BASE  + X101-FPN ✓ ✓ ✓ ✓ 0.7421 Table 5: Ablation study on the DocVQA dataset, where ANLS scores on the validation set are reported.  “SASAM” means  the  spatial-aware  self-attention  mechanism.  “MVLM”,  “TIA”  and  “TIM”  are  the  three  pre-training  tasks. All the models are trained using the whole pre-training dataset for one epoch with the BASE model size. trained  with  only  MVLM  can  leverage  visual  in- formation effectively.  Then, we compare the two cross-modality  alignment  pre-training  tasks  TIA and TIM. According to the four results in #2, both tasks improve the model performance substantially, and the proposed TIA beneﬁts the model more than the commonly used TIM. Using both tasks together is more effective than using either one alone.  Ac- cording to this observation, we keep all the three pre-training tasks and introduce the spatial-aware self-attention mechanism (SASAM) to the model architecture.  Compare the results #2d and #3, the proposed SASAM can further improve the model accuracy.  Finally, in settings #3 and #4, we change the text-side initialization checkpoint from BERT to UniLMv2, and conﬁrm that LayoutLMv2 bene- ﬁts from the better initialization."
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "Related Work",
+      "text": " In  recent  years,  pre-training  techniques  have  be- come popular in both NLP and CV areas, and have also been leveraged in the VrDU tasks. Devlin et al. ( ) introduced a new language representation  model  called  BERT,  which  is  de- signed  to  pre-train  deep  bidirectional  representa- tions from the unlabeled text by jointly condition- ing on both left and right context in all layers.  Bao et al. ( ) propose to pre-train a uniﬁed language model for both autoencoding and partially autore- gressive  language  modeling  tasks  using  a  novel training procedure, referred to as a pseudo-masked language  model.  Our  multi-modal  Transformer architecture and the MVLM pre-training strategy extend Transformer and MLM used in these work to leverage visual information. Lu et al. ( ) proposed ViLBERT for learning task-agnostic  joint  representations  of  image  con- tent and natural language by extending the popular BERT  architecture  to  a  multi-modal  two-stream model.  Su et al. ( ) proposed VL-BERT that adopts  the  Transformer  model  as  the  backbone, and  extends  it  to  take  both  visual  and  linguistic embedded features as input.  Different from these vision-language pre-training approaches, the visual part of LayoutLMv2 directly uses the feature map instead of pooled ROI features, and beneﬁts from the new TIA pre-training task. Xu et al. ( ) proposed LayoutLM to jointly model interactions between text and layout infor- mation across scanned document images, beneﬁt- ing a great number of real-world document image understanding tasks such as information extraction from scanned documents.  This work is a natural extension of the vanilla LayoutLM, which takes ad- vantage of textual, layout, and visual information in a single multi-modal pre-training framework."
+    },
+    {
+      "section_title": "5",
+      "text": ""
+    },
+    {
+      "section_title": "Conclusion",
+      "text": " In this paper, we present a multi-modal pre-training approach  for  visually-rich  document  understand- ing tasks, aka LayoutLMv2.  Distinct from existing methods  for  VrDU,  the  LayoutLMv2  model  not only considers the text and layout information but also  integrates  the  image  information  in  the  pre- training stage with a single multi-modal framework. Meanwhile, the spatial-aware self-attention mecha- nism is integrated into the Transformer architecture to capture the relative relationship among different bounding boxes.  Furthermore, new pre-training ob- jectives are also leveraged to enforce the learning of cross-modal interaction among different modali- ties.  Experiment results on 6 different VrDU tasks have illustrated that the pre-trained LayoutLMv2 model  has  substantially  outperformed  the  SOTA baselines in the document intelligence area, which greatly beneﬁts a number of real-world document understanding tasks. For future research, we will further explore the network  architecture  as  well  as  the  pre-training strategies  for  the  LayoutLM  family.  Meanwhile, we will also investigate the language expansion to make the multi-lingual LayoutLMv2 model avail- able  for  different  languages,  especially  the  non- English areas around the world."
+    },
+    {
+      "section_title": "Acknowledgments",
+      "text": " This work was supported by the National Key R&D Program of China via grant 2020AAA0106501 and the National Natural Science Foundation of China (NSFC) via grant 61976072 and 61772153."
+    }
+  ]
+}

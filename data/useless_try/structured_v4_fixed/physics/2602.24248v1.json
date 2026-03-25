@@ -1,0 +1,2548 @@
+{
+  "title": "Resolving the Metastable Si-XIII Structure",
+  "abstract": "Silicon is the undisputed cornerstone of modern technology, with applications ranging from micro- and opto-electronics to quantum technologies. Recently, the exploration of its allotropes has emerged as a piv- otal frontier for engineering materials with tailored optical and electronic functionalities. High-pressure experiments have revealed several metastable silicon phases, among which is Si-XIII. First observed more than 20 years ago, this phase has remained structurally unidentiﬁed, representing a signiﬁcant gap in our understanding of elemental silicon allotropy. In this work, a convergent methodology is employed combin- ing advanced theoretical modeling with experimental characterization to ﬁnally resolve the long-standing structural assignment of Si-XIII. Guided by careful experimental observations, a structural model validated through ﬁrst-principles optimization and systematically tested against multiple experimental signatures is constructed. All the ﬁngerprints of this phase are rationalized by our proposed crystal structure: interpla- nar spacings, Raman frequencies, thermodynamic stability, and kinetic pathways. These ﬁndings provide a crucial missing piece in the high-pressure phase diagram of silicon and demonstrate the power of integrating computational predictions with experimental validation to resolve complex structural problems in materials science. Keywords: Si-XIII, Metastable silicon allotropes, Nanoindentation, TEM/SAED, Raman spectroscopy, Phase Transition, Kinetics 1. Introduction Silicon (Si) has been the cornerstone of micro- and nanoelectronics for decades, with recent developments extending to optoelectronics and quantum technologies [1]. Despite being one of the most extensively studied semiconductors, fundamental questions regarding its elemental allotropy remain open, particularly in light of their potential use in technological applications. Indeed, while several diﬀerent allotropic forms of Si have been identiﬁed [2, 3], the crystalline structure of several of its metastable phases reported in the literature, such as Si-VIII, Si-IX, and notably Si-XIII, remains elusive [2, 4]. ∗Corresponding author Email address: emilio.scalise@unimib.it (Emilio Scalise) 1These authors equally contributed arXiv:2602.24248v1 [cond-mat.mtrl-sci] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "2",
+      "section_title": "1/nm",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "500",
+      "section_title": "nm",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2.15",
+      "section_title": "2.13",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.18",
+      "section_title": "3.16",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.53",
+      "section_title": "5.62 3.33",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "322",
+      "section_title": "212 102 012 122",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "211",
+      "section_title": "101 011 121",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "021",
+      "section_title": "131",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "021_1",
+          "text": "Figure 1: (a) Schematic representation of the experimental procedure employed to identify the crystal structure of the Si-XIII",
+          "page": 4
+        },
+        {
+          "para_id": "021_2",
+          "text": "phase. One grain of the SI-XIII phase was selected inside the transformed region in the annealed pit. This grain was observed",
+          "page": 4
+        },
+        {
+          "para_id": "021_3",
+          "text": "along multiple zone axis with mutual rotation of speciﬁc angles α. (b) SAED pattern of the transformed region in the pit",
+          "page": 4
+        },
+        {
+          "para_id": "021_4",
+          "text": "(c) Dark Field TEM obtained from the reﬂection marked by the green circle in (b). The green circle highlights the selected",
+          "page": 4
+        },
+        {
+          "para_id": "021_5",
+          "text": "Si-XIII crystal. (d),(e),(f) and (g) SAED patterns acquired from the same crystalline grain, marked by the green circle in",
+          "page": 4
+        },
+        {
+          "para_id": "021_6",
+          "text": "(c), across multiple zone axes, with indicated mutual rotation angles. In these experimental patterns, the corresponding plane",
+          "page": 4
+        },
+        {
+          "para_id": "021_7",
+          "text": "spacing distance is reported in Å, for the main reﬂections. The sequence shows the systematic tilting procedure used to map",
+          "page": 4
+        },
+        {
+          "para_id": "021_8",
+          "text": "the reciprocal lattice and the very good agreement with the proposed cell structure, as demonstrated by the corresponding",
+          "page": 4
+        },
+        {
+          "para_id": "021_9",
+          "text": "simulated SAED (h),(i),(j), and (k), in which the pattern indexing is also reported.",
+          "page": 4
+        },
+        {
+          "para_id": "021_10",
+          "text": "The relaxed Si-XIII structure consistently converges to a triclinic cell with space group P¯1 (No. 2) for",
+          "page": 4
+        },
+        {
+          "para_id": "021_11",
+          "text": "all exchange-correlation functionals considered (complete details are provided in the Methods section). The",
+          "page": 4
+        },
+        {
+          "para_id": "021_12",
+          "text": "corresponding equilibrium lattice parameters obtained with LDA, PBEsol, PBE, and SCAN are summarized",
+          "page": 4
+        },
+        {
+          "para_id": "021_13",
+          "text": "in Table 1, together with the reﬁned experimental values extracted from SAED. As expected, LDA yields the",
+          "page": 4
+        },
+        {
+          "para_id": "021_14",
+          "text": "most compact cell, PBE the largest volume, while PBEsol and SCAN provide intermediate values. Starting",
+          "page": 4
+        },
+        {
+          "para_id": "021_15",
+          "text": "from the DFT-relaxed cells, we re-simulated the SAED patterns and found that, in particular, the SCAN- and",
+          "page": 4
+        },
+        {
+          "para_id": "021_16",
+          "text": "PBEsol-based structures reproduce the experimental diﬀraction spots with excellent accuracy. A subsequent",
+          "page": 4
+        },
+        {
+          "para_id": "021_17",
+          "text": "ﬁne-tuning of the lattice parameters to optimize the agreement with the measured SAED pattern led to the",
+          "page": 4
+        },
+        {
+          "para_id": "021_18",
+          "text": "“Experimental” values reported in Table 1.",
+          "page": 4
+        },
+        {
+          "para_id": "021_19",
+          "text": "In all cases, the eight-atom unit cell is composed of silicon",
+          "page": 4
+        },
+        {
+          "para_id": "021_20",
+          "text": "Equilibrium lattice parameters of the proposed Si-XIII structure obtained from DFT relaxations with diﬀerent",
+          "page": 5
+        },
+        {
+          "para_id": "021_21",
+          "text": "exchange-correlation functionals, together with reﬁned experimental values from SAED. The space group is P¯1 (No. 2) with 8",
+          "page": 5
+        },
+        {
+          "para_id": "021_22",
+          "text": "atoms per unit cell. WyckoﬀPositions are provided in Table S1 of the Supporting Information.",
+          "page": 5
+        },
+        {
+          "para_id": "021_23",
+          "text": "atoms occupying general Wyckoﬀ2i positions of P¯1, with no additional symmetry-imposed constraints on",
+          "page": 5
+        },
+        {
+          "para_id": "021_24",
+          "text": "the internal coordinates (full fractional coordinates are reported in the Supporting Information, Table S1).",
+          "page": 5
+        },
+        {
+          "para_id": "021_25",
+          "text": "The equilibrium density of this structure lies much closer to those of the cubic and hexagonal dia-",
+          "page": 5
+        },
+        {
+          "para_id": "021_26",
+          "text": "mond phases than to the low-density R8 and BC8 metastable phases.",
+          "page": 5
+        },
+        {
+          "para_id": "021_27",
+          "text": "Its DFT formation energy ex-",
+          "page": 5
+        },
+        {
+          "para_id": "021_28",
+          "text": "ceeds that of the stable diamond phases by ∆E ≈100 −120 meV/atom but remains lower than R8 by",
+          "page": 5
+        },
+        {
+          "para_id": "021_29",
+          "text": "∆E ≈20 −90 meV/atom (details are reported in the Supporting Information, Table S2), positioning Si-",
+          "page": 5
+        },
+        {
+          "para_id": "021_30",
+          "text": "XIII as a competitive metastable allotrope, as also shown in Figure 2(b). To the best of our knowledge, this",
+          "page": 5
+        },
+        {
+          "para_id": "021_31",
+          "text": "crystal structure has not been reported previously in either theoretical predictions or experimental studies,",
+          "page": 5
+        },
+        {
+          "para_id": "021_32",
+          "text": "and thus represents a genuinely new allotrope that naturally emerges as the resolution for the long-sought",
+          "page": 5
+        },
+        {
+          "para_id": "021_33",
+          "text": "2.1.3. Raman characterization and modeling",
+          "page": 5
+        },
+        {
+          "para_id": "021_34",
+          "text": "To validate this structural assignment, we compare experimental and theoretically computed Raman",
+          "page": 5
+        },
+        {
+          "para_id": "021_35",
+          "text": "spectra. Gogotsi and Domnich [15] ﬁrst assigned the Si-XIII label to an unknown phase observed after",
+          "page": 5
+        },
+        {
+          "para_id": "021_36",
+          "text": "nanoindentation at 150–200 ◦C, characterized by distinctive Raman peaks at 200, 330, 475, and 497 cm−1",
+          "page": 5
+        },
+        {
+          "para_id": "021_37",
+          "text": "that could not be attributed to dc-Si, BC8, R8, or amorphous silicon. Subsequently, several other studies",
+          "page": 5
+        },
+        {
+          "para_id": "021_38",
+          "text": "conﬁrmed these Raman signatures for phases recovered after indentation-induced high-pressure transforma-",
+          "page": 5
+        },
+        {
+          "para_id": "021_39",
+          "text": "tions and subsequent annealing [4, 16, 19, 20].",
+          "page": 5
+        },
+        {
+          "para_id": "021_40",
+          "text": "However, a 2009 theoretical study [21], based on classical molecular dynamics simulations using the",
+          "page": 5
+        },
+        {
+          "para_id": "021_41",
+          "text": "Tersoﬀpotential (whose limitations in the present context are discussed in [22]), mislabeled a six-fold",
+          "page": 5
+        },
+        {
+          "para_id": "021_42",
+          "text": "coordinated, high-density silicon phase observed during indentation simulations as Si-XIII. This misnaming",
+          "page": 5
+        },
+        {
+          "para_id": "021_43",
+          "text": "has since been perpetuated in several theoretical works, despite the fact that the computationally predicted",
+          "page": 5
+        },
+        {
+          "para_id": "021_44",
+          "text": "structure bears no relation to the experimentally observed Si-XIII phase recovered after annealing. The",
+          "page": 5
+        },
+        {
+          "para_id": "021_45",
+          "text": "structure proposed here, after DFT optimization, ﬁnally reconciles the experimental observations with a",
+          "page": 5
+        },
+        {
+          "para_id": "021_46",
+          "text": "well-deﬁned crystal structure, as conﬁrmed by the Raman validation discussed below.",
+          "page": 5
+        },
+        {
+          "para_id": "021_47",
+          "text": "The Raman spectra of the sample, both as-indented and post-annealed, are presented in Figure 2 and",
+          "page": 5
+        },
+        {
+          "para_id": "021_48",
+          "text": "compared with theoretical spectra derived from ﬁrst-principles calculations. All peak frequencies are listed",
+          "page": 5
+        },
+        {
+          "para_id": "021_49",
+          "text": "in Table 2, together with previous experimental reference values. The as-indented spectrum of Figure 2(c)",
+          "page": 5
+        },
+        {
+          "para_id": "021_50",
+          "text": "is consistent with analogous spectra we reported in Ref. [13], where the presence of BC8, R8, and deformed",
+          "page": 5
+        },
+        {
+          "para_id": "021_51",
+          "text": "dc-Si phases was unambiguously identiﬁed by analyzing the measured Raman spectral intensity. We also",
+          "page": 5
+        },
+        {
+          "para_id": "021_52",
+          "text": "showed that the scattering intensities of the Raman-active modes measured before annealing, which are",
+          "page": 5
+        },
+        {
+          "para_id": "021_53",
+          "text": "related to phases diﬀerent from dc-Si, are highest for perpendicular polarization conﬁguration and lowest",
+          "page": 5
+        },
+        {
+          "para_id": "021_54",
+          "text": "for parallel conﬁguration (see Methods section). Hence, we focus here on the discussion of the data obtained",
+          "page": 5
+        },
+        {
+          "para_id": "021_55",
+          "text": "in perpendicular conﬁguration only (the interested reader can ﬁnd the parallel conﬁguration results in the",
+          "page": 5
+        },
+        {
+          "para_id": "021_56",
+          "text": "Supporting Information Figure S3).",
+          "page": 5
+        },
+        {
+          "para_id": "021_57",
+          "text": "This perpendicular conﬁguration helps identify both R8 and BC8,",
+          "page": 5
+        },
+        {
+          "para_id": "021_58",
+          "text": "although they appear after nanoindentation as a mixture [13] and still exhibit several peaks very close in",
+          "page": 5
+        },
+        {
+          "para_id": "021_59",
+          "text": "The peak frequencies obtained after ﬁtting the as-indented spectra (Table 2) are in excellent agreement",
+          "page": 5
+        },
+        {
+          "para_id": "021_60",
+          "text": "with both previously reported experimental values [19, 23] and the calculated ones. Although the calculated",
+          "page": 5
+        },
+        {
+          "para_id": "021_61",
+          "text": "frequencies suﬀer from a rigid shift due to the typical underestimation of Raman frequencies in LDA-DFT",
+          "page": 5
+        },
+        {
+          "para_id": "021_62",
+          "text": "calculations [13], which is corrected in the theoretical peaks shown in Figure 2, the comparison allows for",
+          "page": 5
+        },
+        {
+          "para_id": "021_63",
+          "text": "Figure 2: Raman spectroscopic analysis of silicon phases under nanoindentation and post-annealing.",
+          "page": 6
+        },
+        {
+          "para_id": "021_64",
+          "text": "crystal structures of the analyzed phases: dc-Si (orange), R8 (red), BC8 (blue), and Si-XIII (purple). Their formation energies",
+          "page": 6
+        },
+        {
+          "para_id": "021_65",
+          "text": "and volumes are reported in panel (b). Fitted experimental polarized Raman spectra acquired in perpendicular conﬁguration",
+          "page": 6
+        },
+        {
+          "para_id": "021_66",
+          "text": "of 10 µm tip indented silicon are shown for (c) as-indented and (d) post-annealed samples. Peak positions, intensities, and",
+          "page": 6
+        },
+        {
+          "para_id": "021_67",
+          "text": "widths were treated as free parameters in the ﬁtting procedure. Raman-active mode frequencies for the diﬀerent phases, as",
+          "page": 6
+        },
+        {
+          "para_id": "021_68",
+          "text": "reported in Table 2, were used as references. Experimental peaks are represented by Lorentzian functions colored according to",
+          "page": 6
+        },
+        {
+          "para_id": "021_69",
+          "text": "the respective crystal structures shown in panel (a). DFT-calculated non-resonant Raman frequencies, shown as vertical lines",
+          "page": 6
+        },
+        {
+          "para_id": "021_70",
+          "text": "in panels (c) and (d), have been rigidly shifted upward by 12 cm−1 to align the main R8 peak to the experimental one and",
+          "page": 6
+        },
+        {
+          "para_id": "021_71",
+          "text": "facilitate comparison across all phases.",
+          "page": 6
+        },
+        {
+          "para_id": "021_72",
+          "text": "an unambiguous assignment of each peak to either BC8 or R8 (indicated by bold text in Table 2), except",
+          "page": 6
+        },
+        {
+          "para_id": "021_73",
+          "text": "for the peak at approximately 374 cm−1, which is shared between both phases.",
+          "page": 6
+        },
+        {
+          "para_id": "021_74",
+          "text": "Most of these Raman peaks disappear after thermal annealing, as shown in Figure 2(d), indicating a",
+          "page": 6
+        },
+        {
+          "para_id": "021_75",
+          "text": "strong phase transition. Particularly, the two most intense peaks of R8 and BC8, found at approximately",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "354",
+      "section_title": "and 441 cm−1, respectively, exhibit minimal intensity (the former) or are completely absent (the latter).",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "354_1",
+          "text": "In fact, in Table 2, only a few Raman modes previously attributed to the R8/BC8 phases remain detectable",
+          "page": 6
+        },
+        {
+          "para_id": "354_2",
+          "text": "and have marginal intensities. This suggests that some residual R8/BC8 phase is still present (conﬁrmed by",
+          "page": 6
+        },
+        {
+          "para_id": "354_3",
+          "text": "SAED and shown as Supporting Information in Figure S2), but with the majority of this mixture transformed",
+          "page": 6
+        },
+        {
+          "para_id": "354_4",
+          "text": "into a crystallographically distinct structure.",
+          "page": 6
+        },
+        {
+          "para_id": "354_5",
+          "text": "Remarkably, the Raman mode shifts calculated for the proposed Si-XIII structure, shown together with",
+          "page": 6
+        },
+        {
+          "para_id": "354_6",
+          "text": "the experimental spectra in Figure 2(d), perfectly match those corresponding to the peaks appearing only",
+          "page": 6
+        },
+        {
+          "para_id": "354_7",
+          "text": "after the annealing process. Moreover, Table 2 shows that the frequencies of these theoretically predicted",
+          "page": 6
+        },
+        {
+          "para_id": "354_8",
+          "text": "modes are in excellent agreement with previous reports on the, not identiﬁed yet, Si-XIII phase. Speciﬁcally,",
+          "page": 6
+        },
+        {
+          "para_id": "354_9",
+          "text": "we ﬁnd experimental peaks at approximately 200, 333, 480, and 490 cm−1, all of which correspond to Raman",
+          "page": 6
+        },
+        {
+          "para_id": "354_10",
+          "text": "modes calculated using DFT for our proposed Si-XIII structure. Noteworthy, these Raman mode shifts are",
+          "page": 6
+        },
+        {
+          "para_id": "354_11",
+          "text": "in nearly perfect match with those reported in previous experiments at 200, 330, 475, and 497 cm−1,",
+          "page": 6
+        },
+        {
+          "para_id": "354_12",
+          "text": "respectively [15]. Although the peak at ∼480 cm−1 is the most distinctive Raman ﬁngerprint of the Si-XIII",
+          "page": 6
+        },
+        {
+          "para_id": "354_13",
+          "text": "phase in our spectra, the peaks at 200 and 330 cm−1, not present before annealing, can also unambiguously",
+          "page": 6
+        },
+        {
+          "para_id": "354_14",
+          "text": "Table 2: Comparison of experimental and theoretical Raman frequencies (in cm−1) for various investigated silicon phases. The",
+          "page": 7
+        },
+        {
+          "para_id": "354_15",
+          "text": "irreducible representations of the experimental phonon modes have been assigned through correspondence with the calculated",
+          "page": 7
+        },
+        {
+          "para_id": "354_16",
+          "text": "modes. Previously reported experimental values for dc-Si, R8, and BC8 [23], as well as Si-XIII [15], are included for reference",
+          "page": 7
+        },
+        {
+          "para_id": "354_17",
+          "text": "and are representative of the frequencies reported in other studies [16, 19, 24–27]. Experimental values from this work are",
+          "page": 7
+        },
+        {
+          "para_id": "354_18",
+          "text": "highlighted in bold when the assignment is unique to a certain phase.",
+          "page": 7
+        },
+        {
+          "para_id": "354_19",
+          "text": "identify Si-XIII based on the DFT calculations .",
+          "page": 7
+        },
+        {
+          "para_id": "354_20",
+          "text": "Additionally, there are additional peaks at ∼163, 183, 375, 394, and 490 cm−1 that, based on our",
+          "page": 7
+        },
+        {
+          "para_id": "354_21",
+          "text": "calculations, could also be attributed to Si-XIII, but are shared also with the BC8/R8 phases. Moreover, it is",
+          "page": 7
+        },
+        {
+          "para_id": "354_22",
+          "text": "often diﬃcult to identify single peaks and assign them to a speciﬁc phase, particularly in the 490−520 cm−1",
+          "page": 7
+        },
+        {
+          "para_id": "354_23",
+          "text": "In fact, in this range, in addition to several possible peaks attributable to BC8/R8 or dc-Si, a",
+          "page": 7
+        },
+        {
+          "para_id": "354_24",
+          "text": "couple of peaks attributable to hd-Si are also present [13]. Indeed, according to previous reports [16, 20],",
+          "page": 7
+        },
+        {
+          "para_id": "354_25",
+          "text": "hd-Si is likely present in our samples after thermal annealing at 220◦C. Consequently, the shoulder at",
+          "page": 7
+        },
+        {
+          "para_id": "354_26",
+          "text": "approximately 500 cm−1 in our spectra, giving rise to the Lorentzian function at approximately 490 cm−1",
+          "page": 7
+        },
+        {
+          "para_id": "354_27",
+          "text": "shown in Figure 2d, may be attributed to a minimal fraction of hd-Si.",
+          "page": 7
+        },
+        {
+          "para_id": "354_28",
+          "text": "Finally, a peak located at approximately 522 cm−1 (526 cm−1) is present before (after) annealing. This",
+          "page": 7
+        },
+        {
+          "para_id": "354_29",
+          "text": "peak is certainly attributable to strained dc-Si not transformed into the metastable phases. However, the fact",
+          "page": 7
+        },
+        {
+          "para_id": "354_30",
+          "text": "that its shift from the pristine phase peak expected at approximately 520 cm−1 increases after annealing",
+          "page": 7
+        },
+        {
+          "para_id": "354_31",
+          "text": "suggests an increasing compressive strain acting on dc-Si, likely due to the expansion of the metastable",
+          "page": 7
+        },
+        {
+          "para_id": "354_32",
+          "text": "phases upon annealing. This conﬁrms the volume increase expected from the transition from the R8/BC8",
+          "page": 7
+        },
+        {
+          "para_id": "354_33",
+          "text": "mixture to the Si-XIII phase, in agreement with the calculated volumes reported in Table 1 and further",
+          "page": 7
+        },
+        {
+          "para_id": "354_34",
+          "text": "2.2. Kinetics of the Si-XIII phase",
+          "page": 8
+        },
+        {
+          "para_id": "354_35",
+          "text": "2.2.1. Potential Energy Surface Exploration",
+          "page": 8
+        },
+        {
+          "para_id": "354_36",
+          "text": "The kinetics of the Si-XIII phase formation is then investigated to establish its connection to the main Si",
+          "page": 8
+        },
+        {
+          "para_id": "354_37",
+          "text": "phases involved in these process conditions: dc, hd, R8, and BC8. Using extensive Potential Energy Surface",
+          "page": 8
+        },
+        {
+          "para_id": "354_38",
+          "text": "(PES) explorations by means of the SS-Dimer method (see Methods section), we map the kinetic barriers",
+          "page": 8
+        },
+        {
+          "para_id": "354_39",
+          "text": "connecting these phases, speciﬁcally focusing on the Si-XIII candidate structure.",
+          "page": 8
+        },
+        {
+          "para_id": "354_40",
+          "text": "Previous computational studies have attempted to ﬁnd the Si-XIII phase or identify kinetic pathways",
+          "page": 8
+        },
+        {
+          "para_id": "354_41",
+          "text": "for the dc phase transformations, exploiting a variety of approaches ranging from stochastic PES sampling",
+          "page": 8
+        },
+        {
+          "para_id": "354_42",
+          "text": "to more sophisticated methods [28–33]. However, the exceptionally rich local-minima landscape of silicon",
+          "page": 8
+        },
+        {
+          "para_id": "354_43",
+          "text": "makes these searches challenging: starting from dc or R8/BC8, one typically encounters a multitude of",
+          "page": 8
+        },
+        {
+          "para_id": "354_44",
+          "text": "competing minima without naturally landing on a phase that simultaneously bridges the high-pressure and",
+          "page": 8
+        },
+        {
+          "para_id": "354_45",
+          "text": "diamond-like PES neighborhoods. Here, initiating the search directly from Si-XIII reveals its pivotal role as",
+          "page": 8
+        },
+        {
+          "para_id": "354_46",
+          "text": "the missing connecting phase between these energy basins, as clearly illustrated in the transition pathway",
+          "page": 8
+        },
+        {
+          "para_id": "354_47",
+          "text": "The SS-Dimer search were performed starting from randomly displaced conﬁgurations of the Si-XIII",
+          "page": 8
+        },
+        {
+          "para_id": "354_48",
+          "text": "candidate structure, with around 20000 repeated iterations. The details on the dimer iterations are provided",
+          "page": 8
+        },
+        {
+          "para_id": "354_49",
+          "text": "in the Method section. The results were then analyzed and ordered by the height of the energy barrier to",
+          "page": 8
+        },
+        {
+          "para_id": "354_50",
+          "text": "highlight the most relevant transitions. The same procedure was repeated with the other four phases under",
+          "page": 8
+        },
+        {
+          "para_id": "354_51",
+          "text": "consideration: dc, hd, R8, and BC8. The ﬁnal results are summarized in the Transition Pathway Network",
+          "page": 8
+        },
+        {
+          "para_id": "354_52",
+          "text": "Figure 3: Transition Pathway Network showing the interconnection between the SI-XIII phase and the main known phases",
+          "page": 8
+        },
+        {
+          "para_id": "354_53",
+          "text": "of silicon. The nodes of the network represent metastable minima while the edges connecting them represent the transition",
+          "page": 8
+        },
+        {
+          "para_id": "354_54",
+          "text": "barrier found by the SS-Dimer method. The two colorbars represent the formation energy ∆E relative to the Si-XIII phase",
+          "page": 8
+        },
+        {
+          "para_id": "354_55",
+          "text": "and the Barrier height for the transition connecting the two nodes. The relative length of the connection is proportional to the",
+          "page": 8
+        },
+        {
+          "para_id": "354_56",
+          "text": "energy barriers of the transitions following the Kamada-Kawai representation.",
+          "page": 8
+        },
+        {
+          "para_id": "354_57",
+          "text": "of Figure 3, where circles represent metastable minima (with the most relevant ones highlighted by larger",
+          "page": 9
+        },
+        {
+          "para_id": "354_58",
+          "text": "circles and the others shaded), and connecting lines represent the kinetic barriers. The data in the plot are",
+          "page": 9
+        },
+        {
+          "para_id": "354_59",
+          "text": "arranged following the Kamada-Kawai algorithm [34], with line lengths proportional to the kinetic barrier",
+          "page": 9
+        },
+        {
+          "para_id": "354_60",
+          "text": "heights between the connected minima. Transitions characterized by kinetic barriers higher than 0.3 eV/atom",
+          "page": 9
+        },
+        {
+          "para_id": "354_61",
+          "text": "are not shown. Two color bars are reported for the height of the kinetic barrier and the formation energy of",
+          "page": 9
+        },
+        {
+          "para_id": "354_62",
+          "text": "the energy minima, respectively.",
+          "page": 9
+        },
+        {
+          "para_id": "354_63",
+          "text": "The central role of Si-XIII in the kinetics of silicon phase transitions is evident from Figure 3: it acts",
+          "page": 9
+        },
+        {
+          "para_id": "354_64",
+          "text": "as a connecting phase between the metastable R8/BC8 phases and the stable dc conﬁguration. In fact,",
+          "page": 9
+        },
+        {
+          "para_id": "354_65",
+          "text": "one result of our statistical investigation is that the transition path towards the Si-XIII phase represents",
+          "page": 9
+        },
+        {
+          "para_id": "354_66",
+          "text": "the lowest kinetic pathway escaping from the energy basin of the R8 metastable phases. Additionally, we",
+          "page": 9
+        },
+        {
+          "para_id": "354_67",
+          "text": "found a similar kinetic pathway that escapes from the BC8 phase and ends in the Si-XIII phase. The energy",
+          "page": 9
+        },
+        {
+          "para_id": "354_68",
+          "text": "barriers associated with these transitions are: 111 meV/atom for the path connecting the R8 phase to the",
+          "page": 9
+        },
+        {
+          "para_id": "354_69",
+          "text": "Si-XIII and 126 meV/atom for the one between the BC8 and the Si-XIII. These minimum energy paths are",
+          "page": 9
+        },
+        {
+          "para_id": "354_70",
+          "text": "reported in Figure 4(a). These ﬁndings conﬁrm the close relationship between the Si-XIII crystal structure",
+          "page": 9
+        },
+        {
+          "para_id": "354_71",
+          "text": "and the R8 metastable phase, as already discussed from the crystallographic point of view in Section 2.1.1",
+          "page": 9
+        },
+        {
+          "para_id": "354_72",
+          "text": "and in Supplementary Figure S1.",
+          "page": 9
+        },
+        {
+          "para_id": "354_73",
+          "text": "Another interesting observation coming from our analysis is that the Si-XIII phase is very closely con-",
+          "page": 9
+        },
+        {
+          "para_id": "354_74",
+          "text": "nected to the stable dc phase. We found three diﬀerent transition pathways connecting these two phases",
+          "page": 9
+        },
+        {
+          "para_id": "354_75",
+          "text": "(within our energy threshold for saddle point location), the lowest energy barrier carrying a barrier of only",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "90",
+      "section_title": "meV/atom, signiﬁcantly lower the other two higher paths (222 and 243 meV/atom), all reported in Fig-",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "90_1",
+          "text": "ure 4(b). Additionally, we found an energy path connecting the Si-XIII and the hd phases. The energy",
+          "page": 9
+        },
+        {
+          "para_id": "90_2",
+          "text": "barrier associated with this transition is 209 meV/atom.This indicates that the direct Si-XIII →dc transition",
+          "page": 9
+        },
+        {
+          "para_id": "90_3",
+          "text": "is dominant, although competitive pathways may occur under local residual strain still aﬀecting the inden-",
+          "page": 9
+        },
+        {
+          "para_id": "90_4",
+          "text": "tation region. Taken together, these results embed Si-XIII into a coherent kinetic framework, conﬁrming a",
+          "page": 9
+        },
+        {
+          "para_id": "90_5",
+          "text": "physically motivated argument for the proposed crystalline structure.",
+          "page": 9
+        },
+        {
+          "para_id": "90_6",
+          "text": "Figure 4: Minimum Energy Paths as calculated by Solid State Nudged Elastic Band connecting the Si-XIII phase to the main",
+          "page": 9
+        },
+        {
+          "para_id": "90_7",
+          "text": "metastable phases of silicon. (a) Energy paths connecting the BC8 and R8 phases to the Si-XIII. (b) Energy paths connecting",
+          "page": 9
+        },
+        {
+          "para_id": "90_8",
+          "text": "the Si-XIII phase to the dc and hd phases. The multiple paths found for the Si-XIII to dc transition are colored in shades of",
+          "page": 9
+        },
+        {
+          "para_id": "90_9",
+          "text": "In order to validate these ﬁndings, in Figure 5, we report a Raman analysis of the post annealing evolution",
+          "page": 9
+        },
+        {
+          "para_id": "90_10",
+          "text": "of the Si-XIII phase. First, the annealing procedure described in the Methods Section was reproduced on",
+          "page": 9
+        },
+        {
+          "para_id": "90_11",
+          "text": "a silicon sample indented indented with a 20 µm spherical tip to produce the Si-XIII phase. We annealed",
+          "page": 9
+        },
+        {
+          "para_id": "90_12",
+          "text": "the sample employing a heated stage holder up to 220◦C, obtaining the result reported in Fig 5(a). The",
+          "page": 9
+        },
+        {
+          "para_id": "90_13",
+          "text": "formation of the Si-XIII phase is clearly indicated by the Raman peak around the frequency of 480 cm−1,",
+          "page": 9
+        },
+        {
+          "para_id": "90_14",
+          "text": "and some minor ones at about 160 cm−1 and 200 cm−1. In addition, a peak at 520 cm−1 clearly indicates the",
+          "page": 9
+        },
+        {
+          "para_id": "90_15",
+          "text": "presence of dc, while a lesser intense peak around 500 cm−1 may indicate some presence of the hd phase [13].",
+          "page": 9
+        },
+        {
+          "para_id": "90_16",
+          "text": "Overall, these results are perfectly consistent with the ones reported in Figure 2(d), obtained with the 10 µm",
+          "page": 9
+        },
+        {
+          "para_id": "90_17",
+          "text": "spherical tip. We then used a second annealing procedure on this sample by placing it in a furnace at 250◦C.",
+          "page": 10
+        },
+        {
+          "para_id": "90_18",
+          "text": "The Raman analysis after this second annealing step is reported in Figure 5(b).",
+          "page": 10
+        },
+        {
+          "para_id": "90_19",
+          "text": "The analysis shows a",
+          "page": 10
+        },
+        {
+          "para_id": "90_20",
+          "text": "clear reduction in the peaks associated with the Si-XIII phase after this second annealing process. Only a",
+          "page": 10
+        },
+        {
+          "para_id": "90_21",
+          "text": "broad peak around the frequency of 520 cm−1 with a long tail towards lower frequencies remains after the",
+          "page": 10
+        },
+        {
+          "para_id": "90_22",
+          "text": "second annealing. This peak is mainly attributed to the dc phase, with its long tail possibly indicating the",
+          "page": 10
+        },
+        {
+          "para_id": "90_23",
+          "text": "presence of some hd phase. This additional experiment directly proves how the Si-XIII phase is not stable",
+          "page": 10
+        },
+        {
+          "para_id": "90_24",
+          "text": "at 250◦C and transforms to more stable phases, with its main reaction outputs being the dc and possibly",
+          "page": 10
+        },
+        {
+          "para_id": "90_25",
+          "text": "the hd phases [16, 27]. Additionally, Atomic Force Microscopy (AFM) images, shown in Figure 5(c)-(e),",
+          "page": 10
+        },
+        {
+          "para_id": "90_26",
+          "text": "also reveal signiﬁcant diﬀerences in the indentation imprint heights after the ﬁrst (stage annealing). This",
+          "page": 10
+        },
+        {
+          "para_id": "90_27",
+          "text": "is because the volume of Si-XIII increases compared to the R8/BC8 phases. However, almost no change",
+          "page": 10
+        },
+        {
+          "para_id": "90_28",
+          "text": "is observed in the imprint height after the second annealing at 250◦C, conﬁrming the volume similarity",
+          "page": 10
+        },
+        {
+          "para_id": "90_29",
+          "text": "between Si-XIII and the Si diamond phases, as discussed previously.",
+          "page": 10
+        },
+        {
+          "para_id": "90_30",
+          "text": "These results perfectly validates the kinetic modeling described above, demonstrating the metastability",
+          "page": 10
+        },
+        {
+          "para_id": "90_31",
+          "text": "Figure 5: Analysis of the evolution of the Si-XIII phase before and after a second oven annealing. Fitted experimental polarized",
+          "page": 10
+        },
+        {
+          "para_id": "90_32",
+          "text": "Raman spectra in perpendicular scattering geometry of 20 µm tip indented silicon are shown for a sample after a ﬁrst stage",
+          "page": 10
+        },
+        {
+          "para_id": "90_33",
+          "text": "annealing up to 220◦C (a) and the same sample after a successive oven annealing up to 250◦C (b). Peak positions, intensities,",
+          "page": 10
+        },
+        {
+          "para_id": "90_34",
+          "text": "and widths were treated as free parameters in the ﬁtting procedure. Raman-active mode frequencies for the diﬀerent phases,",
+          "page": 10
+        },
+        {
+          "para_id": "90_35",
+          "text": "as reported in Table 2 are used as references. Fitted peaks are represented by Lorentzian functions colored according to the",
+          "page": 10
+        },
+        {
+          "para_id": "90_36",
+          "text": "respective crystal structures as in Figure 2. AFM maps for the same pit taken right after the indentaiton (c), after the ﬁrst",
+          "page": 10
+        },
+        {
+          "para_id": "90_37",
+          "text": "stage annealing (d) and after the ﬁnal oven annealing (e).",
+          "page": 10
+        },
+        {
+          "para_id": "90_38",
+          "text": "of the Si-XIII phase and its main kinetic pathways linking it to the other Si phases.",
+          "page": 11
+        },
+        {
+          "para_id": "90_39",
+          "text": "In this work, we have resolved the long-standing question regarding the structural assignment of the Si-",
+          "page": 11
+        },
+        {
+          "para_id": "90_40",
+          "text": "XIII phase, which was ﬁrst observed over 20 years ago but has remained unidentiﬁed until now. Thanks to a",
+          "page": 11
+        },
+        {
+          "para_id": "90_41",
+          "text": "convergent methodology, combining nanoindentation, systematic TEM/SAED analysis, and ﬁrst-principles",
+          "page": 11
+        },
+        {
+          "para_id": "90_42",
+          "text": "modeling, we have identiﬁed a triclinic P¯1 structure with eight atoms per unit cell, crystallographically",
+          "page": 11
+        },
+        {
+          "para_id": "90_43",
+          "text": "resemblant of the R8 metastable phase.",
+          "page": 11
+        },
+        {
+          "para_id": "90_44",
+          "text": "However, despite this geometric kinship, Si-XIII should not be regarded as merely a distorted variant of",
+          "page": 11
+        },
+        {
+          "para_id": "90_45",
+          "text": "R8. Its equilibrium volume per atom is signiﬁcantly larger, placing it much closer to the diamond phases,",
+          "page": 11
+        },
+        {
+          "para_id": "90_46",
+          "text": "and its formation energy is intermediate between the R8/BC8 metastable phases and the stable diamond",
+          "page": 11
+        },
+        {
+          "para_id": "90_47",
+          "text": "phases. Our PES exploration further conﬁrms that it occupies a well-deﬁned local minimum of the silicon",
+          "page": 11
+        },
+        {
+          "para_id": "90_48",
+          "text": "energy landscape, with the R8 →Si-XIII transition representing the lowest-barrier pathways escaping the",
+          "page": 11
+        },
+        {
+          "para_id": "90_49",
+          "text": "R8 energy basin. This kinetic picture is directly conﬁrmed by the experiments. The dominant Si-XIII →dc",
+          "page": 11
+        },
+        {
+          "para_id": "90_50",
+          "text": "transition, with a minimum barrier of only 90 meV/atom, naturally explains the thermal instability of Si-XIII",
+          "page": 11
+        },
+        {
+          "para_id": "90_51",
+          "text": "observed above ∼250◦C. Supplementary furnace annealing experiments corroborate this scenario, showing",
+          "page": 11
+        },
+        {
+          "para_id": "90_52",
+          "text": "a clear reduction of Si-XIII Raman signatures and recovery toward the diamond phase, in agreement with",
+          "page": 11
+        },
+        {
+          "para_id": "90_53",
+          "text": "the computed transition pathways. These ﬁndings establish the proposed Si-XIII phase as a kinetically and",
+          "page": 11
+        },
+        {
+          "para_id": "90_54",
+          "text": "thermodynamically distinct phase in its own right.",
+          "page": 11
+        },
+        {
+          "para_id": "90_55",
+          "text": "The proposed structure achieves comprehensive agreement with all available experimental ﬁngerprints",
+          "page": 11
+        },
+        {
+          "para_id": "90_56",
+          "text": "of Si-XIII: interplanar spacings from multi-zone-axis SAED, characteristic Raman frequencies, and thermo-",
+          "page": 11
+        },
+        {
+          "para_id": "90_57",
+          "text": "dynamic metastability that is fully consistent with the silicon phase diagram. To the best of our knowledge,",
+          "page": 11
+        },
+        {
+          "para_id": "90_58",
+          "text": "this structure has not been previously reported in any theoretical or experimental study, representing a",
+          "page": 11
+        },
+        {
+          "para_id": "90_59",
+          "text": "genuinely new silicon allotrope.",
+          "page": 11
+        },
+        {
+          "para_id": "90_60",
+          "text": "Beyond the speciﬁc case of Si-XIII, the challenge addressed here is a paradigmatic example of solid-solid",
+          "page": 11
+        },
+        {
+          "para_id": "90_61",
+          "text": "phase transitions, demonstrating the power of integrating theoretical modeling with correlated experimental",
+          "page": 11
+        },
+        {
+          "para_id": "90_62",
+          "text": "validation to resolve structural problems in complex materials systems.",
+          "page": 11
+        },
+        {
+          "para_id": "90_63",
+          "text": "4. Experimental Section/Methods",
+          "page": 11
+        },
+        {
+          "para_id": "90_64",
+          "text": "4.1. Nanoindentation",
+          "page": 11
+        },
+        {
+          "para_id": "90_65",
+          "text": "Nanoindentation was performed on monocrystalline silicon (001) using a KLA Corporation G200 System",
+          "page": 11
+        },
+        {
+          "para_id": "90_66",
+          "text": "(Milpitas, CA, USA) equipped with spherical diamond indenter tips of 10 µm and 20 µm radii (Synton-MDP,",
+          "page": 11
+        },
+        {
+          "para_id": "90_67",
+          "text": "Nidau, Switzerland). Loading proceeded at a constant strain rate ˙ϵ = 10−3 s−1 [35, 36], while unloading was",
+          "page": 11
+        },
+        {
+          "para_id": "90_68",
+          "text": "conducted at a constant rate of ˙P = 1 mN/s to promote crystalline phase transformation over amorphiza-",
+          "page": 11
+        },
+        {
+          "para_id": "90_69",
+          "text": "tion [15, 37–39]. For the 20 µm tip, the maximum load was set at Pmax = 665 mN to ensure complete phase",
+          "page": 11
+        },
+        {
+          "para_id": "90_70",
+          "text": "transformation, while with the 10 µm tip, indentations were performed at approximately Pmax = 425 mN.",
+          "page": 11
+        },
+        {
+          "para_id": "90_71",
+          "text": "Further experimental details are provided in Ref. [13]. Post-indentation thermal treatment was carried out",
+          "page": 11
+        },
+        {
+          "para_id": "90_72",
+          "text": "on a temperature-controlled Raman stage under nitrogen ﬂow. The annealing cycle comprised: (1) baseline",
+          "page": 11
+        },
+        {
+          "para_id": "90_73",
+          "text": "measurement at 20 ◦C, (2) heating to 220 ◦C (50 ◦C), (3) stepwise cooling to 20 ◦C with Raman acquisition",
+          "page": 11
+        },
+        {
+          "para_id": "90_74",
+          "text": "every 20 °C, (4) second heating to 220 °C (50 °C/min), and (5) ﬁnal cooling to 20 °C (50 ◦C). In a selected",
+          "page": 11
+        },
+        {
+          "para_id": "90_75",
+          "text": "case, after completing the stage-based thermal cycling and Raman characterization, supplementary furnace",
+          "page": 11
+        },
+        {
+          "para_id": "90_76",
+          "text": "annealing was performed at 250 °C for 2 h in a quartz tube under a nitrogen atmosphere, after which the",
+          "page": 11
+        },
+        {
+          "para_id": "90_77",
+          "text": "sample was cooled to room temperature in air.",
+          "page": 11
+        },
+        {
+          "para_id": "90_78",
+          "text": "4.2. TEM, SAED, STEM",
+          "page": 11
+        },
+        {
+          "para_id": "90_79",
+          "text": "Transmission electron microscopy (TEM) and selected area electron diﬀraction (SAED) were performed",
+          "page": 11
+        },
+        {
+          "para_id": "90_80",
+          "text": "using a JEOL JEM-2010F microscope equipped with a Schottky ﬁeld emission gun operating at 200 keV.",
+          "page": 11
+        },
+        {
+          "para_id": "90_81",
+          "text": "Cross-sectional lamellae were prepared by focused ion beam (FIB) milling in a Thermo Scientiﬁc™Helios™",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "UC DualBeam system using 30 keV Ga+ ions, followed by low-energy (2 keV Ga+) polishing to minimize",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "FIB-induced amorphization.",
+          "page": 12
+        },
+        {
+          "para_id": "5_2",
+          "text": "The electron diﬀraction patterns were interpreted using the JEMS version",
+          "page": 12
+        },
+        {
+          "para_id": "5_3",
+          "text": "4.13531u2024b31 software (JEMS-SAS, Pierre Stadelmann, Switzerland).",
+          "page": 12
+        },
+        {
+          "para_id": "5_4",
+          "text": "4.3. Raman Spectroscopy",
+          "page": 12
+        },
+        {
+          "para_id": "5_5",
+          "text": "Raman measurements were conducted using a Renishaw inVia system with 532 nm excitation in back-",
+          "page": 12
+        },
+        {
+          "para_id": "5_6",
+          "text": "scattering conﬁguration, with the incident laser aligned along the substrate’s [001] crystallographic direction",
+          "page": 12
+        },
+        {
+          "para_id": "5_7",
+          "text": "(z-axis). The setup features a polarizer and analyzer pair, with two half-wave plates enabling independent",
+          "page": 12
+        },
+        {
+          "para_id": "5_8",
+          "text": "control of the excitation polarization angle α and analyzer orientation (parallel or perpendicular). Samples",
+          "page": 12
+        },
+        {
+          "para_id": "5_9",
+          "text": "were oriented with the substrate’s x′ = [110] direction aligned to α =0°. Polarization-resolved spectra were",
+          "page": 12
+        },
+        {
+          "para_id": "5_10",
+          "text": "systematically acquired in both parallel (α =0°) and perpendicular (α =90°) conﬁgurations throughout the",
+          "page": 12
+        },
+        {
+          "para_id": "5_11",
+          "text": "thermal cycling to track phase transformations and crystallographic evolution.",
+          "page": 12
+        },
+        {
+          "para_id": "5_12",
+          "text": "4.4. Atomic Force Microscopy",
+          "page": 12
+        },
+        {
+          "para_id": "5_13",
+          "text": "Atomic force microscopy (AFM) images were recorded using a Dimension ICON from Bruker in tapping",
+          "page": 12
+        },
+        {
+          "para_id": "5_14",
+          "text": "mode. using Bruker TESPA VS-SS probes, featuring a nominal tip radius of approximately 5 nm. Image",
+          "page": 12
+        },
+        {
+          "para_id": "5_15",
+          "text": "analysis and rendering has been carried out using the freeware Gwyddion software (https://gwyddion.net/",
+          "page": 12
+        },
+        {
+          "para_id": "5_16",
+          "text": "4.5. First-Principles Calculations",
+          "page": 12
+        },
+        {
+          "para_id": "5_17",
+          "text": "DFT calculations were carried out with the Quantum ESPRESSO package [40]. The exchange-correlation",
+          "page": 12
+        },
+        {
+          "para_id": "5_18",
+          "text": "functional was treated primarily with the local density approximation (LDA) [41]. For benchmarking pur-",
+          "page": 12
+        },
+        {
+          "para_id": "5_19",
+          "text": "poses, the Perdew-Burke-Ernzerhof (PBE) generalized gradient approximation (GGA) [42], the strongly",
+          "page": 12
+        },
+        {
+          "para_id": "5_20",
+          "text": "constrained and appropriately normed (SCAN) meta-GGA [43, 44] via the LIBXC library [45], and the",
+          "page": 12
+        },
+        {
+          "para_id": "5_21",
+          "text": "PBEsol functional optimized for solids [46] were also tested.",
+          "page": 12
+        },
+        {
+          "para_id": "5_22",
+          "text": "Electron-ion interactions were described using norm-conserving Hartwigesen-Goedecker-Hutter [47, 48]",
+          "page": 12
+        },
+        {
+          "para_id": "5_23",
+          "text": "pseudopotentials for LDA, PBE, and SCAN calculations, while the PBEsol case employed a pseudopotential",
+          "page": 12
+        },
+        {
+          "para_id": "5_24",
+          "text": "from the standard Quantum ESPRESSO library [40]. A plane-wave basis set with a kinetic energy cutoﬀ",
+          "page": 12
+        },
+        {
+          "para_id": "5_25",
+          "text": "of 80 Ry was employed. Brillouin zone integration was performed using an 8×8×8 Γ-centered k-point mesh",
+          "page": 12
+        },
+        {
+          "para_id": "5_26",
+          "text": "following the Monkhorst-Pack scheme [49].",
+          "page": 12
+        },
+        {
+          "para_id": "5_27",
+          "text": "Structural relaxations were performed using variable-cell optimization until residual forces fell below",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "meV/Å and stress tensor components fell below 0.02 kbar, with self-consistent ﬁeld convergence set to",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "10−10 eV. Dynamical stability and phonon dispersion relations were assessed via density functional per-",
+          "page": 12
+        },
+        {
+          "para_id": "1_2",
+          "text": "turbation theory (DFPT) [50]. Non-resonant Raman spectra, including mode frequencies and scattering",
+          "page": 12
+        },
+        {
+          "para_id": "1_3",
+          "text": "intensities, were computed within the DFPT framework as implemented in Quantum ESPRESSO.",
+          "page": 12
+        },
+        {
+          "para_id": "1_4",
+          "text": "The VESTA software [51] and the Materials Project toolkit [52] were employed to display and manipulate",
+          "page": 12
+        },
+        {
+          "para_id": "1_5",
+          "text": "crystal structures, while the crystal symmetry analysis was performed using the Materials Project toolkit [52]",
+          "page": 12
+        },
+        {
+          "para_id": "1_6",
+          "text": "and the XRDlicious point defect submodule [53]",
+          "page": 12
+        },
+        {
+          "para_id": "1_7",
+          "text": "4.6. Potential Energy Surface Exploration",
+          "page": 12
+        },
+        {
+          "para_id": "1_8",
+          "text": "Potential Energy Surface (PES) explorations were carried out by repeated iterations of the Solid State",
+          "page": 12
+        },
+        {
+          "para_id": "1_9",
+          "text": "Dimer (SS-Dimer) method [18]. We performed a total of about 100000 dimer searches with random initial",
+          "page": 12
+        },
+        {
+          "para_id": "1_10",
+          "text": "displacements starting from the PES minima of each considered phase. As it would be unfeasible to perform",
+          "page": 12
+        },
+        {
+          "para_id": "1_11",
+          "text": "such an extended analysis within an ab-initio framework, PES calculations were performed exploiting the",
+          "page": 12
+        },
+        {
+          "para_id": "1_12",
+          "text": "GAP machine-learning interatomic potential for Si [54], which was recently shown to be particularly reliable",
+          "page": 12
+        },
+        {
+          "para_id": "1_13",
+          "text": "in describing the kinetics of phase transitions in silicon [22, 55]. Initially, we optimised all relevant Si phases",
+          "page": 12
+        },
+        {
+          "para_id": "1_14",
+          "text": "including the candidate Si-XIII structure. The thermodynamic properties predicted by the GAP potential",
+          "page": 12
+        },
+        {
+          "para_id": "1_15",
+          "text": "and DFT, particularly using the PBE functional, showed excellent agreement as demonstrated in Table S2",
+          "page": 12
+        },
+        {
+          "para_id": "1_16",
+          "text": "in the Supporting Information.",
+          "page": 12
+        },
+        {
+          "para_id": "1_17",
+          "text": "More technically, we initialized the dimer iterations by performing small displacements of the atomic",
+          "page": 12
+        },
+        {
+          "para_id": "1_18",
+          "text": "positions only, the cell parameters only, and both combined. The amplitude of the displacements was varied,",
+          "page": 12
+        },
+        {
+          "para_id": "1_19",
+          "text": "sampling from a normal distribution with a standard deviation in the range of [0.01−0.3] Å to sample in the",
+          "page": 12
+        },
+        {
+          "para_id": "1_20",
+          "text": "most uniform and complete way the neighborhood of the PES. We selected a maximum energy threshold for",
+          "page": 13
+        },
+        {
+          "para_id": "1_21",
+          "text": "saddle point location of 300 meV/atom. To avoid artifacts arising from the dimer being displaced from the",
+          "page": 13
+        },
+        {
+          "para_id": "1_22",
+          "text": "initial energy basin, we energy-optimized the two replicas in the converged dimer for each saddle point found",
+          "page": 13
+        },
+        {
+          "para_id": "1_23",
+          "text": "to ensure connectivity with the initial energy minimum. The resulting kinetic database was then analyzed",
+          "page": 13
+        },
+        {
+          "para_id": "1_24",
+          "text": "and ordered by energy barrier values to highlight the most physically-relevant transitions. Speciﬁc paths were",
+          "page": 13
+        },
+        {
+          "para_id": "1_25",
+          "text": "also re-evaluated by Solid State Nudged Elastic Band (SS-NEB) [56] calculations initialized with the saddle",
+          "page": 13
+        },
+        {
+          "para_id": "1_26",
+          "text": "point and the two minima found by the SS-Dimer calculation. This allowed us to draw the Minimum Energy",
+          "page": 13
+        },
+        {
+          "para_id": "1_27",
+          "text": "Paths and evaluate the transition images in between the two connected minima. The energy convergence",
+          "page": 13
+        },
+        {
+          "para_id": "1_28",
+          "text": "for saddle point location and for the minimization of the Dimer images was set to 10−3 eVÅ and 10−4 eV/Å,",
+          "page": 13
+        },
+        {
+          "para_id": "1_29",
+          "text": "respectively. The TSASE implementation [57] for the Atomic Simulation Environment (ASE) [58] of the",
+          "page": 13
+        },
+        {
+          "para_id": "1_30",
+          "text": "SS-Dimer method was exploited in this work.",
+          "page": 13
+        },
+        {
+          "para_id": "1_31",
+          "text": "Fruitful discussions with Prof. Kenneth Beyerlein and Rasool Doostkam (Institut national de la recherche",
+          "page": 13
+        },
+        {
+          "para_id": "1_32",
+          "text": "scientiﬁque, Canada) are gratefully acknowledged.",
+          "page": 13
+        },
+        {
+          "para_id": "1_33",
+          "text": "F.R., F.M. and E.S. acknowledge the CINECA consortium under the ISCRA initiative for the availability",
+          "page": 13
+        },
+        {
+          "para_id": "1_34",
+          "text": "of high-performance computing resources and support.",
+          "page": 13
+        },
+        {
+          "para_id": "1_35",
+          "text": "silience Plan (NRRP), Mission 4, Component 2, Investment 1.1, Call for tender No. 104 published on 2.2.2022",
+          "page": 13
+        },
+        {
+          "para_id": "1_36",
+          "text": "by the Italian Ministry of University and Research (MUR), funded by the European Union – NextGenera-",
+          "page": 13
+        },
+        {
+          "para_id": "1_37",
+          "text": "tionEU – Project Title \"SiGe Hexagonal Diamond Phase by nanoIndenTation (HD-PIT)\", project number:",
+          "page": 13
+        },
+        {
+          "para_id": "1_38",
+          "text": "2022-NAZ-0098 – CUP H53D23000780001 and B53D23004120006 - Grant Assignment Decree No.",
+          "page": 13
+        },
+        {
+          "para_id": "1_39",
+          "text": "adopted on 30.06.2023 by the Italian Ministry of Ministry of University and Research (MUR). D.S. acknowl-",
+          "page": 13
+        },
+        {
+          "para_id": "1_40",
+          "text": "edges the support from “Ramón y Cajal” programme by the Spanish MICIU/AEI/10.13039/501100011033",
+          "page": 13
+        },
+        {
+          "para_id": "1_41",
+          "text": "and ESF+ (grant no. RYC2022-037186-I).",
+          "page": 13
+        },
+        {
+          "para_id": "1_42",
+          "text": "Part of this work, has been carried out within the Joint Lab “Intelligent electrooptical sensing” established",
+          "page": 13
+        },
+        {
+          "para_id": "1_43",
+          "text": "between IHP-Leibniz Institute for High Performance Microelectronics and Roma Tre University.",
+          "page": 13
+        },
+        {
+          "para_id": "1_44",
+          "text": "[1] Cagin Ekici, Elizaveta Semenova, Davide Bacco, and Yunhong Ding. Silicon Quantum Photonics -",
+          "page": 13
+        },
+        {
+          "para_id": "1_45",
+          "text": "Platform and Applications, chapter 22, pages 599–650. John Wiley & Sons, Ltd, 2023.",
+          "page": 13
+        },
+        {
+          "para_id": "1_46",
+          "text": "[2] Stefan Wippermann, Yuping He, Márton Vörös, and Giulia Galli. Novel silicon phases and nanostruc-",
+          "page": 13
+        },
+        {
+          "para_id": "1_47",
+          "text": "tures for solar energy conversion. Applied Physics Reviews, 3(4):040807, dec 2016.",
+          "page": 13
+        },
+        {
+          "para_id": "1_48",
+          "text": "[3] Matt Beekman. New hopes for allotropes. Materials Today, 18(6):304–305, 2015.",
+          "page": 13
+        },
+        {
+          "para_id": "1_49",
+          "text": "[4] Bianca Haberl, Timothy A. Strobel, and Jodie E. Bradby.",
+          "page": 13
+        },
+        {
+          "para_id": "1_50",
+          "text": "Pathways to exotic metastable silicon",
+          "page": 13
+        },
+        {
+          "para_id": "1_51",
+          "text": "allotropes. Applied Physics Reviews, 3(4):040808, 2016.",
+          "page": 13
+        },
+        {
+          "para_id": "1_52",
+          "text": "[5] Hezhu Shao, Daquan Ding, Li Zhang, Chang-Kun Dong, and Hao Zhang. Thermoelectric performance",
+          "page": 13
+        },
+        {
+          "para_id": "1_53",
+          "text": "in a Si allotrope with ultralow thermal conductivity: a ﬁrst-principles study combining phonon-limited",
+          "page": 13
+        },
+        {
+          "para_id": "1_54",
+          "text": "electronic transport calculations. Materials Today Physics, 27:100756, 2022.",
+          "page": 13
+        },
+        {
+          "para_id": "1_55",
+          "text": "[6] Pei Zhang, Tao Ouyang, Chao Tang, Chaoyu He, Jin Li, Chunxiao Zhang, Ming Hu, and Jianxin Zhong.",
+          "page": 13
+        },
+        {
+          "para_id": "1_56",
+          "text": "Thermoelectric properties of four typical silicon allotropes.",
+          "page": 13
+        },
+        {
+          "para_id": "1_57",
+          "text": "Modelling and Simulation in Materials",
+          "page": 13
+        },
+        {
+          "para_id": "1_58",
+          "text": "Science and Engineering, 26(8):085006, 2018.",
+          "page": 13
+        },
+        {
+          "para_id": "1_59",
+          "text": "[7] Zeyu Liu, Na Tan, and Chao Tang. Thermoelectric performance of tetragonal silicon allotrope tP36-Si",
+          "page": 13
+        },
+        {
+          "para_id": "1_60",
+          "text": "from ﬁrst-principles study. The European Physical Journal B, 94(12):247, 2021.",
+          "page": 13
+        },
+        {
+          "para_id": "1_61",
+          "text": "[8] Yiheng Shen, Dongyuan Ni, Yanyan Chen, Jie Sun, and Qian Wang. A penta-silicene nanoribbon-based",
+          "page": 14
+        },
+        {
+          "para_id": "1_62",
+          "text": "3D silicon allotrope with high carrier mobility and thermoelectric performance. Physical Chemistry",
+          "page": 14
+        },
+        {
+          "para_id": "1_63",
+          "text": "Chemical Physics, 24(44):27413–27422, 2022.",
+          "page": 14
+        },
+        {
+          "para_id": "1_64",
+          "text": "[9] Ha-Jun Sung, W.H. Han, In-Ho Lee, and K.J. Chang. Superconducting Open-Framework Allotrope of",
+          "page": 14
+        },
+        {
+          "para_id": "1_65",
+          "text": "Silicon at Ambient Pressure. Physical Review Letters, 120(15):157001, 2018.",
+          "page": 14
+        },
+        {
+          "para_id": "1_66",
+          "text": "[10] Duck Young Kim, Stevce Stefanoski, Oleksandr O. Kurakevych, and Timothy A. Strobel. Synthesis of",
+          "page": 14
+        },
+        {
+          "para_id": "1_67",
+          "text": "an open-framework allotrope of silicon. Nature Materials, 14(2):169–173, 2015.",
+          "page": 14
+        },
+        {
+          "para_id": "1_68",
+          "text": "[11] Qianqian Wang, Bo Xu, Jian Sun, Hanyu Liu, Zhisheng Zhao, Dongli Yu, Changzeng Fan, and Julong",
+          "page": 14
+        },
+        {
+          "para_id": "1_69",
+          "text": "He. Direct band gap silicon allotropes. Journal of the American Chemical Society, 136(28):9826–9829,",
+          "page": 14
+        },
+        {
+          "para_id": "1_70",
+          "text": "[12] Chaoyu He, Chunxiao Zhang, Jin Li, Xiangyang Peng, Lijun Meng, Chao Tang, and Jianxin Zhong. Di-",
+          "page": 14
+        },
+        {
+          "para_id": "1_71",
+          "text": "rect and quasi-direct band gap silicon allotropes with remarkable stability. Physical Chemistry Chemical",
+          "page": 14
+        },
+        {
+          "para_id": "1_72",
+          "text": "Physics, 18(14):9682–9686, 2016.",
+          "page": 14
+        },
+        {
+          "para_id": "1_73",
+          "text": "[13] Mouad Bikerouin, Anna Marzegalli, Davide Spirito, Gerald J. K. Schaﬀar, Corrado Bongiorno, Fabrizio",
+          "page": 14
+        },
+        {
+          "para_id": "1_74",
+          "text": "Rovaris, Mohamed Zaghloul, Agnieszka Anna Corley-Wiciak, Leo Miglio, Verena Maier-Kiener, Gio-",
+          "page": 14
+        },
+        {
+          "para_id": "1_75",
+          "text": "vanni Capellini, Antonio Massimiliano Mio, and Emilio Scalise. Formation of micrometer-sized textured",
+          "page": 14
+        },
+        {
+          "para_id": "1_76",
+          "text": "hexagonal silicon crystals via nanoindentation. Small Structures, 5:2400552, 2025.",
+          "page": 14
+        },
+        {
+          "para_id": "1_77",
+          "text": "[14] Megha Sasidharan Nisha, Yadu Chandran, Abhay Abhimanyu Sagade, Viswanath Balakrishnan,",
+          "page": 14
+        },
+        {
+          "para_id": "1_78",
+          "text": "Alexandre Courac, and Kiran Mangalampalli. Hexagonal silicon formation and its phase transforma-",
+          "page": 14
+        },
+        {
+          "para_id": "1_79",
+          "text": "bility. Advanced Functional Materials, 35(44):2425188, 2025.",
+          "page": 14
+        },
+        {
+          "para_id": "1_80",
+          "text": "[15] Vladislav Domnich and Yury Gogotsi. Phase transformations in silicon under contact loading. Reviews",
+          "page": 14
+        },
+        {
+          "para_id": "1_81",
+          "text": "on Advanced Materials Science(Russia), 3(1):1–36, 2002.",
+          "page": 14
+        },
+        {
+          "para_id": "1_82",
+          "text": "[16] Sherman Wong, Brett C. Johnson, Bianca Haberl, Alfredo Mujica, Jennifer C. McCallum, and J. S.",
+          "page": 14
+        },
+        {
+          "para_id": "1_83",
+          "text": "Williams. Thermal evolution of the indentation-induced phases of silicon. Journal of Applied Physics,",
+          "page": 14
+        },
+        {
+          "para_id": "1_84",
+          "text": "126(10):105901, 2019.",
+          "page": 14
+        },
+        {
+          "para_id": "1_85",
+          "text": "[17] Graeme Henkelman and Hannes Jónsson. A dimer method for ﬁnding saddle points on high dimensional",
+          "page": 14
+        },
+        {
+          "para_id": "1_86",
+          "text": "potential surfaces using only ﬁrst derivatives. The Journal of Chemical Physics, 111(15):7010–7022,",
+          "page": 14
+        },
+        {
+          "para_id": "1_87",
+          "text": "[18] Penghao Xiao, Daniel Sheppard, Jutta Rogal, and Graeme Henkelman. Solid-state dimer method for",
+          "page": 14
+        },
+        {
+          "para_id": "1_88",
+          "text": "calculating solid-solid phase transitions. The Journal of Chemical Physics, 140(17):174104, 05 2014.",
+          "page": 14
+        },
+        {
+          "para_id": "1_89",
+          "text": "high pressure crystalline phases created in crystalline and amorphous silicon. Journal of Applied Physics,",
+          "page": 14
+        },
+        {
+          "para_id": "1_90",
+          "text": "[20] Bianca Haberl, Malcolm Guthrie, Stanislav V. Sinogeikin, Guoyin Shen, James S. Williams, and Jodie E.",
+          "page": 14
+        },
+        {
+          "para_id": "1_91",
+          "text": "Bradby. Thermal evolution of the metastable r8 and bc8 polymorphs of silicon. High Pressure Research,",
+          "page": 14
+        },
+        {
+          "para_id": "1_92",
+          "text": "35(2):99–116, apr 2015.",
+          "page": 14
+        },
+        {
+          "para_id": "1_93",
+          "text": "[21] K Mylvaganam, L C Zhang, P Eyben, J Mody, and W Vandervorst. Evolution of metastable phases",
+          "page": 14
+        },
+        {
+          "para_id": "1_94",
+          "text": "in silicon during nanoindentation: mechanism analysis and experimental veriﬁcation. Nanotechnology,",
+          "page": 14
+        },
+        {
+          "para_id": "1_95",
+          "text": "20(30):305705, July 2009.",
+          "page": 14
+        },
+        {
+          "para_id": "1_96",
+          "text": "[22] Guojia Ge, Fabrizio Rovaris, Daniele Lanzoni, Luca Barbisan, Xiaobin Tang, Leo Miglio, Anna Marze-",
+          "page": 14
+        },
+        {
+          "para_id": "1_97",
+          "text": "galli, Emilio Scalise, and Francesco Montalenti. Silicon phase transitions in nanoindentation: Advanced",
+          "page": 14
+        },
+        {
+          "para_id": "1_98",
+          "text": "molecular dynamics simulations with machine learning phase recognition. Acta Materialia, 263:119465,",
+          "page": 14
+        },
+        {
+          "para_id": "1_99",
+          "text": "[23] BC Johnson, Bianca Haberl, JE Bradby, Jeﬀrey C McCallum, and JS Williams. Temperature depen-",
+          "page": 15
+        },
+        {
+          "para_id": "1_100",
+          "text": "dence of raman scattering from the high-pressure phases of si induced by indentation. Physical Review",
+          "page": 15
+        },
+        {
+          "para_id": "1_101",
+          "text": "B—Condensed Matter and Materials Physics, 83(23):235205, 2011.",
+          "page": 15
+        },
+        {
+          "para_id": "1_102",
+          "text": "[24] Sherman Wong, Bianca Haberl, BC Johnson, Andres Mujica, Malcolm Guthrie, Jeﬀrey C McCallum,",
+          "page": 15
+        },
+        {
+          "para_id": "1_103",
+          "text": "JS Williams, and JE Bradby.",
+          "page": 15
+        },
+        {
+          "para_id": "1_104",
+          "text": "Formation of an r8-dominant si material.",
+          "page": 15
+        },
+        {
+          "para_id": "1_105",
+          "text": "Physical Review Letters,",
+          "page": 15
+        },
+        {
+          "para_id": "1_106",
+          "text": "122(10):105701, 2019.",
+          "page": 15
+        },
+        {
+          "para_id": "1_107",
+          "text": "[25] LA Smillie, Marika Niihori, Ludovic Rapp, Bianca Haberl, James S Williams, Jodie E Bradby, Chris J",
+          "page": 15
+        },
+        {
+          "para_id": "1_108",
+          "text": "Pickard, and Andrei V Rode. Exotic silicon phases synthesized through ultrashort laser-induced mi-",
+          "page": 15
+        },
+        {
+          "para_id": "1_109",
+          "text": "croexplosion: Characterization with raman microspectroscopy. Physical Review Materials, 4(9):093803,",
+          "page": 15
+        },
+        {
+          "para_id": "1_110",
+          "text": "[26] Sowjanya Mannepalli and Kiran SRN Mangalampalli. In-situ high temperature micro-raman investiga-",
+          "page": 15
+        },
+        {
+          "para_id": "1_111",
+          "text": "tion of annealing behavior of high-pressure phases of si. Journal of Applied Physics, 125(22), 2019.",
+          "page": 15
+        },
+        {
+          "para_id": "1_112",
+          "text": "[27] Daibin Ge, Vladislav Domnich, and Yury Gogotsi.",
+          "page": 15
+        },
+        {
+          "para_id": "1_113",
+          "text": "Thermal stability of metastable silicon phases",
+          "page": 15
+        },
+        {
+          "para_id": "1_114",
+          "text": "produced by nanoindentation. Journal of Applied Physics, 95(5):2725–2731, 2004.",
+          "page": 15
+        },
+        {
+          "para_id": "1_115",
+          "text": "[28] Qiang Zhu, Artem R. Oganov, Andriy O. Lyakhov, and Xiaoxiang Yu. Generalized evolutionary meta-",
+          "page": 15
+        },
+        {
+          "para_id": "1_116",
+          "text": "dynamics for sampling the energy landscapes and its applications. Physical Review B - Condensed",
+          "page": 15
+        },
+        {
+          "para_id": "1_117",
+          "text": "Matter and Materials Physics, 92(2), 2015.",
+          "page": 15
+        },
+        {
+          "para_id": "1_118",
+          "text": "[29] Li Zhu, R. E. Cohen, and Timothy A. Strobel. Phase Transition Pathway Sampling via Swarm Intelli-",
+          "page": 15
+        },
+        {
+          "para_id": "1_119",
+          "text": "gence and Graph Theory. Journal of Physical Chemistry Letters, 10(17):5019–5026, 2019.",
+          "page": 15
+        },
+        {
+          "para_id": "1_120",
+          "text": "[30] Andrés Mujica, Chris J. Pickard, and Richard J. Needs. Low-energy tetrahedral polymorphs of carbon,",
+          "page": 15
+        },
+        {
+          "para_id": "1_121",
+          "text": "silicon, and germanium. Physical Review B - Condensed Matter and Materials Physics, 91(21):1–13,",
+          "page": 15
+        },
+        {
+          "para_id": "1_122",
+          "text": "[31] Yansun Yao and Dennis D. Klug. Structural phase transitions in Si under hydrostatic and uniaxial",
+          "page": 15
+        },
+        {
+          "para_id": "1_123",
+          "text": "compression. Physical Review B - Condensed Matter and Materials Physics, 85(21):1–5, 2012.",
+          "page": 15
+        },
+        {
+          "para_id": "1_124",
+          "text": "[32] Jörg Behler, Roman Martoňák, Davide Donadio, and Michele Parrinello. Metadynamics simulations",
+          "page": 15
+        },
+        {
+          "para_id": "1_125",
+          "text": "of the high-pressure phases of silicon employing a high-dimensional neural network potential. Physical",
+          "page": 15
+        },
+        {
+          "para_id": "1_126",
+          "text": "Review Letters, 100(18), 2008.",
+          "page": 15
+        },
+        {
+          "para_id": "1_127",
+          "text": "[33] Zhisheng Zhao, Fei Tian, Xiao Dong, Quan Li, Qianqian Wang, Hui Wang, Xin Zhong, Bo Xu, Dongli",
+          "page": 15
+        },
+        {
+          "para_id": "1_128",
+          "text": "Yu, Julong He, Hui Tian Wang, Yanming Ma, and Yongjun Tian. Tetragonal allotrope of group 14",
+          "page": 15
+        },
+        {
+          "para_id": "1_129",
+          "text": "elements. Journal of the American Chemical Society, 134(30):12362–12365, 2012.",
+          "page": 15
+        },
+        {
+          "para_id": "1_130",
+          "text": "[34] Tomihisa Kamada and Satoru Kawai. An algorithm for drawing general undirected graphs. Information",
+          "page": 15
+        },
+        {
+          "para_id": "1_131",
+          "text": "Processing Letters, 31(1):7–15, 1989.",
+          "page": 15
+        },
+        {
+          "para_id": "1_132",
+          "text": "[35] A. Leitner, V. Maier-Kiener, and D. Kiener. Essential reﬁnements of spherical nanoindentation protocols",
+          "page": 15
+        },
+        {
+          "para_id": "1_133",
+          "text": "for the reliable determination of mechanical ﬂow curves. Materials & Design, 146:69–80, 2018.",
+          "page": 15
+        },
+        {
+          "para_id": "1_134",
+          "text": "[36] Daniel Kiener, Michael Wurmshuber, Markus Alfreider, Gerald J. K. Schaﬀar, and Verena Maier-Kiener.",
+          "page": 15
+        },
+        {
+          "para_id": "1_135",
+          "text": "Recent advances in nanomechanical and in situ testing techniques: Towards extreme conditions. Current",
+          "page": 15
+        },
+        {
+          "para_id": "1_136",
+          "text": "Opinion in Solid State and Materials Science, 27(6):101108, 2023.",
+          "page": 15
+        },
+        {
+          "para_id": "1_137",
+          "text": "[37] Chuanlong Lin, Xuqiang Liu, Dongliang Yang, Xiaodong Li, Jesse S Smith, Bihan Wang, Haini Dong,",
+          "page": 15
+        },
+        {
+          "para_id": "1_138",
+          "text": "Shourui Li, Wenge Yang, and John S Tse. Temperature- and rate-dependent pathways in formation of",
+          "page": 15
+        },
+        {
+          "para_id": "1_139",
+          "text": "metastable silicon phases under rapid decompression. Physical Review Letters, 125(15):155702, 2020.",
+          "page": 15
+        },
+        {
+          "para_id": "1_140",
+          "text": "[38] Gerald J. K. Schaﬀar, Johann Kappacher, Daniel Tscharnuter, and Verena Maier-Kiener. The Phase",
+          "page": 15
+        },
+        {
+          "para_id": "1_141",
+          "text": "Transformation of Silicon Assessed by an Unloading Contact Pressure Approach. JOM, 74(6):2220–",
+          "page": 15
+        },
+        {
+          "para_id": "1_142",
+          "text": "[39] Tom Juliano, Vladislav Domnich, and Yury Gogotsi. Examining pressure-induced phase transformations",
+          "page": 16
+        },
+        {
+          "para_id": "1_143",
+          "text": "in silicon by spherical indentation and Raman spectroscopy: A statistical study. Journal of Materials",
+          "page": 16
+        },
+        {
+          "para_id": "1_144",
+          "text": "Research, 19(10):3099–3108, 2004.",
+          "page": 16
+        },
+        {
+          "para_id": "1_145",
+          "text": "[40] Paolo Giannozzi, Oscar Baseggio, Pietro Bonfà, Davide Brunato, Roberto Car, Ivan Carnimeo, Carlo",
+          "page": 16
+        },
+        {
+          "para_id": "1_146",
+          "text": "Cavazzoni, Stefano De Gironcoli, Pietro Delugas, Fabrizio Ferrari Ruﬃno, et al. Quantum espresso",
+          "page": 16
+        },
+        {
+          "para_id": "1_147",
+          "text": "toward the exascale. The Journal of chemical physics, 152(15), 2020.",
+          "page": 16
+        },
+        {
+          "para_id": "1_148",
+          "text": "[41] Walter Kohn and Lu Jeu Sham. Self-consistent equations including exchange and correlation eﬀects.",
+          "page": 16
+        },
+        {
+          "para_id": "1_149",
+          "text": "Physical review, 140(4A):A1133, 1965.",
+          "page": 16
+        },
+        {
+          "para_id": "1_150",
+          "text": "[42] John P Perdew, Kieron Burke, and Matthias Ernzerhof. Generalized gradient approximation made",
+          "page": 16
+        },
+        {
+          "para_id": "1_151",
+          "text": "simple. Physical review letters, 77(18):3865, 1996.",
+          "page": 16
+        },
+        {
+          "para_id": "1_152",
+          "text": "[43] Jianwei Sun, Adrienn Ruzsinszky, and John P Perdew. Strongly constrained and appropriately normed",
+          "page": 16
+        },
+        {
+          "para_id": "1_153",
+          "text": "semilocal density functional. Physical review letters, 115(3):036402, 2015.",
+          "page": 16
+        },
+        {
+          "para_id": "1_154",
+          "text": "[44] Yi Yao and Yosuke Kanai. Plane-wave pseudopotential implementation and performance of scan meta-",
+          "page": 16
+        },
+        {
+          "para_id": "1_155",
+          "text": "gga exchange-correlation functional for extended systems. The Journal of chemical physics, 146(22),",
+          "page": 16
+        },
+        {
+          "para_id": "1_156",
+          "text": "[45] Susi Lehtola, Conrad Steigemann, Micael JT Oliveira, and Miguel AL Marques. Recent developments",
+          "page": 16
+        },
+        {
+          "para_id": "1_157",
+          "text": "in libxc—a comprehensive library of functionals for density functional theory. SoftwareX, 7:1–5, 2018.",
+          "page": 16
+        },
+        {
+          "para_id": "1_158",
+          "text": "[46] John P Perdew, Adrienn Ruzsinszky, Gábor I Csonka, Oleg A Vydrov, Gustavo E Scuseria, Lucian A",
+          "page": 16
+        },
+        {
+          "para_id": "1_159",
+          "text": "Constantin, Xiaolan Zhou, and Kieron Burke. Restoring the density-gradient expansion for exchange",
+          "page": 16
+        },
+        {
+          "para_id": "1_160",
+          "text": "in solids and surfaces. Physical review letters, 100(13):136406, 2008.",
+          "page": 16
+        },
+        {
+          "para_id": "1_161",
+          "text": "[47] S. Goedecker and M. Teter. Separable dual-space Gaussian pseudopotentials. Physical Review B -",
+          "page": 16
+        },
+        {
+          "para_id": "1_162",
+          "text": "Condensed Matter and Materials Physics, 54(3):1703–1710, 1996.",
+          "page": 16
+        },
+        {
+          "para_id": "1_163",
+          "text": "[48] C Hartwigsen, S Goedecker, and J Hutter. Relativistic separable dual-space Gaussian pseudopotentials",
+          "page": 16
+        },
+        {
+          "para_id": "1_164",
+          "text": "from H to Rn. Physical Review B, 58(7):3641–3662, aug 1998.",
+          "page": 16
+        },
+        {
+          "para_id": "1_165",
+          "text": "[49] Hendrik J Monkhorst and James D Pack. Special points for brillouin-zone integrations. Physical review",
+          "page": 16
+        },
+        {
+          "para_id": "1_166",
+          "text": "B, 13(12):5188, 1976.",
+          "page": 16
+        },
+        {
+          "para_id": "1_167",
+          "text": "[50] Stefano Baroni, Stefano De Gironcoli, Andrea Dal Corso, and Paolo Giannozzi. Phonons and related",
+          "page": 16
+        },
+        {
+          "para_id": "1_168",
+          "text": "crystal properties from density-functional perturbation theory. Reviews of modern Physics, 73(2):515,",
+          "page": 16
+        },
+        {
+          "para_id": "1_169",
+          "text": "[51] Koichi Momma and Fujio Izumi. VESTA3 for three-dimensional visualization of crystal, volumetric",
+          "page": 16
+        },
+        {
+          "para_id": "1_170",
+          "text": "and morphology data. Journal of Applied Crystallography, 44(6):1272–1276, Dec 2011.",
+          "page": 16
+        },
+        {
+          "para_id": "1_171",
+          "text": "[52] Anubhav Jain, Shyue Ping Ong, Geoﬀroy Hautier, Wei Chen, William Davidson Richards, Stephen",
+          "page": 16
+        },
+        {
+          "para_id": "1_172",
+          "text": "Dacek, Shreyas Cholia, Dan Gunter, David Skinner, Gerbrand Ceder, and Kristin A. Persson. Com-",
+          "page": 16
+        },
+        {
+          "para_id": "1_173",
+          "text": "mentary: The materials project: A materials genome approach to accelerating materials innovation.",
+          "page": 16
+        },
+        {
+          "para_id": "1_174",
+          "text": "APL Materials, 1(1):011002, 07 2013.",
+          "page": 16
+        },
+        {
+          "para_id": "1_175",
+          "text": "[53] Miroslav Lebeda, Jan Drahokoupil, Petr Veřtát, Šimon Svoboda, Vojtěch Smola, Ubaid Ahmed, and",
+          "page": 16
+        },
+        {
+          "para_id": "1_176",
+          "text": "Petr Vlčák. XRDlicious: an interactive web-based platform for online calculation of diﬀraction pat-",
+          "page": 16
+        },
+        {
+          "para_id": "1_177",
+          "text": "terns and radial distribution functions from crystal structures.",
+          "page": 16
+        },
+        {
+          "para_id": "1_178",
+          "text": "Journal of Applied Crystallography,",
+          "page": 16
+        },
+        {
+          "para_id": "1_179",
+          "text": "58(5):1810–1816, Oct 2025.",
+          "page": 16
+        },
+        {
+          "para_id": "1_180",
+          "text": "[54] Albert P. Bartók, James Kermode, Noam Bernstein, and Gábor Csányi. Machine learning a general-",
+          "page": 16
+        },
+        {
+          "para_id": "1_181",
+          "text": "purpose interatomic potential for silicon. Phys. Rev. X, 8:041048, Dec 2018.",
+          "page": 16
+        },
+        {
+          "para_id": "1_182",
+          "text": "[55] Fabrizio Rovaris, Anna Marzegalli, Francesco Montalenti, and Emilio Scalise. Unraveling the atomic-",
+          "page": 17
+        },
+        {
+          "para_id": "1_183",
+          "text": "scale pathways driving pressure-induced phase transitions in silicon. Materials Today Nano, 29:100548,",
+          "page": 17
+        },
+        {
+          "para_id": "1_184",
+          "text": "[56] Daniel Sheppard, Penghao Xiao, William Chemelewski, Duane D. Johnson, and Graeme Henkelman.",
+          "page": 17
+        },
+        {
+          "para_id": "1_185",
+          "text": "A generalized solid-state nudged elastic band method. Journal of Chemical Physics, 136(7), 2012.",
+          "page": 17
+        },
+        {
+          "para_id": "1_186",
+          "text": "[57] https://theory.cm.utexas.edu/tsase/. Website of the TSASE code.",
+          "page": 17
+        },
+        {
+          "para_id": "1_187",
+          "text": "[58] Ask Hjorth Larsen, Jens Jørgen Mortensen, Jakob Blomqvist, Ivano E Castelli, Rune Christensen,",
+          "page": 17
+        },
+        {
+          "para_id": "1_188",
+          "text": "Marcin Dułak, Jesper Friis, Michael N Groves, Bjørk Hammer, Cory Hargus, Eric D Hermes, Paul C",
+          "page": 17
+        },
+        {
+          "para_id": "1_189",
+          "text": "Jennings, Peter Bjerre Jensen, James Kermode, John R Kitchin, Esben Leonhard Kolsbjerg, Joseph",
+          "page": 17
+        },
+        {
+          "para_id": "1_190",
+          "text": "Kubal, Kristen Kaasbjerg, Steen Lysgaard, Jón Bergmann Maronsson, Tristan Maxson, Thomas Olsen,",
+          "page": 17
+        },
+        {
+          "para_id": "1_191",
+          "text": "Lars Pastewka, Andrew Peterson, Carsten Rostgaard, Jakob Schiøtz, Ole Schütt, Mikkel Strange, Kris-",
+          "page": 17
+        },
+        {
+          "para_id": "1_192",
+          "text": "tian S Thygesen, Tejs Vegge, Lasse Vilhelmsen, Michael Walter, Zhenhua Zeng, and Karsten W Jacob-",
+          "page": 17
+        },
+        {
+          "para_id": "1_193",
+          "text": "sen. The atomic simulation environment—a python library for working with atoms. Journal of Physics:",
+          "page": 17
+        },
+        {
+          "para_id": "1_194",
+          "text": "Condensed Matter, 29(27):273002, jun 2017.",
+          "page": 17
+        },
+        {
+          "para_id": "1_195",
+          "text": "Supplementary Information (SI):",
+          "page": 18
+        },
+        {
+          "para_id": "1_196",
+          "text": "Resolving the Metastable Si-XIII Structure",
+          "page": 18
+        },
+        {
+          "para_id": "1_197",
+          "text": "through Convergent Theory and Experiment",
+          "page": 18
+        },
+        {
+          "para_id": "1_198",
+          "text": "Fabrizio Rovarisa,1, Corrado Bongiornob,1, Anna Marzegallia, Mouad",
+          "page": 18
+        },
+        {
+          "para_id": "1_199",
+          "text": "Bikerouina, Davide Spiritoc,f, Gerald J. K. Schaﬀard, Mohamed Zaghloulb,",
+          "page": 18
+        },
+        {
+          "para_id": "1_200",
+          "text": "Agnieszka Anna Corley-Wiciakc, Francesco Montalentia, Verena",
+          "page": 18
+        },
+        {
+          "para_id": "1_201",
+          "text": "Maier-Kienerd, Giovanni Capellinic,e, Antonio M. Miob, Emilio Scalisea,∗",
+          "page": 18
+        },
+        {
+          "para_id": "1_202",
+          "text": "aDepartment of Materials Science. University of Milano Bicocca, Via R. Cozzi",
+          "page": 18
+        },
+        {
+          "para_id": "1_203",
+          "text": "55, 20125, Milano, Italy",
+          "page": 18
+        },
+        {
+          "para_id": "1_204",
+          "text": "bInstitute for Microelectronics and Microsystems (IMM). Consiglio Nazionale delle",
+          "page": 18
+        },
+        {
+          "para_id": "1_205",
+          "text": "Ricerche (CNR), Strada VIII 5, 95121, Catania, Italy",
+          "page": 18
+        },
+        {
+          "para_id": "1_206",
+          "text": "cIHP-Leibniz-Institut für innovative Mikroelektronik, Im Technologiepark",
+          "page": 18
+        },
+        {
+          "para_id": "1_207",
+          "text": "25, 15236, Frankfurt(Oder), Germany",
+          "page": 18
+        },
+        {
+          "para_id": "1_208",
+          "text": "dDepartment of Materials Science. Montanuniversität Leoben, Roseggerstrasse",
+          "page": 18
+        },
+        {
+          "para_id": "1_209",
+          "text": "12, 8700, Leoben, Austria",
+          "page": 18
+        },
+        {
+          "para_id": "1_210",
+          "text": "eDepartment of Science. Università Roma Tre, V.le G. Marconi 446, 00146, Rome, Italy",
+          "page": 18
+        },
+        {
+          "para_id": "1_211",
+          "text": "fBCMaterials. Basque Center for Materials, Applications and Nanostructures, UPV/EHU",
+          "page": 18
+        },
+        {
+          "para_id": "1_212",
+          "text": "Science Park, 48940, Leioa, Spain",
+          "page": 18
+        },
+        {
+          "para_id": "1_213",
+          "text": "Table S1: Crystal structure of Si-XIII. Space group P¯1 (No. 2), triclinic system, point group",
+          "page": 18
+        },
+        {
+          "para_id": "1_214",
+          "text": "¯1. All 8 atomic positions (fractional coordinates) of the primitive unit cell are listed; atoms",
+          "page": 18
+        },
+        {
+          "para_id": "1_215",
+          "text": "are grouped in pairs related by the inversion center of the 2i Wyckoﬀsite.",
+          "page": 18
+        },
+        {
+          "para_id": "1_216",
+          "text": "1This authors equally contributed",
+          "page": 18
+        },
+        {
+          "para_id": "1_217",
+          "text": "Table S2: Equilibrium lattice parameters of the proposed Si-XIII structure obtained from DFT",
+          "page": 19
+        },
+        {
+          "para_id": "1_218",
+          "text": "relaxations with diﬀerent exchange-correlation functionals and the GAP interatomic potential,",
+          "page": 19
+        },
+        {
+          "para_id": "1_219",
+          "text": "compared to the metastable R8 and BC8 phases and the reference dc-Si. The atomic volume",
+          "page": 19
+        },
+        {
+          "para_id": "1_220",
+          "text": "and cohesion energy are also reported, showing that the Si-XIII phase lies closer to the stable",
+          "page": 19
+        },
+        {
+          "para_id": "1_221",
+          "text": "dc-Si, both in terms of volume and particularly in energy. For the Si-XIII and R8 phases, cell",
+          "page": 19
+        },
+        {
+          "para_id": "1_222",
+          "text": "parameters in agreement with experimental SAED are also reported.",
+          "page": 19
+        },
+        {
+          "para_id": "1_223",
+          "text": "Figure S1: (a-d) Simulated SAED of the Si-XIII phase across multiple zone axes, as reported",
+          "page": 20
+        },
+        {
+          "para_id": "1_224",
+          "text": "in Fig. 1(h-k). For comparison, the corresponding simulated SAED of the R8 phase is shown",
+          "page": 20
+        },
+        {
+          "para_id": "1_225",
+          "text": "in panels (e-h). Indexing of the R8 phase is presented in the rhombohedral basis, as deﬁned",
+          "page": 20
+        },
+        {
+          "para_id": "1_226",
+          "text": "Figure S2: (a-c) SAED patterns acquired from the same crystalline grain across multiple zone",
+          "page": 20
+        },
+        {
+          "para_id": "1_227",
+          "text": "axes, with indicated mutual rotation angles. In these experimental patterns, the corresponding",
+          "page": 20
+        },
+        {
+          "para_id": "1_228",
+          "text": "plane spacing distance is reported in Å, for the main reﬂections. The sequence shows the",
+          "page": 20
+        },
+        {
+          "para_id": "1_229",
+          "text": "systematic tilting procedure used to map the reciprocal lattice and a good agreement with",
+          "page": 20
+        },
+        {
+          "para_id": "1_230",
+          "text": "the R8 cell structure, as demonstrated by the corresponding simulated SAED (d-f). Indexing",
+          "page": 20
+        },
+        {
+          "para_id": "1_231",
+          "text": "of the R8 phase is presented in the rhombohedral basis, as deﬁned in Table S2",
+          "page": 20
+        },
+        {
+          "para_id": "1_232",
+          "text": "As-indented Post-annealing",
+          "page": 21
+        },
+        {
+          "para_id": "1_233",
+          "text": "Figure S3: Raman spectra for indented silicon before and after annealing, both in parallel and",
+          "page": 21
+        },
+        {
+          "para_id": "1_234",
+          "text": "perpendicular conﬁguration (a). The spectrum after annealing and as a function of incidence",
+          "page": 21
+        },
+        {
+          "para_id": "1_235",
+          "text": "polarization angle (α) is shown in (b).",
+          "page": 21
+        }
+      ]
+    }
+  ]
+}

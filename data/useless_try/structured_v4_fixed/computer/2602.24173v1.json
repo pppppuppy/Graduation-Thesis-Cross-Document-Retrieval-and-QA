@@ -1,0 +1,1613 @@
+{
+  "title": "LemmaBench: A Live, Research-Level Benchmark to",
+  "abstract": "We present a new approach for benchmarking Large Language Model (LLM) capabilities on research-level mathematics. Existing benchmarks largely rely on static, hand-curated sets of contest or textbook-style problems as proxies for mathematical research. Instead, we establish an updatable benchmark evaluating models directly on the latest research results in mathematics. This consists of an automatic pipeline that extracts lemmas from the arXiv and rewrites them into self- contained statements by making all assumptions and required definitions explicit. It results in a benchmark that can be updated regularly with new problems taken directly from human mathematical research, while previous instances can be used for training without compromising future evaluations. We benchmark current state-of-the-art LLMs, which obtain around 10-15% accuracy in theorem proving (pass@1) depending on the model, showing that there is currently a large margin of progression for LLMs to reach human-level proving capabilities in a research context. 1 Introduction Deep learning and machine learning methods have enjoyed tremendous success over the past decade, culminating in Nobel Prizes in physics and chemistry in 2024. It has become increasingly clear that AI methods are changing the practice of science, sometimes to the surprise of scientists and researchers in these disciplines. While machine learning methods are already useful in mathematics [Davies et al., 2021, Charton et al., 2024, Alfarano et al., 2024], mathematics, and specifically theorem proving, is still considered a major challenge. The exceptional progress made by Large Language Models (LLMs) in recent months and years offers a glimpse into a future where models could be capable of proving theorems autonomously at a human level. The performances of LLMs in this area have exploded over the past two years, mainly thanks to two elements: first, the use of end-to-end reinforcement learning from verifiable rewards (RLVR), which has led to the advent of so-called reasoning models Guo et al. [2025], Rastogi et al. [2025]; second, a major effort to gather and generate large mathematical data corpora, particularly for Olympiad-style exercises whether in natural language Gao et al. [2024], LI et al. [2024], Fang et al. [2025] or in formal languages Aram H. Markosyan [2024], Li et al. [2024], Ying et al. [2024]. All of this has led to several achievements: announcements of mathematical models capable of winning a gold medal at the International Mathematical Olympiads 2025 Huang and Yang [2025], Team [2025], Castelvecchi [2025] the arrival of reasoning models that prove to be highly efficient in mathematical symbolic computations, capable of performing in a few minutes the equivalent of several hours of human work Diez et al. [2025]; and the resolution of several open problems with the ∗Correspondence to antoine.peyronnet@ens-rennes.fr †Correspondence to fabian.gloeckle@hotmail.de ‡Correspondence to amaury.hayat@enpc.fr Preprint. arXiv:2602.24173v1 [cs.AI] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "183",
+      "section_title": "(72%)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "71",
+      "section_title": "(28%)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "71_1",
+          "text": "of which truly self-contained (human judge)",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "183",
+      "section_title": "(100% of total)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "17",
+      "section_title": "(24% of 71)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "293",
+      "section_title": "(99%)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3",
+      "section_title": "(1%)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "Table 2: Cross-validation between Gemini 2.5 Pro and GPT-5 for detecting self-contained lemmas.",
+          "page": 5
+        },
+        {
+          "para_id": "3_2",
+          "text": "We performed a cross-model validation of mathematical self-containedness between Gemini 2.5 Pro",
+          "page": 5
+        },
+        {
+          "para_id": "3_3",
+          "text": "and GPT-5. Among the 254 lemmas that were extracted by Gemini and labeled as self-contained",
+          "page": 5
+        },
+        {
+          "para_id": "3_4",
+          "text": "by Gemini, GPT-5 confirmed 72% and rejected 28%. Manual inspection showed that 100 % of",
+          "page": 5
+        },
+        {
+          "para_id": "3_5",
+          "text": "those lemmas judged self contained by GPT-5 are truly self contained and 24% of those judged by",
+          "page": 5
+        },
+        {
+          "para_id": "3_6",
+          "text": "GPT5 as not self-contained lemmas were in fact truly self-contained, indicating that GPT-5 acts as",
+          "page": 5
+        },
+        {
+          "para_id": "3_7",
+          "text": "a conservative validator, producing almost no false positives but a non-negligible number of false",
+          "page": 5
+        },
+        {
+          "para_id": "3_8",
+          "text": "negatives. These results show that the two models implement substantially different implicit criteria",
+          "page": 5
+        },
+        {
+          "para_id": "3_9",
+          "text": "for self-containedness. Given that GPT-5 seemed to behave as a higher-precision classifier we chose",
+          "page": 5
+        },
+        {
+          "para_id": "3_10",
+          "text": "GPT-5 as main extractor for the benchmark.",
+          "page": 5
+        },
+        {
+          "para_id": "3_11",
+          "text": "Full-context retrieval succeeds in complementing a larger number of lemmas by all required",
+          "page": 5
+        },
+        {
+          "para_id": "3_12",
+          "text": "definitions and hypotheses to make them self-contained according to LLM-as-judge evaluation, and",
+          "page": 5
+        },
+        {
+          "para_id": "3_13",
+          "text": "human evaluation. Accuracy and volume of self contained lemma rightfully retrieved are presented",
+          "page": 5
+        },
+        {
+          "para_id": "3_14",
+          "text": "in Figure B. Overall more than 60% of the lemmas identified by the regex in the initial step are",
+          "page": 5
+        },
+        {
+          "para_id": "3_15",
+          "text": "successfully self-contained by the pipeline. Therefore we used full-context retrieval by default when",
+          "page": 5
+        },
+        {
+          "para_id": "3_16",
+          "text": "establishing the benchmark.",
+          "page": 5
+        },
+        {
+          "para_id": "3_17",
+          "text": "Protocol for Proof Generation and Multi-Judge Evaluation",
+          "page": 5
+        },
+        {
+          "para_id": "3_18",
+          "text": "We use the resulting benchmark to evaluate frontier LLMs on research-level lemma proving tasks.",
+          "page": 5
+        },
+        {
+          "para_id": "3_19",
+          "text": "Specifically, we use a structured, step-wise format for proof presentation and independent LLM",
+          "page": 5
+        },
+        {
+          "para_id": "3_20",
+          "text": "evaluators for judging correctness.",
+          "page": 5
+        },
+        {
+          "para_id": "3_21",
+          "text": "The candidate LLM prover is queried to produce a structured proof in numbered steps,",
+          "page": 5
+        },
+        {
+          "para_id": "3_22",
+          "text": "with subgoals and the proof explicitly stated. We enforce minimal constraints: no invocation of",
+          "page": 5
+        },
+        {
+          "para_id": "3_23",
+          "text": "undeclared external references; hypotheses must be cited at the moment of use; known theorems",
+          "page": 5
+        },
+        {
+          "para_id": "3_24",
+          "text": "must be clearly announced when applied.",
+          "page": 5
+        },
+        {
+          "para_id": "3_25",
+          "text": "The lemma, its assumptions and the generated proof are presented",
+          "page": 6
+        },
+        {
+          "para_id": "3_26",
+          "text": "to a separate LLM judge. It evaluates each step of the overall proof with a binary verdict (True,",
+          "page": 6
+        },
+        {
+          "para_id": "3_27",
+          "text": "False), and labels the whole proof as correct if and only if all steps are correct.",
+          "page": 6
+        },
+        {
+          "para_id": "3_28",
+          "text": "Domain Stratification",
+          "page": 6
+        },
+        {
+          "para_id": "3_29",
+          "text": "We stratify by domain, following the math.* classification on the arXiv",
+          "page": 6
+        },
+        {
+          "para_id": "3_30",
+          "text": "(AG, AP, PR, NT, GR, MG, OC, FA, etc.). Our dataset was built from articles uploaded within a",
+          "page": 6
+        },
+        {
+          "para_id": "3_31",
+          "text": "single week. We present here two iterations of the benchmark, one performed in September 2025",
+          "page": 6
+        },
+        {
+          "para_id": "3_32",
+          "text": "corresponding to articles submitted the last week of August 2025 and another one in February 2026",
+          "page": 6
+        },
+        {
+          "para_id": "3_33",
+          "text": "corresponding to articles submitted the first week of February 2026. In each domain of mathematics",
+          "page": 6
+        },
+        {
+          "para_id": "3_34",
+          "text": "we selected 1-2 article(s) at random from the articles uploaded during the week considered across all",
+          "page": 6
+        },
+        {
+          "para_id": "3_35",
+          "text": "domains. Table 5 reports the distribution for the lemma extracted from the last week of August 2025.",
+          "page": 6
+        },
+        {
+          "para_id": "3_36",
+          "text": "Evaluation: Metrics, Protocols, and Tables",
+          "page": 6
+        },
+        {
+          "para_id": "3_37",
+          "text": "To evaluate the pipeline and compare models, we",
+          "page": 6
+        },
+        {
+          "para_id": "3_38",
+          "text": "define several metrics covering extraction quality, proof validity, and human assessment.",
+          "page": 6
+        },
+        {
+          "para_id": "3_39",
+          "text": "• Self-Containment Pass (SC)(%): percentage of lemmas validated as self-contained",
+          "page": 6
+        },
+        {
+          "para_id": "3_40",
+          "text": "(self_contained=1). This reflects the robustness of the extraction pipeline and coherence",
+          "page": 6
+        },
+        {
+          "para_id": "3_41",
+          "text": "judge. In our experiments, values above 60% are considered a satisfactory quality threshold.",
+          "page": 6
+        },
+        {
+          "para_id": "3_42",
+          "text": "• Precision (PPV) — true self-contained pass (%): Proportion of lemmas flagged as self-",
+          "page": 6
+        },
+        {
+          "para_id": "3_43",
+          "text": "contained that are confirmed as such by human validation. This is the precision (positive",
+          "page": 6
+        },
+        {
+          "para_id": "3_44",
+          "text": "predictive value) of the self-contained detector, i.e., how much we can trust the set of “pass”",
+          "page": 6
+        },
+        {
+          "para_id": "3_45",
+          "text": "lemmas produced by a given method.",
+          "page": 6
+        },
+        {
+          "para_id": "3_46",
+          "text": "• Proof Acceptance: proportion of self-contained lemmas that were correctly proven by the",
+          "page": 6
+        },
+        {
+          "para_id": "3_47",
+          "text": "LLM, tested at pass@1.",
+          "page": 6
+        },
+        {
+          "para_id": "3_48",
+          "text": "• Human Confidence Score: percentage of proof judged correct by the LLM-as-a-judge that",
+          "page": 6
+        },
+        {
+          "para_id": "3_49",
+          "text": "are also judged correct by human experts.",
+          "page": 6
+        },
+        {
+          "para_id": "3_50",
+          "text": "For the week of August 2025, we extracted 376 lemmas. On average across models, about 240 (64%)",
+          "page": 6
+        },
+        {
+          "para_id": "3_51",
+          "text": "of these are judged self-contained after the pipeline. On this benchmark of 240 elements, 7-12.3% are",
+          "page": 6
+        },
+        {
+          "para_id": "3_52",
+          "text": "correctly proven depending on the model tested. The evaluation of the human score was performed",
+          "page": 6
+        },
+        {
+          "para_id": "3_53",
+          "text": "on 10-20 such proofs per model by expert mathematicians (for a total of 44 proofs reviewed), chosen",
+          "page": 6
+        },
+        {
+          "para_id": "3_54",
+          "text": "from reviewers of journals from different fields of mathematics. The proof judged correct by the",
+          "page": 6
+        },
+        {
+          "para_id": "3_55",
+          "text": "LLM-as-a-judge were vetted correct by human standards in 67 −83% of the cases",
+          "page": 6
+        },
+        {
+          "para_id": "3_56",
+          "text": "Proof Accept. (%) Human confidence score (%)",
+          "page": 6
+        },
+        {
+          "para_id": "3_57",
+          "text": "Full-ctx (Gem-2.5) Gem-2.5→Gem-2.5",
+          "page": 6
+        },
+        {
+          "para_id": "3_58",
+          "text": "Table 3: Proof quality - September 2025 by source and generator →judge for the first iteration",
+          "page": 6
+        },
+        {
+          "para_id": "3_59",
+          "text": "(week of August 2025, experiment performed in September 2025).",
+          "page": 6
+        },
+        {
+          "para_id": "3_60",
+          "text": "For the first week of February 2026, we select 100 preprints from which we extract a total of 677",
+          "page": 6
+        },
+        {
+          "para_id": "3_61",
+          "text": "lemmas appearing in 81 preprints using GPT-5. Out of these, 405 lemmas (59.8%) were judged",
+          "page": 6
+        },
+        {
+          "para_id": "3_62",
+          "text": "as self-contained by GPT-5 after full-context definition and hypothesis extraction by GPT-5. On",
+          "page": 6
+        },
+        {
+          "para_id": "3_63",
+          "text": "the resulting benchmark of 358 elements, 55 lemmas (15%) are correctly proven according to the",
+          "page": 6
+        },
+        {
+          "para_id": "3_64",
+          "text": "most critical judge (GPT-5) with the best model (also GPT-5). The results are shown in Table 4.",
+          "page": 6
+        },
+        {
+          "para_id": "3_65",
+          "text": "While evaluation of the human score is not yet available for this iteration of the benchmark, with the",
+          "page": 6
+        },
+        {
+          "para_id": "3_66",
+          "text": "improving capabilities of general public LLMs in mathematics it seems reasonable to expect that the",
+          "page": 6
+        },
+        {
+          "para_id": "3_67",
+          "text": "confidence score would be at least of the order of the one of September 2025.",
+          "page": 6
+        },
+        {
+          "para_id": "3_68",
+          "text": "From Table 4 while the opinion of different LLMs judges may differ, GPT-5 is seen by all judges as",
+          "page": 6
+        },
+        {
+          "para_id": "3_69",
+          "text": "the best performing model.",
+          "page": 6
+        },
+        {
+          "para_id": "3_70",
+          "text": "Full-ctx (GPT-5) GPT-5",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "55",
+      "section_title": "(15%)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "67",
+      "section_title": "(19%)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "125",
+      "section_title": "(35%)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "125_1",
+          "text": "Full-ctx (GPT-5) Gemini 3 pro",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "12",
+      "section_title": "(3%)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "57",
+      "section_title": "(16%)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "104",
+      "section_title": "(29%)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "104_1",
+          "text": "Full-ctx (GPT-5) Opus 4.5",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "(2%)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "50",
+      "section_title": "(14%)",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "60",
+      "section_title": "(17%)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "60_1",
+          "text": "Table 4: Proof quality – February 2026 with different LLMs generating a proof and LLM as a judge",
+          "page": 7
+        },
+        {
+          "para_id": "60_2",
+          "text": "for the second iteration (first week of February 2026, experiment performed in February 2026).",
+          "page": 7
+        },
+        {
+          "para_id": "60_3",
+          "text": "This paper presents a new approach to evaluate LLM mathematical capabilities in natural language. It",
+          "page": 7
+        },
+        {
+          "para_id": "60_4",
+          "text": "consists in a live benchmark built directly from the latest research-level mathematical results proved",
+          "page": 7
+        },
+        {
+          "para_id": "60_5",
+          "text": "by mathematicians on the arXiv. A key advantage is that it reduces the risk of data contamination",
+          "page": 7
+        },
+        {
+          "para_id": "60_6",
+          "text": "over time, and avoids treating narrow, convenience-curated problem collections, whether competition",
+          "page": 7
+        },
+        {
+          "para_id": "60_7",
+          "text": "exercises or research questions selected primarily for easy verifiability, as a proxy for mathematical",
+          "page": 7
+        },
+        {
+          "para_id": "60_8",
+          "text": "research, where, by definition, data is relatively scarce (in contrast with mathematical competition",
+          "page": 7
+        },
+        {
+          "para_id": "60_9",
+          "text": "exercises where in-distribution synthetic data has been massively generated in the last two years).",
+          "page": 7
+        },
+        {
+          "para_id": "60_10",
+          "text": "The price to pay for this generality is the use of an LLM-as-a-judge to evaluate the qualities of the",
+          "page": 7
+        },
+        {
+          "para_id": "60_11",
+          "text": "self-contained lemmas and the quality of the proof provided. Nevertheless, our evaluation by human",
+          "page": 7
+        },
+        {
+          "para_id": "60_12",
+          "text": "mathematicians shows the reliability of LLM-as-a-judge in evaluating both the self-containedness of",
+          "page": 7
+        },
+        {
+          "para_id": "60_13",
+          "text": "a statement and the validity of a proof. This can be explained as it is usually easier for a model to",
+          "page": 7
+        },
+        {
+          "para_id": "60_14",
+          "text": "evaluate the validity of a proof than to actually produce a proof. The theorem proving capabilities of",
+          "page": 7
+        },
+        {
+          "para_id": "60_15",
+          "text": "LLMs and their reliability as judges should improve as models get better in reasoning. We believe this",
+          "page": 7
+        },
+        {
+          "para_id": "60_16",
+          "text": "is an additional motivation to use the type of benchmark introduced in this article. The quantitative",
+          "page": 7
+        },
+        {
+          "para_id": "60_17",
+          "text": "results reported here reveal informative trends, and should be considered preliminary given the",
+          "page": 7
+        },
+        {
+          "para_id": "60_18",
+          "text": "limited sample size (a few hundred problems) and the small number of reviewers (a dozen human",
+          "page": 7
+        },
+        {
+          "para_id": "60_19",
+          "text": "mathematicians), and as an incitation to design such benchmarks directly grounded in the latest",
+          "page": 7
+        },
+        {
+          "para_id": "60_20",
+          "text": "research without restricting to specific problems. We plan to extend the evaluation protocol with",
+          "page": 7
+        },
+        {
+          "para_id": "60_21",
+          "text": "more reviewers and more examples to improve the statistical robustness of the analysis.",
+          "page": 7
+        },
+        {
+          "para_id": "60_22",
+          "text": "The authors would like to thank Etienne Bernard, Urbain Vaes, Vincent Boulard, Alexandre Krajen-",
+          "page": 7
+        },
+        {
+          "para_id": "60_23",
+          "text": "brinck, Ilan Zysman, David Renard, Baptiste Seraille, Thomas Cavallazzi, Hector Bouton, Gabriel",
+          "page": 7
+        },
+        {
+          "para_id": "60_24",
+          "text": "Synnaeve, Claudio Dappiaggi. This work was granted access to the HPC resources of IDRIS under",
+          "page": 7
+        },
+        {
+          "para_id": "60_25",
+          "text": "the allocation 2024-AD011014527R1 made by GENCI. AH and AP were supported by the ANR-",
+          "page": 7
+        },
+        {
+          "para_id": "60_26",
+          "text": "Tremplin StarPDE ANR-24-ERCS-0010, the PEPS Project JCJC 2025 from CNRS - INSMI and the",
+          "page": 7
+        },
+        {
+          "para_id": "60_27",
+          "text": "Hi! PARIS and ANR/France 2030 program (ANR-23-IACL-0005).",
+          "page": 7
+        },
+        {
+          "para_id": "60_28",
+          "text": "Mohammed Abouzaid, Andrew J Blumberg, Martin Hairer, Joe Kileel, Tamara G Kolda, Paul D",
+          "page": 8
+        },
+        {
+          "para_id": "60_29",
+          "text": "Nelson, Daniel Spielman, Nikhil Srivastava, Rachel Ward, Shmuel Weinberger, et al. First proof.",
+          "page": 8
+        },
+        {
+          "para_id": "60_30",
+          "text": "arXiv preprint arXiv:2602.05192, 2026.",
+          "page": 8
+        },
+        {
+          "para_id": "60_31",
+          "text": "Luke Alexander, Eric Leonen, Sophie Szeto, Artemii Remizov, Ignacio Tejeda, Giovanni In-",
+          "page": 8
+        },
+        {
+          "para_id": "60_32",
+          "text": "chiostro, and Vasily Ilin. Semantic search over 9 million mathematical theorems. arXiv preprint",
+          "page": 8
+        },
+        {
+          "para_id": "60_33",
+          "text": "arXiv:2602.05216, 2026.",
+          "page": 8
+        },
+        {
+          "para_id": "60_34",
+          "text": "Alberto Alfarano, François Charton, and Amaury Hayat. Global lyapunov functions: a long-standing",
+          "page": 8
+        },
+        {
+          "para_id": "60_35",
+          "text": "open problem in mathematics, with symbolic transformers. Advances in Neural Information",
+          "page": 8
+        },
+        {
+          "para_id": "60_36",
+          "text": "Processing Systems, 37:93643–93670, 2024.",
+          "page": 8
+        },
+        {
+          "para_id": "60_37",
+          "text": "Aida Amini, Saadia Gabriel, Peter Lin, Rik Koncel-Kedziorski, Yejin Choi, and Hannaneh Hajishirzi.",
+          "page": 8
+        },
+        {
+          "para_id": "60_38",
+          "text": "Mathqa: Towards interpretable math word problem solving with operation-based formalisms.",
+          "page": 8
+        },
+        {
+          "para_id": "60_39",
+          "text": "arXiv preprint arXiv:1905.13319, 2019.",
+          "page": 8
+        },
+        {
+          "para_id": "60_40",
+          "text": "Hugh Leather Aram H. Markosyan, Gabriel Synnaeve. Leanuniverse: A library for consistent and",
+          "page": 8
+        },
+        {
+          "para_id": "60_41",
+          "text": "scalable lean4 dataset management. 2024.",
+          "page": 8
+        },
+        {
+          "para_id": "60_42",
+          "text": "Yushi Bai, Xin Lv, Jiajie Zhang, Hongchang Lyu, Jiankai Tang, Zhidian Huang, Zhengxiao Du, Xiao",
+          "page": 8
+        },
+        {
+          "para_id": "60_43",
+          "text": "Liu, Aohan Zeng, Lei Hou, et al. Longbench: A bilingual, multitask benchmark for long context",
+          "page": 8
+        },
+        {
+          "para_id": "60_44",
+          "text": "understanding. In Proceedings of the 62nd annual meeting of the association for computational",
+          "page": 8
+        },
+        {
+          "para_id": "60_45",
+          "text": "linguistics (volume 1: Long papers), pages 3119–3137, 2024.",
+          "page": 8
+        },
+        {
+          "para_id": "60_46",
+          "text": "Lars Becker, María Inés de Frutos-Fernández, Leo Diedering, Floris van Doorn, Sébastien Gouëzel,",
+          "page": 8
+        },
+        {
+          "para_id": "60_47",
+          "text": "Asgar Jamneshan, Evgenia Karunus, Edward van de Meent, Pietro Monticone, Jasper Mulder-Sohn,",
+          "page": 8
+        },
+        {
+          "para_id": "60_48",
+          "text": "et al. A blueprint for the formalization of carleson’s theorem on convergence of fourier series.",
+          "page": 8
+        },
+        {
+          "para_id": "60_49",
+          "text": "Davide Castelvecchi. AI models solve maths problems at level of top students. Nature, 644(7):1,",
+          "page": 8
+        },
+        {
+          "para_id": "60_50",
+          "text": "François Charton, Jordan S Ellenberg, Adam Zsolt Wagner, and Geordie Williamson. Patternboost:",
+          "page": 8
+        },
+        {
+          "para_id": "60_51",
+          "text": "Constructions in mathematics with a little help from ai. arXiv preprint arXiv:2411.00566, 2024.",
+          "page": 8
+        },
+        {
+          "para_id": "60_52",
+          "text": "Evan Chen, Chris Cummins, Dejan Grubisic, Leopold Haller, Letong Hong, Andranik Kurghinyan,",
+          "page": 8
+        },
+        {
+          "para_id": "60_53",
+          "text": "Kenny Lau, Hugh Leather, Seewoo Lee, Aram Markosyan, et al. Fel’s conjecture on syzygies of",
+          "page": 8
+        },
+        {
+          "para_id": "60_54",
+          "text": "numerical semigroups. arXiv preprint arXiv:2602.03716, 2026.",
+          "page": 8
+        },
+        {
+          "para_id": "60_55",
+          "text": "Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,",
+          "page": 8
+        },
+        {
+          "para_id": "60_56",
+          "text": "Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, et al. Training verifiers to solve",
+          "page": 8
+        },
+        {
+          "para_id": "60_57",
+          "text": "math word problems. arXiv preprint arXiv:2110.14168, 2021.",
+          "page": 8
+        },
+        {
+          "para_id": "60_58",
+          "text": "Alex Davies, Petar Veliˇckovi´c, Lars Buesing, Sam Blackwell, Daniel Zheng, Nenad Tomašev,",
+          "page": 8
+        },
+        {
+          "para_id": "60_59",
+          "text": "Richard Tanburn, Peter Battaglia, Charles Blundell, András Juhász, et al. Advancing mathematics",
+          "page": 8
+        },
+        {
+          "para_id": "60_60",
+          "text": "by guiding human intuition with ai. Nature, 600(7887):70–74, 2021.",
+          "page": 8
+        },
+        {
+          "para_id": "60_61",
+          "text": "Marianna De Santis, Gabriele Eichfelder, and Margherita Porcelli. Objective-function free multi-",
+          "page": 8
+        },
+        {
+          "para_id": "60_62",
+          "text": "objective optimization: Rate of convergence and performance of an adagrad-like algorithm. arXiv",
+          "page": 8
+        },
+        {
+          "para_id": "60_63",
+          "text": "preprint arXiv:2602.05893, 2026.",
+          "page": 8
+        },
+        {
+          "para_id": "60_64",
+          "text": "Charles-Philippe Diez, Luis da Maia, and Ivan Nourdin. Mathematical research with gpt-5: a",
+          "page": 8
+        },
+        {
+          "para_id": "60_65",
+          "text": "malliavin-stein experiment. arXiv preprint arXiv:2509.03065, 2025.",
+          "page": 8
+        },
+        {
+          "para_id": "60_66",
+          "text": "Aradhya Dixit, Tianxi Liang, and Jai Telang. Project aletheia: Verifier-guided distillation of back-",
+          "page": 8
+        },
+        {
+          "para_id": "60_67",
+          "text": "tracking for small language models. arXiv preprint arXiv:2601.14290, 2026.",
+          "page": 8
+        },
+        {
+          "para_id": "60_68",
+          "text": "Meng Fang, Xiangpeng Wan, Fei Lu, Fei Xing, and Kai Zou. Mathodyssey: Benchmarking mathe-",
+          "page": 8
+        },
+        {
+          "para_id": "60_69",
+          "text": "matical problem-solving skills in large language models using odyssey math data. Scientific Data,",
+          "page": 8
+        },
+        {
+          "para_id": "60_70",
+          "text": "Tony Feng, Trieu Trinh, Garrett Bingham, Jiwon Kang, Shengtong Zhang, Sang-hyun Kim, Kevin",
+          "page": 9
+        },
+        {
+          "para_id": "60_71",
+          "text": "Barreto, Carl Schildkraut, Junehyuk Jung, Jaehyeon Seo, et al. Semi-autonomous mathematics",
+          "page": 9
+        },
+        {
+          "para_id": "60_72",
+          "text": "discovery with gemini: A case study on the erd\\h {o} s problems. arXiv preprint arXiv:2601.22401,",
+          "page": 9
+        },
+        {
+          "para_id": "60_73",
+          "text": "Bofei Gao, Feifan Song, Zhe Yang, Zefan Cai, Yibo Miao, Qingxiu Dong, Lei Li, Chenghao Ma,",
+          "page": 9
+        },
+        {
+          "para_id": "60_74",
+          "text": "Liang Chen, Runxin Xu, et al. Omni-math: A universal olympiad level mathematic benchmark for",
+          "page": 9
+        },
+        {
+          "para_id": "60_75",
+          "text": "large language models. arXiv preprint arXiv:2410.07985, 2024.",
+          "page": 9
+        },
+        {
+          "para_id": "60_76",
+          "text": "Elliot Glazer, Ege Erdil, Tamay Besiroglu, Diego Chicharro, Evan Chen, Alex Gunning, Caroline Falk-",
+          "page": 9
+        },
+        {
+          "para_id": "60_77",
+          "text": "man Olsson, Jean-Stanislas Denain, Anson Ho, Emily de Oliveira Santos, et al. Frontiermath: A",
+          "page": 9
+        },
+        {
+          "para_id": "60_78",
+          "text": "benchmark for evaluating advanced mathematical reasoning in ai. arXiv preprint arXiv:2411.04872,",
+          "page": 9
+        },
+        {
+          "para_id": "60_79",
+          "text": "Elliot Glazer, Ege Erdil, Tamay Besiroglu, Diego Chicharro, Evan Chen, Alex Gunning, Caro-",
+          "page": 9
+        },
+        {
+          "para_id": "60_80",
+          "text": "line Falkman Olsson, Jean-Stanislas Denain, Anson Ho, Emily de Oliveira Santos, Olli Järviniemi,",
+          "page": 9
+        },
+        {
+          "para_id": "60_81",
+          "text": "Matthew Barnett, Robert Sandler, Matej Vrzala, Jaime Sevilla, Qiuyu Ren, Elizabeth Pratt, Lionel",
+          "page": 9
+        },
+        {
+          "para_id": "60_82",
+          "text": "Levine, Grant Barkley, Natalie Stewart, Bogdan Grechuk, Tetiana Grechuk, Shreepranav Varma",
+          "page": 9
+        },
+        {
+          "para_id": "60_83",
+          "text": "Enugandla, and Mark Wildon. Frontiermath: A benchmark for evaluating advanced mathematical",
+          "page": 9
+        },
+        {
+          "para_id": "60_84",
+          "text": "reasoning in ai. 2025. URL https://arxiv.org/abs/2411.04872.",
+          "page": 9
+        },
+        {
+          "para_id": "60_85",
+          "text": "Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Ruoyu Zhang, Runxin Xu, Qihao Zhu,",
+          "page": 9
+        },
+        {
+          "para_id": "60_86",
+          "text": "Shirong Ma, Peiyi Wang, Xiao Bi, et al. Deepseek-r1: Incentivizing reasoning capability in llms",
+          "page": 9
+        },
+        {
+          "para_id": "60_87",
+          "text": "via reinforcement learning. arXiv preprint arXiv:2501.12948, 2025.",
+          "page": 9
+        },
+        {
+          "para_id": "60_88",
+          "text": "Dan Hendrycks, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric Tang, Dawn Song,",
+          "page": 9
+        },
+        {
+          "para_id": "60_89",
+          "text": "and Jacob Steinhardt. Measuring mathematical problem solving with the math dataset. arXiv",
+          "page": 9
+        },
+        {
+          "para_id": "60_90",
+          "text": "preprint arXiv:2103.03874, 2021.",
+          "page": 9
+        },
+        {
+          "para_id": "60_91",
+          "text": "Yichen Huang and Lin F Yang. Gemini 2.5 pro capable of winning gold at imo 2025. arXiv preprint",
+          "page": 9
+        },
+        {
+          "para_id": "60_92",
+          "text": "arXiv:2507.15855, 2025.",
+          "page": 9
+        },
+        {
+          "para_id": "60_93",
+          "text": "Naman Jain, King Han, Alex Gu, Wen-Ding Li, Fanjia Yan, Tianjun Zhang, Sida Wang, Armando",
+          "page": 9
+        },
+        {
+          "para_id": "60_94",
+          "text": "Solar-Lezama, Koushik Sen, and Ion Stoica. Livecodebench: Holistic and contamination free",
+          "page": 9
+        },
+        {
+          "para_id": "60_95",
+          "text": "evaluation of large language models for code. In The Thirteenth International Conference on",
+          "page": 9
+        },
+        {
+          "para_id": "60_96",
+          "text": "Learning Representations.",
+          "page": 9
+        },
+        {
+          "para_id": "60_97",
+          "text": "Uijeong Jang and Ernest K Ryu. Point convergence of nesterov’s accelerated gradient method: An",
+          "page": 9
+        },
+        {
+          "para_id": "60_98",
+          "text": "ai-assisted proof. arXiv preprint arXiv:2510.23513, 2025.",
+          "page": 9
+        },
+        {
+          "para_id": "60_99",
+          "text": "Jia Li, Edward Beeching, Lewis Tunstall, Ben Lipkin, Roman Soletskyi, Shengyi Huang, Kashif",
+          "page": 9
+        },
+        {
+          "para_id": "60_100",
+          "text": "Rasul, Longhui Yu, Albert Q Jiang, Ziju Shen, et al. Numinamath: The largest public dataset in",
+          "page": 9
+        },
+        {
+          "para_id": "60_101",
+          "text": "ai4maths with 860k pairs of competition math problems and solutions. Hugging Face repository,",
+          "page": 9
+        },
+        {
+          "para_id": "60_102",
+          "text": "Jia LI, Edward Beeching, Lewis Tunstall, Ben Lipkin, Roman Soletskyi, Shengyi Costa",
+          "page": 9
+        },
+        {
+          "para_id": "60_103",
+          "text": "Huang, Kashif Rasul, Longhui Yu, Albert Jiang, Ziju Shen, Zihan Qin, Bin Dong,",
+          "page": 9
+        },
+        {
+          "para_id": "60_104",
+          "text": "[https://huggingface.co/AI-MO/NuminaMath-1.5](https://github.com/",
+          "page": 9
+        },
+        {
+          "para_id": "60_105",
+          "text": "project-numina/aimo-progress-prize/blob/main/report/numina_dataset.pdf),",
+          "page": 9
+        },
+        {
+          "para_id": "60_106",
+          "text": "Chengwu Liu, Jianhao Shen, Huajian Xin, Zhengying Liu, Ye Yuan, Haiming Wang, Wei Ju,",
+          "page": 9
+        },
+        {
+          "para_id": "60_107",
+          "text": "Chuanyang Zheng, Yichun Yin, Lin Li, et al. Fimo: A challenge formal dataset for automated",
+          "page": 9
+        },
+        {
+          "para_id": "60_108",
+          "text": "theorem proving. arXiv preprint arXiv:2309.04295, 2023.",
+          "page": 9
+        },
+        {
+          "para_id": "60_109",
+          "text": "Junqi Liu, Zihao Zhou, Zekai Zhu, Marco Dos Santos, Weikun He, Jiawei Liu, Ran Wang, Yunzhou",
+          "page": 9
+        },
+        {
+          "para_id": "60_110",
+          "text": "Xie, Junqiao Zhao, Qiufeng Wang, et al. Numina-lean-agent: An open and general agentic",
+          "page": 9
+        },
+        {
+          "para_id": "60_111",
+          "text": "reasoning system for formal mathematics. arXiv preprint arXiv:2601.14027, 2026.",
+          "page": 9
+        },
+        {
+          "para_id": "60_112",
+          "text": "Jicheng Ma, Guohua Wang, Xinhua Feng, Yiming Liu, Zhichao Hu, and Yuhong Liu. Eternalmath:",
+          "page": 9
+        },
+        {
+          "para_id": "60_113",
+          "text": "A living benchmark of frontier mathematics that evolves with human discovery. arXiv preprint",
+          "page": 9
+        },
+        {
+          "para_id": "60_114",
+          "text": "arXiv:2601.01400, 2026.",
+          "page": 9
+        },
+        {
+          "para_id": "60_115",
+          "text": "MathArena Team. Arxivmath: Evaluating llms on mathematical research problems from recent",
+          "page": 10
+        },
+        {
+          "para_id": "60_116",
+          "text": "arxiv papers. https://matharena.ai/arxivmath/, 2026. URL https://matharena.ai/",
+          "page": 10
+        },
+        {
+          "para_id": "60_117",
+          "text": "Nilay Patel, Rahul Saha, and Jeffrey Flanigan. A new approach towards autoformalization. arXiv",
+          "page": 10
+        },
+        {
+          "para_id": "60_118",
+          "text": "preprint arXiv:2310.07957, 2023.",
+          "page": 10
+        },
+        {
+          "para_id": "60_119",
+          "text": "Abhinav Rastogi, Albert Q Jiang, Andy Lo, Gabrielle Berrada, Guillaume Lample, Jason Rute, Joep",
+          "page": 10
+        },
+        {
+          "para_id": "60_120",
+          "text": "Barmentlo, Karmesh Yadav, Kartik Khandelwal, Khyathi Raghavi Chandu, et al. Magistral. arXiv",
+          "page": 10
+        },
+        {
+          "para_id": "60_121",
+          "text": "preprint arXiv:2506.10910, 2025.",
+          "page": 10
+        },
+        {
+          "para_id": "60_122",
+          "text": "Johannes Schmitt. Extremal descendant integrals on moduli spaces of curves: An inequality discov-",
+          "page": 10
+        },
+        {
+          "para_id": "60_123",
+          "text": "ered and proved in collaboration with ai. arXiv preprint arXiv:2512.14575, 2025.",
+          "page": 10
+        },
+        {
+          "para_id": "60_124",
+          "text": "Nat Sothanaphan. Resolution of erd\\h {o} s problem# 728: a writeup of aristotle’s lean proof. arXiv",
+          "page": 10
+        },
+        {
+          "para_id": "60_125",
+          "text": "preprint arXiv:2601.07421, 2026.",
+          "page": 10
+        },
+        {
+          "para_id": "60_126",
+          "text": "Haoxiang Sun, Yingqian Min, Zhipeng Chen, Wayne Xin Zhao, Lei Fang, Zheng Liu, Zhongyuan",
+          "page": 10
+        },
+        {
+          "para_id": "60_127",
+          "text": "Wang, and Ji-Rong Wen. Challenging the boundaries of reasoning: An olympiad-level math",
+          "page": 10
+        },
+        {
+          "para_id": "60_128",
+          "text": "benchmark for large language models. arXiv preprint arXiv:2503.21380, 2025.",
+          "page": 10
+        },
+        {
+          "para_id": "60_129",
+          "text": "Imo–level automated theorem proving.",
+          "page": 10
+        },
+        {
+          "para_id": "60_130",
+          "text": "arxiv:2510.01346v1, Oct 2025. URL https://arxiv.org/abs/2510.01346.",
+          "page": 10
+        },
+        {
+          "para_id": "60_131",
+          "text": "George Tsoukalas, Jasper Lee, John Jennings, Jimmy Xin, Michelle Ding, Michael Jennings, Ami-",
+          "page": 10
+        },
+        {
+          "para_id": "60_132",
+          "text": "tayush Thakur, and Swarat Chaudhuri. Putnambench: Evaluating neural theorem-provers on",
+          "page": 10
+        },
+        {
+          "para_id": "60_133",
+          "text": "the putnam mathematical competition. Advances in Neural Information Processing Systems, 37:",
+          "page": 10
+        },
+        {
+          "para_id": "60_134",
+          "text": "Jonathan Washburn and Milan Zlatanovi´c. Uniqueness of the canonical reciprocal cost. arXiv preprint",
+          "page": 10
+        },
+        {
+          "para_id": "60_135",
+          "text": "arXiv:2602.05753, 2026.",
+          "page": 10
+        },
+        {
+          "para_id": "60_136",
+          "text": "Ruijie Xu, Zengzhi Wang, Run-Ze Fan, and Pengfei Liu. Benchmarking benchmark leakage in large",
+          "page": 10
+        },
+        {
+          "para_id": "60_137",
+          "text": "language models. arXiv preprint arXiv:2404.18824, 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "60_138",
+          "text": "Huaiyuan Ying, Zijian Wu, Yihan Geng, Jiayu Wang, Dahua Lin, and Kai Chen. Lean workbook: A",
+          "page": 10
+        },
+        {
+          "para_id": "60_139",
+          "text": "large-scale lean problem set formalized from natural language math problems. Advances in Neural",
+          "page": 10
+        },
+        {
+          "para_id": "60_140",
+          "text": "Information Processing Systems, 37:105848–105863, 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "60_141",
+          "text": "Jie Zhang, Cezara Petrui, Kristina Nikoli´c, and Florian Tramèr. Realmath: A continuous benchmark",
+          "page": 10
+        },
+        {
+          "para_id": "60_142",
+          "text": "for evaluating language models on research-level mathematics. arXiv preprint arXiv:2505.12575,",
+          "page": 10
+        },
+        {
+          "para_id": "60_143",
+          "text": "Kunhao Zheng, Jesse Michael Han, and Stanislas Polu. Minif2f: a cross-system benchmark for",
+          "page": 10
+        },
+        {
+          "para_id": "60_144",
+          "text": "formal olympiad-level mathematics. arXiv preprint arXiv:2109.00110, 2021.",
+          "page": 10
+        },
+        {
+          "para_id": "60_145",
+          "text": "With the increasing capabilities of LLM and LLM-based approaches in mathematics, several bench-",
+          "page": 11
+        },
+        {
+          "para_id": "60_146",
+          "text": "marks have been developed in recent years. In natural language, one can cite for instance GSM8k",
+          "page": 11
+        },
+        {
+          "para_id": "60_147",
+          "text": "Cobbe et al. [2021], MathQA Amini et al. [2019] or MATH Hendrycks et al. [2021] which provided",
+          "page": 11
+        },
+        {
+          "para_id": "60_148",
+          "text": "middle to high-school level questions. These benchmarks were often used to evaluate LLM capa-",
+          "page": 11
+        },
+        {
+          "para_id": "60_149",
+          "text": "bilities to the point of being the staple of evaluation for mathematical abilities. This was until most",
+          "page": 11
+        },
+        {
+          "para_id": "60_150",
+          "text": "models were able to reach very high to nearly perfect accuracies Gao et al. [2024]. These datasets reg-",
+          "page": 11
+        },
+        {
+          "para_id": "60_151",
+          "text": "ularly faced debate on contamination issues (see for instance Xu et al. [2024]). Other datasets such as",
+          "page": 11
+        },
+        {
+          "para_id": "60_152",
+          "text": "OlymMATH Sun et al. [2025] later proposed problems up to college level coming from multilingual",
+          "page": 11
+        },
+        {
+          "para_id": "60_153",
+          "text": "sources of exercises. A very large dataset of competition problems was created by the Numina project",
+          "page": 11
+        },
+        {
+          "para_id": "60_154",
+          "text": "LI et al. [2024]. OmniMath introduced challenging Olympiad level problems Gao et al. [2024]. More",
+          "page": 11
+        },
+        {
+          "para_id": "60_155",
+          "text": "recent examples like MathOdyssey Fang et al. [2025] introduced a benchmark, still on high school",
+          "page": 11
+        },
+        {
+          "para_id": "60_156",
+          "text": "to undergraduate level, curated by experts to limit the risk of data contamination. Nevertheless,",
+          "page": 11
+        },
+        {
+          "para_id": "60_157",
+          "text": "given the accessibility of the dataset, contamination issues may arise in future generations of LLMs.",
+          "page": 11
+        },
+        {
+          "para_id": "60_158",
+          "text": "FrontierMath Glazer et al. [2024] had a similar expert-curated problems approach and to avoid any",
+          "page": 11
+        },
+        {
+          "para_id": "60_159",
+          "text": "contamination issues, the dataset is purely closed-source. Other benchmarks were recently released,",
+          "page": 11
+        },
+        {
+          "para_id": "60_160",
+          "text": "such as First Proof Abouzaid et al. [2026] where the statements of ten expert-curated questions with",
+          "page": 11
+        },
+        {
+          "para_id": "60_161",
+          "text": "no publicly available solutions are provided during one-week for a one time evaluation of LLMs.",
+          "page": 11
+        },
+        {
+          "para_id": "60_162",
+          "text": "RealMath Zhang et al. [2025] extract or convert problems from arXiv papers with verifiable answers,",
+          "page": 11
+        },
+        {
+          "para_id": "60_163",
+          "text": "so as to focus on real human research too, see also MathArena Team [2026] that has a monthly update.",
+          "page": 11
+        },
+        {
+          "para_id": "60_164",
+          "text": "While the approach is similar to ours, in particular for MathArena Team [2026]6, it differs in that it",
+          "page": 11
+        },
+        {
+          "para_id": "60_165",
+          "text": "restricts itself to problems that can be inherently formulated with a verifiable answers. This explains",
+          "page": 11
+        },
+        {
+          "para_id": "60_166",
+          "text": "why it gives rise to less problems (40 problems over 2 months of arXiv against 400 lemmas for 2",
+          "page": 11
+        },
+        {
+          "para_id": "60_167",
+          "text": "weeks of arXiv) and why the performances of state-of-the-art LLMs differ (60% on the benchmark",
+          "page": 11
+        },
+        {
+          "para_id": "60_168",
+          "text": "of MathArena Team [2026] compared to around 15% for our). EternalMath Ma et al. [2026] is yet",
+          "page": 11
+        },
+        {
+          "para_id": "60_169",
+          "text": "another similar approach where the questions are selected so as to propose an executable benchmark",
+          "page": 11
+        },
+        {
+          "para_id": "60_170",
+          "text": "that can be code-verified.",
+          "page": 11
+        },
+        {
+          "para_id": "60_171",
+          "text": "It is worth mentioning that other benchmarks exist in formal language, also focusing on middle",
+          "page": 11
+        },
+        {
+          "para_id": "60_172",
+          "text": "school to undergraduate level problems such as miniF2F Zheng et al. [2021], FIMO Liu et al. [2023],",
+          "page": 11
+        },
+        {
+          "para_id": "60_173",
+          "text": "Lean-Workbook Ying et al. [2024], PutnamBench Tsoukalas et al. [2024].",
+          "page": 11
+        },
+        {
+          "para_id": "60_174",
+          "text": "Table of percentage results relative to the total lemmas retrieve for each",
+          "page": 11
+        },
+        {
+          "para_id": "60_175",
+          "text": "method (A) and (B) and LLM",
+          "page": 11
+        },
+        {
+          "para_id": "60_176",
+          "text": "6The first iteration of MathArena Team [2026] was released while we were preparing a revision of this",
+          "page": 11
+        },
+        {
+          "para_id": "60_177",
+          "text": "Human Eval (Full context)",
+          "page": 12
+        },
+        {
+          "para_id": "60_178",
+          "text": "Vector Retrieval Result",
+          "page": 12
+        },
+        {
+          "para_id": "60_179",
+          "text": "Human Eval (Vector Retrieval)",
+          "page": 12
+        },
+        {
+          "para_id": "60_180",
+          "text": "Figure 2: Percentage results relative to the total lemmas retrieved for both extraction modes (full",
+          "page": 12
+        },
+        {
+          "para_id": "60_181",
+          "text": "context / vector retrieval) and models",
+          "page": 12
+        },
+        {
+          "para_id": "60_182",
+          "text": "Breakdown of lemmas per domain of mathematics",
+          "page": 13
+        },
+        {
+          "para_id": "60_183",
+          "text": "Mathematical Physics",
+          "page": 13
+        },
+        {
+          "para_id": "60_184",
+          "text": "Differential Geometry",
+          "page": 13
+        },
+        {
+          "para_id": "60_185",
+          "text": "Optimization and Control",
+          "page": 13
+        },
+        {
+          "para_id": "60_186",
+          "text": "Representation Theory",
+          "page": 13
+        },
+        {
+          "para_id": "60_187",
+          "text": "Table 5: Domain distribution in the dataset (one-week snapshot, August).",
+          "page": 13
+        },
+        {
+          "para_id": "60_188",
+          "text": "System Overview: Directed Acyclic Graph of the Pipeline",
+          "page": 13
+        },
+        {
+          "para_id": "60_189",
+          "text": "Source from the arXiv (in",
+          "page": 13
+        },
+        {
+          "para_id": "60_190",
+          "text": "articles in mathematics)",
+          "page": 13
+        },
+        {
+          "para_id": "60_191",
+          "text": "envs lemma/theorem/...",
+          "page": 13
+        },
+        {
+          "para_id": "60_192",
+          "text": "Extraction (A) Full context",
+          "page": 13
+        },
+        {
+          "para_id": "60_193",
+          "text": "& (B) Vector retrieval",
+          "page": 13
+        },
+        {
+          "para_id": "60_194",
+          "text": "Self-Containment Judge",
+          "page": 13
+        },
+        {
+          "para_id": "60_195",
+          "text": "Proof steps generation",
+          "page": 13
+        },
+        {
+          "para_id": "60_196",
+          "text": "independent verification",
+          "page": 13
+        },
+        {
+          "para_id": "60_197",
+          "text": "Consolidated Dataset",
+          "page": 13
+        },
+        {
+          "para_id": "60_198",
+          "text": "Figure 3: DAG : input →parsing →normalization →extraction (double mode) →self contained →",
+          "page": 13
+        },
+        {
+          "para_id": "60_199",
+          "text": "proof steps →judge proofs →dataset.",
+          "page": 13
+        },
+        {
+          "para_id": "60_200",
+          "text": "Algorithms (Pseudo-Code)",
+          "page": 14
+        },
+        {
+          "para_id": "60_201",
+          "text": "Algorithm 1 Extraction & Self-Containment (Full context / vector retrieval)",
+          "page": 14
+        },
+        {
+          "para_id": "60_202",
+          "text": "Require: Article TEX/PDF, mode ∈{full_context, vector_retrieval}",
+          "page": 14
+        },
+        {
+          "para_id": "60_203",
+          "text": "1: for each lemma environment detected do",
+          "page": 14
+        },
+        {
+          "para_id": "60_204",
+          "text": "if mode = full_context then",
+          "page": 14
+        },
+        {
+          "para_id": "60_205",
+          "text": "C ←all paragraphs before lemma",
+          "page": 14
+        },
+        {
+          "para_id": "60_206",
+          "text": "( ˆH, ˆD) ←LLM_extract(S, C)",
+          "page": 14
+        },
+        {
+          "para_id": "60_207",
+          "text": "ok ←SelfContainmentChecks(S, ˆH, ˆD)",
+          "page": 14
+        },
+        {
+          "para_id": "60_208",
+          "text": "emit (S, ˆH, ˆD, self_contained = 1)",
+          "page": 14
+        },
+        {
+          "para_id": "60_209",
+          "text": "emit (S, ˆH, ˆD, self_contained = 0)",
+          "page": 14
+        },
+        {
+          "para_id": "60_210",
+          "text": "Algorithm 2 Step Generation and Judgment",
+          "page": 14
+        },
+        {
+          "para_id": "60_211",
+          "text": "Require: (S, H, D) with self_contained = 1",
+          "page": 14
+        },
+        {
+          "para_id": "60_212",
+          "text": "2: verdict ←LLM_judge_proof(whole proof, H, D)",
+          "page": 14
+        },
+        {
+          "para_id": "60_213",
+          "text": "3: if verdict.ok then",
+          "page": 14
+        },
+        {
+          "para_id": "60_214",
+          "text": "▷partial or rejected",
+          "page": 14
+        },
+        {
+          "para_id": "60_215",
+          "text": "Example of a retrieved self contained lemma, with proof generated by gpt-5",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": "(T −s)α−1∥u(s)∥2",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "Assumptions: α ∈(0, 1), T > 0, U = Rm.",
+          "page": 14
+        },
+        {
+          "para_id": "0_2",
+          "text": "H dµ(σ) < ∞}. Assumptions:",
+          "page": 14
+        },
+        {
+          "para_id": "0_3",
+          "text": "(S, F, µ) is a probability space, H = Rn.",
+          "page": 14
+        },
+        {
+          "para_id": "0_4",
+          "text": "and two-parameter Mittag-Leffler matrix function",
+          "page": 14
+        },
+        {
+          "para_id": "0_5",
+          "text": "Identification of the domain as a standard L2-space. Define the finite measure ν on (0, T) by",
+          "page": 15
+        },
+        {
+          "para_id": "0_6",
+          "text": "With this notation the operator reads, for u ∈L2((0, T), ν; U),",
+          "page": 15
+        },
+        {
+          "para_id": "0_7",
+          "text": "Rewriting as an integral operator with respect to ν. Since dν(s) = (T −s)α−1ds, we have",
+          "page": 15
+        },
+        {
+          "para_id": "0_8",
+          "text": "Thus LT is the integral operator with kernel",
+          "page": 15
+        },
+        {
+          "para_id": "0_9",
+          "text": "Uniform bound on the Mittag-Leffler matrix factor. Let MA := ess supσ∈S ∥A(σ)∥. Using the",
+          "page": 15
+        },
+        {
+          "para_id": "0_10",
+          "text": "Γ(αk + α) =: CE < ∞.",
+          "page": 15
+        },
+        {
+          "para_id": "0_11",
+          "text": "L2-integrability of the kernel ˜K. Identify HS(U, H) with Rn×m with Frobenius norm. Then",
+          "page": 15
+        },
+        {
+          "para_id": "0_12",
+          "text": "Let MB := ess supσ∈S ∥B(σ)∥HS < ∞. Then",
+          "page": 15
+        },
+        {
+          "para_id": "0_13",
+          "text": "Hilbert–Schmidt property. By the standard result, LT is Hilbert–Schmidt and",
+          "page": 15
+        }
+      ]
+    }
+  ]
+}

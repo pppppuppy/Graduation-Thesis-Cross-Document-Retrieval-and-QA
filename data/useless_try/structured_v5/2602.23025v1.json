@@ -1,0 +1,671 @@
+{
+  "doc_id": "2602.23025v1.pdf",
+  "title": "arXiv:2602.23025v1  [math.CA]  26 Feb 2026",
+  "abstract": ". Under suitable asymptotic and convexity conditions on a function\ng∶R+ →R, the solution to ∆f = g, where ∆is the forward difference operator,\nis unique up to an additive constant and is called the principal indefinite sum\nof g, generalizing the additive form of Bohr-Mollerup’s theorem. We consider\nthe map Σ, which assigns to each admissible function g its principal indefinite\nsum that vanishes at 1, and we naturally explore its iterates, which produce\nrepeated principal indefinite sums, in analogy with the concept of repeated\nindefinite integrals. Explicit formulas and convergence results are established,\nhighlighting connections with classical combinatorial and special functions,\nincluding the multiple gamma functions, for which we also provide integral\nrepresentations.",
+  "sections": [
+    {
+      "section_id": "2",
+      "section_title": "2\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "an additive constant) solution f∶R+ →R in Kp to the equation ∆f = g. Moreover,\nthe special solution that vanishes at 1 is denoted Σg and can be expressed via the\npointwise limit (2)\nΣg(x) =\nlim\nn→∞f p\nn[g](x)\n(x > 0), where (3)\nf p\nn[g](x) =\nn−1\n∑\nk=1\ng(k) −\nn−1\n∑\nk=0\ng(x + k) +",
+          "page": 2
+        },
+        {
+          "para_id": "2_2",
+          "text": "p\n∑\nj=1\n(x\nj)∆j−1g(n). In this context, the principal indefinite sum [7, Definition 5.4] of g is the class of\nfunctions of the form Σg(x)+c, where c ∈R. Principal indefinite sums actually con-\nstitute a broad family of functions that arise frequently in mathematical analysis.\nVarious examples are presented in detail in [7, Chapters 10–12] and [8].\nConsidering again the logarithm function g(x) = lnx, we retrieve the additive\nform of Bohr-Mollerup’s theorem [1], which essentially states that the only solutions\nf∶R+ →R to the equation ∆f = g on R+ that are eventually 1-convex or eventually\n1-concave (that is, eventually convex or eventually concave) are of the form f(x) = Σg(x) + c = lnΓ(x) + c\n(x > 0), where c ∈R. These functions therefore constitute the principal indefinite sum of\nthe logarithm function, namely the subclass of the indefinite sum (1) obtained by\nrequiring the 1-periodic functions ω to be constant. With a slight abuse of language,\nwe say that the principal indefinite sum of the logarithm function is the log-gamma\nfunction.\nMoreover, as we can easily verify, Eqs. (2) and (3) then provide the\nadditive version of Gauss’ definition of the gamma function: (4)\nΓ(x) =\nlim\nn→∞\nn!nx",
+          "page": 2
+        },
+        {
+          "para_id": "2_3",
+          "text": "x(x + 1)⋯(x + n)\n(x > 0). Thus defined, the symbol Σ denotes the map that assigns to each function g\nlying in (5)\ndomΣ = ⋃\np≥0\n(Dp ∩Kp) the function Σg∶R+ →R defined by Eqs. (2) and (3).\nIn this paper, we are interested in functions g∶R+ →R for which the map Σ\ncan be applied repeatedly to produce “repeated principal indefinite sums,” in full\nanalogy with the concept of repeated indefinite integrals.\nTo this end, we define the iterates of Σ in the following classical way, where id\ndenotes the identity map: Σ0 = id,\nΣ1 = Σ,\nand\nΣm+1 = Σ ○Σm\n(m ∈N). For instance, it is straightforward to verify that if g(x) = x is the identity function,\nthen, for any m ∈N, we have Σmg(x) = ( x\nm+1)\n(x > 0), and it is not difficult to show that this latter function lies in Dm+2 ∩Km+2 (for\ndetails, see Proposition 6.1 below).\nThis paper is organized as follows. In Section 2, we review preliminary results\nand recall the concept of multiple gamma functions, which serve as a motivating\nexample of repeated principal indefinite sums. Sections 3 and 4 extend classical",
+          "page": 2
+        },
+        {
+          "para_id": "2_4",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n3",
+          "page": 3
+        },
+        {
+          "para_id": "2_5",
+          "text": "results—the analogs of Gauss’ limit and Bohr-Mollerup’s theorem—to the setting\nof repeated principal indefinite sums, thereby enabling us to characterize these\nfunctions. This characterization, in turn, allows us in Section 5 to establish un-\nexpected integral representations for the logarithm of multiple gamma functions.\nSection 6 presents examples of repeated principal indefinite sums, including those\narising from certain rational functions. To this end, we derive a general formula\nfor the repeated principal indefinite sums of functions obtained via certain linear\noperators, including the derivative operator. Finally, in Section 7, we derive an\nalternative explicit form of repeated principal indefinite sums by first developing a\ndiscrete analog of Taylor’s theorem.\nThroughout this paper, we adopt the following conventional notation. When the\nderivative operator D is applied to a function g∶R+ →R, its value at a point x is\nwritten as Dg(x) rather than (Dg)(x). If D is applied directly to an expression,\nfor example x2 +x, the resulting function is naturally denoted Dx(x2 +x) instead of\nD(x2+x). This convention is used for all maps on functions from R+ to R considered\nin this paper, including the difference operator ∆, the principal indefinite sum map\nΣ, and their iterates.",
+          "page": 3
+        },
+        {
+          "para_id": "2_6",
+          "text": "2. Preliminaries In this section, we recall several basic definitions and properties that will be\nused throughout this paper, and we present a notable example that motivates the\nsubsequent discussion: the multiple gamma functions.\nLet us first recall the definition of the higher-order convexity properties in terms\nof divided differences. For background, see for instance [7, Section 2.2] and the\nreferences therein. Definition 2.1. Let I be any real interval and let p ≥−1 be an integer. A function\nf∶I →R is said to be convex of order p, or simply, p-convex, if the divided difference\nof f at any p + 2 pairwise distinct points x0,x1,...,xp+1 in I is positive; that is, f[x0,x1,...,xp+1] ≥0. The function f∶I →R is said to be concave of order p, or simply, p-concave if its\nopposite −f is p-convex. For any real interval I and any integer p ≥−1, we let Kp\n1(I) (resp. Kp\n−1(I)) denote\nthe class of functions f∶I →R that are p-convex (resp. p-concave). Similarly, we let\nKp\n1 (resp. Kp\n−1) denote the class of functions f∶R+ →R that are eventually p-convex\n(resp. eventually p-concave). We also let Kp(I) = Kp\n1(I) ∪Kp\n−1(I),\nKp = Kp\n1 ∪Kp\n−1 . With these definitions, K−1(I) consists of functions on I that keep a constant sign.\nLikewise, K0(I) is the class of functions on I that are monotone, while K1(I)\nconsists of functions on I that are convex or concave.\nInterestingly, it follows readily from Eqs. (2) and (3) that if g lies in Dp ∩Kp\n1 for\nsome p ∈N, then Σg lies in Kp\n−1; see also [7, Chapter 5].\nBefore proceeding further, we also recall the following fundamental propositions\n[7, Sections 2.2 and 4.2], which will be used frequently throughout this paper. For\nany open real interval I, we let Cp(I) denote the space of all real-valued functions\ndefined on I that are p times continuously differentiable.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "Proposition 2.2. Let I be an open real interval, let f∶I →R be a function, and\nlet p ∈N. Then the following assertions hold:\n●We have Kp+1(I) ⊂Cp(I).\n●If I is right-unbounded and f ∈Kp\n1(I), then ∆f ∈Kp−1\n1\n(I).\n●If f is differentiable, then f ∈Kp\n1(I) if and only if f ′ ∈Kp−1\n1\n(I). Proposition 2.3. Let f∶R+ →R be a function and let p ∈N. Then the following\nassertions hold:\n●If f ∈Dp+1 ∩Kp+1\n1\n, then ∆f ∈Dp ∩Kp\n1\n●If f is differentiable, then f ∈Dp+1 ∩Kp+1\n1\nif and only if f ′ ∈Dp ∩Kp\n1. It is also important to recall [7, Proposition 4.7] that the classes Dp and Kp are\nnested in opposite directions: D0 ⊂D1 ⊂D2 ⊂⋯,\nK−1 ⊃K0 ⊃K1 ⊃⋯. These inclusions naturally lead us to introduce the following limiting sets: D∞= lim\np→∞Dp ,\nK∞= lim\np→∞Kp. Now, when defining the iterates of the map Σ, the first question that naturally\narises is how to determine the domain of Σm+1 for any m ∈N. In this regard, we\nhave the following proposition. Proposition 2.4. Let g∶R+ →R and let m ∈N.\nThe following assertions are\nequivalent:\n(i) g ∈domΣm+1.\n(ii) g ∈domΣm and Σmg ∈domΣ.\n(iii) There exists p ∈N such that\n●g ∈Dp ∩Kp\n(hence g ∈domΣ),\n●Σg ∈Dp+1 ∩Kp+1\n(hence Σg ∈domΣ),\n●⋯\n●Σmg ∈Dp+m ∩Kp+m\n(hence Σmg ∈domΣ). Proof. It is evident that the assertions (i) and (ii) are equivalent. Moreover, we can\nreadily see that assertion (iii) implies assertion (i). Let us now show that assertion\n(i) implies assertion (iii). Clearly, we can assume that m ≥1.\nLet g ∈domΣm+1. In particular, we have g ∈domΣ, and hence g ∈Dp ∩Kp for\nsome p ∈N. Let p be the smallest integer with this property; thus Σg ∉Dp.\nOn the other hand, since Σg ∈domΣ, there exists an integer q ≥p + 1 such that Σg ∈Dq ∩Kq. Because Σg ∈Dp+1 and Kq ⊂Kp+1, it follows that Σg ∈Dp+1 ∩Kp+1. This argument can be easily iterated.\n□ The equivalence between assertions (i) and (iii) in Proposition 2.4 yields an\nexplicit description of the domain of Σm+1 for any m ∈N, namely: domΣm+1 = ⋃\np≥0",
+          "page": 4
+        },
+        {
+          "para_id": "4_2",
+          "text": "m\n⋂\nk=0\n(Σk)−1(Dp+k ∩Kp+k). When m = 0, we immediately retrieve the description of domΣ given in (5).",
+          "page": 4
+        },
+        {
+          "para_id": "4_3",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n5 Although explicit, this characterization of domΣm+1 relies on preimages under\nthe map Σk and is therefore not particularly convenient for determining whether a\ngiven function g∶R+ →R lies in this domain. This motivates the search for simple\n(sufficient) conditions for membership in domΣm+1. In the following proposition,\nwe show that one such condition can be obtained from the following inclusion: (6)\n⋃\np≥0\n(Dp ∩Kp+m) ⊂domΣm+1. Proposition 2.5. Let m ∈N. If g lies in Dp ∩Kp+m for some p ∈N, then Σm+1g\nexists and lies in Dp+m+1 ∩Kp+m. Proof. Suppose that g lies in Dp ∩Kp+m for some p ∈N. Then g ∈Dp+k ∩Kp+k for\neach k = 0,...,m. It follows immediately that assertion (iii) of Proposition 2.4 is\nsatisfied, which establishes the claim.\n□",
+          "page": 5
+        },
+        {
+          "para_id": "4_4",
+          "text": "Throughout this paper, we will frequently make use of the inclusion given in\n(6) to ensure that a given function g∶R+ →R lies in domΣm+1.\nWe also note\nthat establishing or refuting the converse inclusion constitutes an interesting open\nproblem.\nWe now turn to a prominent example obtained by iterated application of the map\nΣ to the logarithm function. We begin by recalling, via a proposition, the definition\nof the multiple gamma functions when restricted to the domain R+. These functions\nform a sequence m ↦Gm (m ∈N) in C∞(R+), where G1 = Γ is the Euler gamma\nfunction and G2 = G is the Barnes G-function. For background, see, for example,\nSrivastava and Choi [9, pp. 56–57]. Proposition 2.6 (Multiple Gamma Functions). There exists an infinite sequence\nof functions m ↦Gm (m ∈N) in C∞(R+) that is uniquely determined by the fol-\nlowing conditions: ●G0(x) = x for all x > 0;\n●Gm+1(x + 1) = Gm(x)Gm+1(x) for all m ∈N and x > 0;\n●Gm(1) = 1 for all m ∈N;\n●The function Dm(ln○Gm) is increasing for all m ∈N. The following result provides an explicit expression for repeated principal in-\ndefinite sums of the logarithm function in terms of multiple gamma functions; see\nalso [7, Section 12.1]. Proposition 2.7. For any m,n ∈N, the function ln○Gm lies in (7)\nDm+1 ∩Km+n\n(−1)n(R+) and we have (8)\nΣx lnGm(x) = lnGm+1(x)\n(x > 0). In particular, the logarithm function lies in domΣm+1 and we have Σm+1\nx\nlnx = lnGm+1(x)\n(x > 0). Proof. We proceed by induction on m. The initial case m = 0 is straightforward.\nIndeed, we have\nDn+1\nx\nlnx ∈K−1\n(−1)n(R+)",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "and therefore, by Proposition 2.2, the function lnx lies in the set defined in (7) with\nm = 0. Moreover, identity (8) also clearly holds when m = 0 (cf. Bohr-Mollerup’s\ntheorem).\nNow assume that the result holds for some m ∈N, and let us show that it also\nholds for m+1. On the one hand, by the definition of the multiple gamma functions,\nwe have ∆lnGm+1(x) = ln Gm+1(x + 1)",
+          "page": 6
+        },
+        {
+          "para_id": "6_2",
+          "text": "Gm+1(x)\n= lnGm(x)\n(x > 0), which, by the induction hypothesis, lies in the set defined in (7). On the other\nhand, the final condition in Proposition 2.6, together with Proposition 2.2, implies\nthat the function ln○Gm+1 lies in Km+1\n1\n(R+). Combining this observation with the\ndefinition of the map Σ yields identity (8).\nFinally, since the function ln○Gm also lies in Dm+n+1 ∩Km+n+1\n(−1)n+1(R+) for any n ∈N, it follows from (8) that the function ln○Gm+1 lies in Dm+2 ∩Km+n+1\n(−1)n (R+), which completes the induction. The final assertion of the proposition then follows\nimmediately.\n□",
+          "page": 6
+        },
+        {
+          "para_id": "6_3",
+          "text": "Remark 2.8. From Proposition 2.7, we observe that the function f = Dm+1(ln○Gm) satisfies\n(−1)n Dnf(x) ≥0\n(n ∈N, x > 0), which precisely means that it is completely monotone. By Bernstein’s little theorem,\nit follows that the function ln○Gm—and hence Gm itself—is real analytic (for a\nrecent reference, see [6, Section 2]). Moreover, for any a > 0, the function ln○Gm\nadmits a Newton series expansion at a that converges on all of R+; see [6, Theorem\n3.1]. This means that, for any a,x > 0, lnGm(x)\n=\n∞\n∑\nk=0\n(x−a\nk )∆k lnGm(a) =\nm\n∑\nk=0\n(x−a\nk )lnGm−k(a) +\n∞\n∑\nk=1\n( x−a\nk+m)∆k lna. Moreover, the convergence of the series is uniform on compact subsets of R+. Setting\na = 1 for instance, we obtain lnGm(x) =\n∞\n∑\nk=1\n( x−1\nk+m)(∆k\nt lnt)∣t=1\n(x > 0). In the special case m = 1, we recover the following Newton series expansion of the\nlog-gamma function: lnΓ(x) =\n∞\n∑\nk=1\n(x−1\nk+1)(∆k\nt lnt)∣t=1\n(x > 0) (see, for instance, Graham et al. [4, p. 192]).\n◊",
+          "page": 6
+        },
+        {
+          "para_id": "6_4",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n7",
+          "page": 7
+        },
+        {
+          "para_id": "6_5",
+          "text": "We conclude this section by noting that a function lying in domΣ need not lie\nin domΣ2. More precisely, the following strict inclusion holds: domΣ2 ⊊domΣ. The next example provides a clear illustration of this fact. Example 2.9. Let the function g∶R+ →R be defined by g(x) = 2−⌊x⌋(2 −2{x} + {x}2)\n(x > 0), where {x} = x −⌊x⌋denotes the fractional part of x (see Figure 1). For any k ∈N,\nthe restriction of g to the interval (k,k + 1] is the quadratic polynomial g(x) = 2−k (2 −2(x −k) + (x −k)2)\n(x ∈(k,k + 1]). Hence, the graph of this restriction is a convex parabola with vertex at x = k + 1.\nIt follows readily that g lies in D0 ∩K0\n−1(R+), and hence also in domΣ. Now define\na function f∶R+ →R by f(x) = 2 −2g(x). One easily verify that f(1) = 0 and\nthat ∆f(x) = g(x). Since f lies in K0\n1(R+), it follows that f = Σg. However, this\nfunction also lies in D1 ∖D0, but not in K1. Consequently, Σ2g does not exist.\n◊",
+          "page": 7
+        },
+        {
+          "para_id": "6_6",
+          "text": "Figure 1. Graph of g(x) on (0,5]",
+          "page": 7
+        },
+        {
+          "para_id": "6_7",
+          "text": "3. Iterating the Analog of Gauss’ Limit Recall from [7, p. 47] that if g lies in Dp ∩Kp for some p ∈N, then for every x > 0\nand every n ∈N∗= N ∖{0}, the following identities hold: Σg(n)\n=\nn−1\n∑\nk=1\ng(k),\n(9) Σg(x + n)\n=\nΣg(x) +\nn−1\n∑\nk=0\ng(x + k),\n(10) and (11)\nΣg(x) = f p\nn[g](x) + ρp+1\nn\n[Σg](x), where the function f p\nn[g]∶R+ →R is defined in identity (3) and the remainder term\nρp+1\nn\n[Σg]∶R+ →R is given by (12)\nρp+1\nn\n[Σg](x) = Σg(x + n) −Σg(n) −",
+          "page": 7
+        },
+        {
+          "para_id": "6_8",
+          "text": "p\n∑\nj=1\n(x\nj)∆j−1g(n)\n(x > 0).",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "8",
+      "section_title": "8\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "8_1",
+          "text": "As discussed in the Introduction, the analog of Gauss’ limit is given by identity\n(2). In view of (11), this identity is equivalent to the limit lim\nn→∞ρp+1\nn\n[Σg](x) = 0\n(x > 0). It can further be shown [7, Chapter 3] that this latter convergence is uniform on\nany bounded subset of R+. When g(x) = lnx and p = 1, we retrieve Gauss’ limit\n(4) for the gamma function.\nThe aim of this section is to extend the analog of Gauss’ limit to repeated\nprincipal indefinite sums, that is, to the function Σm+1g for any m ∈N.\nThis\nextension is stated in Corollary 3.3 below.\nWe begin by recalling the discrete\ncounterpart of Taylor’s theorem and provide an elementary proof (for an alternative\nformulation, see, e.g., Lakshmikantham and Trigiante [5, Theorem 1.1.2]). We then\nestablish a proposition that generalizes identities (9)–(11). Lemma 3.1 (Discrete Counterpart of Taylor’s Theorem). For any x > 0, any\nm,n ∈N, and any function f∶R+ →R, we have f(x + n) =\nm\n∑\nj=0\n(n\nj)∆jf(x) +\nn−1\n∑\nk=0\n(n−k−1\nm )∆m+1f(x + k). Proof. We proceed by induction on m. The case when m = 0 reduces to the following\ntelescoping sum f(x + n) = f(x) +\nn−1\n∑\nk=0\n∆f(x + k). Suppose now that the result holds for some m ∈N and let us show that it still holds\nfor m + 1. Let x > 0 and n ∈N. Using summation by parts, we obtain n−1\n∑\nk=0\n(n−1−k\nm )∆m+1f(x + k) =\nn−1\n∑\nk=0\n(−∆k(n−k\nm+1))∆m+1f(x + k) =\n−(n−k\nm+1)∆m+1f(x + k)∣\nn",
+          "page": 8
+        },
+        {
+          "para_id": "8_2",
+          "text": "0 +\nn−1\n∑\nk=0\n(n−k−1\nm+1 )∆m+2f(x + k) =\n( n\nm+1)∆m+1f(x) +\nn−1\n∑\nk=0\n(n−k−1\nm+1 )∆m+2f(x + k). Using the induction hypothesis, we now see that the result still holds for m+1.\n□ Proposition 3.2. For any x > 0, any m,p ∈N, any n ∈N∗, and any function g\nlying in Dp ∩Kp+m, we have Σm+1g(n)\n=\nn−1\n∑\nk=1\n(n−k−1\nm )g(k),\n(13) Σm+1g(x + n)\n=\nm\n∑\nj=0\n(n\nj)Σm−j+1g(x) +\nn−1\n∑\nk=0\n(n−k−1\nm )g(x + k),\n(14) and (15)\nΣm+1g(x) = f p+m\nn\n[Σmg](x) + ρp+m+1\nn\n[Σm+1g](x),",
+          "page": 8
+        },
+        {
+          "para_id": "8_3",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n9",
+          "page": 9
+        },
+        {
+          "para_id": "8_4",
+          "text": "where f p+m\nn\n[Σmg](x)\n=\nn−1\n∑\nk=1\n(n−k−1\nm )g(k) −\nn−1\n∑\nk=0\n(n−k−1\nm )g(x + k) +",
+          "page": 9
+        },
+        {
+          "para_id": "8_5",
+          "text": "p+m\n∑\nj=1\n(x\nj)∆jΣm+1g(n) −\nm\n∑\nj=1\n(n\nj)Σm−j+1g(x).\n(16) Proof. We have g ∈domΣm+1 by Proposition 2.5. Identity (14) then follows imme-\ndiately by applying Lemma 3.1 to the function f = Σm+1g. Identity (13) is obtained\nby setting x = 1 in (14), while identity (15) follows from (11) applied to Σmg, with\np replaced by p + m.\nWe now establish (16). Using (15) and then applying (12) to Σmg, we obtain f p+m\nn\n[Σmg](x) = Σm+1g(x) −ρp+m+1\nn\n[Σm+1g](x) = Σm+1g(x) −Σm+1g(x + n) + Σm+1g(n) +",
+          "page": 9
+        },
+        {
+          "para_id": "8_6",
+          "text": "p+m\n∑\nj=1\n(x\nj)∆jΣm+1g(n). Using (13) and (14), this expression becomes f p+m\nn\n[Σmg](x)\n=\n−\nm\n∑\nj=1\n(n\nj)Σm−j+1g(x) −\nn−1\n∑\nk=0\n(n−k−1\nm )g(x + k) +\nn−1\n∑\nk=1\n(n−k−1\nm )g(k) +",
+          "page": 9
+        },
+        {
+          "para_id": "8_7",
+          "text": "p+m\n∑\nj=1\n(x\nj)∆jΣm+1g(n), which establishes (16), and thus completes the proof of the proposition.\n□ Corollary 3.3 (Iterated Form of the Analog of Gauss’ Limit). For any x > 0, any\nm,p ∈N, and any function g lying in Dp ∩Kp+m, we have (17)\nΣm+1g(x) =\nlim\nn→∞f p+m\nn\n[Σmg](x). Proof. This identity follows immediately by applying (2) to the function Σmg, which\nlies in Dp+m ∩Kp+m (cf. Proposition 2.4).\n□ We can now readily see that identities (9)–(11), as well as (2)–(3), are recovered\nby setting m = 0 in (13)–(17).\nIn the following corollary, we provide an identity that yield an alternative ex-\npression for f p+m\nn\n[Σmg](x). Corollary 3.4. For any x > 0, any m,p ∈N, any n ∈N∗, and any function\ng∶R+ →R, we have n−1\n∑\nk=1\n(n−k−1\nm )g(k) +",
+          "page": 9
+        },
+        {
+          "para_id": "8_8",
+          "text": "p+m\n∑\nj=1\n(x\nj)∆jΣm+1g(n) =\nn−1\n∑\nk=1\n(x+n−k−1\nm\n)g(k) +",
+          "page": 9
+        },
+        {
+          "para_id": "8_9",
+          "text": "p\n∑\nj=1\n( x\nm+j)∆j−1g(n). Proof. Using (13), the left-hand side of the stated identity can be rewritten as p+m\n∑\nj=0\n(x\nj)∆jΣm+1g(n)\n=\nm\n∑\nj=0\n(x\nj)Σm+1−jg(n) +",
+          "page": 9
+        },
+        {
+          "para_id": "8_10",
+          "text": "p+m\n∑\nj=m+1\n(x\nj)∆j−(m+1)g(n) =\nm\n∑\nj=0\n( x\nm−j)Σj+1g(n) +",
+          "page": 9
+        },
+        {
+          "para_id": "8_11",
+          "text": "p\n∑\nj=1\n( x\nm+j)∆j−1g(n).",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "10",
+      "section_title": "10\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "10_1",
+          "text": "Again using (13), we obtain m\n∑\nj=0\n( x\nm−j)Σj+1g(n)\n=\nm\n∑\nj=0\n( x\nm−j)\nn−1\n∑\nk=1\n(n−k−1\nj\n)g(k) =\nn−1\n∑\nk=1\ng(k)\nm\n∑\nj=0\n( x\nm−j)(m−k−1\nj\n), where the inner sum reduces to (x+n−k−1\nm\n) by the classical Chu-Vandermonde’s iden-\ntity [4, p. 170]. This establishes the stated identity.\n□",
+          "page": 10
+        },
+        {
+          "para_id": "10_2",
+          "text": "Interestingly, the iterated form of the analog of Gauss’ limit, as given in (17),\ncan yield rather surprising formulas. To demonstrate this, we first focus on the\nBarnes G-function and then consider the sequence of multiple gamma functions. Example 3.5 (The Barnes Function). Consider g(x) = lnx, so that Σg(x) = lnΓ(x)\nand Σ2g(x) = lnG(x), and hence p = 1 and m = 1 in Proposition 3.2. In this case,\nwe obtain f 2\nn[Σg](x)\n=\nn−1\n∑\nk=1\n(n −k −1)lnk −\nn−1\n∑\nk=0\n(n −k −1)ln(x + k) + xlnΓ(n) + (x\n2)lnn −nlnΓ(x). The limit in (17) then becomes lnG(x) =\nlim\nn→∞f 2\nn[Σg](x). In the multiplicative notation, this yields the following unexpected formula: (18)\nG(x) =\nlim\nn→∞\nn!x n(x\n2)",
+          "page": 10
+        },
+        {
+          "para_id": "10_3",
+          "text": "xn Γ(x)n+1",
+          "page": 10
+        },
+        {
+          "para_id": "10_4",
+          "text": "n\n∏\nk=1\n(1 + x",
+          "page": 10
+        },
+        {
+          "para_id": "10_5",
+          "text": "k )\nk−n\n. This expression is a remarkable variant of the following analog of Gauss’ limit for\nthe Barnes G-function, obtained directly by taking g(x) = lnΓ(x) and p = 2 in (2)\nand (3) (see [7, p. 224]) (19)\nG(x) =\nlim\nn→∞\nn!x n(x\n2)",
+          "page": 10
+        },
+        {
+          "para_id": "10_6",
+          "text": "Γ(x)",
+          "page": 10
+        },
+        {
+          "para_id": "10_7",
+          "text": "n\n∏\nk=1",
+          "page": 10
+        },
+        {
+          "para_id": "10_8",
+          "text": "Γ(k)\nΓ(x + k) . The advantage of the representation (18) lies in the fact that the gamma function\nappears only outside the product.\n◊ Example 3.6 (The Multiple Gamma Functions). Example 3.5 can be easily gen-\neralized by considering the sequence of the multiple gamma functions as introduced\nin the previous section. In this case, (18) can be generalized into Gm+1(x) =\nlim\nn→∞\nn(\nx\nm+1)",
+          "page": 10
+        },
+        {
+          "para_id": "10_9",
+          "text": "x( n\nm)\n⎛\n⎝",
+          "page": 10
+        },
+        {
+          "para_id": "10_10",
+          "text": "m\n∏\nj=1",
+          "page": 10
+        },
+        {
+          "para_id": "10_11",
+          "text": "Gm+1−j(n + 1)(x\nj)",
+          "page": 10
+        },
+        {
+          "para_id": "10_12",
+          "text": "Gm+1−j(x)(n+1\nj )\n⎞\n⎠",
+          "page": 10
+        },
+        {
+          "para_id": "10_13",
+          "text": "n\n∏\nk=1\n(1 + x",
+          "page": 10
+        },
+        {
+          "para_id": "10_14",
+          "text": "k )\n−(n−k\nm )\n. Furthermore, the generalization of (19) is given by (see also [7, Section 12.1]) Gm+1(x) =\nlim\nn→∞\n1\nGm(x)",
+          "page": 10
+        },
+        {
+          "para_id": "10_15",
+          "text": "m+1\n∏\nj=1\nGm+1−j(n + 1)(x\nj)\nn\n∏\nk=1",
+          "page": 10
+        },
+        {
+          "para_id": "10_16",
+          "text": "Gm(k)\nGm(x + k) .\n◊",
+          "page": 10
+        },
+        {
+          "para_id": "10_17",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n11 We end this section with a closer examination of the values of the function Σm+1g\nat the natural integers. First, by definition of the map Σ, we have Σg(1) = 0 for any g ∈domΣ. More generally, it follows from (13) that for any m ∈N and any\ng ∈domΣm+1, we have (20)\nΣm+1g(n) = 0\n(n = 1,...,m + 1). Moreover, for any q ∈N, we have (21)\nΣm+1g(m + 1 + q) =",
+          "page": 11
+        },
+        {
+          "para_id": "10_18",
+          "text": "q\n∑\nk=1\n(m+q−k\nm\n)g(k). For instance, Σm+1g(m + 2)\n=\ng(1), Σm+1g(m + 3)\n=\n(m + 1)g(1) + g(2),\netc. Remark 3.7. We can easily establish the following identity, which provides an\nalternative formula for (21): Σm+1g(m + 1 + q) =",
+          "page": 11
+        },
+        {
+          "para_id": "10_19",
+          "text": "q\n∑\nk=1\n(m+q\nm+k)∆k−1g(1),\nn ∈N∗. Indeed, for any n ∈N∗, we may write Σm+1g(n) = Σm+1g(x + n −1)∣x=1 = ∑\nk≥0\n(n−1\nk )∆k Σm+1g(x)∣x=1 . By using (20), the latter expression simplifies to: ∑\nk≥m+1\n(n−1\nk )∆k Σm+1g(1). Reindexing the sum and substituting n = m + 1 + q yields the stated expression.\n◊ 4. A Characterization In this section, we characterize the function Σm+1g as a distinguished solution\nf∶R+ →R to the equation ∆m+1f = g. The basic case m = 0 simply reduces to\na generalization of Bohr-Mollerup’s theorem, as recalled in the Introduction. We\nrestate this result in the next proposition. Proposition 4.1. Let g lie in Dp ∩Kp for some p ∈N and let f∶R+ →R be a\nsolution to the equation ∆f = g. Then f lies in Kp if and only if f = c + Σg for\nsome c ∈R. In particular, Σg is the unique solution to the equation ∆f = g that\nlies in Kp and vanishes at 1. In the following proposition, we extend this result to characterize the function\nΣm+1g for an arbitrary integer m ∈N.\nTo formulate the assumptions on g, we\nnaturally make use of Proposition 2.5. Proposition 4.2. Let g lie in Dp ∩Kp+m for some p,m ∈N and let f∶R+ →R be\na solution to the equation ∆m+1f = g. Then ∆kf lies in Kp+m for k = 0,1,...,m if\nand only if (22)\nf = Pm + Σm+1g",
+          "page": 11
+        },
+        {
+          "para_id": "10_20",
+          "text": "12\nTHOMAS LAMBY AND JEAN-LUC MARICHAL for some polynomial Pm of degree at most m. In particular, Σm+1g is the unique\nsolution to the equation ∆m+1f = g for which ∆kf lies in Kp+m and f(k + 1) = 0\nfor k = 0,1,...,m. Proof. Let us establish the equivalence; the second statement will follow immedi-\nately.\n(Sufficiency) Suppose that f = Pm + Σm+1g for some polynomial Pm of degree at\nmost m. Then, for k = 0,1,...,m, the function ∆kf = ∆kPm + Σm+1−kg necessarily lies in Kp+m. Indeed, this is clearly the case for the function Σm+1−kg.\nMoreover, the polynomial ∆kPm is of degree at most m −k and therefore lies in\nboth Km−k+q\n1\nand Km−k+q\n−1\nfor all q ∈N.\n(Necessity) Let us proceed by induction on m ∈N. By Proposition 4.1, the result\nholds for m = 0. Suppose that it holds for some m ∈N and let us show that it holds\nfor m + 1. Let g ∈Dp ∩Kp+m+1 for some p,m ∈N, and let f∶R+ →R be a solution\nto the equation ∆m+2f = g such that ∆kf lies in Kp+m+1 for k = 0,1,...,m + 1. We\nonly need to show that\nf = Pm+1 + Σm+2g for some polynomial Pm+1 of degree at most m + 1.\nWe first observe that the function f1 = ∆f satisfies ∆m+1f1 = g and is such that\n∆kf1 lies in Kp+m+1 ⊂Kp+m for k = 0,...,m. By the induction hypothesis, there\nexists a polynomial Pm of degree at most m such that ∆f = f1 = Pm + Σm+1g. Now, since Pm + Σm+1g ∈Dp+m+1 ∩Kp+m+1\nand\nf ∈Kp+m+1, by Proposition 4.1 it follows that f = c + Σ(Pm + Σm+1g), for some c ∈R. Equivalently, we have (see [7, Proposition 5.7]) f = Pm+1 + Σm+2g for some polynomial Pm+1 of degree at most m + 1. This completes the proof.\n□ It is noteworthy that the polynomial Pm in Proposition 4.2 can be expressed in\nterms of the function f as (23)\nPm(x) =\nm\n∑\nj=0\n(x−1\nj )∆jf(1). Indeed, using (20) and (22), we see that f(n) = Pm(n) for n = 1,...,m + 1. There-\nfore, the Newton form of Pm(x) at x = 1 is Pm(x) =\nm\n∑\nj=0\n(x−1\nj )∆jPm(1) =\nm\n∑\nj=0\n(x−1\nj )∆jf(1). We now derive an important corollary, which reminds us that the maps ∆and Σ\ndo not commute, and hence neither do ∆m+1 and Σm+1. First, we recall from [7, p.",
+          "page": 12
+        },
+        {
+          "para_id": "10_21",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n13",
+          "page": 13
+        },
+        {
+          "para_id": "10_22",
+          "text": "10] that, for any a > 0, any p ∈N, and any f∶R+ →R, the function ρp\na[f]∶(−a,∞) →\nR is defined by",
+          "page": 13
+        },
+        {
+          "para_id": "10_23",
+          "text": "ρp\na[f](x) = f(x + a) −",
+          "page": 13
+        },
+        {
+          "para_id": "10_24",
+          "text": "p−1\n∑\nj=0\n(x\nj)∆jf(a)\n(x > −a). Clearly, this definition is consistent with the identity in (12). Corollary 4.3. If a function g lies in domΣm+1 for some m ∈N, then we have ∆m+1Σm+1g(x) = g(x)\n(x > 0). If a function f lies in Dp+m+1 ∩Kp+2m+1 for some m,p ∈N, then we have Σm+1∆m+1f(x) = ρm+1\n1\n[f](x −1)\n(x > 0). Proof. The first part is trivial. Now suppose that the function f lies in Dp+m+1 ∩\nKp+2m+1 for some m,p ∈N.\nBy Proposition 2.3, the function g = ∆m+1f lies\nin Dp ∩Kp+m and the function ∆kf lies in Kp+m for k = 0,1,...,m. Then, by\nProposition 4.2 and the subsequent remark, we have Σm+1g = f −Pm , where the polynomial Pm is given in (23). Consequently, Σm+1g(x) = f(x −1 + 1) −\nm\n∑\nj=0\n(x−1\nj )∆jf(1) = ρm+1\n1\n[f](x −1). This completes the proof.\n□ Setting m = 0 in Corollary 4.3 immediately gives the following two special cases:\n●If a function g lies in domΣ, then we have ∆Σg(x) = g(x)\n(x > 0). ●If a function f lies in Dp ∩Kp for some p ∈N∗, then we have Σ∆f(x) = f(x) −f(1)\n(x > 0). Remark 4.4. Expanding the difference operator in the first identity of Corol-\nlary 4.3 yields, for any g ∈domΣm+1, g(x) =\nm+1\n∑\nk=0\n(m+1\nk )(−1)m+1−k Σm+1g(x + k)\n(x > 0). This identity provides a simple linear expression of g in terms of Σm+1g.\n◊ Remark 4.5. The second part of Corollary 4.3 admits the following reformulation,\nwhich provides an interesting representation of the function ρm+1\na\n[f]:\nIf a function f lies in Dp+m+1 ∩Kp+2m+1 for some m,p ∈N, then we have [Σm+1\nt\n∆m+1\nt\nf(t + a −1)]\nt=x+1 = ρm+1\na\n[f](x)\n(x > 0). Indeed, defining t ↦h(t) = f(t + a −1), we clearly have h ∈Dp+m+1 ∩Kp+2m+1.\nApplying the second part of Corollary 4.3 to the function h therefore yields [Σm+1\nt\n∆m+1\nt\nh(t)]t=x+1 = ρm+1\n1\n[h](x) = ρm+1\na\n[f](x)\n(x > 0), which completes the proof.\n◊",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "14",
+      "section_title": "14\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "14_1",
+          "text": "We now illustrate the main preceding results using the polygamma function ψ−2(x) = ∫",
+          "page": 14
+        },
+        {
+          "para_id": "14_2",
+          "text": "x 0\nlnΓ(t)dt = ∫",
+          "page": 14
+        },
+        {
+          "para_id": "14_3",
+          "text": "x 0\nlnG1(t)dt\n(x > 0), when restricted to the set R+. Note that this function has recently been studied\nin depth in connection with the generalization of the additive form of the Bohr-\nMollerup theorem (see the tutorial paper [8]). Example 4.6 (The Polygamma Function ψ−2). Consider the function f1∶R+ →R\ndefined by the equation f1(x) = ψ−2(x) −ψ−2(1)\n(x > 0), or equivalently (see [8]), f1(x) = Σx(xlnx −x + ψ−2(1)), where the function x ↦xlnx −x + ψ−2(1) lies in D2 ∩K∞and ψ−2(1) = 1",
+          "page": 14
+        },
+        {
+          "para_id": "14_4",
+          "text": "2 ln(2π). We note that f1(1) = 0 while f1(2) ≠0. By (20), there is therefore no function\ng∶R+ →R such that f1 = Σ2g. However, this issue can be addressed by replacing\nf1 with the function f = Σ2∆2f1. Applying Corollary 4.3 with m = p = 1, we then\nobtain f(x)\n=\nf1(x) −f1(1) −(x −1)∆f1(1) =\nψ−2(x) −1 + (1 −ψ−2(1))x\n(x > 0). Thus f(x) = Σ2g(x), where the function g∶R+ →R is given by g(x) = ∆2f1(x) = −1 + ∆x(xlnx), and lies in D1 ∩K∞.\n◊ 5. A Generalization of Malmst´en’s Formula The following identities yield well-known integral representations of both the\nlogarithm function and the log-gamma function on R+: lnx\n=\n∫",
+          "page": 14
+        },
+        {
+          "para_id": "14_5",
+          "text": "∞",
+          "page": 14
+        },
+        {
+          "para_id": "14_6",
+          "text": "0\n(1 −e(1−x)t) e−t",
+          "page": 14
+        },
+        {
+          "para_id": "14_7",
+          "text": "t dt, lnΓ(x)\n=\n∫",
+          "page": 14
+        },
+        {
+          "para_id": "14_8",
+          "text": "∞",
+          "page": 14
+        },
+        {
+          "para_id": "14_9",
+          "text": "0\n((x −1) −e(1−x)t −1",
+          "page": 14
+        },
+        {
+          "para_id": "14_10",
+          "text": "e−t −1\n) e−t",
+          "page": 14
+        },
+        {
+          "para_id": "14_11",
+          "text": "t dt. The latter identity is commonly referred to as the Malmst´en’s formula. For back-\nground, see for instance Erd´elyi et al. [2, pp. 16, 20–21].\nFollowing a suggestion of N. Zena¨ıdi (University of Li`ege, Personal communica-\ntion, 2025), we now show how Malmst´en’s formula can be generalized by providing,\nfor every m ∈N, an integral representation of the function lnGm+1(x) = Σm+1\nx\nlnx\n(x > 0). This generalization is stated in the following theorem. As an illustration, we derive\nthe following integral representation of the logarithm of the Barnes function:",
+          "page": 14
+        },
+        {
+          "para_id": "14_12",
+          "text": "lnG(x) = lnG2(x) = ∫",
+          "page": 14
+        },
+        {
+          "para_id": "14_13",
+          "text": "∞",
+          "page": 14
+        },
+        {
+          "para_id": "14_14",
+          "text": "0\n((x−1\n2 ) −e(1−x)t −1",
+          "page": 14
+        },
+        {
+          "para_id": "14_15",
+          "text": "(e−t −1)2 + x −1",
+          "page": 14
+        },
+        {
+          "para_id": "14_16",
+          "text": "e−t −1) e−t",
+          "page": 14
+        },
+        {
+          "para_id": "14_17",
+          "text": "t dt.",
+          "page": 14
+        },
+        {
+          "para_id": "14_18",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n15",
+          "page": 15
+        },
+        {
+          "para_id": "14_19",
+          "text": "Theorem 5.1 (Generalization of Malmst´en’s Formula). For any m ∈N, the func-\ntion ln○Gm+1 admits the following integral representation on R+ (24)\nlnGm+1(x) = ∫",
+          "page": 15
+        },
+        {
+          "para_id": "14_20",
+          "text": "∞",
+          "page": 15
+        },
+        {
+          "para_id": "14_21",
+          "text": "0\nΣm+1\nx\n(1 −e(1−x)t) e−t",
+          "page": 15
+        },
+        {
+          "para_id": "14_22",
+          "text": "t dt\n(x > 0), where, for any t > 0, (25)\nΣm+1\nx\n(1 −e(1−x)t) = ( x−1\nm+1) −e(1−x)t −1",
+          "page": 15
+        },
+        {
+          "para_id": "14_23",
+          "text": "(e−t −1)m+1 +\nm\n∑\nj=1",
+          "page": 15
+        },
+        {
+          "para_id": "14_24",
+          "text": "(x−1\nj ) (e−t −1)m+1−j . Proof. We first observe that, for any t > 0, the function x ↦e(1−x)t lies in D0 ∩K∞ and that 1 −e(1−x)t = ∆m+1\nx\n( x−1\nm+1) −∆m+1\nx\ne(1−x)t",
+          "page": 15
+        },
+        {
+          "para_id": "14_25",
+          "text": "(e−t −1)m+1 . Using Corollary 4.3 with p = 1 and f(x) = ( x−1\nm+1) −\ne(1−x)t",
+          "page": 15
+        },
+        {
+          "para_id": "14_26",
+          "text": "(e−t −1)m+1 , we can easily derive the identity in (25).\nThe integral representation (24) then follows from an application of the second\npart of Proposition 4.2 to the function g(x) = lnx, which lies in D1 ∩K∞. Indeed,\nlet Im+1(x) denote the right-hand integral in (24). We clearly have ∆m+1Im+1(x) = ∫",
+          "page": 15
+        },
+        {
+          "para_id": "14_27",
+          "text": "∞",
+          "page": 15
+        },
+        {
+          "para_id": "14_28",
+          "text": "0\n(1 −e(1−x)t) e−t",
+          "page": 15
+        },
+        {
+          "para_id": "14_29",
+          "text": "t dt = lnx\n(x > 0), and, cf. (20),\nIm+1(1) = ⋯= Im+1(m + 1) = 0.\nNote that in this computation all integrals involved are well defined.\nTo conclude the proof, it suffices to show that, for k = 0,...,m, the function\n∆kIm+1 lies in Km+1, or equivalently, that the function Dm+2∆kIm+1 eventually\nhas a constant sign. However, for every t > 0, the function Dm+2\nx\nΣm+1−k\nx\n(1 −e(1−x)t) = −Dm+2\nx\ne(1−x)t",
+          "page": 15
+        },
+        {
+          "para_id": "14_30",
+          "text": "(e−t −1)m+1−k = −(−t)m+2 e(1−x)t",
+          "page": 15
+        },
+        {
+          "para_id": "14_31",
+          "text": "(e−t −1)m+1−k clearly has a constant sign, and hence so does the function Dm+2∆kIm+1 (here we\nmay differentiate under the integral sign). This completes the proof.\n□",
+          "page": 15
+        },
+        {
+          "para_id": "14_32",
+          "text": "6. Further Examples Beyond the multiple gamma functions, there are numerous examples that illus-\ntrate our results on repeated principal indefinite sums. In this section, we explore\nseveral of these examples. 6.1. Polynomial functions. We begin by considering the case in which the func-\ntion g is a polynomial. As explained in Graham et al. [4, p. 189], in this discrete\nsetting it is often more convenient to express polynomials in their Newton forms,\nthat is, as linear combinations of binomial coefficients. More precisely, any polyno-\nmial Pq of degree at most q ∈N admits the representation Pq(x) =",
+          "page": 15
+        },
+        {
+          "para_id": "14_33",
+          "text": "q\n∑\nk=0\n(x\nk)∆kPq(0).",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "16",
+      "section_title": "16\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "16_1",
+          "text": "Now, since such a polynomial Pq lies in both Kq\n1 and Kq\n−1, it follows that, for any\nm ∈N, we may write (cf. [7, Proposition 5.7]) (26)\nΣm+1Pq(x) =",
+          "page": 16
+        },
+        {
+          "para_id": "16_2",
+          "text": "q\n∑\nk=0\n(Σm+1\nx\n(x\nk))∆kPq(0)\n(x > 0). To compute the right-hand side of (26), it therefore suffices to derive an explicit\nexpression for Σm+1\nx\n(x\nk). The following proposition provides such an expression. Its\nproof follows straightforwardly from Propositions 2.5 and 4.1. Proposition 6.1. For any k,m ∈N, the function gk(x) = (x\nk) lies in domΣm+1 and\nwe have Σm+1gk(x) = ( x−0k",
+          "page": 16
+        },
+        {
+          "para_id": "16_3",
+          "text": "k+m+1) =\n⎧⎪⎪⎨⎪⎪⎩",
+          "page": 16
+        },
+        {
+          "para_id": "16_4",
+          "text": "( x−1\nm+1) ,\nif k = 0, (\nx\nk+m+1),\nif k ≥1. Moreover, the function Σm+1gk lies in Dk+m+2 ∩K∞. Now, in light of Proposition 6.1, the identity in (26) can be rewritten more\nexplicitly as Σm+1Pq(x) = ( x−1\nm+1)Pq(0) +",
+          "page": 16
+        },
+        {
+          "para_id": "16_5",
+          "text": "q\n∑\nk=1\n(\nx\nk+m+1)∆kPq(0)\n(x > 0). It follows immediately that if the polynomial Pq is of degree q, then Σm+1Pq is a\npolynomial of degree q + m + 1. Moreover, its coefficients can be easily computed\nusing the standard conversion formulas between ordinary powers and binomial co-\nefficients (see, e.g., [4, p. 264]). 6.2. The Reciprocal Function. After discussing polynomials, we now turn to\ncertain special rational functions. The first function we consider is the reciprocal\nfunction g(x) = 1/x.\nAs the following proposition shows, its repeated principal\nindefinite sum involves the digamma function ψ∶R+ →R, which admits the following\nseries representation ψ(x) = −γ +\n∞\n∑\nk=1\n(1",
+          "page": 16
+        },
+        {
+          "para_id": "16_6",
+          "text": "k −\n1\nx + k −1)\n(x > 0), where γ denotes Euler’s constant. For background on the digamma function, see\nfor instance [7,9]. Proposition 6.2. For any m ∈N, the reciprocal function g(x) = 1/x lies in\ndomΣm+1 and we have Σm+1g(x) = (x−1\nm )(ψ(x) −ψ(m + 1))\n(x > 0). Moreover, the function Σm+1g lies in Dm+1 ∩K∞. Proof. Since the function g lies in D0 ∩K∞, Proposition 2.5 implies that Σm+1g\nexists and lies in Dm+1 ∩K∞. We now prove the stated identity. The case m = 0\nis well known [7, Section 10.2], and we may therefore assume that m ≥1. For any\nk ∈N, define the function fk∶R+ →R by fk(x) = (x−1\nk )(ψ(x) −ψ(k + 1))\n(x > 0). Using the classical product rule for the difference operator, it is straightforward to\nverify that ∆fk+1 = fk. Moreover, we have the following claim, which establishes\nan important convexity property of fk.",
+          "page": 16
+        },
+        {
+          "para_id": "16_7",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n17",
+          "page": 17
+        },
+        {
+          "para_id": "16_8",
+          "text": "Claim. For any k ∈N, the function fk lies in Kk\n1(R+). Proof of the Claim. For any j,k ∈N with j ≤k, define the function gj,k∶R+ →R by gj,k(x) = (−1)k+j xj ψ(x)\n(x > 0). Using the series representation of ψ(x), we obtain g(k+1)\nj,k\n(x) = (−1)k+j+1\n∞\n∑\nn=0\nDk+1\nx\nxj",
+          "page": 17
+        },
+        {
+          "para_id": "16_9",
+          "text": "x + n = (j + 1)!\n∞\n∑\nn=0",
+          "page": 17
+        },
+        {
+          "para_id": "16_10",
+          "text": "nj (x + n)j+2 . Since the latter expression is positive throughout R+, it follows from Proposition 2.2\nthat the function gj,k lies in Kk\n1(R+).\nNow, by expanding the binomial coefficient in the definition of fk, we see that\nthis function can be expressed in the form fk(x) =\nk\n∑\nj=0\ncj gj,k(x) + Pk(x)\n(x > 0), where c0,...,ck ≥0 and Pk is a polynomial of degree at most k. Consequently, each\nsummand on the right-hand side lies in Kk\n1(R+), and therefore so does the function\nfk itself.\n◊ To complete the proof, it suffices to show that the identity Σfk = fk+1 holds for\nall k ∈N. We proceed by induction on k. The case k = 0 is straightforward. Indeed,\nwe have\nf0 = Σg ∈D1 ∩K∞⊂D1 ∩K1, and by the Claim, f1 ∈K1. Consequently, Proposition 4.1 implies that Σf0 = f1.\nNow suppose that the statement holds for some k ∈N and let us show that it also\nholds for k + 1. We have fk+1 = Σfk = Σk+2g ∈Dk+2 ∩K∞⊂Dk+2 ∩Kk+2, and by the Claim, fk+2 ∈Kk+2.\nTherefore, Σfk+1 = fk+2, and the induction is\ncomplete.\n□",
+          "page": 17
+        },
+        {
+          "para_id": "16_11",
+          "text": "Remark 6.3. Interestingly, from Propositions 6.1 and 6.2, we can easily derive the\nfollowing identity Σm+1ψ(x) = ( x−1\nm+1)(ψ(x) −ψ(m + 2) + ψ(1))\n(x > 0). Indeed, to obtain this identity, it suffices essentially to apply the map Σm+1 to the\nrepresentation ψ(x) = ψ(1) + Σx 1",
+          "page": 17
+        },
+        {
+          "para_id": "16_12",
+          "text": "x.\n◊ 6.3. Powers of the Reciprocal Function. We now continue our study of re-\npeated principal indefinite sums of rational functions by considering the powers of\nthe reciprocal function. In this regard, we note that, for any r ∈N, (27)\n1\nxr+1 = (−1)r",
+          "page": 17
+        },
+        {
+          "para_id": "16_13",
+          "text": "r!\nDr\nx\n1\nx\n(x > 0). This identity suggests that it is convenient to derive an explicit formula for the\nfunction Σm+1g(r) in terms of DrΣm+1g.\nIn this context, the following proposition is particularly significant, as it allows us\nto generate new examples from existing ones. In fact, it is simply a straightforward\ngeneralization of the second part of Corollary 4.3.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "section_id": "18",
+      "section_title": "18\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "18_1",
+          "text": "Proposition 6.4. Let T be a linear operator on the space of functions from R+\nto R that commutes with ∆, that is, T∆= ∆T, and let m,p ∈N. Suppose that a\nfunction f ∈domΣm+1 satisfies Tf ∈Dp ∩Kp+m\nand\nTΣm+1f ∈Kp+2m. Then\nΣm+1Tf(x) = ρm+1\n1\n[TΣm+1f](x −1)\n(x > 0). Proof. Setting g = Tf and ¯f = TΣm+1f, we have ∆m+1 ¯f = g and ∆k ¯f ∈Kp+m for\nk = 0,1,...,m. By Proposition 4.2 and the subsequent remark, it follows that Σm+1g = ¯f −Pm, where Pm is the polynomial defined by Pm(x) =\nm\n∑\nj=0\n(x−1\nj )∆j ¯f(1). Consequently, Σm+1Tf(x) = Σm+1g(x)\n=\nTΣm+1f(x) −\nm\n∑\nj=0\n(x−1\nj )∆jTΣm+1f(1) =\nρm+1\n1\n[TΣm+1f](x −1)\n(x > 0), as claimed.\n□ As discussed above, Proposition 6.4 is particularly relevant when T is the stan-\ndard derivative D or one of its higher-order iterates.\nIn this connection, recall\nfrom [7, Section 7.1] that if g ∈Cr(R+) ∩Dp ∩Kmax{p,r} for some p,r ∈N, then Σg ∈Cr(R+) ∩Dp+1 ∩Kmax{p,r}. Combining this fact with Proposition 6.4 applied to T = Dr, we immediately derive\nthe following result. Proposition 6.5. If f lies in Cr(R+) ∩Dp+r ∩Kp+2m+r for some m,p,r ∈N, then Σm+1f (r)(x) = ρm+1\n1\n[DrΣm+1f](x −1)\n(x > 0). Now apply Proposition 6.5, for instance, to the function f(x) = −1/x, which\ncorresponds to the choice r = 1 in (27). Using the identity (see, e.g., [3, p. 352]) Dx(x−1\nm ) = (x−1\nm )(ψ(x) −ψ(x −m))\n(x ≠1,2,...,m), a straightforward but somewhat lengthy computation yields Σm+1\nx\n1\nx2\n=\n−(x−1\nm )((ψ(x) −ψ(x −m))(ψ(x) −ψ(m + 1)) + ψ′(x) −ψ′(1)) +\nm\n∑\nj=1\n( x−1\nm−j)((−1)j+1",
+          "page": 18
+        },
+        {
+          "para_id": "18_2",
+          "text": "j\n(ψ(1) −ψ(j + 1)). The details of the computation are omitted.\nReturning to the study of the multiple gamma functions, we observe that a ju-\ndicious combination of Propositions 2.7, 6.2, and 6.5 yields the following somewhat\nsurprising result, which provides explicit expressions for their first derivatives.",
+          "page": 18
+        },
+        {
+          "para_id": "18_3",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n19",
+          "page": 19
+        },
+        {
+          "para_id": "18_4",
+          "text": "Corollary 6.6. For any m ∈N and any x > 0, we have G′\nm+1(x) = Gm+1(x)((x−1\nm )(ψ(x) −ψ(m + 1)) +\nm\n∑\nj=0\n(x−1\nj )G′\nm+1−j(1)). Proof. Using Propositions 2.7, 6.2, and 6.5—after readily verifying that their re-\nspective assumptions are satisfied—we obtain, for m ∈N and x > 0, (x−1\nm )(ψ(x) −ψ(m + 1))\n=\nΣm+1\nx\nDx lnx =\nDxΣm+1\nx\nlnx −\nm\n∑\nj=0\n(x−1\nj )[∆j\nzDz Σm+1\nz\nlnz]z=1 =\nDx lnGm+1(x) −\nm\n∑\nj=0\n(x−1\nj )D lnGm+1−j(1). This completes the proof.\n□",
+          "page": 19
+        },
+        {
+          "para_id": "18_5",
+          "text": "6.4. Negative Falling Factorials. We conclude this section by examining the\nrepeated principal indefinite sum of the function gn∶R+ →R, defined for each n ∈N\nby gn(x) = (−1)n ∆n\nx\n1\nx =\nn!\nx(x + 1)⋯(x + n)\n(x > 0). This function admits a simple representation in terms of a negative falling factorial\npower (see [4, p. 188]) gn(x) = (−1)n n!(x −1)−n−1\n(x > 0). The very definition of gn suggests applying Proposition 6.4 with T = ∆n. However,\nsince gn also possesses the partial fraction expansion gn(x) =\nn\n∑\nk=0\n(n\nk) (−1)k",
+          "page": 19
+        },
+        {
+          "para_id": "18_6",
+          "text": "x + k\n(x > 0), it follows that, for any m ∈N, we may write Σm+1gn(x) =\nn\n∑\nk=0\n(n\nk)(−1)k Σm+1\nx\nEk\nx\n1\nx , where E is the classical shift operator defined by Ef(x) = f(x + 1). Now, applying\nProposition 6.4 with T = Ek, followed by Proposition 6.2, we obtain Σm+1\nx\nEk\nx\n1\nx = Ek\nx Σm+1\nx\n1\nx −\nm\n∑\nj=0\n(x−1\nj )[Σm+1−j\nz\n1\nz ]\nz=k+1 = (x+k−1\nm )(ψ(x + k) −ψ(m + 1)) −\nm\n∑\nj=0\n(x−1\nj )( k\nm−j)(ψ(k + 1) −ψ(m + 1 −j)). In the special case m = 0, this formula simplifies to Σgn(x) =\nn\n∑\nk=0\n(n\nk)(−1)k (ψ(x + k) −ψ(k + 1))\n(x > 0).",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "section_id": "20",
+      "section_title": "20\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "20_1",
+          "text": "7. Discrete Analog of Cauchy’s Formula for Repeated Integration We begin this final section by recalling the well-known Taylor theorem with\nintegral remainder, as it applies to real-valued functions defined on R+. This result\ncan be proved in a straightforward manner by induction, using repeated integration\nby parts. Theorem 7.1 (Taylor’s Theorem). Let a > 0 and let f ∈Cm+1(R+) for some m ∈N.\nThen, for any x ≥0, we have f(x + a) =\nm\n∑\nj=0",
+          "page": 20
+        },
+        {
+          "para_id": "20_2",
+          "text": "xj j! f (j)(a) + ∫",
+          "page": 20
+        },
+        {
+          "para_id": "20_3",
+          "text": "x 0\n(x −t)m",
+          "page": 20
+        },
+        {
+          "para_id": "20_4",
+          "text": "m!\nf (m+1)(t + a)dt. We now offer a discrete analog of this theorem, in which the integral remainder\nis naturally replaced with a principal indefinite sum. This result—which may be\nregarded as a generalization of Lemma 3.1—is stated in the following theorem, and\nits proof likewise proceeds by induction, relying on repeated summation by parts.\nThis approach, however, requires several assumptions ensuring the existence of the\nprincipal indefinite sums involved. Theorem 7.2 (Discrete Counterpart of Taylor’s Theorem). Let a > 0, m ∈N, and\nlet f∶R+ →R be a function satisfying the following assumptions for k = 0,...,m:\n●the function t ↦(x−t\nk )∆k+1f(t + a −1) lies in domΣ;\n●the function t ↦(x−t+1\nk\n)∆kf(t + a −1) lies in Dpk ∩Kpk for some pk ∈N∗.\nThen, for any x ≥0, we have f(x + a) =\nm\n∑\nj=0\n(x\nj)∆jf(a) + [Σt (x−t\nm )∆m+1f(t + a −1)]t=x+1. Proof. We proceed by induction on m. The result holds for m = 0. Indeed, using\nthe second assumption on f (with k = 0), we obtain [Σt ∆f(t + a −1)]t=x+1\n=\n[f(t + a −1) −f(a)]t=x+1\n=\nf(x + a) −f(a). Suppose now that the result holds for some m ∈N, and let us show that it still\nholds for m + 1. Using the first assumption on f, we obtain Σt (x−t\nm )∆m+1f(t + a −1) = Σt (−∆t(x−t+1\nm+1 ))∆m+1f(t + a −1) = Σt (∆t(−(x−t+1\nm+1 )∆m+1f(t + a −1)) + ( x−t\nm+1)∆m+2f(t + a −1)). Using the second assumption on f, this expression becomes −(x−t+1\nm+1 )∆m+1f(t + a −1) + ( x\nm+1)∆m+1f(a) + Σt ( x−t\nm+1)∆m+2f(t + a −1). Evaluating at t = x + 1, we obtain ( x\nm+1)∆m+1f(a) + [Σt ( x−t\nm+1)∆m+2f(t + a −1)]t=x+1 . Using the induction hypothesis, we conclude that the result holds for m + 1, which\ncompletes the proof.\n□ Theorem 7.2 is remarkable in that it provides an explicit expression for the\nremainder term in the Newton expansion at x = a of the function f(x+a), expressed\nin terms of a principal “definite” sum. This is entirely analogous to Theorem 7.1,\nwhere the remainder term in the Taylor expansion is expressed as an integral.",
+          "page": 20
+        },
+        {
+          "para_id": "20_5",
+          "text": "REPEATED PRINCIPAL INDEFINITE SUMMATION\n21",
+          "page": 21
+        },
+        {
+          "para_id": "20_6",
+          "text": "Actually, Theorem 7.2 is entirely new and likely holds significant potential for\napplications. Simplifying its assumptions, however, remains an interesting open\nproblem.\nWe conclude this paper with a remarkable identity that reduces a repeated prin-\ncipal indefinite sum to a single principal “definite” sum. Corollary 7.3. Let m ∈N, let g ∈domΣm+1, and suppose that the function f =\nΣm+1g satisfies the assumptions of Theorem 7.2. Then, we have Σm+1g(x) = [Σt (x−t−1\nm )g(t)]t=x\n(x > 0). Proof. The result is immediate by applying Theorem 7.2 (assuming x > 0) to the\nfunction f = Σm+1g at the value a = 1. Explicitly, Σm+1g(x) =\nm\n∑\nj=0\n(x−1\nj )Σm+1−jg(1) + [Σt (x−t−1\nm )g(t)]t=x\n(x > 0). This completes the proof.\n□ Example 7.4. Applying Corollary 7.3 to g(x) = lnx with m = 1, we obtain lnG(x)\n=\nΣ2\nx lnx = [Σt (x −1 −t)lnt]t=x\n=\n(x −1)lnΓ(x) −Σx(xlnx) = (x −1)lnΓ(x) −lnK(x), where K∶R+ →R is the K-function defined by (see, e.g., [7, Section 12.5]) lnK(x) = Σx(xlnx)\n(x > 0). Note that the function x ↦xlnx lies in D2 ∩K∞.\n◊ The “continuous” analog of Corollary 7.3 is the well-known Cauchy formula for\nrepeated integration, which can be described as follows. Let D−1 denote the operator\nfrom C0(R+) to C1(R+) defined by D−1g(x) = ∫",
+          "page": 21
+        },
+        {
+          "para_id": "20_7",
+          "text": "x 1\ng(t)dt. It is straightforward to verify that for g ∈C0(R+) and f ∈C1(R+), DD−1g = g\nand\nD−1Df = f −f(1), in complete analogy with the case m = 0 of Corollary 4.3.\nRepeated application of the operator D−1 then gives D−(m+1)g(x) = ∫",
+          "page": 21
+        },
+        {
+          "para_id": "20_8",
+          "text": "x 1\n∫",
+          "page": 21
+        },
+        {
+          "para_id": "20_9",
+          "text": "xm 1\n⋯∫",
+          "page": 21
+        },
+        {
+          "para_id": "20_10",
+          "text": "x1 1\ng(t) dtdx1 ⋯dxm , and the Cauchy formula for repeated integration asserts that D−(m+1)g(x) = ∫",
+          "page": 21
+        },
+        {
+          "para_id": "20_11",
+          "text": "x 1\n(x −t)m",
+          "page": 21
+        },
+        {
+          "para_id": "20_12",
+          "text": "m!\ng(t)dt. This identity is obtained directly by applying Theorem 7.1 (assuming x > 0) to the\nfunction f = D−(m+1)g at a = 1. For this reason, it is natural to refer to the result\nin Corollary 7.3 as the discrete analog of Cauchy’s formula for repeated integration.",
+          "page": 21
+        },
+        {
+          "para_id": "20_13",
+          "text": "Declaration of competing interest",
+          "page": 21
+        },
+        {
+          "para_id": "20_14",
+          "text": "The authors declare that they have no conflict of interest.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "section_id": "22",
+      "section_title": "22\nTHOMAS LAMBY AND JEAN-LUC MARICHAL",
+      "level": 1,
+      "paragraphs": []
+    }
+  ]
+}

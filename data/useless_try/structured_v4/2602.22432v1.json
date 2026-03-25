@@ -1,0 +1,951 @@
+{
+  "doc_id": "2602.22432v1.pdf",
+  "title": "LoBoost",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1. Introduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Gradient-boosted decision trees are among the strongest off-the-shelf predictors for tabular regression (Friedman, 2001; Chen and Guestrin, 2016; Grinsztajn et al., 2022). In many applications, however, accurate point predictions are not enough: unobserved covariates, measurement noise, and intrinsic randomness make the response uncertain. Practition- ers therefore need prediction intervals that adapt to each input and quantify uncertainty reliably.",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "1",
+          "page": 1
+        },
+        {
+          "para_id": "1_3",
+          "text": "arXiv:2602.22432v1  [stat.ML]  25 Feb 2026",
+          "page": 1
+        },
+        {
+          "para_id": "1_4",
+          "text": "Conformal prediction (CP) offers a simple and rigorous route to uncertainty quantifica- tion. Given any predictor g and an i.i.d. calibration set, split conformal constructs intervals C(X) with finite-sample, distribution-free marginal coverage, P (Y ∈C(X)) ≥1−α, under exchangeability (Vovk et al., 2005; Shafer and Vovk, 2008; Angelopoulos et al., 2023; Zhou et al., 2025). In regression, the resulting interval width is controlled by an empirical quan- tile of calibration residuals. Classical split conformal uses a single global residual quantile, which can yield overly wide intervals in low-noise regions and insufficient adaptivity under heteroscedasticity (Lei et al., 2018; Guan, 2023). A natural remedy is partition-based (or local) conformal prediction: estimate separate residual quantiles within regions A ⊆X and obtain coverage conditional on X ∈A. The practical challenge is choosing these regions: they must be small enough that residuals are approximately homogeneous, yet large enough to contain enough calibration points for stable quantile estimation. Recent work addresses this trade-off by learning data-driven partitions with auxiliary trees or by defining soft neighborhoods in feature space (Boström and Johansson, 2020; Guan, 2023; Martinez et al., 2024; Fröhlich et al., 2025; Cabezas et al., 2025b). A different line of work induces adaptivity by modifying the nonconformity score using additional nuisance estimates, such as conditional scales or quantiles (Lei et al., 2018; Romano et al., 2019; Cabezas et al., 2025c; Izbicki et al., 2020, 2022; Dheur et al., 2024). While effective, local conformal methods introduce additional estimation beyond the base regressor—learning an auxiliary partition or nuisance functions, or using extra splitting/cross- fitting—reducing data efficiency. For gradient-boosted trees, this overlooks a key fact: the trained ensemble already induces a rich, nested partition of X via its leaf structure. We introduce LoBoost , which reuses this model-induced partition to calibrate residual quan- tiles locally. Concretely, we represent each input x by the sequence of leaves it visits along the ensemble, LT (x) =\n\u0000\nL1(x), . . . , LT (x)\n\u0001\n, and define a local region around x by requiring agreement on the first k trees, i.e., matching the prefix\n\u0000\nL1(x), . . . , Lk(x)\n\u0001\n. This yields a nested, multiscale partition—coarse when k is small, increasingly refined as k grows—on which we calibrate residual quantiles. We then perform split conformal calibration within these regions—retaining finite-sample marginal validity by construction while adapting interval widths to local residual distri- butions—without retraining the predictor or fitting additional functions. This leads to improved predictive power of the base model, while keeping local validity of the prediction sets. Figure 1 illustrates the motivation for LoBoost on the heteroscedastic 1D simulation (Supplementary Material A.4): LoBoost produces locally adaptive intervals (narrow in low-noise regions, wide in high-noise regions) and attains conditional coverage closer to the nominal 1 −α = 0.9 than standard split conformal/ICP.",
+          "page": 2
+        },
+        {
+          "para_id": "1_5",
+          "text": "Contributions.",
+          "page": 2
+        },
+        {
+          "para_id": "1_6",
+          "text": "• Model-native local conformal prediction for boosted trees. We use leaf-index prefixes from the fitted boosted ensemble to define a multiscale partition of X and perform conformal calibration within these cells, preserving finite-sample marginal validity and yielding locally adaptive intervals. Empirically, our interval quality is",
+          "page": 2
+        },
+        {
+          "para_id": "1_7",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "1_8",
+          "text": "2.0\n1.5\n1.0\n0.5\n0.0\n0.5\n1.0\n1.5\n2.0\nx",
+          "page": 3
+        },
+        {
+          "para_id": "1_9",
+          "text": "5",
+          "page": 3
+        },
+        {
+          "para_id": "1_10",
+          "text": "0",
+          "page": 3
+        },
+        {
+          "para_id": "1_11",
+          "text": "5",
+          "page": 3
+        },
+        {
+          "para_id": "1_12",
+          "text": "10",
+          "page": 3
+        },
+        {
+          "para_id": "1_13",
+          "text": "y",
+          "page": 3
+        },
+        {
+          "para_id": "1_14",
+          "text": "Setting 1 Data Test\nOracle Interval\nPI ICP",
+          "page": 3
+        },
+        {
+          "para_id": "1_15",
+          "text": "PI LoBoost\nMean Prediction",
+          "page": 3
+        },
+        {
+          "para_id": "1_16",
+          "text": "2.0\n1.5\n1.0\n0.5\n0.0\n0.5\n1.0\n1.5\n2.0\nx",
+          "page": 3
+        },
+        {
+          "para_id": "1_17",
+          "text": "6",
+          "page": 3
+        },
+        {
+          "para_id": "1_18",
+          "text": "4",
+          "page": 3
+        },
+        {
+          "para_id": "1_19",
+          "text": "2",
+          "page": 3
+        },
+        {
+          "para_id": "1_20",
+          "text": "0",
+          "page": 3
+        },
+        {
+          "para_id": "1_21",
+          "text": "2",
+          "page": 3
+        },
+        {
+          "para_id": "1_22",
+          "text": "4",
+          "page": 3
+        },
+        {
+          "para_id": "1_23",
+          "text": "y",
+          "page": 3
+        },
+        {
+          "para_id": "1_24",
+          "text": "Setting 2 Data Test\nOracle Interval\nPI ICP",
+          "page": 3
+        },
+        {
+          "para_id": "1_25",
+          "text": "PI LoBoost\nMean Prediction",
+          "page": 3
+        },
+        {
+          "para_id": "1_26",
+          "text": "2.0\n1.5\n1.0\n0.5\n0.0\n0.5\n1.0\n1.5\n2.0\nx",
+          "page": 3
+        },
+        {
+          "para_id": "1_27",
+          "text": "0.0",
+          "page": 3
+        },
+        {
+          "para_id": "1_28",
+          "text": "0.2",
+          "page": 3
+        },
+        {
+          "para_id": "1_29",
+          "text": "0.4",
+          "page": 3
+        },
+        {
+          "para_id": "1_30",
+          "text": "0.6",
+          "page": 3
+        },
+        {
+          "para_id": "1_31",
+          "text": "0.8",
+          "page": 3
+        },
+        {
+          "para_id": "1_32",
+          "text": "1.0 conditional coverage Coverage ICP\nCoverage LoBoost\nTarget (0.9) 2.0\n1.5\n1.0\n0.5\n0.0\n0.5\n1.0\n1.5\n2.0\nx",
+          "page": 3
+        },
+        {
+          "para_id": "1_33",
+          "text": "0.0",
+          "page": 3
+        },
+        {
+          "para_id": "1_34",
+          "text": "0.2",
+          "page": 3
+        },
+        {
+          "para_id": "1_35",
+          "text": "0.4",
+          "page": 3
+        },
+        {
+          "para_id": "1_36",
+          "text": "0.6",
+          "page": 3
+        },
+        {
+          "para_id": "1_37",
+          "text": "0.8",
+          "page": 3
+        },
+        {
+          "para_id": "1_38",
+          "text": "1.0 conditional coverage Coverage ICP\nCoverage LoBoost\nTarget (0.9)",
+          "page": 3
+        },
+        {
+          "para_id": "1_39",
+          "text": "Figure 1: Comparison of prediction intervals and conditional coverage for LoBoost and ICP\non two synthetic mechanisms. Top: estimated intervals with the oracle interval\nand test data—LoBoost tracks the oracle more closely, handling heteroscedastic-\nity and discontinuities better than ICP. Bottom: empirical conditional coverage\nacross the feature space (target 1−α = 0.9)—LoBoost stays near 0.9, while ICP\ndeviates, reflecting LoBoost ’s meaningful feature-space partitions.",
+          "page": 3
+        },
+        {
+          "para_id": "1_40",
+          "text": "competitive with the strongest competing local baseline, with SMIS efficiency ranging from 77.8% to 99.6% across datasets.",
+          "page": 3
+        },
+        {
+          "para_id": "1_41",
+          "text": "• Data efficiency and simplicity. LoBoost requires no auxiliary partition model, no retraining of the base learner, and no extra data splitting beyond standard train/calibration split. This in turn yields better predictive power, while still having local coverage guarantees: we outperform the best-SMIS baseline in point accuracy on 10/11 datasets, with test MSE improvements typically around 3–4% and reaching about 5–6% in the best case.",
+          "page": 3
+        },
+        {
+          "para_id": "1_42",
+          "text": "• Theory connecting boosting stability to approximate conditional coverage. Under mild decay/stability conditions on later boosting updates, we show residuals are approximately homogeneous within boosting-induced cells, implying asymptotic conditional validity while retaining finite-sample guarantees.",
+          "page": 3
+        },
+        {
+          "para_id": "1_43",
+          "text": "• Practical gains in calibration time. Reusing the model-induced partition yields substantial computational savings: relative to the best-SMIS method, LoBoost is faster on 9/11 datasets, with median speedup 17× and up to 126×.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "1.1",
+      "section_title": "1.1. Relation to Other Work",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.1_1",
+          "text": "Uncertainty quantification for boosted models (non-conformal).\nRecent approaches for endowing boosting with uncertainty quantification generally fall into two categories. First,",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_2",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_3",
+          "text": "probabilistic frameworks like NGBoost (Duan et al., 2020) and PGBM (Sprangers et al., 2021) assume a conditional parametric distribution, optimizing its parameters via natural gradients to minimize a proper scoring rule. Second, statistical inference methods, such as the work by Fang et al. (2025), rely on Central Limit Theorems to construct intervals based on the asymptotic normality of the boosted estimator. However, both strategies lack the rigorous finite-sample, distribution-free validity of conformal prediction, relying instead on specific parametric forms or asymptotic approximations that may not hold in practice. Thus, these methods are model-native but not distribution-free; LoBoost instead is both model-native and distribution-free.",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_4",
+          "text": "Conformal prediction with boosting as a base learner.\nConformal prediction provides finite-sample, distribution-free coverage for any underlying regressor, including boosted trees. Most existing work uses boosting primarily as a strong black-box predictor inside conformal wrappers (e.g., CQR-style efficiency gains, residual scoring, or distributional regression) (Romano et al., 2019; Chernozhukov et al., 2021; Xu et al., 2024; Lai et al., 2025). In contrast, we leverage the internal structure of the boosted ensemble—its sequence of tree partitions—to define locality for calibration. This avoids extra data splitting, and therefore improved predictive power, while keeping the distribution-free guarantees. In a different approach, Xie et al. (2024) propose Boosted CP Intervals, a post-hoc method that boosts a conformity score to improve interval length or conditional coverage. Unlike our approach, which uses leaf-based partitions of the boosted tree for local calibration, theirs learns a new score from model outputs without using the tree structure.",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_5",
+          "text": "Local and partition-based conformal prediction.\nExact conditional coverage is gener- ally impossible without strong assumptions, motivating local or group-conditional tar- gets (Lei and Wasserman, 2014; Vovk, 2012; Foygel Barber et al., 2021; Lei et al., 2018; Izbicki, 2025).\nLocal CP has been studied via kernel/neighborhood weighting (Guan, 2023), multivalid/group-conditional optimization (Jung et al., 2023; Kiyani et al., 2024), and Mondrian-style partitions (Vovk et al., 2005; Boström and Johansson, 2020). Recently, tree-based variants were employed to learn residual-driven partitions using auxiliary trees trained on a calibration set (Martinez et al., 2024; Cabezas et al., 2025b,d,a). In contrast, we reuse the base model’s internal tree-induced codes to define groups, requiring no aux- iliary partition estimator. This leads to improved predictive power of the base boosting model.",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2. Background",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "We consider a dataset of size n, denoted by D = {(Xi, Yi)}n\ni=1, where the pairs (Xi, Yi) are independent and identically distributed according to a joint distribution P, with (Xi, Yi) ∈ X × Y. We assume that D is partitioned into a training set Dtrain and a calibration set Dcal, with respective sizes |Dtrain| = ntrain and |Dcal| = ncal.",
+          "page": 4
+        },
+        {
+          "para_id": "2_2",
+          "text": "4",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "2.1",
+      "section_title": "2.1. Conformal Prediction",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.1_1",
+          "text": "Conformal prediction constructs prediction sets with finite-sample coverage under ex- changeability (Vovk et al., 2005). We focus on split conformal: train a regressor g on Dtrain and calibrate on Dcal = {(Xj, Yj)}ncal\nj=1 using a nonconformity score s(x, y). Define calibration scores Sj := s(Xj, Yj),\nj = 1, . . . , ncal. Let S(1) ≤· · · ≤S(ncal) be the sorted scores and set bq1−α := S(⌈(ncal+1)(1−α)⌉), the (1 −α)(1 + 1/ncal) empirical quantile. The split-conformal prediction set is",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_2",
+          "text": "C(x) := {y ∈Y : s(x, y) ≤bq1−α}.",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_3",
+          "text": "Under exchangeability of the calibration data and an independent test pair (X, Y ),",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_4",
+          "text": "P (Y ∈C(X)) ≥1 −α.",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_5",
+          "text": "In regression, we use the absolute-residual score s(x, y) = |y −g(x)|, yielding the interval C(x) = [ g(x) −bq1−α, g(x) + bq1−α ].",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_6",
+          "text": "Partition-based conformal.\nTo obtain locally adaptive thresholds (Lei et al., 2018), let A = {A1, . . . , AK} be a partition of X (determined without using calibration responses). For each cell A ∈A, let",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_7",
+          "text": "JA := {j : Xj ∈A} and mA := |JA|.",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_8",
+          "text": "Define the within-cell quantile bqA,1−α as the (1 −α)\n\u0000\n1 +\n1\nmA\n\u0001\nempirical quantile of {Sj : j ∈JA}. Then set bq1−α(x) = bqA,1−α for the unique A with x ∈A, and define C(x) := {y : s(x, y) ≤bq1−α(x)}. Under exchangeability, for every cell A, P (Y ∈C(X) | X ∈A) ≥1 −α.",
+          "page": 5
+        },
+        {
+          "para_id": "2.1_9",
+          "text": "With s(x, y) = |y −g(x)|, this gives piecewise-constant local intervals [ g(x) ± bq1−α(x) ].",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "2.2",
+      "section_title": "2.2. Gradient Boosting",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.2_1",
+          "text": "Gradient boosting can be interpreted as (approximate) functional gradient descent on a risk functional (Friedman, 2001; Grubb and Bagnell, 2012). We present the squared-loss view, which is enough to motivate the sequential, coarse-to-fine structure we exploit later. Let (X, Y ) ∼P, with X ∈X and Y ∈R. Consider the squared-risk functional",
+          "page": 5
+        },
+        {
+          "para_id": "2.2_2",
+          "text": "L(g) := 1",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2 E\n\u0002\n(Y −g(X))2\u0003\n.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "A standard calculation yields the functional gradient",
+          "page": 5
+        },
+        {
+          "para_id": "2_2",
+          "text": "−∇L(g)(x) = E [Y −g(X) | X = x] ,",
+          "page": 5
+        },
+        {
+          "para_id": "2_3",
+          "text": "so the negative gradient corresponds to the (population) regression residual. Boosting builds an additive predictor by iteratively fitting a weak learner to the current residuals. Let H denote the weak learner class, in our case, regression trees. Given training",
+          "page": 5
+        },
+        {
+          "para_id": "2_4",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "2_5",
+          "text": "data {(xi, yi)}n\ni=1 and a current predictor gt−1, define residuals u(t)\ni\n:= yi −gt−1(xi) and fit",
+          "page": 6
+        },
+        {
+          "para_id": "2_6",
+          "text": "ht ∈arg min\nh∈H\n1\nn",
+          "page": 6
+        },
+        {
+          "para_id": "2_7",
+          "text": "n\nX i=1",
+          "page": 6
+        },
+        {
+          "para_id": "2_8",
+          "text": "\u0000\nu(t)\ni\n−h(xi)\n\u00012.",
+          "page": 6
+        },
+        {
+          "para_id": "2_9",
+          "text": "The model is then updated by the standard gradient-boosting additive step",
+          "page": 6
+        },
+        {
+          "para_id": "2_10",
+          "text": "gt(x) = gt−1(x) + η ht(x),\nt = 1, . . . , T,",
+          "page": 6
+        },
+        {
+          "para_id": "2_11",
+          "text": "starting from an initial predictor g0 (e.g., a constant). Unrolling the recursion yields the usual additive form",
+          "page": 6
+        },
+        {
+          "para_id": "2_12",
+          "text": "gT (x) = g0(x) +",
+          "page": 6
+        },
+        {
+          "para_id": "2_13",
+          "text": "T\nX t=1\nη ht(x),\nht ∈H,\n(1) i.e., a sequence of progressively refined corrections. Because each new tree is trained on the remaining residual signal, boosting behaves like a descent procedure: as iterations proceed, the residuals typically shrink, so later trees act as smaller corrective refinements (especially under shrinkage η). This coarse-to-fine behavior is the key intuition behind defining multiscale regions using prefixes of boosting paths in Section 3.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3. Our Method: LoBoost",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "Next, we describe how the internal structure of a gradient-boosted ensemble can be lever- aged to construct partition-based conformal predictors.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3.1",
+      "section_title": "3.1. Boosting-Induced Partitions",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.1_1",
+          "text": "The sequential nature of gradient boosting induces a hierarchical organization of the feature space: early trees capture coarse, global structure, while later trees introduce progressively finer refinements. As a result, the boosting procedure naturally defines a multiscale, nested decomposition of the feature space. This viewpoint is inspired by earlier work on task- specific similarity learning and boosting-based blocking schemes (Shakhnarovich, 2005; Ramos et al., 2024). Let Lt(x) denote the leaf index reached by a point x ∈X in the t-th regression tree ht, as defined in (1). The boosted ensemble therefore associates each input with a sequence of leaf identifiers, LT (x) =\n\u0000\nL1(x), L2(x), . . . , LT (x)\n\u0001\n,",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_2",
+          "text": "which provides a hierarchical encoding of the feature space induced by the boosting tra- jectory. Specifically, for a resolution level k ≤T, we say that two points x and x′ belong to the same region at depth k if they agree on the first k entries of this encoding:",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_3",
+          "text": "x ∼k x′\n⇐⇒\nLt(x) = Lt(x′) for all t ≤k.",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_4",
+          "text": "We denote by Rk(x) = {x′ ∈X : x′ ∼k x},",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_5",
+          "text": "the equivalence class of x at depth k, which we refer to as a boosting-induced region.",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_6",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "3.1_7",
+          "text": "Within any region Rk(x), all points follow the same sequence of leaf decisions for the first k boosting iterations. As a consequence, any variation of the predictor gT across such a region can only arise from the contributions of the remaining trees t > k. This observation suggests that, as the influence of later trees diminishes, boosting-induced regions should exhibit increasing local regularity. We now make this intuition precise:",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_8",
+          "text": "Proposition 1 (Continuity of Gradient Boosting). Fix x ∈X. For any ε > 0 and any k ≤T, we have",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_9",
+          "text": "P\n\u0000\f\fgT (X) −gT (x)\n\f\f ≥ε\n\f\f X ∈Rk(x)\n\u0001\n≤Λ(x, k, ε),",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_10",
+          "text": "where we write:",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_11",
+          "text": "Λ ≡Λ(x, k, ε) = η2(T −k) ε2",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_12",
+          "text": "T\nX",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_13",
+          "text": "t=k+1\nE\nh\u0000\nht(X) −ht(x)\n\u00012 \f\f\f X ∈Rk(x)\ni\n.",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_14",
+          "text": "Proposition 1 shows that the variability of the boosted predictor within a boosting- induced region Rk(x) is controlled by the cumulative contribution of the trees added after depth k. In particular, continuity follows whenever the influence of these later trees de- creases sufficiently fast with t. To obtain a tractable sufficient condition for this behavior, we assume that the within- region variability of later trees decays geometrically.",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_15",
+          "text": "Assumption 1 (Second moment decay). Fix x ∈X. There exist constants C(x) > 0 and ρ ∈(0, 1) such that for all k ≤T and all t > k,",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_16",
+          "text": "E\n\u0002\n(ht(X) −ht(x))2 | X ∈Rk(x)\n\u0003\n≤C(x) ρt.",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_17",
+          "text": "Assumption 1 is motivated by the gradient-descent view of boosting: as the ensemble approaches the regression function, the magnitude of later updates should decay.\nWe adopt it as a convenient stability condition that yields an explicit rate. Indeed, let g∗(x) = E [Y | X = x]. For squared loss, the negative functional gradient is",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_18",
+          "text": "−∇L(gt)(x) = g∗(x) −gt(x).",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_19",
+          "text": "In the idealized population setting, exact gradient descent with step size η ∈(0, 1) gives",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_20",
+          "text": "gt+1(x) = gt(x) + η\n\u0000\ng∗(x) −gt(x)\n\u0001\n,",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_21",
+          "text": "and subtracting g∗(x) from both sides yields",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_22",
+          "text": "∇L(gt+1) = (1 −η)∇L(gt),",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_23",
+          "text": "so the residual contracts geometrically with t. Additional empirical support is provided in Supplementary Material D. In practice, boosting replaces the exact gradient step by fitting a weak learner to resid- uals; under a standard edge condition, the fitted learner achieves non-negligible alignment with the population negative gradient (Grubb and Bagnell, 2012). This supports the in-",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_24",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "3.1_25",
+          "text": "tuition that the residual signal decreases along the boosting iterations, so later trees are typically fitted to smaller-magnitude residuals. It is therefore natural to expect the size of the updates ht to decrease with t, motivating the geometric decay postulated in Assump- tion 1. The following corollary makes this simplification explicit.",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_26",
+          "text": "Corollary 1. Under Assumption 1, the quantity Λ in Proposition 1 satisfies",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_27",
+          "text": "Λ ≤C(x) η2(T −k)",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_28",
+          "text": "ε2(1 −ρ)\nρ k+1.",
+          "page": 8
+        },
+        {
+          "para_id": "3.1_29",
+          "text": "In words, points that share the same boosting path up to depth k exhibit nearly identical predictions.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "3.2",
+      "section_title": "3.2. Local Conformal Prediction with Boosted Partitions",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.2_1",
+          "text": "We present our method for local split-conformal predictor based on the boosting-induced regions Rk(x). Let Dtrain and Dcal denote the training and calibration sets, respectively, and let gT be the gradient boosting predictor trained on Dtrain. Fix a resolution level k and consider a test point x ∈X. Local conformal prediction is then obtained by calibrating within the region Rk(x), as described below.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1. Region identification. Fix a resolution level k ≤T and identify the boosting- induced region containing x,",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Rk(x) = {x′ ∈X : x′ ∼k x}.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2. Local calibration. Using the calibration set Dcal = {(Xj, Yj)}ncal\nj=1, compute the nonconformity scores",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "Sj = s(Xj, Yj) = |Yj −gT (Xj)|, j = 1, . . . , ncal,",
+          "page": 8
+        },
+        {
+          "para_id": "2_2",
+          "text": "and collect the indices of calibration points that fall in the same region as x,",
+          "page": 8
+        },
+        {
+          "para_id": "2_3",
+          "text": "Jk(x) := { j : Xj ∈Rk(x) }, , mk(x) := |Jk(x)|.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3. Local quantile estimation. Let bqk,1−α(x) be the (1 −α)\n\u0000\n1 + 1/mk(x)\n\u0001\n-empirical quantile of{Sj : j ∈Jk(x)}.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "This yields the local split-conformal interval at resolution k,",
+          "page": 8
+        },
+        {
+          "para_id": "3_2",
+          "text": "bCk(x) =\n\u0002\ngT (x) −bqk,1−α(x), gT (x) + bqk,1−α(x)\n\u0003\n.",
+          "page": 8
+        },
+        {
+          "para_id": "3_3",
+          "text": "Theorem 1 (Local coverage). Fix a resolution level k and a point x ∈X. Suppose that the calibration pairs {(Xi, Yi) : Xi ∈Rk(x)} and the test pair (X, Y ) are exchangeable. Let\nbCk(·) denote the local conformal prediction interval constructed above. Then P\n\u0010\nY ∈bCk(X)\n\f\f\f X ∈Rk(x)\n\u0011\n≥1 −α.",
+          "page": 8
+        },
+        {
+          "para_id": "3_4",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "3_5",
+          "text": "Moreover, if ties among the local calibration scores occur with probability zero, then",
+          "page": 9
+        },
+        {
+          "para_id": "3_6",
+          "text": "P\n\u0010\nY ∈bCk(X)\n\f\f\f X ∈Rk(x)\n\u0011\n≤1 −α +\n1\nmk(x) + 1.",
+          "page": 9
+        },
+        {
+          "para_id": "3_7",
+          "text": "Theorem 1 establishes a finite-sample coverage guarantee within each boosting-induced region Rk(x). As in standard partition-based conformal prediction, the sharpness of this guarantee depends critically on the number of calibration points available within the re- gion. In particular, accurate estimation of the local quantile bqk,1−α(x) requires that Rk(x) contain a sufficient number of calibration samples. However, since boosting-induced par- titions become increasingly fine as k grows, some regions may be too sparse to support reliable calibration. We address this issue in Section 4. As shown in the previous section, the partitions Rk(x) enjoy a stability property: for moderately large k, the predictor gT varies little within each Rk(x). This local regularity enables local conformal calibration:",
+          "page": 9
+        },
+        {
+          "para_id": "3_8",
+          "text": "Corollary 2 (Local behavior of the residual). Let s(x, y) := |y −gT (x)|. For any ε > 0 and any x, P\n\u0000\f\fs(X, Y ) −s(x, Y )\n\f\f ≥ε\n\f\f X ∈Rk(x)\n\u0001\n≤Λ(x, k, ε). Moreover, under Assumption 1 and Corollary 1, for any δ ∈(0, 1), if k ≥\n1\n−log ρ log\n\u0012 C(x) η2T",
+          "page": 9
+        },
+        {
+          "para_id": "3_9",
+          "text": "δ ε2(1 −ρ)",
+          "page": 9
+        },
+        {
+          "para_id": "3_10",
+          "text": "\u0013\n,",
+          "page": 9
+        },
+        {
+          "para_id": "3_11",
+          "text": "then Λ(x, k, ε) ≤δ.",
+          "page": 9
+        },
+        {
+          "para_id": "3_12",
+          "text": "Corollary 2 shows that, for a logarithmic choice of the resolution level k, residual scores are approximately homogeneous within each boosting-induced region Rk(x). In particular, conditional on X ∈Rk(x), the distribution of s(X, Y ) = |Y −gT (X)| behaves approxi- mately like the pointwise score s(x, Y ). Intuitively, for any t ≥0,",
+          "page": 9
+        },
+        {
+          "para_id": "3_13",
+          "text": "P (s(X, Y ) ≤t | X ∈Rk(x)) ≈P (s(X, Y ) ≤t | X = x) .",
+          "page": 9
+        },
+        {
+          "para_id": "3_14",
+          "text": "This local homogeneity both motivates our partition-based method and provides the main stepping stone for establishing asymptotic conditional coverage.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "3.3",
+      "section_title": "3.3. Asymptotic Conditional Coverage",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.3_1",
+          "text": "The local guarantee in Theorem 1 controls coverage conditional on the event {X ∈Rk(x)}. A natural question is whether, as the boosting resolution increases, this can be strengthened to coverage conditional on the point event {X = x}. Such a strengthening is delicate: without additional structure, distribution-free conditional coverage uniformly over x is impossible except for trivial prediction sets (Vovk, 2012; Foygel Barber et al., 2021; Lei et al., 2018). Our model provides a natural route to this strengthening. The key boosting-specific ingredient is residual homogeneity inside Rk(x). Corollary 2 implies that, for sufficiently large k, the residual at a random X ∈Rk(x) is close to the residual at the fixed point x with high probability.",
+          "page": 9
+        },
+        {
+          "para_id": "3.3_2",
+          "text": "9",
+          "page": 9
+        },
+        {
+          "para_id": "3.3_3",
+          "text": "Combined with Assumptions 3–4 (which ensure that conditioning on Rk(x) approaches conditioning on x as the regions shrink) and Assumption 2 (which ensures consistent esti- mation of local conformal quantiles), this yields asymptotic conditional coverage at x. We defer all assumptions and proofs to the Supplementary Material E.",
+          "page": 10
+        },
+        {
+          "para_id": "3.3_4",
+          "text": "Theorem 2 (Asymptotic conditional coverage). Fix α ∈(0, 1) and x ∈X. Let bCk(x) be the local split-conformal interval constructed at resolution k using calibration resid- uals restricted to Rk(x).\nAssume Assumptions 1, 2, 3, and 4, and assume that the conditional residual distribution function P (|Y −gT (x)| ≤t | X = x) is continuous. Let k(T) :=\nl\n2\n−log ρ log T\nm\n. Then the corresponding local split-conformal interval satisfies",
+          "page": 10
+        },
+        {
+          "para_id": "3.3_5",
+          "text": "lim\nT→∞P\n\u0010\nY ∈bCk(T)(x) | X = x\n\u0011\n= 1 −α.",
+          "page": 10
+        },
+        {
+          "para_id": "3.3_6",
+          "text": "In words, under the stated regularity and local sample size conditions, LoBoost achieves the desired conditional coverage at x asymptotically.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4. Resolution Selection and Aggregation",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "The theoretical results in Section 3.1 motivate boosting-induced partitions for local con- formal calibration, but practical use requires controlling the resolution level k and finite- sample stability. In this section, we discuss how LoBoost handles this. At resolution level k, the partition cells are indexed by the prefix\n\u0000\nL1(x), . . . , Lk(x)\n\u0001\n, so the number of possible cells grows multiplicatively with the number of leaves of the first k trees. For gradient-boosted trees, this growth is governed primarily by the trees’ max_depth: a depth-d tree has at most 2d leaves, so in the worst case the number of cells can scale as O(2kd) when depths are roughly constant. Even if every tree is a decision stump (d = 1), the number of cells is 2k. For this reason, we chose to dynamically increase the resolution level only for dense regions of the feature space.",
+          "page": 10
+        },
+        {
+          "para_id": "4_2",
+          "text": "Dcal",
+          "page": 10
+        },
+        {
+          "para_id": "4_3",
+          "text": "L1(x) = (0)",
+          "page": 10
+        },
+        {
+          "para_id": "4_4",
+          "text": "L2(x) = (0, 0)\nL2(x) = (0, 1)",
+          "page": 10
+        },
+        {
+          "para_id": "4_5",
+          "text": "L3(x) = (0, 1, 0)\nL3(x) = (0, 1, 1)",
+          "page": 10
+        },
+        {
+          "para_id": "4_6",
+          "text": "L1(x) = (1)",
+          "page": 10
+        },
+        {
+          "para_id": "4_7",
+          "text": "L2(x) = (1, 0)\nL2(x) = (1, 1)",
+          "page": 10
+        },
+        {
+          "para_id": "4_8",
+          "text": "Figure 2: LoBoost partition. For convenience, we consider hi(x) as decision stumps.\nWhite nodes indicate dense regions (at least Npart calibration instances) that\nproceed to the next resolution level. Red nodes denote terminal regions (less\nthan Npart calibration instances). The example results in 5 terminal regions.",
+          "page": 10
+        },
+        {
+          "para_id": "4_9",
+          "text": "More precisely, given a set of calibration instances Dcal = {(Xi, Yi)}m\ni=1, we obtain their respective leaf identifiers LT (Xi)m\ni=1. At resolution level k, each region is formed by the",
+          "page": 10
+        },
+        {
+          "para_id": "4_10",
+          "text": "10",
+          "page": 10
+        },
+        {
+          "para_id": "4_11",
+          "text": "instances whose path coincide up until the k-th index. We increase the resolution level until all regions contain less than Npart instances, where Npart is a hyperparameter. In practice only regions with more than Npart instances proceed to a finer resolution level. Figure 2 ilustrates this procedure. Our partition algorithm is greedy: it keeps splitting dense regions until all are sparse. While this adaptivity prevents an explosion in the number of cells, it can also produce many regions that are too small for reliable local quantile estimation. We therefore follow the splitting stage with a region aggregation step. To decide which sparse regions to merge, we use the similarity information already en- coded by the boosting path. The leaf identifiers induce a multiscale notion of proximity: cells that share a long prefix (L1, . . . , Lk) differ only in later trees, which typically make finer adjustments. As a result, disagreements in early coordinates tend to reflect mean- ingful differences in the predictor, whereas later discrepancies are often negligible. We operationalize this notion by defining a similarity measure on leaf identifiers: for two re- gions R and R′, define their weighted Hamming distance as",
+          "page": 11
+        },
+        {
+          "para_id": "4_12",
+          "text": "dWH(R, R′) =",
+          "page": 11
+        },
+        {
+          "para_id": "4_13",
+          "text": "k\nX",
+          "page": 11
+        },
+        {
+          "para_id": "4_14",
+          "text": "t=1\nwt 1{Lt(R) ̸= Lt(R′)},",
+          "page": 11
+        },
+        {
+          "para_id": "4_15",
+          "text": "where the weights (wt)T\nt=1 are nonnegative and decreasing in t. A natural choice is an exponential decay wt = ρ t with ρ ∈(0, 1), which mirrors the geometric decay established in Corollary 1. More generally, the weights can be chosen in a data-driven manner by setting wt = Var [ht(X)] ,",
+          "page": 11
+        },
+        {
+          "para_id": "4_16",
+          "text": "where the variance is estimated on the calibration set. We iterate through regions of size smaller then Nmerge (a hyperparameter), merging them into their respective most similar (minimum distance) region. We continue the process until all resulting regions have at a minimum Nmerge instances. See Algorithm 1 for details. Our implementation is open-source and available at REDACTED.1. A key advantage of LoBoost is computational reuse: after fitting the boosting predictor, partition construction and calibration reuse its learned tree structure, with no retraining of the base model. Our implementation has native support for widely used Python boosting libraries, including scikit-learn’s gradient boosting (Pedregosa et al., 2011), XGBoost (Chen and Guestrin, 2016), and CatBoost (Prokhorenkova et al., 2019). All the steps of our algorithm are computationally cheap:",
+          "page": 11
+        },
+        {
+          "para_id": "4_17",
+          "text": "• Leaf identifiers extraction is O(m × T) at the worst case.\nWe note that our al- gorithm dynamically increase the resolution level, typically yielding k << T, and consequently much reduced computation costs.",
+          "page": 11
+        },
+        {
+          "para_id": "4_18",
+          "text": "• Computing dWH for a pair of regions requires O(k) operations.\nWe compute all pairwise distances between regions, resulting in a total complexity of O(k p2), where p is the number of regions (partitions) before merging.",
+          "page": 11
+        },
+        {
+          "para_id": "4_19",
+          "text": "1The public repository link is temporarily redacted and will be released upon publication. For repro-\nducibility, all code needed to run the experiments is included in the Supplementary Material.",
+          "page": 11
+        },
+        {
+          "para_id": "4_20",
+          "text": "11",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5. Experiments",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "We compare the performance of our proposed approach against existing methods for con- structing prediction regions. The methods compared in this section can be split in two groups: native methods, and model-based methods. This taxonomy is important because model-based methods require an additional training step, and therefore, a larger calibration set must be reserved.",
+          "page": 12
+        },
+        {
+          "para_id": "5_2",
+          "text": "Native methods.\nLoBoost and Inductive conformal prediction (ICP) (Vovk et al., 2005; Lei et al., 2018). ICP is the standard split/inductive conformal interval with absolute- residual scores and a single global calibration quantile. ICP is the most direct computa- tional reference for LoBoost : both methods calibrate post-hoc on a fixed training/calibration split, require no retraining of the base regressor, and use the same fitted gradient-boosting model for point predictions. Thus, differences between ICP and LoBoost highlights reflect the benefit of local (partition-based) calibration.",
+          "page": 12
+        },
+        {
+          "para_id": "5_3",
+          "text": "Table 1: Empirical marginal coverage (AMC; closer to the nominal 1 −α = 90% is\nbetter) on real-world datasets. All conformal methods are designed to achieve\nnear-nominal coverage under exchangeability and do so consistently in our exper-\niments, whereas the non-conformal NGBoost intervals can severely under-cover. Method Dataset\nLoBoost\nLocart\nICP\nWICP\nMICP\nNGB airfoil\n90.76\n90.14\n90.06\n90.37\n94.09\n86.86\n(1503, 5)\n(±0.83)\n(±0.69)\n(±0.57)\n(±0.51)\n(±0.43)\n(±0.57) winered\n89.82\n90.76\n90.17\n90.17\n94.85\n81.84\n(1599, 11)\n(±0.65)\n(±0.62)\n(±0.55)\n(±0.56)\n(±0.44)\n(±0.71) star\n89.44\n89.79\n89.72\n89.59\n91.71\n82.04\n(2161, 39)\n(±0.71)\n(±0.63)\n(±0.51)\n(±0.50)\n(±0.52)\n(±0.56) winewhite\n89.96\n90.08\n90.12\n89.97\n90.67\n87.29\n(4898, 11)\n(±0.40)\n(±0.45)\n(±0.38)\n(±0.38)\n(±0.35)\n(±0.38) cycle\n90.08\n90.19\n89.96\n89.93\n90.26\n88.92\n(9568, 4)\n(±0.29)\n(±0.31)\n(±0.25)\n(±0.20)\n(±0.22)\n(±0.24) electric\n90.09\n90.35\n90.14\n90.20\n90.95\n93.05\n(10000, 12)\n(±0.34)\n(±0.30)\n(±0.24)\n(±0.25)\n(±0.23)\n(±0.19) bike\n90.30\n90.26\n90.11\n90.14\n90.82\n94.42\n(10886, 18)\n(±0.27)\n(±0.20)\n(±0.22)\n(±0.21)\n(±0.24)\n(±0.16) meps19\n90.33\n90.21\n90.10\n89.91\n90.48\n93.50\n(15785, 139)\n(±0.23)\n(±0.20)\n(±0.16)\n(±0.19)\n(±0.19)\n(±0.13) superconductivity\n90.41\n90.46\n89.95\n90.08\n90.57\n91.73\n(21263, 81)\n(±0.36)\n(±0.37)\n(±0.27)\n(±0.28)\n(±0.29)\n(±0.24) WEC\n90.33\n90.54\n90.00\n89.60\n90.63\n94.75\n(54007, 98)\n(±0.26)\n(±0.40)\n(±0.27)\n(±0.35)\n(±0.24)\n(±0.13) kernel\n90.13\n90.25\n89.95\n90.00\n90.02\n93.14\n(241600, 15)\n(±0.07)\n(±0.05)\n(±0.05)\n(±0.05)\n(±0.05)\n(±0.03)",
+          "page": 12
+        },
+        {
+          "para_id": "5_4",
+          "text": "12",
+          "page": 12
+        },
+        {
+          "para_id": "5_5",
+          "text": "Table 2: Data-efficient UQ. LoBoost is compared to the best-SMIS competing method on\neach dataset, reporting interval quality (SMIS), relative runtime (speedup), and\nthe test MSE of the underlying point predictor. Because LoBoost does not require\nretraining or additional splits, it can allocate more data to training, yielding lower\nMSE for the fitted boosted model while keeping SMIS competitive with the best\nbaseline. Values closer to 100% in the SMIS-efficiency column indicate interval\nquality closer to the best baseline; speedup values > 1 indicate LoBoost is faster;\nand positive MSE-improvement values indicate lower test MSE than the best-\nSMIS baseline. Metric definitions are given in Appendix A.3. Dataset\nSMIS (LoBoost)\nBest SMIS\nSMIS efficiency\nSpeedup\nMSE improvement airfoil (1503, 5)\n13.83\n11.73 (NGB)\n84.79 %\n2.48×\n1.44 %\nwinered (1599, 11)\n2.77\n2.77 (LoBoost)\n100.00 %\n1.00×\n0.00 %\nstar (2161, 39)\n960.27\n956.59 (ICP)\n99.62 %\n0.10×\n1.23 %\nwinewhite (4898, 11)\n2.99\n2.92 (MICP)\n97.75 %\n42.62×\n2.37 %\ncycle (9568, 4)\n15.40\n15.01 (MICP)\n97.47 %\n17.02×\n3.62 %\nelectric (10000, 12)\n0.05\n0.05 (WICP)\n96.46 %\n19.43×\n3.48 %\nbike (10886, 18)\n189.20\n160.34 (WICP)\n84.75 %\n4.34×\n6.09 %\nmeps19 (15785, 139)\n72.73\n67.46 (WICP)\n92.75 %\n25.02×\n0.17 %\nconductivity (21263, 81)\n43.35\n39.77 (WICP)\n91.73 %\n126.06×\n5.39 %\nWEC (54007, 98)\n89040.88\n69236.51 (MICP)\n77.76 %\n59.72×\n4.55 %\nkernel (241600, 15)\n9.61\n7.91 (WICP)\n82.30 %\n5.04×\n5.22 %",
+          "page": 13
+        },
+        {
+          "para_id": "5_6",
+          "text": "Model-based methods.\nWe also consider methods that obtain adaptivity by fitting ad- ditional nuisance components or by refitting the base learner on smaller effective training splits. Weighted ICP (WICP) (Lei et al., 2018) uses weighted nonconformity scores to adapt interval widths under heteroscedasticity, requiring an auxiliary model (e.g., a scale/MAD estimator) trained on held-out data. Mondrian ICP (MICP) (Boström and Johansson, 2020) performs conformal calibration within difficulty-based bins, where the difficulty score is estimated from data and calibration is carried out separately per bin. LoCART (Cabezas et al., 2025b) is a partition-based conformal method that learns tree-induced local groups (via an auxiliary tree/partitioning step) to target local validity. Finally, NGBoost (NGB) (Duan et al., 2020) is a non-conformal probabilistic boosting approach that constructs prediction intervals from an estimated conditional distribution; unlike conformal methods, it does not guarantee finite-sample coverage. Implementation details and hyperparameter choices for all benchmarks are provided in the Supplementary Material A.2. In all experiments, we split the dataset into training, calibration, and test sets with proportions of 0.4, 0.4, and 0.2, respectively. For native methods, we incorporated 30% of the calibration set into the training set. We evaluate prediction regions using: marginal coverage (how often the interval con- tains the true test response), SMIS (an interval scoring rule that rewards shorter intervals but penalizes misses outside the bounds, capturing both sharpness and reliability), test MSE (point-prediction accuracy of the underlying regressor), and calibration time (wall- clock cost of the post-hoc conformal calibration step). Full metric details are provided in the Supplementary Material (Appendix A.3). Dataset descriptions and complete results are provided in Supplementary Material C. We include problems spanning a wide range of sample sizes and feature dimensions to benchmark LoBoost against multiple baselines.",
+          "page": 13
+        },
+        {
+          "para_id": "5_7",
+          "text": "13",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "5.1",
+      "section_title": "5.1. Results",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "5.1_1",
+          "text": "Coverage and reliability.\nTable 1 shows that the conformal baselines achieve near-nominal marginal coverage across datasets, as expected. In contrast, NGBoost can severely under- cover in several settings, with empirical coverage falling well below the 1 −α = 0.9 target (especially on smaller datasets), highlighting the fragility of distributional assumptions in finite samples.",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_2",
+          "text": "Data efficiency and post-hoc calibration cost.\nTable 2 summarizes the main practical advantage of LoBoost . Because LoBoost is post-hoc and does not require retraining or additional data splits, we can allocate more data to fitting the underlying point predic- tor. This yields a consistent reduction in test MSE relative to the best-SMIS baseline, while keeping SMIS close to the strongest competing method. At the same time, LoBoost provides substantial calibration-time savings: the speedup vs the best-SMIS baseline is often one to two orders of magnitude on medium/large datasets. Overall, LoBoost deliv- ers a favorable speed–accuracy–uncertainty trade-off by improving the base predictor and maintaining competitive interval quality.",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_3",
+          "text": "ICP-level runtime with improved interval quality.\nTo isolate the effect of locality (in- dependent of retraining-based baselines), Table 3 compares LoBoost directly to standard ICP. LoBoost retains essentially the same calibration-time profile as ICP, but achieves noticeably better SMIS on the majority of datasets, indicating improved local adaptivity (i.e., better calibrated intervals across heterogeneous regions) at ICP-like computational cost.",
+          "page": 14
+        },
+        {
+          "para_id": "5.1_4",
+          "text": "Table 3: LoBoost vs ICP. LoBoost matches the computational profile of standard in-\nductive conformal prediction (ICP) while achieving consistently better interval\nquality (SMIS), indicating improved local adaptivity/coverage behavior at essen-\ntially the same runtime. Dataset\nSMIS (LoBoost)\nSMIS (ICP)\nSMIS efficiency airfoil (1503, 5)\n13.83\n15.40\n111.31 %\nwinered (1599, 11)\n2.77\n2.79\n100.93 %\nstar (2161, 39)\n960.27\n956.59\n99.62 %\nwinewhite (4898, 11)\n2.99\n3.03\n101.36 %\ncycle (9568, 4)\n15.40\n15.59\n101.21 %\nelectric (10000, 12)\n0.05\n0.06\n103.34 %\nbike (10886, 18)\n189.20\n217.32\n114.86 %\nmeps19 (15785, 139)\n72.73\n96.13\n132.17 %\nconductivity (21263, 81)\n43.35\n53.29\n122.93 %\nWEC (54007, 98)\n89040.88\n111665.36\n125.41 %\nkernel (241600, 15)\n9.61\n13.61\n141.59 %",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6. Final remarks",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "LoBoost provides a simple, model-native route to local conformal prediction for gradient- boosted trees by reusing the partition already induced by the trained ensemble, rather than",
+          "page": 14
+        },
+        {
+          "para_id": "6_2",
+          "text": "14",
+          "page": 14
+        },
+        {
+          "para_id": "6_3",
+          "text": "learning an auxiliary partition or nuisance model. This design preserves data efficiency— no retraining and no additional splitting beyond the standard train/calibration split— and translates into strong empirical performance: interval quality remains competitive with the strongest local baselines (SMIS efficiency 77.8%–99.6%), while point accuracy improves on 10/11 datasets (typically by 3–4%, and up to about 5–6% in test MSE). At the same time, calibration is substantially faster (median 17× and up to 126× speedup). From an implementation standpoint, LoBoost only requires access to leaf indices along the boosting path, making it straightforward to integrate with standard libraries such as XGBoost, LightGBM, and CatBoost. Our theory links boosting stability to within- cell residual homogeneity, yielding asymptotic conditional validity while preserving finite- sample marginal coverage.",
+          "page": 15
+        },
+        {
+          "para_id": "6_4",
+          "text": "Acknowledgements",
+          "page": 15
+        },
+        {
+          "para_id": "6_5",
+          "text": "Rafael Izbicki is grateful for the financial support of CNPq (422705/2021-7, 305065/2023-8 and 403458/2025-0) and FAPESP (grant 2023/07068-1). Luben M. C. Cabezas is grateful for the financial support of FAPESP (grants 2022/08579-7 and 2025/06168-8). Thiago R. Ramos is grateful for the financial support of CNPq (403458/2025-0). Vagner S. Santos is grateful for the financial support of FAPESP (grant 2023/05587-1).",
+          "page": 15
+        }
+      ]
+    }
+  ]
+}

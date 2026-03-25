@@ -1,0 +1,1253 @@
+{
+  "doc_id": "2602.22272v1.pdf",
+  "title": "Fluctuating polytropic processes, turbulence, and heating",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1\nln",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "(\n1)\nln\n,\n1\n4(\n1)",
+          "page": 12
+        },
+        {
+          "para_id": "1_2",
+          "text": "a\nn",
+          "page": 12
+        },
+        {
+          "para_id": "1_3",
+          "text": "a\na\nn\nn",
+          "page": 12
+        },
+        {
+          "para_id": "1_4",
+          "text": "a\nn\nn\na\na",
+          "page": 12
+        },
+        {
+          "para_id": "1_5",
+          "text": "D\nd\nq x\na\nx\nD\nx\nd\nr\nk T\nD D\nD\na\nx\na\nx\nx\nD\nD a\na\nx\nx\nx\n\n",
+          "page": 12
+        },
+        {
+          "para_id": "1_6",
+          "text": "",
+          "page": 12
+        },
+        {
+          "para_id": "1_7",
+          "text": "",
+          "page": 12
+        },
+        {
+          "para_id": "1_8",
+          "text": "\n\n\n\n\n",
+          "page": 12
+        },
+        {
+          "para_id": "1_9",
+          "text": "",
+          "page": 12
+        },
+        {
+          "para_id": "1_10",
+          "text": "\n",
+          "page": 12
+        },
+        {
+          "para_id": "1_11",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 12
+        },
+        {
+          "para_id": "1_12",
+          "text": ", \n(26)",
+          "page": 12
+        },
+        {
+          "para_id": "1_13",
+          "text": "where we used the identity \n0\n(\n) / (\n1)\n1\n/\na\na\na\nD\nD\n\n\n\n\n\n\n\n\n and the definition \n*\n/\nx\nT T\n\n. The approximation for small σ shows clearly that the heating is the result of two factors, (a) the nonfluctuating term, which is caused by the difference between adiabatic index and the polytropic index of the nonfluctuating process, and (b) the fluctuations of the polytropic process, proportional to \n2\n. Observations that present a deviation of heating from linearity with respect to temperature, especially if this deviation is proportional to the logarithm of temperature, would be a strong indication of the effect of fluctuations:",
+          "page": 12
+        },
+        {
+          "para_id": "1_14",
+          "text": "13",
+          "page": 13
+        },
+        {
+          "para_id": "1_15",
+          "text": "2\n2\n0\n0\n*\nB",
+          "page": 13
+        },
+        {
+          "para_id": "1_16",
+          "text": "(\n1)\n1\nln(\n/\n)\nln\n1\n4(\n1)",
+          "page": 13
+        },
+        {
+          "para_id": "1_17",
+          "text": "a\nn\nn\na\na",
+          "page": 13
+        },
+        {
+          "para_id": "1_18",
+          "text": "a\ndq\na\nT\nT\nk T\nd\nr",
+          "page": 13
+        },
+        {
+          "para_id": "1_19",
+          "text": "\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "1_20",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n, \n(27a) for instance, setting \n3\na\nD \n and \n2\nna \n, we have 2\n2\n3\n0\n0\n*\n4\nB",
+          "page": 13
+        },
+        {
+          "para_id": "1_21",
+          "text": "1\n3 (5 / 3\n)\n(\n1)\nln(\n/\n)\nln\ndq\nT\nT\nk T\nd\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(27b) Again, we clearly observer that the heating is caused by two factors, (i) the difference between the \nnonfluctuating (ideal) polytropic and the ideal adiabatic indices or degrees of freedom, \n0\na\nD\nD\n\n\n, and (ii) the variance \n2\n that measures the fluctuations of the polytropic process. \n \n5. Heliospheric radial profiles of thermodynamic parameters In this section we derive the radial profiles of thermodynamic quantities of the solar wind protons in the inner heliosphere, considering that the plasma protons flow radially outward under a fluctuating polytropic process. We find the analytical expressions of temperature, polytropic index, and heating. 5.1. Temperature, T(r) We first invert the polytropic relationship in Eq.(15b) and express the temperature in terms of the density. For this, we solve the binomial",
+          "page": 13
+        },
+        {
+          "para_id": "1_22",
+          "text": "2\n2\n2\n0\n1\n1\n1\n8\n2\n4\n0\n*\n0\n0",
+          "page": 13
+        },
+        {
+          "para_id": "1_23",
+          "text": "( )\n( )\n( )\nln\nln\nln\nln\n0\nT\nT r\nT r\nn r\nD\nT\nT\nT\nn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "1_24",
+          "text": "\n\n\n, \n(28a)",
+          "page": 13
+        },
+        {
+          "para_id": "1_25",
+          "text": "leading to 2\n2\n2\n2\n0\n1\n1\n2\n2\n*\n*\n0",
+          "page": 13
+        },
+        {
+          "para_id": "1_26",
+          "text": "( )\n( )\nln\n1\n1\nln\n2\nln\nT\nT r\nn r\nD\nD\nD\nT\nD\nT\nD\nn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "1_27",
+          "text": "\n\n. \n(28b)",
+          "page": 13
+        },
+        {
+          "para_id": "1_28",
+          "text": "(Note that only positive root gives finite solution for σ tending to zero.) The expression is expanded in orders of σ2,",
+          "page": 13
+        },
+        {
+          "para_id": "1_29",
+          "text": "2\n1\n1\n2\n2\n0\n0",
+          "page": 13
+        },
+        {
+          "para_id": "1_30",
+          "text": "( )\n( )\nln\nln\n(\n/\n)\n( )\nT r\nn r\nD\nD\nI r\nT\nn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "1_31",
+          "text": "\n\n, \n(29a)",
+          "page": 13
+        },
+        {
+          "para_id": "1_32",
+          "text": "where 0 0\n0\n*",
+          "page": 13
+        },
+        {
+          "para_id": "1_33",
+          "text": "( )\n( )\n( )\nln\nln\nln T\nn r\nn r\nI r\nD\nn\nn\nT",
+          "page": 13
+        },
+        {
+          "para_id": "1_34",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 13
+        },
+        {
+          "para_id": "1_35",
+          "text": "\n\n\n. \n(29b)",
+          "page": 13
+        },
+        {
+          "para_id": "1_36",
+          "text": "Moreover, we approach the density expression with \n0\n0\n( )\n( /\n)\nn\na\nn r\nn\nr r\n\n\n\n, as in Eqs.(24,25). Then, we derive the radial profile of temperature",
+          "page": 13
+        },
+        {
+          "para_id": "1_37",
+          "text": "2\n2\n2\n2\n0\n1\n1\n2\n2\n*\n*\n0",
+          "page": 13
+        },
+        {
+          "para_id": "1_38",
+          "text": "( )\nln\n1\n1\nln\n2\nln\nn\nT\nT r\nr\nD\nD\na\nD\nT\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n(30a) approximated for small σ to the parabolic logarithmic expression",
+          "page": 13
+        },
+        {
+          "para_id": "1_39",
+          "text": "2\n0\n2\n0\n0\n0\n0\n*",
+          "page": 13
+        },
+        {
+          "para_id": "1_40",
+          "text": "2\n( )\nln\nln\nln\nln\nln\nn\nn\nn\na\na\na\nT\nT r\nr\nr\nr\nT\nD\nr\nD\nr\nD\nr\nT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n(30b) which reduces the power-law-like expression,",
+          "page": 13
+        },
+        {
+          "para_id": "1_41",
+          "text": "14",
+          "page": 14
+        },
+        {
+          "para_id": "1_42",
+          "text": "0\n0\n( )",
+          "page": 14
+        },
+        {
+          "para_id": "1_43",
+          "text": "T\na\nr\nT r\nT\nr",
+          "page": 14
+        },
+        {
+          "para_id": "1_44",
+          "text": "\n\n\n\n\n\n\n\n, \n(31a) with a radially dependent exponent 2\n,0\n,1\n( )\n( )\nT\nT\nT\na\nr\na\na\nr\n\n\n\n\n with \n,0\n2\nn\nT\na\na\nD\n\n and \n0\n,1\n2\n0\n*\nln\nln\nn\nn\nT\na\na\nT\nr\na\nD\nD\nr\nT",
+          "page": 14
+        },
+        {
+          "para_id": "1_45",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n(31b) We observe that the radial exponent aT has two terms, the constant term that stands for the nonfluctuating polytropic process, \n2\n/\nn\na\nD\nT\nr\n\n\n, and the σ2 term that has a logarithmic radial dependence. For the typical \ncases of \n2\nna \n and the adiabatic process \n3\nD \n, we obtain the known expression of adiabatic cooling for the \nfirst \nterm, \n,0\n0\n( )\nT\na\nT r\nT\nr\n\n\n\n, \n,0\n4 / 3\nTa\n\n \nwhile \nthe \nsecond \nterm,",
+          "page": 14
+        },
+        {
+          "para_id": "1_46",
+          "text": "2\n,1\nT\ns\na\nr\n\n\n\n, \n\n\n\n,1\n0\n0\n*\n(4 / 27) ln\n/\n(3 / 2)ln\n/\nTa\nr r\nT\nT\n\n\n\n\n\n, expresses the larger contribution to the nonadiabatic cooling that can be either increasing the cooling, if \n\n\n\n\n0\n0\n*\nln\n/\n(3 / 2)ln\n/\n0\nr\nr\nT\nT\n\n\n, or reducing it, if \n\n\n\n0\n0\n*\nln\n/\n(3 / 2)ln\n/\n0\nr\nr\nT\nT\n\n\n. In order to find the exact expression of the heating, we need first to derive the polytropic index radial profile. \n \n5.2. Polytropic index, ν(r) and γ(r) Having found the profile of temperature in Eq.(30a), we use it in the expression of polytropic index as a function of temperature, Eq.(20a,b); the substitution leads to the radial profile of polytropic index. This derivation becomes straightforward when we observe that there is an argument Gσ, defined by 2 1\n2\n*",
+          "page": 14
+        },
+        {
+          "para_id": "1_47",
+          "text": "( )\n( )\n1\nln T r\nG\nr\nD\nD\nT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n0\n1\nG,  \n(32a) which is involved in all the thermodynamic variables we are interested in finding. Namely, for the \npolytropic index expressions, 1\n2\n( )\n( )\nr\nD G\nr\n\n\n\n\n , \n1\n1\n1\n2\n( )\n1\n(\n)\n( )\nr\nD\nG\nr\n\n\n\n\n\n\n ,",
+          "page": 14
+        },
+        {
+          "para_id": "1_48",
+          "text": "1\n( )\n1\n( )\n1",
+          "page": 14
+        },
+        {
+          "para_id": "1_49",
+          "text": "a\na a",
+          "page": 14
+        },
+        {
+          "para_id": "1_50",
+          "text": "r\nD\nG\nr\nD\n\n\n\n",
+          "page": 14
+        },
+        {
+          "para_id": "1_51",
+          "text": "\n\n\n\n\n, \n(32b) and the expression of temperature’s radial profile, 2\n2\n2\n2\n0\n1\n1\n2\n2\n*\n*\n0",
+          "page": 14
+        },
+        {
+          "para_id": "1_52",
+          "text": "( )\n1\nln\n( )\n1\nln\n2\nln\nn\nT\nT r\nr\nD\nG\nr\nD\na\nD\nT\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n(32c) Therefore, we find the radial profiles of polytropic index by substituting Eq.(32a) into Eq.(32b), i.e., 2\n2\n2\n0\n1\n1\n2\n2\n*\n0\n( )\n1\nln\n2\nln\nn\nT\nr\nr\nD\nD\na\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(33a) 1\n2\n2\n2\n2\n1\n0\n1\n1\n2\n2\n*\n0\n( )\n1\n(\n)\n1\nln\n2\nln\nn\nT\nr\nr\nD\nD\na\nD\nT\nD\nr\n\n\n",
+          "page": 14
+        },
+        {
+          "para_id": "1_53",
+          "text": " \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(33b) For small sigma, the argument Gσ(r) is approximated by expanding it up to the 4th term, 2\n4\n6 2\n4\n( )\n1\nG\nr\ng\ng\nO\nD\nD\nD\n",
+          "page": 14
+        },
+        {
+          "para_id": "1_54",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , with \n(34a)",
+          "page": 14
+        },
+        {
+          "para_id": "1_55",
+          "text": "15",
+          "page": 15
+        },
+        {
+          "para_id": "1_56",
+          "text": "0\n1\n2\n2\n*\n0",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nln\nln\nn\nT\na\nr\ng\nD\nT\nD\nr",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n0\n1\n4\n2\n0\n*\n0\nln\nln\nln\nn\nn\nT\na\nr\nr\ng\nDa\nr\nT\nD\nr",
+          "page": 15
+        },
+        {
+          "para_id": "2_2",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n(34b) (Note: The term g2 degenerates in temperature’s radial profile, thus we use the higher term g4.) Hence, the polytropic index is approximated by 2\n0\n1\n1\n2\n2\n*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "2_3",
+          "text": "2\n( )\n1\nln\nln\nn\nT\na\nr\nr\nD\nD\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(35a) 2\n0 *\n0",
+          "page": 15
+        },
+        {
+          "para_id": "2_4",
+          "text": "2\n2\n( )\n1\nln\nln\nn\nT\na\nr\nr\nD\nD\nT\nD\nr\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(35b) The deviation of the polytropic index from its value for ideal adiabatic process is important expression \ninvolved in heating formula. This deviation is given by 1\n2\n2\n2\n2\n0\n1\n2\n*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "2_5",
+          "text": "( )\n1\n1\nln\n2\nln\n1",
+          "page": 15
+        },
+        {
+          "para_id": "2_6",
+          "text": "a\na\nn\na",
+          "page": 15
+        },
+        {
+          "para_id": "2_7",
+          "text": "r\nD\nT\nr\nD\na\nD\nD\nT\nD\nr\n\n\n\n\n",
+          "page": 15
+        },
+        {
+          "para_id": "2_8",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n, \n(36a) and approximated by 2\n0\n1\n2\n*\n0",
+          "page": 15
+        },
+        {
+          "para_id": "2_9",
+          "text": "( )\n2\n1\nln\nln\n1",
+          "page": 15
+        },
+        {
+          "para_id": "2_10",
+          "text": "a\na\nn\na\na",
+          "page": 15
+        },
+        {
+          "para_id": "2_11",
+          "text": "r\nD\nT\na\nr\nD\nD\nD\nT\nD\nr\n\n\n\n",
+          "page": 15
+        },
+        {
+          "para_id": "2_12",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n(36b) When the nonfluctuating polytropic process is adiabatic, \n0\na\n\n\n\n\n or \na\nD\nD\n\n, then,",
+          "page": 15
+        },
+        {
+          "para_id": "2_13",
+          "text": "2\n0 *\n0",
+          "page": 15
+        },
+        {
+          "para_id": "2_14",
+          "text": "( )\n2\n1\nln\nln\n1\n2",
+          "page": 15
+        },
+        {
+          "para_id": "2_15",
+          "text": "a\nn a\na\na",
+          "page": 15
+        },
+        {
+          "para_id": "2_16",
+          "text": "r\nT\na\nr\nD\nT\nD\nr\n\n\n\n",
+          "page": 15
+        },
+        {
+          "para_id": "2_17",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(36c) The deviation of the polytropic index from its value for ideal adiabatic process is proportional to the variance of the fluctuations σ2 and restores the adiabatic process when σ tends to zero. In general, for any fluctuating polytropic process, the deviation is given by both (i) the deviation of the nonfluctuating indices, and (ii) the part proportional to σ2. Consequently, both of these factors contribute to heating. 5.3. Heating, dq(r)/dt We use Eq.(25b) that connects the heating gradient and rate with the difference of polytropic and adiabatic indices,",
+          "page": 15
+        },
+        {
+          "para_id": "2_18",
+          "text": "2\n1\n1\n0\n2\n0",
+          "page": 15
+        },
+        {
+          "para_id": "2_19",
+          "text": "( )\n( )\n1",
+          "page": 15
+        },
+        {
+          "para_id": "2_20",
+          "text": "a\nn\na",
+          "page": 15
+        },
+        {
+          "para_id": "2_21",
+          "text": "r\ndq\nT r\na\nr\ndr\nT\n\n\n\n",
+          "page": 15
+        },
+        {
+          "para_id": "2_22",
+          "text": "\n\n\n\n\n\n\n, \n(37a) b\nb0\n( )\nu\na\ndq\ndq\ndq\nu r\nu r\ndt\ndr\ndr",
+          "page": 15
+        },
+        {
+          "para_id": "2_23",
+          "text": "\n\n\n\n\n, \n(37b)",
+          "page": 15
+        },
+        {
+          "para_id": "2_24",
+          "text": "where \n2\n1\nB\n0\n0\n2\n/\nn\nn\na k T\nm\na \n\n and \n0\nB\n0\n2\n/\nk T\nm\n\n denotes the thermal speed. Then, we substitute the radial profiles of the polytropic index and temperature, given respectively in Eq.(32b) and Eq.(32c). Then, we \nfind with the expression of the logarithmic gradient of heating rate, \n",
+          "page": 15
+        },
+        {
+          "para_id": "2_25",
+          "text": "2 1\n2",
+          "page": 15
+        },
+        {
+          "para_id": "2_26",
+          "text": "1\n( ) 1\n1 *",
+          "page": 15
+        },
+        {
+          "para_id": "2_27",
+          "text": "1\n1\n( )\n/\nln",
+          "page": 15
+        },
+        {
+          "para_id": "2_28",
+          "text": "G\nr\nD\nD\na\nn\nD\ndq\na\nG\nr\ne\nkT\nm d\nr\nD",
+          "page": 15
+        },
+        {
+          "para_id": "2_29",
+          "text": "\n ",
+          "page": 15
+        },
+        {
+          "para_id": "2_30",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n . \n(38) Figure 3(b) shows the radial dependence of heating for various values of the variance σ.",
+          "page": 15
+        },
+        {
+          "para_id": "2_31",
+          "text": "16",
+          "page": 16
+        },
+        {
+          "para_id": "2_32",
+          "text": "Figure 3. Polytropic index γ (upper), temperature (middle) and heating (lower) radial profiles and σ-dependence. Left \npanels are plotted as a function of heliocentric distance (in AU, for σ=0.2) and right panels are plotted as a function \nof the standard deviation σ (for r = 2 AU), following Eq.(36), and for the three cases of (i) \n(\n0)\na\n\n\n\n\n or 2\n3\na\nD\nD\n\n\n\n (superadiabatic process, in dark blue), (ii) (\n0)\na\n\n\n\n\n or \n3\na\nD\nD\n\n\n (adiabatic process, in red), and (iii) (\n0)\na\n\n\n\n\n or \n4\n3\na\nD\nD\n\n\n\n (subadiabatic process, in green). (Note: heating is plotted on a double log scale, using \n(\n) log\nsign dq\ndq\n\n, to distinguish the cases of heat entering (dq>0) and exiting (dq<0) the system.",
+          "page": 16
+        },
+        {
+          "para_id": "2_33",
+          "text": "Next, we derive the expression of heating for small sigma, which can be written as",
+          "page": 16
+        },
+        {
+          "para_id": "2_34",
+          "text": "0\n0\n1\nln",
+          "page": 16
+        },
+        {
+          "para_id": "2_35",
+          "text": "B\ndq\nr\nr\nA\nC\ndr\nr\nr",
+          "page": 16
+        },
+        {
+          "para_id": "2_36",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(39a) where 2\n0\n1\n2\n1\n*\n2",
+          "page": 16
+        },
+        {
+          "para_id": "2_37",
+          "text": "0\n2\n* 2\n0\n1\n2\n*",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln\n,\n1\n,",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln . 1\nln",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "a\nn\na\nn",
+          "page": 16
+        },
+        {
+          "para_id": "1_2",
+          "text": "a\na\nn",
+          "page": 16
+        },
+        {
+          "para_id": "1_3",
+          "text": "a\na",
+          "page": 16
+        },
+        {
+          "para_id": "1_4",
+          "text": "D\nT\na\nA\nD\na\nB\nD\nT\nD\nD D\nT\nD\na\nD\nT\nD\nC\nD\nD\nT\nD\nD\nT\nD",
+          "page": 16
+        },
+        {
+          "para_id": "1_5",
+          "text": "",
+          "page": 16
+        },
+        {
+          "para_id": "1_6",
+          "text": " ",
+          "page": 16
+        },
+        {
+          "para_id": "1_7",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 16
+        },
+        {
+          "para_id": "1_8",
+          "text": "(39b)",
+          "page": 16
+        },
+        {
+          "para_id": "1_9",
+          "text": "17",
+          "page": 17
+        },
+        {
+          "para_id": "1_10",
+          "text": "As expected, heating becomes zero for nonfluctuating adiabatic processes, while polytropic processes, in general, have two components contributing to heating, the nonadiabatic polytropic index, \na\nD\nD\n\n, and the presence of fluctuations with non-zero variance σ2.",
+          "page": 17
+        },
+        {
+          "para_id": "1_11",
+          "text": "6. Connection of fluctuating polytropic processes with heliospheric turbulence 6.1. Rationale We observe that the logarithmic part of the heating expression in Eq.(39a) does not exist for nonfluctuating processes (σ = 0, i.e., C = 0). We analyze the expression in two components; the first component is equivalent to a nonfluctuating process (and is independent of σ), while the second component corresponds to the fluctuations (and is proportional to σ2), i.e.,",
+          "page": 17
+        },
+        {
+          "para_id": "1_12",
+          "text": "0",
+          "page": 17
+        },
+        {
+          "para_id": "1_13",
+          "text": "all\ndq\ndq\ndq\ndr\ndr\ndr\n\n\n",
+          "page": 17
+        },
+        {
+          "para_id": "1_14",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(40a) where the nonfluctuating term is 2",
+          "page": 17
+        },
+        {
+          "para_id": "1_15",
+          "text": "0\n0\n0",
+          "page": 17
+        },
+        {
+          "para_id": "1_16",
+          "text": "1\n1\n/\nln",
+          "page": 17
+        },
+        {
+          "para_id": "1_17",
+          "text": "n\na\nD\na\nn\nD\ndq\nr\na\nkT\nm\nd\nr\nD\nr\n",
+          "page": 17
+        },
+        {
+          "para_id": "1_18",
+          "text": "",
+          "page": 17
+        },
+        {
+          "para_id": "1_19",
+          "text": "",
+          "page": 17
+        },
+        {
+          "para_id": "1_20",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n , \n(40b) and the fluctuating term is proportional to σ2 and equal to",
+          "page": 17
+        },
+        {
+          "para_id": "1_21",
+          "text": "0\n2\n2\n*\n0\n1\n2\n0\n*\n0\n0\n0\n1\n2\n*",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln\n1\nln\n1\nln\n/\nln\nln",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "n\na\na\na\nD a\nn\nn a",
+          "page": 17
+        },
+        {
+          "para_id": "1_2",
+          "text": "D\nT\nD\nD\nT\nD\nT\ndq\nr\nr\nD\na\na\nkT\nm\nd\nr\nD\nT\nr\nr\nT\nD\nT",
+          "page": 17
+        },
+        {
+          "para_id": "1_3",
+          "text": "",
+          "page": 17
+        },
+        {
+          "para_id": "1_4",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 17
+        },
+        {
+          "para_id": "1_5",
+          "text": ", \n(40c)",
+          "page": 17
+        },
+        {
+          "para_id": "1_6",
+          "text": "which is again written in the form of Eq.(39a), with A, B, and C, now given by",
+          "page": 17
+        },
+        {
+          "para_id": "1_7",
+          "text": "0\n2\n*\n0\n1\n2\n1\n*\n2\n0\n1\n2\n*",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln ln\n,\n1\n,\n.\nln",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "a\na\nn n\na\nn a",
+          "page": 17
+        },
+        {
+          "para_id": "1_2",
+          "text": "D\nT\nD\na\nD\nT\nD\nT\na\nA\nD\na\nB\nC\nD\nT\nD\nT\nD\nT",
+          "page": 17
+        },
+        {
+          "para_id": "1_3",
+          "text": "",
+          "page": 17
+        },
+        {
+          "para_id": "1_4",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 17
+        },
+        {
+          "para_id": "1_5",
+          "text": "(41)",
+          "page": 17
+        },
+        {
+          "para_id": "1_6",
+          "text": "Therefore, while the nonfluctuating heating is expressed by a power-law, the fluctuating heating also includes the logarithmic term proportional to the parameter C. The difference in the expressions of the two components is important to understand their physical interpretation and origin. While the first heating component can be the result of any coherent physical source, the second component can be the result of turbulence. In order to understand this assertion, we first need to examine the radial profile of turbulent heating.",
+          "page": 17
+        },
+        {
+          "para_id": "1_7",
+          "text": "6.2. Radial profile of turbulent heating The turbulent heating can be modelled by a set of 3D differential equations (e.g., Smith et al. 2001; 2006) that involve the transport of turbulent energy and the energy cascade at intermediate scales. For a radially",
+          "page": 17
+        },
+        {
+          "para_id": "1_8",
+          "text": "18",
+          "page": 18
+        },
+        {
+          "para_id": "1_9",
+          "text": "symmetric flow, the model provides steady-state equations for the radial evolution of the turbulent energy Z 2 =Et (averaged between the forward Et+ and backward Et− propagating modes), the turbulence correlation length λ, and the proton temperature T: 2\n3\n2\nsh\nD",
+          "page": 18
+        },
+        {
+          "para_id": "1_10",
+          "text": "b\n(\n1)\nd\nZ\nZ\nZ\nC\nM\ndr\nr\nu\n\n\n\n\n\n\n\n ,  \n (42a) D\nb\nˆ\n(\n)\nd\nM\nC\nZ\ndr\nr\nu\n\n\n\n\n\n\n\n\n\n ,  \n (42b) t\np",
+          "page": 18
+        },
+        {
+          "para_id": "1_11",
+          "text": "B\n(\n1)\n1)\n(\nn\na\na\nm\nE\ndT\nT\na\ndr\nr\nk\ndr\nd\n\n\n\n\n\n\n\n\n\n .  \n (42c) The involved parameters are the following: mixing constant M=1/3, normalized energy difference σD=-1/3, turbulent viscosity terms α=0.8 and β=α/2=0.4 (where the choice of α/β=2 preserves the turbulent viscosity, W. H., Matthaeus et al. 1996), constants related to shear driving turbulent energy Csh=1.4 and ˆC  (with no clearly set value), and the PUI driven turbulent energy Et,pui. (The bulk speed \nb\nu  represents the solar wind speed.) The first two equations constitute a 2D system of differential equations between Z2 and λ. The third equation gives the transport equation of temperature (e.g., see G.P. Zank et al. 2021; Livadiotis & McComas 2023a), where the gradient of the turbulent energy has been substituted by",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nb",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "t\n3\n1\ndE\nZ\ndr\nu\n\n\n\n\n .  \n (43) In Appendix B, we solve this system of differential equations to derive the turbulent energy Z2(r) and the correlation length λ(r), with respect to the heliospheric radius r in the inner heliosphere. The subsystem of the first two equations is solved to derive Z2(r) and λ(r), and then, we substitute in Eq.(43) to derive the gradient of the turbulent energy (e.g., see L. Adhikari et al. 2015; G. Livadiotis 2019b; G. Livadiotis et al. 2020), that is, D\nsh\n(2\n)\n3\n1\n0\n0 0\n2 0\nb0\n0\n0\nb0\n0",
+          "page": 18
+        },
+        {
+          "para_id": "2_2",
+          "text": "t\n2\n1\nln",
+          "page": 18
+        },
+        {
+          "para_id": "2_3",
+          "text": "M\nC\nd\nZ\nE\nZ r\nr\nr\ndr\nu\nr\nu\nr",
+          "page": 18
+        },
+        {
+          "para_id": "2_4",
+          "text": "\n\n\n\n",
+          "page": 18
+        },
+        {
+          "para_id": "2_5",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ,  \n (44) which is identical to the heating of a fluctuating process, shown in Eq.(40c), i.e.,",
+          "page": 18
+        },
+        {
+          "para_id": "2_6",
+          "text": "0\n2\n1\n2\n*\n0\n0\n2\n0\n*\n0\n0\n0\n1\n2\n*",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln\nln\n1\nln\n2\nln",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "n",
+          "page": 18
+        },
+        {
+          "para_id": "1_2",
+          "text": "n",
+          "page": 18
+        },
+        {
+          "para_id": "1_3",
+          "text": "a\na\na\nD\nn\na",
+          "page": 18
+        },
+        {
+          "para_id": "1_4",
+          "text": "a\na",
+          "page": 18
+        },
+        {
+          "para_id": "1_5",
+          "text": "D\nD\nT\nD\nD\nT\na D\nkT\nT\ndq\nr\nr\ndr\nD mr\nT\nr\nr\nT\nD\nT",
+          "page": 18
+        },
+        {
+          "para_id": "1_6",
+          "text": "",
+          "page": 18
+        },
+        {
+          "para_id": "1_7",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 18
+        },
+        {
+          "para_id": "1_8",
+          "text": ".  \n (45)",
+          "page": 18
+        },
+        {
+          "para_id": "1_9",
+          "text": "We observe that turbulent heating has the same expression as the heating of fluctuating polytropic processes, and thus can be expressed in the unique form",
+          "page": 18
+        },
+        {
+          "para_id": "1_10",
+          "text": "19",
+          "page": 19
+        },
+        {
+          "para_id": "1_11",
+          "text": "σ",
+          "page": 19
+        },
+        {
+          "para_id": "1_12",
+          "text": "0\n0",
+          "page": 19
+        },
+        {
+          "para_id": "1_13",
+          "text": "t",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln\n,",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "B",
+          "page": 19
+        },
+        {
+          "para_id": "1_2",
+          "text": "dq\nE\ndr\ndr r\nr\nA\nC\nr\nr",
+          "page": 19
+        },
+        {
+          "para_id": "1_3",
+          "text": "d",
+          "page": 19
+        },
+        {
+          "para_id": "1_4",
+          "text": "",
+          "page": 19
+        },
+        {
+          "para_id": "1_5",
+          "text": "",
+          "page": 19
+        },
+        {
+          "para_id": "1_6",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "1_7",
+          "text": "(46a)",
+          "page": 19
+        },
+        {
+          "para_id": "1_8",
+          "text": "where the involved parameters can be expressed either in terms of thermodynamics or turbulence, 3\n2\n1\n0\n0\n0\n2\n2\n0\n*\n0\nb0",
+          "page": 19
+        },
+        {
+          "para_id": "1_9",
+          "text": "D\nsh",
+          "page": 19
+        },
+        {
+          "para_id": "1_10",
+          "text": "0\n3\n*\n0 0\n2 0\nb0\n0\n1\n2\n*",
+          "page": 19
+        },
+        {
+          "para_id": "1_11",
+          "text": "ln\n,\n2 2\n1\n2\n,",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln\n(\n)\n.\nln\nn",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "n\na",
+          "page": 19
+        },
+        {
+          "para_id": "1_2",
+          "text": "n",
+          "page": 19
+        },
+        {
+          "para_id": "1_3",
+          "text": "a\na",
+          "page": 19
+        },
+        {
+          "para_id": "1_4",
+          "text": "a\na",
+          "page": 19
+        },
+        {
+          "para_id": "1_5",
+          "text": "Z\na D\nkT\nT\nA\nD mr\nT\nu a\nB\nM\nC\nD\nD\nD\nT\nD\nD\nT\nZ r\nC\nu\nT\nD\nT",
+          "page": 19
+        },
+        {
+          "para_id": "1_6",
+          "text": "\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "1_7",
+          "text": "\n",
+          "page": 19
+        },
+        {
+          "para_id": "1_8",
+          "text": "\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "1_9",
+          "text": "\n\n\n\n\n\n\n\n \n\n\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "1_10",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "1_11",
+          "text": "(46b)",
+          "page": 19
+        },
+        {
+          "para_id": "1_12",
+          "text": "(The arbitrary constant ε is determined by Eqs.(B10,B17) in Appendix B.) \n \n6.3. Interpretation of heating associated with fluctuating polytropic processes The heating of nonfluctuating polytropic process is only connected to deviation of the polytropic index and its deviation from the adiabatic value, where heating is entering the system, dq > 0, when γ < γa (or a\nD\nD\n\n), while heating is exiting the system, dq < 0, when γ > γa (or \na\nD\nD\n\n); trivially, no heating is associated with nonfluctuating adiabatic process. On the other hand, fluctuating polytropic process have an additional component of heating entering the system, solely caused by the fluctuations. The two components have complementary contributions to the total heating, dqtot = dqσ=0 + dqσ. The turbulent heating, dEt has the same radial profile as the heating associated with the fluctuating polytropic process, dqσ, while it differs from the component associated with the deviation of polytropic index from its adiabatic value, dqσ=0. In particular, the radial profile of dqσ=0 is a power-law, while the profile of dqσ has the additional logarithmic dependence, which makes the whole expression identical to that of turbulent heating, dqσ = dEt. Therefore, turbulence does not affect thermodynamics by decreasing the polytropic index. This is quite a surprising result! Previous related analyses sought to link heating to be related to the deviation between the local polytropic \n1\n2 / D\n\n and the adiabatic index \n1\n2 /\na\na\nD\n\n (=5/3 for Da=3) as a way to identify and estimate the turbulent heating (e.g., M.K. Verma et al. 1995; B.J. Vasquez et al. 2007; L. Sorriso-Valvo et al. 2007; R. Marino et al. 2008; G. Livadiotis 2015; 2019a; 2021; E. Gravanis et al. 2019; G. Livadiotis et al. 2020; G. Livadiotis & D.J. McComas 2023a). Here we show that this cannot be true, because any type of nonturbulent heating can be connected with this polytropic index deviation, but the turbulent heating can be only connected through the fluctuations of polytropic indices. Specifically, the turbulent heating has a specific mathematical form that cannot be matched with the expression of heating due to the deviation of",
+          "page": 19
+        },
+        {
+          "para_id": "1_13",
+          "text": "20",
+          "page": 20
+        },
+        {
+          "para_id": "1_14",
+          "text": "the polytropic index from the corresponding adiabatic index; instead, it matches the expression of heating originating from fluctuations of the polytropic indices. Therefore, understanding fluctuating polytropic processes reveals that turbulent and nonturbulent heating have separate, distinguishable thermodynamics. Turbulent heating occurs when energy cascades from large-scale motions to small scales, where it dissipates. Nonturbulent heating does not rely on turbulent cascades or stochastic fluctuations. It is associated with the formation of organized patterns or structures (e.g., phase-correlated electromagnetic fields or waves), shock compression, and collisional heating. (See: B. T. Tsurutani et al. 2023). 6.4. Radial profile of PUI turbulent energy The main source of heating the solar wind plasma through its expansion in the heliosphere is from energy extracted for the solar wind bulk flow via PUIs. The energy transfer from PUIs is an example of both turbulent and nonturbulent heating sources. C.W. Smith et al. (2006) studied specifically these two components of PUI heating providing the radial profile of the turbulent heating and of the total, turbulent and nonturbulent heating. In particular, these authors clearly describe that PUI energy transfer that heats the solar wind protons “… contributes to turbulent fluctuations as well and is not exactly equivalent to the plasma heating rate due to pickup protons.” The thermodynamic description of these two components is the aforementioned (i) deviation of polytropic and adiabatic indices, and (ii) the fluctuations of the polytropic index. Through this correspondence, we can derive the ratio of the turbulent over the total heating, and its complementary, the ratio of the nonturbulent over the total heating; there are, respectively, given by",
+          "page": 20
+        },
+        {
+          "para_id": "1_15",
+          "text": "0\n2\n*\n0\n1\n2\n*\n0\n0\n1\n2\n*",
+          "page": 20
+        },
+        {
+          "para_id": "1_16",
+          "text": "0\n2\n*\n0\n1\n2\n*\n0\n1\n2\n*",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln\nln\n1\nln\nln",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln\n1\nln\n1\nln",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "a\na",
+          "page": 20
+        },
+        {
+          "para_id": "1_2",
+          "text": "a\nn a t\nt all\nt\nnon t\na\na a\na a",
+          "page": 20
+        },
+        {
+          "para_id": "1_3",
+          "text": "D\nD\nT\nD\nD\nT\nT\nr\nD\na\nT\nD\nr\nT\nD\nT\ndE\ndE\ndq\ndE\ndE\nD\nD\nT\nD\nD\nT\nD\nT\nD\na\nD\nT\nD\nT\nD\nT",
+          "page": 20
+        },
+        {
+          "para_id": "1_4",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "1_5",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "1_6",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "1_7",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": "0\nln\nn\nr\nr",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 20
+        },
+        {
+          "para_id": "0_2",
+          "text": ",   (47a)",
+          "page": 20
+        },
+        {
+          "para_id": "0_3",
+          "text": "and",
+          "page": 20
+        },
+        {
+          "para_id": "0_4",
+          "text": "0\n2\n*\n0\n1\n2\n*\n0\n0\n1\n2\n*",
+          "page": 20
+        },
+        {
+          "para_id": "0_5",
+          "text": "1",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "1\nln\n1\nln\n1\nln\nln",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "a non t\nnon t all\nt\nnon t\na\na a\na\nn a",
+          "page": 20
+        },
+        {
+          "para_id": "1_2",
+          "text": "D\ndE\ndE\nD\ndq\ndE\ndE\nD\nD\nT\nD\nD\nT\nD\nT\nr\nD\na\nD\nT\nD\nr\nT\nD\nT",
+          "page": 20
+        },
+        {
+          "para_id": "1_3",
+          "text": "",
+          "page": 20
+        },
+        {
+          "para_id": "1_4",
+          "text": "\n ",
+          "page": 20
+        },
+        {
+          "para_id": "1_5",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "page": 20
+        },
+        {
+          "para_id": "1_6",
+          "text": ".  (47b)",
+          "page": 20
+        },
+        {
+          "para_id": "1_7",
+          "text": "21",
+          "page": 21
+        },
+        {
+          "para_id": "1_8",
+          "text": "Furthermore, the ratio \n/\nt\nall\ndE\ndq\n can be used to estimate the turbulent heating of PUIs. For this, we need to first derive the radial profile of the total heating, \n/\nall\ndq\ndr , and then, we use the chain equation /\n(\n/\n) (\n/\n)\nt\nt\nall\nall\ndE\ndr\ndE\ndq\ndq\ndr\n\n\n. For deriving \n/\nall\ndq\ndr , we use the radial profile of the polytropic index 1.7\n1.7\n( )\n5 / 3\n0.0051\n/ (1\n0.0034\n)\nr\nr\nr\n\n\n\n\n (G. Livadiotis & D.J. McComas 2023a). This is applied into the thermodynamic equation that connects it to the total heating, Eq.(25), 1 B\n0 0\n0\n0",
+          "page": 21
+        },
+        {
+          "para_id": "1_9",
+          "text": "( )\n( )\n1",
+          "page": 21
+        },
+        {
+          "para_id": "1_10",
+          "text": "all\nn\na a",
+          "page": 21
+        },
+        {
+          "para_id": "1_11",
+          "text": "dq\na k T\nr\nT r\nr\ndr\nmr\nT\nr\n\n\n",
+          "page": 21
+        },
+        {
+          "para_id": "1_12",
+          "text": "\n\n\n\n\n\n\n\n\n\n\n\n,  \n (48) where we expressed the temperature profile in terms of the polytropic index \n( )r\n\n, namely,",
+          "page": 21
+        },
+        {
+          "para_id": "1_13",
+          "text": "0",
+          "page": 21
+        },
+        {
+          "para_id": "1_14",
+          "text": "1\n0\n( ) /\nexp{\n[ ( )\n1]\n}\nr",
+          "page": 21
+        },
+        {
+          "para_id": "1_15",
+          "text": "n\nr\nT r\nT\na\nr\nr\ndr\n\n\n\n\n\n\n; alternatively, we use the radial profiles from D.J. McComas (2025a). Then, we estimate the rate of turbulent heating through",
+          "page": 21
+        },
+        {
+          "para_id": "1_16",
+          "text": "PUI\nb( )\nt\nt\nall all",
+          "page": 21
+        },
+        {
+          "para_id": "1_17",
+          "text": "dE\ndE\ndq\nu r\ndt\ndq\ndr\n\n\n\n\n\n\n\n\n\n\n\n\n\n. \n (49) Figure 4(a) plots the PUI turbulent heating as derived from Voyager 2 observations by C.W. Smith et al. (2006), for which we fit the modelled radial profile of the PUI turbulent heating rate as given in Eq.(49), after substituting Eq.(47a) and Eq.(48). As shown in Figure 4(b), the deviations of the observed rates above and below the modelled ones are correlated with solar activity maxima and minima. Therefore, in order to better describe the model, we adopt two components of polytropic fluctuations, (i) one component \n0\n that exists independently of solar activity and remains stationary along the evolution of PUI distribution throughout the heliosphere, and (ii) a second component \nSN\n\n that evolves proportional to the sunspot number (normalized accordingly to its maximum value). Overall, we have",
+          "page": 21
+        },
+        {
+          "para_id": "1_18",
+          "text": "2\n2\n2\n0\nSN\ntotal\n\n\n\n\n\n, with  \nSN\n0\nmax",
+          "page": 21
+        },
+        {
+          "para_id": "1_19",
+          "text": "SunspotNumber\nhalf of SunspotNumber\n\n\n\n\n\n, \n (50)",
+          "page": 21
+        },
+        {
+          "para_id": "1_20",
+          "text": "The local effective degrees of freedom are also scaled with \n0\n, as 2\n0\n(\n) D\na\na\nD\nD\nD\nA\n\n\n\n\n. \n (51) Then, the model describes better the observations of turbulent heating rates, as shown in Figure 4(c). The fit of the model estimates the involved parameters values, i.e., \n2\n\n, \n570\nD\nA \n and \n1.17\nD\na \n, but it is independent of the value of \n0\nas it always has small value. Here we use \n0\n0.01\n\n, thus \n3.012\nD \n (for Da = 3). (For the optimization of the model to observations, we have also used the thermal scale \n*\n1K\nT \n and the initial values \n4\n0\n3 10 K\nT \n\n, \n-1\nb0\n400kms\nu\n\n.)",
+          "page": 21
+        },
+        {
+          "para_id": "1_21",
+          "text": "22",
+          "page": 22
+        },
+        {
+          "para_id": "1_22",
+          "text": "Figure 4. PUI turbulent heating modelled thermodynamically through a fluctuating polytropic process. (a) Fit of PUI turbulent heating rate to observations for a fixed variance of fluctuations, \n2\n0\n\n. (b) The sunspots number is correlated with the deviations of the observed from the modelled rates. (c) Fit of PUI turbulent heating rate to observations for a variance given by a fixed component \n2\n0\n\n and a nonstationary component \n2\nSN\n\n, where \nSN\n\n is proportional to sunspot number. 7. Discussion and conclusions \nIn this paper we studied the heating associated with fluctuating polytropic processes. The first question we faced was to determine whether fluctuating adiabatic processes produce a nonzero overall heating of the flowing particle system. We found that heating becomes zero for nonfluctuating adiabatic processes, as expected, but there is a nonzero positive value of heating entering the flowing system for fluctuating adiabatic processes. In general, there are two components contributing to the heating of fluctuating polytropic processes, (i) the nonadiabatic polytropic index, \na\n\n\n\n or \na\nD\nD\n\n, and (ii) the presence of",
+          "page": 22
+        },
+        {
+          "para_id": "1_23",
+          "text": "23",
+          "page": 23
+        },
+        {
+          "para_id": "1_24",
+          "text": "fluctuations with variance σ2. The first component contributes either with heat entering the system for the subadiabatic processes, \na\n\n\n\n or with heat exiting the system for superadiabatic processes, \na\n\n\n\n. The second component that stands for fluctuating polytropic processes, which always contribute as heating entering the system. Furthermore, we derived the analytical expressions of radial profiles of the heating rates for fluctuating polytropic processes, which have been distinguished by the two components of adiabatic deviation and of polytropic fluctuations. In order to interpret the nature of the two components, we revisited the analytical modeling of turbulent heating and found that the radial profiles of the heating rate associated with polytropic fluctuations and of the turbulence are surprisingly identical. This suggests that turbulence, unavoidably, heats plasma particle populations through fluctuations of polytropic processes and not through polytropic indices that deviating from the adiabatic expansion. First, we developed a general way of expressing a multi-polytrope, as a superposition of polytropes. While a polytrope is described by a power-law relationship among thermodynamic parameters (Figure 1), typically, between density and temperature, the multi-polytrope can be described by any analytical function expressed as a discrete (sum) or continuous (integral) superposition of powers of temperature (Figure 2). The summation or integration holds for the effective degrees of freedom, that is, a fractional number of dimensionalities, as the velocity distribution does not fully populate the available unitary-dimensionality phase space. Then, we applied the superposition in the particular case where the nonconstant polytropic index is constructed by random fluctuations of polytropic processes. The distribution of the effective degrees of freedom is given by a normal distribution of random fluctuations. We also found the same results for any distribution function of random fluctuations but with small variance. Then, we derived the generalized polytropic relationship, temperature radial profile, and heating rates that characterized fluctuating polytropic processes; (we expressed heating using rate, gradient, and heat capacity). We derived the expression of the polytropic index and heating of particle systems flowing under fluctuating polytropic processes. In the case of fluctuating adiabatic processes, heating is proportional to the variance of the fluctuations, while in the general case of fluctuating polytropic processes, heating is entering the system because of two thermodynamic factors: (i) the difference between the nonfluctuating (ideal) polytropic and the ideal adiabatic indices or degrees of freedom, and (ii) the nonzero variance that measures the fluctuations of the polytropic process. In the case of fluctuating adiabatic processes, the polytropic index was found to be smaller than the respective ideal adiabatic, thus heat enters the system; the fluctuation of polytropic process has an impact similar to that of subadiabatic processes, for which heating is entering the system, as opposed to super- adiabatic processes, for which heat is leaving the system. The effect of fluctuations in heating is summarized as follows: The temperature radial profile was found to be decreasing with distance less than the decrease of the adiabatic process (adiabatic cooling) by a factor that is proportional to the variance of the normally",
+          "page": 23
+        },
+        {
+          "para_id": "1_25",
+          "text": "24",
+          "page": 24
+        },
+        {
+          "para_id": "1_26",
+          "text": "distributed fluctuations. This is caused by the heating entering the system due to the fluctuations. The corresponding polytropic index is smaller than the adiabatic, decreasing with increasing the logarithm of radial distance. Recall that the polytropic index decreases while heating increases with increasing variance of the polytropic fluctuations (Figure 3). Finally, we showed that the analytical radial profiles of heating of fluctuating polytropic processes and of turbulent heating are identical. In particular, we derived the analytical solution of a differential system that models the turbulent heating, and then, compared it with the heating of fluctuating polytropic processes. We found that the two expressions of heating are identical. This suggests that turbulence heats plasma particle populations by fluctuating their polytropic processes and not by deviations of the polytropic index, as was previously thought (e.g. G. Livadiotis & D.J. McComas 2023a; 2025a). The thermodynamics of polytropic processes unfolds a connection with two different types of heating, the turbulent and nonturbulent heating. The nonturbulent heating is connected with the deviation of polytropic index from its adiabatic value, while the turbulent heating is connected with the fluctuations of the polytropic index. Moreover, the percentage of the turbulent heating over the overall turbulent and nonturbulent heating can be solely described through thermodynamics, that is, the local values of polytropic index, \n1\n2 / D\n\n, and",
+          "page": 24
+        },
+        {
+          "para_id": "1_27",
+          "text": "the variance of the polytropic fluctuations, \n2\n. We have applied the theory to estimate the turbulent heating rates of PUIs through their (nonadiabatic) expansion in the heliosphere. The derived radial profile fits very well the observation turbulent heating rates. We found that the variance of fluctuations is the sum of two components, (i) a stationary component that remains fixed along the evolution of PUI distribution throughout the heliosphere, and (ii) a second component that varies proportionally to the sunspot number. In general, given a radial profile of the polytropic index ( )r\n\n, we can estimate the average degrees of",
+          "page": 24
+        },
+        {
+          "para_id": "1_28",
+          "text": "freedom D  and its variance \n2\n by fitting the respective analytical equation of polytropic index, Eq.(15b), to the given profile. Alternatively, we can analytically derive the temperature profile from",
+          "page": 24
+        },
+        {
+          "para_id": "1_29",
+          "text": "0",
+          "page": 24
+        },
+        {
+          "para_id": "1_30",
+          "text": "1\n0\n( )\nexp{\n[ ( )\n1]\n}\nr",
+          "page": 24
+        },
+        {
+          "para_id": "1_31",
+          "text": "n\nr\nT r\nT\na\nr\nr dr\n\n\n\n\n\n\n\n, while the variance can be determined from more detailed analytical",
+          "page": 24
+        },
+        {
+          "para_id": "1_32",
+          "text": "forms, such as,",
+          "page": 24
+        },
+        {
+          "para_id": "1_33",
+          "text": "2\n2\n( ) /\nln ( )\nD d\nr\nd\nT r\n\n\n\n\n or",
+          "page": 24
+        },
+        {
+          "para_id": "1_34",
+          "text": "2\n3\n2\n2\n2\n(\n/ 2\n)\nln ( ) / (ln )\nn\nD\na\nd\nT r\nd\nr\n\n\n. Then, we can calculate the total heating associated with the fluctuating polytropic process, \n/\nall\ndq\ndt , and its portion that corresponds to the nonturbulent \n\n0\n/\ndq dt  and turbulent \n\n/\ndq dt  heating components. (See Figure 5). We remark that the treatment of determining the turbulent (and non-turbulent) heating remains unchanged even when the pressure tensor is anisotropic. In such cases, the plasma exhibits different temperature components along each physical dimension (kinetic degrees of freedom); e.g., T in the direction parallel to the magnetic field, and T for the two perpendicular directions, with the anisotropy",
+          "page": 24
+        },
+        {
+          "para_id": "1_35",
+          "text": "25",
+          "page": 25
+        },
+        {
+          "para_id": "1_36",
+          "text": "commonly described by the ratio \n/\nT\nT\n\n\n\n. The thermal components are not true “temperatures”, because they do not conform to thermodynamics. The actual temperature T is given by their average, e.g., (\n2\n) / 3\nT\nT\nT\n\n\n\n, and this is the temperature that enters the polytropic description of plasma processes. The anisotropy is known to affect the adiabatic degrees of freedom Da (and thereby, the adiabatic index), but does not influence the fluctuations of the effective degrees of freedom (G. Livadiotis & G. Nicolaou 2021; C. Katsavrias et al. 2024).",
+          "page": 25
+        },
+        {
+          "para_id": "1_37",
+          "text": "Figure 5. Polytropic index variability can be connected with the nature of heating. Radial dependence of \npolytropic index is connected with the total heating rate, while its analysis to an average polytropic index \nfluctuating with a variance (local measurements) leads to further interpretation, as they are connected with \nthe nonturbulent and turbulent heating rates, respectively. The developments of this paper are ready to be used in further theoretical analyses and/or applications. Open topics for investigation and/or application are the following: (i) Detection of parabolic behavior in space plasmas, can be linked to fluctuating adiabatic or other polytropic processes. Identifying the value of polytropic index and variance can be used to estimate the turbulent heating. Such parabolic polytropic relationships have already been observed, e.g., in the inner heliosphere using measurements from Parker Solar Probe (Fox et al. 2016; Nicolaou et al. 2020) and the heliosheath using measurements from Interstellar Boundary Explorer (D.J. McComas et al. 2009a;b; G. Livadiotis & D.J. McComas 2013; G. Livadiotis 2016). (ii) Local measurements of polytropic indices can also lead to an average polytropic index and its variance. Comparing the local measurements with the global radial profile of polytropic index, we can verify whether the superposition refers to the fluctuations of polytropic processes or to more complicate analysis. (iii) Once the average polytropic index and its variance are measured, then, the heating rate",
+          "page": 25
+        },
+        {
+          "para_id": "1_38",
+          "text": "26",
+          "page": 26
+        },
+        {
+          "para_id": "1_39",
+          "text": "transferred into the system and its components to turbulent and nonturbulent heating, can be fully estimated. This is in contrast to previous analyses where there was no mention to nonturbulent heating. (iv) Theoretical investigation of random fluctuations described by more general statistics, such as, the q-statistics (e.g., see: Livadiotis 2017; C. Tsallis 2023; L.Y. Khoo et al. 2025); these can be linked to more general expressions of turbulent heating. Heliospheric observations from the Interstellar Mapping and Acceleration Probe (IMAP) mission (McComas et al. 2018; 2025b) will allow for more detailed characterization of fluctuating polytropic processes, and the heating of solar wind protons from PUIs (also, see: J. S. Rankin et al. 2025; S. A. Livi et al. 2025; T. S. Horbury et al. 2025; E. R. Christian et al. 2025; D.B. Reisenfeld 2025).",
+          "page": 26
+        },
+        {
+          "para_id": "1_40",
+          "text": "Acknowledgments \nThis work was funded in part by the IMAP mission as a part of NASA’s Solar Terrestrial Probes (STP) \nProgram (grant No. 80GSFC19C0027). ORCID iDs \nG. Livadiotis https://orcid.org/0000-0002-7655-6019 \nD. J. McComas https://orcid.org/0000-0001-6160-1158",
+          "page": 26
+        }
+      ]
+    }
+  ]
+}

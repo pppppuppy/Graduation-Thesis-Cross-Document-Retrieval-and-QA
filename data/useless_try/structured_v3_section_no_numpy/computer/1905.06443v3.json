@@ -1,0 +1,189 @@
+{
+  "doc_id": "1905.06443v3.pdf",
+  "sections": [
+    {
+      "section_title": "On",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "the",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Automatic",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Parameter",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Selection",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Permutation",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Entropy",
+      "text": " A.  Audun  Myers  and  Firas  A.  Khasawneh Department  of  Mechanical  Engineering,  Michigan  State  University,  East  Lansing,  Michigan,  48824, United States of America. a) (Dated:  6 April 2020) https://doi.org/10.1063/1.5111719 Permutation  Entropy  (PE)  is  a  cost  effective  tool  for  summarizing  the  complexity  of  a  time  series.  It  has  been  used in  many  applications  including  damage  detection,  disease  forecasting,  detection  of  dynamical  changes,  and  ﬁnancial volatility analysis.  However, to successfully use PE, an accurate selection of two parameters is needed: the permutation dimension  n  and  embedding  delay  τ .  These  parameters  are  often  suggested  by  experts  based  on  a  heuristic  or  by  a trial and error approach.  Both of these methods can be time-consuming and lead to inaccurate results.  In this work we investigate  multiple  schemes  for  automatically  selecting  these  parameters  with  only  the  corresponding  time  series  as the input.  Speciﬁcally, we develop a frequency-domain approach based on the least median of squares and the Fourier spectrum, as well as extend two existing methods:  Permutation Auto-Mutual Information Function (PAMI) and Multi- scale Permutation Entropy (MPE) for determining τ .  We then compare our methods as well as current methods in the literature  for  obtaining  both  τ  and  n  against  expert-suggested  values  in  published  works.  We  show  that  the  success of  any "
+    },
+    {
+      "section_title": "method",
+      "text": "  in  automatically  generating  the  correct  PE  parameters  depends  on  the  category  of  the  studied  system. Speciﬁcally, for the delay parameter τ , we show that our frequency approach provides accurate suggestions for periodic systems,  nonlinear  difference  equations,  and  ECG/EEG  data,  while  the  mutual  information  function  computed  using adaptive partitions provides the most accurate results for chaotic differential equations.  For the permutation dimension n , both False Nearest Neighbors and MPE provide accurate values for n for most of the systems with a value of n = being suitable in most cases. Permutation  Entropy  (PE)  is  a  simple  yet  very  effective tool for studying time series of dynamical systems.  It pro- vides an information statistic that measures the complex- ity  of  a  time  series  through  the  probability  of  unique  or- dinal  patterns  found  within  the  time  series  called  permu- tations.  These permutations are symbolic representations obtained by encoding consecutive subsets of the data of a certain  length  using  their  ordinal  ranking.  However,  the success  of  PE  depends  on  the  selection  of  both  the  spac- ing (delay τ ) and size (dimension n ) of these permutations. Despite  the  wide  use  of  PE,  it  is  often  unclear  how  these parameters  must  be  selected  with  the  most  common  ap- proach relying on trial and error.  This can lead to inaccu- rate results,  and it can prevent applying PE to large data sets in the absence of automatic parameter selection algo- rithms.  In  this  work  we  investigate  various  methods  for automatically selecting both τ  and n .  In addition to devel- oping  novel  methods  that  facilitate  the  parameter  selec- tion, we also assess the accuracy of using classical time se- ries tools for identifying permutation entropy parameters. The  success  for  each  of  the  investigated  methods  in  com- puting τ  and n is determined based on a comparison with the corresponding values suggested by domain experts. I."
+    },
+    {
+      "section_title": "INTRODUCTION",
+      "text": " Permutation  Entropy  (PE)  has  its  origins  in  information entropy,  which  is  a  tool  to  quantify  the  uncertainty  in  an a) Electronic mail:  myersau3@msu.edu information-based  system.  Information  entropy  was  ﬁrst  in- troduced by Shannon  in 1948 as Shannon Entropy.  Speciﬁ- cally, Shannon entropy measures the uncertainty in future data given the probability distribution of the data types in the orig- inal, ﬁnite dataset.  Shannon entropy is calculated as H s ( n ) = − ∑ p ( x i ) log p ( x i ) , where x i  represents a data type, and  p ( x i ) is the probability of that data type. In recent years information entropy has been heavily applied to the time series of dynamic systems.  Several new variations of information entropy have been proposed to better accommodate these applications, e.g. approximate  entropy ,  sample  entropy ,  and  PE .  These methods measure the predictability of a sequence through the entropy  of  the  relative  data  types. However,  PE  considers the  ordinal  position  of  the  data  (permutations),  which  have been  shown  to  be  effective  for  analyzing  the  dynamic  state and  complexity  of  a  time  series 1,5,11,18,21,22,33,37 .  PE  is  also noise robust for time series of sufﬁcient length and relatively high  signal-to-noise  ratios,  which  is  the  ratio  between  useful signal  and  background  noise.  Alternatively,  if  the  time  se- ries  is  relatively  short  or  has  a  low  signal-to-noise  ratio,  it is  suggested  to  use  a  different  entropy  measurement  such  as coarse-grained entropies .  PE is quantiﬁed in a similar fash- ion  to  Shannon  entropy  with  only  a  change  in  the  data  type to permutations (see Fig. 2), which we symbolically represent as  π i .  PE  has  two  parameters:  the  permutation  dimension  n and  embedding  delay  τ ,  which  are  used  when  selecting  the permutation size and spacing, respectively.  PE is sensitive to these parameters 30,45,48  and there is no accurate selecting ap- proach for all applications.  This introduces the motivation for this  paper:  investigate  automatic  methods  for  selecting  both PE  parameters.  There  are  currently  three  main  methods  for selecting PE parameters:  (1) parameters suggested by experts for  a  speciﬁc  application,  (2)  trial  and  error  to  ﬁnd  suitable"
+    },
+    {
+      "section_title": "arXiv:1905.06443v3  [physics.data-an]  3 Apr 2020",
+      "text": " Automatic Parameter Selection for Permutation Entropy parameters, or (3) methods developed for phase space recon- struction.  We  will  now  overview  a  simple  example  to  better understand these parameters. Bandt and Pompe  deﬁned PE according to H ( n ) = −"
+    },
+    {
+      "section_title": "∑",
+      "text": " p ( π i ) log p ( π i ) , (1) where  p ( π i )  is  the  probability  of  a  permutation  π i  and  H ( n ) is  the  permutation  entropy  of  dimension  n  with  units  of  bits when  the  logarithm  is  of  base  2.  The  permutation  entropy parameters  τ  and  n  are  used  when  selecting  the  motif  size, with  τ  determining  the  time  difference  between  two  consec- utive  points  in  a  uniformly  sub-sampled  time  series  and  n  as the permutation length or motif dimension.  To form a permu- tation,  begin  with  with  an  element  x i  of  the  series  X .  Using this  element,  the  dimension  n ,  and  delay  τ ,  deﬁne  the  vec- tor v i = [ x i , x i + τ , x i + τ ,..., x i +( n − ) τ ] .  The corresponding per- mutation π i  of this vector is determined using its ordinal pat- tern.  For  example,  consider  the  third  degree  n =  permuta- tion shown in Fig. 1. The permutation type, which categorizes (1,0,2) FIG. 1.  Sample permutation formation for n = 3 and τ  = 1. the permutation, is found by ﬁrst ordering the n values of the permutation  smallest  to  largest,  and  then  accounting  for  the order received.  For the given permutation in Fig. 1, the result- ing  permutation  is  categorized  as  the  sequence  π i  = ( , , ) , which  is  one  of  n !  possible  permutations  for  a  dimension  n , see Fig. 2 for the other possible permutations of n = 3. (0,1,2) (0,2,1) (1,0,2) (2,0,1) (1,2,0) (2,1,0) FIG. 2.  All possible permutation conﬁgurations for n = 3. We  can  normalize  PE  using  the  maximum  possible  PE value,  which  occurs  when  all  n !  possible  permutations  are equiprobable according to p ( π ) = p ( π ) = ... = p ( π n ! ) =  n ! . The resulting normalized PE is h n = − log n !"
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "∑",
+      "text": " p ( π i ) log p ( π i ) . (2) A toy example demonstrating the calculation of h n is provided in the appendix. Many  domain  scientists  who  apply  PE  make  general  sug- gestions  for  n  and  τ 19,53 ,  which  can  be  impractical  for  some applications.  As  an  example,  Popov  et  al.  showed  the  in- ﬂuence  of  the  sampling  frequency  on  the  proper  selection  of τ .  As for the dimension n , there are general suggestions  on how  to  choose  its  value  based  on  the  vast  majority  of  appli- cations  having  an  appropriate  permutation  dimension  in  the range  < n < 8.  Additionally,  Bandt  and  Pompe  suggest that  N  ≫ n ,  where  N  is  the  length  of  the  time  series.  How- ever,  these  general  outlines  for  the  selection  of  n  (and  τ )  do not allow for an application speciﬁc suggestions. If we assume that suitable PE parameters correspond to op- timal phase space reconstruction parameters, then a common approach for selecting τ and n is to implement one of the exist- ing methods for estimating the optimal Takens’ embedding parameters.  Hence,  some  of  the  common  methods  for  deter- mining τ  include the mutual information function approach , the  ﬁrst  folding  time  of  the  autocorrelation  function 8,23 ,  and phase  space  methods .  Additionally,  some  common  phase space reconstruction methods for determining n include box- counting ,  correlation  exponent "
+    },
+    {
+      "section_title": "method",
+      "text": " ,  and  false  nearest neighbors . Although  the  parameters  in  PE  have  similar names to their delay reconstruction counterpart,  there are in- nate differences between ordinal patterns and phase space re- construction which can also lead to inaccurate n or τ values. In spite of these differences, permutations can be viewed as sym- bolic  representation  of  regions  in  the  phase  space  through  a binning process. Permutations partition the phase space based on  the  ordinal  rankings  of  the  embedded  vectors.  This  rela- tionship between phase space and permutations opens up the potential  for  some  of  the  classic  phase  space  reconstruction methods for selecting both n and τ  to be a plausible solution for selecting the same parameters for PE. Even  with  the  possibility  that  phase  space  reconstruction methods  for  selecting  τ  and  n  may  work  for  choosing  syn- onymous  parameters  of  PE,  there  are  a  few  practical  issues that  preclude  using  parameters  from  time  series  reconstruc- tion for PE. One issue stems from many of the methods (e.g. false nearest neighbors and mutual information) still requiring some  degree  of  user  input  through  either  a  parameter  setting or user interpretation of the results.  This introduces issues for practitioners working with numerous data sets or those with- out enough expertise in the subject area to interpret the results. Another issue that arises in practice is that the algorithmic im- plementation of existing time series analysis tools is nontriv- ial. This hinders these tools from being autonomously applied to  large  datasets.  For  example,  the  ﬁrst  minimum  of  the  MI function  is  often  used  to  determine  τ .  However  in  practice there  are  limitations  to  using  mutual  information  to  analyze data without the operator intervention to sift through the min- ima and choose the ﬁrst ’prominent’ one.  This is due to pos- sibility  that  the  mutual  information  function  can  have  small kinks that can be erroneously picked up as the ﬁrst minimum. Figure 3a shows this situation, where the ﬁrst minimum of the mutual  information  function  for  a  periodic  Lorenz  system  is actually an artifact and the actual delay should be at the promi- nent  minimum  with  τ  = 11.  Further,  the  mutual  information function  approach  may  also  fail  if  the  mutual  information  is monotonic.  This  is  a  possibility  since  there  is  no  guarantee that  minima  exist  for  mutual  information .  An  example  of this mode of failure is shown in Fig. 3b, which was generated using EEG data  from a patient during a seizure. A mode of failure for the autocorrelation method can occur when  the  time  series  is  non-linear  or  has  a  moving  average. In this case,  the autocorrelation function may reach the fold- ing time at an unreasonably large value for τ .  As an example, Automatic Parameter Selection for Permutation Entropy Fig. 3c shows the autocorrelation not reaching the folding time of ρ = / e until a delay of τ = 283 for electrocardiogram data provided  by  the  MIT-BIH  Arrhythmia  Database .  The  last mode of failure concerns choosing the permutation dimension n to be equal to the embedding dimension optimized using de- lay embedding from time series analysis.  This can lead to an overly  large  embedding  dimension  ( n ≫ 8),  which  would make  the  calculation  of  PE  impractical  because  the  number of  possible  permutations  n !  would  become  too  large.  All  of . . . . Mutual  Info. (a) Delay  at  ﬁrst  minima:  . . . . . Mutual  Info. (b) τ . . . . . . Correlation (c) Folding  time:  ρ = 1 /e Delay  at  ρ :  FIG.  3.  Some  possible  modes  for  failure  for  selecting  τ  for  phase space reconstruction using classical methods: (a) mutual information registering false minima as suitable delay generated from a periodic Lorenz system, (b) mutual information being mostly monotonic and not having a distinct  local  minimum  to  determine  τ  generated from EEG data , and (c) autocorrelation failing from a moving average of ECG data provided by the MIT-BIH Arrhythmia Database . these possible modes of failure can make using classical phase space methods for selecting τ and n unreliable thus necessitat- ing  new  tools  or  modiﬁcations  to  make  selecting  τ  and  n  for PE more robust and less user-dependent. These shortcomings lead us to the problem that we address in  this  paper:  Given  a  sufﬁciently  sampled/oversampled  and noisy  time  series  X  = { x t } R + ,  how  can  we  reliably  and  sys- tematically  deﬁne  appropriate  dimension  n  and  time  delay  τ values for computing the corresponding PE? Our ﬁrst contribution towards answering this question is de- tailed in Section II, which addresses the automatic selection of the time delay τ . In Section II A we combine the Least Median of Squares (LMS) approach for outliers detection with Fourier transformation theorem to derive a formula for the maximum signiﬁcant  frequency  in  the  Fourier  spectrum,  with  the  as- sumption  that  X  is  contaminated  by  Gaussian  measurement noise.  This  formula  allows  obtaining  a  cutoff  value  where the only input, besides the time series, is a desired percentile from  the  Probability  Density  Function  (PDF)  of  the  Fourier spectrum.  Once  this  value  is  obtained,  Nyquist’s  sampling theorem is used to compute an appropriate τ  value. The second contribution is through an approach that we de- velop in Section II B, which uses Multi-scale Permutation En- tropy  (MPE)  for  ﬁnding  τ .  We  show  how  MPE  can  be  used to ﬁnd the main period of oscillation for a time series derived from a periodic system.  Building upon this, we show how the method can be extended to ﬁnd τ  for a chaotic time series by using the ﬁrst maxima in the MPE as it satisﬁes the Nyquist’s sampling theorem. Our  third  contribution  to  the  automatic  selection  of  τ  is through  the  analysis  of  Permutation  Auto-Mutual  Informa- tion  (PAMI). PAMI is an existing method for measuring the mutual information of permutations.  However,  we tailor this method to speciﬁcally select τ  for PE. Our ﬁnal contribution towards answering the posited ques- tion  is  our  evaluation  of  the  ability  of  existing  tools  for computing  an  embedding  dimension  to  provide  an  appro- priate  value  for  the  PE  parameter  n . We  compare  di- mension  n  values  computed  from  False  Nearest  Neighbors (FNN—Section  III A),  Singular  Spectrum  Analysis  (SSA— Section III B), and MPE (Section II B). While we use existing methods  for  performing  the  FNN  and  the  SSA  analyses,  for the MPE-based approach we use a criteria established in prior works , which requires ﬁnding τ  ﬁrst.  We made this process automatic through the selection of τ  from our second contri- bution. This paper is organized as follows. We ﬁrst go into detail on some existing methods for selecting both τ and n . Speciﬁcally, in Section II we provide a detailed explanation for selecting τ using  existing,  automatic  methods  such  as  autocorrelation  in Section II C and Mutual Information (MI) in Section II D. Ad- ditionally, we modify and develop/tailor methods to automati- cally select τ . These methods include a frequency approach in Section II A, MPE in Section II B, and PAMI in Section II E. In Section III we expand on the process for selecting n using False Nearest Neighbors (FNN) in Section III A and Singular Spectrum  Analysis  in  Section  III B.  In  Section  III C,  we  ex- plain our algorithm for automatically selecting n using MPE. After introducing each method,  in Section IV we contrast all of  these  methods  and  make  conclusions  on  their  viability  by comparing the resulting parameters to those suggested by PE experts.  An overview of the methods that will be investigated for automatically calculating both τ  and n are shown in Fig. 4. All the functions used and developed in this work are available in Python through GitHub . II. METHODS  FOR  EMBEDDING  DELAY  PARAMETER SELECTION The delay embedding parameter τ is used to uniformly sub- sample  the  original  time  series.  To  elaborate,  consider  the Automatic Parameter Selection for Permutation Entropy Frequency Approach Cutoff Max Frequency Frequency Multiscale Permutation Entropy Permutation Auto-Mutual Mutual Information Information Autocorrelation Delay False Nearest Multiscale Permutation Entropy Singular Spectrum Analysis Dimension Neighbors FIG. 4.  Overview of methods investigated for automatically calculating both the delay τ  and dimension n for permutation entropy. time  series  X  = { x i  | i ∈ N } .  By  applying  the  delay  τ  ∈ N , a new subsampled series is deﬁned as X ( τ ) = [ x , x τ , x τ ,... ] . In order to obtain a stable and automatic method for estimat- ing an optimal value for τ  we investigate:  a novel frequency- based  analysis  that  we  describe  in  Section  II A,  Multi-scale Permutation  Entropy  (MPE)  (Section  II B),  autocorrelation (Section  II C),  and  Mutual  Information  function  (MI)  (Sec- tion  II D).  We  recognize,  but  do  not  investigate,  some  other methods for ﬁnding τ such as diffusion maps  and phase space expansion . A. Frequency  Approach  for  Embedding  Delay In  this  section  we  develop  a "
+    },
+    {
+      "section_title": "method",
+      "text": "  for  ﬁnding  the  noise ﬂoor  in  the  Fourier  spectrum  using  Least  Median  of  Squares (LMS) .  We  then  use  the  noise  ﬂoor  to  ﬁnd  the  maximum signiﬁcant  frequency  of  a  signal  contaminated  with  additive Gaussian  white  noise  (GWN).  Our "
+    },
+    {
+      "section_title": "method",
+      "text": "  is  based  on  ﬁnd- ing  the  maximum  signiﬁcant  frequency  in  the  Fourier  spec- trum and the Nyquist sampling frequency criteria. To motivate the development of this approach, we begin by working with the frequency criteria developed by Melosik and Marszalek , which  agrees  with  Nyquist  sampling  theorem  for  choosing a suitable sampling frequency  f s as f max <  f s < f max , (3) where  f max  is the maximum signiﬁcant frequency in the sig- nal.  Melosik  and  Marszalek  showed  that  a  sampling  fre- quency  within  this  range  is  appropriate  for  subsampling  an oversampled signal, thus mitigating the effect of temporal cor- relations  of  neighboring  points  in  densely  sampled  signals. However,  the  automatic  identiﬁcation  of  f max  from  an  over- sampled  signal  is  not  trivial.  Melosik  and  Marszalek  se- lected a maximum signiﬁcant frequency by inspecting the nor- malized Fourier spectrum and using a threshold cutoff of ap- proximately 0 . 01 for a noise-free chaotic Lorenz system.  This made  visually  ﬁnding  the  maximum  frequency  signiﬁcantly easier but did not provide guidance on how to algorithmically ﬁnd  f max .  Further,  attempting  to  algorithmically  adopt  the approach  suggested  by  Melosik  and  Marszalek  resulted  in large errors especially in the presence of a low signal to noise ratio.  This  motivated  the  search  for  an  automatic  and  data- driven  approach  for  identifying  the  noise  ﬂoor  which  could then  be  used  to  ﬁnd  the  maximum  signiﬁcant  frequency.  To do  this  we  develop  a "
+    },
+    {
+      "section_title": "method",
+      "text": "  based  on  1-D  least  median  of squares applied to the Fourier spectrum.  The assumptions in- herent to our method are 1.  The time series is not undersampled. The purpose of the methods is to determine a suitable delay parameter for subsampling the signal, which would be meaningless if the time series is undersampled. 2.  The  Fourier  transform  of  the  time  series  needs  to  have less than 50% of the points with signiﬁcant amplitudes. This requirement stems from the limitations of the least median of squares regression. 3.  The  noise  in  the  signal  is  approximately  GWN;  other- wise,  the  ensuing  statistical  analysis  becomes  inappli- cable.  Violating  this  assumption  can  yield  false  peak detections,  which  would  lead  to  an  incorrect  delay  pa- rameter. We ﬁnd suitable cutoffs for obtaining  f max  of the signal by using the noise ﬂoor determined from the 1-D least median of squares,  and  compute  a  suitable  embedding  delay  according to τ  = f s α f max , (4) where  we  set  α  = 2,  thus  agreeing  with  the  range  in  Eq.  (3) and the Nyquist sampling criterion. Figure 5 summarizes the frequency approach for τ  with the use  of  our  1-D  LMS "
+    },
+    {
+      "section_title": "method",
+      "text": "  for  ﬁnding  a  noise  ﬂoor  in  the Fourier  spectrum.  This  process  begins  with  computing  the Fourier  spectrum  of  the  signal,  which  is  followed  by  ﬁtting an 0-D LMS regression line to the noise in the Fourier spec- trum.  This  provides  statistical  information  about  the  Prob- ability  Distribution  Function  (PDF)  of  the  noise  level.  The PDF  is  used  to  determine  the  Cumulative  Distribution  Func- tion (CDF), which we use determine a meaningful noise cutoff in the Fourier spectrum.  However, it is assumed that the noise is approximately GWN for this method to hold statistical sig- niﬁcance.  This  cutoff  is  used  to  separate  the  highest  signif- icant  frequency  in  the  Fourier  spectrum  f max ,  which  is  used to  ﬁnd  a  suitable  embedding  delay  τ  based  on  the  frequency criteria in Eq. (4).  In the following paragraphs we review our use  of  the  LMS  and  the  derivation  of  the  PDF  of  the  Fourier spectrum  of  GWN.  We  then  show  how  to  combine  the  LMS"
+    },
+    {
+      "section_title": "method",
+      "text": "  with  the  resulting  PDF  expression  to  ﬁnd  a  suitable noise ﬂoor cutoff and the corresponding maximum signiﬁcant frequency. Automatic Parameter Selection for Permutation Entropy"
+    },
+    {
+      "section_title": "Times",
+      "text": ""
+    },
+    {
+      "section_title": "Fourier",
+      "text": ""
+    },
+    {
+      "section_title": "Embedding",
+      "text": ""
+    },
+    {
+      "section_title": "Spectrum",
+      "text": ""
+    },
+    {
+      "section_title": "Series",
+      "text": ""
+    },
+    {
+      "section_title": "Delay",
+      "text": ""
+    },
+    {
+      "section_title": "Least Median",
+      "text": ""
+    },
+    {
+      "section_title": "of Squares",
+      "text": ""
+    },
+    {
+      "section_title": "Cutoff/",
+      "text": ""
+    },
+    {
+      "section_title": "Max Freq.",
+      "text": " Cutoff Max Frequency Frequency Frequency FIG. 5. Overview of our frequency domain approach for ﬁnding the maximum signiﬁcant frequency  f max using LMS for a signal contaminated with GWN. a. Least  Median  of  Squares: LMS  is  a  robust  regres- sion technique used when up to 50% of the data is corrupted by outliers.  Outliers will be considered as anything other than noise in the fourier spectrum for our application.  In compar- ison  to  the  widely  used  least  sum  of  squares  (LS)  algorithm, the LMS replaces the sum for the median which makes LMS resilient  to  outliers.  The  difference  between  LS  and  LMS  is highlighted as LS : min"
+    },
+    {
+      "section_title": "∑",
+      "text": " i r i  , LMS : min \u0000 median i ( r i  ) \u0001 , (5) where r is the residual.  Similar to the i subscript in ∑ i , the i in median i  signiﬁes that the median is of all residuals.  Figure 6 shows an example application of the linear LMS regression. FIG.  6.  LMS  linear  regression  with  45%  outliers. "
+    },
+    {
+      "section_title": "Results",
+      "text": "  match those found in . Speciﬁcally,  this ﬁgure shows 110 data points drawn from the line y = x + 1 with added GWN of zero mean and 0.1 stan- dard deviation. The data is corrupted with 90 outliers centered around  ( , )  with  a  normal  distribution  of  1.0  along  x  and 0.6 along y .  Figure 6 shows that the linear regression results closely  match  the  actual  trend  line  with  the  ﬁtted  line  being y = . x + . 012 in comparison to the actual y = x + 1. b. PDF  and  CDF  of  the  magnitude  of  the  Fast  Fourier Transform  of  GWN: This  section  reviews  the  probability distribution  function  (PDF)  and  cumulative  density  function (CDF)  for  the  Fourier  Transform  (FT)  of  white  noise.  Ad- ditionally,  this  section  derives  the  location  of  the  theoretical maximum  of  the  PDF.  The  FT  distribution  of  GWN  is  de- scribed as P | X | ( | X | ) =  | X | E w σ x e −| X | Ew σ x  , (6) where | X | is the magnitude of the FT of GWN, P | X | is the prob- ability density function of | X | , σ x  is the standard deviation of the GWN, and E w is the window energy or number of discrete transforms taken during the FT. By setting the ﬁrst derivative of P | X |  with respect to | X | equal to zero, the theoretical maxi- mum of the PDF is | X | max = r E w σ x . (7) We calculate the CDF corresponding to the PDF described in Eq. (7) by combining the PDF in Eq. (6) with the CDF for a Rayleigh distribution as CP | X | ( | X | ) = − e −| X | Ew σ x  , (8) where CP | X | is the cumulative probability of | X | . c. Finding  the  Noise  Floor: Our  approach  for  ﬁnding the noise ﬂoor combines LMS with Eqs. (6) and (7).  Specif- ically,  we  utilize  LMS  to  obtain  a  0-D  ﬁt  of  the  Fast  Fourier Transform  (FFT)  of  the  signal,  which "
+    },
+    {
+      "section_title": "results",
+      "text": "  in  an  approxi- mate  value  of  | X | max ,  which  is  | X |  at  the  maximum  of  P | X | . Using | X | max  from the LMS ﬁt, we then ﬁnd the standard de- viation of the distribution σ x from Eq. 7, which is used to ﬁnd a cutoff based on a set cumulative probability in Eq. (8). We begin by showing the accuracy of the LMS ﬁt for ﬁnd- ing | X | max .  Our example uses GWN with a mean of zero and standard  deviation  of  0.035  with   data  points.  Taking the FFT of the GWN ( see Fig. 8A) results in the distribution shown  in  Fig.  8B.  The  distribution  shows  a  1-D  LMS  ﬁt  of 8.215 compared to the theoretical maximum of the PDF from Eq.   of  7.826,  which  is  approximately  4.67%  greater.  This shows  that  the  1-D  LMS  ﬁt  accurately  locates  | X | max .  Addi- tionally, the theoretical shape of the PDF in Fig. 8B is shown to be very similar to the actual distribution. Automatic Parameter Selection for Permutation Entropy FIG. 7.  (a) Theoretical PDF for GWN. (b) CDF for GWN with an example cutoff at the 99% CP . FIG.  8.  (A)  FFT  of  GWN  with  0.035  standard  deviation  and  zero mean with the location of the theoretical maximum of the PDF and one-dimensional LMS regression value.  (B) Distribution of GWN in the  Fourier  Spectrum  with  overlapped  theoretical  PDF  and  location of  the  theoretical  maximum  of  the  PDF  and  one-dimensional  LMS regression value. Next,  our  approach  utilizes  Eq.  (8)  and  σ x  derived  from Eq. (7) for ﬁnding the cutoff value | X | cutoff .  The | X | cutoff  for a desired cumulative probability CP is found by solving Eq. (8) for | X | as | X | cutoff = q − E w σ x  ln ( − CP ) . (9) In order to make | X | cutoff  robust to normalization and scaling of the FFT we deﬁne the ratio C between the suggested cutoff from Eq. (9) and the maximum of the PDF from Eq. (7) as C =  | X | cutoff | X | max = p − 2ln ( − CP ) . (10) d. Example Cutoff: An example of how Eqs.  (7) and (9) are used is shown in Fig. 7,  where the maximum of the PDF and the cutoff for CP = 99% are marked in Fig. 7a and 7b, re- spectively.  For this example, we ﬁnd the ratio C to be approx- imately 3.03 for a 99% probability.  In addition, we suggest a cutoff ratio C = 6 to be used for signals with less than 10  data points.  This yields an expected probability of ≈ − % for a point  in  the  FFT  of  the  GWN  attaining  a  magnitude  greater than | X | cutoff .  Alternatively, Eq. (10) can be used to calculate a  different  value  of  C  based  on  the  desired  probability  and length of the signal. B. Multi-scale  Permutation  Entropy  for  Selecting  Delay In  this  section  we  develop  a "
+    },
+    {
+      "section_title": "method",
+      "text": "  based  on  Multi-scale Permutation Entropy (MPE) to ﬁnd the periodicity of a signal, which is then used to ﬁnd a suitable delay parameter.  MPE is a method of applying permutation entropy over a range of de- lays for analyzing physiological time series .  Zunino et al. showed how the ﬁrst maxima in the MPE plot arises when  τ matches the characteristic time delay τ r .  Furthermore, the pe- riodicity  can  be  captured  by  the  ﬁrst  dip  in  the  MPE  plot  as shown  in  Fig.   at  the  location  d  when  the  delay  τ  matches the characteristic time delay τ r . Figure 9 shows embedding delays d , d , and d  calculated as d =  τ f s  as well as their corresponding locations on a normal- ized MPE plot.  This toy MPE plot shows that the normalized MPE reaches its ﬁrst maximum when the delay is roughly d , which  corresponds  to  approximately  an  even  distribution  of permutations. A second observation, as mentioned previously, is  that  at  d  (or  the  ﬁrst  dip  in  the  MPE  plot)  there  is  a  reso- nance or aliasing effect caused by τ  ≈ τ r , which can be used Automatic Parameter Selection for Permutation Entropy"
+    },
+    {
+      "section_title": "f",
+      "text": ""
+    },
+    {
+      "section_title": "PE",
+      "text": ""
+    },
+    {
+      "section_title": "d",
+      "text": ""
+    },
+    {
+      "section_title": "d",
+      "text": " d d d d P d"
+    },
+    {
+      "section_title": "t",
+      "text": " P FIG. 9.  (right) Resulting MPE plot for (left) 2 P periodic time series with example embedding delays d , d , and d . to determine the period of the time series.  This is based on the embedding delay size at d causing the embedding vector size V  = d ( n − ) to be approximately half the of the periodicity P, which can be expressed as d =  P =  f s τ r =  f  , (11) where  P  is  the  main  period  of  oscillation,  f  is  the  main  fre- quency  of  the  time  series  corresponding  to  P ,  and  f s  is  the sampling  frequency.  The  reason  for  the  dip  in  the  permuta- tion  entropy  (PE)  when  the  condition  from  Eq.  (11)  is  met is  caused  from  an  aliasing  effect,  which  reduces  PE  through more regularity in the permutation distribution. We  use  the  criteria  of  Melosik  and  Marszalek  to  deter- mine  a  suitable  delay  from  the  location  of  the  ﬁrst  dip  at d .  Their criteria states that the sampling frequency must fall within the range shown in Eq. (3).  This range led to Eq. (4), which  is  used  to  calculate  τ .  However,  for  MPE,  we  substi- tute  f s  and  f max  in  Eq.  (3)  with  f s  = f τ r  from  Eq.  (11)  and f max =  f .  These substitutions allow Eq. (4) to reduce to τ  =  α τ r , (12) where  α  ∈ [ , ] .  These  simpliﬁcations  show  that  τ  is  only dependent  on  the  delay  which  causes  resonance  τ r  when  ap- plying MPE. However, for a chaotic time series, the dip at τ r may not be present due to non-linear trends. To address this is- sue, we will ﬁrst investigate the three dominant regions of the MPE  plot,  which  will  also  be  located  for  a  chaotic  time  se- ries example.  We will then propose a new, automatic method for  selecting  τ  that  agrees  with  the  frequency  criteria  stated in  Eq.  (12).  Additionally,  in  Section  A 2 b  of  the "
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+============================================================
+Query Quality Report v5 - Improved
+============================================================
+API Used: False
+Fallback
+
+Total: 200
+Passed: 187 (93.5%)
+
+Sample queries:
+  - What is the role of teacher forcing in NLP?
+  - Why is transfer learning effective for NLP tasks?
+  - What are the advantages of feed-forward network?
+  - What are the advantages of sequence-to-sequence?
+  - What is the role of masked language model in BERT?
+  - How does perplexity improve computational speed?
+  - Why does regularization reduce overfitting?
+  - How does SentencePiece improve neural network performance?
+  - What is the role of embedding in BERT?
+  - What is the impact of SentencePiece on model efficiency?
+  - What is the role of BPE in deep learning?
+  - Why is gradient descent important in deep learning?
+  - How does subword enhance model accuracy?
+  - Why is tokenization important in deep learning?
+  - How does teacher forcing affect training convergence?

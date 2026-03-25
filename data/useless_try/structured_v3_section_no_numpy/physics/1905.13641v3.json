@@ -1,0 +1,237 @@
+{
+  "doc_id": "1905.13641v3.pdf",
+  "sections": [
+    {
+      "section_title": "Superconducting",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Qubits:",
+      "text": ""
+    },
+    {
+      "section_title": "Current",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "State",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Play",
+      "text": ""
+    },
+    {
+      "section_title": "Morten",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Kjaergaard,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Mollie",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "E.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Schwartz,",
+      "text": ""
+    },
+    {
+      "section_title": "Jochen",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Braum¨uller,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Philip",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Krantz,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Joel",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "I-J",
+      "text": ""
+    },
+    {
+      "section_title": "Wang,",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Simon",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Gustavsson,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "William",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "D.",
+      "text": ""
+    },
+    {
+      "section_title": "Oliver,",
+      "text": " , , Research  Laboratory  of  Electronics,  Massachusetts  Institute  of  Technology, Cambridge,  USA,  MA  02139.  MK  email:  mortenk@mit.edu MIT  Lincoln  Laboratory,   Wood  Street,  Lexington,  USA,  MA  Microtechnology  and  Nanoscience,  Chalmers  University  of  Technology, G¨oteborg,  Sweden,  SE-412  Department  of  Physics,  Massachusetts  Institute  of  Technology,  Cambridge, USA,  MA  02139.  WDO  email:  william.oliver@mit.edu Keywords superconducting  qubits,  superconducting  circuits,  quantum algorithms,  quantum  simulation,  quantum  error  correction,  NISQ  era Abstract Superconducting  qubits  are  leading  candidates  in  the  race  to  build  a quantum computer capable of realizing computations beyond the reach of  modern  supercomputers.  The  superconducting  qubit  modality  has been used to demonstrate prototype algorithms in the ‘noisy intermedi- ate scale quantum’ (NISQ) technology era, in which non-error-corrected qubits  are  used  to  implement  quantum  simulations  and  quantum  al- gorithms. With  the  recent  demonstrations  of  multiple  high  ﬁdelity two-qubit  gates  as  well  as  operations  on  logical  qubits  in  extensible superconducting  qubit  systems,  this  modality  also  holds  promise  for the  longer-term  goal  of  building  larger-scale  error-corrected  quantum computers.  In  this  brief  review,  we  discuss  several  of  the  recent  ex- perimental  advances  in  qubit  hardware,  gate  implementations,  readout capabilities,  early  NISQ  algorithm  implementations,  and  quantum  er- ror  correction  using  superconducting  qubits.  While  continued  work  on many  aspects  of  this  technology  is  certainly  necessary,  the  pace  of  both conceptual  and  technical  progress  in  the  last  years  has  been  impres- sive,  and  here  we  hope  to  convey  the  excitement  stemming  from  this progress."
+    },
+    {
+      "section_title": "arXiv:1905.13641v3  [quant-ph]  21 Apr 2020",
+      "text": ""
+    },
+    {
+      "section_title": "1.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "INTRODUCTION",
+      "text": " The ability to control individual quantum degrees of freedom and their interactions unlocks the  capability  to  perform  quantum  coherent  computation.  This  in  turn  imparts  the  possi- bility  to  perform  certain  computational  tasks  and  quantum  simulations  which  are  outside the reach of modern supercomputers ( , ).  Superconducting qubits – collective excitations in superconducting circuits – are currently one of the leading approaches for realizing quan- tum  logic  elements  and  quantum  coherent  interactions  with  suﬃciently  high  controllability and  low  noise  to  be  a  viable  candidate  for  implementing  medium  and  large-scale  quantum computation. In  2014,  the  ﬁrst  controlled  qubit-qubit  interaction  with  ﬁdelities  greater  than  0.99  in multi-qubit  systems  was  demonstrated  ( )  with  the  transmon  qubit  ( )  variant  of  super- conducting  qubits,  and  since  then,  multiple  controlled  two-qubit  interactions  have  been demonstrated  with  similarly  high  ﬁdelities  (e.g.  Refs.  ( )  and  ( )).  Even  though  the  two- qubit gate ﬁdelity in multi-qubit systems is a limited metric for evaluating the maturity of a quantum computing technology, it implies a high degree of control of all aspects of the quan- tum  processor,  and  indicates  the  state  of  play:  superconducting  qubits  are  well  positioned to  be  a  platform  for  demonstrating  interesting  noisy  intermediate-scale  quantum  comput- ing  (NISQ)  ( )  protocols  outside  the  reach  of  classical  computers  and  ﬁrst  realizations  of operations  on  multiple  logical  error-corrected  qubits  ( ,  ). In Fig. , we show two major tracks being pursued in parallel in the community.  The left track (see e.g.  Refs. ( , )) shows the progression towards building a fault-tolerant quantum Improvements to classical control Improvements to physical qubits Improvements to native gates Improvements to qubit readout Logical qubits with improved properties over physical qubits Noisy intermediate scale quantum computers Fault-tolerant quantum computers Operations on single logical qubits Algorithms on multiple logical qubits General purpose fault-tolerant quantum computation Tailored quantum computations outside the reach of classical computing Device connectivity Fast classical feedback Improved native gate set etc. Noise mitigation . . . Ongoing development State of the art demonstrations Figure  Path  towards  fault-tolerant  quantum  error-corrected  quantum  computers  (left)  as  well  as  noisy intermediate  scale  quantum  computing  (right)  using  superconducting  qubits.  The  left  track follows  the  path  towards  quantum  computers  capable  of  performing  arbitrarily  long  programs  to arbitrary  precision,  based  on  logical  (i.e.  encoded  and  error-corrected)  qubits.  The  right  track  is the  ‘NISQ’  approach  (see  Ref.  ( )),  where  highly  optimized  quantum  algorithms  and  quantum simulations,  which  typically  take  into  account  details  of  the  quantum  processor,  can  be  executed without  generalized  quantum  error  correction  procedures.  The  two  tracks  are  pursued  in  parallel in  many  academic,  government,  and  industrial  laboratories. Kjaergaard  et  al. computer,  capable of running an arbitrarily long computation,  to arbitrary precision.  Since 2012-2013,  the  ﬁeld  has  climbed  this  ladder,  including  the  recent  demonstration  of  a  logical qubit with a lifetime longer than any of the underlying constituent elements ( ), operations on  single  logical  qubits  ( )  as  well  as  logical  operations  between  two  encoded  (but  not  yet error-corrected)  qubits  ( ). Although  the  architectures  based  purely  on  the  transmon  qubit  (see  Sec.  2.1 )  have  not yet  demonstrated  logical  states  with  longer  lifetimes  than  their  constituent  physical  states, multi-qubit systems with on the order of 10 – 20 qubits have been demonstrated ( , , , ,  ),  and  even  larger  systems  with   –   qubits  are  under  current  development  ( , ,  ,  ).  Such  processors  are  eminently  suitable  for  the  NISQ  era  approach,  where  the aim  is  to  perform  quantum  algorithms  and  quantum  simulations  that  achieve  quantum advantage  in  the  absence  of  full  quantum  error  correction.  Such  NISQ  era  demonstrations utilize  highly  tailored  quantum  programs  that  take  into  account  detailed  knowledge  of  a given  quantum  processor,  some  of  which  we  have  shown  in  the  right  track  of  Fig.  .  These (and  more)  details  will  need  to  be  combined  judiciously  to  ultimately  demonstrate  non- trivial  physics  (i.e.  quantum  simulations)  or  calculations  (i.e.  quantum  algorithms)  in  the NISQ  approach.  The  full  toolbox  of  the  NISQ  era  is  an  area  under  active  development, and  the  ultimate  reach  of  this  approach  is  not  yet  known.  Prominent  among  the  NISQ demonstrations is the recent result of demonstrating a clear quantum advantage (nicknamed ‘quantum supremacy’ ( )), where a computation performed on a quantum computer yields a  result  expected  to  be  impossible  to  attain  using  large,  classical  supercomputers  ( ,  ). In this review, we do not aspire to give a complete, chronological review of the entire ﬁeld of  superconducting  qubits  and  their  broad  applicability  for  implementing  circuit  quantum electrodynamics  (cQED)  or  as  a  platform  for  studying  fundamental  physics. Interested readers  may  consult  any  of  the  already  existing  excellent  reviews  (some  of  which  can  be found  in  e.g.  Refs.  ( ,  ,  ,  ,  ,  ,  ,  ,  )).  Instead,  we  focus  on  highlights from  each  of  the  blocks  in  Fig.   that  have  brought  the  ﬁeld  to  its  current  exciting  state. In  Section  ,  we  review  progress  towards  improving  qubit  coherence  (Sec.  2.1 ),  improved native  gate  ﬁdelities  (Sec.  2.2 ),  improvements  to  readout  (Sec.  2.3 )  and  developments  in using  resonators  to  act  as  quantum  memories  (Sec.  2.4 ). In  Section  ,  we  review  early  NISQ-style  demonstrations  using  superconducting  qubits, including  quantum  supremacy  (Sec.  3.1 ),  quantum  simulation  (Sec.  3.2 ),  digital  quantum algorithms  (Sec.  3.3 )  and  quantum  annealing  (Sec.  3.4 ).  In  Section  ,  we  brieﬂy  introduce the framework of quantum error correction and review progress in experiments using parity readout,  often  used  in  the  context  of  realizing  subsections  of  the  surface  code  (Sec.  4.1 ), as  well  as "
+    },
+    {
+      "section_title": "experiments",
+      "text": "  towards  demonstrating  fault-tolerance  (Sec.  4.2 )  and  operations  on logical  qubits  encoded  in  resonator  states  (Sec.  4.3 ).  Finally  in  Section  ,  we  provide  an outlook on the developments from the preceeding sections, and discuss some of the near-term challenges  related  to  moving  to  larger  quantum  processors  based  on  the  superconducting qubit  modality."
+    },
+    {
+      "section_title": "2. THE",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "HARDWARE",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "OF",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "SUPERCONDUCTING",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "QUBITS",
+      "text": " Superconducting circuits are manufactured using a multi-step additive and subtractive fab- rication process involving lithographic patterning, metal deposition, etching, and controlled oxidation  of  thin  two-dimensional  ﬁlms  of  a  superconductor  such  as  aluminum  or  niobium. Circuits  are  fabricated  on  silicon  or  sapphire  substrates,  leveraging  techniques  and  mate- Superconducting  Qubits:  Current  State  of  Play lifetime (μs) Energy (       ) Transmon Energy (      ) -π /2 π/2 -π π -π /2 π/2 -π π quantum harmonic oscillator superconducting phase, superconducting phase, a c b year -3 -2 -1 T T T Bosonic encoded qubit JJ-based qubit Error corrected qubit Cooper pair box Quantronium Flux qubit Flux qubit Transmon Fock (2D) Fluxonium Flux qubit Transmon C-sh. ﬂux qubit Cat encoding (3D) Fock (3D) Fluxonium (3D) Binomial encoding (3D) Transmon (3D) Fluxonium (3D) Transmon (3D) Gatemon (semiconductor) Gatemon (graphene) Fock (3D) L C L J  C Figure  (a)  The  energy  spectrum  of  a  quantum  harmonic  oscillator  (QHO).  (b)  The  energy  spectrum  of  the  transmon  qubit, showing  how  the "
+    },
+    {
+      "section_title": "introduction",
+      "text": "  of  the  non-linear  Josephson  junction  produces  non-equidistant  energy  levels.  (c)  Evolution of  lifetimes  and  coherence  times  in  superconducting  qubits.  Bold  font  indicates  the  ﬁrst  demonstration  of  a  given modality.  ‘JJ-based  qubits’  are  qubits  where  the  quantum  information  is  encoded  in  the  excitations  of  a  superconducting circuit  containing  one  or  more  Josephson  junctions  (see  Sec.  2.1 ).  ‘Bosonic  encoded  qubits’  are  qubits  where  the  quantum information  is  encoded  in  superpositions  of  multi-photon  states  in  a  QHO,  and  a  Josephson  junction  circuit  mediates qubit  operation  and  readout  (see  Sec.  2.4 ).  ‘Error  corrected  qubits’  represent  qubit  encodings  in  which  a  layer  of  active error-correction  has  been  implemented  to  increase  the  encoded  qubit  lifetime.  The  charge  qubit  and  transmon  modalities are  described  in  Sec.  2.1.1 ,  ﬂux  qubit  and  the  capacitively  shunted  ﬂux  qubit  (‘C-sh.  ﬂux  qubit’)  are  described  in Sec.  2.1.2 ,  and  ﬂuxonium  and  gatemon  modalities  are  described  in  Sec.  .  The  codes  underlying  the  ‘cat  encoding’  and ‘binomial  encoding’  are  discussed  in  Sec.  4.3 .  ‘(3D)’  indicates  a  qubit  embedded  in  a  three-dimensional  cavity.  For encoded  qubits,  the  non-error-corrected  T  and  T  times  used  in  this  ﬁgure  are  for  the  encoded,  but  not  error-corrected, version  of  the  logical  qubit  (see  Refs.  ( )  and  ( )  for  details).  The "
+    }
+  ]
+}

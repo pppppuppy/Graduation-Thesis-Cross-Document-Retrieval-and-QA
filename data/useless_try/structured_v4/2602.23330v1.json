@@ -1,0 +1,221 @@
+{
+  "doc_id": "2602.23330v1.pdf",
+  "title": "arXiv:2602.23330v1  [cs.AI]  26 Feb 2026",
+  "abstract": "The advancement of large language models (LLMs) has accelerated\nthe development of autonomous financial trading systems. While\nmainstream approaches deploy multi-agent systems mimicking\nanalyst and manager roles, they often rely on abstract instruc-\ntions that overlook the intricacies of real-world workflows, which\ncan lead to degraded inference performance and less transparent\ndecision-making. Therefore, we propose a multi-agent LLM trading\nframework that explicitly decomposes investment analysis into fine-\ngrained tasks, rather than providing coarse-grained instructions.\nWe evaluate the proposed framework using Japanese stock data,\nincluding prices, financial statements, news, and macro informa-\ntion, under a leakage-controlled backtesting setting. Experimental\nresults show that fine-grained task decomposition significantly\nimproves risk-adjusted returns compared to conventional coarse-\ngrained designs. Crucially, further analysis of intermediate agent\noutputs suggests that alignment between analytical outputs and\ndownstream decision preferences is a critical driver of system per-\nformance. Moreover, we conduct standard portfolio optimization,\nexploiting low correlation with the stock index and the variance of\neach system’s output. This approach achieves superior performance.\nThese findings contribute to the design of agent structure and task\nconfiguration when applying LLM agents to trading systems in\npractical settings.\nCCS Concepts\n• Applied computing →Economics; Business-IT alignment; •\nComputing methodologies →Multi-agent systems; Natural\nlanguage processing.\nKeywords\nLLM, Multi-Agent System, Trading, Investing, Prompt Design\n1\nIntroduction\nThe rapid advancement of Large Language Models (LLMs) has led to\nhigh expectations that they function as an autonomous workforce,\nlike human employees, in practical domains [36, 50]. Consequently,\nmany companies have initiated the internal and external implemen-\ntation of “AI agents” [4, 46, 53]. In the financial industry, the devel-\nopment of AI agents has begun across various applications [9, 39],\nwith expectations to generate profits in both investment and trad-\ning contexts through the utilization of agent-based autonomy and\nintelligence [34, 62]. One of the most common configurations is\na multi-agent trading system, in which multiple LLM agents are\nassigned specific roles such as fundamental analysis, news parsing,\nand risk management [62, 68, 72].\nHowever, considering practical applications, concerns exist that\ncurrent LLM trading systems are constructed with a simplified task\ndesign, given the complexity of investment analyst tasks. Most\nexisting studies adopt coarse-grained task settings, primarily as-\nsigning roles and high-level objectives to agents. For instance, a\nfundamental agent tends to be simply instructed to “analyze finan-\ncial statements (e.g., 10-K)”, leaving unexplored the fine-grained\ntask design for both qualitative and quantitative analyses typically\nperformed in real-world situations [62, 68, 72].\nProviding coarse-grained instructions to LLMs for complex tasks\npresents two major challenges. The first is performance degradation.\nIt has been reported that overly vague instructions can reduce the\noutput quality of LLMs [21, 74], and when tasks are too complex,\nLLMs have been observed to occasionally cease reasoning mid-\nway or abandon reasoning entirely [52, 60]. The second is the lack\nof interpretability. When LLMs are given ambiguous instructions,\ntypically only the final output is visualized, making it impossible\nto interpret the intermediate reasoning process [43, 71]. In such\ncases, practical deployment becomes difficult, especially in asset\nmanagement practices where significant capital is at stake [18].\nTo address these issues, this study constructs a multi-agent LLM\ntrading system that assigns detailed, concrete investment decision-\nmaking tasks to trading agents, based on real-world practices of\ninvestment analysts. In contexts beyond finance, it has been re-\nported that providing expert processes to LLM agent systems is\neffective [14]. Furthermore, separating task planning from execution\nis reported to be effective in LLM agent systems [49, 57]. It is also\nnoted that performance improves when domain experts design the\ntasks [28]. Inspired by these studies, we anticipate that tracing the\ncomplex workflows of real-world investment analysts will enhance\nthe performance of investment agents. Furthermore, responding\nto concrete tasks is expected to improve the agents’ output explain-\nability [13, 22, 66], which is crucial for industrial applications [18].\nIn the experiment, we conduct backtesting to evaluate whether\nour proposed fine-grained task configuration leads to performance\n1\narXiv:2602.23330v1  [cs.AI]  26 Feb 2026\n, ,\nMiyazaki et al.\nimprovements. The evaluation uses Japanese equity market data,\nincluding stock prices, financial statements, news articles, and\nmacroeconomic information. To prevent data leakage and account\nfor the LLM model’s knowledge cutoff, we set the backtesting pe-\nriod from September 2023 to November 2025. Beyond portfolio-\nlevel performance, we also evaluate intermediate textual outputs\nto analyze how task decomposition affects reasoning behavior and\ninterpretability. Finally, to demonstrate real-world applicability, we\nverify the strategy’s effectiveness through portfolio optimization\nbenchmarked against market indices.\nThis study makes the following contributions. Impact of Task\nGranularity: We focus on task design for LLM-based trading\nagents, which has been largely overlooked in prior works, and\ndemonstrate through controlled experiments that fine-grained task\ndecomposition improves agent performance. Agent Ablation Anal-\nysis: We conduct a comprehensive ablation study by systematically\nremoving and replacing individual agents, providing new insights\ninto the functional roles of agents in multi-agent trading systems.\nReal-world Evaluation: We emphasize real-world applicability\nby adopting realistic problem settings (e.g., agent roles and team ar-\nchitecture) and evaluating not only portfolio-level performance but\nalso intermediate textual outputs and portfolio optimization results\nbenchmarked against market indices. Reproducibility: To support\nreproducibility and future research, we release the implementation\ncodes with prompts upon acceptance.\n2\nRelated Work",
+  "sections": [
+    {
+      "section_id": "2.0",
+      "section_title": "2.0 Sharpe ratio",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.0_1",
+          "text": "***\nns *",
+          "page": 5
+        },
+        {
+          "para_id": "2.0_2",
+          "text": "****\n****",
+          "page": 5
+        },
+        {
+          "para_id": "2.0_3",
+          "text": "Fine-grained\nCoarse-grained",
+          "page": 5
+        },
+        {
+          "para_id": "2.0_4",
+          "text": "Figure 2: Sharpe ratios for fine-grained (pink) and coarse-\ngrained (blue) settings across portfolio sizes. Box plot notches\nrepresent the 95% confidence interval of the median.",
+          "page": 5
+        },
+        {
+          "para_id": "2.0_5",
+          "text": "6.1.2\nComparison with Leave-One-Out Settings. We further com-\npare fine-grained and coarse-grained agent settings under leave-\none-out settings. Specifically, we systematically remove one of the\nbottom-level specialist agents—namely, Technical, Quantitative,\nQualitative, News, and Macro—to assess the robustness of the pro-\nposed method’s superiority. Table 1 reports the differences in median\nSharpe ratio between fine-grained and coarse-grained settings, as\nΔ𝑆𝑅= Median(𝑆𝑅fine)−Median(𝑆𝑅coarse). The top row (\"All agents\") 5",
+          "page": 5
+        },
+        {
+          "para_id": "2.0_6",
+          "text": ", ,\nMiyazaki et al.",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_7",
+          "text": "corresponds to the all-agent configuration, consistent with the re-\nsults shown in Figure 2. Across leave-one-out settings, we find",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_8",
+          "text": "Table 1: Sharpe Ratio Differences Between Fine-grained and\nCoarse-grained Settings",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_9",
+          "text": "Portfolio size\n10\n20\n30\n40\n50 All agents\n-0.12\n+0.19****\n+0.08*\n+0.17****\n+0.26****\nw/o Technical\n+0.54***\n-0.07\n-0.34***\n-0.66****\n-0.79****\nw/o Quant.\n+0.1\n+0.04\n+0.16\n+0.2*\n+0.12\nw/o Qual.\n+0.49***\n+0.24*\n+0.41***\n+0.55****\n+0.33***\nw/o News\n+0.35*\n+1.0****\n+1.04****\n+1.04****\n+1.08****\nw/o Macro\n+0.11\n+0.1\n+0.23\n+0.31*\n+0.01",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_10",
+          "text": "that the differences are predominantly positive in most configura-\ntions. This indicates that the fine-grained architecture generally\nachieves higher Sharpe ratios than the coarse-grained baseline,\neven when specific analytical perspectives are removed. A notable\nexception is the “w/o Technical” setting, where the performance\nreverses for larger portfolio sizes, suggesting that the Technical\nAgent plays a central role in driving the performance advantage\nof fine-grained task decomposition. Overall, the results demon-\nstrate that the fine-grained task design robustly outperforms the\nequivalent coarse-grained design in backtesting.",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_11",
+          "text": "6.2\nAblation Studies We conduct ablation studies to quantify the contribution of each spe-\ncialized agent to overall performance. Table 2 presents the changes\nin the Sharpe ratios compared to the “All agents” baseline. The\nvalues represent the difference calculated as SRablation −SRbaseline.\nConsequently, a positive value indicates that removing the agent im-\nproved performance (implying the agent was detrimental or noisy),\nwhile a negative value indicates that performance degraded (imply-\ning the agent was beneficial). Overall, most ablation settings show",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_12",
+          "text": "Table 2: Trading performance under Ablation Settings",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_13",
+          "text": "(a) Fine-grained settings",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_14",
+          "text": "10\n20\n30\n40\n50 All agents (Baseline)\n0.54\n0.84\n0.84\n0.79\n0.9\nw/o Technical\n+0.13\n-0.42****\n-0.4****\n-0.56****\n-0.66****\nw/o Quant.\n+0.45****\n+0.23***\n+0.41****\n+0.48****\n+0.2****\nw/o Qual.\n+0.16\n+0.27***\n+0.47****\n+0.5****\n+0.33****\nw/o News\n+0.21\n+0.23**\n+0.29***\n+0.12\n+0.25****\nw/o Macro\n+0.28*\n+0.15*\n+0.27*\n+0.36****\n+0.16***",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_15",
+          "text": "(b) Coarse-grained settings",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_16",
+          "text": "10\n20\n30\n40\n50 All agents (Baseline)\n0.66\n0.65\n0.76\n0.62\n0.63\nw/o Technical\n-0.52****\n-0.16*\n+0.02\n+0.28***\n+0.4****\nw/o Quant.\n+0.24***\n+0.38****\n+0.33****\n+0.46****\n+0.34****\nw/o Qual.\n-0.45****\n+0.22***\n+0.14\n+0.13\n+0.26****\nw/o News\n-0.26**\n-0.59****\n-0.68****\n-0.75****\n-0.57****\nw/o Macro\n+0.05\n+0.23****\n+0.11\n+0.22*\n+0.41***",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_17",
+          "text": "positive differences relative to the full-agent configuration, indicat-\ning that most individual agents may introduce noise or redundant",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_18",
+          "text": "signals. This highlights the importance of carefully designing agent\nroles and interactions, rather than simply increasing the number\nof specialized components.\nIn the fine-grained setting (Table 2a), however, the “w/o Techni-\ncal” condition shows predominantly negative differences, especially\nfor larger portfolio sizes. This implies that the Technical Agent\nprovides particularly strong predictive signals. In contrast, remov-\ning other agents (Macro, Quantitative, Qualitative) often results\nin positive differences, suggesting that while they may appear to\ncontribute useful information, they may also introduce noise or\nredundant signals when combined under fine-grained coordination.\nIn the coarse-grained setting (Table 2b), a similar but weaker\npattern is observed for the Technical Agent, further supporting\nthe importance of technical signals in the overall system. Notably,\nthe “w/o News” row exhibits strongly negative differences across\nmost portfolio sizes, with relatively large magnitudes. This behav-\nior is not clearly observed in the fine-grained setting. One possible\ninterpretation is that, in the absence of fine-grained task decomposi-\ntion, news information may be relatively better utilized, potentially\ncompensating for weaker propagation of technical signals.\nOverall, the results indicate that performance depends not only\non agent diversity but also on how information is structured and\npropagated across the system. Fine-grained task decomposition ap-\npears to facilitate more effective signal transmission—particularly\nfor technical signals—while reducing redundancy and noise intro-\nduced by loosely coordinated agents. This highlights the importance\nof task design and information routing in hierarchical LLM agent\narchitectures.",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_19",
+          "text": "6.3\nText Analysis for Interpretability Understanding the rationale behind LLM outputs is critical for prac-\ntical deployment, especially in financial trading. Given the signifi-\ncant performance disparities observed between different prompting\nstrategies in our experiments, we analyze the textual outputs gen-\nerated during backtesting.\nFirst, we compare the textual outputs generated under fine-\ngrained and coarse-grained settings using the log-odds ratio with a\nDirichlet prior [37], a statistical measure to compare how strongly\na word is associated with one group versus another. Second, we an-\nalyze information propagation across agents to quantify how much\ninformation from lower-level agents is reflected in higher-level\nagents’ outputs. Concretely, inspired by the previous research on\ninformation propagation [e.g., 5, 75], we first convert each agent’s\noutput text into vector representations using an LLM embedding\nmodel (text-embedding-3-small [41]). We then compute cosine sim-\nilarities between agent output vectors to measure the degree of\nsemantic alignment, which serves as a proxy for information adop-\ntion across the agent hierarchy. 6.3.1\nRepresentative words of Fine-grained vs Coarse-grained Set-\ntings. We obtained the highest log-odds ratios for fine-grained and\ncoarse-grained settings across four agent types: Technical, Quan-\ntitative, Sector, and PM Agents. We present the complete list of\nwords (shown in Table 5), as well as the preprocessing of texts, in\nAppendix D for brevity.\nFirst, we observe that both the fine-grained and coarse-grained\nconfiguration emphasizes vocabulary that is closely aligned with 6",
+          "page": 6
+        },
+        {
+          "para_id": "2.0_20",
+          "text": "Toward Expert Investment Teams:\nA Multi-Agent LLM System with Fine-Grained Trading Tasks\n, ,",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_21",
+          "text": "their respective prompt instruction, which is consistent with our\nexpectations. The fine-grained setting tends to produce more nu-\nanced analytical terms such as “momentum,” “volatility,” and “con-\ndition” for Technical, and “margins,” “growth-rate,” and “profitabil-\nity” for Quant. In contrast, the coarse-grained setting favors more\nsurface-level market descriptors, such as “price,” “trend,” “rise,”\nand “increase” for Technical, and “EPS,” “earnings,” and “net in-\ncome”–related expressions for Quant. This confirms that prompt\ngranularity directly influences the level of abstraction in generated\nreasoning: without explicit procedural guidance, the LLM reverts to\nbroad, superficial descriptions of market movements and financial\nstatements.\nSecond, observing the hierarchical relationships, we find evi-\ndence of vocabulary propagation from lower-level specialists to\nhigher-level decision makers. Higher-level agents, namely the Sec-\ntor and PM Agents, tend to reuse or inherit vocabulary originating\nfrom lower-level agents. For instance, in the fine-grained setting,\nthe PM and Sector Agents’ distinctive words include “Momentum”\n(characteristic of the Technical Agent) and “Soundness” (character-\nistic of the Quant Agent). Similarly, in the coarse-grained setting,\nthe PM and Sector Agents adopt “Trend” and “EPS,” mirroring the\nvocabulary of their respective subordinates. This indicates that the\nhierarchical architecture enables upward propagation of semantic\nsignals, suggesting that higher-level decision-making is at least\npartially grounded in lower-level analytical outputs. 6.3.2\nInformation Propagation Analysis. Table 3 shows the cosine\nsimilarity between the Sector Agent outputs and those of lower-\nlevel agents, which presents the median values of the aggregated\nresults over 50 independent backtesting trials. The table reports\nsimilarities under both fine-grained and coarse-grained settings,\nalong with Diff. = SimilarityFine-grained −SimilarityCoarse-grained. Re-\ngarding the absolute magnitude of similarity, the Quantitative and\nQualitative Agents exhibit relatively high scores (≈0.48 −0.52)\ncompared to the Technical Agent (≈0.40−0.42). This suggests that,\nby default, the Sector Agents’ decision-making logic aligns more\nclosely with fundamental analysis (financials and business models)\nrather than technical price analysis. One might think that the length\nof the output of each agent affects the similarity, but we set the\noutput length within 100 Japanese characters for each agent, and\nwe observed no significant difference in the output lengths across\nagents. However, most importantly, regarding the comparison be-",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_22",
+          "text": "Table 3: Semantic Similarity with Sector Agent",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_23",
+          "text": "Agents\nFine-grained\nCoarse-grained\nDiff. Technical\n0.419\n0.397\n0.022\nQuantitative\n0.476\n0.477\n-0.001\nQualitative\n0.514\n0.514\n-0.001\nNews\n0.378\n0.372\n0.006",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_24",
+          "text": "tween the fine-grained and coarse-grained settings, we find that\nonly the Technical Agent demonstrates a significant improvement\nin the fine-grained setting (0.022 in Diff.). Specifically, in the fine-\ngrained setting, the higher similarity score suggests that technical\ninsights are effectively transmitted and integrated into the Sector\nAgent’s reasoning process. This aligns with the backtesting results;",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_25",
+          "text": "the Technical Agents perform well, and their impact is critically\nhigh, especially in a fine-grained setting.\nNote that, across trials, the similarity values exhibit very small\nvariance, with below 0.002 standard deviation for all cases. Because\nof this small deviation, the difference between the two settings\n(Diff.) is statistically significant in all cases.\nTaken together, while the system naturally leans towards fun-\ndamental data, the proposed fine-grained architecture effectively\namplifies the signal transmission of technical analysis, indicating\nthat technical factors are explicitly integrated into the higher-level\ndecision-making process in the fine-grained setting.",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_26",
+          "text": "6.4\nPortfolio Optimization In regulated financial environments, deploying a fully autonomous\ntrading system directly to live capital is typically infeasible with-\nout extensive staged validation. Consequently, to demonstrate the\nreal-world applicability of our system under these constraints, we\nperform standard portfolio optimization against a market index\nas a realistic pre-deployment validation setting. We conduct a sys-\ntematic backtest to evaluate the allocation between the TOPIX 100\nequity index and a composite portfolio of six LLM-based agent\nstrategies. Six LLM-based agent strategies include the strategies\nusing all agents and five leave-one-out strategies, constructed using\nan equal risk contribution weighting scheme. Here, we exploit the\nheterogeneity in outputs across the six strategies—instructed with\ndifferent combinations of information sources.\nThe covariance structure among the six agent strategies is de-\nrived from the stock-level covariance matrix of TOPIX 100 con-\nstituents. Letting 𝑉∈R𝑛×𝑛denote the stock covariance matrix\nand 𝑃∈R𝑀×𝑛the portfolio weight matrix whose rows correspond\nto each agent’s stock-level holdings, the agent-level covariance is\ncomputed as Σ = 𝑃𝑉𝑃⊤. To combine the six strategies into a single\ncomposite, we solve for the weight vector 𝑤that equalizes each\nagent’s risk contribution to total portfolio variance: each asset’s con-\ntribution 𝑤𝑖(Σ𝑤)𝑖/\n√",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_27",
+          "text": "𝑤⊤Σ𝑤is driven toward 1/𝑁via constrained\noptimization, subject to Í\n𝑖𝑤𝑖= 1.\nWe then vary the allocation ratio between TOPIX 100 and the\nagent composite from 0% to 100% in 10% increments, evaluating out-\nof-sample performance including annualized return, volatility, and\nSharpe ratio, net of realistic transaction costs (10bps one-way). A\nkey empirical finding is that the correlation between the TOPIX 100\nindex returns and the agent composite returns is low (≈0.4), creat-\ning substantial diversification benefits. As Figure 3 shows, blended\nportfolios consistently achieve higher Sharpe ratios than either\nthe TOPIX 100 index or the agent composite alone (The return and\nvolatility are shown in Table 4 in Appendix C). While the ex-ante op-\ntimal allocation ratio is unknown in practice, even a naïve 50%/50%\nsplit between the index and the agent composite yields a Sharpe\nratio superior to both standalone components—demonstrating that\npractitioners can capture meaningful risk-adjusted performance\nimprovements without requiring precise allocation optimization.",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_28",
+          "text": "7\nDiscussion and Conclusion In this study, we constructed a hierarchical multi-agent trading\nframework and investigated how task granularity affects system 7",
+          "page": 7
+        },
+        {
+          "para_id": "2.0_29",
+          "text": ", ,\nMiyazaki et al.",
+          "page": 8
+        },
+        {
+          "para_id": "2.0_30",
+          "text": "0%\n20%\n40%\n60%\n80%\n100%\nAgent strategy allocation (%)",
+          "page": 8
+        },
+        {
+          "para_id": "2.0_31",
+          "text": "1.00",
+          "page": 8
+        },
+        {
+          "para_id": "2.0_32",
+          "text": "1.25",
+          "page": 8
+        },
+        {
+          "para_id": "2.0_33",
+          "text": "1.50",
+          "page": 8
+        },
+        {
+          "para_id": "2.0_34",
+          "text": "1.75",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "2.00",
+      "section_title": "2.00 Sharpe ratio",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.00_1",
+          "text": "Gross\nNet (10bps)",
+          "page": 8
+        },
+        {
+          "para_id": "2.00_2",
+          "text": "Figure 3: Sharpe ratio as a function of allocation between\nTOPIX 100 and the aggregated agent strategy in the test pe-\nriod. Gross performance (orange) and net performance after\n10 bps one-way transaction cost (green) are shown.",
+          "page": 8
+        },
+        {
+          "para_id": "2.00_3",
+          "text": "behavior by comparing fine-grained and coarse-grained task set-\ntings. Our experimental results demonstrate that the fine-grained\nsetting yields statistically superior overall performance in terms\nof risk-adjusted returns. Furthermore, the ablation study revealed\nthat the Technical agent is a primary performance driver. Crucially,\ntext-based analyses consistently confirmed that the fine-grained\ninstructions enabled the effective propagation of technical insights\nto higher-level decision-makers. These results provide evidence\nfrom performance, ablation, and textual behavior analyses that fine-\ngrained task structuring improves both the effectiveness and the\ninformation flow within hierarchical LLM agent systems. Finally,\nwe evaluated real-world performance through portfolio optimiza-\ntion using market indices as benchmarks. Our findings suggest that\nthe performance of LLM-based trading agents is driven not merely\nby the model’s reasoning capability, but significantly by the quality\nof feature engineering embedded within the prompt design.",
+          "page": 8
+        },
+        {
+          "para_id": "2.00_4",
+          "text": "7.1\nImplications From an agent design perspective, our findings suggest a shift in\nhow to construct multi-agent systems for financial analysis. Prior\nwork has often implicitly assumed a one-to-one mapping between\ndata modality and agent specialization, with the role-based ambigu-\nous instructions. However, our results indicate that agents may be\nmore effectively designed around task decomposition rather than\ndata source boundaries. In practical settings, this opens the pos-\nsibility that users can embed their own domain-specific expertise\ndirectly into task-specialized agents, enabling customizable and\norganization-specific agent frameworks.\nAnother important implication concerns interpretability. Our\nstudy demonstrates that meaningful insights can be extracted from\nanalyzing agent text outputs, providing a practical pathway for\nunderstanding LLM-driven decision processes. Interpretability is\nespecially critical in enterprise settings, particularly for large-scale\nasset management. Prior work has suggested that the adoption\nof LLMs introduces new operational workflows centered around\nvalidating generated outputs [19]. In this context, building trading\nagents with strong interpretability characteristics is not merely\ndesirable but may become operationally necessary.\nSimultaneously, there is an ongoing debate over whether natural\nlanguage should be adopted as the primary communication inter-\nface in multi-agent LLM systems. Many existing frameworks [27, 45,",
+          "page": 8
+        },
+        {
+          "para_id": "2.00_5",
+          "text": "69, 76] rely on natural language communication, while alternative\napproaches propose machine-oriented languages that are mutually\nintelligible among AI agents to improve efficiency and accuracy [63,\n73]. Nevertheless, from a practical perspective [18], natural lan-\nguage interfaces appear advantageous, as they enable interpretabil-\nity and downstream analyses such as those conducted in our study.",
+          "page": 8
+        },
+        {
+          "para_id": "2.00_6",
+          "text": "7.2\nLimitations and Future Work Despite promising results, several limitations remain. First, it is not\nyet fully clear whether the performance gains are fundamentally at-\ntributable to fine-grained task decomposition itself. One alternative\nexplanation is that certain vocabulary patterns may be more easily\nadopted by the preference of LLMs to influence downstream agents.\nInvestigating linguistic bias in LLM-based multi-agent systems is,\ntherefore, an important direction for future research [c.f., 17, 26].\nSecond, due to the knowledge cutoff of the LLM model, back-\ntesting was limited to approximately two years of historical data.\nFinancial markets exhibit strong regime shifts over longer horizons,\nand therefore, longer-term validation is necessary to confirm ro-\nbustness. One possible future direction is the use of time-aware or\ntemporally constrained LLM variants, such as approaches similar to\nTime Machine GPT [10], which could enable historically consistent\nsimulations across longer market periods.\nThird, while we established rigorous experimental settings, we\nacknowledge that there remains room for exploration under differ-\nent conditions, such as employing other LLM models or targeting\ndifferent markets (e.g., the US market). However, we believe the\nscope of this analysis is sufficient for the following reasons. Pri-\nmarily, from an industrial perspective, our primary focus is on the\nJapanese market due to specific deployment requirements. Also,\ncurrent LLMs have demonstrated sufficient pre-trained knowledge\nregarding the Japanese market [40]. Furthermore, given the recent\ncompetitive progress across providers [54], we infer that the funda-\nmental validity of our proposed method remains consistent across\nhigh-performing models.",
+          "page": 8
+        }
+      ]
+    }
+  ]
+}

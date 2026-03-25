@@ -1,0 +1,3117 @@
+{
+  "doc_id": "2602.23023v1.pdf",
+  "title": "arXiv:2602.23023v1  [math.ST]  26 Feb 2026",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1\nIntroduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Gaussian mixture models are arguably the most iconic distribution model for clustering purpose.\nThis\nattracted a large attention both in statistics and in machine learning [Das99; VW04; LZ16; DKS18; RV17;\nGV19; FC18; CY21; KC20; SN21; RBO22; LL22; Dia+23a; EGV24].",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "Set-up.\nFor some unknown vectors µ1, . . . , µK ∈Rd, some σ > 0, we observe Yi ∈Rd with i = 1, . . . , n\nthat are sampled independently with distribution",
+          "page": 1
+        },
+        {
+          "para_id": "1_3",
+          "text": "Yi ∼N(µk∗(i), σ2Id) ,\n(1) where the function k∗: [n] 7→[K] encodes the unknown partition of the observation into K groups. To\nsimplify the discussion and by homogeneity, we assume throughout this paper that σ = 1.\nWe write\nY ∈Rn×d for the full observation matrix. The model (1) is an instance of the isotropic Gaussian mixture\nmodel that is conditioned to the latent assignments k∗.\nFor l = 1, . . . , K, denote S∗\nl = (k∗)−1({l}) for the l-th group. The main statistical objective for such\nGaussian mixture models (1) is to cluster the data matrix Y , that is to recover the unknown partition\nS∗\n1, . . . , S∗\nK of [n]. Given an estimated partition ˆS1, . . . , ˆSK of [n], consider the alignment loss err( ˆS, S∗)\ndeﬁned by",
+          "page": 1
+        },
+        {
+          "para_id": "1_4",
+          "text": "err( ˆS, S∗) :=\nmin\ns permutation of [K]\n1\n2n",
+          "page": 1
+        },
+        {
+          "para_id": "1_5",
+          "text": "K\nX k=1\n|Ss(k)△S∗\nk| ,\n(2) where △stands here for the symmetric diﬀerence. When err( ˆS, S∗) = 0, the partition is perfectly recon-\nstructed. We say ˆS achieves partial reconstruction when the error err( ˆS, S∗) is smaller than a random guess",
+          "page": 1
+        },
+        {
+          "para_id": "1_6",
+          "text": "1",
+          "page": 1
+        },
+        {
+          "para_id": "1_7",
+          "text": "arXiv:2602.23023v1  [math.ST]  26 Feb 2026",
+          "page": 1
+        },
+        {
+          "para_id": "1_8",
+          "text": "(independent of Y ). For simplicity, we focus here on the case where the partition is balanced, i.e. when all\ngroups S∗\nk’s have similar cardinality of the order of n/K.\nThe key quantity characterizing the diﬃculty of the clustering task is the minimal inter-group separation\n∆∗= infk̸=k′ ∥µk −µk′∥2, which plays the role of signal strength. Here ∥.∥2 stands for the l2 norm in Rd.\nAs clustering is combinatorial by nature, computational diﬃculties are central to this problem. Hence, the\noverarching question in the literature is to characterize the minimum separation ∆∗that allows to reconstruct\nthe unknown partition with a polynomial-time procedure.",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "section_id": "1.1",
+      "section_title": "1.1\nState-of-the art Minimax conditions.\nDeﬁne the quantity ∆stat the statistical threshold",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.1_1",
+          "text": "∆2\nstat :=",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_2",
+          "text": "r dK log(K) n\n∨log(K) .\n(3) If we set aside computational aspects, it has been established [RV17; KC20; EGV24] that partial reconstruc-\ntion of the partition is information-theoretically possible as soon as ∆∗≳∆stat. Here, u ≳v means that\nu ≤cv for some positive numerical constant c. Minimax bounds for the low-dimensional regime (n ≥dK)\nare provided in [RV17], whereas the general case is dealt with in [EGV24]. The exact k-means algorithm,\nwhich minimizes a l2-type criterion over all possible partitions into K groups, is shown in [EGV24] to par-\ntially recover the underlying partition with high probability as soon ∆2\n∗is large compared to ∆2\nstat. However,\nthere exists no known polynomial-time algorithm for computing this k-means estimator. Furthermore, in\nworst-case instances, this estimator is NP-hard to compute and to approximate [Awa+15]. This raises the\nimportant question whether it is possible to partially recover the underlying partition at the square statistical\nminimax distance ∆2\nstat or whether a statistical-computational gap arises for this problem.",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_3",
+          "text": "High-dimensional regime (n ≤dK).\nIn an asymptotic regime where the number K of groups is ﬁxed,\nn, p →∞with p/n →α ≥\n1\nK2 , Lesieur et al. [Les+16] conjectured, using statistical physics arguments, that\nthe problem is indeed hard below the BBP threshold [BAP05] ∆2\n∗≍\np",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_4",
+          "text": "dK2/n. Recently, [EGV24; EGV25]\nestablished a low-degree polynomial lower bound stating that clustering better than random guess with\nlog(n)-degree polynomials can be impossible when ∆∗≲log ∆comp,HD where ∆comp,HD is deﬁned through ∆2\ncomp,HD := 1\n_  \n√",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_5",
+          "text": "d ∧",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_6",
+          "text": "r K2d n",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_7",
+          "text": "! .\n(4)",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_8",
+          "text": "Here, u ≲log v means that there exists two positive numerical constants c and c′ such that u ≤c log−c′(n)v.\nSuch a lower bound provides strong evidence [Wei25] of hardness of clustering when ∆∗is of smaller order\n(up to logarithmic terms) than ∆comp,HD. Note that, the lower bound (4) from [EGV25] is valid both in\nthe high-dimensional regime (n ≤dK) and moderate-dimensional regime (n ≥dK). On the one hand, this\nconﬁrmed the conjecture of Lesieur et al. [Les+16] when the number K of groups is not too large (K ≤√n).\nOn the other hand, this unveiled another regime in the large group regime K ≥√n. Conversely, the rate\n∆2\ncomp,HD is, up to logarithmic factors, matched by a combination of hierarchical clustering (HC) for K ≥√n\nand of a spectral projection step together with a HC method for K ≥√n [EGV25]. The intuition is the\nfollowing: If ∆2\n∗≳log\n√",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_9",
+          "text": "d, then observations Yi’s in the same group are closer than observations in distinct groups so that HC recovers the true partition. If ∆2\n∗≳\nq",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_10",
+          "text": "K2d n , then it is possible to project Y onto a (K ∧d)-dimensional subspace of Rd corresponding to largest eigenvector. Next, HC applied to the projected\ndata recovers the true partition as long as ∆2\n∗≳log\n√",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_11",
+          "text": "K. Overall, this combination of procedures recovers\nthe true partition as long as ∆2\n∗≳log ∆2\nsp, with",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_12",
+          "text": "∆2\nsp :=",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_13",
+          "text": "r dK2 n",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_14",
+          "text": "! ∨\n√",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_15",
+          "text": "K",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_16",
+          "text": "! ∧\n√",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_17",
+          "text": "d ,\n(5)",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_18",
+          "text": "which, in the high-dimensional regime (n ≤dK), matches (4).",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_19",
+          "text": "2",
+          "page": 2
+        },
+        {
+          "para_id": "1.1_20",
+          "text": "Moderate-dimensional regime (n ≥dK).\nDespite a long series of work (e.g. [LZZ21; FC18; LL22;\nDKS18; EGV25]), this regime remains to be understood.\nOn the computational lower bound side, the\nlow-degree bound (4) still holds in this regime [EGV25] provided that d ≥log5(n). However, none of the\nprocedures based on spectral procedures as well as Lloyd’s algorithm [Nda22; LZ16], SDP [FC18; GV19],\nor HC are able to match those bounds. Indeed, among these distance-based methods, the best available\nguarantees are given by the threshold ∆2\nsp which, in the moderate-dimensional regime n ≥dK, simpliﬁes\nas ∆2\nsp =\n√",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_21",
+          "text": "K ∧\n√",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_22",
+          "text": "d. A somewhat parallel stream of literature [HK13; DKS18; HK13; KSS18] builds upon\nhigh-order tensors built from the matrix Y . When n ≥(dK)c for some large non-explicit c, [LL22] proves\nthat a polynomial-time estimator based on iterative tensor projection partially recovers the partition with\nhigh probability when ∆2\n∗≳log(K)1+ǫ, almost matching the minimax threshold (3). 1.2\nOpen problems and our contribution Open Problems.\nIn the high-dimensional regime, the diﬃculty of clustering is mostly driven by the\ndimension reduction problem, at least when K ≥√n [EGV25]. However, in the moderate-dimensional regime\n(n ≥dK), the problem is much more subtle: even when d ≥K, the separation condition ∆2\n∗≳\np",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_23",
+          "text": "dK2/n\nrequired to reduce the dimension from d to K is mild compared to the conditions ∆2\n∗≳\np",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_24",
+          "text": "(d ∧K) log(n)\nrequired by HC algorithm [EGV25; VW04]. In particular, in our moderately large sample size (n ≥dK),\ncan we expect to recover the partition for ∆2\n∗below this condition? To illustrate this point, let us consider\na speciﬁc yet emblematic example with 2K groups with d = K, and where, for k = 1, . . . , K, the µk’s are\northogonal, and µK+k = −µk. Provided that the unknown partition is exactly balanced, the gram matrix\nY T Y is, in expectation, proportional to the identity matrix, and any spectral procedure (or SDP) based on\nthis Gram matrix does not provide any sensible information on the unknown means. This phenomenon is\nakin to other problems, as e.g. planted vector in a subspace [MW25] but is yet diﬀerent since there there\nare K planted vectors in a K-dimensional space. In light of the vacuity of spectral methods, it is tempting\nto rely on high-order moment of the distributions though the lens of tensor or tensor projection as done\nin [LL22]. Nevertheless, as the sampling size n requirement in in [LL22] is implicit and is quite large, this\nraises the following questions: 1. What is the minimum separation ∆2\n∗for eﬃcient clustering method to recover the partition in the",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_25",
+          "text": "moderate-dimensional regime? Is it related to the spectral threshold ∆2\n∗≳\nq",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_26",
+          "text": "dK2 n ? 2. What are the optimal algorithms in this regime?",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_27",
+          "text": "Main Contribution.\nIn this paper, we make signiﬁcant advances to these two questions. Namely, our ﬁrst\nmain result is a low-degree polynomial lower bound providing strong evidence of the hardness of clustering\nfor d ≥K and when ∆∗≲log ∆comp,MD with ∆2\ncomp,MD :=\n\u0012 K",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_28",
+          "text": "n1/4 ∧\n√",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_29",
+          "text": "K\n\u0013\n.\n(6)",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_30",
+          "text": "Although this result is tailored to handle the moderate-dimensional regime, our result is valid for any sample\nsize n as long as d ≥K. In particular, the non-parametric rate ∆2\ncomp,MD is signiﬁcantly larger than the\nrate ∆2\ncomp,HD (4) as long as n ≥(d ∨K)2. In particular, this entails that it is impossible to recover the",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_31",
+          "text": "unknown partition at the spectral threshold\nq",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_32",
+          "text": "dK2 n\nin that regime and that more delicate phenomena arise\nin that regime. It sheds light on the fact that the hindering to clustering is not directly related to spectral\nproperties of Y Y T but on the behavior of higher-order quantities. Our proof of the low-degree lower-bound is of constructive nature. In particular, it provides us strong\ninsights to introduce a new clustering procedure that highly diﬀers from spectral methods. It is somewhat\nrelated to order-4 tensor methods, although it is also of diﬀerent nature. As a second main result, we establish\nthat our new procedure is able to recover the cluster as long as ∆∗is large compared to (1 ∨∆comp,MD) in\nthe speciﬁc case where d = K and where the parameters of the mixture follow the same prior distribution\nas in our low-degree lower bound –see Section 2 for a precise deﬁnition. Overall, with these two results, we\nobtain that the threshold ∆2\ncomp,MD is intrinsic for computationally-eﬃcient clustering.",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_33",
+          "text": "3",
+          "page": 3
+        },
+        {
+          "para_id": "1.1_34",
+          "text": "Together with low-degree polynomials lower bounds of [EGV25], our results imply a strong of evidence\nthat, for any dimension d ≥K, clustering in polynomial time is not feasible as long as",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_35",
+          "text": "∆2\n∗≲log",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_36",
+          "text": "\" 1 +",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_37",
+          "text": "r dK2 n\n+\nK\nn1/4",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_38",
+          "text": "! ∧\n√",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_39",
+          "text": "d",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_40",
+          "text": "# .\n(7)",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_41",
+          "text": "In this paper, we only provide a matching upper bound for speciﬁc instances of the model (1). Nevertheless,\nas those instances are exactly the ones used for proving the low-degree lower bound, this leads us to the\nfollowing conjecture. Conjecture 1. For any n, d, K, such that d ≥K, it is possible to reconstruct the partition in polynomial\ntime as long as ∆2\n∗≳log",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_42",
+          "text": "\" 1 +",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_43",
+          "text": "r dK2 n\n+\nK\nn1/4",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_44",
+          "text": "! ∧\n√",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_45",
+          "text": "d",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_46",
+          "text": "# .\n(8)",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_47",
+          "text": "1.3\nLow-degree polynomial framework In the low-degree polynomial framework, we only consider estimators, or test statistics, within the class of\nmultivariate polynomials of degree at most D of the data. Its premise is that, for a large class of problems, the\npolynomials of degree D = O(log n) are as powerful as the best polynomial-time algorithms. Hence, proving\nthe failure of degree O(log n) polynomials is a strong indication [KWB19; Wei25] that no polynomial-time\nalgorithm can solve this task. This framework is closely related to other approaches including statistical\nqueries [Bre+20], free-energy landscapes from statistical physics [Ban+22] or approximate message pass-\ning [MW24]. Low-degree polynomials have been fruitfully applied to a large range of detection problems,\nincluding community detection [HS17], spiked tensor models [HS17; KWB19] among many others. Although\nit has originally been proposed for detection problems, it has been subsequently extended to estimation\nproblems [SW22; SW25; Car+25]. In order to ﬁt the clustering problem within the low-degree estimation framework, we need to introduce\na prior distribution on the parameters µk’s in and k∗’s of the model (1). We write P (resp. E) for the speciﬁc\nmarginal probability (resp. expectation) distribution of Y . Also, we need to reduce the clustering problem\nto the problem of estimating a functional x ∈R. This will be made explicit in the beginning of Section 2,\nbut one may think of x as the indicator function that the ﬁrst and second rows belong to the same group,\nso that the problem of recovering x is a sub-problem of our global clustering problem from Equation 2. For\nany multiset S of [n] × [d], we write Y S = Q\n(i,j)∈S Yi,j. Given a positive integer D, we write S≤D for the\ncollection of all multisets that satisfy |S| ≤D. Following [SW22], we deﬁne the minimum low-degree risk as",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_48",
+          "text": "MMSE≤D =\ninf\nf:deg(f)≤D E[(f(Y ) −x)2] =\nsup\n(αS)S∈S≤D\nE",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_49",
+          "text": " ",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_50",
+          "text": " X",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_51",
+          "text": "S∈S≤D\nαSY S −x",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_52",
+          "text": " ",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_53",
+          "text": "2 ,",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_54",
+          "text": "which corresponds to the minimum square risk achievable by polynomials of degree at most D with respect to\nY to estimate the functional x. Our main objective is therefore to show that MMSE≤D ≤MMSE≤0(1+o(1))\nfor degrees D of the order of log(n), which entails that low-degree polynomials of degree, up to log(n), do\nnot have a smaller error than low-degree polynomials. Deﬁne the low-degree polynomial correlation criterion\nCorr≤D by",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_55",
+          "text": "Corr≤D :=\nsup\n(αS)S∈S≤D",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_56",
+          "text": "E\nh\nx P\nS∈S≤D αSY Si s E\n\u0014hP\nS∈S≤D αSY S\ni2\u0015 ,\n(9) which satisﬁes MMSE≤D = E[x2] −Corr2\n≤D by [SW22]. Hence, the key goal is to control the low-degree\ncorrelation.\nFor simple detection problems of a distribution P against Q considered e.g. in [Hop+17; KWB19], one\ncan bound the counterpart of the low-degree correlation (9) by considering an orthonormal basis of the space",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_57",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_58",
+          "text": "of polynomials with respect to P, this allows to directly express the supremum in (9) as a sum of projec-\ntions. When P corresponds to the distribution of independent Bernoulli random variables or independent\nstandard normal distributions, the canonical basis or the multivariate Hermite basis are easily shown to\nbe orthogonal. However, for generation estimation problem as considered here, the distribution P is not\na product distribution and no explicit orthonormal basis is known. This technical hurdle prevented the\ndevelopment of low-degree lower bound for estimation problems. Schramm and Wein [SW22] proposed to\nlower bound the denominator of (9) using Jensen’s trick, which then allows to control Corr≤D as a sum of\nmultivariate cumulants. This provided a versatile tool which has been applied among others to submatrix\nestimation [SW22], stochastic block models and graphons [LG23], and Gaussian mixture models [EGV25].\nHowever, for Gaussian mixture models, bounding cumulants does not allow to improve over the spectral-type\nlower bound (4) from [EGV25]. More recently, Sohn and Wein [SW25] developed sharper theory, but solving\nthe corresponding overcomplete linear systems is extremely involved and we did not manage to apply this\napproach for our problem.\nAs an alternative, Carpentier et al. [Car+25] have advocated for a more direct approach to lower bound\nthe risk of low-degree polynomials by constructing a family of polynomials that is almost orthogonal under P.\nThis has been applied to several planted problems in random graphs [Car+25] and in particular to stochastic\nblock models with many groups [CGV25]. One advantage is that such a basis provides strong intuition on\nthe form of optimal polynomials that match the lower bound (6). In this work, we extend and sharpen this\napproach from random graph to Gaussian mixture models. In turn, this provides us insights to introduce\nour new clustering procedures.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_59",
+          "text": "1.4\nFurther related literature Estimation of the means.\nIn this manuscript, we focus on the problem of estimating the partition\n(S1, . . . , SK) of [n]. Some part of the literature –see e.g. [RV17; DKS18; LL22; KC20] rather study the prob-\nlem of estimating the means µk’s. Nevertheless, there is a close connection between between mean estimation\nand clustering. Indeed, in a moderate-dimensional regime (n ≥dK) a consistent estimation of the µk’s is\npossible when it is possible to partially reconstruct the partition [LL22]. Conversely, if the means µk’s are\nwell estimated, it is possible to recover the underlying partition when ∆∗is large compared to\np",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_60",
+          "text": "log(K), the\nlatter condition being necessary for clustering from a information-theoretical perspective [EGV24]. Hence,\nin our regime of interest, both mean estimation and clustering turn out to be equivalent. Nevertheless,\nwe point out that mean estimation is still possible even in low-separation regime (∆∗≤\np",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_61",
+          "text": "log(K)) where\nclustering in not achievable. However, the estimation rates and the statistical phenomenons at stake are\nquite diﬀerent [RV17; Dos+23].",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_62",
+          "text": "Anisotropic Gaussian mixture models.\nWe underline that we focus in this work on the isotropic case\nwhere the covariance matrices of the mixture is proportional to the identity matrix. In the non-isotropic\ncase, there is an additional statistical-computational gap that does not only arise when the number of K of\ngroups is large but also because of the unknown covariance structure. In particular, [DKS17] and [Dia+23b]\nestablish such gaps through the lens of the Statistical Query lower bounds",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_63",
+          "text": "1.5\nOrganization of the manuscript In Section 2, we state our main results. Section 3 is devoted to the construction of an family of polynomials\nindexed by multigraph and we establish its almost orthonormality. Then, we rely on that family to establish\nour low-degree lower bound. The main arguments for our upper bound are given in Section 4. Section 5\nfurther discusses remaining results. All the proofs are postponed to the end of the manuscript and to the\nappendix.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nModel and main results",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "Gaussian mixture model with orthogonal means.\nFor the purpose of establishing our low-degree\nlower bounds, we introduce a speciﬁc prior distribution on the means of the Gaussian mixture. Fix any",
+          "page": 5
+        },
+        {
+          "para_id": "2_2",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "2_3",
+          "text": "∆> 0, and any positive integer n, d, and K, with d ≥K. First, sample µ1, . . . , µK independently, such\nthat for k = 1, . . . , K, ∥µk∥2 = ∆, the µk’s are orthogonal almost surely, and their joint distribution is\ninvariant by rotation on Rd. Then, sample k∗(1), . . . , k∗(n) independently and uniformly at random on [K].\nFor i = 1, . . . , n, we also independently sample independent Rademacher variables bi. Finally, given i.i.d.\nstandard normal random variables Zi, we observe",
+          "page": 6
+        },
+        {
+          "para_id": "2_4",
+          "text": "Yi = biµk∗(i) + Zi ,\ni = 1, . . . , n .\n(10)",
+          "page": 6
+        },
+        {
+          "para_id": "2_5",
+          "text": "In the sequel, we write Xi = biµk∗(i) for the signal. Observe that the matrix Y obtained from (10) is,\nconditionally to the µk’s, bi’s, and k∗(i), a Gaussian mixture model with 2K groups1, separation ∆∗=\n√",
+          "page": 6
+        },
+        {
+          "para_id": "2_6",
+          "text": "2∆,\nand such that the corresponding means are either orthogonal or opposite. The partition of [n] into 2K groups\nis given by S∗\nk,b := {i ∈[n] : k∗(i) = k and bi = b} with k ∈[K] and b ∈{−1, 1}. As long as n ≥K log(K),\nthe partition is balanced with high probability on k∗and the bi’s. Henceforth, we write P for the marginal\ndistribution of the matrix Y according to this model. Here, we choose this prior distribution on the means in such a way that, for d = K, E[Y T Y |(µk)] =\n(1 + ∆2",
+          "page": 6
+        },
+        {
+          "para_id": "2_7",
+          "text": "K )IK and that, at least in expectation, the spectral properties of Y T Y are irrelevant to recover the\npartition.",
+          "page": 6
+        },
+        {
+          "para_id": "2_8",
+          "text": "Low-degree lower bound.\nAs usual in the literature on clustering-type problems, let it be stochastic block\nmodels [SW25] or Gaussian mixtures models [EGV24], we reduce clustering to the problem of estimating\nthe functional x = 1k∗(1)=k∗(2). It is clear that being able to recover the partition for the model (10) gives a\nstrong indication on value of x. More precisely, observe that P[x = 1] = 1/K and, the risk E[(ˆx −x)2] of an\nestimator ˆx independent of Y is at least 1/K(1 −1/K). In Appendix A.2 of [EGV25], it is shown that the\nhardness of reconstructing x within a square error smaller than K−1(1+o(1)) implies that all polynomial-time\nbalanced estimators ˆS of the partition (S∗\nk,b) achieve err( ˆS, S∗) = 1 + o(1), i.e. that partial reconstruction is\nhard. Thus, we focus in this manuscript on the problem of estimating the functional x. Observe E[x2] = 1/K\nand MMSE≤0 = 1/K(1 −1/K). Recalling that MMSE≤D = E[x2] −Corr2\n≤D –see Section 1.3–, we see that\nonly have to prove Corr2\n≤D is small compared to 1/K to establish that MMSE≤D ≤MMSE≤0(1 + o(1)) and\nthereby that any low-degree polynomial performs better than random guess. Theorem 1 (Low-degree lower bound). There exist positive numerical constant c0 > 0 and c′\n0 > 0 such that\nthe following holds for any d ≥K. Assume that D ≥c′\n0 and that\n\u0012n1/4∆2 K",
+          "page": 6
+        },
+        {
+          "para_id": "2_9",
+          "text": "\u0013\n∨\n\u0012 ∆2",
+          "page": 6
+        },
+        {
+          "para_id": "2_10",
+          "text": "√ K",
+          "page": 6
+        },
+        {
+          "para_id": "2_11",
+          "text": "\u0013\n∨\n\u0012\n1\nK1/4",
+          "page": 6
+        },
+        {
+          "para_id": "2_12",
+          "text": "\u0013\n≤\n\u0012 1",
+          "page": 6
+        },
+        {
+          "para_id": "2_13",
+          "text": "4D",
+          "page": 6
+        },
+        {
+          "para_id": "2_14",
+          "text": "\u0013c",
+          "page": 6
+        },
+        {
+          "para_id": "2_15",
+          "text": "for some c ≥c0. Then Corr2\n≤2D ≤\n1\nK2",
+          "page": 6
+        },
+        {
+          "para_id": "2_16",
+          "text": "1 + 24\n\u0012 8 D",
+          "page": 6
+        },
+        {
+          "para_id": "2_17",
+          "text": "\u0013c/16! .",
+          "page": 6
+        },
+        {
+          "para_id": "2_18",
+          "text": "If we take D = logc′(n), for some c′ > 0, the above theorem entails that MMSE≤D ≤MMSE≤0(1 + o(1))\nas long as K ≳logc′′(n) and ∆2 ≲log\nK\nn1/4 ∧\n√",
+          "page": 6
+        },
+        {
+          "para_id": "2_19",
+          "text": "K .",
+          "page": 6
+        },
+        {
+          "para_id": "2_20",
+          "text": "Here, it is unavoidable to assume that K is large. Indeed, there is no signiﬁcant (i.e. larger than log(n))\nstatistical-computational gap when K ≤log(n). For instance, one may observe that condition ∆2 ≳log ∆2\nsp\nof (5) for polynomial-time reconstruction is, up to polylog, matching the minimax condition of ∆2 ≳∆stat (3)\nwhen K ≤log(n). 1This slightly departs from the formalism in (1) as the number of groups is now equal to 2K, but we keep with the abuse\nof notation as K rather than 2K is the quantity of interest here.",
+          "page": 6
+        },
+        {
+          "para_id": "2_21",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "2_22",
+          "text": "Matching upper bound.\nThe proof of Theorem 1 described in Section 3 provides strong insights for\nconstructing an eﬃcient estimator of the functional x. In Section 4, we construct an estimator ˆx (see (22))\nwhich is a transformation of a low-degree polynomial of Y . This estimator is somewhat related to an order-4\ntensor method, while being also diﬀerent. In the following theorem M and L are two tuning parameters so\nthat the degree of the corresponding polynomial is of order of ML. Theorem 2. There exists two numerical constants c and c′ such that the following holds. Consider the\nestimator ˆx deﬁned in (22) where we ﬁx M as smallest odd integer such that M ≥log(K) ∨24 and we ﬁx\nL = ⌊log(K)⌋. If we assume that n ≥c log5(n)K and ∆2 ≥c′\n\u0014\nlog3(n) K",
+          "page": 7
+        },
+        {
+          "para_id": "2_23",
+          "text": "n1/4 + log13(n)\n\u0015\n,\n(11) then, ˆx deﬁned in (22) satisﬁes P (ˆx = x) ≥1 −n−3. As a consequence, the MMSE of ˆx is smaller than 1/n3. Besides, if we apply this strategy to estimate\nall n(n −1)/2 functional 1{k∗(i) = k∗(j)}, we can recover the full partition of [n] according to k∗(.) with\nprobability at least 1−1/n. Given the knowledge of k∗, it is straightforward to recover the original partition\ngiven by k\n∗(.) as this simply amounts to considering K problems of clustering with 2 groups. Recovering these\ngroups in polynomial-time is feasible as soon as ∆2 ≥c log(n) for a numerical constant c > 0–see e.g. [Nda22].\nIn conclusion, under Condition 2, we can perfectly recover the partition k\n∗(.) with high probability. In Theorem 2, the degree of the polynomial is of the order log2(K). Fix any ǫ < 1/24. It is in fact\npossible to reduce the degree of the polynomial to the order of 1/ǫ2 by choosing M and L of the order of\n1/ǫ. In this case, Condition (11) is replaced by ∆2 ≥c1Kc2ǫǫc3\n\u0014\nlog5/4(n) K",
+          "page": 7
+        },
+        {
+          "para_id": "2_24",
+          "text": "n1/4 + log(n)ǫ\n\u0015\n.",
+          "page": 7
+        },
+        {
+          "para_id": "2_25",
+          "text": "This matches the low-degree lower bound up to an arbitrarily small power of K.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3\nProof overview for the lower bound",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "In this section, we describe important steps for the proof of Theorem 1. First, we introduce an almost-\northogonal basis under P which is central in our arguments. After reducing the polynomial space by invariance\nproperties, we introduce a multigraph formalism that will be used to deﬁne the polynomials. Then, we\nintroduce a class of invariant polynomials that will be used to construct the estimator and to prove the lower\nbound. We prove that it is suﬃcient to restrict to the vector sub-space generated by these polynomials.\nThen, we correct this polynomial basis to establish its near orthonormality under P.",
+          "page": 7
+        },
+        {
+          "para_id": "3_2",
+          "text": "3.1\nInvariance properties The following lemmas entail that it is suﬃcient to consider a subspace of polynomials that are rotation\ninvariant in the d-dimensional feature space and permutation-invariant on the individuals {3, . . . , n}. Lemma 1. Fix any any degree D > 0. Then, the minimum low-degree risk minf:deg(f)≤D E[(f(Y ) −x)2] is\nachieved by a function f such that (i) there exists a polynomial g of Rn×n of degree at most ⌊D/2⌋such that f(Y ) = g(Y Y T ). (ii) g(U) is invariant by permutation of the variable except one and two. In other words, for any bijection\nσ : [n] 7→[n] such that σ(1) = 1 and σ(2) = 2, upon writing Uσ = (Uσ(i),σj), we have g(U) = g(Uσ). The ﬁrst property follows from the fact that the distribution of our matrix X is invariant by rotation in\nthe space of dimension d. The second property follows from the fact that the distribution of X is invariant\nby permutation of the n individuals. Let us denote Pinv\n≤D the subspace of polynomials f of all polynomials\nin Rnd with degree at most D that satisﬁes the properties (i) and (ii) of Lemma 1.",
+          "page": 7
+        },
+        {
+          "para_id": "3_3",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "3_4",
+          "text": "3.2\nMultigraph formalism In the sequel, we consider multi-graphs G = (V, E) where V = {v1, . . . , vr} stands for it nodes and E stands\nfor its multi-set of edges. Importantly, the multi-graphs G are allowed to have self-loops as well as multiple\nedges. We write henceforth |V | for its number of nodes, and |E| the number of edges. In this paper, we shall\nonly consider multigraphs and, for the sake of conciseness, we shall sometimes write graphs for multigraphs.\nThe degree degG(i) of a node i is the number of edges that are incident to i, self-edges counting twice. Two\nmulti-graphs G(1) = (V (1), E(1)) and G(2) = (V (2), E(2)) are said to be equivalent if there exists a bijection\nbetween V (1) and V (2) that maps v(1)\n1\nto v(2)\n1 , v(1)\n2\nto v(2)\n2 , and that preserves the edges and their multiplicity.\nIn Section 6, we shall introduce this notion of equivalence through the lens of the half-edges. This will be\nmore convenient in the proofs to work with half-edges, but we can skip this for now. In the sequel, we deﬁne G≤D as a maximum collection of non-equivalent multigraphs G = (V, E) with at\nleast two nodes, such that, all the nodes to the exception of v1 and v2 are non-isolated, and with at most D\nedges. Such multigraphs G ∈G≤D are henceforth referred to as templates. Consider a multigraph G = (V, E) where V = {v1, v2, . . . , vr} with possible self edges but without isolated\nnodes (except possibly 1 and 2). Consider ΠV the set of injective maps from V to [n] such that π(v1) = 1\nand π(v2) = 2. For π ∈ΠV , we deﬁne the polynomials PG,π(Y ) =\nY",
+          "page": 8
+        },
+        {
+          "para_id": "3_5",
+          "text": "(i,j)∈E\n⟨Yi, Yj⟩;\nPG =\nX",
+          "page": 8
+        },
+        {
+          "para_id": "3_6",
+          "text": "π∈ΠV\nPG,π\n(12) For short, we sometimes write PG for PG(Y ) when there is no ambiguity. These polynomials PG are what\nwe called in the introduction the invariant monomials.\nAs a consequence of Lemma 1,the collection (PG) with G ∈G≤D spans the space of invariant polynomials\nand that we can therefore restrict ourselves to this span for the analysis of the correlation criterion. Lemma 2. For any f in Pinv\n≤2D, there exist numerical values (αG)G∈G≤D such that f(Y ) = P\nG αGPG(Y ). In the sequel, we shall reparametrize the collection (PG) in a collection (eΨG)G so that the eΨG are almost\northogonal.",
+          "page": 8
+        },
+        {
+          "para_id": "3_7",
+          "text": "3.3\nTowards almost orthogonal polynomials In the following, we will modify our basis of so-called invariant monomials into a basis that is almost\northonormal under the distribution P. While some of our results will remain valid for any value of d, K, the\nonly case where our basis is almost orthonormal is in the case where d = K. In the discussion section, we\nwill however explain how this construction remains useful for the case where d ≥K, through a projection\ninto the k-dimensional space that contains the signal.",
+          "page": 8
+        },
+        {
+          "para_id": "3_8",
+          "text": "Hermite polynomials and speciﬁc correction for degree 2 nodes.\nWe start by recalling the standard\nproperties of non-standardized Hermite polynomials – see e.g. page 254 in [MOS13]. Lemma 3. For any integer k > 0, we deﬁne ψk as the Hermite polynomial of order k. For z ∼N(0, 1), we\nhave E[ψk(z + µ)] = µk, E[ψk(z)ψl(z)] = 1k=l\n√",
+          "page": 8
+        },
+        {
+          "para_id": "3_9",
+          "text": "k!l! and",
+          "page": 8
+        },
+        {
+          "para_id": "3_10",
+          "text": "ψk(x + y) =",
+          "page": 8
+        },
+        {
+          "para_id": "3_11",
+          "text": "k\nX",
+          "page": 8
+        },
+        {
+          "para_id": "3_12",
+          "text": "l=0\nψl(x)\n\u0012k\nl",
+          "page": 8
+        },
+        {
+          "para_id": "3_13",
+          "text": "\u0013\nyk−l\n(13)",
+          "page": 8
+        },
+        {
+          "para_id": "3_14",
+          "text": "Consider a multigraph G = (V, E). For any edge e ∈E, we write (l(e), r(e)) ∈V 2 for the respective left\nand right node of this edge. Given v ∈V , j ∈[d], we deﬁne the modiﬁed hermite polynomial ψβv,j,G(x) by ψβv,j,G(x) :=\n\u001a\nx2 −(1 + ∆2/K)\nif βv,j = 2, v /∈{v1, v2}, and degG(v) = 2\nψβv,j(x)\nelse\n.\n(14)",
+          "page": 8
+        },
+        {
+          "para_id": "3_15",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "3_16",
+          "text": "Here, ψβv,j,G corresponds the Hermite polynomial of degree βv,j except if βv,j = 2 and v is a degree 2-node\ndistinct from v1 and v2.\nThen, given a labeling π, we deﬁne the counterpart ΨG,π of Pπ,G by introducing modiﬁed Hermite\npolynomials",
+          "page": 9
+        },
+        {
+          "para_id": "3_17",
+          "text": "ΨG,π :=",
+          "page": 9
+        },
+        {
+          "para_id": "3_18",
+          "text": "d\nX",
+          "page": 9
+        },
+        {
+          "para_id": "3_19",
+          "text": "(je,e∈E)=1",
+          "page": 9
+        },
+        {
+          "para_id": "3_20",
+          "text": "ψ",
+          "page": 9
+        },
+        {
+          "para_id": "3_21",
+          "text": "\"Y e∈E\nYπ(l(e)),jeYπ(r(e)),je",
+          "page": 9
+        },
+        {
+          "para_id": "3_22",
+          "text": "# ,\n(15)",
+          "page": 9
+        },
+        {
+          "para_id": "3_23",
+          "text": "and where ψ\n\u0002Q\ne∈E Yπ(l(e)),jeYπ(r(e)),je\n\u0003\n:= Qn\ni=1\nQd\nj=1 ψβπ−1(i),j,G(Yi,j) and βπ−1(i)j is the number of times\nYij arises in the previous product.\nLet us comment on this deﬁnition by considering two speciﬁc cases: • The template G does not have any degree 2 node. If the multigraph G does not contain any degree 2\nnode aside from v1 and v2, then ΨG,π corresponds to the sum of multivariate Hermite polynomials\nassociated to the development of PG,π in a sum of monomials in Y . In particular, it follows from\nLemma 3 that E[ΨG,π|X] = PG,π(X). In this way, ΨG,π is an unbiased estimator PG,π(X). • The template G contains a degree 2 node. What we will now discuss is only valid in the case where\nd = K. If the multigraph G contains a degree 2 node - write v for such a node - then the additional\ncorrection applied to this node has a strong eﬀect, namely that E[ΨG,π|µ, k∗(π(v′))v′∈V \\v] = E[ΨG,π|X[n]\\{π(v)}] = 0, which means that the conditional expectation of the corrected polynomial conditional to everything but\nthe knowledge of the group of π({v}) is 0. See the proof of Lemma 7 for details. This strong property\nis a key ingredient in the proof of the lower bound. This hints toward the fact that degree 2 nodes do\nnot bring relevant information for the clustering problem. This intuition behind this property is that,\nthe d × d matrix E[YiY T\ni |µ, k(j)j /∈n] = [1 + ∆2",
+          "page": 9
+        },
+        {
+          "para_id": "3_24",
+          "text": "K ]Id because the means µ1, . . . , µK form an orthogonal\nbasis in Rd. This is related to the fact that the expectation of the matrix Y T Y is proportional to Id\nand does not carry any information on the means. Our speciﬁc construction (14) for degree 2-nodes\nallows, later in the proof, to discard all templates G with degree 2 nodes. Alternatively, this correction\nis crucial for bypassing the spectral threshold\np",
+          "page": 9
+        },
+        {
+          "para_id": "3_25",
+          "text": "k2d/n as discussed below. If we had ∆= 0 so that X = 0, then (ΨG,π)G:|E|≤D,π∈ΠV would correspond to a family of multivariate\nHermite polynomials on Rdn. By standard properties (see Lemma 3), multivariate Hermite polynomials are\northonormal under the standard normal distribution, as it is the case for ∆= 0. However, for ∆> 0, it is not\nthe case anymore and we have to adapt the construction in a similar fashion to what was done in [Car+25].",
+          "page": 9
+        },
+        {
+          "para_id": "3_26",
+          "text": "Correction of connected components and transformation to invariant polynomials.\nFinally, we\ncorrect the polynomials in a similar fashion to [Car+25] to better handle the correlation with polynomi-\nals associated to disconnected multigraphs. Consider a template G ∈G≤D with c connected components\n(G1, G2, . . . , Gc) that contain at least one edge, i.e. we leave aside the possible isolated nodes from these\nconnected component. Given Gl, we deﬁne G∗\nl as the multigraph where we possibly add the isolated nodes\nv1 and v2 if v1 or v2 are not already in Gl. Then, we deﬁne eΨG :=\nX π∈ΠV",
+          "page": 9
+        },
+        {
+          "para_id": "3_27",
+          "text": "eΨG,π ;\neΨG,π :=",
+          "page": 9
+        },
+        {
+          "para_id": "3_28",
+          "text": "c\nY",
+          "page": 9
+        },
+        {
+          "para_id": "3_29",
+          "text": "l=1",
+          "page": 9
+        },
+        {
+          "para_id": "3_30",
+          "text": "\u0002 ΨG∗\nl ,π −E[ΨG∗\nl ,π]\n\u0003\n.\n(16)",
+          "page": 9
+        },
+        {
+          "para_id": "3_31",
+          "text": "Note that E[ΨG∗\nl ,π] does not depend on the choice of π. Here, we use the convention of eΨG = 1 when c = 0,\nthat is when the multigraph G ∈G≤D only contains two node and no edge. An important property of the\npolynomials eΨG after this correction is that, when G has more than one connected component, x is not\ncorrelated to eΨG, namely E[xeΨG] = 0.",
+          "page": 9
+        },
+        {
+          "para_id": "3_32",
+          "text": "9",
+          "page": 9
+        },
+        {
+          "para_id": "3_33",
+          "text": "Restriction to templates where all nodes have an even degree.\nDeﬁne Geven\n≤D\n⊂G≤D the subcol-\nlection of templates G such that the degree of each node is even. It turns out that the polynomials eΨG\nsuch that G contains at least one node with odd degree do not bring any suitable for estimating x in our\nmodel as stated by the following lemma. The idea behind this result is that because of the symmetrization\nof the distribution through the Rademacher random variables bi, the polynomials eΨG such that G contains\nat least one node with odd degree are not correlated with x and are not correlated with any eΨG′ where G′ only contains nodes of even degree. Hence, we can restrict ourselves to the span of eΨG such that G contains\nonly nodes with even degree.\nGiven a multi-graph G, we write Aut(G) for its group of automorphisms –see Section 6 for a formal\ndeﬁnition. For any template G ∈G≤D, introduce V(G) = |Aut(G)|d|E| (n −2)!",
+          "page": 10
+        },
+        {
+          "para_id": "3_34",
+          "text": "(n −|V |)! ,\n(17) which corresponds to a variance proxy for eΨG. Lemma 4. We have\nMMSE≤2D =\ninf\nf(Y )∈Vect(eΨG,G∈Geven\n≤D )\nE[(f(Y ) −x)2] , which is equivalent to",
+          "page": 10
+        },
+        {
+          "para_id": "3_35",
+          "text": "Corr≤2D =\nsup\n(αG)G∈Geven\n≤D",
+          "page": 10
+        },
+        {
+          "para_id": "3_36",
+          "text": "E\n\u0014\nx · P\nG∈Geven\n≤D αG\n1\n√",
+          "page": 10
+        },
+        {
+          "para_id": "3_37",
+          "text": "V(G)\neΨG",
+          "page": 10
+        },
+        {
+          "para_id": "3_38",
+          "text": "\u0015",
+          "page": 10
+        },
+        {
+          "para_id": "3_39",
+          "text": "v\nu\nu\ntE",
+          "page": 10
+        },
+        {
+          "para_id": "3_40",
+          "text": "\"\u0014P\nG∈Geven\n≤D αG\n1\n√",
+          "page": 10
+        },
+        {
+          "para_id": "3_41",
+          "text": "V(G)\neΨG",
+          "page": 10
+        },
+        {
+          "para_id": "3_42",
+          "text": "\u00152# .",
+          "page": 10
+        },
+        {
+          "para_id": "3_43",
+          "text": "The following theorem states that, when d = K, the family of polynomials eΨG with G ∈eΨeven\nG\nis almost\northogonal. Theorem 3. Assume that d = K. There exist positive numerical constant c0 > 0 and c′\n0 > 0 such that the\nfollowing holds. Assume that D ≥c′\n0 and that\n\u0012n1/4∆2 K",
+          "page": 10
+        },
+        {
+          "para_id": "3_44",
+          "text": "\u0013\n∨\n\u0012 ∆2",
+          "page": 10
+        },
+        {
+          "para_id": "3_45",
+          "text": "√ K",
+          "page": 10
+        },
+        {
+          "para_id": "3_46",
+          "text": "\u0013\n∨\n\u0012\n1\nK1/4",
+          "page": 10
+        },
+        {
+          "para_id": "3_47",
+          "text": "\u0013\n≤\n\u0012 1",
+          "page": 10
+        },
+        {
+          "para_id": "3_48",
+          "text": "4D",
+          "page": 10
+        },
+        {
+          "para_id": "3_49",
+          "text": "\u0013c\n,\n(18)",
+          "page": 10
+        },
+        {
+          "para_id": "3_50",
+          "text": "for some c ≥c0. Deﬁne u = 8\n\u0000 8",
+          "page": 10
+        },
+        {
+          "para_id": "3_51",
+          "text": "D\n\u0001c/16. Then, for any vector α = (αG), with G ∈Geven\n≤D we have",
+          "page": 10
+        },
+        {
+          "para_id": "3_52",
+          "text": "(1 −u)∥α∥2\n2 ≤E",
+          "page": 10
+        },
+        {
+          "para_id": "3_53",
+          "text": " ",
+          "page": 10
+        },
+        {
+          "para_id": "3_54",
+          "text": " X",
+          "page": 10
+        },
+        {
+          "para_id": "3_55",
+          "text": "G∈Geven\n≤D\nαG\neΨG\np",
+          "page": 10
+        },
+        {
+          "para_id": "3_56",
+          "text": "V(G)",
+          "page": 10
+        },
+        {
+          "para_id": "3_57",
+          "text": " ",
+          "page": 10
+        },
+        {
+          "para_id": "3_58",
+          "text": "2 ≤(1 + u)∥α∥2\n2 .\n(19)",
+          "page": 10
+        },
+        {
+          "para_id": "3_59",
+          "text": "For D ≍log(n), Condition (18) for almost-orthogonality is equivalent to ∆2 ≲log\nK\nn1/4 ∧\n√",
+          "page": 10
+        },
+        {
+          "para_id": "3_60",
+          "text": "K, which\nprecisely corresponds to our regime of interest for the low-degree lower bound in the next theorem.",
+          "page": 10
+        },
+        {
+          "para_id": "3_61",
+          "text": "Proof idea.\nTo establish the almost orthonormality of the basis eΨG/\np",
+          "page": 10
+        },
+        {
+          "para_id": "3_62",
+          "text": "V(G), we compute the Gram matrix\nassociated to this basis and we show, as in [Car+25], that the row-sums of the absolute values of this matrix\nare negligible in comparison to the diagonal terms. Hence, we need to get a tight bound of the covariance\nterms E[˜ΨG(1) ˜ΨG(2)]. By developing these terms over the labeling π(1) ∈ΠV (1) and π(2) ∈ΠV (2), this mainly\namounts to control quantities of the form E[ΨG(1),π(1)ΨG(2),π(2)] as a function of the two labelled multigraphs\n(G(1), π(1)) and (G(1), π(2)). Because the noise structure of the matrix Y Y T ∈Rn×n is quite diﬀerent from\nthe noise structure for a matrix Y ∈Rn×n sampled from a stochastic Block model and because we have\nto care about the speciﬁc corrections for degree 2 nodes, the proof arguments are quite distinct from that\nin [Car+25] although the general organization is similar.\nThe formalism for handling these moments is\npostponed to Section 6 and the proof of this theorem is given in Section 9.",
+          "page": 10
+        },
+        {
+          "para_id": "3_63",
+          "text": "10",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "section_id": "3.4",
+      "section_title": "3.4\nLow-degree lower bound Now, we are in position to establish Theorem 1.",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.4_1",
+          "text": "Proof idea for Theorem 1.\nBy combining Lemma 4 and Theorem 3, we readily get",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_2",
+          "text": "Corr2\n≤2D =\nsup\n(αG)G∈Geven\n≤D",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_3",
+          "text": "1\n1 −u",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_4",
+          "text": "\u0014\nE\n\u0012\nx · P\nG∈Geven\n≤D αG\n1\n√",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_5",
+          "text": "V(G)\neΨG",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_6",
+          "text": "\u0013\u00152",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_7",
+          "text": "P\nG∈Geven\n≤D α2\nG ≤\n1\n1 −u",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_8",
+          "text": "X",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_9",
+          "text": "G∈Geven\n≤D",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_10",
+          "text": "\" E",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_11",
+          "text": "x\np",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_12",
+          "text": "V(G)\neΨG",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_13",
+          "text": "!#2\n,",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_14",
+          "text": "by Cauchy-Schwarz inequality. As a consequence, we need to compute the moments E[xeΨG] for all G ∈Geven\n≤D .\nIt follows from our deﬁnitions that (i) E[xeΨG] = 0 if some node (aside from v1 and v2) in G has degree 2 and\n(ii) E[xeΨG] = 0 if G has more than one connected component. Thus, we only need to focus on connected\nmultigraphs G such that the degree of all nodes except v1 and v2 is larger or equal to 4 –see the lemmas in\nSection 7. The rest of the proof relies on direct bounds on these moments. See Section 8. Remark 1 (Spectral Methods). This lower bound supports our claim that it is not possible to recover the group at the spectral threshold ∆2 ≍\nq",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_15",
+          "text": "K2d n\nin moderate-dimensional regime. Let us informally explain how\nwe manage to bypass this threshold and how spectral procedure are connected to our multigraph formalism.\nIt is known that the largest eigenvalue of the matrix Y Y T is captured by power iterations of Y Y T .\nIn\nparticular, (Y Y T )D\n1,2 = P",
+          "page": 11
+        },
+        {
+          "para_id": "3.4_16",
+          "text": "i1,...,iD−1\nQD\ns=1⟨Yis−1, Yis⟩with i0 = 1 and iD = 2 is the sum over all paths\nof length D from 1 to 2.\nThis quantity is arguably well approximated by the sum over non-overlapping\npaths P\ni1,...,iD−1\nQD\ns=1⟨Yis−1, Yis⟩where the quantities (i0, i1, . . . , iD−1, iD) are distinct. The latter exactly\ncorresponds to PG(Y ) where G is the simple path of length D. This graph G is only made of degree 2 nodes,\nexcept for the two extremities. In fact, the corresponding modiﬁed Hermite polynomial ΨG is uncorrelated to\nx when d = K–see Lemma 6– and therefore does not provide any sensible information on x. In summary, our\nchoice for the prior distribution of the means was done to the make the spectrum of Y Y T informative about\nthe clustering. As, with our formalism, this spectrum is related to the simple path multigraph, we crafted our\nfamily of polynomials in such a way that degree 2 nodes correspond to polynomials that are uncorrelated to\nx.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nProof overview for the upper bound",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "In this section, we introduce our estimator ˆx and provide some intuition behind its deﬁnition and its analysis.",
+          "page": 11
+        },
+        {
+          "para_id": "4_2",
+          "text": "4.1\nConstruction of the template We now provide, for completeness, a matching upper bound in the emblematic case where d = K.\nAs\ndiscussed in the introduction, hierarchical clustering (HC) algorithms perfectly recovers the underlying par-\ntition when ∆2 ≳log\n√",
+          "page": 11
+        },
+        {
+          "para_id": "4_3",
+          "text": "K. Hence, we only have to craft an estimator ˆx that achieves a small error when\n∆2 ≳log\nK\nn1/4 + d.\nWe have proved that the basis (ΨG) is almost orthogonal, at least when ∆is not too large so that it\nsatisﬁes (18). In light of this, we want to build a template ¯G = ( ¯V , ¯E) such that Ψ ¯\nG tends to take diﬀerent\nvalue when x = 0 and when x = 1. Intuitively, there is no beneﬁt of using disconnected templates ¯G and we\nfocus henceforth on connected ones.\nIt follows from our choice of the prior distribution and of the construction of the basis that E[Ψ ¯\nG|x] = 0\nif ¯G contains a least a node of odd degree or at least a node of degree 2 aside from ¯v1 and ¯v2 –see Lemmas 6\nand 7 in Section 7. As a consequence, all the nodes ¯vi with i ≥3 should have a degree at least four, and we\nrestrict our attention to such ¯G in the following.",
+          "page": 11
+        },
+        {
+          "para_id": "4_4",
+          "text": "11",
+          "page": 11
+        },
+        {
+          "para_id": "4_5",
+          "text": "In Remark 3, we establish that E[Ψ ¯\nG|x = 0] whereas E[Ψ ¯\nG|x = 1] =\n(n−2)!\n(n−| ¯V |)!\n∆| ¯\nE|",
+          "page": 12
+        },
+        {
+          "para_id": "4_6",
+          "text": "K| ¯\nV |−1 . In order to show that Ψ ¯\nG can reliably estimate x, we need that its variance given x = 0 and given x = 1 should be small\ncompared to E2[Ψ ¯\nG|x = 1]. In the proofs, we compute explicitly these conditional variances. If we denote\nVar1(Ψ ¯\nG) the variance of conditional distribution of Ψ ¯\nG given x = 1, we show in particular in (48) that Var1(Ψ ¯\nG)\nE2[Ψ ¯\nG|µ, x = 1] ≥0.5\nK\n∆2(d ¯\nG(¯v1)+d ¯\nG(¯v2)) , as long as | ¯V | is small compared to √n. Our goal is to reliably estimate x as long as ∆2 is large compared\n√",
+          "page": 12
+        },
+        {
+          "para_id": "4_7",
+          "text": "K ∧K/n−1/4.\nAs a consequence, the right-hand-side of the above equation should be small even for\n∆2 = Ko(1). Hence, we need to choose ¯G in such a way that d ¯\nG(¯v1) + d ¯\nG(¯v2) is large. Furthermore, we also\nestablish in (49) that",
+          "page": 12
+        },
+        {
+          "para_id": "4_8",
+          "text": "Var1(Ψ ¯\nG)\nE2[Ψ ¯\nG|µ, x = 1] ≥",
+          "page": 12
+        },
+        {
+          "para_id": "4_9",
+          "text": "K4 n∆8",
+          "page": 12
+        },
+        {
+          "para_id": "4_10",
+          "text": "\u0012 K ∆4",
+          "page": 12
+        },
+        {
+          "para_id": "4_11",
+          "text": "\u0013\nr\n2(| ¯\nV |−2) !| ¯V |−2 ,\n(20)",
+          "page": 12
+        },
+        {
+          "para_id": "4_12",
+          "text": "where r := d ¯\nG(¯v1)+d ¯\nG(¯v2)+P| ¯V |\ni=3(d ¯\nG(¯vi)−4). Since we also want the-right-hand-side of the above equation\nto be small for ∆2 small compared to\n√",
+          "page": 12
+        },
+        {
+          "para_id": "4_13",
+          "text": "K and ∆2 of the order of K/n1/4, the quantity r has to be small\ncompared to | ¯V | −2. In other words, almost all, if not all, the nodes ¯vi with i ≥3 should be of degree 4 and\nthe degree d ¯\nG(¯v1) + d ¯\nG(¯v2) should be small compared to | ¯V | −2. These observations together with other constrains lead to introducing the following multigraph G∗=\n(V, E) which corresponds to a double chain with fastener –see Figure 1. More formally, ﬁx a positive integer\nL and an odd positive integer M. We ﬁx V = {v1, v2, . . . , vLM+2}. The multi-set E of edges is deﬁned by • Both edges (v1, v3) and (v2, vLM+2) have multiplicity 2. • For any 0 ≤m ≤M −1 and 1 ≤l ≤L −1, the edge (vl+mL+2, vl+mL+3) has multiplicity 2. • For any 1 ≤m ≤M −1, the edges (vmL+2, vmL+3), (v1, vmL+2), (v2, vmL+3) have multiplicity 1. See Figure 1 for an illustration. The multigraph G∗is mostly a double chain with, every L node, a fastener,\nnamely two consecutive nodes are only connected by one edge and that are connected to resp. v1, v2. There\nare M −1 such fasteners. The degree of v1 and v2 is equal to M + 1, whereas the degrees of all the other\nnodes is equal to 4. Note that the degree of the polynomial ΨG∗is equal to 2(LM + 1). In the next subsection, we will show that the statistic ΨG∗tends to be large when x = 1, whereas Ψ\n∗\nG is\nsmaller when x = 0. Remark 2 (Connection with tensors). In Section 3.4, we have described the connections between the\n”simple path” graph and power iterations of the matrix Y T Y . Similarly, our polynomial ΨG∗is approx-\nimated by a combination of power iterations of the matrix [Y Y T ](∗) whose general term [Y Y T ](∗)\nij\nis de- ﬁned by (Y Y T )2\nij and multiplications by [Y Y T ](1) and [Y Y T ](2) deﬁned by [Y Y T ](1)\nij = [Y Y T ]ij[Y Y T ]i1 and [Y Y T ](2)\nij\n= [Y Y T ]ij[Y Y T ]2j. On that respect, ΨG∗has some connection to an order-4 tensor method on\n(Y Y T ) ⊗(Y Y T ), although we did not ﬁnd a precise counterpart in the literature. 4.2\nMoment bounds and MoM estimator For a = 0, 1, we denote Vara(ΨG∗) := E\nh\u0002",
+          "page": 12
+        },
+        {
+          "para_id": "4_14",
+          "text": "ΨG∗−E[ΨG∗|µ, x = a]\n\u00032 \f\f\fµ, k∗(1), k∗(2), b1, b2, x = a\ni\n, conditional variance of ΨG∗given µ, k∗(1), k∗(2), b1, and b2. It will be established in the proof of the next\nproposition that that this variance only depends on a.",
+          "page": 12
+        },
+        {
+          "para_id": "4_15",
+          "text": "12",
+          "page": 12
+        },
+        {
+          "para_id": "4_16",
+          "text": "v1\nv2",
+          "page": 13
+        },
+        {
+          "para_id": "4_17",
+          "text": "L",
+          "page": 13
+        },
+        {
+          "para_id": "4_18",
+          "text": "M-1 fasteners",
+          "page": 13
+        },
+        {
+          "para_id": "4_19",
+          "text": "L\nL\nL",
+          "page": 13
+        },
+        {
+          "para_id": "4_20",
+          "text": "Figure 1: Template G∗that we use for deﬁning the upper bound. It is mostly a double chain with, every L\nnode, a fastener, namely two nodes connected through one edge and that are connected to resp. v1, v2 are\nadded. There are M −1 such fasteners.",
+          "page": 13
+        },
+        {
+          "para_id": "4_21",
+          "text": "Theorem 4 (Moments of ΨG∗). Assume that M ≥24. We have E\n\u0002",
+          "page": 13
+        },
+        {
+          "para_id": "4_22",
+          "text": "ΨG∗|µ, k∗(1), k∗(2), b1, b2\n\u0003\n= x (n −2)!",
+          "page": 13
+        },
+        {
+          "para_id": "4_23",
+          "text": "(n −|V |)! · ∆2|E|",
+          "page": 13
+        },
+        {
+          "para_id": "4_24",
+          "text": "K|V |−2 , almost surely. If we further assume that n ≥64[4M 2L2 ∨104(M + 2)4]K and",
+          "page": 13
+        },
+        {
+          "para_id": "4_25",
+          "text": "∆2 ≥",
+          "page": 13
+        },
+        {
+          "para_id": "4_26",
+          "text": " 40(M + 2)K1+\n1\n2(M+1) + 1",
+          "page": 13
+        },
+        {
+          "para_id": "4_27",
+          "text": "L n1/4",
+          "page": 13
+        },
+        {
+          "para_id": "4_28",
+          "text": " ",
+          "page": 13
+        },
+        {
+          "para_id": "4_29",
+          "text": "(M+1)/M\n_ \u0012\n8(M + 1)6K\n6\nM+1\n\u0013 _ \u0000\n128(M + 1)12\u0001\n,\n(21)",
+          "page": 13
+        },
+        {
+          "para_id": "4_30",
+          "text": "we have",
+          "page": 13
+        },
+        {
+          "para_id": "4_31",
+          "text": "Var0(ΨG∗) ∨Var1(ΨG∗)",
+          "page": 13
+        },
+        {
+          "para_id": "4_32",
+          "text": "E2[ΨG∗|µ, x = 1]\n≤104(M + 2)4",
+          "page": 13
+        },
+        {
+          "para_id": "4_33",
+          "text": " K4+\n2\nM+1 + 4",
+          "page": 13
+        },
+        {
+          "para_id": "4_34",
+          "text": "L n∆8(1−\n1\nM+1 )",
+          "page": 13
+        },
+        {
+          "para_id": "4_35",
+          "text": "_ K n",
+          "page": 13
+        },
+        {
+          "para_id": "4_36",
+          "text": " + K(M + 1)2(M+1)",
+          "page": 13
+        },
+        {
+          "para_id": "4_37",
+          "text": "∆4(M+1)\n+ 2(M + 1)5",
+          "page": 13
+        },
+        {
+          "para_id": "4_38",
+          "text": "∆2\n+ 4M 2L2K n ≤1",
+          "page": 13
+        },
+        {
+          "para_id": "4_39",
+          "text": "16 , almost surely. Write t :=\n(n−2)!\n(n−|V |)! ·\n∆2|E|",
+          "page": 13
+        },
+        {
+          "para_id": "4_40",
+          "text": "K|V |−2 . By Chebychev inequality, is follows that, under the conditions of the above\ntheorem, we have P\n\u0014",
+          "page": 13
+        },
+        {
+          "para_id": "4_41",
+          "text": "ΨG∗≤t",
+          "page": 13
+        },
+        {
+          "para_id": "4_42",
+          "text": "2",
+          "page": 13
+        },
+        {
+          "para_id": "4_43",
+          "text": "µ, x = 1\n\u0015\n≤1",
+          "page": 13
+        },
+        {
+          "para_id": "4_44",
+          "text": "4 ;\nP\n\u0014",
+          "page": 13
+        },
+        {
+          "para_id": "4_45",
+          "text": "ΨG∗≥t",
+          "page": 13
+        },
+        {
+          "para_id": "4_46",
+          "text": "2",
+          "page": 13
+        },
+        {
+          "para_id": "4_47",
+          "text": "µ, x = 0\n\u0015\n≤1",
+          "page": 13
+        },
+        {
+          "para_id": "4_48",
+          "text": "4 , almost surely on the values of µ.\nAs a consequence, a test based on ΨG∗is able to to recover x with\nprobability at least 3/4. However, the trivial test ˆx = 0 is able to recover x with probability at least 1 −1/K\nand we therefore need a better guarantee. Following [CGV25], we add a “Median-of-Means post-processing\nstep” to get concentration bounds good enough for our purpose.",
+          "page": 13
+        },
+        {
+          "para_id": "4_49",
+          "text": "13",
+          "page": 13
+        },
+        {
+          "para_id": "4_50",
+          "text": "Fix Λ = ⌈24 log(n)⌉.\nConditionally to µ and k∗(.), we have Yi ∼N(biµ∗\nk(i), Id).\nWe use the usual\ntrick of transforming Yi into a i.i.d. sample Y (1)\ni\n, . . . , Y (Λ)\ni\nwith distribution N(Λ−1/2biµ∗\nk(i), Id). One way\nto do this is to build an orthogonal matrix OΛ of size Λ whose ﬁrst column is constant.\nThen, upon\ndeﬁning Z′(1)\ni\n, . . . Z′(Λ−1)\ni\nas a sample of standard Gaussian random vectors, we take (Y (1)\ni\n, . . . , Y (Λ)\ni\n)T :=\nOΛ(Yi, Z′(1)\ni\n, . . . , Z′(Λ−1)\ni\n)T . Without loss of generality, we assume that (n −2)/Λ is an integer, otherwise\nwe can discard some of the samples. Then, we partition {3, . . . , n} \\ {i, j} into Λ disjoint sets J1, . . . JΛ of\ncardinality (n −2)/Λ.\nThen, for ℓ= 1, . . . , Λ, we deﬁne T (ℓ)\nG∗as the value of ΨG∗when applied to the data (Y (ℓ)\n1\n, Y ℓ\n2 , (Y ℓ\ni )i∈Jℓ)",
+          "page": 14
+        },
+        {
+          "para_id": "4_51",
+          "text": "and deﬁne TG∗as the median of the set\nn\nT (1)\nG∗, . . . , T (Λ)\nG∗\no\n. Finally, we consider the estimator ˆx := 1\n\u001a\nTG∗> 1",
+          "page": 14
+        },
+        {
+          "para_id": "4_52",
+          "text": "2\n[(n −2)/Λ]!\n((n −2)/Λ −|V | + 2)! ·\n∆2|E|",
+          "page": 14
+        },
+        {
+          "para_id": "4_53",
+          "text": "Λ|E|K|V |−2",
+          "page": 14
+        },
+        {
+          "para_id": "4_54",
+          "text": "\u001b\n.\n(22)",
+          "page": 14
+        },
+        {
+          "para_id": "4_55",
+          "text": "In comparison to the threshold deﬁned above, the additional factor Λ|E| accounts for the fact that ∆is\nreplaced by ∆/\n√",
+          "page": 14
+        },
+        {
+          "para_id": "4_56",
+          "text": "Λ in the samples Y (ℓ)\ni\ndue to the noise inﬂation, and the [(n −2)/Λ]! terms accounts for\nthe fact that the sample size is now 2 + (n −2)/Λ. Importantly, conditionally to µ, k∗(1), k∗(2), b1, and b2,\nthe random variables T (ℓ)\nG∗are i.i.d.\nFinally, Theorem 2 is a consequence of the moment bounds of Theorem 4 together with standard argu-\nments for MoM estimators. See the proof in Section 10.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5\nDiscussions",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "Extension to the case where d ≥K.\nThe previous estimator ΨG∗is tailored to the case d = K.\nNevertheless, for general dimension d ≥K, when the means are sampled according to our prior distribution,\nwe conjecture that we can eﬃciently estimate x as long as ∆2 is large compared to\n\" \nK\n√",
+          "page": 14
+        },
+        {
+          "para_id": "5_2",
+          "text": "d\nn1/2 +\n\u0014K1+ǫ",
+          "page": 14
+        },
+        {
+          "para_id": "5_3",
+          "text": "n1/4 ∧\n√",
+          "page": 14
+        },
+        {
+          "para_id": "5_4",
+          "text": "K\n\u0015!",
+          "page": 14
+        },
+        {
+          "para_id": "5_5",
+          "text": "∧\n√",
+          "page": 14
+        },
+        {
+          "para_id": "5_6",
+          "text": "d",
+          "page": 14
+        },
+        {
+          "para_id": "5_7",
+          "text": "# ∨1 ,",
+          "page": 14
+        },
+        {
+          "para_id": "5_8",
+          "text": "where ǫ > 0 depends on the degree Dǫ of the polynomial. Note that polynomial-time clustering is known [EGV25] to be possible as long as ∆2 is large compared to\nh\u0010\nK\n√",
+          "page": 14
+        },
+        {
+          "para_id": "5_9",
+          "text": "d\nn1/2 +\n√",
+          "page": 14
+        },
+        {
+          "para_id": "5_10",
+          "text": "K\n\u0011\n∧\n√",
+          "page": 14
+        },
+        {
+          "para_id": "5_11",
+          "text": "d\ni\n∨1 and we only have to consider the regime ∆2 is large compared to 1 + K\n√",
+          "page": 14
+        },
+        {
+          "para_id": "5_12",
+          "text": "d\nn1/2 + K1+ǫ",
+          "page": 14
+        },
+        {
+          "para_id": "5_13",
+          "text": "n1/4 . Intuitively, when ∆2 is large compared to K\n√",
+          "page": 14
+        },
+        {
+          "para_id": "5_14",
+          "text": "d\nn1/2 , it is\npossible to project the matrix Y onto the K-dimensional space spanned by µk’s using a spectral method,\nthen this boils down to studying a K-dimensional mixture, the twist being that the projected means of the\nmixture are not exactly orthogonal, so that we cannot readily use our analysis of ΨG∗in this section. As\nan alternative, we conjecture that relying on the template G∗,sp described in Figure 2 allows to handle this\nproblem. The diﬀerence between G∗and G∗,sp is that each edge in G∗is replaced by a size N-path where\nN is a large constant. The eﬀect of this size N path is to mimic a spectral projection. We do not provide a\nformal analysis of this estimator as this is not the main focus of this paper.",
+          "page": 14
+        },
+        {
+          "para_id": "5_15",
+          "text": "Comparison with tensor Decomposition methods.\nContinuing the comparison with tensor methods,\nwe also observe that, using Hermine polynomials with respect to Y , we can build an unbiased estimator of the\norder 4-tensor T deﬁned T = 1",
+          "page": 14
+        },
+        {
+          "para_id": "5_16",
+          "text": "K\nPK\nk=1 µk⊗µk⊗µk⊗µk. In our model (10) with orthogonal means, estimating\nthe means µk’s then amounts to performing noisy orthogonal tensor decomposition from an empirical version\nTn of T . Although this approach has been proposed in the seminal work of [Ana+14], we are not aware any\nprecise sample complexity bounds for our model 10 as computationally eﬃcient and robust implementation\nof tensor decomposition are delicate to analyze. Still, it would be interesting to analyze the Sum-of-Squares\n(SOS) algorithms of [MSS16] or the spectral method of [HSS19] to check whether the performances matches\nour conditions ∆2 ≳K/n1/4 coming from the low-degree lower bound.",
+          "page": 14
+        },
+        {
+          "para_id": "5_17",
+          "text": "14",
+          "page": 14
+        },
+        {
+          "para_id": "5_18",
+          "text": "v1",
+          "page": 15
+        },
+        {
+          "para_id": "5_19",
+          "text": "v2",
+          "page": 15
+        },
+        {
+          "para_id": "5_20",
+          "text": "L",
+          "page": 15
+        },
+        {
+          "para_id": "5_21",
+          "text": "M-1 fasteners",
+          "page": 15
+        },
+        {
+          "para_id": "5_22",
+          "text": "L\nL\nL",
+          "page": 15
+        },
+        {
+          "para_id": "5_23",
+          "text": "N\nN\nN\nN\nN\nN\nN",
+          "page": 15
+        },
+        {
+          "para_id": "5_24",
+          "text": "N",
+          "page": 15
+        },
+        {
+          "para_id": "5_25",
+          "text": "N\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN\nN",
+          "page": 15
+        },
+        {
+          "para_id": "5_26",
+          "text": "N\nN",
+          "page": 15
+        },
+        {
+          "para_id": "5_27",
+          "text": "Figure 2: Modiﬁcation of the template G in Figure 1 to accomodate d ≥K. We just replace each edge of G\nby a simple chain of length N.",
+          "page": 15
+        },
+        {
+          "para_id": "5_28",
+          "text": "Conjecture and open problems.\nAs explained in the introduction, we conjecture that our low-degree\npolynomial lower bounds is, up to polylog, sharp for general Gaussian mixture models. To establish Con-\njecture 1, we would need to introduce and analyze a polynomial-time procedure that is able to recover the\nclusters as long as the square separation ∆∗satisﬁes",
+          "page": 15
+        },
+        {
+          "para_id": "5_29",
+          "text": "∆2\n∗≳log",
+          "page": 15
+        },
+        {
+          "para_id": "5_30",
+          "text": "\" 1 +",
+          "page": 15
+        },
+        {
+          "para_id": "5_31",
+          "text": "r dK2 n\n+\nK\nn1/4",
+          "page": 15
+        },
+        {
+          "para_id": "5_32",
+          "text": "! ∧\n√",
+          "page": 15
+        },
+        {
+          "para_id": "5_33",
+          "text": "d",
+          "page": 15
+        },
+        {
+          "para_id": "5_34",
+          "text": "# .",
+          "page": 15
+        },
+        {
+          "para_id": "5_35",
+          "text": "In this work, we only dealt with the case where the µk’s are either either orthogonal or opposite to each other.\nWe doubt that our procedure is able to deal with general µk’s. Although the iterative tensor projection\nmethod of [LL22] does not allow to recover the desired condition, we believe that such an approach is a\npromising research direction. Finally, our lower bound techniques are only tailored to d ≥K. For small\ndimension problems d < K, pinpointing the optimal separation condition for polynomial-time procedures\nwould require new ideas.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6\nImportant multigraph notations",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "6_1",
+          "text": "We ﬁrst introduce some general multigraph notations as this will be central in all the proofs.",
+          "page": 15
+        },
+        {
+          "para_id": "6_2",
+          "text": "6.1\nHalf-edges, equivalence, and automorphisms Although the multigraphs are deﬁned through a set of nodes and through a multiset of edges, it is more\nconvenient here to work with half-edges. Consider any multigraph G = (V, E). Although the multigraph is\nundirected, for s = 1, . . . |E|, we write the s-th edge as (is, i′\ns) where is and i′\ns belong to V . Each edge e ∈E\nis deﬁned through its extremeties (l(e), r(e)) ∈V × V . We deﬁne the half corresponding edges as Ehalf = (e)\nwhere i(e) ∈V is the node incident to e - we call them half-edges. The degree degG(i) of a node i is the number of half-edges that are incident to i. Given two diﬀerent half-edges e and e′ in Ehalf we write e",
+          "page": 15
+        },
+        {
+          "para_id": "6_3",
+          "text": "edge\n∼e′ if e and e′ come from the same edge. We say that two half-edges e and e′ are incident i(e) = i(e′).\nWe now introduce a formal deﬁnitiion of multi-graph equivalence through the lens of their half-edges. We\nsay that G(1) and G(2) are isomorphic and write G(1) ≃G(2) if there exists a bijection σ : Ehalf,(1) 7→Ehalf,(2) such that that σ preserves (i) the equivalence\nedge\n∼, the (ii) the incidence relation, and (iii) i(σ(e)) = v(2)\n1\n(resp. v(2)\n2 ) when i(e) = v(1)\n1\n(resp. v(1)\n2 ).\nSuch a bijection σ is called an automorphism of G(1) if G(1) = G(2). We recall that Aut(G) stands\nfor the group of automorphisms of a multigraph G.\nIn particular, observe that, with our deﬁnitions of\nautomorphism, if we consider the multigraph G with two nodes v1 and v2, only one self-edge at v1, we have\n|Aut(G)| = 2.",
+          "page": 15
+        },
+        {
+          "para_id": "6_4",
+          "text": "15",
+          "page": 15
+        },
+        {
+          "para_id": "6_5",
+          "text": "6.2\nNode matchings, half-edge pairings Node matchings.\nGiven two multigraphs G(1) and G(2) in G≤D, we deﬁne a matching of nodes M =\n{(v(1)\nl\n, v(2)\nl′ ), . . . , } as a subset V (1) × V (2) that satisﬁes the three following properties (a) any element of V (1) (resp. V (2)) occurs at most once, (b) (v(1)\n1 , v(1)\n2 ) ∈M, (v(1)\n2 , v(2)\n2 ) ∈M, (c) all degree 2 nodes in V (1) and in V (2) occur in M. Henceforth, we write M the collection of possible matching of nodes.\nIn what follows, we also deﬁned\nM⋆⊂M as the subcollection of all node matchings that ensure that each connected components of G(1) and of G(2) has at least one node that arises in M.",
+          "page": 16
+        },
+        {
+          "para_id": "6_6",
+          "text": "Half-edge pairings.\nThen, given a node matching M, we deﬁne a pairing P of the half-edges as a subset\nof Ehalf,(1) × Ehalf,(2) such that (i) each half-edge in Ehalf,(1) or Ehalf,(2) occurs at most once, (ii) (e, e′)\nbelongs to P implies that (i(e), i(e′)) belongs to M. The second condition ensures that it is only possible\nto match half-edges that are incident to a node that has been paired. Finally, we write P := P(M) for\nthe collection of all half-edge pairings associated to a node matching M. We also abreviate by MP for the\ncollections of all such matching of nodes and associated half-edges pairings of G(1) and G(2). Similarly, we\nabreviate by M⋆P for the set of pairing and matching associated to the matchings M⋆(instead of M).\nDeﬁne also Pfull(M) the collection of pairing P ∈P(M) such that |P| = |Ehalf,(1)| = |Ehalf,(2)| - namely\nsuch that all half-edges adjacent to nodes in M are paired. This set is in fact empty, unless |V (1)| = |V (2),\nall node are matched, and all matched nodes have the same degree.\nWe write Mfull for the set of pairs of matched nodes - namely in M - namely that have all half-edges\nconnected to them that are paired - namely in P. We say that these nodes are fully matched. Figure 3\ndisplays an example of matching and pairing where one pair of nodes is fully matched.\nNote that the\ncorresponding nodes are isolated in the multigraph G∆.",
+          "page": 16
+        },
+        {
+          "para_id": "6_7",
+          "text": "6.3\nConstruction of the multigraph G∆resulting from matching and pairing We introduce a few notations related to the matching and pairing of G(1) and G(2) that will be instrumental\nin the proofs.",
+          "page": 16
+        },
+        {
+          "para_id": "6_8",
+          "text": "Merged multigraph G∪[M; P].\nWe consider two templates G(1) and G(2), a node matching M ⊂V (1) ×\nV (2) ∈M. Then, we consider a pairing P ⊂Ehalf,(1) × Ehalf,(2) of half-edges.\nDeﬁne G∪[M; P] = (V, Ehalf) as the multi-graph that merges G(1) and G(2) by identifying all nodes in\nM. As a consequence, G∪[M; P] contains |V (1)| + |V (2)| −|M| nodes and |Ehalf,(1)| + |Ehalf,(2)| edges.\nWe write G(1)[M; P] (resp. G(2)[M; P]) the submultigraph G∪[M; P] that only contains the nodes and\nthe half-edges arising from G(1) (resp. G(2)). Obviously, G(1)[M; P] is isomorphic to G(1).",
+          "page": 16
+        },
+        {
+          "para_id": "6_9",
+          "text": "Paths and cycles.\nIn what follows, we color each of the half-edges that correspond to P with a diﬀerent\ncolor - each half-edge belonging to a pair are associated to a given, unique colour. See Figure 3 for an\nexample. We can then deﬁne cycles and paths along coloured paths. • When matching and pairing the multigraphs, we can have an open path that is obtained by following\na connected path of coloured half-edges in P such that it has open extremities - namely it starts and\nﬁnished in non-paired half-edges. In what follows, we call the length of the open path the number of\npairs of half-edges that are involved in this path. We write respectively Opodd and Opeven for the sets\nof open paths obtained from our matching and pairing, that have an odd, resp. an even, number of\npairs of half-edges involved in the construction. We will mostly use their cardinality |Opodd|, |Opeven|.\nFigure 4 illustrates an example of both open paths.",
+          "page": 16
+        },
+        {
+          "para_id": "6_10",
+          "text": "16",
+          "page": 16
+        },
+        {
+          "para_id": "6_11",
+          "text": "v(2) 1 v(2) 2",
+          "page": 17
+        },
+        {
+          "para_id": "6_12",
+          "text": "v(1) 1 v(1) 2",
+          "page": 17
+        },
+        {
+          "para_id": "6_13",
+          "text": "G(2)",
+          "page": 17
+        },
+        {
+          "para_id": "6_14",
+          "text": "G(1)",
+          "page": 17
+        },
+        {
+          "para_id": "6_15",
+          "text": "G∆",
+          "page": 17
+        },
+        {
+          "para_id": "6_16",
+          "text": "Figure 3: Example of construction of G∆.\nThe two multigraphs G(1) and G(2) are represented in\nrespectively blue and red. The node matchings are indicated by dotted lines between the concerned nodes.\nThe half-edge pairings are note by segments of colour. Two half-edges ﬂagged with the same colour are paired\ntogether. The nodes v(1)\n1 , v(2)\n1\nresp. v(1)\n2 , v(2)\n2\nare matched together. G∆is then displayed in purple. Note\nthat matched nodes appear only once, and that some edges are removed, and some are added - corresponding\nto the half-edge pairings. One pair of nodes is fully matched and belongs to Mfull, namely all half-edges\nconnected to it are paired (in P) - and it is therefore isolated in G∆.",
+          "page": 17
+        },
+        {
+          "para_id": "6_17",
+          "text": "17",
+          "page": 17
+        },
+        {
+          "para_id": "6_18",
+          "text": "G(2)",
+          "page": 18
+        },
+        {
+          "para_id": "6_19",
+          "text": "G(1)",
+          "page": 18
+        },
+        {
+          "para_id": "6_20",
+          "text": "G∆",
+          "page": 18
+        },
+        {
+          "para_id": "6_21",
+          "text": "G(2)",
+          "page": 18
+        },
+        {
+          "para_id": "6_22",
+          "text": "G(1)",
+          "page": 18
+        },
+        {
+          "para_id": "6_23",
+          "text": "G∆",
+          "page": 18
+        },
+        {
+          "para_id": "6_24",
+          "text": "Figure 4: Examples of open paths. The picture on the left depicts a simple example of an open path\nthat has an odd number of pairs of half-edges involved, while the picture on the right depicts an example of\nan open path that has an even number of pairs of half-edges involved. In each case, to create G∆, the edges\nsuch that both half-edges are paired are removed, and we draw an edge through the open extremities.",
+          "page": 18
+        },
+        {
+          "para_id": "6_25",
+          "text": "G(2)",
+          "page": 18
+        },
+        {
+          "para_id": "6_26",
+          "text": "G(1)",
+          "page": 18
+        },
+        {
+          "para_id": "6_27",
+          "text": "G∆",
+          "page": 18
+        },
+        {
+          "para_id": "6_28",
+          "text": "G(2)",
+          "page": 18
+        },
+        {
+          "para_id": "6_29",
+          "text": "G(1)",
+          "page": 18
+        },
+        {
+          "para_id": "6_30",
+          "text": "G∆",
+          "page": 18
+        },
+        {
+          "para_id": "6_31",
+          "text": "Figure 5: Examples of cycles. The picture on the left depicts an example of a simple cycle generated by\ntwo pairs of half-edges. The picture on the right presents a more complicated case of a longer cycle. In each\ncase, the cycles are removed to create G∆.",
+          "page": 18
+        },
+        {
+          "para_id": "6_32",
+          "text": "• In a related way, we can have a cycle that is obtained by following a connected path of coloured\nhalf-edges in P such that it has no open extremities and forms a cycle. We write Cyc for the set of\ncycles obtained when matching and pairing the multigraphs. We will mostly use its cardinality |Cyc|.\nFigure 5 illustrates an example of both open paths.",
+          "page": 18
+        },
+        {
+          "para_id": "6_33",
+          "text": "Construction of G∆.\nFinally, we deﬁne G∆:= G∆[M, P] = (V∆, E∆) as the pruned multi-graph of\nG∪[M, P] as follows: • We remove all the edges that belong to a cycle. • For any maximum open path with colored half-edges, we remove all these-half-edges and replace them\nby an edge between the two extremities. Finally, we write CC(G∆) for the set of connected components of G∆. Figure 3 illustrates an example of\nconstruction - note that other examples are found in Figures 5 and Figure 4.",
+          "page": 18
+        },
+        {
+          "para_id": "6_34",
+          "text": "18",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "section_id": "7",
+      "section_title": "7\nControl of the ﬁrst two moments of the polynomials",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "7_1",
+          "text": "7.1\nControl of ﬁrst moments In this section, we compute E[xeΨG] for a multigraph G = (V, E). Lemma 5. Consider any G ∈G≤D. As long G contains at least one edge, we have E\nh\neΨG\ni\n= 0 .",
+          "page": 19
+        },
+        {
+          "para_id": "7_2",
+          "text": "If G is the graph with only two isolated nodes, eΨG = 1 almost surely. Lemma 6. Consider any G ∈G≤D. If G contains at least one node of odd degree, then E[xΨG] = 0 ;\nE[xeΨG] = 0 Lemma 7. Consider any G ∈Geven\n≤D . If, possibly aside from the nodes v1 and v2, G contains at least one\nnode of degree 2, then\nE[ΨG] = 0 ;\nE[xΨG] = 0 ;\nE[xeΨG] = 0 . In the sequel, we write G, the graph G where we add an edge between 1 and 2. Lemma 8. Consider any G ∈Geven\n≤D . If, possibly aside from the node 1 and 2, G only contains nodes of\neven degree larger than or equal to 2, then E[xΨG] = |ΠV |∆2|E|\n1",
+          "page": 19
+        },
+        {
+          "para_id": "7_3",
+          "text": "K|V |−|CC(G)| ;\nE[ΨG] = |ΠV |∆2|E|\n1\nK|V |−|CC(G)| .\n(23) Corollary 1. Consider any G ∈Geven\n≤D . If G does not contain any edge, then E[xeΨG] = 1/K If, possibly\naside from the nodes v1 and v2, G only contains nodes of even degree larger than or equal to 4 and if G is\nconnected, then E[xeΨG] = |ΠV |∆2|E|\n1\nK|V |−1",
+          "page": 19
+        },
+        {
+          "para_id": "7_4",
+          "text": "\u0012\n1 −1",
+          "page": 19
+        },
+        {
+          "para_id": "7_5",
+          "text": "K",
+          "page": 19
+        },
+        {
+          "para_id": "7_6",
+          "text": "\u0013\n.\n(24)",
+          "page": 19
+        },
+        {
+          "para_id": "7_7",
+          "text": "Otherwise, we have E[xeΨG] = 0.",
+          "page": 19
+        },
+        {
+          "para_id": "7_8",
+          "text": "7.2\nControl of the variance For any two graphs G(1) and G(2), we compute in this section the cross-moments E[ΨG(2)ΨG(2)] and E[eΨG(1),π(1) eΨG(2),π(2)]. Lemma 9. Consider any G(1) ∈G≤D \\ Geven\n≤D\nand any G(2) ∈Geven\n≤D . For any injective maps π(1) and π(2),\nwe have\nE[ΨG(1),π(1)ΨG(2),π(2)] = 0 ;\nE[eΨG(1),π(1) eΨG(2),π(2)] = 0. Lemma 10. Consider a graph G(1) ∈Geven\n≤D\nthat contains at least a degree 2 node say v with v /∈{v(1)\n1 , v(1)\n2 },\nand consider any graph G(2). For any π(1) and π(2) such that π(1)(v) is not in the image of π(2), we have E[ΨG(1),π(1)ΨG(2),π(2)] = 0 ;\nE[eΨG(1),π(1) eΨG(2),π(2)] = 0 . Proposition 1. Consider any G(1) and G(2) in Geven\n≤D\nthat do not contain any degree 2 node, possibly\naside from their ﬁrst two nodes v1 and v2.\nFix any injective mapping π(1) and π(2) for G(1) and G(2) with π(1)(v(1)\n1 ) = π(2)(v(2)\n1 ) = 1 and π(2)(v(1)\n2 ) = π(2)(v(2)\n2 ) = 2. Deﬁne the subset of matched nodes M ⊂\nV (1) × V (2) by\nM := {(v(1)\ni\n, v(2)\nj ) : π(1)(v(1)\ni\n) = π(2)(v(2)\nj )} . Given a pairing P ∈P[M], recall the pruned graph G∆[M, P] = (V∆, E∆) and the number |Cyc| of pruned\ncycles. Then, we have We have E[ΨG(1),π(1)ΨG(2),π(2)] =\nX",
+          "page": 19
+        },
+        {
+          "para_id": "7_9",
+          "text": "P∈P[M]\n∆2|E∆|d|Cyc|\n1\nK|V∆|−|CC(G∆)|",
+          "page": 19
+        },
+        {
+          "para_id": "7_10",
+          "text": "19",
+          "page": 19
+        },
+        {
+          "para_id": "7_11",
+          "text": "Proposition 2. Consider any G(1) = (V (1), E(1)) and G(2) = (V (2), E(2)) in Geven\n≤D . Fix any injective map- ping π(1) and π(2) for G(1) and G(2) such that with π(1)(v(1)\n1 ) = π(2)(v(2)\n1 ) = 1 and π(2)(v(1)\n2 ) = π(2)(v(2)\n2 ) = 2\nand such that all degree 2 nodes in G(1) and in G(2) are matched, that is they arise in M. Given a pairing\nP ∈P(M), we deﬁne V2,np(P) the subset of degree 2 nodes in V (1) ∪V (2) \\ {v(1)\n1 , v(1)\n2 , v(2)\n1 , v(2)\n2 } such that\nnone of their incident half-edges belongs to P.\n\f\f\f\f\f\f\nE[ΨG(1),π(1)ΨG(2),π(2)] −\nX P∈Pfull(M)",
+          "page": 20
+        },
+        {
+          "para_id": "7_12",
+          "text": "∆2|E∆|d|Cyc| K|V∆|−|CC(G∆)|",
+          "page": 20
+        },
+        {
+          "para_id": "7_13",
+          "text": "≤\nX",
+          "page": 20
+        },
+        {
+          "para_id": "7_14",
+          "text": "P∈P[M]\\Pfull(M)\n2|V2,np(P)|\n∆2|E∆|d|Cyc|",
+          "page": 20
+        },
+        {
+          "para_id": "7_15",
+          "text": "K|V∆|−|CC(G∆)| .",
+          "page": 20
+        },
+        {
+          "para_id": "7_16",
+          "text": "We refer to Subsection 6.2 for the deﬁnition of Pfull(M), namely the set of pairings according to the\nmatchings M such that all half-edges attached to nodes in M are paired. In particular, Pfull(M) is empty\nunless |V (1)| = |V (2)|, all nodes are matched are matched, and all half-edges are paired. This disctinction\nbetween P ∈Pfull(M) and P ∈P[M] \\ Pfull(M) will be of interest later only in the case where G(1) = G(2).\nIn the following proposition, recall that Mfull ⊂M, is the subset of node matching such that all half-edges\nincident to the corresponding nodes are paired. Proposition 3. Consider any two graphs G(1) and G(2) in Geven\n≤D . We have\n\f\f\f\f\f\f\nE[ΨG(1)ΨG(2)] −\nX M∈M",
+          "page": 20
+        },
+        {
+          "para_id": "7_17",
+          "text": "X",
+          "page": 20
+        },
+        {
+          "para_id": "7_18",
+          "text": "P∈Pfull(M)",
+          "page": 20
+        },
+        {
+          "para_id": "7_19",
+          "text": "(n −2)!\n(n −|V∆|)!∆2|E∆|d|Cyc|\n1\nK|V∆|−|CC(G∆)| ≤P\nM∈M\nP\nP∈P[M]\\Pfull(M) 22(|M|−|Mfull|)\n(n−2)!\n(n−|V∆|)!∆2|E∆|d|Cyc|\n1\nK|V∆|−|CC(G∆)| .\n(25) Consider any G ∈Geven\n≤D such that all its nodes have degree larger than or equal to 4. Then, we have E[Ψ\n2\nG] =\nX MP∈MP",
+          "page": 20
+        },
+        {
+          "para_id": "7_20",
+          "text": "(n −2)!\n(n −|V∆|)!∆2|E∆|d|Cyc|\n1\nK|V∆|−|CC(G∆)| .\n(26) If G(1) or G(2) is the graph with two isolated nodes, then E[eΨG(1) eΨG(2)] = 1{G(1) ⋍G(2)}. If, neither G(1) nor G(2) is the graph with two isolated nodes, we have\n\f\f\f\f\f\f\nE[eΨG(1) eΨG(2)] −\nX M∈M⋆",
+          "page": 20
+        },
+        {
+          "para_id": "7_21",
+          "text": "X",
+          "page": 20
+        },
+        {
+          "para_id": "7_22",
+          "text": "P∈Pfull(M)",
+          "page": 20
+        },
+        {
+          "para_id": "7_23",
+          "text": "(n −2)!\n(n −|V∆|)!∆2|E∆|d|Cyc|\n1\nK|V∆|−|CC(G∆)| ≤P\nM∈M⋆\nP\nP∈P[M]\\Pfull(M) 24[|M|−|Mfull|]\n(n−2)!\n(n−|V∆|)!∆2|E∆|d|Cyc|\n1\nK|V∆|−|CC(G∆)| .\n(27) We refer to Subsection 6.2 for the deﬁnition of M⋆, namely the set of matchings such that all connected\ncomponent have a matched node and such that all degree 2 nodes are matched.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "section_id": "8",
+      "section_title": "8\nProof of the low-degree lower bound - Theorem 1",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "8_1",
+          "text": "We ﬁrst reduce the case the larger-dimensional regime d ≥K to the case where d = K.\nWe write\nCorr≤2D;d;K for the low-degree correlation in dimension d with 2K groups. We claim that, for d > K,\nwe have Corr≤2D;d;K ≤Corr≤2D;K;K. Indeed, the d-dimensional problem where the learner has access both\nto the matrix Y and the space U = span(µk, k ≤K) is exactly equivalent to a K-dimensional problem. Hence, from now on, we restrict ourselves to the regime d = K. In this section, all the proofs of the\ntechnical lemmas are postponed to Appendix C.\nThe crux of the proof is to show that the family eΨG, with G ∈Geven\n≤D is almost orthogonal, in the sense\nthat the covariance matrix associated to this family have eigenvalues that are close to one. This result is\nstated in Theorem 3. Then, it follows from this theorem that",
+          "page": 20
+        },
+        {
+          "para_id": "8_2",
+          "text": "Corr2\n≤2D ≤\nsup\n(αG)G∈Geven\n≤D",
+          "page": 20
+        },
+        {
+          "para_id": "8_3",
+          "text": "1\n1 −u ·",
+          "page": 20
+        },
+        {
+          "para_id": "8_4",
+          "text": "\u0012P\nG αGE\n\u0014\nx ·\n1\n√",
+          "page": 20
+        },
+        {
+          "para_id": "8_5",
+          "text": "V(G)\neΨG",
+          "page": 20
+        },
+        {
+          "para_id": "8_6",
+          "text": "\u0015\u00132 ∥α∥2\n2\n=\n1\n1 −u ·\nX",
+          "page": 20
+        },
+        {
+          "para_id": "8_7",
+          "text": "G∈Geven\n≤D",
+          "page": 20
+        },
+        {
+          "para_id": "8_8",
+          "text": "h\nE(xeΨG)\ni2 V(G)\n,",
+          "page": 20
+        },
+        {
+          "para_id": "8_9",
+          "text": "20",
+          "page": 20
+        },
+        {
+          "para_id": "8_10",
+          "text": "by Cauchy-Schwarz equality. First, we know from Corollary 1 that E(x · eΨG) = 1/K if G has no edge. We\nset aside this graph henceforth. By Corollary 1 again, E(x · eΨG) = 0 unless G is connected, the degree of\nall its nodes is even, and for any node aside from v1 and v2, its degree is higher than 4. Let us call Geven,4\n≤D\nthe corresponding collection of graph. For any G ∈Geven,4\n≤D\n, we again deduce from Corollary 1 and from the\ndeﬁnition (17) of V(G) that h\nE(xeΨG)\ni2 V(G)\n=\n(n −2)!\n(n −|V |)!|Aut(G)|2\n∆4|E|",
+          "page": 21
+        },
+        {
+          "para_id": "8_11",
+          "text": "K|E|K2|V |−2 [1 −K−1]2 ≤\n\u0012√n∆4",
+          "page": 21
+        },
+        {
+          "para_id": "8_12",
+          "text": "K2",
+          "page": 21
+        },
+        {
+          "para_id": "8_13",
+          "text": "\u00132(|V |−2) \u0012∆4 K",
+          "page": 21
+        },
+        {
+          "para_id": "8_14",
+          "text": "\u0013|E|−2(|V |−2) 1 K2 .",
+          "page": 21
+        },
+        {
+          "para_id": "8_15",
+          "text": "Observe that |E| −2(|V | −2) is non-negative as G belongs to Geven,4\n≤D\n. Given v ≥2, and e ≥1 such that\ne ≥2(v −1), we denote Nv,e the number of graph in Geven,4\n≤D\nwith v nodes and e edges. A rough bound of\nNv,e is v2e. Then, we arrive at",
+          "page": 21
+        },
+        {
+          "para_id": "8_16",
+          "text": "Corr2\n≤2D ≤\n1\n(1 −u)K2 +\n1\nK2(1 −u)",
+          "page": 21
+        },
+        {
+          "para_id": "8_17",
+          "text": "D\nX",
+          "page": 21
+        },
+        {
+          "para_id": "8_18",
+          "text": "v=2",
+          "page": 21
+        },
+        {
+          "para_id": "8_19",
+          "text": "D\nX",
+          "page": 21
+        },
+        {
+          "para_id": "8_20",
+          "text": "e=2(|v|−2)∨1\nv2e\n\u0012√n∆4",
+          "page": 21
+        },
+        {
+          "para_id": "8_21",
+          "text": "K2",
+          "page": 21
+        },
+        {
+          "para_id": "8_22",
+          "text": "\u00132(v−2) \u0012∆4 K",
+          "page": 21
+        },
+        {
+          "para_id": "8_23",
+          "text": "\u0013[e−2(v−2)]",
+          "page": 21
+        },
+        {
+          "para_id": "8_24",
+          "text": "≤\n1\nK2 + 2",
+          "page": 21
+        },
+        {
+          "para_id": "8_25",
+          "text": "K2",
+          "page": 21
+        },
+        {
+          "para_id": "8_26",
+          "text": " u + 4∆4 K\n+",
+          "page": 21
+        },
+        {
+          "para_id": "8_27",
+          "text": "D\nX",
+          "page": 21
+        },
+        {
+          "para_id": "8_28",
+          "text": "v=3",
+          "page": 21
+        },
+        {
+          "para_id": "8_29",
+          "text": "D\nX",
+          "page": 21
+        },
+        {
+          "para_id": "8_30",
+          "text": "e=2(|v|−2)",
+          "page": 21
+        },
+        {
+          "para_id": "8_31",
+          "text": "\u0012D2√n∆4 K2",
+          "page": 21
+        },
+        {
+          "para_id": "8_32",
+          "text": "\u00132(v−2) \u0012D2∆4 K",
+          "page": 21
+        },
+        {
+          "para_id": "8_33",
+          "text": "\u0013[e−2(v−2)] ",
+          "page": 21
+        },
+        {
+          "para_id": "8_34",
+          "text": "≤\n1\nK2 + 8",
+          "page": 21
+        },
+        {
+          "para_id": "8_35",
+          "text": "K2",
+          "page": 21
+        },
+        {
+          "para_id": "8_36",
+          "text": "\"\u0012 8 D",
+          "page": 21
+        },
+        {
+          "para_id": "8_37",
+          "text": "\u0013c/16\n+ ∆4",
+          "page": 21
+        },
+        {
+          "para_id": "8_38",
+          "text": "K + D4n∆8",
+          "page": 21
+        },
+        {
+          "para_id": "8_39",
+          "text": "K4",
+          "page": 21
+        },
+        {
+          "para_id": "8_40",
+          "text": "# ,",
+          "page": 21
+        },
+        {
+          "para_id": "8_41",
+          "text": "where we used that u ≤1/2, the deﬁnition of u, D2 ∆4",
+          "page": 21
+        },
+        {
+          "para_id": "8_42",
+          "text": "K ≤1/2 and D4n∆8/K4 ≤1/2. This concludes the\nproof of the theorem.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "section_id": "9",
+      "section_title": "9\nProof of Theorem 3 Deﬁne Γ as the covariance matrix indexed by Geven\n≤D whose general term is ΓG(1),G(2) :=\nE[eΨG(1) eΨG(2)]\n√",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "9_1",
+          "text": "V(G(1))V(G(2)). We follow the same general proof strategy as in [Car+25] by establishing that the matrix Γ is diagonal dominant\nto control its eigenvalues. First, we consider the case where G is the graph without an edge. In this case, we\nknow from Proposition 3 that ΓG,G = 1 and that ΓG,G′ = 0 for any G ̸= G′. Hence, we only have to focus\nin the following on graphs G(1) and G(2) that contain at least one edge. Most of the proofs (Steps 1 up to\nStep 4) amount to deriving a sharp bound of ΓG(1),G(2). For that purpose, we build on the moment bounds\nfrom Section 7.",
+          "page": 21
+        },
+        {
+          "para_id": "9_2",
+          "text": "9.1\nStep 1: Expression of the pseudo-correlations Consider any G(1) and G(2) in Geven\n≤D such that G(1) ̸= G(2) and also assume that both G(1) and G(2) have\nat least one edge. Since G(1) ̸= G(2), both templates are not isomorphic and, for all node matching M,\nPfull(M) is empty. Hence, we easily deduce from Proposition 3 that E[eΨG(1) eΨG(2)]\n\f\f\f ≤\nX",
+          "page": 21
+        },
+        {
+          "para_id": "9_3",
+          "text": "M,P∈M⋆P\n24[|M|−|Mfull|]\n(n −2)!\n(n −|V∆|)!∆2|E∆|d|Cyc|\n1\nK|V∆|−|CC(G∆)| .\n(28)",
+          "page": 21
+        },
+        {
+          "para_id": "9_4",
+          "text": "21",
+          "page": 21
+        },
+        {
+          "para_id": "9_5",
+          "text": "We now use that d = K and the deﬁnition (17) of V(G(1)) and V(G(2)). Hence, it follows that\n\f\f\fE[eΨG(1) eΨG(2)]\n\f\f\f\np",
+          "page": 22
+        },
+        {
+          "para_id": "9_6",
+          "text": "V(G(1))V(G(2))\n[|Aut(G(1))||Aut(G(2))|]1/2 ≤ X M,P∈M⋆P\n24[|M|−|Mfull|]n−|V (1)|/2−|V (2)|/2+|V∆|∆2|E∆|K|Cyc|−|V∆|−|CC(G∆)|−(|E(1)|+|E(2)|)/2 ≤\nX",
+          "page": 22
+        },
+        {
+          "para_id": "9_7",
+          "text": "M,P∈M⋆P\n24[|M|−|Mfull|]\n\u0012n1/2∆4",
+          "page": 22
+        },
+        {
+          "para_id": "9_8",
+          "text": "K2",
+          "page": 22
+        },
+        {
+          "para_id": "9_9",
+          "text": "\u0013b0 \u0012 ∆2 √ K",
+          "page": 22
+        },
+        {
+          "para_id": "9_10",
+          "text": "\u0013b1 \u0012 1\n√ K",
+          "page": 22
+        },
+        {
+          "para_id": "9_11",
+          "text": "\u0013b2\n,\n(29)",
+          "page": 22
+        },
+        {
+          "para_id": "9_12",
+          "text": "where b0, b1, and b2 are respectively deﬁned as b0 := 2|V∆| −|V (1)| −|V (2)| = |V (1)| + |V (2)| −2|M|\n;\n(30)\nb1 := −2b0 + |E∆| ,\n(31) b2 :=\nh\n|E(1)| + |E(2)| −2|Cyc|\ni\n−|E∆| −2|CC(G∆)| + 2|V∆| −2b0 .\n(32) In the remainder of the proof, we shall rearrange and bound b0, b1, and b2. Still, we might already observe\nthat b0 is non-negative by deﬁnition of M.",
+          "page": 22
+        },
+        {
+          "para_id": "9_13",
+          "text": "9.2\nStep 2: bounds on b1, b2 In order to bound b1 and b2, we need further notation. We remind the reader that |Mfull| is equal to the\nnumber of isolated nodes in G∆. Equivalently, |Mfull| is the number of paired nodes (v(1)\ni\n, v(2)\nj ) such that all half-edges in Ehalf,(1) and Ehalf,(2) that are incident to v(1)\ni\nin G(1) or v(2)\nj\nin G(2) are paired, that is they\narise in P. We also recall the reader that |Cyc|, |Opeven|, and |Opodd| respectively stand for the number of\ncycles, of open-paths of even length, and open-path of odd length that have been pruned in the construction\nof G∆. The two following lemmas are the main combinatorial tools of the proofs. Their proofs are postponed\nto the next section. Lemma 11. For any M ∈M⋆, we have 2|CC(G∆)| ≤2|Opeven| + |Opodd| + 2|M|. Deﬁne",
+          "page": 22
+        },
+        {
+          "para_id": "9_14",
+          "text": "B\n:=\n|P| −2|Cyc| −2|Opeven| −|Opodd| ;\n(33)\nC\n:=\n|E(1)| + |E(2)| −[2|V (1)| + 2|V (2)| −3|M| −|Mfull|] −|P| .\n(34) Lemma 12. For any M and P, we have B ≥0 and C ≥0. We deduce from the deﬁnition of C and from the fact |E∆| = |E(1)| + |E(2)| −|P| –see the construction\nof G∆that",
+          "page": 22
+        },
+        {
+          "para_id": "9_15",
+          "text": "b1\n=\n3[|M| −|Mfull|] + C ,\n(35) which is non-negative by Lemma 12. Similarly, we deal with b2 by noting that |V∆| = |V (1)| + |V (2)| −|M|,\nand by applying Lemmas 11 and 12",
+          "page": 22
+        },
+        {
+          "para_id": "9_16",
+          "text": "b2\n=\n2|M| + |P| −2|Cyc| −2|CC(G∆)| ≥B , which is again non-negative.",
+          "page": 22
+        },
+        {
+          "para_id": "9_17",
+          "text": "22",
+          "page": 22
+        },
+        {
+          "para_id": "9_18",
+          "text": "9.3\nStep 3: Bound on the pseudo-correlation Deﬁne\nφ(M, P) := 2[|V (1)| + |V (2)| −2|M|] + 2B + C + 3(|M| −|Mfull|) .\n(36) Using Lemma 12 to deduce that φ(M, P) ≥2(|M| −|Mfull|).\nBy Assumption, we have ( n1/4∆2",
+          "page": 23
+        },
+        {
+          "para_id": "9_19",
+          "text": "K\n) ∨\n∆2\n√",
+          "page": 23
+        },
+        {
+          "para_id": "9_20",
+          "text": "K ∨\n1\nK1/4 ≤(4D)−c , for c ≥c0 ≥1. Combining the previous\nbounds on b0, b1, and b2 with (29), we arrive at\n\f\f\fE[eΨG(1) eΨG(2)]\n\f\f\f\np",
+          "page": 23
+        },
+        {
+          "para_id": "9_21",
+          "text": "V(G(1))V(G(2))\n≤[|Aut(G(1))||Aut(G(2))|]−1/2\nX",
+          "page": 23
+        },
+        {
+          "para_id": "9_22",
+          "text": "M,P∈M⋆P\n24[|M|−|Mfull|](4D)−cφ(M,P) ≤[|Aut(G(1))||Aut(G(2))|]−1/2\nX",
+          "page": 23
+        },
+        {
+          "para_id": "9_23",
+          "text": "M,P∈M⋆P\nD−cφ(M,P) .\n(37) In order to control this sum over M and P, we shall group matching and pairings that have some common\nstructure that we shall call henceforth a shadow. This strategy is somewhat inspired from the arguments\nof [Car+25] for node matching of simple graphs, but the arguments have to be reﬁned here by also taking\ninto account pairing between the half-edges. Given (M, P), we say that two edges e and e′ of G(1) and\nG(2) are perfectly paired if the two corresponding half-edges of e are paired in P with the corresponding\nhalf-edges of e′. Similarly, we say that two half-edges are perfectly paired if they belong to perfectly\npaired edges. Deﬁne P ⊆P the subset of P where we have removed all perfectly paired half-edges. Let\nPE(1) (resp. PE(2)) be the subset of half-edges of G(1) (resp. G(2)) that are perfectly paired. Finally, we\nsay that two nodes in (v, v′) in M are perfectly matched if all their incident half-edges belong to PE(1) (resp. PE(2)). Finally, we deﬁne M as the subset of M where we removed all perfectly matched nodes. We\ncall (M, P, PE(1), PE(2)) the shadow of (M, P). See Figure 6 for an illustration.\nWrite MPshadow for the collection of all such (M, P, PE(1), PE(2)) that are the shadow of one element in\nM⋆P. For any element (M\n′, P\n′) of M⋆P we write (M, P, PE(1), PE(2)) ⊳(M\n′, P\n′) if (M, P, PE(1), PE(2))\nis the shadow of (M\n′, P\n′). Note that φ(M, P) deﬁned in (36) is the same for all (M, P) that share the\nsame shadow. Hence, with a slight abuse of notation, we can deﬁne φ(M, P, PE(1), PE(2)) for (M, P) ∈\nMPshadow. The following lemma, proved in the appendix, bounds the number of matchings-pairings that\nshare the same shadow. Lemma 13. For any (M, P, PE(1), PE(2)) ∈MPshadow, we have\n\f\f\f\nn\n(M\n′, P\n′) ∈MP : (M, P, PE(1), PE(2)) ⊳(M\n′, P\n′)\no\f\f\f ≤min(|Aut(G(1))|, |Aut(G(2))|) . In Light of Lemma 13, we deduce from (37) that\n\f\f\fE[eΨG(1) eΨG(2)]\n\f\f\f\np",
+          "page": 23
+        },
+        {
+          "para_id": "9_24",
+          "text": "V(G(1))V(G(2))\n≤\nX M,P,P E(1),P E(2)∈MPshadow",
+          "page": 23
+        },
+        {
+          "para_id": "9_25",
+          "text": "D−cφ(M,P,P E(1),P E(2)) .\n(38)",
+          "page": 23
+        },
+        {
+          "para_id": "9_26",
+          "text": "Control of the sum over MPshadow.\nNote that the deﬁnition of (M, P, PE(1), PE(2)) is completely\ncharacterized by (i) the set of half-edges that are not-perfectly paired, (ii) the possible pairing among these\nhalf-edges and (iii) the matching M of nodes that are not perfectly matched. In what follows, we write m\nfor the number of half-edges that are not perfectly paired. Since the total number of half-edges of G(1) and\nof G(2) is at most 2D, we deduce from the previous property that there are at most (4D)m · mm · mm ≤(4D)3m ,\n(39) shadows (M, P, PE(1), PE(2)) with m half-edges that are not perfectly paired. Indeed, (1) this makes less\nthan (4D)m possibilities for choosing these half-edges. Then, we choose whether those are paired and to\nwhich half-edge they are paired, hence less mm possibilities. Finally, for nodes incident to non-paired half-\nedges, we must decide whether they are matched and to which node they are matched, hence less than mm possibilities.",
+          "page": 23
+        },
+        {
+          "para_id": "9_27",
+          "text": "23",
+          "page": 23
+        },
+        {
+          "para_id": "9_28",
+          "text": "G(2)",
+          "page": 24
+        },
+        {
+          "para_id": "9_29",
+          "text": "G(1)",
+          "page": 24
+        },
+        {
+          "para_id": "9_30",
+          "text": "Shadow",
+          "page": 24
+        },
+        {
+          "para_id": "9_31",
+          "text": "Figure 6: Example of a shadow. Here, the perfectly paired edges and perfectly mactched nodes in the two\ntriangles are then displayed in black in the shadow, because the precise information on the matchings and\npairings leading to these perfect matches is lost in the shadow (i.e. node label and precise pairing). All the\nremaining information is kept intact in the shadow. In this example, there are only two matching-pairings\nin MP that share this shadow. Indeed, we can only switch the matching between the two perfectly matched\nnodes and adjust the corresponding paired half-edges to obtain the same shadow.",
+          "page": 24
+        },
+        {
+          "para_id": "9_32",
+          "text": "24",
+          "page": 24
+        },
+        {
+          "para_id": "9_33",
+          "text": "Lemma 14. Consider any M, P, PE(1), PE(2). Writing m for the number of half-edges that are not\nperfectly paired we have φ(M, P, PE(1), PE(2)) ≥1",
+          "page": 25
+        },
+        {
+          "para_id": "9_34",
+          "text": "8m For any two multigraphs G1 and G(2), deﬁne m∗(G(1), G(2)) :=\nmin\nM,P,P E(1),P E(2) m ,\n(40)",
+          "page": 25
+        },
+        {
+          "para_id": "9_35",
+          "text": "as the minimum over all shadows (M, P, PE(1), PE(2)) of the number of m of half-edges that are not perfectly\npaired. Obviously, we have m∗(G(1), G(2)) ≥0. Besides, one readily checks that m∗(G(1), G(2)) = 0 implies\nthat that G(1) and G(2) are isomorphic.\nSo that we deduce from Equation (38), Equation (39) and Lemma 14 that",
+          "page": 25
+        },
+        {
+          "para_id": "9_36",
+          "text": "ΓG(1),G(2) =",
+          "page": 25
+        },
+        {
+          "para_id": "9_37",
+          "text": "E[eΨG(1) eΨG(2)]\n\f\f\f\np",
+          "page": 25
+        },
+        {
+          "para_id": "9_38",
+          "text": "V(G(1))V(G(2))\n≤\nX",
+          "page": 25
+        },
+        {
+          "para_id": "9_39",
+          "text": "m≥m∗(G(1),G(2))\n(4D)3mD−cm/8 ≤\n\u0012 4",
+          "page": 25
+        },
+        {
+          "para_id": "9_40",
+          "text": "D",
+          "page": 25
+        },
+        {
+          "para_id": "9_41",
+          "text": "\u0013cm∗(G(1),G(2))/16 \u0012\n1\n1 −4/D",
+          "page": 25
+        },
+        {
+          "para_id": "9_42",
+          "text": "\u0013\n, (41)",
+          "page": 25
+        },
+        {
+          "para_id": "9_43",
+          "text": "for c ≥48. 9.4\nStep 4: Special case of the rescaled variance We now consider the diagonal terms of Γ. Consider any graph G = G(1) = G(2) in Geven\n≤D . We argue quite\nsimilarly to the non-diagonal terms except that we use slightly diﬀerently Proposition 3 to get a tighter\nbound for perfect matchings and pairings. Let us call MPperf the collection of (M, P) that correspond to\nperfect pairings of all edges. Note that in this case, the graph G∆does not contain any edge. Hence, we\nhave from Proposition 3 that\n\f\f\f\f\fE[eΨ2\nG(1)] −\n\f\fMPperf\f\f\n(n −2!)",
+          "page": 25
+        },
+        {
+          "para_id": "9_44",
+          "text": "(n −|V (1)\n∆|!)\nd|E(1)|\n\f\f\f\f\f ≤\nX",
+          "page": 25
+        },
+        {
+          "para_id": "9_45",
+          "text": "M,P∈M⋆P\\MPperf\n24[|M|−|Mfull|]\n(n −2)!\n(n −|V∆|)!∆2|E∆|d|Cyc|\n1\nK|V∆|−|CC(G∆)| . (42)\nOne easily checks that\n\f\fMPperf\f\f = |Aut(G(1))| so that we recognize V(G(1)) in the above inequality. Note\nthat, if (M, P) does not belong to to MPperf, there are at least m ≥2 half-edges that are not perfectly\npaired. Hence, arguing exactly as in Step 2 and in Step 3, we arrive at\n\f\f\f\f\f\nE[eΨ2\nG(1)]\nV(G(1)) −1",
+          "page": 25
+        },
+        {
+          "para_id": "9_46",
+          "text": "≤\nX",
+          "page": 25
+        },
+        {
+          "para_id": "9_47",
+          "text": "m≥2\n(4D)3mD−cm/8 ≤\n\u0012 4",
+          "page": 25
+        },
+        {
+          "para_id": "9_48",
+          "text": "D",
+          "page": 25
+        },
+        {
+          "para_id": "9_49",
+          "text": "\u0013c/8 \u0012\n1\n1 −4/D",
+          "page": 25
+        },
+        {
+          "para_id": "9_50",
+          "text": "\u0013\n.\n(43)",
+          "page": 25
+        },
+        {
+          "para_id": "9_51",
+          "text": "9.5\nStep 5: Conclusion on the pseudo-correlation matrix Deﬁne H = Γ −Id. To control the eigenvalues of Γ, we bound the l1 norm of each row of H. We ﬁx a\nmultigraph G(1) ∈Geven\n≤D . Note that, by Equations (41) and (43), we have X",
+          "page": 25
+        },
+        {
+          "para_id": "9_52",
+          "text": "G(2)∈Geven\n≤D",
+          "page": 25
+        },
+        {
+          "para_id": "9_53",
+          "text": "HG(1),G(2)\n\f\f ≤\nX G(2)∈Geven\n≤D",
+          "page": 25
+        },
+        {
+          "para_id": "9_54",
+          "text": "\u0012 4 D",
+          "page": 25
+        },
+        {
+          "para_id": "9_55",
+          "text": "\u0013cm∗(G(1),G(2))/16 \u0012\n1\n1 −4/D",
+          "page": 25
+        },
+        {
+          "para_id": "9_56",
+          "text": "\u0013\n+\n\u0012 4 D",
+          "page": 25
+        },
+        {
+          "para_id": "9_57",
+          "text": "\u0013c/8 \u0012\n1\n1 −4/D",
+          "page": 25
+        },
+        {
+          "para_id": "9_58",
+          "text": "\u0013",
+          "page": 25
+        },
+        {
+          "para_id": "9_59",
+          "text": "≤2\n\u0012 4",
+          "page": 25
+        },
+        {
+          "para_id": "9_60",
+          "text": "D",
+          "page": 25
+        },
+        {
+          "para_id": "9_61",
+          "text": "\u0013c/8\n+ 2\nX",
+          "page": 25
+        },
+        {
+          "para_id": "9_62",
+          "text": "m≥2\n|{G(2) : m∗(G(1), G(2)) = m}|\n\u0012 4",
+          "page": 25
+        },
+        {
+          "para_id": "9_63",
+          "text": "D",
+          "page": 25
+        },
+        {
+          "para_id": "9_64",
+          "text": "\u0013cm/16\n,",
+          "page": 25
+        },
+        {
+          "para_id": "9_65",
+          "text": "for D ≥6. Lemma 15. Consider any graph G(1) ∈Geven\n≤D . Then, for any m ≥2, we have |{G(2) ∈Geven\n≤D : m∗(G(1), G(2)) = m}| ≤(2D)m .",
+          "page": 25
+        },
+        {
+          "para_id": "9_66",
+          "text": "25",
+          "page": 25
+        },
+        {
+          "para_id": "9_67",
+          "text": "Proof of Lemma 15. Consider any multigraph G(2) in G≤D such that |{G(2) ∈Geven\n≤D\n: m∗(G(1), G(2)) =\nm}| = m. We claim that there exists an isomorphism G′(2) of G(2) such that the edit distance between\nG\n′(2) and G(1) is less than m/2. Up to isomorphisms, we conclude that |{G(2) : m∗(G(1), G(2)) = m}| is\nsmaller than the set of multigraphs within edit distance m/2 from G(1). It is therefore smaller or equal to\n(2D)m. We conclude from this lemma that X",
+          "page": 26
+        },
+        {
+          "para_id": "9_68",
+          "text": "G(2)∈Geven\n≤D",
+          "page": 26
+        },
+        {
+          "para_id": "9_69",
+          "text": "HG(1),G(2)\n\f\f ≤8\n\u0012 8",
+          "page": 26
+        },
+        {
+          "para_id": "9_70",
+          "text": "D",
+          "page": 26
+        },
+        {
+          "para_id": "9_71",
+          "text": "\u0013c/16\n,\n(44)",
+          "page": 26
+        },
+        {
+          "para_id": "9_72",
+          "text": "provided that c ≥32 and D ≥16. Hence, the matrix Γ is diagonal dominant and its eigenvalue lies in\n[1 −u, 1 + u] where u = 8\n\u0000 8",
+          "page": 26
+        },
+        {
+          "para_id": "9_73",
+          "text": "D\n\u0001c/16. This concludes the proof of Theorem 3.",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "section_id": "10",
+      "section_title": "10\nProof of the upper bound",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "10.1",
+      "section_title": "10.1\nProof of Theorem 2 Deﬁne t0 :=\n[(n−2)/Λ]!\n[2+(n−2)/Λ−|V |]! ·\n∆2|E|",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "10.1_1",
+          "text": "Λ|E|K|V |−2 .\nIt follows from Theorem 4 that, under the conditions of the\ntheorem, we have P\n\u0014\nT (ℓ)\nG∗≤t0",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_2",
+          "text": "2 |µ, b1, b2, k∗(1), k∗(2), x = 1\n\u0015\n≤1",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_3",
+          "text": "4 ; P\n\u0014\nT (ℓ)\nG∗≥t0",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_4",
+          "text": "2 |µ, , b1, b2, k∗(1), k∗(2), x = 0\n\u0015\n≤1",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_5",
+          "text": "4 . As conditionally to µ and k∗(1), k∗(2), b1, and b2, the random variables T (ℓ)\nG∗are i.i.d., we conclude that P[ˆx ̸= x|µ, x] ≤P[Bin(Λ, 1/4) ≥Λ/2] ≤n−3 . This concludes the proof.",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_6",
+          "text": "10.2\nProof of Theorem 4 The following lemmas provide explicit expressions of the ﬁrst and second moments of ΨG∗. The statements\nand the proofs are closely related to Lemmas 8 and Propositions 1 and 3. Lemma 16. Let G∗be the multigraph deﬁned in Section 4. Then E\n\u0002",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_7",
+          "text": "ΨG∗|µ, k∗(1), k∗(2), b1, b2\n\u0003\n= x (n −2)!",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_8",
+          "text": "(n −|V |)!\n∆2|E|",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_9",
+          "text": "K|V |−2 .\n(45) Remark 3. In fact, the above formula (45) only depends on the speciﬁc form of G∗= (V, E) through |V |\nand |E|. Hence, a corresponding expression also holds for any connected graph ¯G = ( ¯V , ¯E) that contains\nonly nodes with even degree at least 4. To compute the covariance, we consider two replicas of G∗, say G∗(1) = (V (1), E(1)) and G∗(2) =\n(V (2), E(2)). In the sequel, M will correspond to a matching of V (1) and V (2) as introduced in Section 6.\nSince, by deﬁnition, we always have (v(1)\n1 , v(2)\n1 ) ∈M and (v(1)\n2 , v(2)\n2 ) ∈M, the nodes v(1)\n1\nand v(2)\n1\n(resp. v(1)\n2\nand v(2)\n2 ) are identiﬁed in the merged graph G∪[M, P] and in the pruned graph G∆[M, P] and we refer, for\nshort, to these nodes as v1 (resp. v2). In this proof, we write v1 ∼G∆v2 (resp. v1 ≁G∆v2) when v1 and v2\nbelong (resp. do not belong) to the same community in G∆. Lemma 17. The conditional variances of ΨG∗write as follows. E\nh\u0002",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_10",
+          "text": "ΨG∗−E[ΨG∗|µ, x = 0]\n\u00032 |µ, b1, b2, k∗(1), k∗(2), x = 0\ni =\nX M,P∈MP: P̸=∅",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_11",
+          "text": "(n −2)!\n(n −|V∆|)!∆2|E∆|d|cyc|\n1\nK|V∆|−|CC(G∆)| 1{v1 ≁G∆v2} ,",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_12",
+          "text": "26",
+          "page": 26
+        },
+        {
+          "para_id": "10.1_13",
+          "text": "and E\nh\u0002",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_14",
+          "text": "ΨG∗−E[ΨG∗|µ, x = 1]\n\u00032 |µ, b1, b2, k∗(1), k∗(2), x = 1\ni =\nX M,P∈MP: P̸=∅",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_15",
+          "text": "(n −2)!\n(n −|V∆|)!∆2|E∆|d|cyc|\n1\nK|V∆|−|CC(G∆)|−1{v1∼G∆v2} +E2[ΨG∗|µ, x = 1]\nX M∈M",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_16",
+          "text": "(n −|V |)!2 (n −2)!(n −2|V | + |M|)!",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_17",
+          "text": "\u0010\nK|M|−2 −1\n\u0011\n.",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_18",
+          "text": "In particular, we readily check from this lemma that E\nh\u0002",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_19",
+          "text": "ΨG∗−E[ΨG∗|µ, x = 0]\n\u00032 |µ, b1, b2, k∗(1), k∗(2), x = 0\ni\n≤E\nh\u0002",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_20",
+          "text": "ΨG∗−E[ΨG∗|µ, x = 1]\n\u00032 |µ, b1, b2, k∗(1), k∗(2), x = 1\ni\n, and we mainly have to control Var1(ΨG∗) := E\nh\u0002",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_21",
+          "text": "ΨG∗−E[ΨG∗|µ, x = 1]\n\u00032 |µ, b1, b2, k∗(1), k∗(2), x = 1\ni\n.\nGiven M with |M| ≥3, and P ∈P(M) deﬁne A[M, P] by A[M, P] :=\n(n −2)!\n(n −|V∆|)!∆2|E∆|d|cyc|\n1\nK|V∆|−|CC(G∆)|−1{v1∼G∆v2} ;\nA :=\nX",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_22",
+          "text": "M,P∈MP:\n|M|≥3 and P̸=∅",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_23",
+          "text": "A[M, P] .\n(46)",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_24",
+          "text": "Denote M0 as the only node matching such that |M0| = 2. Deﬁne B :=\nX P∈P(M0)̸=∅",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_25",
+          "text": "(n −2)!\n(n −|V∆|)!∆2|E∆|d|cyc|\n1\nK|V∆|−|CC(G∆)|−1{v1∼G∆v2} ; C := E2[ΨG∗|µ, x = 1]\nX M∈M",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_26",
+          "text": "(n −|V |)!2 (n −2)!(n −2|V | + |M|)!",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_27",
+          "text": "\u0010\nK|M|−2 −1\n\u0011\n.",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_28",
+          "text": "Hence, it follows from Lemma 17 that we have the decomposition",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_29",
+          "text": "Var1(ΨG∗) = A + B + C .\n(47) Remark 4. The decomposition (47) does not use explicitly the topology of G∗= (V, E), except that G∗is\nconnected. In particular, a similar formula holds for any connected multigraph ¯G = ( ¯V , ¯E) such that also the\ndegree of all nodes is even and at least equal to 4. Also, observe that all the terms in the sum deﬁning A, B,\nand C are non-negative. Consider any such connected ¯G such that ¯v1 and ¯v2 do not contain any self-edge.\nDenote d ¯\nG(¯v1) and d ¯\nG(¯v2) for the degrees of ¯G.\nFirst, consider the speciﬁc term in B where M = M0 and the pairing P such that each half-edge e(1) incident to ¯v(1)\n1\nto ¯v(2)\n1\nin the ﬁrst replica of ¯G is paired to the corresponding half-edge e(2) in the second\nreplica of ¯G. Together with (45) (and the corresponding remark), this leads us to Var1(Ψ ¯\nG) ≥\n(n −2)!\n(n −2|V | + 2)!\n∆4| ¯\nE|−2d ¯\nG(v1)−2d ¯\nG(v2)",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_30",
+          "text": "K2|V |−5 ≥E2[Ψ ¯\nG|µ, x = 1]\n\u0012\n1 −2| ¯V |",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_31",
+          "text": "n",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_32",
+          "text": "\u0013| ¯V |\nK\n∆2(d ¯\nG(¯v1)+d ¯\nG(¯v2)) .\n(48)",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_33",
+          "text": "Second, consider the speciﬁc choice of M and P in A[M, P] such that |V∆| = V and E∆= ∅, and |Cyc| = | ˜E|.\nThis corresponding to perfectly matching and pairing the corresponding replicas ¯G(1) and ¯G(2). Then, we\nhave Var1(Ψ ¯\nG) ≥\n(n −2)!\n(n −|V |)!K| ¯\nE| ≥E2[Ψ ¯\nG|µ, x = 1]n−| ¯V |+2 K| ¯\nE|+2[| ¯V |−2]",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_34",
+          "text": "∆4| ¯\nE|\n.\n(49)",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_35",
+          "text": "27",
+          "page": 27
+        },
+        {
+          "para_id": "10.1_36",
+          "text": "We control each of the terms A, B, and C. We start with C. By assumption, we have n ≥4|V |. It then\nfollows from the deﬁnition of C that",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_37",
+          "text": "C\nE2[ΨG∗|µ, x = 1] ≤\nX",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_38",
+          "text": "M∈M:|M|≥3",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_39",
+          "text": "\u00122K n",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_40",
+          "text": "\u0013|M|−2\n≤",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_41",
+          "text": "|V |\nX",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_42",
+          "text": "m=3",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_43",
+          "text": "\u00122(|V | −2)2K n",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_44",
+          "text": "\u0013m−2\n≤4(|V | −2)2K",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_45",
+          "text": "n\n,\n(50)",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_46",
+          "text": "since the number of matchings of size m is equal to (\n\u0000|V |−2\nm−2\n\u0001\n)2(m−2)! ≤(|V |−2)2(m−2) and since we assume\nthat n ≥4(|V | −2)2K. Lemma 18. Provided that ∆2 ≥2(M + 1)4, we have B ≤E2[ΨG∗|µ, x = 1]\nhK(M + 1)2(M+1)",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_47",
+          "text": "∆4(M+1)\n+ 2(M + 1)5",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_48",
+          "text": "∆2",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_49",
+          "text": "i\n.",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_50",
+          "text": "Control of A[M, P]\nSince |E∆| = 2|E| −|P|, |V∆| = 2|V | −|M|, d = K, and the assumption n ≥4|V |,\nwe deduce from Lemma 16 that A(M, P)\nE2[ΨG∗|µ, x = 1] =\n(n −|V |)!2",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_51",
+          "text": "(n −2)!(n −2|V | + M)! ·\n∆2|E∆|−4|E|",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_52",
+          "text": "K|V∆|−2(|V |−2)−|CC(G∆)|−|Cyc|−1{v1∼G∆v2} ≤\n\u0012 2",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_53",
+          "text": "n",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_54",
+          "text": "\u0013|M|−2 K|M|−4+|CC(G∆)|+|Cyc|+1{v1∼G∆v2} ∆2|P|\n(51) ≤\n\u00122K4",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_55",
+          "text": "n∆8",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_56",
+          "text": "\u0013|M|−2 K−3|M|+4+|CC(G∆)|+|Cyc|+1{v1∼G∆v2} ∆2|P|−8(|M|−2) ≤\n\u00122K4",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_57",
+          "text": "n∆8",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_58",
+          "text": "\u0013|M|−2 \u0012 K ∆4",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_59",
+          "text": "\u0013a1\n1\n∆2a2\n(52)",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_60",
+          "text": "where a1 := −3|M| + 4 + |CC(G∆)| + |Cyc| + 1{v1 ∼G∆v2} and a2 = |P| −4[|M| −2] −2a1 = |P| + 2 [|M| −|CC(G∆)| −|Cyc| −1{v1 ∼G∆v2}] . Next, we control both a1 and a2. Proposition 4. For any M and P, we have",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_61",
+          "text": "|Cyc|+|CC(G∆)|−1 ≤2(|M|−2)+|M|−1{(v(1)\n1 , v(2)\n1 ) /∈Mfull}−1{(v(1)\n2 , v(2)\n2 ) /∈Mfull}+⌊4(|M|−2)/L⌋. We deduce that a1 ≤1{(v(1)\n1 , v(2)\n1 ) ∈Mfull} + 1{v1 ∼G∆v2} −1{(v(1)\n2 , v(2)\n2 ) /∈Mfull} + ⌊4(|M| −2)/L⌋ ≤1{(v(1)\n1 , v(2)\n1 ) ∈Mfull} + ⌊4(|M| −2)/L⌋,\n(53) since 1{(v(1)\n2 , v(2)\n2 ) ∈Mfull} implies that the node v2 is isolated in G∆. When we consider the graph G∆, the so-called ”fastener edges” that connect v(1)\n1\n(or v(2)\n1 ) to long-distance\nnode play a speciﬁc role. For this purpose, we introduce H1 and H2 as follows. Write H1 ⊂Ehalf,(1) (resp.\nH2 ⊂Ehalf,(1)) for the subset of half-edges of G(1), that are (i) paired (ii) incident to the node v(1)\n1\n(resp. v(2)\n2 ),\nand (iii) such that the corresponding edge is incident to a node that is unmatched. Proposition 5. We have: 2(|Cyc| + |CC(G∆)| −1) ≤|P| −|H1| −|H2| + 2\nh\n|M| −1{(v(1)\n1 , v(2)\n1 ) /∈Mfull} −1{(v(1)\n2 , v(2)\n2 ) /∈Mfull}\ni\n.",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_62",
+          "text": "28",
+          "page": 28
+        },
+        {
+          "para_id": "10.1_63",
+          "text": "It follows from this proposition and the deﬁnition of a2 that a2 ≥|H1| + |H2| −21{(v(1)\n1 , v(2)\n1 ) ∈Mfull} + 2[1{(v(1)\n2 , v(2)\n2 ) /∈Mfull} −1{v1 ∼G∆v2}] ≥|H1| + |H2| −21{(v(1)\n1 , v(2)\n1 ) ∈Mfull}\n,\n(54) where we used again that v2 is isolated in G∆when (v(1)\n2 , v(2)\n2 ) ∈Mfull. We consider two cases depending on the values of ∆:\nCase 1: ∆4 ≤K. Gathering (53) with (54) and coming back to the expression (52), we arrive at A(M, P)\nE2[ΨG∗|µ, x = 1] ≤\n\u00122K4",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_64",
+          "text": "n∆8",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_65",
+          "text": "\u0013|M|−2 \u0012 K ∆4",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_66",
+          "text": "\u0013⌊4(|M|−2)/L⌋K1{(v(1)\n1\n,v(2)\n1\n)∈Mfull} ∆2(|H1|+|H2|)",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_67",
+          "text": "In order to have (v(1)\n1 , v(2)\n1 ) ∈Mfull, we need all 2(M + 1) half-edges incident to v1 in G∪[M, P] arise in P.\nHence, we either have |H1| ≥(M + 1)/2, or that |M| −2 ≥(M + 1)/2. This yields A(M, P)\nE2[ΨG∗|µ, x = 1] ≤",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_68",
+          "text": "2K4 n∆8",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_69",
+          "text": "\u0012 K ∆4",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_70",
+          "text": "\u00134/L\nK2/(M+1)\n!|M|−2 \u0012K2/[M+1] ∆2",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_71",
+          "text": "\u0013|H1|+|H2|\n.\n(55)",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_72",
+          "text": "Case 2: ∆4 ≥K. First, if a1 is non-negative, then the term (K/∆4) in (52) is bounded by one. Arguing as\npreviously, we deduce that A(M, P)\nE2[ΨG∗|µ, x = 1] ≤\n\u00122K4",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_73",
+          "text": "n∆8 ∆8/(M+1)\n\u0013|M|−2 \u0012∆8/[M+1]",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_74",
+          "text": "∆2",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_75",
+          "text": "\u0013|H1|+|H2|\n.\n(56)",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_76",
+          "text": "Let us turn to the situation where a1 ≤0. This implies that κ := |CC(G∆)| + |Cyc| + 1{v1 ∼G∆v2} −2 ≤3[|M| −2] . In this case, we come back to the expression (51) of A(M, P) and we use the diﬀerent decomposition A(M, P)\nE2[ΨG∗|µ, x = 1] ≤\n\u00122K",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_77",
+          "text": "n",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_78",
+          "text": "\u0013[|M|−2]−κ/3 \u00122K4 n∆8",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_79",
+          "text": "\u0013κ/3\n1\n∆2a′\n2 ,",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_80",
+          "text": "where a′\n2 := |P| −4κ",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_81",
+          "text": "3 . This quantity is bounded in the next lemma. Lemma 19. Recall the sets H1 and H2 deﬁned above Proposition 5. We have κ ≤3",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_82",
+          "text": "4|P| −|H1| + |H2|",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_83",
+          "text": "4\n. This yields a′\n2 ≥(|H1| + |H2)/3 and we arrive at the bound A(M, P)\nE2[ΨG∗|µ, x = 1] ≤\n\u00122K4",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_84",
+          "text": "n∆8\n_ 2K n",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_85",
+          "text": "\u0013|M|−2 \u0012 1 ∆2",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_86",
+          "text": "\u0013(|H1|+|H2|)/3\n.\n(57)",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_87",
+          "text": "Gathering (55), (56), and (57), we conclude that, in all regimes, we have",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_88",
+          "text": "A(M, P)\nE2[ΨG∗|µ, x = 1] ≤",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_89",
+          "text": "2K4 n∆8",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_90",
+          "text": "\u0012 K",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_91",
+          "text": "∆4 ∨1\n\u00134/L\n(K ∨∆4)2/(M+1) _ 2K",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_92",
+          "text": "n",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_93",
+          "text": "!|M|−2 \u0012(K ∨∆4)6/[M+1] ∆2",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_94",
+          "text": "\u0013(|H1|+|H2|)/3\n.",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_95",
+          "text": "(58)",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_96",
+          "text": "29",
+          "page": 29
+        },
+        {
+          "para_id": "10.1_97",
+          "text": "Then, we sum over all possibile M and all possible P to control A. A\nE2[ΨG∗|µ, x = 1] ≤\nX",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_98",
+          "text": "M,P∈MP:\n|M|≥3 and P̸=∅",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_99",
+          "text": "2K4 n∆8",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_100",
+          "text": "\u0012 K",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_101",
+          "text": "∆4 ∨1\n\u00134/L\n(K ∨∆4)2/(M+1) _ 2K",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_102",
+          "text": "n",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_103",
+          "text": "!|M|−2",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_104",
+          "text": "·\n\u0012(K ∨∆4)6/[M+1]",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_105",
+          "text": "∆2",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_106",
+          "text": "\u0013(|H1|+|H2|)/3\n,",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_107",
+          "text": "≤",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_108",
+          "text": "|V |\nX",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_109",
+          "text": "m=3",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_110",
+          "text": "M+1\nX",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_111",
+          "text": "h1,h2=0",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_112",
+          "text": " 2K4(K ∨∆4)\n2\nM+1 n∆8",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_113",
+          "text": "\u0012 K",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_114",
+          "text": "∆4 ∨1\n\u0013 4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_115",
+          "text": "L _ 2K n",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_116",
+          "text": " ",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_117",
+          "text": "m−2",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_118",
+          "text": "·",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_119",
+          "text": " (K ∨∆4)\n6\nM+1 ∆2",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_120",
+          "text": " ",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_121",
+          "text": "(h1+h2)/3\nX",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_122",
+          "text": "M,P∈MP:\n|M|=m;|H1|=h1;|H2|=h2",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_123",
+          "text": "1 .",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_124",
+          "text": "We have already argued that number of matchings M of size m is at most equal to (|V | −2)2(m−2). Lemma 20. We have |{P ∈P(M) : |H1| = h1, |H2| = h2}| ≤54(|M|−2) · (M + 2)4(|M|−2) · (M + 1)2(h1+h2) . Proof of Lemma 20. Pairings only involve half-edges incident to matched nodes. Consider a node matching\n(v(1)\ni\n, v(2)\ni′ ) where i, i′ > 2. The degrees of those nodes in G(1) and G(2) is equal to 4. Each half-edge incident\nto v(1)\ni\nis either not paired or is paired to one of 4 half-edges incident to v(2)\ni\n, hence there are at most 54 possibilities for each of the |M| −2 nodes. It remains to consider the paired half-edges incident to v(a)\ni\nfor\ni = 1, 2 and a = 2. By symmetry, we focus on v(1)\n1 . First, there are at most (M +1)2h1 possibilities to choose\nthe h1 half-edges and their corresponding paired half-edges. All the other paired half-edges incident to v(1)\n1\nmust belong to an edge that is incident to another node that arises in the matching M. Since there are at\nmost 2(|M| −2) such half-edges, there are less than (M + 2)2(|M|−2) possibilities for choosing whether they\nare paired and to which half-edge they are paired. Arguing similarly for v(2)\n1\nconcludes the proof. As a consequence, we arrive at",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_125",
+          "text": "A\nE2[ΨG∗|µ, x = 1] ≤",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_126",
+          "text": "|V |\nX",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_127",
+          "text": "m=3",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_128",
+          "text": "M+1\nX",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_129",
+          "text": "h1,h2=0",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_130",
+          "text": " 2 · 54(M + 2)4K4(K ∨∆4)\n2\nM+1 n∆8",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_131",
+          "text": "\u0012 K",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_132",
+          "text": "∆4 ∨1\n\u0013 4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_133",
+          "text": "L _ 2K · 54(M + 2)4 n",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_134",
+          "text": " ",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_135",
+          "text": "m−2",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_136",
+          "text": "·",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_137",
+          "text": " (M + 1)6(K ∨∆4)\n6\nM+1 ∆2",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_138",
+          "text": " ",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_139",
+          "text": "(h1+h2)/3",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_140",
+          "text": "≤4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_141",
+          "text": "|V |\nX",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_142",
+          "text": "m=3",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_143",
+          "text": " 2 · 54(M + 2)4K4(K ∨∆4)\n2\nM+1 n∆8",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_144",
+          "text": "\u0012 K",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_145",
+          "text": "∆4 ∨1\n\u0013 4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_146",
+          "text": "L _ 2K · 54(M + 2)4 n",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_147",
+          "text": " ",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_148",
+          "text": "m−2",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_149",
+          "text": "≤104(M + 2)4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_150",
+          "text": " K4+\n2\nM+1 + 4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_151",
+          "text": "L n∆8−\n8\nM+1",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_152",
+          "text": "_ K n",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_153",
+          "text": " ,",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_154",
+          "text": "where we used in the second line that ∆2 ≥8(M + 1)6(K ∨∆4)\n6\nM+1 and in the last line that 104(M + 2)4K4+\n2\nM+1 + 4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_155",
+          "text": "L ≤n∆8(1−\n1\nM+1 ) and n ≥104K(M + 2)4. Gathering (47), (50), and Lemma 18, we conclude\nthat",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_156",
+          "text": "Var1(ΨG∗)\nE2[ΨG∗|µ, x = 1] ≤104(M + 2)4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_157",
+          "text": " K4+\n2\nM+1 + 4",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_158",
+          "text": "L n∆8(1−\n1\nM+1 )",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_159",
+          "text": "_ K n",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_160",
+          "text": " + K(M + 1)2(M+1)",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_161",
+          "text": "∆4(M+1)\n+ 2(M + 1)5",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_162",
+          "text": "∆2\n+ 4M 2L2K",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_163",
+          "text": "n\n.",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_164",
+          "text": "30",
+          "page": 30
+        },
+        {
+          "para_id": "10.1_165",
+          "text": "This ﬁnishes the proof.",
+          "page": 31
+        },
+        {
+          "para_id": "10.1_166",
+          "text": "Acknowledgements We grateful to Christophe Giraud for many illuminating discussions. The work of A. Carpentier is par-\ntially supported by the Deutsche Forschungsgemeinschaft (DFG)- Project-ID 318763901 - SFB1294 ”Data\nAssimilation”, Project A03, by the DFG on the Forschungsgruppe FOR5381 ”Mathematical Statistics in\nthe Information Age - Statistical Eﬃciency and Computational Tractability”, Project TP 02 (Project-ID\n460867398), and by the DFG on the French-German PRCI ANR-DFG ASCAI CA1488/4-1 ”Aktive und\nBatch-Segmentierung, Clustering und Seriation: Grundlagen der KI” (Project-ID 490860858). The work of\nN. Verzelen has partially been supported by ANR-21-CE23-0035 (ASCAI, ANR). The work of A. Carpentier\nand N. Verzelen is also supported by the Universite franco-allemande (UFA) through the college doctoral\nfranco-allemand CDFA-02-25 ”Statistisches Lernen f¨ur komplexe stochastische Prozesse”.",
+          "page": 31
+        }
+      ]
+    }
+  ]
+}

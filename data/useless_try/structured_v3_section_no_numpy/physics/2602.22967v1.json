@@ -1,0 +1,917 @@
+{
+  "doc_id": "2602.22967v1.pdf",
+  "sections": [
+    {
+      "section_title": "Discovery",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Interpretable",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Physical",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Laws",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "Materials",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "via",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Language-Model-Guided",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Symbolic",
+      "text": ""
+    },
+    {
+      "section_title": "Regression",
+      "text": ""
+    },
+    {
+      "section_title": "Yifeng",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Guan",
+      "text": " 1,2"
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Chuyi",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Liu",
+      "text": " 1,2"
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Dongzhan",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Zhou",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Lei",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Bai",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "Wan-jian",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Yin",
+      "text": " 3,4"
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Jingyuan",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Li",
+      "text": " 2,5*"
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Mao",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Su",
+      "text": " 1,6*"
+    },
+    {
+      "section_title": "Shanghai",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Artificial",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Intelligence",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Laboratory,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Shanghai,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "200232,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "China.",
+      "text": ""
+    },
+    {
+      "section_title": "School",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Physics,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Zhejiang",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "University,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Hangzhou,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "310058,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "China.",
+      "text": ""
+    },
+    {
+      "section_title": "Soochow",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Institute",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Energy",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Materials",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Innovations",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "(SIEMIS),",
+      "text": ""
+    },
+    {
+      "section_title": "Soochow",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "University,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Suzhou,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "215006,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "China.",
+      "text": ""
+    },
+    {
+      "section_title": "Hefei",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "National",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Laboratory,Hefei,230088,China.",
+      "text": ""
+    },
+    {
+      "section_title": "Institute",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "for",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Advanced",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Study",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Physics,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Zhejiang",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "University,",
+      "text": ""
+    },
+    {
+      "section_title": "Hangzhou,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "310058,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "China.",
+      "text": ""
+    },
+    {
+      "section_title": "Shenzhen",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Institute",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Advanced",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Technology,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Chinese",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Academy",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "Sciences,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Shenzhen,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "518055,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "China.",
+      "text": ""
+    },
+    {
+      "section_title": "*Corresponding",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "author(s).",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "E-mail(s):",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "jingyuanli@zju.edu.cn",
+      "text": ""
+    },
+    {
+      "section_title": ";",
+      "text": ""
+    },
+    {
+      "section_title": "sumao@pjlab.org.cn",
+      "text": ""
+    },
+    {
+      "section_title": ";",
+      "text": " Abstract Discovering  interpretable  physical  laws  from  high-dimensional  data  is  a  funda- mental  challenge  in  scientific  research.  Traditional  methods,  such  as  symbolic regression,  often  produce  complex,  unphysical  formulas  when  searching  a  vast space  of  possible  forms.  We  introduce  a  framework  that  guides  the  search  pro- cess  by  leveraging  the  embedded  scientific  knowledge  of  large  language  models, enabling  efficient  identification  of  physical  laws  in  the  data.  We  validate  our approach  by  modeling  key  properties  of  perovskite  materials.  Our "
+    },
+    {
+      "section_title": "method",
+      "text": "  miti- gates the combinatorial explosion commonly encountered in traditional symbolic regression,  reducing  the  effective  search  space  by  a  factor  of  approximately  . A  set  of  novel  formulas  for  bulk  modulus,  band  gap,  and  oxygen  evolution  reac- tion  activity  are  identified,  which  not  only  provide  meaningful  physical  insights but  also  outperform  previous  formulas  in  accuracy  and  simplicity."
+    },
+    {
+      "section_title": "arXiv:2602.22967v1  [physics.comp-ph]  26 Feb 2026",
+      "text": ""
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " The accurate prediction of physical properties is a key objective for many researchers. While  deep  learning  methods,  such  as  Graph  Neural  Networks  (GNNs)[ ,  ],  have demonstrated  exceptional  capabilities  in  predicting  properties  in  materials  and  bio- logical  science[ – ],  they  inherently  operate  as  black  boxes[ ,  ].  Consequently,  these methods  cannot  explain  underlying  physical  mechanisms  or  provide  insights,  which significantly  limits  their  value  for  fundamental  scientific  discovery[ – ].  Ideally, one  would  use  an  explicit  formula  to  describe  target  properties  and  provide  physi- cal  insights,  rather  than  merely  predicting  numerical  values[ ,  ].  However,  due  to the  complexity  of  real-world  systems,  identifying  such  formulas  remains  a  significant challenge. Symbolic  Regression  (SR) "
+    },
+    {
+      "section_title": "method",
+      "text": "  such  as  genetic  programming  [ ],  SINDy  [ ], and  HI-SISSO  [ ],  is  a  possible  way  to  tackle  the  problem[ ,  ]  and  these  meth- ods  have  been  used  to  model  several  physical  properties[ ,  – ].  However,  in  the absence of experience and physical understanding of the data and physical process, one would  use  all  input  features  and  parameters  to  guarantee  not  missing  the  important ones.  This  turns  the  SR  into  a  blind  walking  in  a  vast  space.  Consequently,  it  causes SR  to  merge  physically  irrelevant  variables  into  the  derived  formulas.  This "
+    },
+    {
+      "section_title": "results",
+      "text": "  in equations  that,  while  potentially  accurate  in  fitting  data,  are  physically  incoherent and  fail  to  reveal  the  true  underlying  mechanisms. In  recent  years,  Large  Language  Models  (LLMs)  have  demonstrated  potential in  science,  but  still  remain  at  an  exploratory  stage  in  many  domains  like  material science[ – ]. Many researchers have attempted to use LLMs as end-to-end symbolic regression  engines,  like  Funsearch[ ]  and  LLM-SR  [ ],  hoping  to  leverage  the  pre- trained scientific prior knowledge in LLM to directly extract physical frameworks from data.  Although  this  approach  has  achieved  some  success  in  simple  low-dimensional problems,  the  performance  of  LLMs  in  handling  high-dimensional  complex  data  is constrained  by  their  fundamental  nature  as  language  models[ ].  Lacking  the  intrin- sic  capability  to  process  complex  numerical  patterns,  they  often  fail  to  identify  valid mathematical  structures  from  such  complex  data[ ]. To  overcome  these  limitations,  we  propose  LangLaw,  a  language-model-guided framework  designed  to  discover  governing  physical  laws  from  scientific  data.  Our approach  integrates  the  robust  search  capability  of  SR  and  the  scientific  knowledge and reasoning ability of LLMs, enabling the LLM to intelligently guide the SR process by  identifying  physically  relevant  variables  and  pruning  the  search  space.  We  evalu- ated our framework on three representative materials property datasets: Bulk Modulus ( B ) for mechanical stability [ ], Band Gap of lead-free perovskites for optoelectronic properties  [ ],  and  Oxygen  Evolution  Reaction  (OER)  activity  for  electrocatalytic performance  [ ].  It  is  worth  noting  that  materials  property  data  are  often  scarce  due to experimental and computational challenges, which makes it more difficult to extract information  using  data-driven  methods.  The  rich  scientific  knowledge  embedded  in LLMs provides critical assistance in overcoming this challenge, thereby enabling more effective  formula  discovery  from  limited  data."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Results",
+      "text": " The  LangLaw  framework  operates  as  an  iterative  loop,  as  shown  in  Fig.  .  First,  the LLM  analyzes  the  descriptions  of  input  features  (such  as  electron  negativity,  atomic radii,  and  ionization  potential)  to  generate  specific  search  parameters  and  choose  fea- tures  as  inputs.  This  step  mitigates  combinatorial  explosion  and  reduces  the  effective search  space  by  a  factor  of  approximately   (see  Supplemental  Figure  S8). Here  we  used  the  Intern-S1  [ ],  which  is  a  multimodal  foundation  model  that enhances scientific reasoning capability, but other LLMs can also be used (see Supple- mentary  Note  S5).  Guided  by  these  instructions,  the  SR  engine  (implemented  using PySR  [ ])  performs  a  search  to  find  candidate  mathematical  formulas.  We  record the "
+    },
+    {
+      "section_title": "results",
+      "text": "  of  each  iteration,  including  the  derived  formulas,  parameters,  and  fitting errors,  into  an  Experience  Pool.  The  LLM  then  reviews  this  historical  data  to  iden- tify  effective  variable  combinations  and  refine  the  instructions  for  subsequent  rounds. This  feedback  mechanism  allows  the  system  to  progressively  narrow  down  the  search space  and  identify  physically  meaningful  equations. In  each  step  of  the  loop,  the  LLM  analyzes  the  meaning  of  the  input  features and  reviews  the "
+    },
+    {
+      "section_title": "results",
+      "text": "  from  previous  searches.  Based  on  its  scientific  knowledge,  the model  suggests  specific  variables  and  parameters  for  the  next  search.  It  filters  out features  that  do  not  make  physical  sense,  even  if  they  show  a  statistical  correlation. The  Symbolic  Regression  engine  then  performs  the  search  using  these  constraints. Finally,  it  produces  a  set  of  formulas  that  balance  high  accuracy  with  low  complexity. Comprehensive details regarding the symbolic regression settings, the specific structure of  LLM  prompting,  reasoning  examples,  and  the  implementation  mechanism  of  the experience  pool  are  elaborated  in  the  Supplementary  Note  S2. To  evaluate  the  performance  of  LangLaw,  we  applied  it  to  the  task  of  modeling materials  properties.  We  evaluated  the  discovered  formulas  based  on  prediction  error and  complexity.  The  formulas  located  on  the  Pareto  front,  as  well  as  those  identified in  previous  studies  using  other  SR-based  methods,  are  listed  in  Supplementary  Table S4-S9."
+    },
+    {
+      "section_title": "2.1",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Perovskite",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Bulk",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Modulus",
+      "text": " The  bulk  modulus  ( B )  measures  a  material’s  resistance  to  uniform  compression  and is  a  key  indicator  of  mechanical  stability.  Identifying  the  factors  that  govern  B  is critical for understanding intrinsic material properties and designing stable functional perovskites.  Previous  research  has  attempted  to  predict  B  using  either  empirical formulas or data-driven methods. Verma and Kumar proposed the following empirical relation[ ]  (point  C  in  Fig.  ): B VK = C + C ( n A n B ) C ( a ) . , (1) where  a  is  the  lattice  parameter,  n A  and  n B  are  the  oxidation  number  of  the  A/B- site  ions,  and  C , C , C  are  fitted  constants.  Alternatively,  HI-SISSO  [ ]  identified a  formula  from  a  set  of   primary  features,  including  valence  orbital  radius,  electron affinity,  ionization  potential,  and  electronegativity  (point  B  in  Fig.  ): B HI-SISSO = 2 . ( IP B  − EA B ) . ( E ) . ( a − . × − EA B n A | r cat s,B − r s,B | ) . , (2) where IP B  and EA B  denote the ionization potential and electron affinity of the B-site ion,  respectively.  E  represents  the  cohesive  energy,  while  r s,B  and  r cat s,B  correspond to  the  radii  of  the  valence  s -orbital  of  the  B-site  ions  in  its  neutral  and  cationic  (1+) states  respectively.  While  Eq.  ( )  offers  improved  accuracy  compared  to  Eq.  ( ),  its multiple  coupled  terms  and  fitted  exponents  compromise  physical  interpretability. We  utilized  the  same  dataset  and  experimental  settings  as  in  HI-SISSO  [ ].  The"
+    },
+    {
+      "section_title": "results",
+      "text": "  are  presented  in  Fig.  .  LangLaw  identified  a  set  of  formulas  along  the  Pareto front, each keeping a balance between accuracy and simplicity. We selected the formula corresponding  to  point  A  for  a  detailed  analysis: B LangLaw = − \u0012 EA B IP B \u0013 + 0 . \u0012 n A + 25 . a − EN B \u0013 − . (3) where  the  newly  emerged  EN B  denotes  the  electron  negativity  of  the  B-site  atom. This  formula  provides  a  clear  and  interpretable  linear  relationship  for  the  bulk modulus  of  perovskites: The  first  term  − (  EA B IP B  )  can  measure  the  ”softness”  of  the  electron  cloud.  A  higher electron  affinity  EA B  (stronger  tendency  to  gain  an  electron)  coupled  with  a  lower ionization  potential  IP B  (easier  to  lose  an  electron)  indicates  a  more  polarizable  elec- tron  cloud.  Ions  with  highly  polarizable  electron  clouds  are  more  easily  deformed under  stress,  which  reduces  the  resistance  to  compression  and "
+    },
+    {
+      "section_title": "results",
+      "text": "  in  a  lower  bulk modulus. The second term can be divided into two parts. The first part  n A +25 . a resembles in form to the non-linear term  ( n A n B ) C a . in the VK formula (Eq. ). In ABO  perovskites, charge  neutrality  imposes  the  constraint  n A + n B  =  6.  We  also  note  that  the  lattice parameter  a  varies  within  a  narrow  range  (centered  around   ˚ A).  Therefore,  our derived  term  can  be  regarded  as  an  effective  linear  proxy  for  the  non-linear  term  in the  VK  formula  (Eq.  ).  The  − EN B  part  performs  an  ionic  correction.  Higher  EN B weakens the B − O ionic bonds, which softens the lattice leading to lower bulk modulus. To  evaluate  the  transferability  of  our  model  to  out-of-distribution  (OOD)  data, we  tested  Eq.   on   perovskites  selected  from  7,308  single  ( ABO )  and  double ( A BB ′ O )  structures  from  the  same  study[ ].  These  specific  materials  were  chosen as OOD because their bulk modulus values and the double perovskite structure are rare in  the  training  set.  As  shown  in  Fig.  ,  our  linear  formula  achieves  remarkably  lower prediction  errors  than  Eq.  ,  demonstrating  superior  generalization  to  new  material compositions."
+    },
+    {
+      "section_title": "2.2",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Double",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Perovskite",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Band",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Gap",
+      "text": " Next,  we  applied  LangLaw  to  the  band  gap  prediction  problem  of  lead-free  double perovskites  ( A BB ′ X ).  Band  gap  is  a  core  parameter  for  screening  photovoltaic materials[ ].  We  employed  a  dataset  containing   A BB ′ X  materials  and  their band  gaps  extracted  from  Ref.  [ ],  aiming  to  discover  key  physicochemical  factors affecting  the  band  gap.  The "
+    },
+    {
+      "section_title": "results",
+      "text": "  are  shown  in  Fig.  . Among  the  candidates  found,  we  identified  a  highly  interpretable  formula  that balances  simplicity  and  accuracy  (point  A  in  Fig.  ): E LangLaw g = 0 . \u0012 X X V  B \u0013 + . R X V A X B ′ , (4) where  V A  and  V B  are  the  valence  electrons  of  the  A-  and  B-site  atoms,  respectively, R X  is  the  ionic  radius  of  the  X-site  anion,  and  X X  and  X B ′  are  the  electronegativity of  the  X-  and  B’-  site  cation,  respectively. We  compare  Eq.   with  the  formula  derived  by  the  SISSO "
+    },
+    {
+      "section_title": "method",
+      "text": "  [ ,  ]  (point B  in  Fig.  )  on  the  same  dataset,  given  in  Eq.  ( ): E SISSO g = 0 . 573 + 0 . \u0012 X X V  B \u0013 + 3 . \u0012 X B ′ √ V A \u0013 − . \u0012 √ Z X R B \u0013 , (5) where  Z X  is  atomic  number  of  the  X-site  anion  and  R B  is  the  ionic  radii  of  the  B-site cation. Interestingly,  both  formulas  incorporate  the  term  X X V  B  with  nearly  identical  coeffi- cients. This suggests that these factors play a major role in determining the band gap. There  is  also  a  pair  of  similar  terms,  both  containing  X B ′  and  V A  in  the  denomina- tor.  The  difference  lies  in  that  our  formula  includes  an  extra  term  R X .  We  analyzed the  distribution  of  R X  in  the  dataset  and  found  that  its  variation  is  relatively  small. By  replacing  R X  with  the  mean  value  of  R X  in  the  dataset,  we  observed  only  a  slight increase  in  prediction  error.  Furthermore,  we  noted  that  V A  in  the  two  formulas  dif- fers  by  a  square  root.  Numerical  analysis  reveals  that  this  term  takes  only  the  values  or  11,  meaning  the  difference  introduced  by  the  square  root  can  also  be  treated  as  a constant.  Consequently,  this  term  in  our  two  formulas  becomes  highly  similar  as  well. However,  the  LangLaw  formula  (Eq.  )  has  advantages  in  conciseness."
+    },
+    {
+      "section_title": "2.3",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "OER",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Activity",
+      "text": " Finally, we applied LangLaw to search for new formulas for the oxygen evolution reac- tion  (OER)  activity  of  oxide  perovskites.  The  OER  is  a  key  rate-limiting  step  that determining the overall efficiency in electrocatalysis[ , ]. Oxide perovskites are con- sidered highly promising candidates for OER catalysts due to their rich compositional tunability,  flexible  electronic  structure,  and  excellent  chemical  stability[ ]. A  previous  study  [ ]  proposed  GPSR  (symbolic  regression  with  genetic  program- ming) and derived a formula (point B in Fig. ) to predict OER activity, measured by the  potential  versus  the  reversible  hydrogen  electrode  ( V RHE ): V  GPSR RHE = 1 . µ t  + 1 . , (6) where  µ  is  the  octahedral  factor  that  reflects  the  local  geometry  of  the  BO  octahe- dron  and  t  is  the  tolerance  factor  that  describes  the  global  distortion  of  the  crystal structure.  This  model  was  trained  on   synthesized  ABO  perovskites,  all  measured under  unified  and  comparable  experimental  conditions,  ensuring  data  reliability  and consistency. The formula was subsequently tested on 5 high-activity, stable perovskites screened  from  3,545  perovskites. Using the same OER activity dataset, we identified a formula with higher accuracy (point  A  in  Fig.  ): V  LangLaw RHE = ( µ + 0 . 127) × (3 . 24 +  . t − . ) . (7) Our formula (Eq. ) also relates the OER activity to two geometric factors µ and t . We note that the term involving t has a very small coefficient of 0.0016, suggesting that t likely has a limited influence on the outcome. Numerical analysis shows that the value of  this  term  is  only  around  0.1,  which  is  considerably  smaller  than  the  constant  3.24 added  to  it.  To  validate  this  assumption,  we  also  identified  some  formulas  containing only  µ ,  such  as  those  corresponding  to  points  C  (3 . µ )  and  D  (log( µ ) + 2 . 623)  in Fig.  ,  whose  prediction  errors  remain  lower  than  that  of  the  GPSR  formula  (Eq.  ). Using the three datasets, bulk modulus, band gap, and OER activity, we also com- pared  LangLaw  with  other  methods,  as  shown  in  Table  .  LLM-SR  [ ]  is  a  recently proposed approach for scientific equation discovery that leverages the scientific knowl- edge  and  code  generation  capabilities  of  LLMs.  The  formulas  identified  by  LLM-SR not  only  exhibit  greater  complexity  but  also  result  in  higher  predictive  errors.  Deep learning  methods,  including  CGCNN  [ ]  and  ALIGNN  [ ],  typically  require  a  large amount  of  data  and  tend  to  overfit  in  small-data  scenarios.  For  bulk  modulus  pre- diction,  LangLaw  outperforms  both  CGCNN  and  ALIGNN.  Notably,  on  OOD  data, LangLaw  achieves  the  lowest  RMSE  of  0.0851,  which  is  half  that  of  ALIGNN  (0.167) and  five  times  lower  than  CGCNN  (0.401).  For  band  gap  prediction,  CGCNN  and ALIGNN  also  yield  higher  predictive  errors.  We  did  not  apply  CGCNN  or  ALIGNN to  the  OER  activity  dataset,  as  it  consists  of  only   data  points.  This  comparison highlights  the  significant  advantage  of  LangLaw  in  extracting  robust  and  transferable physical  laws  from  small  datasets,  where  pure  data-driven  methods  often  struggle."
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Conclusion",
+      "text": " In  conclusion,  we  introduced  a  Language-guided  SR  (LangLaw)  framework  that  com- bines  LLMs  with  SR  to  discover  interpretable  physical  laws  from  high-dimensional data.  By  leveraging  the  scientific  knowledge  and  reasoning  capabilities  of  LLMs  to guide  the  regression  process,  our "
+    },
+    {
+      "section_title": "method",
+      "text": "  overcomes  the  key  limitation  of  traditional SR  that  tends  to  produce  complex,  unphysical  expressions,  and  efficiently  uncovers formulas  that  are  both  accurate  and  insightful. Beyond  advancing  symbolic  regression,  this  work  significantly  extends  the  role  of LLMs in materials design. Rather than serving merely as predictors or text generators, LLMs  here  act  as  knowledge-guided  search  engines,  directly  shaping  the  discovery  of fundamental  physical  relationships.  This  demonstrates  a  novel  pathway  for  LLMs  to contribute  to  interpretable,  mechanism-driven  materials  design,  offering  researchers  a practical  and  principled  tool  to  extract  governing  scientific  laws  from  complex,  real- world  data."
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Methods",
+      "text": ""
+    },
+    {
+      "section_title": "4.1",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Implementation",
+      "text": " We  implement  the  overall  workflow  of  the  L-SR  framework  based  on  the  PySR library [ ]. PySR employs a multi-island genetic programming algorithm, representing mathematical expressions as tree structures that evolve through tournament selection, crossover, and mutation within isolated populations. In each round, the LLM analyzes the  dataset,  textual  descriptions,  and  an  experience  pool  that  stores  the  selected  fea- ture  sets,  hyperparameters,  and  fitting  errors  from  previous  search  rounds.  Based  on this  information,  the  LLM  identifies  relevant  physical  variables  and  provides  the  fea- ture  subset,  the  maximum  tree  depth,  and  the  number  of  evolutionary  iterations  to be  used  in  the  current  round  of  SR  search.  This  design  restricts  the  search  space  to physically  relevant  variables  and  avoids  the  generation  of  overly  complex  functional forms.  During  the  search,  continuous  constants  are  optimized  using  gradient-based methods,  and  the  algorithm  identifies  a  Pareto  front  of  formulas  to  balance  accuracy and  complexity.  The  output  formula  from  each  round  of  SR  is  evaluated  using  the scoring  function  described  in  Supplementary  Note  S4.  The  details  of  the  PySR  and LLM  implementations  are  presented  in  Supplementary  Notes  S1-S2.  For  the  selection of LLMs, we mainly used Intern-S1 [ ], but other LLMs are also applicable. The LLM settings  and  comparisons  are  detailed  in  Supplementary  Note  S5."
+    },
+    {
+      "section_title": "4.2",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Experimental",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "settings",
+      "text": " To  evaluate  LangLaw,  we  compared  it  with  three  categories  of  baselines:  traditional SR  methods  (HI-SISSO,  SISSO,  and  GPSR),  recent  LLM-based  SR "
+    },
+    {
+      "section_title": "method",
+      "text": "  (LLM- SR),  and  deep  learning  methods  (CGCNN  and  ALIGNN).  The  parameters  settings are  provided  below  and  detailed  in  Supplementary  Notes  S6-S7. The "
+    },
+    {
+      "section_title": "results",
+      "text": "  reported  for  HI-SISSO,  SISSO,  and  GPSR  in  Table   were  calculated using  the  formulas  in  their  respective  original  papers.  For  LLM-SR,  we  utilized  the code  released  with  the  paper,  adapting  the  prompts  for  our  experimental  context.  In line with the LLM-SR paper, we employed GPT-4o as the LLM backbone and used the temperature  of  0.8  for  LLM  inference.  For  CGCNN  and  ALIGNN,  we  adopted  their publicly  released  implementations.  CGCNN  is  trained  using  a  hidden  dimensions  of 128,  a  batch  size  of  256,  three  message  passing  layers,  a  learning  rate  of  1e-2,  a  radius cutoff  of  8.0  ˚ A,  the  nearest  neighbors  setting  to  12,  and  is  trained  from  scratch  for  epochs.  ALIGNN  follows  its  original  setup  with  a  learning  rate  of  1e-3,  a  batch size  of  32,  and  is  trained  from  scratch  for   epochs. In  the  PySR  component  of  LangLaw,  we  set  the  populations  to  31,  the  popula- tion  size to 27 and the max  size to 30. The L1 distance is selected as the loss function. The  allowed  operator  set  comprises  +,  − ,  × ,  ÷ ,  and  exponentiation  ˆ,  with  constrain parameter  { -1,  }  of  the  pow  operator.  For  the  LLMs  module,  the  temperature  is  set to  1.0  for  balancing  performance.  The  experience  pool  retains  the  top- k  historical  for- mulas  with  k  =  15.  Example  prompts  are  provided  in  Supplementary  Note  S2.  The search  ends  when  the  error falls below a threshold of 0.001 or after a maximum of 100 rounds."
+    },
+    {
+      "section_title": "Data",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "availability",
+      "text": " ALL  datasets  used  in  this  study  are  publicly  available  (see  Supplementary  Note  S3)."
+    },
+    {
+      "section_title": "Code",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "availability",
+      "text": " The code for reproducing the findings in this work is available at https://github.com/ nakonako4/langlaw ."
+    },
+    {
+      "section_title": "Acknowledgments",
+      "text": " This  work  was  supported  by  New  Generation  Artificial  Intelligence-National  Science and  Technology  Major  Project(2025ZD0121802),  Shanghai  Committee  of  Science  and Technology,  China  (Grant  No.  23QD1400900),  National  Key  Research  and  Develop- ment  Program  of  China  (Grant  No.  2025YFC2311702  and  2025YFC2311703),  the National  Natural  Science  Foundation  of  China  (Grant  No.   and  32371299) and  the  Innovation  Program  for  Quantum  Science  and  Technology  (Grant  No. 2024ZD0300102).  Y.G.  did  this  work  during  his  internship  at  Shanghai  Artificial Intelligence  Laboratory."
+    },
+    {
+      "section_title": "Author",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "contributions",
+      "text": " M.S.  conceived  the  idea  and  led  the  research.  Y.G.  developed  the  code  and  performed the  experiments.  W.Y.,  J.L.,  and  M.S.  analyzed  the  results.  C.L.,  D.Z.,  and  L.B. contributed technical ideas. Y.G. and M.S. wrote the first draft. All authors discussed the "
+    },
+    {
+      "section_title": "results",
+      "text": "  and  reviewed  the  manuscript."
+    },
+    {
+      "section_title": "Competing",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "interests",
+      "text": " The  authors  declare  no  competing  interests."
+    }
+  ]
+}

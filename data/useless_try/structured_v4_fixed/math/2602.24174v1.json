@@ -1,0 +1,3988 @@
+{
+  "title": "Task-Centric Acceleration of Small-Language Models",
+  "abstract": "Small language models (SLMs) have emerged as efficient alternatives to large language mod- els for task-specific applications. However, they are often employed in high-volume, low- latency settings, where efficiency is crucial. We propose TASC, Task-Adaptive Sequence Com- pression, a framework for SLM acceleration comprising two use-cases: When performing SLM fine-tuning, we propose TASC-ft, which iteratively enriches the tokenizer vocabulary with high-frequency output n-grams and then fine-tunes the model to utilize the expanded vo- cabulary. Next, we propose an inference-time method, termed TASC-spec. TASC-spec is a lightweight, training-free speculative decoding method that constructs an n-gram draft model from the task’s output corpus, mixing task and context n-gram information. TASC-spec avoids any additional training, while avoiding draft-target vocabulary alignment constraints. We demonstrate the effectiveness of both meth- ods across multiple low output-variability gen- eration tasks. Our methods show consistent im- provements in inference efficiency while main- taining task performance. 1 Introduction Small language models (SLMs) are lightweight fast models that recently rose as a viable alternative to large language models (LLMs) (Belcak et al., 2025; Subramanian et al., 2025). SLMs are often distilled versions of LLMs that pose specific capabilities, with the intention to operate as a part of a multi- agent system (Lee et al., 2025; Sharma and Mehta, 2025) or in highly memory-bound high-latency set- tings, such as on-device deployment (Kementched- jhieva and Chalkidis, 2023; Kandala et al., 2024; Lu et al., 2025). SLMs, while lighter than their larger counterparts, have demonstrated compara- ble performance when fine-tuned (FT) on specific tasks, from text classification (Luo et al., 2023a; *Work was done during an internship at Amazon. Sun et al., 2023a; Sakai and Lam, 2025) and sum- marization (Xu et al., 2025; Bailly et al., 2025), to question-answering (QA) (Pappas et al., 2022; Kweon et al., 2024) and code generation (Luo et al., 2023b; Pinnaparaju et al., 2024). We argue that tasks naturally suited for SLM FT also often exhibit lower output variability com- pared to open-ended multi-purpose text generation. This manifests in a decrease of the n-gram empir- ical entropy in the dataset of expected task out- puts. That is, expected output texts tend to contain more n-grams that repeat across different samples. These n-grams often represent common phrases and terms in the task’s expected outputs. We ana- lyze this phenomenon through the lenses of typi- cality (Cover, 1999, Chapter 2). To accelerate LLMs, most prior work focus on either decreasing memory requirements or accel- erating input processing, with the purpose of han- dling longer contexts. Popular methods in these direction are model quantization (Lang et al., 2024; Lin et al., 2024), KV caching (Pope et al., 2023; Li et al., 2024a) and attention optimization (Dao et al., 2022; Kwon et al., 2023). On the contrary, in this work we follow the low output variability, com- mon in FT SLMs, and focus on the model’s outputs. Specifically, we view efficiency in terms of decreas- ing the total number of model auto-regressive steps required to generate a response from a given task input, which is a known bottleneck in autoregres- sive generation (OpenAI, 2025). To that end, our framework comprising two solutions, which we term Task-Adaptive Sequence Compression (TASC). Each solution targets a different operational SLM use-case. Figure 1 outlines TASC’s pipeline. First, when task-specific fine-tuning of the SLM is performed, we propose TASC-ft, a tokenizer augmentation procedure that explicitly leverages the task-induced concentration of output n-grams. Given a train corpus of expected task outputs, we identify high-frequency n-grams whose merge into 1 arXiv:2602.24174v1 [cs.CL] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "4",
+      "section_title": "datasets. All experiments were performed on a",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "single Tesla V-100 GPU (32GB). Hyperparameter",
+          "page": 6
+        },
+        {
+          "para_id": "4_2",
+          "text": "values are based on preliminary evaluations and",
+          "page": 6
+        },
+        {
+          "para_id": "4_3",
+          "text": "ablations. Full details are given in Appendix B.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "3.53",
+      "section_title": "± 0.73",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.21",
+      "section_title": "± 0.79",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.15",
+      "section_title": "± 0.82",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.23",
+      "section_title": "± 0.77",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.25",
+      "section_title": "± 0.76",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.18",
+      "section_title": "± 0.79",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.18_1",
+          "text": "Table 2: LLM judge results vs. Number of added tokens, TASC-ft, Asclepius dataset.",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_2",
+          "text": "(a) EUR-LEX (massive classification)",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_3",
+          "text": "(b) Asclepius (medical QA)",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_4",
+          "text": "Figure 3: TASC-ft: Task performance metric vs. average runtime vs. Number of Added tokens. Each dataset has a",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_5",
+          "text": "different metric according to its task: F1 for EUR-LEX, Bert-score for Asclepius and join accurcay for MASSIVE.",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_6",
+          "text": "TASC-ft: Tokenizer Augmentation",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_7",
+          "text": "We test the effect of TASC-ft on the resulting fine-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_8",
+          "text": "tuned model. We measure the effect of the added",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_9",
+          "text": "tokens (and consequently, trainable parameters) on",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_10",
+          "text": "the trained model’s performance. Our baseline is",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_11",
+          "text": "the same base model, going through similar train-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_12",
+          "text": "ing, but without the newly introduced n-gram to-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_13",
+          "text": "kens. In all experiments we consider a Qwen2.5-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_14",
+          "text": "0.5B base model, employ QLoRa optimization",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_15",
+          "text": "(Dettmers et al., 2023) and train for 3 epochs. Due",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_16",
+          "text": "to space constraints, additional performance met-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_17",
+          "text": "rics and ablations are reported in Appendix C.",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_18",
+          "text": "Datasets. We consider three tasks: (i) massive",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_19",
+          "text": "text classification for which we use the EUR-LEX",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_20",
+          "text": "dataset (Chalkidis et al., 2019). It contains 19.6K",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_21",
+          "text": "policy texts, each labeled with up to 26 labels out of",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_22",
+          "text": "a total of 4K possible labels, (ii) Medical QA, for",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_23",
+          "text": "which we consider the Asclepius dataset (Kweon",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_24",
+          "text": "et al., 2024). We focus on the QA category that",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_25",
+          "text": "consists of 11K QA pairs, (iii) Intent classification",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_26",
+          "text": "& slot filling (ICSF), for which we consider the",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_27",
+          "text": "MASSIVE dataset (FitzGerald et al., 2023) that",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_28",
+          "text": "contains of 16.5K english utterances with intent",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_29",
+          "text": "and slot fills labels. The dataset contains 50 distinct",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_30",
+          "text": "intent categories and 60 slot fill categories.",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_31",
+          "text": "Metrics. For each dataset, we measure the aver-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_32",
+          "text": "age time to generate a response and calculate the",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_33",
+          "text": "response’s quality on a task-specific evaluation met-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_34",
+          "text": "ric. For EUR-LEX we consider the F1 score, and",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_35",
+          "text": "for Asclepius we consider both the BERT score",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_36",
+          "text": "(Zhang et al., 2019) and a LLM-judge score, based",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_37",
+          "text": "on the evaluation prompt from (Kweon et al., 2024)",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_38",
+          "text": "using Claude4.5-Sonnet as the judge. For ICSF we",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_39",
+          "text": "consider both intent accuracy, slot fill F1 score and",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_40",
+          "text": "joint accuracy. To follow a real-world use case, we",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_41",
+          "text": "consider batched generation with b = 8.",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_42",
+          "text": "Results. We examine the effect of the number of",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_43",
+          "text": "tokens added, comparing to the same base model",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_44",
+          "text": "undergoing comparable training without newly in-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_45",
+          "text": "troduced n-gram tokens. As shown in Figure 3,",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_46",
+          "text": "training with the extended tokenizer preserves task",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_47",
+          "text": "performance while achieving faster average gen-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_48",
+          "text": "eration time on the test set. Table 2 measures a",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_49",
+          "text": "judge-LLM evaluations of the Asclepius outputs,",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_50",
+          "text": "showing negligible impact on the output quality.",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_51",
+          "text": "Our experiments consider a token budget of up",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_52",
+          "text": "to 1000 n-grams. While increasing the number of",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_53",
+          "text": "added tokens consistently reduces inference-time",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_54",
+          "text": "generation latency, the marginal gains diminish as",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_55",
+          "text": "the budget grows, indicating a trade-off between",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_56",
+          "text": "acceleration and the training parameters overhead.",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_57",
+          "text": "In practice, the effective cutoff improvement in our",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_58",
+          "text": "experiments is no larger than 500 tokens, which is",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_59",
+          "text": "significantly smaller than the token budgets typi-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_60",
+          "text": "cally used in domain-base tokenization adaptations",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_61",
+          "text": "(Nakash et al., 2025). We leave a principled analy-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_62",
+          "text": "sis of the optimal TASC-ft budget for future work.",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_63",
+          "text": "Predicting Runtime Reduction. Fine-tuning is",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_64",
+          "text": "computationally expensive, motivating the need",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_65",
+          "text": "for a lightweight proxy to assess a model’s poten-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_66",
+          "text": "tial benefit from TASC-ft. We examine whether a",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_67",
+          "text": "dataset-level statistic can serve as a reliable predic-",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_68",
+          "text": "tor of inference runtime. Specifically, we consider",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_69",
+          "text": "the 2-Rényi entropy (H2) of the token distribution,",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_70",
+          "text": "previously linked to downstream performance. Our",
+          "page": 7
+        },
+        {
+          "para_id": "3.18_71",
+          "text": "Figure 4: Acceptance rate vs. speculated token position.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_72",
+          "text": "experiments comprise 124 runs across 8 configura-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_73",
+          "text": "tions, where runs within each configuration differ",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_74",
+          "text": "only in the token budget. We consider two com-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_75",
+          "text": "plementary criteria: (i) Kendall’s τ, computed sep-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_76",
+          "text": "arately for each configuration, yields τ < −0.9",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_77",
+          "text": "(p < 0.005) in all cases, indicating a strong and",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_78",
+          "text": "consistent inverse correlation. We measure the",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_79",
+          "text": "rank correlation using Kendall’s τ, all yielding",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_80",
+          "text": "τ < −0.9 with p-value < 0.005. This indicates a",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_81",
+          "text": "near-perfect inverse agreement. (ii) Following (Pe-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_82",
+          "text": "saran and Timmermann, 1992), we asses how often",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_83",
+          "text": "a change in H2 correctly predicts the direction of",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_84",
+          "text": "change in runtime. We observed a 92% success",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_85",
+          "text": "rate, confirming that H2 is a highly reliable indi-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_86",
+          "text": "cator for predicting runtime reduction. Additional",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_87",
+          "text": "details are provided in Appendix E.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_88",
+          "text": "TASC-spec: Inference-Time Acceleration",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_89",
+          "text": "We compare our results with the n-grammy’s",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_90",
+          "text": "method (Stewart et al., 2024), which proposes a",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_91",
+          "text": "bigram-based drafter that is obtained by taking the",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_92",
+          "text": "conditional LLM distribution for each element in",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_93",
+          "text": "the tokenizer’s vocabulary. To maintain compara-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_94",
+          "text": "bility we consider task fine-tuned LLMs, to ensure",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_95",
+          "text": "that its conditional distribution is adapted to the",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_96",
+          "text": "task as hand. We consider a beam-size of b = 1",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_97",
+          "text": "and apply TASC-spec with pmin = 5 and λ = 0.75.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_98",
+          "text": "Datasets and Models We consider two medi-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_99",
+          "text": "cal QA tasks, given by the Asclepius (Kweon",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_100",
+          "text": "et al., 2024) and MedQuaD (Ben Abacha and",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_101",
+          "text": "Demner-Fushman, 2019) datasets, and EUR-LEX.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_102",
+          "text": "Asclepius focuses on reading comprehension of",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_103",
+          "text": "medical texts, whereas MedQuaD does not contain",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_104",
+          "text": "an additional context for each question.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_105",
+          "text": "Speedup over target model. We evaluate perfor-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_106",
+          "text": "mance by calculating the average speedup over the",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_107",
+          "text": "target model across 50 test samples per genera-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_108",
+          "text": "tion task. We report the performance of the corpus",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_109",
+          "text": "Table 3: Target speedup results in several datasets.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_110",
+          "text": "TASC-spec is employed with λ = 0.75.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_111",
+          "text": "mixing with the context-based n-gram drafter. As",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_112",
+          "text": "seen in Table 3, the corpus n-gram achieves a better",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_113",
+          "text": "target speedup over the n-grammy’s drafter. This",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_114",
+          "text": "advantage is maintained after mixing with pprompt,",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_115",
+          "text": "emphasizing the power of global corpus informa-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_116",
+          "text": "tion for speculative decoding.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_117",
+          "text": "Position-wise Acceptance. Due to the negligible",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_118",
+          "text": "cost of obtaining a prediction from n-gram mod-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_119",
+          "text": "els we take long prediction horizons, which are",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_120",
+          "text": "then verified in-parallel by the target model, with-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_121",
+          "text": "out suffering a significant latency overhead. We",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_122",
+          "text": "provide a finer granularity for acceptance by an-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_123",
+          "text": "alyzing the acceptance rate for each position in",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_124",
+          "text": "TASC-spec’s continuations separately. As seen in",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_125",
+          "text": "Figure 4, the acceptance rate drops as the posi-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_126",
+          "text": "tion index increases. This is due to the expected",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_127",
+          "text": "distribution shift of the n-gram model. Although",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_128",
+          "text": "the n-gram model is a highly simplified language",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_129",
+          "text": "model, we obtain relatively high acceptance rates in",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_130",
+          "text": "initial positions, with first position acceptance rate",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_131",
+          "text": "α = 0.57 in Asclepius and α = 0.39 in MedQuaD.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_132",
+          "text": "This paper presented TASC, an SLM acceleration",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_133",
+          "text": "framework that exploits the n-gram typical set in",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_134",
+          "text": "low output variability tasks. The proposed meth-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_135",
+          "text": "ods consider either fine-tune setting via tokenizer",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_136",
+          "text": "augmentation or inference-time acceleration using",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_137",
+          "text": "n-gram draft models.",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_138",
+          "text": "Moreover, we study the",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_139",
+          "text": "power of the token distribution’s Rényi entropy",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_140",
+          "text": "as a predictive measure of potential runtime ac-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_141",
+          "text": "celeration. The proposed methods substantially",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_142",
+          "text": "reduce the number of decoding steps while preserv-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_143",
+          "text": "ing output quality. For future work we consider a",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_144",
+          "text": "comprehensive analysis of the optimal token bud-",
+          "page": 8
+        },
+        {
+          "para_id": "3.18_145",
+          "text": "get for TASC-ft following the diminishing returns",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_146",
+          "text": "in terms of newly added tokens.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_147",
+          "text": "The proposed methodologies suffer from several",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_148",
+          "text": "limitations. First, we assume that the considered",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_149",
+          "text": "task has an available representative dataset, which",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_150",
+          "text": "we can use for typicality analysis. We implicitly",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_151",
+          "text": "assume that the training dataset we utilize captures",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_152",
+          "text": "the underlying distribution in the test set. The suc-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_153",
+          "text": "cess of our method is limited to generation tasks",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_154",
+          "text": "that exhibit the low output variability demonstrated",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_155",
+          "text": "The tokenizer augmentation procedure hinges",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_156",
+          "text": "on the assumption that we have access to the model",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_157",
+          "text": "weights and that we have the computational capa-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_158",
+          "text": "bilities to fine-tune that model. Furthermore, by",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_159",
+          "text": "augmenting the model’s tokenizer, we may harm its",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_160",
+          "text": "generalist capabilities and decrease its performance",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_161",
+          "text": "in other tasks. However, we anticipate this effect",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_162",
+          "text": "to be less significant than both adding and remov-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_163",
+          "text": "ing tokens from the vocabulary, as often done in",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_164",
+          "text": "domain-based methods (as, e.g., in (Nakash et al.,",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_165",
+          "text": "Alexandre Bailly, Antoine Saubin, Gabriel Kocevar, and",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_166",
+          "text": "Jonathan Bodin. 2025. Divide and summarize: im-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_167",
+          "text": "prove slm text summarization. Frontiers in Artificial",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_168",
+          "text": "Intelligence, 8:1604034.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_169",
+          "text": "Peter Belcak, Greg Heinrich, Shizhe Diao, Yonggan",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_170",
+          "text": "Fu, Xin Dong, Saurav Muralidharan, Yingyan Celine",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_171",
+          "text": "Lin, and Pavlo Molchanov. 2025. Small language",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_172",
+          "text": "models are the future of agentic ai. arXiv preprint",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_173",
+          "text": "Asma Ben Abacha and Dina Demner-Fushman. 2019. A",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_174",
+          "text": "question-entailment approach to question answering.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_175",
+          "text": "BMC bioinformatics, 20(1):511.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_176",
+          "text": "Tianle Cai, Yuhong Li, Zhengyang Geng, Hongwu Peng,",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_177",
+          "text": "Jason D Lee, Deming Chen, and Tri Dao. 2024.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_178",
+          "text": "Medusa: Simple llm inference acceleration frame-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_179",
+          "text": "work with multiple decoding heads. arXiv preprint",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_180",
+          "text": "Ilias Chalkidis, Emmanouil Fergadiotis, Prodromos",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_181",
+          "text": "Malakasiotis, and Ion Androutsopoulos. 2019. Large-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_182",
+          "text": "scale multi-label text classification on eu legislation.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_183",
+          "text": "In Proceedings of the 57th annual meeting of the as-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_184",
+          "text": "sociation for computational linguistics, pages 6314–",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_185",
+          "text": "Charlie Chen, Sebastian Borgeaud, Geoffrey Irving,",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_186",
+          "text": "Jean-Baptiste Lespiau, Laurent Sifre, and John",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_187",
+          "text": "Jumper. 2023. Accelerating large language model",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_188",
+          "text": "decoding with speculative sampling. arXiv preprint",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_189",
+          "text": "Thomas M Cover. 1999. Elements of information theory.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_190",
+          "text": "Tri Dao, Dan Fu, Stefano Ermon, Atri Rudra, and",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_191",
+          "text": "Christopher Ré. 2022.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_192",
+          "text": "Flashattention: Fast and",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_193",
+          "text": "memory-efficient exact attention with io-awareness.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_194",
+          "text": "Advances in neural information processing systems,",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_195",
+          "text": "Tim Dettmers, Artidoro Pagnoni, Ari Holtzman, and",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_196",
+          "text": "Luke Zettlemoyer. 2023. Qlora: Efficient finetuning",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_197",
+          "text": "of quantized llms. Advances in neural information",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_198",
+          "text": "processing systems, 36:10088–10115.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_199",
+          "text": "Shizhe Diao, Ruijia Xu, Hongjin Su, Yilei Jiang, Yan",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_200",
+          "text": "Song, and Tong Zhang. 2021. Taming pre-trained",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_201",
+          "text": "language models with n-gram representations for low-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_202",
+          "text": "resource domain adaptation. In Proceedings of the",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_203",
+          "text": "59th Annual Meeting of the Association for Compu-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_204",
+          "text": "tational Linguistics and the 11th International Joint",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_205",
+          "text": "Conference on Natural Language Processing (Vol-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_206",
+          "text": "ume 1: Long Papers), pages 3336–3349.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_207",
+          "text": "Angela Fan, Mike Lewis, and Yann Dauphin. 2018.",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_208",
+          "text": "Hierarchical neural story generation. arXiv preprint",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_209",
+          "text": "Jack FitzGerald, Christopher Hench, Charith Peris,",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_210",
+          "text": "Scott Mackie, Kay Rottmann, Ana Sanchez, Aaron",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_211",
+          "text": "Nash, Liam Urbach, Vishesh Kakarala, Richa Singh,",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_212",
+          "text": "and 1 others. 2023. Massive: A 1m-example multi-",
+          "page": 9
+        },
+        {
+          "para_id": "3.18_213",
+          "text": "lingual natural language understanding dataset with",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "51",
+      "section_title": "typologically-diverse languages. In Proceedings",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "51_1",
+          "text": "of the 61st Annual Meeting of the Association for",
+          "page": 9
+        },
+        {
+          "para_id": "51_2",
+          "text": "Computational Linguistics (Volume 1: Long Papers),",
+          "page": 9
+        },
+        {
+          "para_id": "51_3",
+          "text": "Yichao Fu, Peter Bailis, Ion Stoica, and Hao Zhang.",
+          "page": 9
+        },
+        {
+          "para_id": "51_4",
+          "text": "2024. Break the sequential dependency of llm in-",
+          "page": 9
+        },
+        {
+          "para_id": "51_5",
+          "text": "ference using lookahead decoding. arXiv preprint",
+          "page": 9
+        },
+        {
+          "para_id": "51_6",
+          "text": "Philip Gage. 1994. A new algorithm for data compres-",
+          "page": 9
+        },
+        {
+          "para_id": "51_7",
+          "text": "sion. The C Users Journal, 12(2):23–38.",
+          "page": 9
+        },
+        {
+          "para_id": "51_8",
+          "text": "Leonidas Gee, Leonardo Rigutini, Marco Ernandes, and",
+          "page": 9
+        },
+        {
+          "para_id": "51_9",
+          "text": "Andrea Zugarini. 2023. Multi-word tokenization for",
+          "page": 9
+        },
+        {
+          "para_id": "51_10",
+          "text": "sequence compression. In Proceedings of the 2023",
+          "page": 9
+        },
+        {
+          "para_id": "51_11",
+          "text": "Conference on Empirical Methods in Natural Lan-",
+          "page": 9
+        },
+        {
+          "para_id": "51_12",
+          "text": "guage Processing: Industry Track, pages 612–621.",
+          "page": 9
+        },
+        {
+          "para_id": "51_13",
+          "text": "Caglar Gulcehre, Orhan Firat, Kelvin Xu, Kyunghyun",
+          "page": 9
+        },
+        {
+          "para_id": "51_14",
+          "text": "Cho, Loic Barrault, Huei-Chi Lin, Fethi Bougares,",
+          "page": 9
+        },
+        {
+          "para_id": "51_15",
+          "text": "Holger Schwenk, and Yoshua Bengio. 2015. On",
+          "page": 9
+        },
+        {
+          "para_id": "51_16",
+          "text": "using monolingual corpora in neural machine trans-",
+          "page": 9
+        },
+        {
+          "para_id": "51_17",
+          "text": "lation. arXiv preprint arXiv:1503.03535.",
+          "page": 9
+        },
+        {
+          "para_id": "51_18",
+          "text": "Karl Moritz Hermann, Tomas Kocisky, Edward Grefen-",
+          "page": 9
+        },
+        {
+          "para_id": "51_19",
+          "text": "stette, Lasse Espeholt, Will Kay, Mustafa Suleyman,",
+          "page": 9
+        },
+        {
+          "para_id": "51_20",
+          "text": "and Phil Blunsom. 2015. Teaching machines to read",
+          "page": 9
+        },
+        {
+          "para_id": "51_21",
+          "text": "and comprehend. Advances in neural information",
+          "page": 9
+        },
+        {
+          "para_id": "51_22",
+          "text": "processing systems, 28.",
+          "page": 9
+        },
+        {
+          "para_id": "51_23",
+          "text": "Jimin Hong, TaeHee Kim, Hyesu Lim, and Jaegul",
+          "page": 10
+        },
+        {
+          "para_id": "51_24",
+          "text": "Choo. 2021. Avocado: Strategy for adapting vo-",
+          "page": 10
+        },
+        {
+          "para_id": "51_25",
+          "text": "cabulary to downstream domain.",
+          "page": 10
+        },
+        {
+          "para_id": "51_26",
+          "text": "T Jaeger and Roger Levy. 2006. Speakers optimize",
+          "page": 10
+        },
+        {
+          "para_id": "51_27",
+          "text": "information density through syntactic reduction. Ad-",
+          "page": 10
+        },
+        {
+          "para_id": "51_28",
+          "text": "vances in neural information processing systems, 19.",
+          "page": 10
+        },
+        {
+          "para_id": "51_29",
+          "text": "Savitha Viswanadh Kandala, Pramuka Medaranga, and",
+          "page": 10
+        },
+        {
+          "para_id": "51_30",
+          "text": "Ambuj Varshney. 2024. Tinyllm: A framework for",
+          "page": 10
+        },
+        {
+          "para_id": "51_31",
+          "text": "training and deploying language models at the edge",
+          "page": 10
+        },
+        {
+          "para_id": "51_32",
+          "text": "computers. arXiv preprint arXiv:2412.15304.",
+          "page": 10
+        },
+        {
+          "para_id": "51_33",
+          "text": "Yova Kementchedjhieva and Ilias Chalkidis. 2023. An",
+          "page": 10
+        },
+        {
+          "para_id": "51_34",
+          "text": "exploration of encoder-decoder approaches to multi-",
+          "page": 10
+        },
+        {
+          "para_id": "51_35",
+          "text": "label classification for legal and biomedical text.",
+          "page": 10
+        },
+        {
+          "para_id": "51_36",
+          "text": "arXiv preprint arXiv:2305.05627.",
+          "page": 10
+        },
+        {
+          "para_id": "51_37",
+          "text": "Urvashi Khandelwal, Omer Levy, Dan Jurafsky, Luke",
+          "page": 10
+        },
+        {
+          "para_id": "51_38",
+          "text": "Zettlemoyer, and Mike Lewis. 2019. Generalization",
+          "page": 10
+        },
+        {
+          "para_id": "51_39",
+          "text": "through memorization: Nearest neighbor language",
+          "page": 10
+        },
+        {
+          "para_id": "51_40",
+          "text": "models. arXiv preprint arXiv:1911.00172.",
+          "page": 10
+        },
+        {
+          "para_id": "51_41",
+          "text": "Sunjun Kweon, Junu Kim, Jiyoun Kim, Sujeong Im,",
+          "page": 10
+        },
+        {
+          "para_id": "51_42",
+          "text": "Eunbyeol Cho, Seongsu Bae, Jungwoo Oh, Gyubok",
+          "page": 10
+        },
+        {
+          "para_id": "51_43",
+          "text": "Lee, Jong Hak Moon, Seng Chan You, and 1 oth-",
+          "page": 10
+        },
+        {
+          "para_id": "51_44",
+          "text": "ers. 2024. Publicly shareable clinical large language",
+          "page": 10
+        },
+        {
+          "para_id": "51_45",
+          "text": "model built on synthetic clinical notes. In Findings of",
+          "page": 10
+        },
+        {
+          "para_id": "51_46",
+          "text": "the Association for Computational Linguistics: ACL",
+          "page": 10
+        },
+        {
+          "para_id": "51_47",
+          "text": "2024, pages 5148–5168.",
+          "page": 10
+        },
+        {
+          "para_id": "51_48",
+          "text": "Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying",
+          "page": 10
+        },
+        {
+          "para_id": "51_49",
+          "text": "Sheng, Lianmin Zheng, Cody Hao Yu, Joseph Gon-",
+          "page": 10
+        },
+        {
+          "para_id": "51_50",
+          "text": "zalez, Hao Zhang, and Ion Stoica. 2023. Efficient",
+          "page": 10
+        },
+        {
+          "para_id": "51_51",
+          "text": "memory management for large language model serv-",
+          "page": 10
+        },
+        {
+          "para_id": "51_52",
+          "text": "ing with pagedattention. In Proceedings of the 29th",
+          "page": 10
+        },
+        {
+          "para_id": "51_53",
+          "text": "symposium on operating systems principles, pages",
+          "page": 10
+        },
+        {
+          "para_id": "51_54",
+          "text": "Jiedong Lang, Zhehao Guo, and Shuyu Huang. 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "51_55",
+          "text": "A comprehensive study on quantization techniques",
+          "page": 10
+        },
+        {
+          "para_id": "51_56",
+          "text": "for large language models. In 2024 4th International",
+          "page": 10
+        },
+        {
+          "para_id": "51_57",
+          "text": "Conference on Artificial Intelligence, Robotics, and",
+          "page": 10
+        },
+        {
+          "para_id": "51_58",
+          "text": "Communication (ICAIRC), pages 224–231. IEEE.",
+          "page": 10
+        },
+        {
+          "para_id": "51_59",
+          "text": "Woongkyu Lee, Junhee Cho, and Jungwook Choi. 2025.",
+          "page": 10
+        },
+        {
+          "para_id": "51_60",
+          "text": "Mapcoder-lite: Squeezing multi-agent coding into a",
+          "page": 10
+        },
+        {
+          "para_id": "51_61",
+          "text": "single small llm. arXiv preprint arXiv:2509.17489.",
+          "page": 10
+        },
+        {
+          "para_id": "51_62",
+          "text": "Yaniv Leviathan, Matan Kalman, and Yossi Matias.",
+          "page": 10
+        },
+        {
+          "para_id": "51_63",
+          "text": "2023. Fast inference from transformers via spec-",
+          "page": 10
+        },
+        {
+          "para_id": "51_64",
+          "text": "ulative decoding. In International Conference on",
+          "page": 10
+        },
+        {
+          "para_id": "51_65",
+          "text": "Machine Learning, pages 19274–19286. PMLR.",
+          "page": 10
+        },
+        {
+          "para_id": "51_66",
+          "text": "Haoyang Li, Yiming Li, Anxin Tian, Tianhao Tang,",
+          "page": 10
+        },
+        {
+          "para_id": "51_67",
+          "text": "Zhanchao Xu, Xuejia Chen, Nicole Hu, Wei Dong,",
+          "page": 10
+        },
+        {
+          "para_id": "51_68",
+          "text": "Qing Li, and Lei Chen. 2024a. A survey on large",
+          "page": 10
+        },
+        {
+          "para_id": "51_69",
+          "text": "language model acceleration based on kv cache man-",
+          "page": 10
+        },
+        {
+          "para_id": "51_70",
+          "text": "agement. arXiv preprint arXiv:2412.19442.",
+          "page": 10
+        },
+        {
+          "para_id": "51_71",
+          "text": "Yuhui Li, Fangyun Wei, Chao Zhang, and Hongyang",
+          "page": 10
+        },
+        {
+          "para_id": "51_72",
+          "text": "Eagle: Speculative sampling re-",
+          "page": 10
+        },
+        {
+          "para_id": "51_73",
+          "text": "quires rethinking feature uncertainty. arXiv preprint",
+          "page": 10
+        },
+        {
+          "para_id": "51_74",
+          "text": "Ji Lin, Jiaming Tang, Haotian Tang, Shang Yang, Wei-",
+          "page": 10
+        },
+        {
+          "para_id": "51_75",
+          "text": "Ming Chen, Wei-Chen Wang, Guangxuan Xiao,",
+          "page": 10
+        },
+        {
+          "para_id": "51_76",
+          "text": "Xingyu Dang, Chuang Gan, and Song Han. 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "51_77",
+          "text": "Awq: Activation-aware weight quantization for on-",
+          "page": 10
+        },
+        {
+          "para_id": "51_78",
+          "text": "device llm compression and acceleration. Proceed-",
+          "page": 10
+        },
+        {
+          "para_id": "51_79",
+          "text": "ings of machine learning and systems, 6:87–100.",
+          "page": 10
+        },
+        {
+          "para_id": "51_80",
+          "text": "Alisa Liu, Jonathan Hayase, Valentin Hofmann, Se-",
+          "page": 10
+        },
+        {
+          "para_id": "51_81",
+          "text": "woong Oh, Noah A Smith, and Yejin Choi. 2025.",
+          "page": 10
+        },
+        {
+          "para_id": "51_82",
+          "text": "Superbpe: Space travel for language models. arXiv",
+          "page": 10
+        },
+        {
+          "para_id": "51_83",
+          "text": "preprint arXiv:2503.13423.",
+          "page": 10
+        },
+        {
+          "para_id": "51_84",
+          "text": "Jiacheng Liu, Sewon Min, Luke Zettlemoyer, Yejin",
+          "page": 10
+        },
+        {
+          "para_id": "51_85",
+          "text": "Choi, and Hannaneh Hajishirzi. 2024. Infini-gram:",
+          "page": 10
+        },
+        {
+          "para_id": "51_86",
+          "text": "Scaling unbounded n-gram language models to a tril-",
+          "page": 10
+        },
+        {
+          "para_id": "51_87",
+          "text": "lion tokens. arXiv preprint arXiv:2401.17377.",
+          "page": 10
+        },
+        {
+          "para_id": "51_88",
+          "text": "Ilya Loshchilov and Frank Hutter. 2017.",
+          "page": 10
+        },
+        {
+          "para_id": "51_89",
+          "text": "pled weight decay regularization.",
+          "page": 10
+        },
+        {
+          "para_id": "51_90",
+          "text": "Zhenyan Lu, Xiang Li, Dongqi Cai, Rongjie Yi,",
+          "page": 10
+        },
+        {
+          "para_id": "51_91",
+          "text": "Fangming Liu, Wei Liu, Jian Luan, Xiwen Zhang,",
+          "page": 10
+        },
+        {
+          "para_id": "51_92",
+          "text": "Nicholas D Lane, and Mengwei Xu. 2025. Demys-",
+          "page": 10
+        },
+        {
+          "para_id": "51_93",
+          "text": "tifying small language models for edge deployment.",
+          "page": 10
+        },
+        {
+          "para_id": "51_94",
+          "text": "In Proceedings of the 63rd Annual Meeting of the",
+          "page": 10
+        },
+        {
+          "para_id": "51_95",
+          "text": "Association for Computational Linguistics (Volume",
+          "page": 10
+        },
+        {
+          "para_id": "51_96",
+          "text": "1: Long Papers), pages 14747–14764.",
+          "page": 10
+        },
+        {
+          "para_id": "51_97",
+          "text": "Hengyu Luo, Peng Liu, and Stefan Esping. 2023a. Ex-",
+          "page": 10
+        },
+        {
+          "para_id": "51_98",
+          "text": "ploring small language models with prompt-learning",
+          "page": 10
+        },
+        {
+          "para_id": "51_99",
+          "text": "paradigm for efficient domain-specific text classifica-",
+          "page": 10
+        },
+        {
+          "para_id": "51_100",
+          "text": "tion. arXiv preprint arXiv:2309.14779.",
+          "page": 10
+        },
+        {
+          "para_id": "51_101",
+          "text": "Ziyang Luo, Can Xu, Pu Zhao, Qingfeng Sun, Xiubo",
+          "page": 10
+        },
+        {
+          "para_id": "51_102",
+          "text": "Geng, Wenxiang Hu, Chongyang Tao, Jing Ma, Qing-",
+          "page": 10
+        },
+        {
+          "para_id": "51_103",
+          "text": "wei Lin, and Daxin Jiang. 2023b.",
+          "page": 10
+        },
+        {
+          "para_id": "51_104",
+          "text": "Empowering code large language models with evol-",
+          "page": 10
+        },
+        {
+          "para_id": "51_105",
+          "text": "instruct. arXiv preprint arXiv:2306.08568.",
+          "page": 10
+        },
+        {
+          "para_id": "51_106",
+          "text": "Pekka Malo, Ankur Sinha, Pekka Korhonen, Jyrki Wal-",
+          "page": 10
+        },
+        {
+          "para_id": "51_107",
+          "text": "lenius, and Pyry Takala. 2014. Good debt or bad",
+          "page": 10
+        },
+        {
+          "para_id": "51_108",
+          "text": "debt: Detecting semantic orientations in economic",
+          "page": 10
+        },
+        {
+          "para_id": "51_109",
+          "text": "texts. Journal of the Association for Information",
+          "page": 10
+        },
+        {
+          "para_id": "51_110",
+          "text": "Science and Technology, 65(4):782–796.",
+          "page": 10
+        },
+        {
+          "para_id": "51_111",
+          "text": "Itay Nakash, Nitay Calderon, Eyal Ben David, Elad",
+          "page": 10
+        },
+        {
+          "para_id": "51_112",
+          "text": "Hoffer, and Roi Reichart. 2025. Adaptivocab: En-",
+          "page": 10
+        },
+        {
+          "para_id": "51_113",
+          "text": "hancing llm efficiency in focused domains through",
+          "page": 10
+        },
+        {
+          "para_id": "51_114",
+          "text": "lightweight vocabulary adaptation. arXiv preprint",
+          "page": 10
+        },
+        {
+          "para_id": "51_115",
+          "text": "Timothy Nguyen. 2024. Understanding transformers",
+          "page": 10
+        },
+        {
+          "para_id": "51_116",
+          "text": "via n-gram statistics. Advances in neural information",
+          "page": 10
+        },
+        {
+          "para_id": "51_117",
+          "text": "processing systems, 37:98049–98082.",
+          "page": 10
+        },
+        {
+          "para_id": "51_118",
+          "text": "Latency optimization.",
+          "page": 10
+        },
+        {
+          "para_id": "51_119",
+          "text": "//platform.openai.com/docs/guides/",
+          "page": 10
+        },
+        {
+          "para_id": "51_120",
+          "text": "latency-optimization.",
+          "page": 10
+        },
+        {
+          "para_id": "51_121",
+          "text": "Dimitris Pappas, Prodromos Malakasiotis, and Ion An-",
+          "page": 10
+        },
+        {
+          "para_id": "51_122",
+          "text": "droutsopoulos. 2022. Data augmentation for biomed-",
+          "page": 10
+        },
+        {
+          "para_id": "51_123",
+          "text": "ical factoid question answering.",
+          "page": 10
+        },
+        {
+          "para_id": "51_124",
+          "text": "M Hashem Pesaran and Allan Timmermann. 1992.",
+          "page": 11
+        },
+        {
+          "para_id": "51_125",
+          "text": "A simple nonparametric test of predictive perfor-",
+          "page": 11
+        },
+        {
+          "para_id": "51_126",
+          "text": "mance. Journal of Business & Economic Statistics,",
+          "page": 11
+        },
+        {
+          "para_id": "51_127",
+          "text": "Nikhil Pinnaparaju, Reshinth Adithyan, Duy Phung,",
+          "page": 11
+        },
+        {
+          "para_id": "51_128",
+          "text": "Jonathan Tow, James Baicoianu, Ashish Datta,",
+          "page": 11
+        },
+        {
+          "para_id": "51_129",
+          "text": "Maksym Zhuravinskyi, Dakota Mahan, Marco Bel-",
+          "page": 11
+        },
+        {
+          "para_id": "51_130",
+          "text": "lagente, Carlos Riquelme, and 1 others. 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "51_131",
+          "text": "Stable code technical report.",
+          "page": 11
+        },
+        {
+          "para_id": "51_132",
+          "text": "Reiner Pope, Sholto Douglas, Aakanksha Chowdhery,",
+          "page": 11
+        },
+        {
+          "para_id": "51_133",
+          "text": "Jacob Devlin, James Bradbury, Jonathan Heek, Kefan",
+          "page": 11
+        },
+        {
+          "para_id": "51_134",
+          "text": "Xiao, Shivani Agrawal, and Jeff Dean. 2023. Effi-",
+          "page": 11
+        },
+        {
+          "para_id": "51_135",
+          "text": "ciently scaling transformer inference. Proceedings",
+          "page": 11
+        },
+        {
+          "para_id": "51_136",
+          "text": "of machine learning and systems, 5:606–624.",
+          "page": 11
+        },
+        {
+          "para_id": "51_137",
+          "text": "Vin Sachidananda, Jason Kessler, and Yi-An Lai. 2021.",
+          "page": 11
+        },
+        {
+          "para_id": "51_138",
+          "text": "Efficient domain adaptation of language models via",
+          "page": 11
+        },
+        {
+          "para_id": "51_139",
+          "text": "adaptive tokenization. In Proceedings of the Second",
+          "page": 11
+        },
+        {
+          "para_id": "51_140",
+          "text": "Workshop on Simple and Efficient Natural Language",
+          "page": 11
+        },
+        {
+          "para_id": "51_141",
+          "text": "Processing, pages 155–165.",
+          "page": 11
+        },
+        {
+          "para_id": "51_142",
+          "text": "Hajar Sakai and Sarah S Lam. 2025. Large language",
+          "page": 11
+        },
+        {
+          "para_id": "51_143",
+          "text": "models for healthcare text classification: A system-",
+          "page": 11
+        },
+        {
+          "para_id": "51_144",
+          "text": "atic review. arXiv preprint arXiv:2503.01159.",
+          "page": 11
+        },
+        {
+          "para_id": "51_145",
+          "text": "Craig W Schmidt, Varshini Reddy, Chris Tanner, and",
+          "page": 11
+        },
+        {
+          "para_id": "51_146",
+          "text": "Yuval Pinter. 2025. Boundless byte pair encoding:",
+          "page": 11
+        },
+        {
+          "para_id": "51_147",
+          "text": "Breaking the pre-tokenization barrier. arXiv preprint",
+          "page": 11
+        },
+        {
+          "para_id": "51_148",
+          "text": "Claude E Shannon. 1948. A mathematical theory of",
+          "page": 11
+        },
+        {
+          "para_id": "51_149",
+          "text": "communication. The Bell system technical journal,",
+          "page": 11
+        },
+        {
+          "para_id": "51_150",
+          "text": "Raghav Sharma and Manan Mehta. 2025. Small lan-",
+          "page": 11
+        },
+        {
+          "para_id": "51_151",
+          "text": "guage models for agentic systems: A survey of ar-",
+          "page": 11
+        },
+        {
+          "para_id": "51_152",
+          "text": "chitectures, capabilities, and deployment trade offs.",
+          "page": 11
+        },
+        {
+          "para_id": "51_153",
+          "text": "arXiv preprint arXiv:2510.03847.",
+          "page": 11
+        },
+        {
+          "para_id": "51_154",
+          "text": "Abhay Shukla, Paheli Bhattacharya, Soham Poddar,",
+          "page": 11
+        },
+        {
+          "para_id": "51_155",
+          "text": "Rajdeep Mukherjee, Kripabandhu Ghosh, Pawan",
+          "page": 11
+        },
+        {
+          "para_id": "51_156",
+          "text": "Goyal, and Saptarshi Ghosh. 2022.",
+          "page": 11
+        },
+        {
+          "para_id": "51_157",
+          "text": "document summarization: Extractive and abstrac-",
+          "page": 11
+        },
+        {
+          "para_id": "51_158",
+          "text": "tive methods and their evaluation. arXiv preprint",
+          "page": 11
+        },
+        {
+          "para_id": "51_159",
+          "text": "Natalia Silveira, Timothy Dozat, Marie-Catherine",
+          "page": 11
+        },
+        {
+          "para_id": "51_160",
+          "text": "de Marneffe, Samuel Bowman, Miriam Connor, John",
+          "page": 11
+        },
+        {
+          "para_id": "51_161",
+          "text": "Bauer, and Christopher D. Manning. 2014. A gold",
+          "page": 11
+        },
+        {
+          "para_id": "51_162",
+          "text": "standard dependency corpus for English. In Pro-",
+          "page": 11
+        },
+        {
+          "para_id": "51_163",
+          "text": "ceedings of the Ninth International Conference on",
+          "page": 11
+        },
+        {
+          "para_id": "51_164",
+          "text": "Language Resources and Evaluation (LREC-2014).",
+          "page": 11
+        },
+        {
+          "para_id": "51_165",
+          "text": "Lawrence Stewart, Matthew Trager, Sujan Kumar",
+          "page": 11
+        },
+        {
+          "para_id": "51_166",
+          "text": "Gonugondla, and Stefano Soatto. 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "51_167",
+          "text": "grammys: Accelerating autoregressive inference with",
+          "page": 11
+        },
+        {
+          "para_id": "51_168",
+          "text": "learning-free batched speculation. arXiv preprint",
+          "page": 11
+        },
+        {
+          "para_id": "51_169",
+          "text": "Shreyas Subramanian, Vikram Elango, and Mecit Gun-",
+          "page": 11
+        },
+        {
+          "para_id": "51_170",
+          "text": "Small language models (slms) can",
+          "page": 11
+        },
+        {
+          "para_id": "51_171",
+          "text": "Xiaofei Sun, Xiaoya Li, Jiwei Li, Fei Wu, Shang-",
+          "page": 11
+        },
+        {
+          "para_id": "51_172",
+          "text": "wei Guo, Tianwei Zhang, and Guoyin Wang. 2023a.",
+          "page": 11
+        },
+        {
+          "para_id": "51_173",
+          "text": "Text classification via large language models. arXiv",
+          "page": 11
+        },
+        {
+          "para_id": "51_174",
+          "text": "preprint arXiv:2305.08377.",
+          "page": 11
+        },
+        {
+          "para_id": "51_175",
+          "text": "Ziteng Sun, Ananda Theertha Suresh, Jae Hun Ro, Ah-",
+          "page": 11
+        },
+        {
+          "para_id": "51_176",
+          "text": "mad Beirami, Himanshu Jain, and Felix Yu. 2023b.",
+          "page": 11
+        },
+        {
+          "para_id": "51_177",
+          "text": "Spectr: Fast speculative decoding via optimal trans-",
+          "page": 11
+        },
+        {
+          "para_id": "51_178",
+          "text": "port. Advances in Neural Information Processing",
+          "page": 11
+        },
+        {
+          "para_id": "51_179",
+          "text": "Systems, 36:30222–30242.",
+          "page": 11
+        },
+        {
+          "para_id": "51_180",
+          "text": "Nadav Timor, Jonathan Mamou, Daniel Korat, Moshe",
+          "page": 11
+        },
+        {
+          "para_id": "51_181",
+          "text": "Berchansky, Gaurav Jain, Oren Pereg, Moshe",
+          "page": 11
+        },
+        {
+          "para_id": "51_182",
+          "text": "Wasserblat, and David Harel. 2025. Accelerating",
+          "page": 11
+        },
+        {
+          "para_id": "51_183",
+          "text": "llm inference with lossless speculative decoding al-",
+          "page": 11
+        },
+        {
+          "para_id": "51_184",
+          "text": "gorithms for heterogeneous vocabularies.",
+          "page": 11
+        },
+        {
+          "para_id": "51_185",
+          "text": "preprint arXiv:2502.05202.",
+          "page": 11
+        },
+        {
+          "para_id": "51_186",
+          "text": "Aditya Varre, Gizem Yüce, and Nicolas Flammarion.",
+          "page": 11
+        },
+        {
+          "para_id": "51_187",
+          "text": "2025. Learning in-context n-grams with transform-",
+          "page": 11
+        },
+        {
+          "para_id": "51_188",
+          "text": "ers: Sub-n-grams are near-stationary points. arXiv",
+          "page": 11
+        },
+        {
+          "para_id": "51_189",
+          "text": "preprint arXiv:2508.12837.",
+          "page": 11
+        },
+        {
+          "para_id": "51_190",
+          "text": "Borui Xu, Yao Chen, Zeyi Wen, Weiguo Liu, and",
+          "page": 11
+        },
+        {
+          "para_id": "51_191",
+          "text": "Evaluating small language",
+          "page": 11
+        },
+        {
+          "para_id": "51_192",
+          "text": "models for news summarization: Implications and",
+          "page": 11
+        },
+        {
+          "para_id": "51_193",
+          "text": "factors influencing performance.",
+          "page": 11
+        },
+        {
+          "para_id": "51_194",
+          "text": "Tianyi Zhang, Varsha Kishore, Felix Wu, Kilian Q",
+          "page": 11
+        },
+        {
+          "para_id": "51_195",
+          "text": "Weinberger, and Yoav Artzi. 2019. Bertscore: Eval-",
+          "page": 11
+        },
+        {
+          "para_id": "51_196",
+          "text": "uating text generation with bert.",
+          "page": 11
+        },
+        {
+          "para_id": "51_197",
+          "text": "Vilém Zouhar, Clara Meister, Juan Gastaldi, Li Du,",
+          "page": 11
+        },
+        {
+          "para_id": "51_198",
+          "text": "Mrinmaya Sachan, and Ryan Cotterell. 2023. To-",
+          "page": 11
+        },
+        {
+          "para_id": "51_199",
+          "text": "kenization and the noiseless channel. In Proceedings",
+          "page": 11
+        },
+        {
+          "para_id": "51_200",
+          "text": "of the 61st Annual Meeting of the Association for",
+          "page": 11
+        },
+        {
+          "para_id": "51_201",
+          "text": "Computational Linguistics (Volume 1: Long Papers),",
+          "page": 11
+        },
+        {
+          "para_id": "51_202",
+          "text": "Additional Information on Byte-Pair",
+          "page": 12
+        },
+        {
+          "para_id": "51_203",
+          "text": "BPE (Gage, 1994) is a simple frequency-based al-",
+          "page": 12
+        },
+        {
+          "para_id": "51_204",
+          "text": "gorithm that constructs a subword vocabulary in",
+          "page": 12
+        },
+        {
+          "para_id": "51_205",
+          "text": "a data-driven manner. Given a training corpus C,",
+          "page": 12
+        },
+        {
+          "para_id": "51_206",
+          "text": "BPE learns both a vocabulary V and an ordered list",
+          "page": 12
+        },
+        {
+          "para_id": "51_207",
+          "text": "of merge operations.",
+          "page": 12
+        },
+        {
+          "para_id": "51_208",
+          "text": "The algorithm starts from a base vocabulary",
+          "page": 12
+        },
+        {
+          "para_id": "51_209",
+          "text": "V0, typically consisting of individual characters or",
+          "page": 12
+        },
+        {
+          "para_id": "51_210",
+          "text": "bytes. Each element of the corpus is initially repre-",
+          "page": 12
+        },
+        {
+          "para_id": "51_211",
+          "text": "sented as a sequence of symbols from V0. At each",
+          "page": 12
+        },
+        {
+          "para_id": "51_212",
+          "text": "iteration, BPE identifies the most frequent token",
+          "page": 12
+        },
+        {
+          "para_id": "51_213",
+          "text": "bigram in the corpus and merges it into a new to-",
+          "page": 12
+        },
+        {
+          "para_id": "51_214",
+          "text": "ken, which is added to the vocabulary. This merge",
+          "page": 12
+        },
+        {
+          "para_id": "51_215",
+          "text": "operation replaces all occurrences of the selected",
+          "page": 12
+        },
+        {
+          "para_id": "51_216",
+          "text": "pair with the newly created single token.",
+          "page": 12
+        },
+        {
+          "para_id": "51_217",
+          "text": "The merging procedure iteratively repeats for",
+          "page": 12
+        },
+        {
+          "para_id": "51_218",
+          "text": "M iterations, resulting in a final vocabulary V =",
+          "page": 12
+        },
+        {
+          "para_id": "51_219",
+          "text": "M}, along with an ordered merge",
+          "page": 12
+        },
+        {
+          "para_id": "51_220",
+          "text": "table that records the sequence in which merges",
+          "page": 12
+        },
+        {
+          "para_id": "51_221",
+          "text": "were applied. At inference time, new text is tok-",
+          "page": 12
+        },
+        {
+          "para_id": "51_222",
+          "text": "enized by greedily applying these learned merges",
+          "page": 12
+        },
+        {
+          "para_id": "51_223",
+          "text": "in order, producing a sequence of tokens drawn",
+          "page": 12
+        },
+        {
+          "para_id": "51_224",
+          "text": "from V. Following the HuggingFace implementa-",
+          "page": 12
+        },
+        {
+          "para_id": "51_225",
+          "text": "tion of tokenizer vocabulary augmentation, when",
+          "page": 12
+        },
+        {
+          "para_id": "51_226",
+          "text": "adding new tokens to an existing vocabulary, their",
+          "page": 12
+        },
+        {
+          "para_id": "51_227",
+          "text": "corresponding merge operations are not added to",
+          "page": 12
+        },
+        {
+          "para_id": "51_228",
+          "text": "the merge table. They are stored in a different data",
+          "page": 12
+        },
+        {
+          "para_id": "51_229",
+          "text": "structure. Upon encoding, the set of new tokens",
+          "page": 12
+        },
+        {
+          "para_id": "51_230",
+          "text": "is queried for a possible continuation prior to the",
+          "page": 12
+        },
+        {
+          "para_id": "51_231",
+          "text": "base tokenizer’s merge table.",
+          "page": 12
+        },
+        {
+          "para_id": "51_232",
+          "text": "Additional Implementation Details",
+          "page": 12
+        },
+        {
+          "para_id": "51_233",
+          "text": "LLM Judge Information",
+          "page": 12
+        },
+        {
+          "para_id": "51_234",
+          "text": "The judge we use to generate the results in Table 2",
+          "page": 12
+        },
+        {
+          "para_id": "51_235",
+          "text": "is Claude-4.5 Sonnet. We deploy the LLM evalua-",
+          "page": 12
+        },
+        {
+          "para_id": "51_236",
+          "text": "tion pipeline through Amazon Bedrock. The scores",
+          "page": 12
+        },
+        {
+          "para_id": "51_237",
+          "text": "are calculated out of 1260 output samples. The",
+          "page": 12
+        },
+        {
+          "para_id": "51_238",
+          "text": "evaluation prompt is given Figure 9. It is based",
+          "page": 12
+        },
+        {
+          "para_id": "51_239",
+          "text": "the judge evaluation prompt from (Kweon et al.,",
+          "page": 12
+        },
+        {
+          "para_id": "51_240",
+          "text": "2024). To avoid position bias in the response posi-",
+          "page": 12
+        },
+        {
+          "para_id": "51_241",
+          "text": "tion in the evaluation prompt, we randomly select",
+          "page": 12
+        },
+        {
+          "para_id": "51_242",
+          "text": "the order of LLM response in each sample.",
+          "page": 12
+        },
+        {
+          "para_id": "51_243",
+          "text": "Additional Training Information",
+          "page": 12
+        },
+        {
+          "para_id": "51_244",
+          "text": "Applying TASC-ft requires fine-tuning the model",
+          "page": 12
+        },
+        {
+          "para_id": "51_245",
+          "text": "at hand with the updated token vocabulary. We",
+          "page": 12
+        },
+        {
+          "para_id": "51_246",
+          "text": "fine-tuned the model using Quantized Low-Rank",
+          "page": 12
+        },
+        {
+          "para_id": "51_247",
+          "text": "Adaptation (QLoRA) (Dettmers et al., 2023) with",
+          "page": 12
+        },
+        {
+          "para_id": "51_248",
+          "text": "4-bit quantization via the BitsAndBytes library,",
+          "page": 12
+        },
+        {
+          "para_id": "51_249",
+          "text": "employing the NF4 quantization type with double",
+          "page": 12
+        },
+        {
+          "para_id": "51_250",
+          "text": "quantization enabled and bfloat16 precision for",
+          "page": 12
+        },
+        {
+          "para_id": "51_251",
+          "text": "compute. We consider LoRa rank r = 16 and",
+          "page": 12
+        },
+        {
+          "para_id": "51_252",
+          "text": "α = 16 (i.e., a scaling factor of 1.0), and dropout",
+          "page": 12
+        },
+        {
+          "para_id": "51_253",
+          "text": "rate of 0.2. The LoRA adapters were applied to the",
+          "page": 12
+        },
+        {
+          "para_id": "51_254",
+          "text": "attention layers as well as the feed-forward layers.",
+          "page": 12
+        },
+        {
+          "para_id": "51_255",
+          "text": "Additionally, the embedding layer and language",
+          "page": 12
+        },
+        {
+          "para_id": "51_256",
+          "text": "modeling head were retrained to accommodate the",
+          "page": 12
+        },
+        {
+          "para_id": "51_257",
+          "text": "extended vocabulary with new task-specific tokens.",
+          "page": 12
+        },
+        {
+          "para_id": "51_258",
+          "text": "Training was conducted with an initial learning rate",
+          "page": 12
+        },
+        {
+          "para_id": "51_259",
+          "text": "of 2 × 10−4 using a linear learning rate scheduler",
+          "page": 12
+        },
+        {
+          "para_id": "51_260",
+          "text": "and the AdamW optimizer (Loshchilov and Hutter,",
+          "page": 12
+        },
+        {
+          "para_id": "51_261",
+          "text": "2017). We used a per-device batch size of 8 and an",
+          "page": 12
+        },
+        {
+          "para_id": "51_262",
+          "text": "effective batch size of 64.",
+          "page": 12
+        },
+        {
+          "para_id": "51_263",
+          "text": "Additional Datasets and Models",
+          "page": 12
+        },
+        {
+          "para_id": "51_264",
+          "text": "The datasets considered in Table 1 are described",
+          "page": 12
+        },
+        {
+          "para_id": "51_265",
+          "text": "in Table 4. In our experiments, we consider the",
+          "page": 12
+        },
+        {
+          "para_id": "51_266",
+          "text": "1. Asclepius (Kweon et al., 2024), a synthetic",
+          "page": 12
+        },
+        {
+          "para_id": "51_267",
+          "text": "dataset of discharge summaries and instruc-",
+          "page": 12
+        },
+        {
+          "para_id": "51_268",
+          "text": "tions, aimed toward domain-based reading",
+          "page": 12
+        },
+        {
+          "para_id": "51_269",
+          "text": "comprehension. It contains 8 generation tasks.",
+          "page": 12
+        },
+        {
+          "para_id": "51_270",
+          "text": "In this work we consider the QA task. It com-",
+          "page": 12
+        },
+        {
+          "para_id": "51_271",
+          "text": "prises 11K samples of (discharge summary,",
+          "page": 12
+        },
+        {
+          "para_id": "51_272",
+          "text": "instruction) pairs and an expected output.",
+          "page": 12
+        },
+        {
+          "para_id": "51_273",
+          "text": "Fushman, 2019), an open-ended QA dataset,",
+          "page": 12
+        },
+        {
+          "para_id": "51_274",
+          "text": "where the questions do no contain any",
+          "page": 12
+        },
+        {
+          "para_id": "51_275",
+          "text": "This dataset tests the",
+          "page": 12
+        },
+        {
+          "para_id": "51_276",
+          "text": "model’s knowledge rather than its retrieval",
+          "page": 12
+        },
+        {
+          "para_id": "51_277",
+          "text": "and context comprehension capabilities. The",
+          "page": 12
+        },
+        {
+          "para_id": "51_278",
+          "text": "dataset contains 10K samples.",
+          "page": 12
+        },
+        {
+          "para_id": "51_279",
+          "text": "3. EUR-LEX (Chalkidis et al., 2019), a massive",
+          "page": 12
+        },
+        {
+          "para_id": "51_280",
+          "text": "multi-label multi-class classification dataset",
+          "page": 12
+        },
+        {
+          "para_id": "51_281",
+          "text": "of policy texts. Each sample contains a a col-",
+          "page": 12
+        },
+        {
+          "para_id": "51_282",
+          "text": "lection of EU policy recitals and a sequence of",
+          "page": 12
+        },
+        {
+          "para_id": "51_283",
+          "text": "labels. To transform this task into a text gen-",
+          "page": 12
+        },
+        {
+          "para_id": "51_284",
+          "text": "eration task, we map each label to its textual",
+          "page": 12
+        },
+        {
+          "para_id": "51_285",
+          "text": "name, given by a provided label-name dictio-",
+          "page": 12
+        },
+        {
+          "para_id": "51_286",
+          "text": "nary. To maintain a constant order of labels,",
+          "page": 12
+        },
+        {
+          "para_id": "51_287",
+          "text": "we order each label sequence numerically ac-",
+          "page": 12
+        },
+        {
+          "para_id": "51_288",
+          "text": "cording to label ID prior to its decoding into a",
+          "page": 12
+        },
+        {
+          "para_id": "51_289",
+          "text": "sequence of label names. The dataset contains",
+          "page": 12
+        },
+        {
+          "para_id": "51_290",
+          "text": "57K samples, each with up to 26 labels out",
+          "page": 12
+        },
+        {
+          "para_id": "51_291",
+          "text": "of a set of 4K labels.",
+          "page": 12
+        },
+        {
+          "para_id": "51_292",
+          "text": "4. MASSIVE (FitzGerald et al., 2023) an intent-",
+          "page": 12
+        },
+        {
+          "para_id": "51_293",
+          "text": "classification & slot filling dataset, curated",
+          "page": 12
+        },
+        {
+          "para_id": "51_294",
+          "text": "over 52 languages. Each sample contains an",
+          "page": 12
+        },
+        {
+          "para_id": "51_295",
+          "text": "Sentiment Analysis (Finance)",
+          "page": 13
+        },
+        {
+          "para_id": "51_296",
+          "text": "Yes/No Questions (Medical)",
+          "page": 13
+        },
+        {
+          "para_id": "51_297",
+          "text": "(Kweon et al., 2024)",
+          "page": 13
+        },
+        {
+          "para_id": "51_298",
+          "text": "(Silveira et al., 2014)",
+          "page": 13
+        },
+        {
+          "para_id": "51_299",
+          "text": "Intent Classification & Slot Fill",
+          "page": 13
+        },
+        {
+          "para_id": "51_300",
+          "text": "(FitzGerald et al., 2023)",
+          "page": 13
+        },
+        {
+          "para_id": "51_301",
+          "text": "Massive Classification (Legal)",
+          "page": 13
+        },
+        {
+          "para_id": "51_302",
+          "text": "(Chalkidis et al., 2019)",
+          "page": 13
+        },
+        {
+          "para_id": "51_303",
+          "text": "Abbreviation Expansion (Medical)",
+          "page": 13
+        },
+        {
+          "para_id": "51_304",
+          "text": "(Kweon et al., 2024)",
+          "page": 13
+        },
+        {
+          "para_id": "51_305",
+          "text": "Summarization (Medical)",
+          "page": 13
+        },
+        {
+          "para_id": "51_306",
+          "text": "(Kweon et al., 2024)",
+          "page": 13
+        },
+        {
+          "para_id": "51_307",
+          "text": "Summarization (News)",
+          "page": 13
+        },
+        {
+          "para_id": "51_308",
+          "text": "(Hermann et al., 2015)",
+          "page": 13
+        },
+        {
+          "para_id": "51_309",
+          "text": "Summarization (Legal)",
+          "page": 13
+        },
+        {
+          "para_id": "51_310",
+          "text": "(Shukla et al., 2022)",
+          "page": 13
+        },
+        {
+          "para_id": "51_311",
+          "text": "Question Answering (Medical)",
+          "page": 13
+        },
+        {
+          "para_id": "51_312",
+          "text": "(Kweon et al., 2024)",
+          "page": 13
+        },
+        {
+          "para_id": "51_313",
+          "text": "Table 4: Information on the datasets used to generate Table 1.",
+          "page": 13
+        },
+        {
+          "para_id": "51_314",
+          "text": "input text, alongside a pair of an expected",
+          "page": 13
+        },
+        {
+          "para_id": "51_315",
+          "text": "intent and extracted slot fills. We convert",
+          "page": 13
+        },
+        {
+          "para_id": "51_316",
+          "text": "the ICSF task into a generation task by trans-",
+          "page": 13
+        },
+        {
+          "para_id": "51_317",
+          "text": "forming the labels into the string f\"intent:",
+          "page": 13
+        },
+        {
+          "para_id": "51_318",
+          "text": "[INTENT], slot fills:",
+          "page": 13
+        },
+        {
+          "para_id": "51_319",
+          "text": "1], . . . , [SLOT FILL M] \", which serves",
+          "page": 13
+        },
+        {
+          "para_id": "51_320",
+          "text": "as the label for task fine-tune. We consider",
+          "page": 13
+        },
+        {
+          "para_id": "51_321",
+          "text": "the english language subset of the MASSIVE",
+          "page": 13
+        },
+        {
+          "para_id": "51_322",
+          "text": "For speculative decoding, we consider the fol-",
+          "page": 13
+        },
+        {
+          "para_id": "51_323",
+          "text": "lowing fine-tuned models:",
+          "page": 13
+        },
+        {
+          "para_id": "51_324",
+          "text": "https://huggingface.co/ae-aydin/",
+          "page": 13
+        },
+        {
+          "para_id": "51_325",
+          "text": "Llama-3-8B-Instruct-Medical-QLoRA",
+          "page": 13
+        },
+        {
+          "para_id": "51_326",
+          "text": "2. For Asclepius dataset we consider a fine-",
+          "page": 13
+        },
+        {
+          "para_id": "51_327",
+          "text": "tuned Llama model https://huggingface.",
+          "page": 13
+        },
+        {
+          "para_id": "51_328",
+          "text": "co/starmpcc/Asclepius-Llama3-8B",
+          "page": 13
+        },
+        {
+          "para_id": "51_329",
+          "text": "3. For the EUR-LEX dataset we consider a lo-",
+          "page": 13
+        },
+        {
+          "para_id": "51_330",
+          "text": "cally fine-tuned Qwen2.5 model that based",
+          "page": 13
+        },
+        {
+          "para_id": "51_331",
+          "text": "fine-tuned according to the procedure from",
+          "page": 13
+        },
+        {
+          "para_id": "51_332",
+          "text": "Additional Experiment Results and",
+          "page": 13
+        },
+        {
+          "para_id": "51_333",
+          "text": "TASC-ft: Additional Evaluation Metrics",
+          "page": 13
+        },
+        {
+          "para_id": "51_334",
+          "text": "Additional Metrics in MASSIVE Dataset: We",
+          "page": 13
+        },
+        {
+          "para_id": "51_335",
+          "text": "complement TASC-ft’s results on the ICSF task",
+          "page": 13
+        },
+        {
+          "para_id": "51_336",
+          "text": "from Section 6 with additional metrics. Specif-",
+          "page": 13
+        },
+        {
+          "para_id": "51_337",
+          "text": "ically, we measure the intent accuracy and slot",
+          "page": 13
+        },
+        {
+          "para_id": "51_338",
+          "text": "prediction F1 score, to present a finer granular-",
+          "page": 13
+        },
+        {
+          "para_id": "51_339",
+          "text": "ity of the fine-tuned model’s behavior on the test",
+          "page": 13
+        },
+        {
+          "para_id": "51_340",
+          "text": "set. For completeness, we present these metrics",
+          "page": 13
+        },
+        {
+          "para_id": "51_341",
+          "text": "alongside the metrics reported in Section 6. As",
+          "page": 13
+        },
+        {
+          "para_id": "51_342",
+          "text": "seen from Table 5, both intent accuracy and slot F1",
+          "page": 13
+        },
+        {
+          "para_id": "51_343",
+          "text": "scores present a slight improvement when introduc-",
+          "page": 13
+        },
+        {
+          "para_id": "51_344",
+          "text": "ing new n-gram tokens. This trend is in line with",
+          "page": 13
+        },
+        {
+          "para_id": "51_345",
+          "text": "the joint accuracy, which is a coarser and stricter",
+          "page": 13
+        },
+        {
+          "para_id": "51_346",
+          "text": "measure of performance.",
+          "page": 13
+        },
+        {
+          "para_id": "51_347",
+          "text": "Precision-Recall: We present the fine-tuned",
+          "page": 13
+        },
+        {
+          "para_id": "51_348",
+          "text": "model’s precision-recall trade off. As the main pa-",
+          "page": 13
+        },
+        {
+          "para_id": "51_349",
+          "text": "rameter of our framework is the number of added",
+          "page": 13
+        },
+        {
+          "para_id": "51_350",
+          "text": "tokens, we compare the trade-of on models trained",
+          "page": 13
+        },
+        {
+          "para_id": "51_351",
+          "text": "with different numbers of added tokens. We recall",
+          "page": 13
+        },
+        {
+          "para_id": "51_352",
+          "text": "that the latency improvement was already estab-",
+          "page": 13
+        },
+        {
+          "para_id": "51_353",
+          "text": "lished and studied in Section 6. Figure 5 presents",
+          "page": 13
+        },
+        {
+          "para_id": "51_354",
+          "text": "the precision-recall trade-off for two values of num-",
+          "page": 13
+        },
+        {
+          "para_id": "51_355",
+          "text": "ber of training epochs. As seen from Figure 5,",
+          "page": 13
+        },
+        {
+          "para_id": "51_356",
+          "text": "introducing new tokens improves precision-recall",
+          "page": 13
+        },
+        {
+          "para_id": "51_357",
+          "text": "trade-off, with the best performance at M = 250",
+          "page": 13
+        },
+        {
+          "para_id": "51_358",
+          "text": "new tokens. These results are aligned with Table 5,",
+          "page": 13
+        },
+        {
+          "para_id": "51_359",
+          "text": "which shows that task performance improvement",
+          "page": 13
+        },
+        {
+          "para_id": "51_360",
+          "text": "after introducing new tokens, both in terms of in-",
+          "page": 13
+        },
+        {
+          "para_id": "51_361",
+          "text": "tent and slot fill prediction. To that end, while",
+          "page": 13
+        },
+        {
+          "para_id": "51_362",
+          "text": "existing literature often discusses a hard trade-off",
+          "page": 13
+        },
+        {
+          "para_id": "51_363",
+          "text": "between runtime acceleration and output quality,",
+          "page": 13
+        },
+        {
+          "para_id": "51_364",
+          "text": "we observe that this is not necessarily the case in",
+          "page": 13
+        },
+        {
+          "para_id": "51_365",
+          "text": "low output variability generation with SLMs.",
+          "page": 13
+        },
+        {
+          "para_id": "51_366",
+          "text": "Next, we consider the EUR-LEX dataset. We",
+          "page": 13
+        },
+        {
+          "para_id": "51_367",
+          "text": "observe the precision-recall trade-off for several",
+          "page": 13
+        },
+        {
+          "para_id": "51_368",
+          "text": "values of maxN, the maximal merge size in the",
+          "page": 13
+        },
+        {
+          "para_id": "51_369",
+          "text": "TASC-ft algorithm (Algorithm 1). As seen in Fig-",
+          "page": 13
+        },
+        {
+          "para_id": "51_370",
+          "text": "ure 6, the number of added tokens has a relatively",
+          "page": 13
+        },
+        {
+          "para_id": "51_371",
+          "text": "negligible on the trade-off. However, we note a uni-",
+          "page": 13
+        },
+        {
+          "para_id": "51_372",
+          "text": "form increase in precision across all experiments.",
+          "page": 13
+        },
+        {
+          "para_id": "51_373",
+          "text": "Comparing TASC-ft and TASC-spec",
+          "page": 13
+        },
+        {
+          "para_id": "51_374",
+          "text": "This section presents a comparison the effect of",
+          "page": 13
+        },
+        {
+          "para_id": "51_375",
+          "text": "TASC-ft and TASC-spec in the EUR-LEX massive",
+          "page": 13
+        },
+        {
+          "para_id": "51_376",
+          "text": "classification dataset (Chalkidis et al., 2019). The",
+          "page": 13
+        },
+        {
+          "para_id": "51_377",
+          "text": "baseline is a fine-tuned model without the base",
+          "page": 13
+        },
+        {
+          "para_id": "51_378",
+          "text": "tokenizer. As seen in Table 6, TASC-ft attains a",
+          "page": 13
+        },
+        {
+          "para_id": "51_379",
+          "text": "better speedup of the baseline. However, it requires",
+          "page": 13
+        },
+        {
+          "para_id": "51_380",
+          "text": "access to the fine-tune procedure, while TASC-spec",
+          "page": 13
+        },
+        {
+          "para_id": "51_381",
+          "text": "(a) 3 Training Epochs",
+          "page": 14
+        },
+        {
+          "para_id": "51_382",
+          "text": "(b) 3 Training Epochs",
+          "page": 14
+        },
+        {
+          "para_id": "51_383",
+          "text": "Figure 5: Precision-recall trade off for the ICSF task. Each marker denotes a different number of newly added token",
+          "page": 14
+        },
+        {
+          "para_id": "51_384",
+          "text": "n-grams to the tokenizer vocabulary prior to fine-tuning.",
+          "page": 14
+        },
+        {
+          "para_id": "51_385",
+          "text": "Figure 6: Precision-recall trade off for the EUR-LEX task. Each marker denotes a different number of newly added",
+          "page": 14
+        },
+        {
+          "para_id": "51_386",
+          "text": "token n-grams to the tokenizer vocabulary prior to fine-tuning.",
+          "page": 14
+        },
+        {
+          "para_id": "51_387",
+          "text": "Average sample runtime [ms] (↓)",
+          "page": 14
+        },
+        {
+          "para_id": "51_388",
+          "text": "Table 5: TASC-ft results on the intent classification and slot fill MASSIVE (FitzGerald et al., 2023) dataset.",
+          "page": 14
+        },
+        {
+          "para_id": "51_389",
+          "text": "Table 6: Comparison of TASC-ft and TASC-spec.",
+          "page": 14
+        },
+        {
+          "para_id": "51_390",
+          "text": "is independent of such assumption.",
+          "page": 14
+        },
+        {
+          "para_id": "51_391",
+          "text": "TASC-ft: Ablation on Number of",
+          "page": 14
+        },
+        {
+          "para_id": "51_392",
+          "text": "We experimented with running the fine-tune proce-",
+          "page": 14
+        },
+        {
+          "para_id": "51_393",
+          "text": "dure for different values of training epochs. It can",
+          "page": 14
+        },
+        {
+          "para_id": "51_394",
+          "text": "be seen from Table 7 that a single training epoch",
+          "page": 14
+        },
+        {
+          "para_id": "51_395",
+          "text": "results in insufficient performance, while training",
+          "page": 14
+        },
+        {
+          "para_id": "51_396",
+          "text": "for too many epochs results in performance sat-",
+          "page": 14
+        },
+        {
+          "para_id": "51_397",
+          "text": "uration, and even decrease in some cases (which",
+          "page": 14
+        },
+        {
+          "para_id": "51_398",
+          "text": "may follow from overfit). To that end, we chose to",
+          "page": 14
+        },
+        {
+          "para_id": "51_399",
+          "text": "conduct experiments with 3 training epochs, which",
+          "page": 14
+        },
+        {
+          "para_id": "51_400",
+          "text": "demonstrated satisfactory performance, while pro-",
+          "page": 14
+        },
+        {
+          "para_id": "51_401",
+          "text": "viding us with a relatively lightweight fine-tune",
+          "page": 14
+        },
+        {
+          "para_id": "51_402",
+          "text": "TASC-ft: Results on Additional Models",
+          "page": 14
+        },
+        {
+          "para_id": "51_403",
+          "text": "We present additional results on the TASC-ft",
+          "page": 14
+        },
+        {
+          "para_id": "51_404",
+          "text": "method by varying the utilized model. We con-",
+          "page": 14
+        },
+        {
+          "para_id": "51_405",
+          "text": "sider the Mistralv02-7B model and apply it to the",
+          "page": 14
+        },
+        {
+          "para_id": "51_406",
+          "text": "massive classification task. As seen from table 8,",
+          "page": 14
+        },
+        {
+          "para_id": "51_407",
+          "text": "the F1 score is maintained after introducing new",
+          "page": 14
+        },
+        {
+          "para_id": "51_408",
+          "text": "tokens to the LLM’s tokenizer while exhibiting",
+          "page": 14
+        },
+        {
+          "para_id": "51_409",
+          "text": "a decrease in the average runtime on the test data.",
+          "page": 14
+        },
+        {
+          "para_id": "51_410",
+          "text": "However, we note that the obtained efficiency gains",
+          "page": 14
+        },
+        {
+          "para_id": "51_411",
+          "text": "are slightly smaller than the ones obtained for the",
+          "page": 14
+        },
+        {
+          "para_id": "51_412",
+          "text": "Table 7: Number of training Epochs ablation, number",
+          "page": 15
+        },
+        {
+          "para_id": "51_413",
+          "text": "of added tokens is M = 1000 across all runs.",
+          "page": 15
+        },
+        {
+          "para_id": "51_414",
+          "text": "Average Runtime [ms]",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "69.1",
+      "section_title": "± 8",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1280",
+      "section_title": "± 70.1",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "68.9",
+      "section_title": "± 0.09",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1220",
+      "section_title": "± 81.3",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "68.3",
+      "section_title": "± 0.5",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1190",
+      "section_title": "± 79.4",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "68.8",
+      "section_title": "± 0.5",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1130",
+      "section_title": "± 90.1",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1130_1",
+          "text": "Table 8: TASC-ft Results on EUR-LEX dataset with",
+          "page": 15
+        },
+        {
+          "para_id": "1130_2",
+          "text": "model MistralV02-7B.",
+          "page": 15
+        },
+        {
+          "para_id": "1130_3",
+          "text": "Qwen2.5-0.5B model. Specifically, Mistral ob-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_4",
+          "text": "tains a speedup of ×1.19, while Qwen obtained",
+          "page": 15
+        },
+        {
+          "para_id": "1130_5",
+          "text": "TASC-spec: Ablation on Mixing",
+          "page": 15
+        },
+        {
+          "para_id": "1130_6",
+          "text": "We test the effect of the mixing parameter λ value",
+          "page": 15
+        },
+        {
+          "para_id": "1130_7",
+          "text": "in TASC-spec. To do that, we curate a dedicated",
+          "page": 15
+        },
+        {
+          "para_id": "1130_8",
+          "text": "validation set of 150 samples from each dataset. As",
+          "page": 15
+        },
+        {
+          "para_id": "1130_9",
+          "text": "seen in Figure 7, For λ ∈[0.5, 0.9], we result in a",
+          "page": 15
+        },
+        {
+          "para_id": "1130_10",
+          "text": "mixture distribution that improves upon both the",
+          "page": 15
+        },
+        {
+          "para_id": "1130_11",
+          "text": "corpus n-gram and the prompt information. We",
+          "page": 15
+        },
+        {
+          "para_id": "1130_12",
+          "text": "note that highest speedup is attained within the",
+          "page": 15
+        },
+        {
+          "para_id": "1130_13",
+          "text": "interval λ ∈[0.5, 0.75], which implies that the un-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_14",
+          "text": "derlying distributions are relatively spiky. That is,",
+          "page": 15
+        },
+        {
+          "para_id": "1130_15",
+          "text": "each distribution proposes a next token with rela-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_16",
+          "text": "tively high probability in distinct cases, resulting in",
+          "page": 15
+        },
+        {
+          "para_id": "1130_17",
+          "text": "more accepted token overall. We note that unlike n-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_18",
+          "text": "grammys (Stewart et al., 2024), the n-gram distribu-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_19",
+          "text": "tions are independent of the underlying model, and",
+          "page": 15
+        },
+        {
+          "para_id": "1130_20",
+          "text": "that potential misalignment with the model might",
+          "page": 15
+        },
+        {
+          "para_id": "1130_21",
+          "text": "decrease performance, while the n-gram model",
+          "page": 15
+        },
+        {
+          "para_id": "1130_22",
+          "text": "properly predict the \"task ground truth\" next token.",
+          "page": 15
+        },
+        {
+          "para_id": "1130_23",
+          "text": "Uniform Information Density -",
+          "page": 15
+        },
+        {
+          "para_id": "1130_24",
+          "text": "We provide empirical evidence that the effects in-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_25",
+          "text": "duced by TASC-ft are consistent with the uniform",
+          "page": 15
+        },
+        {
+          "para_id": "1130_26",
+          "text": "information distribution (UID) hypothesis. UID",
+          "page": 15
+        },
+        {
+          "para_id": "1130_27",
+          "text": "predicts that efficient representations distribute in-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_28",
+          "text": "formation more evenly across tokens, reducing con-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_29",
+          "text": "centration of probability mass and stabilizing per-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_30",
+          "text": "token surprisal along sequences. By collapsing",
+          "page": 15
+        },
+        {
+          "para_id": "1130_31",
+          "text": "frequent task-specific n-grams into atomic sym-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_32",
+          "text": "bols, TASC-ft increases the size of the token larger",
+          "page": 15
+        },
+        {
+          "para_id": "1130_33",
+          "text": "typical set. As a result, the empirical output token",
+          "page": 15
+        },
+        {
+          "para_id": "1130_34",
+          "text": "distribution becomes less peaked and exhibits a",
+          "page": 15
+        },
+        {
+          "para_id": "1130_35",
+          "text": "heavier tail. This effect is visualized in Figure 8,",
+          "page": 15
+        },
+        {
+          "para_id": "1130_36",
+          "text": "where applying TASC-ft leads to a noticeably flat-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_37",
+          "text": "ter distribution compared to the baseline tokenizer.",
+          "page": 15
+        },
+        {
+          "para_id": "1130_38",
+          "text": "We further quantify this uniformization by mea-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_39",
+          "text": "suring the entropy of the output token distribution",
+          "page": 15
+        },
+        {
+          "para_id": "1130_40",
+          "text": "before and after applying TASC-ft.",
+          "page": 15
+        },
+        {
+          "para_id": "1130_41",
+          "text": "normalized entropy, obtained by dividing the em-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_42",
+          "text": "pirical entropy by the maximal possible entropy,",
+          "page": 15
+        },
+        {
+          "para_id": "1130_43",
+          "text": "log |V|. As shown in Table 9, TASC-ft consistently",
+          "page": 15
+        },
+        {
+          "para_id": "1130_44",
+          "text": "increases token entropy across settings, indicating",
+          "page": 15
+        },
+        {
+          "para_id": "1130_45",
+          "text": "Predicting Model Speedup in TASC-ft",
+          "page": 15
+        },
+        {
+          "para_id": "1130_46",
+          "text": "preprocessing-time statistic such as the Rényi en-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_47",
+          "text": "tropy of order 2 (H2) can serve as a reliable proxy",
+          "page": 15
+        },
+        {
+          "para_id": "1130_48",
+          "text": "for predicting runtime reduction after fine-tuning.",
+          "page": 15
+        },
+        {
+          "para_id": "1130_49",
+          "text": "Following (Zouhar et al., 2023), Rényi entropy of",
+          "page": 15
+        },
+        {
+          "para_id": "1130_50",
+          "text": "the token distribution was shown to be correlated",
+          "page": 15
+        },
+        {
+          "para_id": "1130_51",
+          "text": "with model performance. Furthermore, we con-",
+          "page": 15
+        },
+        {
+          "para_id": "1130_52",
+          "text": "sider entropic measures are a proxy for the size of",
+          "page": 15
+        },
+        {
+          "para_id": "1130_53",
+          "text": "the typical set due to (Cover, 1999) (See Section 3).",
+          "page": 15
+        },
+        {
+          "para_id": "1130_54",
+          "text": "For a distribution p(x) defined on some finite set",
+          "page": 15
+        },
+        {
+          "para_id": "1130_55",
+          "text": "X, The Rényi entropy of order α ̸= 1 is defined as",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "−α log",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "where limα→1 Hα(p) converges to Shannon’s en-",
+          "page": 15
+        },
+        {
+          "para_id": "1_2",
+          "text": "Setting: We consider a total of 124 simula-",
+          "page": 15
+        },
+        {
+          "para_id": "1_3",
+          "text": "tions, spanning over two datasets (EUR-LEX and",
+          "page": 15
+        },
+        {
+          "para_id": "1_4",
+          "text": "Asclepius), two SLM sizes (Qwen2.5-0.5B and",
+          "page": 15
+        },
+        {
+          "para_id": "1_5",
+          "text": "Qwen2.5-3B), 3 values of nmax (2, 3, 4) and sev-",
+          "page": 15
+        },
+        {
+          "para_id": "1_6",
+          "text": "eral seed values. Each simluation is obtained as",
+          "page": 15
+        },
+        {
+          "para_id": "1_7",
+          "text": "follows: We set a token budget M, apply Algo-",
+          "page": 15
+        },
+        {
+          "para_id": "1_8",
+          "text": "rithm 1 to collect M tokens, measure the aug-",
+          "page": 15
+        },
+        {
+          "para_id": "1_9",
+          "text": "mented token vocabulary Rényi entropy (over the",
+          "page": 15
+        },
+        {
+          "para_id": "1_10",
+          "text": "(b) Asclepius dataset.",
+          "page": 16
+        },
+        {
+          "para_id": "1_11",
+          "text": "Figure 7: Speedup vs. mixing parameter γ.",
+          "page": 16
+        },
+        {
+          "para_id": "1_12",
+          "text": "(a) EUR-LEX dataset (massive multi-class multi-label",
+          "page": 16
+        },
+        {
+          "para_id": "1_13",
+          "text": "(b) MASSIVE dataset (intent classification & slot fill).",
+          "page": 16
+        },
+        {
+          "para_id": "1_14",
+          "text": "(c) Asclepius dataset (medical QA).",
+          "page": 16
+        },
+        {
+          "para_id": "1_15",
+          "text": "Figure 8: Token distribution comparison before and after augmenting the tokenizer vocabulary via TASC-ft",
+          "page": 16
+        },
+        {
+          "para_id": "1_16",
+          "text": "(Algorithm 1). I cane be seen that applying TASC-ft results in a more uniform token distribution.",
+          "page": 16
+        },
+        {
+          "para_id": "1_17",
+          "text": "Table 9: Effect of TASC-ft on the token entropy in the output dataset.",
+          "page": 16
+        },
+        {
+          "para_id": "1_18",
+          "text": "train set), fine-tune the model with the augmented",
+          "page": 16
+        },
+        {
+          "para_id": "1_19",
+          "text": "tokenizer and record the average runtime on the",
+          "page": 16
+        },
+        {
+          "para_id": "1_20",
+          "text": "test set. We group the samples as sequences of",
+          "page": 16
+        },
+        {
+          "para_id": "1_21",
+          "text": "(M, H2(M), runtime(M)) for each set of hyper-",
+          "page": 16
+        },
+        {
+          "para_id": "1_22",
+          "text": "parameter values. Our goal is to analyze the cor-",
+          "page": 16
+        },
+        {
+          "para_id": "1_23",
+          "text": "relation of predictive power of H2 for fine-tuned",
+          "page": 16
+        },
+        {
+          "para_id": "1_24",
+          "text": "model runtime reduction.",
+          "page": 16
+        },
+        {
+          "para_id": "1_25",
+          "text": "Ordering Consistency via Rank",
+          "page": 17
+        },
+        {
+          "para_id": "1_26",
+          "text": "To assess the predictive power of H2, we com-",
+          "page": 17
+        },
+        {
+          "para_id": "1_27",
+          "text": "pute Kendall’s rank correlation coefficient τ be-",
+          "page": 17
+        },
+        {
+          "para_id": "1_28",
+          "text": "tween H2(M) and runtime(M) for each sequence.",
+          "page": 17
+        },
+        {
+          "para_id": "1_29",
+          "text": "Kendall’s τ measures how consistently two quanti-",
+          "page": 17
+        },
+        {
+          "para_id": "1_30",
+          "text": "ties induce the same ordering over a set of items. A",
+          "page": 17
+        },
+        {
+          "para_id": "1_31",
+          "text": "higher value of τ indicates that pairs of items that",
+          "page": 17
+        },
+        {
+          "para_id": "1_32",
+          "text": "are ranked higher by one metric are also more likely",
+          "page": 17
+        },
+        {
+          "para_id": "1_33",
+          "text": "to be ranked higher by the other, reflecting stronger",
+          "page": 17
+        },
+        {
+          "para_id": "1_34",
+          "text": "agreement in their relative ordering. Conversely,",
+          "page": 17
+        },
+        {
+          "para_id": "1_35",
+          "text": "values of τ close to zero indicate little systematic",
+          "page": 17
+        },
+        {
+          "para_id": "1_36",
+          "text": "agreement beyond chance, while negative values",
+          "page": 17
+        },
+        {
+          "para_id": "1_37",
+          "text": "indicate that the two metrics tend to induce oppos-",
+          "page": 17
+        },
+        {
+          "para_id": "1_38",
+          "text": "ing orderings. We compute τ separately for each",
+          "page": 17
+        },
+        {
+          "para_id": "1_39",
+          "text": "sequence and report aggregate statistics across se-",
+          "page": 17
+        },
+        {
+          "para_id": "1_40",
+          "text": "quences, thereby assessing robustness to dataset",
+          "page": 17
+        },
+        {
+          "para_id": "1_41",
+          "text": "and hyperparameter variation. Across all 124 sim-",
+          "page": 17
+        },
+        {
+          "para_id": "1_42",
+          "text": "ulations, divided into 8 settings we observe a mean",
+          "page": 17
+        },
+        {
+          "para_id": "1_43",
+          "text": "Kendall’s τ of −0.964, indicating strong and con-",
+          "page": 17
+        },
+        {
+          "para_id": "1_44",
+          "text": "sistent ordering agreement between H2(M) and",
+          "page": 17
+        },
+        {
+          "para_id": "1_45",
+          "text": "Directional Predictive Reliability",
+          "page": 17
+        },
+        {
+          "para_id": "1_46",
+          "text": "While rank correlation captures global ordering",
+          "page": 17
+        },
+        {
+          "para_id": "1_47",
+          "text": "agreement, it does not directly address the op-",
+          "page": 17
+        },
+        {
+          "para_id": "1_48",
+          "text": "erational question of interest:",
+          "page": 17
+        },
+        {
+          "para_id": "1_49",
+          "text": "the H2(M) reliably lead to an improvement in",
+          "page": 17
+        },
+        {
+          "para_id": "1_50",
+          "text": "runtime(M)? (Pesaran and Timmermann, 1992)",
+          "page": 17
+        },
+        {
+          "para_id": "1_51",
+          "text": "To answer this, we analyze parameter intervals",
+          "page": 17
+        },
+        {
+          "para_id": "1_52",
+          "text": "updates each sequence. For consecutive values",
+          "page": 17
+        },
+        {
+          "para_id": "1_53",
+          "text": "Mi, Mi+1, we compute",
+          "page": 17
+        },
+        {
+          "para_id": "1_54",
+          "text": "∆H2 = H2(Mi+1) −H2(Mi),",
+          "page": 17
+        },
+        {
+          "para_id": "1_55",
+          "text": "∆R = runtime(Mi+1) −runtime(Mi).",
+          "page": 17
+        },
+        {
+          "para_id": "1_56",
+          "text": "Conditioning on updates where the Rényi en-",
+          "page": 17
+        },
+        {
+          "para_id": "1_57",
+          "text": "tropy decreases (∆(H2) > 0), we measure the",
+          "page": 17
+        },
+        {
+          "para_id": "1_58",
+          "text": "conditional success rate",
+          "page": 17
+        },
+        {
+          "para_id": "1_59",
+          "text": "Pr (∆R < 0|∆(H2) > 0) ,",
+          "page": 17
+        },
+        {
+          "para_id": "1_60",
+          "text": "i.e., the probability that runtime decreases despite",
+          "page": 17
+        },
+        {
+          "para_id": "1_61",
+          "text": "given an increase in the Rényi entropy. Its comple-",
+          "page": 17
+        },
+        {
+          "para_id": "1_62",
+          "text": "ment is defined as a directional success rate. Based",
+          "page": 17
+        },
+        {
+          "para_id": "1_63",
+          "text": "on the data collected from 124 simulations, the",
+          "page": 17
+        },
+        {
+          "para_id": "1_64",
+          "text": "directional success rate is 92%, implying that in-",
+          "page": 17
+        },
+        {
+          "para_id": "1_65",
+          "text": "crease in H2 are followed by runtime reductions in",
+          "page": 17
+        },
+        {
+          "para_id": "1_66",
+          "text": "the vast majority of cases.",
+          "page": 17
+        },
+        {
+          "para_id": "1_67",
+          "text": "You are an intelligent clinical language model.",
+          "page": 18
+        },
+        {
+          "para_id": "1_68",
+          "text": "[Discharge Summary Begin]",
+          "page": 18
+        },
+        {
+          "para_id": "1_69",
+          "text": "[Discharge Summary End]",
+          "page": 18
+        },
+        {
+          "para_id": "1_70",
+          "text": "[Instruction Begin] {Instruction} [Instruction End]",
+          "page": 18
+        },
+        {
+          "para_id": "1_71",
+          "text": "Above, we provide you with a discharge summary and the instruction that the",
+          "page": 18
+        },
+        {
+          "para_id": "1_72",
+          "text": "healthcare professional gave about the discharge summary. You are also provided",
+          "page": 18
+        },
+        {
+          "para_id": "1_73",
+          "text": "with {Number of Samples} corresponding responses from {Number of Samples} different",
+          "page": 18
+        },
+        {
+          "para_id": "1_74",
+          "text": "clinical models. Your task is to read the discharge summary and the instruction",
+          "page": 18
+        },
+        {
+          "para_id": "1_75",
+          "text": "carefully, then find the answer to the instruction. Then, compare your answer with",
+          "page": 18
+        },
+        {
+          "para_id": "1_76",
+          "text": "each model’s response and evaluate the response based on the following criteria.",
+          "page": 18
+        },
+        {
+          "para_id": "1_77",
+          "text": "1. Unacceptable (1 point):",
+          "page": 18
+        },
+        {
+          "para_id": "1_78",
+          "text": "The model’s response includes any incorrect or",
+          "page": 18
+        },
+        {
+          "para_id": "1_79",
+          "text": "irrelevant content. If the instruction was unanswerable, the model did not",
+          "page": 18
+        },
+        {
+          "para_id": "1_80",
+          "text": "acknowledge this and outputs the wrong answer.",
+          "page": 18
+        },
+        {
+          "para_id": "1_81",
+          "text": "The model’s response does not contain any incorrect or",
+          "page": 18
+        },
+        {
+          "para_id": "1_82",
+          "text": "irrelevant content but omits significant or crucial content required by the",
+          "page": 18
+        },
+        {
+          "para_id": "1_83",
+          "text": "3. Satisfactory (3 points): The model’s response does not contain any incorrect",
+          "page": 18
+        },
+        {
+          "para_id": "1_84",
+          "text": "or irrelevant content but omits minor or insignificant required content.",
+          "page": 18
+        },
+        {
+          "para_id": "1_85",
+          "text": "4. Excellent (4 points): The model’s response contains all necessary information.",
+          "page": 18
+        },
+        {
+          "para_id": "1_86",
+          "text": "If the instruction was unanswerable, the model correctly acknowledged this.",
+          "page": 18
+        },
+        {
+          "para_id": "1_87",
+          "text": "When evaluating each score, ensure that judgments are not affected by other model",
+          "page": 18
+        },
+        {
+          "para_id": "1_88",
+          "text": "The first line must contain only {Number of Samples} values, separated by spaces.",
+          "page": 18
+        },
+        {
+          "para_id": "1_89",
+          "text": "Output scores without explanation.",
+          "page": 18
+        },
+        {
+          "para_id": "1_90",
+          "text": "Figure 9: Evaluation Judge LLM prompt for Asclepius dataset responses (Figure 2)",
+          "page": 18
+        }
+      ]
+    }
+  ]
+}

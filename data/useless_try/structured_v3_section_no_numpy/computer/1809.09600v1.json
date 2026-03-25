@@ -1,0 +1,181 @@
+{
+  "doc_id": "1809.09600v1.pdf",
+  "sections": [
+    {
+      "section_title": "H",
+      "text": " OTPOT"
+    },
+    {
+      "section_title": "QA: A Dataset for Diverse, Explainable",
+      "text": ""
+    },
+    {
+      "section_title": "Multi-hop Question Answering",
+      "text": ""
+    },
+    {
+      "section_title": "Zhilin Yang*",
+      "text": " ♠"
+    },
+    {
+      "section_title": "Peng Qi*",
+      "text": " ♥"
+    },
+    {
+      "section_title": "Saizheng Zhang*",
+      "text": " ♣"
+    },
+    {
+      "section_title": "Yoshua Bengio",
+      "text": " ♣♦"
+    },
+    {
+      "section_title": "William W. Cohen",
+      "text": " †"
+    },
+    {
+      "section_title": "Ruslan Salakhutdinov",
+      "text": " ♠"
+    },
+    {
+      "section_title": "Christopher D. Manning",
+      "text": " ♥"
+    },
+    {
+      "section_title": "♠",
+      "text": ""
+    },
+    {
+      "section_title": "Carnegie Mellon University",
+      "text": ""
+    },
+    {
+      "section_title": "♥",
+      "text": ""
+    },
+    {
+      "section_title": "Stanford University",
+      "text": ""
+    },
+    {
+      "section_title": "♣",
+      "text": ""
+    },
+    {
+      "section_title": "Mila, Universit´e de Montr´eal",
+      "text": ""
+    },
+    {
+      "section_title": "♦",
+      "text": ""
+    },
+    {
+      "section_title": "CIFAR Senior Fellow",
+      "text": ""
+    },
+    {
+      "section_title": "†",
+      "text": ""
+    },
+    {
+      "section_title": "Google AI",
+      "text": ""
+    },
+    {
+      "section_title": "{",
+      "text": ""
+    },
+    {
+      "section_title": "zhiliny,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "rsalakhu",
+      "text": ""
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": "@cs.cmu.edu,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "{",
+      "text": ""
+    },
+    {
+      "section_title": "pengqi,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "manning",
+      "text": ""
+    },
+    {
+      "section_title": "}",
+      "text": ""
+    },
+    {
+      "section_title": "@cs.stanford.edu",
+      "text": ""
+    },
+    {
+      "section_title": "saizheng.zhang@umontreal.ca,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "yoshua.bengio@gmail.com,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "wcohen@google.com",
+      "text": ""
+    },
+    {
+      "section_title": "Abstract",
+      "text": " Existing question answering (QA) datasets fail to  train  QA  systems  to  perform  complex  rea- soning  and  provide  explanations  for  answers. We introduce H OTPOT QA, a new dataset with 113k  Wikipedia-based  question-answer  pairs with  four  key  features:  (1)  the  questions  re- quire ﬁnding and reasoning over multiple sup- porting  documents  to  answer;  (2)  the  ques- tions  are  diverse  and  not  constrained  to  any pre-existing  knowledge  bases  or  knowledge schemas;  (3)  we  provide  sentence-level  sup- porting  facts  required  for  reasoning,  allowing QA systems to reason with strong supervision and explain the predictions; (4) we offer a new type  of  factoid  comparison  questions  to  test QA  systems’  ability  to  extract  relevant  facts and perform necessary comparison.  We show that  H OTPOT QA  is  challenging  for  the  latest QA  systems,  and  the  supporting  facts  enable models to improve performance and make ex- plainable predictions."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " The  ability  to  perform  reasoning  and  inference over natural language is an important aspect of in- telligence.  The  task  of  question  answering  (QA) provides  a  quantiﬁable  and  objective  way  to  test the reasoning ability of intelligent systems. To this end, a few large-scale QA datasets have been pro- posed,  which  sparked  signiﬁcant  progress  in  this direction.  However, existing datasets have limita- tions that hinder further advancements of machine reasoning over natural language, especially in test- ing QA systems’ ability to perform multi-hop rea- soning ,  where  the  system  has  to  reason  with  in- formation taken from more than one document to arrive at the answer. ∗ These authors contributed equally.  The order of author- ship is decided through dice rolling. † Work done when WWC was at CMU. Paragraph A, Return to Olympus: [1]  Return  to  Olympus  is  the  only  album  by  the  alterna- tive  rock  band  Malfunkshun.  [2]  It  was  released  after the  band  had  broken  up  and  after  lead  singer  Andrew Wood  (later  of  Mother  Love  Bone)  had  died  of  a  drug overdose  in  1990.  [3]  Stone  Gossard,  of  Pearl  Jam,  had compiled  the  songs  and  released  the  album  on  his  label, Loosegroove Records. Paragraph B, Mother Love Bone: [4]  Mother  Love  Bone  was  an  American  rock  band  that formed  in  Seattle,  Washington  in  1987. [5]  The  band was  active  from   to  1990. [6]  Frontman  Andrew Wood’s  personality  and  compositions  helped  to  catapult the  group  to  the  top  of  the  burgeoning  late  1980s/early 1990s  Seattle  music  scene.  [7]  Wood  died  only  days  be- fore  the  scheduled  release  of  the  band’s  debut  album, “Apple”,  thus  ending  the  group’s  hopes  of  success.  [8] The album was ﬁnally released a few months later. Q: What was the former band of the member of Mother Love Bone who died just before the release of “Apple”? A: Malfunkshun Supporting facts:  1, 2, 4, 6, 7 Figure  1:  An  example  of  the  multi-hop  questions  in H OTPOT QA. We also highlight the supporting facts in blue italics , which are also part of the dataset. First, some datasets mainly focus on testing the ability  of  reasoning  within  a  single  paragraph  or document, or single-hop reasoning .  For example, in  SQuAD  ( Rajpurkar  et  al. ,  )  questions  are designed to be answered given a single paragraph as  the  context,  and  most  of  the  questions  can  in fact  be  answered  by  matching  the  question  with a single sentence in that paragraph.  As a result, it has fallen short at testing systems’ ability to reason over a larger context. TriviaQA ( Joshi et al. , ) and  SearchQA  ( Dunn  et  al. ,  )  create  a  more challenging  setting  by  using  information  retrieval to  collect  multiple  documents  to  form  the  con- text  given  existing  question-answer  pairs. Nev- ertheless,  most  of  the  questions  can  be  answered by  matching  the  question  with  a  few  nearby  sen- tences in one single paragraph, which is limited as it  does  not  require  more  complex  reasoning  (e.g.,"
+    },
+    {
+      "section_title": "arXiv:1809.09600v1  [cs.CL]  25 Sep 2018",
+      "text": " over multiple paragraphs). Second,  existing  datasets  that  target  multi-hop reasoning, such as QAngaroo ( Welbl et al. , ) and C OMPLEX W EB Q UESTIONS ( Talmor and Be- rant , ), are constructed using existing knowl- edge  bases  (KBs).  As  a  result,  these  datasets  are constrained  by  the  schema  of  the  KBs  they  use, and  therefore  the  diversity  of  questions  and  an- swers is inherently limited. Third, all of the above datasets only provide dis- tant supervision; i.e., the systems only know what the  answer  is,  but  do  not  know  what  supporting facts lead to it.  This makes it difﬁcult for models to learn about the underlying reasoning process, as well as to make explainable predictions. To address the above challenges, we aim at cre- ating  a  QA  dataset  that  requires  reasoning  over multiple  documents,  and  does  so  in  natural  lan- guage,  without  constraining  itself  to  an  existing knowledge  base  or  knowledge  schema.  We  also want it to provide the system with strong supervi- sion about what text the answer is actually derived from,  to  help  guide  systems  to  perform  meaning- ful and explainable reasoning. We  present  H OTPOT QA ,  a  large-scale  dataset that satisﬁes these desiderata.  H OTPOT QA is col- lected  by  crowdsourcing  based  on  Wikipedia  ar- ticles,  where  crowd  workers  are  shown  multiple supporting  context  documents  and  asked  explic- itly  to  come  up  with  questions  requiring  reason- ing  about  all  of  the  documents.  This  ensures  it covers  multi-hop  questions  that  are  more  natural, and are not designed with any pre-existing knowl- edge  base  schema  in  mind. Moreover,  we  also ask  the  crowd  workers  to  provide  the  supporting facts  they  use  to  answer  the  question,  which  we also provide as part of the dataset (see Figure for an  example).  We  have  carefully  designed  a  data collection pipeline for H OTPOT QA, since the col- lection of high-quality multi-hop questions is non- trivial.  We hope that this pipeline also sheds light on  future  work  in  this  direction.  Finally,  we  also collected  a  novel  type  of  questions—comparison questions—as  part  of  H OTPOT QA,  in  which  we require  systems  to  compare  two  entities  on  some shared  properties  to  test  their  understanding  of both  language  and  common  concepts  such  as  nu- merical  magnitude.  We  make  H OTPOT QA  pub- licly available at https://HotpotQA.github.io . The name comes from the ﬁrst three authors’ arriving at the main idea during a discussion at a hot pot restaurant."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "Data Collection",
+      "text": " The  main  goal  of  our  work  is  to  collect  a  diverse and  explainable  question  answering  dataset  that requires  multi-hop  reasoning.  One  way  to  do  so is  to  deﬁne  reasoning  chains  based  on  a  knowl- edge base ( Welbl et al. , ; Talmor and Berant , ).  However, the resulting datasets are limited by  the  incompleteness  of  entity  relations  and  the lack  of  diversity  in  the  question  types.  Instead, in this work,  we focus on text-based question an- swering in order to diversify the questions and an- swers.  The overall setting is that given some con- text paragraphs (e.g., a few paragraphs, or the en- tire  Web)  and  a  question,  a  QA  system  answers the question by extracting a span of text from the context,  similar  to  Rajpurkar  et  al.  ( ). We additionally ensure that it is necessary to perform multi-hop reasoning to correctly answer the ques- tion. It  is  non-trivial  to  collect  text-based  multi-hop questions.  In our pilot studies, we found that sim- ply giving an arbitrary set of paragraphs to crowd workers  is  counterproductive,  because  for  most paragraph  sets,  it  is  difﬁcult  to  ask  a  meaning- ful multi-hop question.  To address this challenge, we carefully design a pipeline to collect text-based multi-hop questions.  Below, we will highlight the key design choices in our pipeline. Building  a  Wikipedia  Hyperlink  Graph. We use the entire English Wikipedia dump as our cor- pus.  In  this  corpus,  we  make  two  observations: (1) hyper-links in the Wikipedia articles often nat- urally  entail  a  relation  between  two  (already  dis- ambiguated)  entities  in  the  context,  which  could potentially  be used  to  facilitate multi-hop  reason- ing;  (2)  the  ﬁrst  paragraph  of  each  article  often contains  much  information  that  could  be  queried in a meaningful way. Based on these observations, we  extract  all  the  hyperlinks  from  the  ﬁrst  para- graphs  of  all  Wikipedia  articles.  With  these  hy- perlinks, we build a directed graph G , where each edge ( a, b ) indicates there is a hyperlink from the ﬁrst paragraph of article a to article b . Generating  Candidate  Paragraph  Pairs. To generate meaningful pairs of paragraphs for multi- hop  question  answering  with  G ,  we  start  by considering  an  example  question  “when  was  the singer  and  songwriter  of  Radiohead  born?” To https://dumps.wikimedia.org/ answer this question,  one would need to ﬁrst rea- son that the “singer and songwriter of Radiohead” is  “Thom  Yorke”,  and  then  ﬁgure  out  his  birth- day  in  the  text.  We  call  “Thom  Yorke”  a  bridge entity  in  this  example. Given  an  edge  ( a, b )  in the hyperlink graph G , the entity of b can usually be  viewed  as  a  bridge  entity  that  connects  a  and b .  As we observe articles b usually determine the theme  of  the  shared  context  between  a  and  b ,  but not  all  articles  b  are  suitable  for  collecting  multi- hop  questions.  For  example,  entities  like  coun- tries  are  frequently  referred  to  in  Wikipedia,  but don’t  necessarily  have  much  in  common  with  all incoming  links.  It  is  also  difﬁcult,  for  instance, for  the  crowd  workers  to  ask  meaningful  multi- hop  questions  about  highly  technical  entities  like the IPv4 protocol.  To alleviate this issue, we con- strain  the  bridge  entities  to  a  set  of  manually  cu- rated  pages  in  Wikipedia  (see "
+    }
+  ]
+}

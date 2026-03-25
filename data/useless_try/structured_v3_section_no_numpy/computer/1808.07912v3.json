@@ -1,0 +1,385 @@
+{
+  "doc_id": "1808.07912v3.pdf",
+  "sections": [
+    {
+      "section_title": "Multivariate",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Extension",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "of",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Matrix-based",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "R´enyi’s",
+      "text": ""
+    },
+    {
+      "section_title": "α",
+      "text": ""
+    },
+    {
+      "section_title": "-order",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Entropy",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Functional",
+      "text": ""
+    },
+    {
+      "section_title": "Shujian",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Yu,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Student",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Member,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "IEEE",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Luis",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Gonzalo",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "S´anchez",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Giraldo,",
+      "text": ""
+    },
+    {
+      "section_title": "Robert",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Jenssen,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Member,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "IEEE",
+      "text": ""
+    },
+    {
+      "section_title": ",",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Jos´e",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "C.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Pr´ıncipe,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Fellow,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "IEEE",
+      "text": " Abstract The  matrix-based  R´enyi’s  α -order  entropy  functional  was  recently  introduced  using  the  normalized eigenspectrum of a Hermitian matrix of the projected data in a reproducing kernel Hilbert space (RKHS). However,  the  current  theory  in  the  matrix-based  R´enyi’s  α -order  entropy  functional  only  deﬁnes  the entropy  of  a  single  variable  or  mutual  information  between  two  random  variables.  In  information theory  and  machine  learning  communities,  one  is  also  frequently  interested  in  multivariate  information quantities,  such  as  the  multivariate  joint  entropy  and  different  interactive  quantities  among  multiple variables.  In  this  paper,  we  ﬁrst  deﬁne  the  matrix-based  R´enyi’s  α -order  joint  entropy  among  multiple variables. We then show how this deﬁnition can ease the estimation of various information quantities that measure  the  interactions  among  multiple  variables,  such  as  interactive  information  and  total  correlation. We  ﬁnally  present  an  application  to  feature  selection  to  show  how  our  deﬁnition  provides  a  simple  yet powerful  way  to  estimate  a  widely-acknowledged  intractable  quantity  from  data.  A  real  example  on hyperspectral  image  (HSI)  band  selection  is  also  provided. Index  Terms R´enyi’s  α -order  entropy  functional,  Multivariate  information  quantities,  Feature  selection. S.  Yu  and  J.  C.  Pr´ıncipe  are  with  the  Department  of  Electrical  and  Computer  Engineering,  University  of  Florida,  Gainesville, FL  32611,  USA  (email:  yusjlcy9011@uﬂ.edu;  principe@cnel.uﬂ.edu). L.  G.  S´anchez  Giraldo  is  with  the  Department  of  Computer  Science,  University  of  Miami,  Coral  Gables,  FL  33124,  USA (email:  lgsanchez@cs.miami.edu). R. Jenssen is with the Department of Physics and Technology, UiT - The Arctic University of Norway, Tromsø 9037, Norway (email:  robert.jenssen@uit.no)."
+    },
+    {
+      "section_title": "arXiv:1808.07912v3  [cs.IT]  31 Jul 2019",
+      "text": " IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE I.  I NTRODUCTION The  R´enyi’s  α -order  entropy  [ ]  was  deﬁned  in   as  a  one-parameter  generalization  of the  celebrated  Shannon  entropy.  In  the  same  paper,  Alfr´ed  R´enyi  also  introduced  the  α -order divergence  as  a  natural  extension  of  the  Shannon  relative  entropy.  Following  R´enyi’s  work, different  deﬁnitions  on  α -order  mutual  information  have  been  proposed  in  the  last  decades, demonstrating  elegant  properties  and  great  potentials  for  widespread  adoption  [ ]. Fifty  years  after  the  deﬁnition  of  Alfr´ed  R´enyi,  the  matrix-based  R´enyi’s  α -order  entropy  func- tional  was  introduced  by  S´anchez  Giraldo  et  al.  [ ],  in  which  both  the  entropy  and  the  mutual information  are  deﬁned  over  the  normalized  eigenspectrum  of  the  Gram  matrix,  which  is  a Hermitian  matrix  of  the  projected  data  in  a  reproducing  kernel  Hilbert  space  (RKHS).  These new  functional  deﬁnitions  do  not  require  a  probability  interpretation  and  avoid  real-valued  or discrete  probability  density  function  (PDF)  estimation,  but  exhibit  similar  properties  to  R´enyi’s α -order  entropy. However,  the  current  formulations  in  this  theory  only  deﬁne  the  entropy  of  a  single  variable  or the  mutual  information  between  two  variables,  which  can  be  a  limiting  factor  when  multiple variables  are  available.  In  information  theory  and  machine  learning  communities,  one  is  also frequently interested in multivariate information quantities, such as the multivariate joint entropy and the interactions among multiple variables. For example, in multi-input single-output (MISO) communication  systems,  the  basic  bivariate  model  (between  one  input  and  one  output)  will certainly  fail  to  discriminate  effects  due  to  uncontrolled  input  sources  from  those  due  to  random noises, i.e., we cannot ﬁgure out the impairments due to system noise in the absence of knowledge of  the  relationships  among  multiple  input  sources  [ ].  In  machine  learning,  we  are  always interested  in  measuring  the  relationships  among  two  or  more  variables  to  enable  learning  more compact  representations  [ ]  or  for  selecting  a  more  informative  feature  set  [ ]. In  this  paper,  we  extend  S´anchez  Giraldo  et  al. ’s  deﬁnition  to  the  multivariate  scenario  and illustrate the characteristics and potential applications of this extension. Speciﬁcally, in section II , we  provide  the  deﬁnitions  of  the  matrix-based  R´enyi’s  α -order  entropy  functional,  including (joint)  entropy  and  mutual  information.  Then,  in  section  III ,  we  deﬁne  the  proposed  extension of  the  matrix-based  R´enyi’s  α -order  joint  entropy  to  multiple  variables  and  formally  show  it  is IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE consistent  with  the  bivariate  deﬁnition.  After  that,  in  section  IV ,  we  show  that  this  matrix-based formulation  on  the  normalized  eigenspectrum  enables  straightforward  deﬁnitions  of  interactions among  multiple  variables  and  give  an  example  of  their  applicability  for  feature  selection  in section  V  that  illustrates  how  this  simple  deﬁnition  provides  advantageous  result  in  comparison to  well  known  techniques.  We  ﬁnally  conclude  this  paper  and  provide  an  outlook  regarding  the potential  of  our  deﬁnitions  for  future  work  in  section  VI . II.  P RELIMINARY  KNOWLEDGE :  FROM R ENYI ’ S  ENTROPY  TO  ITS  MATRIX - BASED FUNCTIONAL In  information  theory,  a  natural  extension  of  the  well-known  Shannon’s  entropy  is  R´enyi’s  α - order  entropy  [ ].  For  a  random  variable  X  with  probability  density  function  (PDF)  f ( x )  in  a ﬁnite  set  X ,  the  α -entropy  H α ( X )  is  deﬁned  as: H α ( f ) = − α  log Z X f  α ( x ) dx (1) The  limiting  case  of  Eq.  ( )  for  α  →  yields  Shannon’s  differential  entropy.  It  also  turns  out that  for  any  positive  real  α ,  the  above  quantity  can  be  expressed,  under  some  restrictions,  as a  function  of  inner  products  between  PDFs  [ ].  In  particular,  the  -order  entropy  of  f  and  the cross-entropy between f  and g  along with Parzen density estimation [ ] yield simple yet elegant expressions  that  can  serve  as  objective  functions  for  a  family  of  supervised  or  unsupervised learning  algorithms  when  the  PDF  is  unknown  [ ]. R´enyi’s  entropy  and  divergence  evidence  a  long  track  record  of  usefulness  in  information  theory and its applications [ ]. Unfortunately, the accurate PDF estimation of high dimensional, contin- uous,  and  complex  data  impedes  its  more  widespread  adoption  in  data-driven  science.  To  solve this  problem,  S´anchez  Giraldo  et  al .  [ ]  suggested  a  quantity  that  resembles  quantum  R´enyi’s entropy  [ ]  deﬁned  in  terms  of  the  normalized  eigenspectrum  of  the  Gram  matrix  of  the  data projected  to  an  RKHS,  thus  estimating  the  entropy  directly  from  data  without  PDF  estimation. S´anchez  Giraldo  et  al .’s  matrix  entropy  functional  is  deﬁned  as  follows. Deﬁnition  1.  Let  κ : X  × X  7→ R  be  a  real  valued  positive  deﬁnite  kernel  that  is  also  inﬁnitely divisible  [ ].  Given  X  =  { x , x , ..., x n }  and  the  Gram  matrix  K  obtained  from  evaluating  a IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE positive  deﬁnite  kernel  κ  on  all  pairs  of  exemplars,  that  is  ( K ) ij  =  κ ( x i , x j ) ,  a  matrix-based analogue  to  R´enyi’s  α -entropy  for  a  normalized  positive  deﬁnite  (NPD)  matrix  A  of  size  n × n , such  that  tr( A ) = 1 ,  can  be  given  by  the  following  functional: S α ( A ) = − α  log (tr( A α )) = − α  log \u0002 n X i =1 λ i ( A ) α \u0003 (2) where  A ij  =  n K ij √ K ii K jj  and  λ i ( A )  denotes  the  i -th  eigenvalue  of  A . Deﬁnition  2.  Given  n  pairs  of  samples  { z i  =  ( x i , y i ) } n i =1 ,  each  sample  contains  two  different types  of  measurements  x  ∈X  and  y  ∈Y  obtained  from  the  same  realization,  and  the  positive deﬁnite  kernels  κ  :  X  × X  7→ R  and  κ  :  Y  × Y  7→ R ,  a  matrix-based  analogue  to  R´enyi’s α -order  joint-entropy  can  be  deﬁned  as: S α ( A, B ) = S α \u0012 A ◦ B tr( A ◦ B ) \u0013 (3) where  A ij  = κ ( x i , x j ) ,  B ij  = κ ( x i , x j )  and  A ◦ B  denotes  the  Hadamard  product  between  the matrices  A  and  B .  The  local  structure  of  the  Gram  matrices  A  and  B  simpliﬁes  the  estimation of  the  joint  distribution  to  pairwise  element  multiplication  and  it  is  the  source  of  the  simplicity of  our  estimation  methodology. The  following  proposition  proved  by  S´anchez  Giraldo,  et  al .  [ ,  page  5]  makes  the  deﬁnition of  the  above  joint  entropy  compatible  with  the  individual  entropies  of  its  components,  and  also allows  us  to  deﬁne  a  matrix  notion  of  R´enyi’s  conditional  entropy  S α ( A | B )  (or  S α ( B | A ) )  and mutual  information  I α ( A ; B )  in  analogy  with  Shannon’s  deﬁnition. Proposition 1.  Let A and B  be two n × n positive deﬁnite matrices with trace with nonnegative entries,  and  A ii  = B ii  =  n ,  for  i = 1 , , · · ·  , n .  Then  the  following  two  inequalities  hold: 1)  S α \u0000 A ◦ B tr( A ◦ B ) \u0001 ≤ S α ( A ) + S α ( B ) , 2)  S α \u0000 A ◦ B tr( A ◦ B ) \u0001 ≥ max[ S α ( A ) , S α ( B )] . Since  there  is  no  consensus  on  the  deﬁnition  of  R´enyi’s  conditional  entropy  and  mutual  infor- mation  [ ],  motivated  by  the  additive  and  subtractive  relationships  among  different  information theoretic  quantities  of  Shannon’s  deﬁnition,  S α ( A | B )  and  I α ( A ; B )  can  be  computed  as: S α ( A | B ) = S α ( A, B ) − S α ( B ) , (4) I α ( A ; B ) = S α ( A ) + S α ( B ) − S α ( A, B ) . (5) IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE In  this  paper,  we  use  the  radial  basis  function  (RBF)  kernel  κ ( x i , x j )  =  exp( − ∥ x i − x j ∥ σ )  to obtain  the  Gram  matrices.  This  way,  the  user  has  to  make  two  decisions  (hyper-parameters)  that change with the data and the task goal: the selection of the kernel size σ  to project the data to the RKHS and the selection of the order α . The selection of σ  can follow Silverman’s rule of thumb for  density  estimation  [ ],  or  other  heuristics  from  a  graph  cut  perspective,  such  as   to  percent  of  the  total  range  of  the  Euclidean  distances  between  all  pairwise  data  points  [ ].  The choice  of  α  is  associated  with  the  task  goal.  If  the  application  requires  emphasis  on  tails  of  the distribution  (rare  events)  or  multiple  modalities,  α  should  be  less  than   and  possibly  approach to   from  above.  α  =   provides  neutral  weighting  [ ].  Finally,  if  the  goal  is  to  characterize modal  behavior,  α  should  be  greater  than  . III.  J OINT  ENTROPY  AMONG  MULTIPLE  VARIABLES In  this  section,  we  ﬁrst  give  the  deﬁnition  of  the  matrix-based  R´enyi’s  α -order  joint-entropy among  multiple  variables  and  then  present  two  corollaries  that  serve  as  a  foundation  to  this deﬁnition. Deﬁnition 3.  Given a collection of n samples { s i  = ( x i , x i , · · ·  , x i k ) } n i =1 , where the superscript i denotes  the  sample  index,  each  sample  contains  k  ( k  ≥ )  measurements  x  ∈X ,  x  ∈X ,  · · · , x k  ∈X k  obtained  from  the  same  realization,  and  the  positive  deﬁnite  kernels  κ  : X ×X  7→ R , κ  :  X  ×  X  7→ R ,  · · · ,  κ k  :  X k  ×  X k  7→ R ,  a  matrix-based  analogue  to  R´enyi’s  α -order joint-entropy  among  k  variables  can  be  deﬁned  as: S α ( A , A , · · ·  , A k ) = S α \u0012 A ◦ A ◦· · · ◦ A k tr( A ◦ A ◦· · · ◦ A k ) \u0013 (6) where  ( A ) ij  =  κ ( x i , x j ) ,  ( A ) ij  =  κ ( x i , x j ) ,  · · · ,  ( A k ) ij  =  κ k ( x i k , x j k ) ,  and  ◦ denotes  the Hadamard  product. The  following  two  corollaries  provide  the  theoretical  backing  for  using  ( )  to  quantify  joint entropy  among  multiple  variables. Corollary  1.  Let  [ k ]  be  the  index  set  { , , · · ·  , k } .  We  partition  [ k ]  into  two  complementary subsets  s  and  ˜ s .  For  any  s  ⊂ [ k ] ,  denote  all  indices  in  s  with  s , s , · · ·  , s | s | ,  where  | · |  stands for  cardinality.  Similarly,  denote  all  indices  in  ˜ s  with  ˜ s , ˜ s , · · ·  , ˜ s | ˜s | .  Also  let  A ,  A ,  · · · ,  A k be  k  n × n positive  deﬁnite  matrices  with  trace   and nonnegative  entries, and  ( A ) ii  = ( A ) ii  = · · · = ( A k ) ii  =  n ,  for  i = 1 , , · · ·  , n .  Then  the  following  two  inequalities  hold: IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE S α \u0012 A ◦ A ◦· · · ◦ A k tr( A ◦ A ◦· · · ◦ A k ) \u0013 ≤ S α  A s  ◦ A s  ◦· · · ◦ A s | s | tr( A s  ◦ A s  ◦· · · ◦ A s | s | ) ! + S α  A ˜ s  ◦ A ˜ s  ◦· · · ◦ A ˜ s | ˜s | tr( A ˜ s  ◦ A ˜ s  ◦· · · ◦ A ˜ s | ˜s | ) ! , (7) S α \u0012 A ◦ A ◦· · · ◦ A k tr( A ◦ A ◦· · · ◦ A k ) \u0013 ≥ max \" S α  A s  ◦ A s  ◦· · · ◦ A s | s | tr( A s  ◦ A s  ◦· · · ◦ A s | s | ) ! , S α  A ˜ s  ◦ A ˜ s  ◦· · · ◦ A ˜ s | ˜s | tr( A ˜ s  ◦ A ˜ s  ◦· · · ◦ A ˜ s | ˜s | ) !# . (8) Proof.  Setting A = A s ◦ A s ◦···◦ A s | s | tr( A s ◦ A s ◦···◦ A s | s | )  and B  = A ˜ s ◦ A ˜ s ◦···◦ A ˜ s | ˜s | tr( A ˜ s ◦ A ˜ s ◦···◦ A ˜ s | ˜s | ) . According to the Schur product theorem,  A  and  B  are  n × n  positive  deﬁnite  matrices  with  trace   and  nonnegative  entries,  and A ii  = B ii  =  n ,  for  i = 1 , , · · ·  , n .  Then  Proposition   implies  ( )  and  ( ). Corollary  2.  Let  A ,  A ,  · · · ,  A k  be  k  n  ×  n  positive  deﬁnite  matrices  with  trace   and nonnegative  entries,  and  ( A ) ii  =  ( A ) ii  =  · · ·  =  ( A k ) ii  = n ,  for  i  =  , , · · ·  , n .  Then  the following  two  inequalities  hold: S α \u0012 A ◦ A ◦· · · ◦ A k tr( A ◦ A ◦· · · ◦ A k ) \u0013 ≤ S α ( A ) + S α ( A ) + · · · + S α ( A k ) , (9) S α \u0012 A ◦ A ◦· · · ◦ A k tr( A ◦ A ◦· · · ◦ A k ) \u0013 ≥ max[ S α ( A ) , S α ( A ) , · · ·  , S α ( A k )] . (10) Proof.  For  every  i ∈ [2 , k ] ,  let  s = { i }  and ˜s = { , , · · ·  , i − } ,  by  Corollary  ,  we  have: S α \u0012 A ◦ A ◦· · · ◦ A i tr( A ◦ A ◦· · · ◦ A i ) \u0013 ≤ S α ( A i ) + S α \u0012 A ◦ A ◦· · · ◦ A i − tr( A ◦ A ◦· · · ◦ A i − ) \u0013 , (11) S α \u0012 A ◦ A ◦· · · ◦ A i tr( A ◦ A ◦· · · ◦ A i ) \u0013 ≥ max \u0014 S α ( A i ) , S α \u0012 A ◦ A ◦· · · ◦ A i − tr( A ◦ A ◦· · · ◦ A i − ) \u0013\u0015 , (12) Adding  the  k −  inequalities  in  ( )  and  subtracting  common  terms  on  both  sides,  we  get  ( ). Similarly,  combing  the  k −  inequalities  in  ( ),  we  get  ( ). IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE IV.  I NTERACTION  QUANTITIES  AMONG  MULTIPLE  VARIABLES Given  the  deﬁnitions  in  section  III ,  we  discuss  the  matrix-based  analogues  to  three  multivariate information  quantities  that  were  introduced  in  previous  work  to  measure  the  interactions  among multiple variables. Note that, there are various deﬁnitions to measure such interactions. Here, we only  review  three  of  the  major  ones,  as  this  section  aims  to  illustrate  the  great  simplicity  offered by  our  deﬁnitions.  Interested  readers  can  refer  to  [ ]  for  an  experimental  survey  on  different deﬁnitions  and  their  properties. A.  Mutual  information The mutual information can be extended straightforwardly as a measure of the interactions among more  than  two  variables  by  grouping  the  variables  into  sets,  treating  each  set  as  a  new  single variable.  For  instance,  the  total  amount  of  information  about  a  random  variable  Y  that  is  gained from  the  other  k  variables,  X ,  X ,  · · · ,  X k ,  can  be  deﬁned  as: I α ( B ; { A , A , · · ·  , A k } ) = S α ( B )+ S α \u0012 A ◦ A ◦· · · ◦ A k tr( A ◦ A ◦· · · ◦ A k ) \u0013 − S α \u0012 A ◦ A ◦· · · ◦ A k ◦ B tr( A ◦ A ◦· · · ◦ A k ◦ B ) \u0013 , (13) where A , A , · · · , A k , and B  denote the normalized Gram matrices evaluated over X , X , · · · , X k ,  and  Y  respectively.  According  to  Corollary  ,  I α ( B ; A , A , , A k ) ≥ .  However,  Eq.  ( ) cannot  measure  separately  contributions  in  the  information  about  Y  from  individual  variables X i  for  i = 1 , , · · ·  , k . B.  Interaction  information Interaction information (II) [ ] extends the concept of the mutual information as the information gained  about  one  variable  by  knowing  the  other  [ ].  This  way,  the  II  among  three  variables  is deﬁned as the gain (or loss) in sample information transmitted between any two of the variables, due  to  the  additional  knowledge  of  a  third  variable  [ ]: II ( X ; X ; X ) = I ( X ; X | X ) − I ( X ; X ) = I ( { X , X } ; X ) − I ( X ; X ) − I ( X ; X ) . (14) IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE Eq.  ( )  can  be  written  as  an  expansion  of  the  entropies  and  joint  entropies  of  the  variables, II ( X ; X ; X ) = − [ H ( X ) + H ( X ) + H ( X )] + [ H ( X , X ) + H ( X , X ) + H ( X , X )] − H ( X , X , X ) . (15) This  form  leads  to  an  expansion  of  the  II  to  k  number  of  variables  (i.e.,  k -way  interactions). Given  S  = { X , X , ..., X k } ,  let  T  denote  a  subset  of  S ,  then  the  II  becomes  an  alternating  sum over  all  subsets  T  ⊆S  [ ]: II ( S ) = − X T ⊆S ( − 1) |S|−|T | H ( T ) . (16) A  similar  quantity  to  II  is  the  co-information  (CI)  [ ],  which  can  be  derived  using  a  lattice structure  of  statistical  dependency  [ ].  Speciﬁcally,  CI  is  expressed  as: CI ( S ) = − X T ⊆S ( − 1) |T | H ( T ) = ( − 1) |S| II ( S ) . (17) Clearly,  CI  is  equal  to  II  except  for  a  change  in  sign  in  the  case  that  S  contains  an  odd  number of  variables.  Compared  to  II,  CI  ensures  a  proper  set-  or  measure-theoretic  interpretation:  CI measures  the  centermost  atom  to  which  all  variables  contribute  when  we  use  Venn  Diagrams to  represent  different  entropy  terms  [ ],  [ ].  Note  that,  the  difference  in  the  sign  also  gives different  meanings  to  CI  and  II.  For  example,  a  positive  value  implies  redundancy  for  CI,  but synergy  for  II  [ ]. Given  Eqs.  ( )  and  ( ),  let  [ k ]  be  the  index  set  { , , · · ·  , k } ,  for  any  s  ⊆ [ k ] ,  denote  all indices  in  s  by  s ,  s ,  · · · ,  s | s | ,  where  | · |  stands  for  cardinality,  the  matrix-form  of  II  and  CI can  be  measured  with  Eq.  ( )  and  Eq.  ( ),  respectively: II α ( A ; A ; · · ·  ; A k ) = − X s ⊆ [ k ] ( − 1) k −| s | S α  A s  ◦ A s  ◦· · · ◦ A s | s | tr( A s  ◦ A s  ◦· · · ◦ A s | s | ) ! . (18) CI α ( A ; A ; · · ·  ; A k ) = − X s ⊆ [ k ] ( − 1) | s | S α  A s  ◦ A s  ◦· · · ◦ A s | s | tr( A s  ◦ A s  ◦· · · ◦ A s | s | ) ! . (19) IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE C.  Total  correlation The  total  correlation  (TC)  [ ]  is  deﬁned  by  extending  the  idea  that  mutual  information  is  the KL  divergence  between  the  joint  distribution  and  the  product  of  marginals.  It  measures  the  total amount  of  dependence  among  the  variables.  Formally,  TC  can  be  written  in  terms  of  individual entropies  and  joint  entropy  as: TC α ( A , A , · · ·  , A k ) = S α ( A ) + S α ( A ) + · · · + S α ( A k ) − S α \u0000 A ◦ A ◦· · · ◦ A k tr( A ◦ A ◦· · · ◦ A k ) \u0001 . (20) By  Corollary  ,  TC α ( A , A , · · ·  , A k ) ≥ .  TC  is  zero  if  and  only  if  all  variables  are  mutually independent  [ ]. V.  A PPLICATION  FOR  FEATURE  SELECTION In sections III and IV , we generalized the matrix-based R´enyi’s α -order joint entropy to multiple variables. The new deﬁnition enables efﬁcient and effective measurement of various multivariate interaction quantities. With these novel deﬁnitions, we are ready to address the problem of feature selection.  Given  a  set  of  variables  S  = { X , X , · · ·  , X n } ,  feature  selection  refers  to  seeking  a small  subset  of  informative  variables  S ∗ ⊂ S  from  S ,  such  that  the  subset  S ∗ contains  the  most relevant  yet  least  redundant  information  about  a  desired  variable  Y . Suppose we want to select k variables, then the ultimate objective is to maximize I ( { X i , X i , · · ·  , X i k } ; Y ) , where i , i , · · · , i k  denote the indices of selected variables. Despite the simple expression, before our  work,  the  estimation  of  this  quantity  was  considered  intractable  [ ],  [ ],  even  with  the  aid of  Shannon’s  chain  rule  [ ].  As  a  result,  tremendous  efforts  have  been  made  to  use  different information-theoretic  criteria  to  approximate  I ( { X i , X i , · · ·  , X i k } ; Y )  by  retaining  only  the ﬁrst-order  or  at  most  the  second-order  interactions  terms  amongst  different  features  [ ].  The theoretical  relation  amongst  different  criteria  in  different  methods  was  recently  investigated  by Brown et al. [ ]. According to the authors, numerous criteria proposed in the last decades can be placed  under  the  same  umbrella,  i.e.,  balancing  the  tradeoff  using  different  assumptions  among three  key  terms:  the  individual  predictive  power  of  the  feature,  the  unconditional  correlations and  the  class-conditional  correlations. IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE Obviously,  beneﬁtting  from  the  novel  deﬁnition  proposed  in  this  paper,  we  can  now  explic- itly  maximize  the  ultimate  objective  I ( { X i , X i , · · ·  , X i k } ; Y ) ,  without  any  approximations  or decompositions,  using  Eq.  ( ).  We  compare  our "
+    },
+    {
+      "section_title": "method",
+      "text": "  with   state-of-the-art  information- theoretic feature selection methods, namely Mutual Information-based Feature Selection (MIFS) [ ], First-Order Utility (FOU) [ ], Mutual Information Maximization (MIM) [ ], Maximum-Relevance Minimum-Redundancy  (MRMR)  [ ],  Joint  Mutual  Information  (JMI)  [ ]  and  Conditional Mutual  Information  Maximization  (CMIM)  [ ].  Among  them,  MIM  is  the  baseline "
+    },
+    {
+      "section_title": "method",
+      "text": " that  scores  each  feature  independently  without  considering  any  interactions  terms.  MRMR  is perhaps  the  most  widely  used "
+    },
+    {
+      "section_title": "method",
+      "text": "  in  various  applications.  According  to  [ ],  JMI  and  CMIM outperform  their  counterparts,  since  both  methods  integrate  the  aforementioned  three  key  terms. We  list  the  criteria  for  all  methods  in  Table  I  for  clarity.  All  the  methods  employ  a  greedy procedure  to  incrementally  build  the  selected  feature  set,  in  each  step.  We  implemented  and optimized  the  codes  for  all  the  above  methods  in  Matlab  b.  All  methods  are  compared in  terms  of  the  average  cross  validation  (CV)  classiﬁcation  accuracy  on  a  range  of  features. We  employ  -fold  CV  in  datasets  with  sample  size  more  than   and  leave-one-out  (LOO) CV  otherwise.  One  should  also  note  that  the  majority  of  the  prevalent  information-theoretic feature  selection  methods  are  built  upon  classic  discrete  Shannon’s  information  quantities  [ ]. For  mutual  information  estimation  of  those  methods,  continuous  features  are  discretized  using an equal-width strategy into bins [ ], while features already with a categorical range were left untouched.  For  our  method,  we  use  α = 1 .  as  suggested  in  [ ]  to  approximate  the  Shannon’s information  and  make  this  comparison  fair.  We  also  ﬁx  the  kernel  size  σ  = 1  in  all "
+    },
+    {
+      "section_title": "experiments",
+      "text": " for  simplicity.  A  thorough  treatment  to  effects  of  α  and  σ  is  discussed  later. A.  Artiﬁcial  data In this ﬁrst experiment, we wish to evaluate all competing methods on data in which the optimal number  of  features  and  the  inter-dependencies  amongst  features  are  known  in  advance.  To  this end,  we  select  the  MADELON  dataset,  a  well-known  benchmark  from  the  NIPS   Feature Selection Challenge [ ]. MADELON is an artiﬁcial dataset containing data points grouped in   clusters  placed  on  the  vertices  of  a  ﬁve-dimensional  hypercube  and  randomly  labeled +1  or  − .  The  ﬁve  dimensions  constitute   informative  features.   linear  combinations  of IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE those  informative  features  were  added  to  form  redundant  informative  features.  Based  on  those informative   features  one  must  separate  the  examples  into  the   classes  ( ±  labels).  Apart from  informative  features,  MADELON  was  also  added   distractor  features  (or  noises)  called “probes”  having  no  predictive  power.  The  order  of  the  features  and  patterns  were  randomized. Following  [ ],  we  use  a  -NN  classiﬁer  and  select   features.  Fig.  (a)  shows  the  validation results. As can be seen, our method demonstrates overwhelming advantage on the ﬁrst features. Our "
+    },
+    {
+      "section_title": "method",
+      "text": "  works  very  similar  to  the  ultimate  objective,  as  opposed  to  the  other  methods  that neglect  high-order  interactions  terms.  One  should  also  note  that  the  advantage  of  our "
+    },
+    {
+      "section_title": "method",
+      "text": " becomes weaker after features. This is because, after selecting the most informative features, the  linear  combinations  of  informative  features  become  redundant  information  to  our "
+    },
+    {
+      "section_title": "method",
+      "text": " such  that  their  functionalities  can  be  fully  substituted  with  the  ﬁrst   features.  In  other  words, the value of I ( { X i , X i , · · ·  , X i k } ; Y ) − I ( { X i , X i , · · ·  , X i k − } ; Y ) ( k  > ) becomes tiny such that  our "
+    },
+    {
+      "section_title": "method",
+      "text": "  cannot  distinguish  linear  combinations  from  noises.  By  contrast,  since  other methods  cannot  ﬁnd  the  most   informative  features  at  ﬁrst,  it  is  possible  for  them  to  select one  of  the  most  informative  features  in  later  steps.  For  example,  if  one "
+    },
+    {
+      "section_title": "method",
+      "text": "  selects  the combination of the ﬁrst and second informative features at step , this method may even achieve higher  classiﬁcation  accuracy  in  later  steps  if  the  third  or  fourth  informative  feature  is  selected at  that  step.  This  is  because  of  the  possible  existence  of  synergistic  information  [ ].  In  our approach  this  would  call  for  smaller  and  smaller  σ  and/or  different  values  of  α ,  but  it  was  not implemented  here. B.  Real  data We  then  evaluate  the  performance  of  all  methods  on   well-known  public  datasets  used  in previous research [ ], [ ], covering a wide variety of example-feature ratios, class numbers, and different domains including microarray data, image data, biological data, and telecommunication data.  Datasets  from  diverse  domains  with  different  characteristics  serve  as  high-quality  test  bed for  a  comprehensive  evaluation.  Different  from  other  datasets,  the  datasets  Lung  and  Lymph are  already  discretized  by  Peng  et  al.  [ ]  such  that  the  raw  data  is  not  available.  This  is  not a  problem  for  previous  information  theoretic  feature  selection  methods  built  upon  Shannon’s deﬁnition.  However,  our  mutual  information  estimation  relies  on  the  Gram  matrix  evaluated  on IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE 0.5 0.55 0.6 0.65 0.7 0.75 0.8 0.85 0.9 Number of Features Validation Accuracy MADELON (2000 samples, 500−dimensional feature)  MIFS (6.65) FOU (1.90) MIM (3.95) MRMR (5.85) JMI (2.50) CMIM (3.60) Ours (2.45) (a)  MADELON 0.86 0.88 0.9 0.92 0.94 0.96 0.98 Number of Features Validation Accuracy breast (569 samples, 30−dimensional feature)  MIFS (6.30) FOU (5.00) MIM (4.80) MRMR (2.70) JMI (3.40) CMIM (1.50) Ours (1.50) (b)  breast 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 Number of Features Validation Accuracy semeion (1593 samples, 256−dimensional feature)  MIFS (1.40) FOU (3.53) MIM (6.60) MRMR (4.00) JMI (5.20) CMIM (2.93) Ours (1.47) (c)  semeion 0.55 0.6 0.65 0.7 0.75 0.8 0.85 Number of Features Validation Accuracy waveform (1000 samples, 40−dimensional feature)  MIFS (5.90) FOU (4.20) MIM (5.60) MRMR (2.80) JMI (1.60) CMIM (2.60) Ours (2.10) (d)  waveform Number of Features LOO Number of Correctness Lung (73 samples, 325−dimensional feature)  MIFS (3.86) FOU (5.70) MIM (5.72) MRMR (3.66) JMI (3.34) CMIM (2.04) Ours (1.88) (e)  Lung Number of Features LOO Number of Correctness Lymph (96 samples, 4026−dimensional feature)  MIFS (5.06) FOU (6.42) MIM (5.30) MRMR (1.68) JMI (2.70) CMIM (2.16) Ours (3.54) (f)  Lymph Number of Features Validation Accuracy ORL (400 samples, 1024−dimensional feature)  MIFS (4.65) FOU (6.00) MIM (5.80) MRMR (1.65) JMI (2.15) CMIM (3.10) Ours (2.95) (g)  ORL Number of Features Validation Accuracy warpPIE10P (210 samples, 2420−dimensional feature)  MIFS (1.30) FOU (4.40) MIM (6.55) MRMR (3.85) JMI (5.25) CMIM (2.95) Ours (1.90) (h)  warpPIE10P Fig.  1:  Validation  accuracy  or  Leave-one-out  (LOO) "
+    },
+    {
+      "section_title": "results",
+      "text": "  on  synthetic  and  real  datasets.  The  number  of  samples and  the  feature  dimensionality  for  each  dataset  are  listed  in  the  title.  The  value  beside  each "
+    },
+    {
+      "section_title": "method",
+      "text": "  in  the legend  indicates  the  average  rank  in  that  dataset.  Our "
+    },
+    {
+      "section_title": "method",
+      "text": "  performs  favorably  in  all  datasets  regardless  of data  characteristics. pairwise  samples,  this  discretization  will  hurt  the  ability  of  our "
+    },
+    {
+      "section_title": "method",
+      "text": "  to  take  advantage  of continuous  random  variable  information,  and  create  an  artiﬁcial  upper  limit  for  performance. The  features  within  each  dataset  have  a  variety  of  characteristics  -  some  binary/discrete,  and IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE TABLE  I:  A  summarization  of  different  information-theoretic  feature  selection  methods  and  their  average  ranks over different number of features in each dataset. The overall average ranks over different datasets are also reported. The  best  two  performance  in  each  dataset  are  marked  with  red  and  blue  respectively. Criteria MADELON breast semeion waveform Lung Lymph ORL PIE Ave. MIFS  [ ] I ( X i k ; Y ) − β k − P l =1 I ( X i k ; X i l ) . . . . . . . . . FOU  [ ] I ( X i k ; Y ) − k − P l =1 [ I ( X i k ; X i l ) − I ( X i k ; X i l | Y )] . . . . . . . . . MIM  [ ] I ( X i k ; Y ) . . . . . . . . . MRMR  [ ] I ( X i k ; Y ) − k − k − P l =1 I ( X i k ; X i l ) . . . . . . . . . JMI  [ ] k − P l =1 I ( { X i k , X i l } ; Y ) . . . . . . . . . CMIM  [ ] min l I ( X i k ; Y | X i l ) . . . . . . . . . Ours I ( { X i , X i , · · ·  , X i k } ; Y ) . . . . . . . . . some  continuous.  Following  [ ],  [ ],  the  base  classiﬁer  for  all  data  sets  is  chosen  as  a  linear Support  Vector  Machine  (SVM)  (with  the  regularization  parameter  set  to  ).  The  validation"
+    },
+    {
+      "section_title": "results",
+      "text": "  for  all  competing  methods  are  presented  in  Fig.  (b)-Fig.  (h).  We  also  report  the  ranks in  each  dataset  and  the  average  ranks  across  all  datasets  in  Table  I .  For  each  method,  its  rank in  each  dataset  is  summarized  as  the  mean  value  of  ranks  across  different  number  of  features. As  can  be  seen,  our "
+    },
+    {
+      "section_title": "method",
+      "text": "  can  always  achieve  superior  performance  on  most  datasets  no matter  the  number  of  features.  An  interesting  observation  comes  from  the  dataset  breast ,  in which  our  advantage  starts  from  the  ﬁrst  feature.  This  suggests  that  data  discretization  will deteriorate  mutual  information  estimation  performance,  otherwise  all  the  methods  will  have  the same  classiﬁcation  accuracy  in  the  ﬁrst  feature  (see "
+    },
+    {
+      "section_title": "results",
+      "text": "  on  other  datasets). However,  the  performance  of  our "
+    },
+    {
+      "section_title": "method",
+      "text": "  is  degraded  on  Lymph ,  as  expected.  Apart  from  the improper  data  discretization  (we  cannot  precisely  estimate  the  Gram  matrix  because  the  raw data  is  unavailable),  another  reason  that  causes  the  degradation  is  the  decreased  resolution  of our information quantity estimator resulting from a small Gram matrix evaluated on small-sample and  high-dimensionality  datasets.  In  fact,  it  has  been  observed  that  our "
+    },
+    {
+      "section_title": "method",
+      "text": "  computes  the same  value  of  I ( { X i , X i , · · ·  , X i k } ; Y )  if  X i k  comes  from  two  different  feature  sources.  So  a better  selection  of  σ  should  be  pursued. To complement ranks reported in Table I , we perform a Nemenyi’s post-hoc test [ ] to discover the  statistical  difference  in  all  competing  methods.  Speciﬁcally,  we  use  the  critical  difference IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE (CD) [ ] as a reference, methods with ranks differ by less than CD are not statistically different, and can be grouped together. The test results are shown in Fig. , where the black line represents the  axis  on  which  the  average  ranks  of  methods  are  drawn,  with  those  appearing  on  the  left hand  side  performing  better.  The  groups  of  methods  that  were  not  signiﬁcantly  different  were connected  with  a  green  dashed  line.  On  the  one  hand,  different  criteria  all  achieved  visually remarkable improvements against the baseline method MIM (as suggested by the ﬁrst grouping). On  the  other  hand,  only  our "
+    },
+    {
+      "section_title": "method",
+      "text": "  and  CMIM  are  signiﬁcantly  different  from  the  baseline"
+    },
+    {
+      "section_title": "method",
+      "text": "  MIM  (as  suggested  by  the  second  grouping)."
+    },
+    {
+      "section_title": "Ours",
+      "text": ""
+    },
+    {
+      "section_title": "CMIM",
+      "text": ""
+    },
+    {
+      "section_title": "MRMR",
+      "text": ""
+    },
+    {
+      "section_title": "JMI",
+      "text": ""
+    },
+    {
+      "section_title": "MIM",
+      "text": ""
+    },
+    {
+      "section_title": "FOU",
+      "text": ""
+    },
+    {
+      "section_title": "MIFS",
+      "text": ""
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "5",
+      "text": ""
+    },
+    {
+      "section_title": "6",
+      "text": ""
+    },
+    {
+      "section_title": "7",
+      "text": ""
+    },
+    {
+      "section_title": "CD",
+      "text": ""
+    },
+    {
+      "section_title": "=3.184",
+      "text": " Fig.  2:  Critical  difference  (CD)  [ ]  generated  using  Nemenyi’s  post-hoc  test  [ ]  with  signiﬁcance  level  . .  The groups  are  identiﬁed  using  the  mean  rank  of  a  model  ±  the  CD  (marked  with  a  horizontal  blue  line).  There  is  no evidence  of  signiﬁcant  differences  for  models  in  the  same  group  (joined  by  the  dashed  green  lines).  Our "
+    },
+    {
+      "section_title": "method",
+      "text": "  is the  only  one  that  is  signiﬁcantly  different  from  the  baseline "
+    },
+    {
+      "section_title": "method",
+      "text": "  MIM. We  also  analyze  the  sensitivity  to  parameters.  Our "
+    },
+    {
+      "section_title": "method",
+      "text": "  has  two  important  parameters:  the kernel  size  σ  and  the  entropy  order  α .  The  parameter  σ  controls  the  locality  of  our  estimator. Theoretically,  for  small  σ ,  the  Gram  matrix  approaches  identity  and  thus  its  eigenvalues  become more  similar,  with  /n  as  the  limit  case.  By  contrast,  for  large  σ ,  the  Gram  matrix  approaches all-ones  matrix  as  the  limit  case  and  its  eigenvalues  become  zero  except  for  the  one.  Therefore, extremely  small  and  large  values  of  σ  are  of  limited  interests.  We  expect  our  estimator  to  work well in a large range of σ , because this application concerns more on the large/small relationships among  several  measurements  (rather  than  their  speciﬁc  values),  and  these  relationships  will  not be  affected  if  the  value  of  σ  does  not  result  in  the  saturation  of  mutual  information  estimation. However,  a  relatively  large  σ  (in  a  reasonable  range)  is  still  preferred.  This  is  because  both entropy  and  mutual  information  monotonically  increase  as  σ  decreases  [ ],  large  σ  makes  the mutual  information  between  labels  and  selected  feature  subset  increase  slowly,  thus  encouraging the  discriminability  if  we  are  going  to  continue  the  selection.  We  investigate  how  σ  affects  the IEEE  TRANSACTIONS  ON  PATTERN  ANALYSIS  AND  MACHINE  INTELLIGENCE 0.1 0.5 6.5        0.2 0.4 0.6 0.8 Number of Features σ Validation Accuracy σ =0.1 (3.9) σ =0.5 (2.3) σ =1 (2.1) σ =5 (1.7) σ =6.5 (1.6)  σ =10 (1.8) σ =50 (2.8) σ =100 (2.8) (a)  waveform 0.1 0.5 9.2          0.2 0.4 0.6 0.8 Number of Features σ Validation Accuracy σ =0.1 (1.53) σ =0.5 (1.47) σ =1 (1.47) σ =5 (1.47) σ =9.2 (2.33)  σ =10 (2.33) σ =50 (2.40) σ =100 (2.40) (b)  semeion Fig. 3: Validation accuracy of our method on waveform and semeion datasets with respect to different σ  and feature numbers ( α = 1 . ). The value in the parenthesis is the average rank of our method with respect to other competing methods,  when  using  the  corresponding  σ .  Our "
+    },
+    {
+      "section_title": "method",
+      "text": "  works  well  in  a  large  range  of  σ ,  and  the   to   percent of  the  total  (median)  range  is  a  more  reliable  choice  to  σ  (marked  with  red). performance of our method for different values, { . , . , , , , , } . We also evaluate our performance  with  σ  tuned  with   to   percent  of  the  total  (median)  range  of  the  Euclidean distances  between  all  pairwise  data  points  [ ].  For  example,  in  dataset  semeion ,  this  range corresponds  to  .  <  σ  <  . .  Performance  variance  result  is  presented  in  Fig.  .  Due  to space  limitations,  we  only  report  the "
+    },
+    {
+      "section_title": "results",
+      "text": "  in  terms  of  validation  accuracy  on  waveform  and semeion datasets. We can observe that the accuracy values and the average ranks are not sensitive to  σ  in  a  large  range  ( .  to   in  waveform ,  .  to   in  semeion ),  but  relatively  large  σ  seems better. As  discussed  earlier,  α  changes  the  emphasis  from  the  tails  of  the  distribution  (smaller  α )  to places with large concentration of mass (larger α ) [ ]. Since classiﬁcation uses a counting norm, values  lower  than   are  preferred.  We  use  α  =  .  to  approximate  Shannon’s  entropy  and make  the  comparison  fair.  We  also  observed  a  performance  gain  when  α  is  smaller  than  .  See"
+    }
+  ]
+}

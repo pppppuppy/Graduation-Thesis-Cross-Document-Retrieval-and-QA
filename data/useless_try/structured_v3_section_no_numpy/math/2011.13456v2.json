@@ -1,0 +1,125 @@
+{
+  "doc_id": "2011.13456v2.pdf",
+  "sections": [
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "CORE",
+      "text": ""
+    },
+    {
+      "section_title": "-B",
+      "text": ""
+    },
+    {
+      "section_title": "ASED",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "G",
+      "text": ""
+    },
+    {
+      "section_title": "ENERATIVE",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "M",
+      "text": ""
+    },
+    {
+      "section_title": "ODELING",
+      "text": ""
+    },
+    {
+      "section_title": "THROUGH",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": ""
+    },
+    {
+      "section_title": "TOCHASTIC",
+      "text": ""
+    },
+    {
+      "section_title": "D",
+      "text": ""
+    },
+    {
+      "section_title": "IFFERENTIAL",
+      "text": ""
+    },
+    {
+      "section_title": "E",
+      "text": ""
+    },
+    {
+      "section_title": "QUATIONS",
+      "text": " Yang Song ˚ Stanford University yangsong@cs.stanford.edu Jascha Sohl-Dickstein Google Brain jaschasd@google.com Diederik P. Kingma Google Brain durk@google.com Abhishek Kumar Google Brain abhishk@google.com Stefano Ermon Stanford University ermon@cs.stanford.edu Ben Poole Google Brain pooleb@google.com"
+    },
+    {
+      "section_title": "A",
+      "text": " BSTRACT Creating noise from data is easy; creating data from noise is generative modeling. We present a stochastic differential equation (SDE) that smoothly transforms a com- plex data distribution to a known prior distribution by slowly injecting noise, and a corresponding reverse-time SDE that transforms the prior distribution back into the data distribution by slowly removing the noise.  Crucially, the reverse-time SDE depends only on the time-dependent gradient ﬁeld (a.k.a., score) of the perturbed data distribution.  By leveraging advances in score-based generative modeling, we can accurately estimate these scores with neural networks, and use numerical SDE solvers to generate samples.  We show that this framework encapsulates previous approaches in score-based generative modeling and diffusion probabilistic mod- eling, allowing for new sampling procedures and new modeling capabilities.  In particular, we introduce a predictor-corrector framework to correct errors in the evolution of the discretized reverse-time SDE. We also derive an equivalent neural ODE that samples from the same distribution as the SDE, but additionally enables exact likelihood computation, and improved sampling efﬁciency.  In addition, we provide a new way to solve inverse problems with score-based models, as demon- strated with experiments on class-conditional generation, image inpainting, and colorization.  Combined  with  multiple  architectural  improvements,  we  achieve record-breaking performance for unconditional image generation on CIFAR-10 with an Inception score of 9.89 and FID of 2.20, a competitive likelihood of 2.99 bits/dim, and demonstrate high ﬁdelity generation of ˆ images for the ﬁrst time from a score-based generative model."
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "I",
+      "text": " NTRODUCTION Two successful classes of probabilistic generative models involve sequentially corrupting training data with slowly increasing noise,  and then learning to reverse this corruption in order to form a generative model of the data.  Score matching with Langevin dynamics (SMLD) ( Song & Ermon , ) estimates the score ( i.e ., the gradient of the log probability density with respect to data) at each noise scale, and then uses Langevin dynamics to sample from a sequence of decreasing noise scales during generation.  Denoising diffusion probabilistic modeling (DDPM) ( Sohl-Dickstein et al. , ; Ho et al. , ) trains a sequence of probabilistic models to reverse each step of the noise corruption, using knowledge of the functional form of the reverse distributions to make training tractable.  For continuous state spaces, the DDPM training objective implicitly computes scores at each noise scale. We therefore refer to these two model classes together as score-based generative models . Score-based generative models, and related techniques ( Bordes et al. , ; Goyal et al. , ; Du & Mordatch , ), have proven effective at generation of images ( Song & Ermon , ; ; Ho et al. , ), audio ( Chen et al. , ; Kong et al. , ), graphs ( Niu et al. , ), and shapes ( Cai ˚ Work partially done during an internship at Google Brain."
+    },
+    {
+      "section_title": "arXiv:2011.13456v2  [cs.LG]  10 Feb 2021",
+      "text": " Published as a conference paper at ICLR 2021   Forward SDE (data → noise) Reverse SDE (noise → data) score function Figure 1 : Solving  a  reverse- time SDE yields a score-based generative  model.  Transform- ing  data  to  a  simple  noise  dis- tribution  can  be  accomplished with  a  continuous-time  SDE. This SDE can be reversed if we know  the  score  of  the  distribu- tion  at  each  intermediate  time step, ∇ x log p t p x q . et al. , ).  To enable new sampling methods and further extend the capabilities of score-based generative models, we propose a uniﬁed framework that generalizes previous approaches through the lens of stochastic differential equations (SDEs). Speciﬁcally,  instead of perturbing data with a ﬁnite number of noise distributions,  we consider a continuum  of  distributions  that  evolve  over  time  according  to  a  diffusion  process.  This  process progressively diffuses a data point into random noise, and is given by a prescribed SDE that does not depend on the data and has no trainable parameters.  By reversing this process, we can smoothly mold random noise into data for sample generation.  Crucially, this reverse process satisﬁes a reverse-time SDE ( Anderson , ), which can be derived from the forward SDE given the score of the marginal probability densities as a function of time.  We can therefore approximate the reverse-time SDE by training a time-dependent neural network to estimate the scores, and then produce samples using numerical SDE solvers.  Our key idea is summarized in Fig. . Our proposed framework has several theoretical and practical contributions: Flexible sampling and likelihood computation:  We can employ any general-purpose SDE solver to integrate the reverse-time SDE for sampling.  In addition, we propose two special methods not viable for general SDEs:  (i) Predictor-Corrector (PC) samplers that combine numerical SDE solvers with score-based MCMC approaches, such as Langevin MCMC ( Parisi , ) and HMC ( Neal et al. , ); and (ii) deterministic samplers based on the probability ﬂow ordinary differential equation (ODE). The former uniﬁes and improves over existing sampling methods for score-based models. The latter allows for fast adaptive sampling via black-box ODE solvers, ﬂexible data manipulation via latent codes, a uniquely identiﬁable encoding , and notably, exact likelihood computation . Controllable generation:  We can modulate the generation process by conditioning on information not available during training, because the conditional reverse-time SDE can be efﬁciently estimated from unconditional scores.  This enables applications such as class-conditional generation, image inpainting,  colorization  and  other  inverse  problems,  all  achievable  using  a  single  unconditional score-based model without re-training. Uniﬁed framework:  Our framework provides a uniﬁed way to explore and tune various SDEs for improving score-based generative models.  The methods of SMLD and DDPM can be amalgamated into our framework as discretizations of two separate SDEs.  Although DDPM ( Ho et al. , ) was recently reported to achieve higher sample quality than SMLD ( Song & Ermon , ; ), we show that with better architectures and new sampling algorithms allowed by our framework, the latter can catch up—it achieves new state-of-the-art Inception score (9.89) and FID score (2.20) on CIFAR-10, as well as high-ﬁdelity generation of ˆ images for the ﬁrst time from a score-based model. In addition, we propose a new SDE under our framework that achieves a likelihood value of 2.99 bits/dim on uniformly dequantized CIFAR-10 images, setting a new record on this task."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "B",
+      "text": " ACKGROUND 2.1 D ENOISING  SCORE  MATCHING  WITH L ANGEVIN  DYNAMICS (SMLD) Let p σ p ˜ x | x q : “ N p ˜ x ; x , σ I q be a perturbation kernel, and p σ p ˜ x q : “ ş p data p x q p σ p ˜ x | x q d x , where p data p x q denotes the data distribution.  Consider a sequence of positive noise scales σ min  “  σ  ă σ  ă ¨ ¨ ¨ ă σ N  “ σ max .  Typically, σ min is small enough such that p σ min p x q « p data p x q , and σ max is Published as a conference paper at ICLR 2021 large enough such that p σ max p x q « N p x ; , σ max I q .  Song & Ermon ( ) propose to train a Noise Conditional Score Network (NCSN), denoted by s θ p x , σ q , with a weighted sum of denoising score matching ( Vincent , ) objectives: θ ˚  “ arg min θ N ÿ i “ σ i  E p data p x q E p σi p ˜ x | x q “ ∥ s θ p ˜ x , σ i q ´ ∇ ˜ x log p σ i p ˜ x | x q ∥ ‰ . (1) Given  sufﬁcient  data  and  model  capacity,  the  optimal  score-based  model  s θ ˚ p x , σ q  matches ∇ x log p σ p x q almost everywhere for σ  P t σ i u N i “ .  For sampling, Song & Ermon ( ) run M  steps of Langevin MCMC to get a sample for each p σ i p x q sequentially: x m i  “ x m ´ i ` ϵ i s θ ˚ p x m ´ i , σ i q ` ? ϵ i z m i  , m “ , , ¨ ¨ ¨  , M, (2) where ϵ i  ą  is the step size, and z m i  is standard normal.  The above is repeated for i  “  N, N  ´ , ¨ ¨ ¨  , in turn with x N  „ N p x | , σ max I q and x i  “ x M i `  when i ă N .  As M  Ñ 8 and ϵ i  Ñ for all i , x M  becomes an exact sample from p σ min p x q « p data p x q under some regularity conditions. 2.2 D ENOISING  DIFFUSION  PROBABILISTIC  MODELS (DDPM) Sohl-Dickstein  et  al.  ( );  Ho  et  al.  ( )  consider  a  sequence  of  positive  noise  scales  ă  β , β , ¨ ¨ ¨  , β N  ă  .  For  each  training  data  point  x  „  p data p x q ,  a  discrete  Markov  chain t x , x , ¨ ¨ ¨  , x N u is constructed such that p p x i  | x i ´ q “ N p x i ;  ? ´ β i x i ´ , β i I q , and therefore p α i p x i  |  x q  “  N p x i ;  ? α i x , p ´ α i q I q , where α i  : “  ś i j “ p ´ β j q .  Similar to SMLD, we can denote the perturbed data distribution as p α i p ˜ x q : “ ş p data p x q p α i p ˜ x | x q d x .  The noise scales are pre- scribed such that x N  is approximately distributed according to N p , I q .  A variational Markov chain in the reverse direction is parameterized with p θ p x i ´ | x i q “ N p x i ´ ; ? ´ β i p x i ` β i s θ p x i , i qq , β i I q , and trained with a re-weighted variant of the evidence lower bound (ELBO): θ ˚  “ arg min θ N ÿ i “ p ´ α i q E p data p x q E p αi p ˜ x | x q r ∥ s θ p ˜ x , i q ´ ∇ ˜ x log p α i p ˜ x | x q ∥ s . (3) After solving Eq. ( ) to get the optimal model s θ ˚ p x , i q , samples can be generated by starting from x N  „ N p , I q and following the estimated reverse Markov chain as below x i ´  “ ? ´ β i p x i ` β i s θ ˚ p x i , i qq ` a β i z i , i “ N, N  ´ , ¨ ¨ ¨  , . (4) We call this method ancestral sampling ,  since it amounts to performing ancestral sampling from the graphical model  ś N i “  p θ p x i ´  | x i q .  The objective Eq. ( ) described here is L simple in Ho et al. ( ), written in a form to expose more similarity to Eq. ( ).  Like Eq. ( ), Eq. ( ) is also a weighted sum of denoising score matching objectives, which implies that the optimal model, s θ ˚ p ˜ x , i q , matches the score of the perturbed data distribution, ∇ x log p α i p x q .  Notably, the weights of the i -th summand in Eq. ( ) and Eq. ( ), namely σ i  and p ´ α i q , are related to corresponding perturbation kernels in the same functional form:  σ i  { E r ∥∇ x log p σ i p ˜ x | x q ∥ s and p ´ α i q9 { E r ∥∇ x log p α i p ˜ x | x q ∥ s ."
+    },
+    {
+      "section_title": "3",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": " CORE"
+    },
+    {
+      "section_title": "-",
+      "text": " BASED  GENERATIVE  MODELING  WITH"
+    },
+    {
+      "section_title": "SDE",
+      "text": " S Perturbing data with multiple noise scales is key to the success of previous methods.  We propose to generalize this idea further to an inﬁnite number of noise scales, such that perturbed data distributions evolve according to an SDE as the noise intensiﬁes.  An overview of our framework is given in Fig. . 3.1 P ERTURBING  DATA  WITH SDE S Our goal is to construct a diffusion process t x p t qu T t “  indexed by a continuous time variable t P r , T s , such that x p q  „  p , for which we have a dataset of i.i.d. samples, and x p T q  „  p T , for which we have a tractable form to generate samples efﬁciently.  In other words, p is the data distribution and p T  is the prior distribution.  This diffusion process can be modeled as the solution to an Itˆo SDE: d x “ f p x , t q d t ` g p t q d w , (5) Published as a conference paper at ICLR 2021   Forward SDE Data Prior Data Reverse SDE   Figure  2:  Overview  of  score-based  generative  modeling  through  SDEs .  We  can  map  data  to  a noise distribution (the prior) with an SDE (Section 3.1 ), and reverse this SDE for generative modeling (Section 3.2 ).  We can also reverse the associated probability ﬂow ODE (Section 4.3 ), which yields a deterministic process that samples from the same distribution as the SDE. Both the reverse-time SDE and probability ﬂow ODE can be obtained by estimating the score ∇ x log p t p x q (Section 3.3 ). where w is the standard Wiener process (a.k.a., Brownian motion), f p¨ , t q  :  R d  Ñ  R d  is a vector- valued function called the drift coefﬁcient of x p t q , and g p¨q : R Ñ R is a scalar function known as the diffusion coefﬁcient of x p t q .  For ease of presentation we assume the diffusion coefﬁcient is a scalar (instead of a d ˆ d matrix) and does not depend on x , but our theory can be generalized to hold in those cases (see Appendix A ). The SDE has a unique strong solution as long as the coefﬁcients are globally Lipschitz in both state and time ( Øksendal , ).  We hereafter denote by p t p x q the probability density of x p t q , and use p st p x p t q | x p s qq to denote the transition kernel from x p s q to x p t q , where ď s ă t ď T . Typically,  p T  is  an  unstructured  prior  distribution  that  contains  no  information  of  p ,  such  as  a Gaussian distribution with ﬁxed mean and variance.  There are various ways of designing the SDE in Eq. ( ) such that it diffuses the data distribution into a ﬁxed prior distribution.  We provide several examples later in Section 3.4 that are derived from continuous generalizations of SMLD and DDPM. 3.2 G ENERATING  SAMPLES  BY  REVERSING  THE SDE By starting from samples of x p T q „ p T  and reversing the process, we can obtain samples x p q „ p . A remarkable result from Anderson ( ) states that the reverse of a diffusion process is also a diffusion process, running backwards in time and given by the reverse-time SDE: d x “ r f p x , t q ´ g p t q ∇ x log p t p x qs d t ` g p t q d ¯ w , (6) where  ¯ w  is  a  standard  Wiener  process  when  time  ﬂows  backwards  from  T  to  ,  and  d t  is  an inﬁnitesimal negative timestep.  Once the score of each marginal distribution, ∇ x log p t p x q , is known for all t , we can derive the reverse diffusion process from Eq. ( ) and simulate it to sample from p . 3.3 E STIMATING  SCORES  FOR  THE SDE The  score  of  a  distribution  can  be  estimated  by  training  a  score-based  model  on  samples  with score  matching  ( Hyv ¨ arinen ,  ;  Song  et  al. ,  2019a ).  To  estimate  ∇ x log p t p x q ,  we  can  train  a time-dependent score-based model s θ p x , t q via a continuous generalization to Eqs. ( ) and ( ): θ ˚  “ arg min θ E t ! λ p t q E x p q E x p t q| x p q “  s θ p x p t q , t q ´ ∇ x p t q log p t p x p t q | x p qq  ‰ ) . (7) Here  λ  :  r , T s  Ñ  R ą  is  a  positive  weighting  function,  t  is  uniformly  sampled  over  r , T s , x p q „ p p x q and x p t q „ p t p x p t q | x p qq .  With sufﬁcient data and model capacity, score matching ensures that the optimal solution to Eq. ( ), denoted by s θ ˚ p x , t q , equals ∇ x log p t p x q for almost all x and t .  As in SMLD and DDPM, we can typically choose λ { E “  ∇ x p t q log p t p x p t q | x p qq  ‰ . Note that Eq. ( ) uses denoising score matching, but other score matching objectives, such as sliced Published as a conference paper at ICLR 2021 score matching ( Song et al. , 2019a ) and ﬁnite-difference score matching ( Pang et al. , ) are also applicable here. We typically need to know the transition kernel p t p x p t q | x p qq to efﬁciently solve Eq. ( ).  When f p¨ , t q is afﬁne, the transition kernel is always a Gaussian distribution, where the mean and variance are often known in closed-forms and can be obtained with standard techniques (see Section 5.5 in S ¨ arkk ¨ a & Solin ( )).  For more general SDEs, we may solve Kolmogorov’s forward equation ( Øksendal , ) to obtain p t p x p t q | x p qq .  Alternatively, we can simulate the SDE to sample from p t p x p t q | x p qq and replace denoising score matching in Eq. ( ) with sliced score matching for model training, which bypasses the computation of ∇ x p t q log p t p x p t q | x p qq (see Appendix A ). 3.4 E XAMPLES :  VE,  VP  SDE S  AND  BEYOND The noise perturbations used in SMLD and DDPM can be regarded as discretizations of two different SDEs.  Below we provide a brief discussion and relegate more details to Appendix B . When using a total of N  noise scales, each perturbation kernel p σ i p x | x q of SMLD corresponds to the distribution of x i  in the following Markov chain: x i  “ x i ´ ` b σ i  ´ σ i ´ z i ´ , i “ , ¨ ¨ ¨  , N, (8) where  z i ´  „  N p , I q ,  and  we  have  introduced  σ  “   to  simplify  the  notation.  In  the  limit  of N  Ñ 8 , t σ i u N i “  becomes a function σ p t q , z i becomes z p t q , and the Markov chain t x i u N i “  becomes a continuous stochastic process t x p t qu t “ , where we have used a continuous time variable t P r , s for indexing, rather than an integer i .  The process t x p t qu t “  is given by the following SDE d x “ c d r σ p t qs d t d w . (9) Likewise for the perturbation kernels t p α i p x | x qu N i “  of DDPM, the discrete Markov chain is x i  “ a ´ β i x i ´ ` a β i z i ´ , i “ , ¨ ¨ ¨  , N. (10) As N  Ñ 8 , Eq. ( ) converges to the following SDE, d x “ ´ β p t q x d t ` a β p t q d w . (11) Therefore, the noise perturbations used in SMLD and DDPM correspond to discretizations of SDEs Eqs. ( ) and ( ).  Interestingly, the SDE of Eq. ( ) always gives a process with exploding variance when t Ñ 8 , whilst the SDE of Eq. ( ) yields a process with a ﬁxed variance of one when the initial distribution has unit variance (proof in Appendix B ). Due to this difference, we hereafter refer to Eq. ( ) as the Variance Exploding (VE) SDE, and Eq. ( ) the Variance Preserving (VP) SDE. Inspired  by  the  VP  SDE,  we  propose  a  new  type  of  SDEs  which  perform  particularly  well  on likelihoods (see Section 4.3 ), given by d x “ ´ β p t q x d t ` b β p t qp ´ e ´ ş t  β p s q d s q d w . (12) When using the same β p t q and starting from the same initial distribution, the variance of the stochastic process induced by Eq. ( ) is always bounded by the VP SDE at every intermediate time step (proof in Appendix B ). For this reason, we name Eq. ( ) the sub-VP SDE. Since VE, VP and sub-VP SDEs all have afﬁne drift coefﬁcients, their perturbation kernels p t p x p t q | x p qq are all Gaussian and can be computed in closed-forms, as discussed in Section 3.3 .  This makes training with Eq. ( ) particularly efﬁcient."
+    },
+    {
+      "section_title": "4",
+      "text": ""
+    },
+    {
+      "section_title": "S",
+      "text": " OLVING  THE  REVERSE"
+    },
+    {
+      "section_title": "SDE",
+      "text": " After training a time-dependent score-based model s θ , we can use it to construct the reverse-time SDE and then simulate it with numerical approaches to generate samples from p . Published as a conference paper at ICLR 2021 Table 1:  Comparing different reverse-time SDE solvers on CIFAR-10.  Shaded regions are obtained with the same computation (number of score function evaluations).  Mean and standard deviation are reported over ﬁve sampling runs.  “P1000” or “P2000”:  predictor-only samplers using 1000 or 2000 steps.  “C2000”:  corrector-only samplers using 2000 steps.  “PC1000”:  Predictor-Corrector (PC) samplers using 1000 predictor and 1000 corrector steps. Variance Exploding SDE (SMLD) Variance Preserving SDE (DDPM) Predictor FID Ó Sampler P1000 P2000 C2000 PC1000 P1000 P2000 C2000 PC1000 ancestral sampling 4.98 ˘ .06 4.88 ˘ .06 3.62 ˘ .03 3.24 ˘ .02 3.24 ˘ .02 3.21 ˘ .02 reverse diffusion 4.79 ˘ .07 4.74 ˘ .08 3.60 ˘ .02 3.21 ˘ .02 3.19 ˘ .02 3.18 ˘ .01 probability ﬂow 15.41 ˘ .15 10.54 ˘ .08 20.43 ˘ .07 3.51 ˘ .04 3.59 ˘ .04 3.23 ˘ .03 19.06 ˘ .06 3.06 ˘ .03 4.1 G ENERAL - PURPOSE  NUMERICAL SDE  SOLVERS Numerical solvers provide approximate trajectories from SDEs.  Many general-purpose numerical methods exist for solving SDEs, such as Euler-Maruyama and stochastic Runge-Kutta methods ( Kloe- den & Platen , ), which correspond to different discretizations of the stochastic dynamics.  We can apply any of them to the reverse-time SDE for sample generation. Ancestral sampling, the sampling method of DDPM (Eq. ( )), actually corresponds to one special discretization  of  the  reverse-time  VP  SDE  (Eq.  ( ))  (see "
+    }
+  ]
+}

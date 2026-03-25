@@ -1,0 +1,1869 @@
+{
+  "title": "Learning Flexible Job Shop Scheduling under Limited Buffers and",
+  "abstract": "originates from real production lines, while some practical constraints are often ignored or idealized in current FJSP studies, among which the limited buffer problem has a particular impact on production efficiency. To this end, we study an extended problem that is closer to practical scenarios—the Flexible Job Shop Scheduling Problem with Limited Buffers and Material Kitting. In recent years, deep reinforcement learning (DRL) has demonstrated considerable potential in scheduling tasks. However, its capacity for state modeling remains limited when handling complex dependencies and long-term constraints. To address this, we leverage a heterogeneous graph network within the DRL framework to model the global state. By constructing efficient message passing among machines, operations, and buffers, the network focuses on avoiding decisions that may cause frequent pallet changes during long-sequence scheduling, thereby helping improve buffer utilization and overall decision quality. Experimental results on both synthetic and real production line datasets show that the proposed method outperforms traditional heuristics and advanced DRL methods in terms of makespan and pallet changes, and also achieves a good balance between solution quality and computational cost. Furthermore, a supplementary video is provided to showcase a simulation system that effectively visualizes the progression of the production line. I. INTRODUCTION The Flexible Job-Shop Scheduling Problem (FJSP) is a core optimization challenge in modern manufacturing and has received increasing research attention in recent years [1], [2]. The main challenge lies in simultaneously optimizing the operation sequence and machine allocation decisions. As the number of machines and operations grows, the solution space becomes vast, making it a strong NP-hard problem. Recently, with the continuous development of Operations Research (OR) and Machine Learning (ML) fields, FJSP has gradually been addressed with improved solution methods. However, the standard FJSP often overlooks complex resource constraints prevalent in real-world production lines. In high-mix scenarios such as steel plate processing and part sorting, parts must be temporarily stored in a limited number of buffer zones (e.g., pallets) under strict material kitting rules, where each pallet can only accommodate parts of the same category [3]. This results in a part-sorting bottleneck: insufficient pallets for diverse part types lead to frequent pallet changes, causing congestion and efficiency losses. This gives rise to the problem, we define the Flexible Job-Shop Scheduling Problem with Limited Buffers and Material Kitting (FJSP-LB-MK). The core challenge lies in balancing two objectives: optimizing the operation-to-machine 10 12 14 16 Average Pallet Changes 140 150 160 170 180 190 200 Makespan FIFO MOR SPT LWR Song et al.(Sampling) Ours(Sampling) Or-tools 10 −1 10 0 10 1 10 2 10 3 10 4 Computation Time (s) FIFO MOR SPT LWR Song et al.(Sampling) Ours(Sampling) Or-tools Fig. 1. Comparison of the makespan, pallet changes, and computation time (the closer to the bottom and left, the better). Our method establishes an effective balance between solution quality and computational cost. assignment for compact scheduling, while consecutively scheduling jobs containing similar part types (i.e., steel plates) to maximize pallet utilization and reduce pallet switching caused by category mismatches. There are numerous methods for solving FJSP and its variants. Traditional methods, such as constraint programming, rely on centralized search methods, and the computational time cost becomes prohibitive as the problem scales. Heuristic and metaheuristic algorithms often rely on manually designed rules, which leads to a lack of generalization. In recent years, Deep Reinforcement Learning (DRL) has demonstrated considerable promise in solving the standard FJSP and a range of combinatorial optimization problems [4]–[6]. It supports end-to-end decision-making with second-level inference time and consistently competitive performance, owing to its long- term reward mechanism in sequential decision-making and its ability to autonomously learnb effective heuristics for optimization tasks [7]. However, when faced with complex practical constraints in production line scenarios, existing DRL methods show significant limitations. Most of these methods rely on simplified state representations and struggle to capture long-term, non-local state dependencies arising from shared resources (e.g., pallets). As a result, the agent cannot anticipate how current decisions actually affect the availability of shared resources, leading to poor performance in scenarios under complex constraints. To overcome these limitations, we build upon the strengths of DRL in long-sequence decision-making and leverage a heterogeneous graph network for global state modeling in the presence of buffer constraints. By constructing the dependency among different instances within the graph, we enable efficient message passing of critical information. During this process, arXiv:2602.24180v1 [cs.AI] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "7",
+      "section_title": "tr",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "8",
+      "section_title": "P 9",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "10",
+      "section_title": "× 5",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "20",
+      "section_title": "× 5",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "15",
+      "section_title": "× 10",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "20",
+      "section_title": "× 10",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "30",
+      "section_title": "× 10",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "40",
+      "section_title": "× 10",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "Number of operations in Job Ji; 2 Number of compatible machines for operation",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Oij; 3 Average processing time of operation Oij; 4 Number of part-sorting opera-",
+          "page": 4
+        },
+        {
+          "para_id": "1_2",
+          "text": "tions per job; 5 Number of part categories on each job; 6 Total number of part cate-",
+          "page": 4
+        },
+        {
+          "para_id": "1_3",
+          "text": "gories; 7 Part placement time (sec); 8 Pallet replacement time (sec); 9 Number of",
+          "page": 4
+        },
+        {
+          "para_id": "1_4",
+          "text": "with higher switch costs. In contrast, we also investigate a",
+          "page": 4
+        },
+        {
+          "para_id": "1_5",
+          "text": "benefit-seeking strategy, where edge weights are negatively",
+          "page": 4
+        },
+        {
+          "para_id": "1_6",
+          "text": "correlated with SwEst, thereby guiding the network model",
+          "page": 4
+        },
+        {
+          "para_id": "1_7",
+          "text": "toward decisions with lower immediate switch costs. Our",
+          "page": 4
+        },
+        {
+          "para_id": "1_8",
+          "text": "ablation study confirm the superiority of the cost-avoiding",
+          "page": 4
+        },
+        {
+          "para_id": "1_9",
+          "text": "strategy. We attribute this to the fact that benefit-seeking may",
+          "page": 4
+        },
+        {
+          "para_id": "1_10",
+          "text": "lead to locally optimal but short-sighted choices, neglecting",
+          "page": 4
+        },
+        {
+          "para_id": "1_11",
+          "text": "downstream constraints and creating bottlenecks. By contrast,",
+          "page": 4
+        },
+        {
+          "para_id": "1_12",
+          "text": "cost-avoiding encourages the model to proactively mitigate",
+          "page": 4
+        },
+        {
+          "para_id": "1_13",
+          "text": "high-cost decisions, achieving better global optimization and",
+          "page": 4
+        },
+        {
+          "para_id": "1_14",
+          "text": "more robust scheduling performance.",
+          "page": 4
+        },
+        {
+          "para_id": "1_15",
+          "text": "To evaluate the performance of our proposed algorithm,",
+          "page": 4
+        },
+        {
+          "para_id": "1_16",
+          "text": "we conducted a series of experiments on synthetic datasets",
+          "page": 4
+        },
+        {
+          "para_id": "1_17",
+          "text": "of varying scales and real production line datasets.",
+          "page": 4
+        },
+        {
+          "para_id": "1_18",
+          "text": "1) Synthetic Dataset: Similar to most studies on FJSP,",
+          "page": 4
+        },
+        {
+          "para_id": "1_19",
+          "text": "synthetic FJSP-LB-MK instances were generated for model",
+          "page": 4
+        },
+        {
+          "para_id": "1_20",
+          "text": "training and testing, with the generation procedure following",
+          "page": 4
+        },
+        {
+          "para_id": "1_21",
+          "text": "the methodology outlined in [20]. We considered six distinct",
+          "page": 4
+        },
+        {
+          "para_id": "1_22",
+          "text": "problem scales, ranging from 10 jobs × 5 machines to",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "40",
+      "section_title": "jobs × 10 machines. Taking into account the specific",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "40_1",
+          "text": "characteristics of the FJSP-LB-MK problem, we further",
+          "page": 4
+        },
+        {
+          "para_id": "40_2",
+          "text": "customized these synthetic instances with modifications:",
+          "page": 4
+        },
+        {
+          "para_id": "40_3",
+          "text": "• Within the set of operations for each job, certain opera-",
+          "page": 4
+        },
+        {
+          "para_id": "40_4",
+          "text": "tions were designated as part-sorting operations. These",
+          "page": 4
+        },
+        {
+          "para_id": "40_5",
+          "text": "operations are only executable by specific machines.",
+          "page": 4
+        },
+        {
+          "para_id": "40_6",
+          "text": "• A subset of machines was designated exclusively for",
+          "page": 4
+        },
+        {
+          "para_id": "40_7",
+          "text": "executing part-sorting operations.",
+          "page": 4
+        },
+        {
+          "para_id": "40_8",
+          "text": "• For each problem scale, several variant instances were",
+          "page": 4
+        },
+        {
+          "para_id": "40_9",
+          "text": "created based on the number of machines and operations.",
+          "page": 4
+        },
+        {
+          "para_id": "40_10",
+          "text": "As shown in Table I, the first four columns represent the orig-",
+          "page": 4
+        },
+        {
+          "para_id": "40_11",
+          "text": "inal FJSP parameters, while the last five columns correspond",
+          "page": 4
+        },
+        {
+          "para_id": "40_12",
+          "text": "to the extended FJSP-LB-MK parameters, including part",
+          "page": 4
+        },
+        {
+          "para_id": "40_13",
+          "text": "sorting, pallet change, and other features. These parameters",
+          "page": 4
+        },
+        {
+          "para_id": "40_14",
+          "text": "were adaptively adjusted with the problem scale.",
+          "page": 4
+        },
+        {
+          "para_id": "40_15",
+          "text": "2) Real Production Line Dataset: We constructed a real",
+          "page": 4
+        },
+        {
+          "para_id": "40_16",
+          "text": "production-line dataset by collecting comprehensive data",
+          "page": 4
+        },
+        {
+          "para_id": "40_17",
+          "text": "related to steel plate processing from four industrial pro-",
+          "page": 4
+        },
+        {
+          "para_id": "40_18",
+          "text": "duction lines. In these production lines, each steel plate",
+          "page": 4
+        },
+        {
+          "para_id": "40_19",
+          "text": "(job) J undergoes a sequence of operations. For each",
+          "page": 4
+        },
+        {
+          "para_id": "40_20",
+          "text": "operation Oi, the factory information system automatically",
+          "page": 4
+        },
+        {
+          "para_id": "40_21",
+          "text": "PARAMETERS OF THE REAL PRODUCTION LINE DATASET",
+          "page": 5
+        },
+        {
+          "para_id": "40_22",
+          "text": "{5 : 1, 1 : 3, 2 : 4}",
+          "page": 5
+        },
+        {
+          "para_id": "40_23",
+          "text": "1–12 16–38 14 180 48",
+          "page": 5
+        },
+        {
+          "para_id": "40_24",
+          "text": "records processing-related information. Combined with a",
+          "page": 5
+        },
+        {
+          "para_id": "40_25",
+          "text": "dedicated processing-time calculation program, this enables",
+          "page": 5
+        },
+        {
+          "para_id": "40_26",
+          "text": "the computation of the required processing time pik when the",
+          "page": 5
+        },
+        {
+          "para_id": "40_27",
+          "text": "operation is executed on an eligible machine Mk. For each",
+          "page": 5
+        },
+        {
+          "para_id": "40_28",
+          "text": "production line, we sampled 10,000 instances for training, 100",
+          "page": 5
+        },
+        {
+          "para_id": "40_29",
+          "text": "for validation, and 100 for testing. Each instance represents a",
+          "page": 5
+        },
+        {
+          "para_id": "40_30",
+          "text": "production segment consisting of 20 jobs (steel plates). The",
+          "page": 5
+        },
+        {
+          "para_id": "40_31",
+          "text": "key parameters for the four production lines are shown in",
+          "page": 5
+        },
+        {
+          "para_id": "40_32",
+          "text": "Tables II. Unlike the uniform sampling of the synthetic dataset,",
+          "page": 5
+        },
+        {
+          "para_id": "40_33",
+          "text": "the |Mij| metric of the dataset reflects actual machine-",
+          "page": 5
+        },
+        {
+          "para_id": "40_34",
+          "text": "Additionally, part categories and their counts are derived",
+          "page": 5
+        },
+        {
+          "para_id": "40_35",
+          "text": "from production lines, providing actual values for cj and C,",
+          "page": 5
+        },
+        {
+          "para_id": "40_36",
+          "text": "resulting in greater variability than in the synthetic dataset, and",
+          "page": 5
+        },
+        {
+          "para_id": "40_37",
+          "text": "making the production line dataset a more rigorous benchmark",
+          "page": 5
+        },
+        {
+          "para_id": "40_38",
+          "text": "for testing an algorithm’s adaptability to buffer congestion.",
+          "page": 5
+        },
+        {
+          "para_id": "40_39",
+          "text": "In this work, we idealize the production environment by not",
+          "page": 5
+        },
+        {
+          "para_id": "40_40",
+          "text": "accounting for real-world disruptions such as machine failures",
+          "page": 5
+        },
+        {
+          "para_id": "40_41",
+          "text": "or dynamic order insertions.",
+          "page": 5
+        },
+        {
+          "para_id": "40_42",
+          "text": "B. Implementation Details",
+          "page": 5
+        },
+        {
+          "para_id": "40_43",
+          "text": "Algorithm 1 Details of Training Procedure with PPO",
+          "page": 5
+        },
+        {
+          "para_id": "40_44",
+          "text": "Require: Initial heterogeneous GNN, policy network (actor πθ),",
+          "page": 5
+        },
+        {
+          "para_id": "40_45",
+          "text": "and value network (critic vϕ); total iterations I",
+          "page": 5
+        },
+        {
+          "para_id": "40_46",
+          "text": "1: Sample B instances",
+          "page": 5
+        },
+        {
+          "para_id": "40_47",
+          "text": "2: for iter = 1 to I do",
+          "page": 5
+        },
+        {
+          "para_id": "40_48",
+          "text": "for all b = 1 to B in parallel do",
+          "page": 5
+        },
+        {
+          "para_id": "40_49",
+          "text": "Set initial state st for instance b",
+          "page": 5
+        },
+        {
+          "para_id": "40_50",
+          "text": "while st not terminal do",
+          "page": 5
+        },
+        {
+          "para_id": "40_51",
+          "text": "Get embeddings from network",
+          "page": 5
+        },
+        {
+          "para_id": "40_52",
+          "text": "Select at ∼πθ(st); observe rt, st+1",
+          "page": 5
+        },
+        {
+          "para_id": "40_53",
+          "text": "Estimate advantage At and compute loss L",
+          "page": 5
+        },
+        {
+          "para_id": "40_54",
+          "text": "Update θ, ϕ, ω for R epochs",
+          "page": 5
+        },
+        {
+          "para_id": "40_55",
+          "text": "if iter mod 10 = 0 then",
+          "page": 5
+        },
+        {
+          "para_id": "40_56",
+          "text": "if iter mod 20 = 0 then",
+          "page": 5
+        },
+        {
+          "para_id": "40_57",
+          "text": "20: return Updated model parameters.",
+          "page": 5
+        },
+        {
+          "para_id": "40_58",
+          "text": "1) Details of training: All training and experiments were",
+          "page": 5
+        },
+        {
+          "para_id": "40_59",
+          "text": "performed on a device equipped with an NVIDIA GeForce",
+          "page": 5
+        },
+        {
+          "para_id": "40_60",
+          "text": "RTX 3080 Ti GPU and an Intel Core i9-10980XE CPU. We",
+          "page": 5
+        },
+        {
+          "para_id": "40_61",
+          "text": "use Proximal Policy Optimization (PPO) for training, which",
+          "page": 5
+        },
+        {
+          "para_id": "40_62",
+          "text": "employs an actor-critic framework. The actor is the policy",
+          "page": 5
+        },
+        {
+          "para_id": "40_63",
+          "text": "network πω, while the critic vϕ predicts the value v(st) of a",
+          "page": 5
+        },
+        {
+          "para_id": "40_64",
+          "text": "state st. The training process involves I iterations, where a",
+          "page": 5
+        },
+        {
+          "para_id": "40_65",
+          "text": "batch of instances is processed in parallel by the DRL agent",
+          "page": 5
+        },
+        {
+          "para_id": "40_66",
+          "text": "TRAINING PARAMETERS.",
+          "page": 5
+        },
+        {
+          "para_id": "40_67",
+          "text": "gamma (discounting factors)",
+          "page": 5
+        },
+        {
+          "para_id": "40_68",
+          "text": "K_epochs (update epoch in PPO)",
+          "page": 5
+        },
+        {
+          "para_id": "40_69",
+          "text": "A_coeff (weight of policy loss)",
+          "page": 5
+        },
+        {
+          "para_id": "40_70",
+          "text": "vf_coeff (weight of value loss)",
+          "page": 5
+        },
+        {
+          "para_id": "40_71",
+          "text": "entro_coeff (weight of entropy loss)",
+          "page": 5
+        },
+        {
+          "para_id": "40_72",
+          "text": "KL_coeff (weight of KL regularization term)",
+          "page": 5
+        },
+        {
+          "para_id": "40_73",
+          "text": "parallel_iter (batch size of training)",
+          "page": 5
+        },
+        {
+          "para_id": "40_74",
+          "text": "save_timestep (validate interval)",
+          "page": 5
+        },
+        {
+          "para_id": "40_75",
+          "text": "minibatch (update batchsize in PPO)",
+          "page": 5
+        },
+        {
+          "para_id": "40_76",
+          "text": "update_timestep (update interval)",
+          "page": 5
+        },
+        {
+          "para_id": "40_77",
+          "text": "with instance replacement every 20 iterations. Additionally,",
+          "page": 5
+        },
+        {
+          "para_id": "40_78",
+          "text": "the policy is validated on a set of independent validation",
+          "page": 5
+        },
+        {
+          "para_id": "40_79",
+          "text": "instances every 10 iterations during training. The training",
+          "page": 5
+        },
+        {
+          "para_id": "40_80",
+          "text": "procedure and some key training parameters are shown in",
+          "page": 5
+        },
+        {
+          "para_id": "40_81",
+          "text": "Algorithm 1 and Table III.",
+          "page": 5
+        },
+        {
+          "para_id": "40_82",
+          "text": "2) Training on datasets: First, we train our model on",
+          "page": 5
+        },
+        {
+          "para_id": "40_83",
+          "text": "small-scale synthetic instances with 10 jobs × 5 machines,",
+          "page": 5
+        },
+        {
+          "para_id": "40_84",
+          "text": "with the training instances generated on-the-fly, and we apply",
+          "page": 5
+        },
+        {
+          "para_id": "40_85",
+          "text": "the policy model learned from the small-scale to all scales",
+          "page": 5
+        },
+        {
+          "para_id": "40_86",
+          "text": "of the synthetic test set to verify the performance.",
+          "page": 5
+        },
+        {
+          "para_id": "40_87",
+          "text": "For the real production line datasets, we use the model",
+          "page": 5
+        },
+        {
+          "para_id": "40_88",
+          "text": "trained on the synthetic dataset as the pretrained model, and",
+          "page": 5
+        },
+        {
+          "para_id": "40_89",
+          "text": "then fine-tune it on different production line datasets. Initially,",
+          "page": 5
+        },
+        {
+          "para_id": "40_90",
+          "text": "when directly transferring the model from the synthetic dataset",
+          "page": 5
+        },
+        {
+          "para_id": "40_91",
+          "text": "to the production line datasets, we observed a temporary",
+          "page": 5
+        },
+        {
+          "para_id": "40_92",
+          "text": "deterioration in the makespan metric. To address this issue,",
+          "page": 5
+        },
+        {
+          "para_id": "40_93",
+          "text": "we incorporated an additional KL-divergence regularization",
+          "page": 5
+        },
+        {
+          "para_id": "40_94",
+          "text": "term in the PPO loss with respect to the pre-trained policy,",
+          "page": 5
+        },
+        {
+          "para_id": "40_95",
+          "text": "which prevents overly rapid policy updates and leads to more",
+          "page": 5
+        },
+        {
+          "para_id": "40_96",
+          "text": "stable performance improvements during training.",
+          "page": 5
+        },
+        {
+          "para_id": "40_97",
+          "text": "We adapt several strong-performing algorithms from the",
+          "page": 5
+        },
+        {
+          "para_id": "40_98",
+          "text": "standard FJSP to the FJSP-LB-MK setting. These include:",
+          "page": 5
+        },
+        {
+          "para_id": "40_99",
+          "text": "1) the CP-SAT solver from Google OR-Tools, 2) Priority",
+          "page": 5
+        },
+        {
+          "para_id": "40_100",
+          "text": "Dispatching Rules (PDRs), and 3) a DRL method known for",
+          "page": 5
+        },
+        {
+          "para_id": "40_101",
+          "text": "its effectiveness on FJSP.",
+          "page": 5
+        },
+        {
+          "para_id": "40_102",
+          "text": "OR-Tools. OR-Tools is a widely used constraint program-",
+          "page": 5
+        },
+        {
+          "para_id": "40_103",
+          "text": "ming solver [21]. We use it with part sorting sequences",
+          "page": 5
+        },
+        {
+          "para_id": "40_104",
+          "text": "obtained via MCTS (10,000 simulations) as static input. Each",
+          "page": 5
+        },
+        {
+          "para_id": "40_105",
+          "text": "instance is solved within a 1800s time limit, and the best",
+          "page": 5
+        },
+        {
+          "para_id": "40_106",
+          "text": "solution found serves as an upper bound for evaluation.",
+          "page": 5
+        },
+        {
+          "para_id": "40_107",
+          "text": "PDRs. The scheduling process is split into two stages: op-",
+          "page": 5
+        },
+        {
+          "para_id": "40_108",
+          "text": "eration sequencing and machine assignment. For sequencing,",
+          "page": 5
+        },
+        {
+          "para_id": "40_109",
+          "text": "we use rules such as Most Work Remaining (MWR), Least",
+          "page": 5
+        },
+        {
+          "para_id": "40_110",
+          "text": "Work Remaining (LWR), and First in First Out (FIFO). For",
+          "page": 5
+        },
+        {
+          "para_id": "40_111",
+          "text": "machine assignment, we use the Earliest End Time (EET).",
+          "page": 5
+        },
+        {
+          "para_id": "40_112",
+          "text": "DRL. We adapt the DRL framework from Song et al. [15],",
+          "page": 5
+        },
+        {
+          "para_id": "40_113",
+          "text": "which performs well on standard FJSP benchmarks, to the",
+          "page": 5
+        },
+        {
+          "para_id": "40_114",
+          "text": "FJSP-LB-MK. Two strategies are tested: 1) DRL-Greedy:",
+          "page": 5
+        },
+        {
+          "para_id": "40_115",
+          "text": "selects the highest probability action, and 2) DRL-Sampling:",
+          "page": 5
+        },
+        {
+          "para_id": "40_116",
+          "text": "samples actions based on the probability distribution. Each",
+          "page": 5
+        },
+        {
+          "para_id": "40_117",
+          "text": "instance is run 100 times, reporting the best result.",
+          "page": 5
+        },
+        {
+          "para_id": "40_118",
+          "text": "(a) [15], Pallet_change=16, Makespan=192",
+          "page": 6
+        },
+        {
+          "para_id": "40_119",
+          "text": "(b) Ours, Pallet_change=10, Makespan=167",
+          "page": 6
+        },
+        {
+          "para_id": "40_120",
+          "text": "Gantt Chart Comparison (Test Case: 10j5m test_set instance). The",
+          "page": 6
+        },
+        {
+          "para_id": "40_121",
+          "text": "white rectangles represent time delays caused by pallet changes. Rectangles",
+          "page": 6
+        },
+        {
+          "para_id": "40_122",
+          "text": "of other colors represent the time intervals when parts from different jobs",
+          "page": 6
+        },
+        {
+          "para_id": "40_123",
+          "text": "are loaded onto the pallet (where Tn denotes the n-th type of part).",
+          "page": 6
+        },
+        {
+          "para_id": "40_124",
+          "text": "D. Evaluation Metrics",
+          "page": 6
+        },
+        {
+          "para_id": "40_125",
+          "text": "To assess both the efficiency and quality of the proposed",
+          "page": 6
+        },
+        {
+          "para_id": "40_126",
+          "text": "method, we adopt the following evaluation metrics commonly",
+          "page": 6
+        },
+        {
+          "para_id": "40_127",
+          "text": "used in FJSP literature:",
+          "page": 6
+        },
+        {
+          "para_id": "40_128",
+          "text": "• Makespan: The average total completion time across",
+          "page": 6
+        },
+        {
+          "para_id": "40_129",
+          "text": "all test instances, as the primary optimization objective.",
+          "page": 6
+        },
+        {
+          "para_id": "40_130",
+          "text": "• Gap: The average relative difference in makespan",
+          "page": 6
+        },
+        {
+          "para_id": "40_131",
+          "text": "compared to the solutions obtained by OR-Tools, used",
+          "page": 6
+        },
+        {
+          "para_id": "40_132",
+          "text": "to evaluate the quality of the solution.",
+          "page": 6
+        },
+        {
+          "para_id": "40_133",
+          "text": "• Time: The average computational time required to obtain",
+          "page": 6
+        },
+        {
+          "para_id": "40_134",
+          "text": "solutions, reflecting the algorithm’s efficiency.",
+          "page": 6
+        },
+        {
+          "para_id": "40_135",
+          "text": "In addition to the standard scheduling metrics, we introduce",
+          "page": 6
+        },
+        {
+          "para_id": "40_136",
+          "text": "Switches as an indicator of the algorithm’s performance with",
+          "page": 6
+        },
+        {
+          "para_id": "40_137",
+          "text": "respect to pallet exchange frequency.",
+          "page": 6
+        },
+        {
+          "para_id": "40_138",
+          "text": "• Switches: The average total number of pallet changes",
+          "page": 6
+        },
+        {
+          "para_id": "40_139",
+          "text": "across all test instances.",
+          "page": 6
+        },
+        {
+          "para_id": "40_140",
+          "text": "E. Results and Analysis",
+          "page": 6
+        },
+        {
+          "para_id": "40_141",
+          "text": "Table IV and Table V report the scheduling performance",
+          "page": 6
+        },
+        {
+          "para_id": "40_142",
+          "text": "of our method compared with various baselines on both the",
+          "page": 6
+        },
+        {
+          "para_id": "40_143",
+          "text": "synthetic datasets and the real production line datasets. As",
+          "page": 6
+        },
+        {
+          "para_id": "40_144",
+          "text": "shown, our approach consistently achieves superior makespan",
+          "page": 6
+        },
+        {
+          "para_id": "40_145",
+          "text": "performance across all problem sizes and production lines.",
+          "page": 6
+        },
+        {
+          "para_id": "40_146",
+          "text": "While our method requires more computation time than",
+          "page": 6
+        },
+        {
+          "para_id": "40_147",
+          "text": "PDRs, it yields significantly better performance, and on",
+          "page": 6
+        },
+        {
+          "para_id": "40_148",
+          "text": "the production line C dataset, it even surpasses the exact",
+          "page": 6
+        },
+        {
+          "para_id": "40_149",
+          "text": "solver (OR-Tools) with markedly lower computation time.",
+          "page": 6
+        },
+        {
+          "para_id": "40_150",
+          "text": "Under both the Greedy and Sampling strategies, our method",
+          "page": 6
+        },
+        {
+          "para_id": "40_151",
+          "text": "outperforms the DRL baseline [15], and as the problem scale",
+          "page": 6
+        },
+        {
+          "para_id": "40_152",
+          "text": "grows, the performance gap continues to widen, demonstrating",
+          "page": 6
+        },
+        {
+          "para_id": "40_153",
+          "text": "PS+Type+SwEst (Ours)",
+          "page": 6
+        },
+        {
+          "para_id": "40_154",
+          "text": "PS+Type+SwEst (Ours)",
+          "page": 6
+        },
+        {
+          "para_id": "40_155",
+          "text": "Training curve comparison on State Features.",
+          "page": 6
+        },
+        {
+          "para_id": "40_156",
+          "text": "Base+Pallet_SortOnly",
+          "page": 6
+        },
+        {
+          "para_id": "40_157",
+          "text": "Base+Pallet_SortOnly_Weighted (Ours)",
+          "page": 6
+        },
+        {
+          "para_id": "40_158",
+          "text": "Base+Pallet_SortOnly_InverseWeight",
+          "page": 6
+        },
+        {
+          "para_id": "40_159",
+          "text": "Base+Pallet_SortOnly",
+          "page": 6
+        },
+        {
+          "para_id": "40_160",
+          "text": "Base+Pallet_SortOnly_Weighted (Ours)",
+          "page": 6
+        },
+        {
+          "para_id": "40_161",
+          "text": "Base+Pallet_SortOnly_InverseWeight",
+          "page": 6
+        },
+        {
+          "para_id": "40_162",
+          "text": "Training curve comparison on selective connectivity and cost-",
+          "page": 6
+        },
+        {
+          "para_id": "40_163",
+          "text": "sensitive propagation.",
+          "page": 6
+        },
+        {
+          "para_id": "40_164",
+          "text": "the superior scalability and generalization ability of our",
+          "page": 6
+        },
+        {
+          "para_id": "40_165",
+          "text": "approach for large-scale problems.",
+          "page": 6
+        },
+        {
+          "para_id": "40_166",
+          "text": "More notably, in terms of the pallet changes (switches), our",
+          "page": 6
+        },
+        {
+          "para_id": "40_167",
+          "text": "approach consistently outperforms the DRL baseline and all",
+          "page": 6
+        },
+        {
+          "para_id": "40_168",
+          "text": "PDRs across all synthetic problem scales. This advantage can",
+          "page": 6
+        },
+        {
+          "para_id": "40_169",
+          "text": "be attributed to the explicit incorporation of switch-related",
+          "page": 6
+        },
+        {
+          "para_id": "40_170",
+          "text": "objectives into our model, where graph-based structural",
+          "page": 6
+        },
+        {
+          "para_id": "40_171",
+          "text": "modeling and reward design guide the policy to reduce long-",
+          "page": 6
+        },
+        {
+          "para_id": "40_172",
+          "text": "term pallet switches overhead. However, on the production",
+          "page": 6
+        },
+        {
+          "para_id": "40_173",
+          "text": "line datasets, our method does not always achieve the lowest",
+          "page": 6
+        },
+        {
+          "para_id": "40_174",
+          "text": "number of switches. This phenomenon can be attributed to",
+          "page": 6
+        },
+        {
+          "para_id": "40_175",
+          "text": "the significant heterogeneity across different production lines.",
+          "page": 6
+        },
+        {
+          "para_id": "40_176",
+          "text": "Specifically, the total number of part categories C, the number",
+          "page": 6
+        },
+        {
+          "para_id": "40_177",
+          "text": "of part categories per job cj, and the available pallets P vary",
+          "page": 6
+        },
+        {
+          "para_id": "40_178",
+          "text": "substantially between lines, leading to disparate levels of",
+          "page": 6
+        },
+        {
+          "para_id": "40_179",
+          "text": "buffer congestion. Consequently, while our strategy—pre-",
+          "page": 6
+        },
+        {
+          "para_id": "40_180",
+          "text": "trained on synthetic instances and fine-tuned for production",
+          "page": 6
+        },
+        {
+          "para_id": "40_181",
+          "text": "lines—primarily prioritizes makespan optimization, it may",
+          "page": 6
+        },
+        {
+          "para_id": "40_182",
+          "text": "incur slightly more switches on certain real-world datasets.",
+          "page": 6
+        },
+        {
+          "para_id": "40_183",
+          "text": "This reflects an inherent trade-off dictated by the specific",
+          "page": 6
+        },
+        {
+          "para_id": "40_184",
+          "text": "buffer constraints of individual production environments.",
+          "page": 6
+        },
+        {
+          "para_id": "40_185",
+          "text": "Additionally, Figure 6 presents a comparative visualization",
+          "page": 6
+        },
+        {
+          "para_id": "40_186",
+          "text": "of Gantt charts between our method and [15], using a repre-",
+          "page": 6
+        },
+        {
+          "para_id": "40_187",
+          "text": "sentative case from the 10j5m synthetic test set. The results",
+          "page": 6
+        },
+        {
+          "para_id": "40_188",
+          "text": "show that our method can shorten the overall completion",
+          "page": 6
+        },
+        {
+          "para_id": "40_189",
+          "text": "time by effectively reducing the number of pallet changes.",
+          "page": 6
+        },
+        {
+          "para_id": "40_190",
+          "text": "In summary, our method achieves dual optimization of",
+          "page": 6
+        },
+        {
+          "para_id": "40_191",
+          "text": "scheduling quality and buffer usage cost, and achieves a",
+          "page": 6
+        },
+        {
+          "para_id": "40_192",
+          "text": "cost. This makes it particularly well-suited for large-scale",
+          "page": 6
+        },
+        {
+          "para_id": "40_193",
+          "text": "flexible job-shop scenarios with practical buffer constraints.",
+          "page": 6
+        },
+        {
+          "para_id": "40_194",
+          "text": "PERFORMANCE ON SYNTHETIC FJSP-LB-MK DATASETS.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "10",
+      "section_title": "× 5",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "142.45",
+      "section_title": "(9.01)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "20",
+      "section_title": "× 5",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "279.45",
+      "section_title": "(20.68)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "15",
+      "section_title": "× 10",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "239.79",
+      "section_title": "(13.90)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "20",
+      "section_title": "× 10",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "297.75",
+      "section_title": "(18.99)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "30",
+      "section_title": "× 10",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "410.74",
+      "section_title": "(25.93)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "40",
+      "section_title": "× 10",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "518.18",
+      "section_title": "(41.82)",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "518.18_1",
+          "text": "* Best among all methods excluding OR-Tools;",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "For OR-Tools, the makespan and the switches (in brackets) of optimally solved instances within a 1800s time limit are reported;",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": "Gap is calculated based on the OR-Tools result as a reference.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "PERFORMANCE ON REAL PRODUCTION LINE DATASETS.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "6706.06",
+      "section_title": "(18.85)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "9949.58",
+      "section_title": "(3.33)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "40377.03",
+      "section_title": "(25.42)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "17074.17",
+      "section_title": "(19.58)",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "17074.17_1",
+          "text": "EFFECTIVENESS OF KEY STATE FEATURES.",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_2",
+          "text": "PS+Type+SwEst (Ours)",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_3",
+          "text": "We perform ablation experiments on the smallest problem",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_4",
+          "text": "scale of the synthetic dataset (10 jobs × 5 machines), keeping",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_5",
+          "text": "all configurations consistent.",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_6",
+          "text": "EFFECTIVENESS OF SELECTIVE CONNECTIVITY AND COST-SENSITIVE",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_7",
+          "text": "Pallet_SortOnly_InverseWeight",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_8",
+          "text": "Pallet_SortOnly_Weighted (Ours)",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_9",
+          "text": "1) Effectiveness of Key State Features: To evaluate the",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_10",
+          "text": "impact of different input features, we remove components",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_11",
+          "text": "from the operation features. As mentioned in IV-A.1, the",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_12",
+          "text": "key features include: (1) 6-dimensional scheduling-related",
+          "page": 7
+        },
+        {
+          "para_id": "17074.17_13",
+          "text": "features used in [15], (2) a binary indicator for part-sorting",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_14",
+          "text": "operations (PS), (3) a one-hot encoding of part types (Type),",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_15",
+          "text": "and (4) estimated pallet switches (SwEst). Figure 7 and",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_16",
+          "text": "Table VI show the results. Removing Type and SwEst signif-",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_17",
+          "text": "icantly increases both Makespan and Switches (8.3%/10.5%",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_18",
+          "text": "and 27.4%/27.4% increases, respectively), highlighting their",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_19",
+          "text": "importance. Removing PS has a minor effect, suggesting its",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_20",
+          "text": "limited contribution in isolation. This emphasizes that Type",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_21",
+          "text": "and SwEst are crucial for estimating switch-related costs,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_22",
+          "text": "while PS mainly helps identify operation types.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_23",
+          "text": "2) Effectiveness of Selective Connectivity and Cost-",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_24",
+          "text": "sensitive Propagation: In IV-B.1 and IV-B.2, we introduce",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_25",
+          "text": "the selective connectivity and cost-sensitive propagation",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_26",
+          "text": "strategy. Figure 8 and Table VII show results from different",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_27",
+          "text": "configurations: Base means no connections between operation",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_28",
+          "text": "nodes and the buffer node, Pallet_AllOps indicates all",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_29",
+          "text": "operations connected to the buffer node, and Pallet_SortOnly",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_30",
+          "text": "is that only part-sorting operations are connected to the buffer",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_31",
+          "text": "node, and the buffer message is broadcast uniformly to every",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_32",
+          "text": "part-sorting node without differentiation. This refinement",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_33",
+          "text": "enables the model to focus on critical decisions and elimi-",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_34",
+          "text": "nate noise from non-relevant operations, and achieve better",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_35",
+          "text": "performance than the above two configurations. The best",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_36",
+          "text": "performance is achieved with Pallet_SortOnly_Weighted,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_37",
+          "text": "in which the buffer message is discriminally broadcast to",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_38",
+          "text": "part-sorting nodes, and the edge weights are proportional",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_39",
+          "text": "to the different estimated pallet changes of different part-",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_40",
+          "text": "sorting nodes. We have also compared two edge weight",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_41",
+          "text": "strategies: cost-avoiding and benefit-seeking, the latter is",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_42",
+          "text": "represented by Pallet_SortOnly_InverseWeight. The benefit-",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_43",
+          "text": "seeking strategy performs similarly to the baseline and worse",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_44",
+          "text": "than cost-avoiding. We analyze that benefit-seeking may",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_45",
+          "text": "lead to locally optimal but short-sighted choices while cost-",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_46",
+          "text": "avoiding better mitigates high-cost decisions with a long-term",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_47",
+          "text": "consideration, resulting in more efficient scheduling.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_48",
+          "text": "This work was supported in part by the NSFC (62325211,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_49",
+          "text": "62132021), the Fundamental Research Funds for the Cen-",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_50",
+          "text": "tral Universities (2042025kf0014), the Major Program of",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_51",
+          "text": "Xiangjiang Laboratory (23XJ01009), Key R&D Program of",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_52",
+          "text": "Wuhan (2024060702030143).",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_53",
+          "text": "This work addresses the Flexible Job-Shop Scheduling",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_54",
+          "text": "MK) in manufacturing. We propose a DRL-based scheduling",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_55",
+          "text": "method using a heterogeneous graph neural network, which",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_56",
+          "text": "effectively models dependencies between machines, opera-",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_57",
+          "text": "tions, and buffers. The method is validated on the synthetic",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_58",
+          "text": "dataset and real production line datasets, and compared",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_59",
+          "text": "with heuristics, constraint programming, and DRL methods.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_60",
+          "text": "Experimental results demonstrate that our approach achieves",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_61",
+          "text": "a superior balance between performance and computational",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_62",
+          "text": "time, and ablation studies demonstrate the effectiveness of",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_63",
+          "text": "the key components in our method.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_64",
+          "text": "swarm intelligence and evolutionary algorithms for solving flexible job",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_65",
+          "text": "shop scheduling problems,” IEEE/CAA Journal of Automatica Sinica,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_66",
+          "text": "vol. 6, no. 4, pp. 904–916, 2019.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_67",
+          "text": "“Embodied intelligence for flexible manufacturing: A survey,” ROBOT,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_68",
+          "text": "vol. 47, no. 4, pp. 581–624, 2025.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_69",
+          "text": "“Material kitting in selective assembly: a manual order picking system",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_70",
+          "text": "based on augmented reality,” The International Journal of Advanced",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_71",
+          "text": "Manufacturing Technology, vol. 123, no. 1, pp. 675–686, 2022.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_72",
+          "text": "[4] H. Zhao, C. Zhu, X. Xu, H. Huang, and K. Xu, “Learning practically",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_73",
+          "text": "feasible policies for online 3d bin packing,” Science China Information",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_74",
+          "text": "Sciences, vol. 65, no. 1, p. 112105, 2022.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_75",
+          "text": "[5] H. Zhao, J. Xu, K. Yu, R. Hu, C. Zhu, and K. Xu, “Deliberate planning",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_76",
+          "text": "of 3d bin packing on packing configuration trees,” arXiv preprint",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_77",
+          "text": "arXiv:2504.04421, 2025.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_78",
+          "text": "[6] S. Lin, H. Cui, Y. Wang, and Y.-H. Jia, “Decoupled training neural",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_79",
+          "text": "solver for dynamic traveling salesman problem,” in 2025 IEEE",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_80",
+          "text": "International Conference on Robotics and Automation (ICRA).",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_81",
+          "text": "2025, pp. 12 986–12 992.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_82",
+          "text": "combinatorial optimization with reinforcement learning,” arXiv preprint",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_83",
+          "text": "arXiv:1611.09940, 2016.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_84",
+          "text": "[8] A. Zhao and J. F. Bard, “Batch scheduling in a multi-purpose system",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_85",
+          "text": "with machine downtime and a multi-skilled workforce,” International",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_86",
+          "text": "Journal of Production Research, vol. 62, no. 12, pp. 4470–4493, 2024.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_87",
+          "text": "[9] D. Müller, M. G. Müller, D. Kress, and E. Pesch, “An algorithm",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_88",
+          "text": "selection approach for the flexible job shop scheduling problem:",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_89",
+          "text": "Choosing constraint programming solvers through machine learning,”",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_90",
+          "text": "European Journal of Operational Research, vol. 302, no. 3, pp. 874–",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_91",
+          "text": "[10] B. Chen and T. I. Matis, “A flexible dispatching rule for minimizing",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_92",
+          "text": "tardiness in job shop scheduling,” International Journal of Production",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_93",
+          "text": "Economics, vol. 141, no. 1, pp. 360–365, 2013.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_94",
+          "text": "[11] R. Chen, B. Yang, S. Li, and S. Wang, “A self-learning genetic algorithm",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_95",
+          "text": "based on reinforcement learning for flexible job-shop scheduling",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_96",
+          "text": "problem,” Computers & industrial engineering, vol. 149, p. 106778,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_97",
+          "text": "[12] H. Li, X. Wang, and J. Peng, “A hybrid differential evolution algorithm",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_98",
+          "text": "for flexible job shop scheduling with outsourcing operations and job",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_99",
+          "text": "priority constraints,” Expert Systems with Applications, vol. 201, p.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_100",
+          "text": "[13] E. Yuan, L. Wang, S. Cheng, S. Song, W. Fan, and Y. Li, “Solving",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_101",
+          "text": "flexible job shop scheduling problems via deep reinforcement learning,”",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_102",
+          "text": "Expert Systems with Applications, vol. 245, p. 123019, 2024.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_103",
+          "text": "to dispatch for job shop scheduling via deep reinforcement learning,”",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_104",
+          "text": "Advances in neural information processing systems, vol. 33, pp. 1621–",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_105",
+          "text": "[15] W. Song, X. Chen, Q. Li, and Z. Cao, “Flexible job-shop scheduling",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_106",
+          "text": "via graph neural network and deep reinforcement learning,” IEEE",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_107",
+          "text": "Transactions on Industrial Informatics, vol. 19, no. 2, pp. 1600–1610,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_108",
+          "text": "[16] I. Echeverria, M. Murua, and R. Santana, “Solving the flexible job-shop",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_109",
+          "text": "scheduling problem through an enhanced deep reinforcement learning",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_110",
+          "text": "approach,” arXiv preprint arXiv:2310.15706, 2023.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_111",
+          "text": "constrained scheduling considering process plan flexibility and lot",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_112",
+          "text": "streaming for the cnc machining industry,” Flexible Services and",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_113",
+          "text": "Manufacturing Journal, pp. 1–48, 2023.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_114",
+          "text": "[18] Z. Han, C. Han, S. Lin, X. Dong, and H. Shi, “Flexible flow shop",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_115",
+          "text": "scheduling method with public buffer,” Processes, vol. 7, no. 10, p.",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_116",
+          "text": "“Multi-objective flow shop scheduling with limited buffers using hybrid",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_117",
+          "text": "self-adaptive differential evolution,” Memetic Computing, vol. 11, no. 4,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_118",
+          "text": "[20] P. Brandimarte, “Routing and scheduling in a flexible job shop by tabu",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_119",
+          "text": "search,” Annals of Operations research, vol. 41, no. 3, pp. 157–183,",
+          "page": 8
+        },
+        {
+          "para_id": "17074.17_120",
+          "text": "[21] Google, “OR-Tools,” https://github.com/google/or-tools, 2024, accessed:",
+          "page": 8
+        }
+      ]
+    }
+  ]
+}

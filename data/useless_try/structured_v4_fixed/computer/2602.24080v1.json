@@ -1,0 +1,5776 @@
+{
+  "title": "Published as a conference paper at ICLR 2026",
+  "abstract": "The pursuit of human-like conversational agents has long been guided by the Tur- ing test. For modern speech-to-speech (S2S) systems, a critical yet unanswered question is whether they can converse like humans. To tackle this, we conduct the first Turing test for S2S systems, collecting 2,968 human judgments on dialogues between 9 state-of-the-art S2S systems and 28 human participants. Our results deliver a clear finding: no existing evaluated S2S system passes the test, reveal- ing a significant gap in human-likeness. To diagnose this failure, we develop a fine-grained taxonomy of 18 human-likeness dimensions and crowd-annotate our collected dialogues accordingly. Our analysis shows that the bottleneck is not se- mantic understanding but stems from paralinguistic features, emotional expressiv- ity, and conversational persona. Furthermore, we find that off-the-shelf AI models perform unreliably as Turing test judges. In response, we propose an interpretable model that leverages the fine-grained human-likeness ratings and delivers accu- rate and transparent human-vs-machine discrimination, offering a powerful tool for automatic human-likeness evaluation. Our work1 establishes the first human- likeness evaluation for S2S systems and moves beyond binary outcomes to enable detailed diagnostic insights, paving the way for human-like improvements in con- versational AI systems. 1 INTRODUCTION With the rapid advancement of generative artificial intelligence, large language models (OpenAI, 2023; Touvron et al., 2023; GLM et al., 2024) have become deeply integrated into people’s daily lives, providing intelligent services through text-based human-machine interaction. As users seek more direct, hands-free, and immersive experiences, Speech-to-Speech (S2S) systems (ByteDance, 2025; Comanici et al., 2025) are gaining increasing attention by enabling interaction through the pri- mary channel of human communication—speech. Such systems have broad applications, including empathetic social companions (Geng et al., 2025), personalized education (Galbraith & i Mart´ınez, 2023), and interactive virtual assistants (TG et al., 2024). As the capabilities of S2S systems grow, a fundamental question emerges: do these systems converse like humans? Meeting this bar is strictly harder than text-based interaction, as it requires the models not only to achieve accurate semantic understanding and human-like persona alignment but also to ensure acoustic fidelity and emotional expression. ∗Equal contribution. ‡Corresponding author. 1We released code, data, and models at https://github.com/Carbohydrate1001/ Turing-Test. 1 arXiv:2602.24080v1 [cs.AI] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "1.5",
+      "section_title": "(ByteDance, 2025), Claude-Sonnet 4 (Anthropic, 2024), and iFLYTEK-Spark (iFlytek, 2024).",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.5_1",
+          "text": "The detailed information about these models can be found in B.1.",
+          "page": 3
+        },
+        {
+          "para_id": "1.5_2",
+          "text": "We invite 28 participants from 10 countries and regions to record hu-",
+          "page": 3
+        },
+        {
+          "para_id": "1.5_3",
+          "text": "man–machine dialogues in a professional recording studio, as detailed in Appendix B.2. Given",
+          "page": 3
+        },
+        {
+          "para_id": "1.5_4",
+          "text": "a topic and a S2S system, the speaker is instructed to initiate and sustain a multi-turn conversation",
+          "page": 3
+        },
+        {
+          "para_id": "1.5_5",
+          "text": "naturally around the given topic with the model, with the whole dialogue typically lasting between",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "20",
+      "section_title": "to 60 seconds. Our goal is to elicit dialogues that are as human-like and realistic as possible.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "20_1",
+          "text": "However, pilot runs revealed two key issues: (i) identity disclosure, S2S systems often proactively",
+          "page": 3
+        },
+        {
+          "para_id": "20_2",
+          "text": "mention that they are intelligent assistants, which undermine the premise of Turing test, and (ii) role",
+          "page": 3
+        },
+        {
+          "para_id": "20_3",
+          "text": "passivity, without contextual scaffolding, models fail to actively embody expected roles, instead",
+          "page": 3
+        },
+        {
+          "para_id": "20_4",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 4
+        },
+        {
+          "para_id": "20_5",
+          "text": "from a generic AI-assistant stance. To address these issues, we design three interaction strategies",
+          "page": 4
+        },
+        {
+          "para_id": "20_6",
+          "text": "aimed at reducing identity leakage and encouraging immersive role-playing:",
+          "page": 4
+        },
+        {
+          "para_id": "20_7",
+          "text": "• Human-Guided Initiation.",
+          "page": 4
+        },
+        {
+          "para_id": "20_8",
+          "text": "We let human speakers start the conversation by express-",
+          "page": 4
+        },
+        {
+          "para_id": "20_9",
+          "text": "ing opinions on an object or phenomenon, thereby preemptively suppressing the model’s",
+          "page": 4
+        },
+        {
+          "para_id": "20_10",
+          "text": "tendency to position itself as an assistant and setting a person-to-person tone.",
+          "page": 4
+        },
+        {
+          "para_id": "20_11",
+          "text": "ample is I always take a shower in the evening.",
+          "page": 4
+        },
+        {
+          "para_id": "20_12",
+          "text": "why there are people taking a shower in the morning.",
+          "page": 4
+        },
+        {
+          "para_id": "20_13",
+          "text": "• Role Playing. In this setting, we assign the S2S system a concrete human role and background",
+          "page": 4
+        },
+        {
+          "para_id": "20_14",
+          "text": "information via prompt, while explicitly instructing it not to disclose its identity. An example",
+          "page": 4
+        },
+        {
+          "para_id": "20_15",
+          "text": "You are now my mom and we are discussing my final exam",
+          "page": 4
+        },
+        {
+          "para_id": "20_16",
+          "text": "Please don’t mention your identity in the subsequent",
+          "page": 4
+        },
+        {
+          "para_id": "20_17",
+          "text": "Let’s start chatting now.",
+          "page": 4
+        },
+        {
+          "para_id": "20_18",
+          "text": "The procedure is implemented",
+          "page": 4
+        },
+        {
+          "para_id": "20_19",
+          "text": "as follows: we first have a test facilitator read the prompt to the S2S system to set the role",
+          "page": 4
+        },
+        {
+          "para_id": "20_20",
+          "text": "and context, following which the recording start and the human speaker engage the model in",
+          "page": 4
+        },
+        {
+          "para_id": "20_21",
+          "text": "• Human-Likeness Prompting.",
+          "page": 4
+        },
+        {
+          "para_id": "20_22",
+          "text": "To elicit more human-like conversational behavior from S2S",
+          "page": 4
+        },
+        {
+          "para_id": "20_23",
+          "text": "systems, we augment the prompt with explicit instructions for human-like expression.",
+          "page": 4
+        },
+        {
+          "para_id": "20_24",
+          "text": "approach aligns with techniques used to enhance anthropomorphic behavior in large lan-",
+          "page": 4
+        },
+        {
+          "para_id": "20_25",
+          "text": "guage models (Jones & Bergen, 2024b).",
+          "page": 4
+        },
+        {
+          "para_id": "20_26",
+          "text": "As an illustration: You are now my friend",
+          "page": 4
+        },
+        {
+          "para_id": "20_27",
+          "text": "who came back from a vacation in Europe.",
+          "page": 4
+        },
+        {
+          "para_id": "20_28",
+          "text": "Make your expression",
+          "page": 4
+        },
+        {
+          "para_id": "20_29",
+          "text": "Don’t mention your identity in the subsequent",
+          "page": 4
+        },
+        {
+          "para_id": "20_30",
+          "text": "Let’s start chatting now.",
+          "page": 4
+        },
+        {
+          "para_id": "20_31",
+          "text": "How’s your vacation to",
+          "page": 4
+        },
+        {
+          "para_id": "20_32",
+          "text": "For a fair comparative evaluation of S2S systems, all participants are instructed to begin the dialogue",
+          "page": 4
+        },
+        {
+          "para_id": "20_33",
+          "text": "with an identical initial opening utterance when engaging each S2S system. The specific utterances",
+          "page": 4
+        },
+        {
+          "para_id": "20_34",
+          "text": "and prompts used are detailed in Appendix B.3. Finally, we perform manual filtering to remove",
+          "page": 4
+        },
+        {
+          "para_id": "20_35",
+          "text": "dialogues in which the S2S system explicitly disclose its identity, respond in a non-target language,",
+          "page": 4
+        },
+        {
+          "para_id": "20_36",
+          "text": "or exhibited overtly aggressive behavior during the interaction.",
+          "page": 4
+        },
+        {
+          "para_id": "20_37",
+          "text": "HUMAN–HUMAN DIALOGUE",
+          "page": 4
+        },
+        {
+          "para_id": "20_38",
+          "text": "To support comparative evaluation, we construct a human–human subset matched in scale and topic",
+          "page": 4
+        },
+        {
+          "para_id": "20_39",
+          "text": "distribution to the human–machine subset, using a two-pronged approach: (i) Curated from existing",
+          "page": 4
+        },
+        {
+          "para_id": "20_40",
+          "text": "datasets. We manually select dialogues from three open-source datasets DAILYTALK (Lee et al.,",
+          "page": 4
+        },
+        {
+          "para_id": "20_41",
+          "text": "2023), IEMOCAP (Busso et al., 2008), and MagicData (Yang et al., 2022) that align with our prede-",
+          "page": 4
+        },
+        {
+          "para_id": "20_42",
+          "text": "fined topics. During review, we observe frequent mutual interruptions that many S2S systems cannot",
+          "page": 4
+        },
+        {
+          "para_id": "20_43",
+          "text": "yet emulate. To eliminate evaluation bias caused by this phenomenon, we filter out a considerable",
+          "page": 4
+        },
+        {
+          "para_id": "20_44",
+          "text": "portion of dialogues with interruptions. In addition, to align with the alternating role patterns typical",
+          "page": 4
+        },
+        {
+          "para_id": "20_45",
+          "text": "in human–machine multi-turn dialogues, we filter out dialogues with imbalanced participation from",
+          "page": 4
+        },
+        {
+          "para_id": "20_46",
+          "text": "each speaker based on their engagement. Detailed settings can be found in the Appendix B.4. (ii)",
+          "page": 4
+        },
+        {
+          "para_id": "20_47",
+          "text": "Recordings with volunteers. To ensure contextual consistency with the human–machine dialogues,",
+          "page": 4
+        },
+        {
+          "para_id": "20_48",
+          "text": "we conduct an additional set of human–human recordings. In particular, we used the same opening",
+          "page": 4
+        },
+        {
+          "para_id": "20_49",
+          "text": "utterances as those employed in the human–machine setup so as to maintain the same conversational",
+          "page": 4
+        },
+        {
+          "para_id": "20_50",
+          "text": "topics and scenarios, thereby minimizing bias introduced by content differences.",
+          "page": 4
+        },
+        {
+          "para_id": "20_51",
+          "text": "PSEUDO HUMAN DIALOGUE SYNTHESIS",
+          "page": 4
+        },
+        {
+          "para_id": "20_52",
+          "text": "We notice that modern text-to-speech (TTS) models can synthesize dialogues with striking human-",
+          "page": 4
+        },
+        {
+          "para_id": "20_53",
+          "text": "likeness. To raise the difficulty of Turing test, we introduce the dataset with pseudo-human dialogues",
+          "page": 4
+        },
+        {
+          "para_id": "20_54",
+          "text": "synthesized by two state-of-the-art TTS models, Nari Dia-1.6B (nari-labs, 2025) and Spark-TTS",
+          "page": 4
+        },
+        {
+          "para_id": "20_55",
+          "text": "(Wang et al., 2025c).We prepare scripts from two sources for TTS synthesis. First, we use a slightly",
+          "page": 4
+        },
+        {
+          "para_id": "20_56",
+          "text": "modified version of the human-human dialogue script. Second, we prompt GPT-4o to generate",
+          "page": 4
+        },
+        {
+          "para_id": "20_57",
+          "text": "two-speaker scripts conditioned on the predefined topics. Each utterance in the scripts is converted",
+          "page": 4
+        },
+        {
+          "para_id": "20_58",
+          "text": "into speech using TTS models. Finally, we merge them into dialogues with a 180-230 ms inter-",
+          "page": 4
+        },
+        {
+          "para_id": "20_59",
+          "text": "turn interval and add background ambience from reference recordings to enhance naturalness. The",
+          "page": 4
+        },
+        {
+          "para_id": "20_60",
+          "text": "details on pseudo human dialogue synthesis are provided in Appendix B.5.",
+          "page": 4
+        },
+        {
+          "para_id": "20_61",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 5
+        },
+        {
+          "para_id": "20_62",
+          "text": "FINAL DATASET PROCESSING AND STATISTICS",
+          "page": 5
+        },
+        {
+          "para_id": "20_63",
+          "text": "Figure 2: Data distribution.",
+          "page": 5
+        },
+        {
+          "para_id": "20_64",
+          "text": "data, we implement two bias-",
+          "page": 5
+        },
+        {
+          "para_id": "20_65",
+          "text": "correction measures.",
+          "page": 5
+        },
+        {
+          "para_id": "20_66",
+          "text": "we align the time intervals",
+          "page": 5
+        },
+        {
+          "para_id": "20_67",
+          "text": "between both parties in the",
+          "page": 5
+        },
+        {
+          "para_id": "20_68",
+          "text": "dialogues to avoid significant",
+          "page": 5
+        },
+        {
+          "para_id": "20_69",
+          "text": "discrepancies in human sub-",
+          "page": 5
+        },
+        {
+          "para_id": "20_70",
+          "text": "jective perception caused by",
+          "page": 5
+        },
+        {
+          "para_id": "20_71",
+          "text": "overly long or short pauses,",
+          "page": 5
+        },
+        {
+          "para_id": "20_72",
+          "text": "and to eliminate the impact of",
+          "page": 5
+        },
+        {
+          "para_id": "20_73",
+          "text": "network latency or recording",
+          "page": 5
+        },
+        {
+          "para_id": "20_74",
+          "text": "irregularities. Second, we bal-",
+          "page": 5
+        },
+        {
+          "para_id": "20_75",
+          "text": "ance the audio volume levels of both parties to ensure consistency, minimizing quality discrepancies",
+          "page": 5
+        },
+        {
+          "para_id": "20_76",
+          "text": "introduced during the recording process.",
+          "page": 5
+        },
+        {
+          "para_id": "20_77",
+          "text": "The final dataset comprises a total of 1,486 dialogues, with a duration of 17.7 hours. This in-",
+          "page": 5
+        },
+        {
+          "para_id": "20_78",
+          "text": "cludes 669 human–machine dialogues (8.9 hours), 673 human–human dialogues (7.6 hours), and",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "144",
+      "section_title": "pseudo-human dialogues (1.2 hours). The overall statistics are illustrated in Figure 2. We fur-",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "144_1",
+          "text": "ther divide the dataset into training and test sets, with the training set containing 525 human–machine",
+          "page": 5
+        },
+        {
+          "para_id": "144_2",
+          "text": "and 531 human–human dialogues, totaling approximately 13.1 hours. The test set consists of 430",
+          "page": 5
+        },
+        {
+          "para_id": "144_3",
+          "text": "dialogues and 4.7 hours in total.",
+          "page": 5
+        },
+        {
+          "para_id": "144_4",
+          "text": "DO S2S SYSTEMS CONVERSE LIKE HUMANS?",
+          "page": 5
+        },
+        {
+          "para_id": "144_5",
+          "text": "Figure 3: The main game inter-",
+          "page": 5
+        },
+        {
+          "para_id": "144_6",
+          "text": "face of the Turing test.",
+          "page": 5
+        },
+        {
+          "para_id": "144_7",
+          "text": "Game Platform Design for the Turing Test",
+          "page": 5
+        },
+        {
+          "para_id": "144_8",
+          "text": "Turing test as a lightweight and shareable game to encourage",
+          "page": 5
+        },
+        {
+          "para_id": "144_9",
+          "text": "broad participation. Before playing, users complete a short ques-",
+          "page": 5
+        },
+        {
+          "para_id": "144_10",
+          "text": "tionnaire (age, gender, education, AI familiarity) and select their",
+          "page": 5
+        },
+        {
+          "para_id": "144_11",
+          "text": "evaluation language (Chinese or English) to ensure judgments in",
+          "page": 5
+        },
+        {
+          "para_id": "144_12",
+          "text": "their preferred language. In each round, users are required to eval-",
+          "page": 5
+        },
+        {
+          "para_id": "144_13",
+          "text": "uate a set of five dialogues. After listening to each dialogue, they",
+          "page": 5
+        },
+        {
+          "para_id": "144_14",
+          "text": "determine whether Speaker B is human or machine. To boost en-",
+          "page": 5
+        },
+        {
+          "para_id": "144_15",
+          "text": "gagement, participants receive points based on the accuracy of",
+          "page": 5
+        },
+        {
+          "para_id": "144_16",
+          "text": "their judgments, and a public leaderboard ranks all players based",
+          "page": 5
+        },
+        {
+          "para_id": "144_17",
+          "text": "on their performance. A built-in sharing feature helps dissemi-",
+          "page": 5
+        },
+        {
+          "para_id": "144_18",
+          "text": "nate the game to a wider audience, facilitating larger-scale data",
+          "page": 5
+        },
+        {
+          "para_id": "144_19",
+          "text": "collection. The main interface appears in Figure 3, with details in",
+          "page": 5
+        },
+        {
+          "para_id": "144_20",
+          "text": "Appendix C.1. By September 15, 2025, the platform has collected",
+          "page": 5
+        },
+        {
+          "para_id": "144_21",
+          "text": "results from 397 participants, totaling 2,968 dialogue evaluations.",
+          "page": 5
+        },
+        {
+          "para_id": "144_22",
+          "text": "Our game platform supports long-term and scalable Turing test.",
+          "page": 5
+        },
+        {
+          "para_id": "144_23",
+          "text": "Turing Test Results and Analysis",
+          "page": 5
+        },
+        {
+          "para_id": "144_24",
+          "text": "Our evaluation employs the",
+          "page": 5
+        },
+        {
+          "para_id": "144_25",
+          "text": "Success Rate as the primary metric for assessing human-likeness,",
+          "page": 5
+        },
+        {
+          "para_id": "144_26",
+          "text": "which reflects the proportion of trials in which a system is judged",
+          "page": 5
+        },
+        {
+          "para_id": "144_27",
+          "text": "to be human by evaluators. A value greater than 0.5 would sug-",
+          "page": 5
+        },
+        {
+          "para_id": "144_28",
+          "text": "gest that human evaluators are incapable of distinguishing the",
+          "page": 5
+        },
+        {
+          "para_id": "144_29",
+          "text": "model from a human (Jones & Bergen, 2024b). We also exam-",
+          "page": 5
+        },
+        {
+          "para_id": "144_30",
+          "text": "ine participant Accuracy across different demographic groups, de-",
+          "page": 5
+        },
+        {
+          "para_id": "144_31",
+          "text": "fined as the proportion of correct human-versus-machine identi-",
+          "page": 5
+        },
+        {
+          "para_id": "144_32",
+          "text": "fications. This allows us to investigate how factors such as age,",
+          "page": 5
+        },
+        {
+          "para_id": "144_33",
+          "text": "gender, education, and AI familiarity influence human perceptual bias in the Turing test.",
+          "page": 5
+        },
+        {
+          "para_id": "144_34",
+          "text": "Observation 1: No existing evaluated S2S system passes the Turing test.",
+          "page": 5
+        },
+        {
+          "para_id": "144_35",
+          "text": "As shown in Figure 4a, human-to-human dialogues achieve success rates as high as 0.87 for En-",
+          "page": 5
+        },
+        {
+          "para_id": "144_36",
+          "text": "glish and 0.70 for Chinese, confirming the robustness of our evaluation design. In contrast, all S2S",
+          "page": 5
+        },
+        {
+          "para_id": "144_37",
+          "text": "systems perform significantly below the 0.5 chance threshold, with success rates ranging from 0.07",
+          "page": 5
+        },
+        {
+          "para_id": "144_38",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 6
+        },
+        {
+          "para_id": "144_39",
+          "text": "(a) Success rate across S2S systems.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "64.2",
+      "section_title": "65.4",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "71.9",
+      "section_title": "72.8",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "72.7",
+      "section_title": "73.3 75.2",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "73.5",
+      "section_title": "71.3",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "73.5_1",
+          "text": "(b) Accuracy across different groups.",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_2",
+          "text": "Figure 4: (a) Turing test success rates of S2S systems, measured as the proportion of responses",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_3",
+          "text": "judged as human. Higher values indicate greater human-likeness. (b) Participant accuracy in iden-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_4",
+          "text": "tifying human vs. machine. Detailed scores and results categorized by interaction strategies are",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_5",
+          "text": "provided in Appendix C.2.",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_6",
+          "text": "to 0.31. This significant performance gap highlights the fundamental limitations of current speech",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_7",
+          "text": "models in their ability to simulate human-like behavior. Moreover, the success rates for pseudo",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_8",
+          "text": "human dialogues fall short of human-to-human performance, suggesting that even when scripts are",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_9",
+          "text": "highly similar to real conversations, synthesized speech still lacks sufficient acoustic naturalness to",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_10",
+          "text": "pass as humans. However, despite sharing similar limitations in vocal quality, pseudo human dia-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_11",
+          "text": "logues still surpass most S2S systems, suggesting that current S2S systems are bottlenecked not only",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_12",
+          "text": "by speech synthesis quality, but also by higher-level vocal interaction capabilities such as speech un-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_13",
+          "text": "derstanding, role-based acoustic adherence, and conversational reasoning.",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_14",
+          "text": "Observation 2: An individual’s ability to distinguish humans from machines depends more on",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_15",
+          "text": "experience than on demographics.",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_16",
+          "text": "As shown in Figure 4b, participants with greater AI familiarity achieve clearly higher detection ac-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_17",
+          "text": "curacy, reaching 78.8% for the most experienced group versus 64.2% for the least familiar group.",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_18",
+          "text": "Younger cohorts also outperform older groups, likely due to more frequent exposure to AI interac-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_19",
+          "text": "tions and heightened sensitivity to non-human cues. In contrast, accuracy shows minimal variation",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_20",
+          "text": "by gender or education level. These results suggest that detection ability is shaped more by experi-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_21",
+          "text": "ential factors than demographic traits. As public familiarity with AI grows, passing Turing tests may",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_22",
+          "text": "become progressively harder over time. Our game-based evaluation platform supports longitudinal",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_23",
+          "text": "Turing testing and periodic recalibration, enabling continued assessment of human-likeness against",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_24",
+          "text": "evolving human judgment standards.",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_25",
+          "text": "WHY DO S2S SYSTEMS (NOT) APPEAR HUMAN?",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_26",
+          "text": "To systematically investigate why current S2S systems fail to pass as human, we develop a com-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_27",
+          "text": "prehensive taxonomy for human-likeness diagnosis comprising five major categories and 18 fine-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_28",
+          "text": "grained dimensions (see Appendix D.1). Using this taxonomy, all dialogue samples are crowd-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_29",
+          "text": "sourced and rated on a 5-point rating scale (Appendix D.2), after which human experts reviewed",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_30",
+          "text": "and refined the labels to ensure quality (Appendix D.3). The resulting labels enable a granular di-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_31",
+          "text": "agnosis of failure modes that limit the human-likeness of current speech models. As illustrated in",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_32",
+          "text": "Figure 5, we summarize four key observations that explain the pros and cons of current S2S sys-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_33",
+          "text": "tems in achieving human-like naturalness, therefore providing guidance for developing advanced",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_34",
+          "text": "and human-like S2S systems.",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_35",
+          "text": "Observation 3: Semantic and contextual understanding in dialogues are not the primary bottle-",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_36",
+          "text": "necks for S2S systems.",
+          "page": 6
+        },
+        {
+          "para_id": "73.5_37",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_38",
+          "text": "Figure 5: Crowd-annotated scores (1–5) across the 18 human-likeness dimensions.",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_39",
+          "text": "Current models demonstrate remarkable proficiency in core semantic tasks, closely approaching",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_40",
+          "text": "human-level performance. Specifically, models excel in Memory Consistency, capably retaining",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_41",
+          "text": "and referencing information within a short dialogue context, and in Logical Coherence, ensuring",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_42",
+          "text": "smooth transitions between turns without abrupt contradictions. Furthermore, Pronunciation Ac-",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_43",
+          "text": "curacy is generally high, with modern systems correctly articulating words, including challenging",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_44",
+          "text": "heteronyms. These strengths indicate that S2S systems have largely solved the foundational chal-",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_45",
+          "text": "lenges of textual understanding and generating clear and coherent dialogue scripts.",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_46",
+          "text": "Observation 4: The speech generated by S2S systems often lacks human-like paralinguistic",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_47",
+          "text": "features, exhibiting rigid prosody and absence of disfluency cues.",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_48",
+          "text": "Across non-physiological paralinguistic features, S2S outputs show pronounced deficits in vocal",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_49",
+          "text": "dynamics. Rhythm and intonation changes are mechanically regular, with few context-appropriate",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_50",
+          "text": "pauses or pitch movements. Stress on salient words is weak or misplaced, which is a crucial element",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_51",
+          "text": "of human communication. Furthermore, models avoid human disfluency cues, such as linguistic",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_52",
+          "text": "imprecision (e.g., hedges like “probably”), use of fillers (“um”), and micro-physiological noises",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_53",
+          "text": "(e.g., breath sounds). These paralinguistic shortcomings, even when the content is fluent, make the",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_54",
+          "text": "speaker perceptibly machine-like.",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_55",
+          "text": "Observation 5: Emotional expressivity remains largely limited in current S2S systems.",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_56",
+          "text": "The textual sentiment scores of S2S systems are significantly lower than human performance, reflect-",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_57",
+          "text": "ing the lack of nuanced emotions due to the writing-style expressions. More critically, the acoustic",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_58",
+          "text": "emotion scores are even lower than those of textual sentiment, due to rigid prosody and weak or",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_59",
+          "text": "misaligned stress patterns. This indicates that S2S systems tend to generate dialogues with neutral",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_60",
+          "text": "and unconvincing emotional tones, making them readily perceived as non-human by listeners.",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_61",
+          "text": "Observation 6: The persona of S2S systems is often perceived as mechanical, characterized by",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_62",
+          "text": "excessively sycophantic and formal expression.",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_63",
+          "text": "S2S systems reveal a mechanical persona through their social interaction. Unlike humans who",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_64",
+          "text": "judiciously agree or disagree based on context, current models exhibit a strong default tendency to",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_65",
+          "text": "excessively affirm, apologize, and express gratitude. For instance, to a user’s statement like, “I’m",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_66",
+          "text": "planning to go around in Korea for 5 days”, a model might respond with disproportionate enthusiasm",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_67",
+          "text": "such as, “That’s absolutely amazing—fantastic choice!”. Moreover, their written-style expression",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_68",
+          "text": "skews formal, lacking the conversational looseness typical of spontaneous speech.",
+          "page": 7
+        },
+        {
+          "para_id": "73.5_69",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_70",
+          "text": "CAN AI MODELS SERVE AS TURING TEST JUDGES?",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_71",
+          "text": "TURING TEST WITH AI JUDGES",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_72",
+          "text": "To explore whether AI models can reliably assess human-likeness in dialogues, we employ 9 state-",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_73",
+          "text": "of-the-art models as automated judges, and each model is tasked with classifying whether a given",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_74",
+          "text": "dialogue response is human- or machine-generated. Detailed prompts are provided in Appendix E.1.",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_75",
+          "text": "Table 2 reports their classification accuracy across the three dialogue types (human–human, hu-",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_76",
+          "text": "man–machine, and pseudo human).",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_77",
+          "text": "Table 2: AI judge accuracy of different models on the Turing test data.",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_78",
+          "text": "Baichuan-Audio(Li et al., 2025)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_79",
+          "text": "Gemini 2.5 pro(Comanici et al., 2025)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_80",
+          "text": "Gemma 3n(Team et al., 2025a)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_81",
+          "text": "GPT-4o-Audio-Preview(Hurst et al., 2024)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_82",
+          "text": "MiniCPM-o 2.6(Yao et al., 2024)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_83",
+          "text": "Phi-4-Multimodal(Abouelenin et al., 2025)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_84",
+          "text": "Seallms-Audio(Nguyen et al., 2023)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_85",
+          "text": "Voxtral Mini(Li et al., 2025)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_86",
+          "text": "Qwen2.5-Omni(Xu et al., 2025)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_87",
+          "text": "Average of Model Judgement",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_88",
+          "text": "Observation 7: Existing AI judges significantly underperform humans in the Turing test and",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_89",
+          "text": "exhibit systematic bias.",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_90",
+          "text": "The overall performance of the AI judges (average accuracy: 0.4527) remains substantially lower",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_91",
+          "text": "than that of human evaluators (accuracy: 0.7284), with even the best-performing model Gemini 2.5",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_92",
+          "text": "Pro achieving only 0.6279 accuracy. Analysis of model behavior reveals three distinct bias patterns:",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_93",
+          "text": "several models (e.g., GPT-4o-Audio-Preview, Baichuan-Audio, Phi-4-Multimodal, Qwen2.5-Omni)",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_94",
+          "text": "exhibit a strong tendency to classify most dialogues as human–human, models such as SeaLLMs-",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_95",
+          "text": "Audio display the opposite bias toward human–machine judgments, while Voxtral Mini behaves",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_96",
+          "text": "close to random guessing. These results highlight the current limitations of multimodal models in",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_97",
+          "text": "replicating human-like perceptual judgment in Turing test scenarios.",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_98",
+          "text": "INTERPRETABLE AI JUDGE FOR HUMAN-LIKENESS EVALUATION",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_99",
+          "text": "Given that general-purpose large models perform unreliably as human-likeness judges, we develop",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_100",
+          "text": "an interpretable multimodal evaluator designed to deliver transparent and trustworthy decisions.",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_101",
+          "text": "Detailed experimental setup is provided in Appendix E.2.",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_102",
+          "text": "We adopt a two-stage fine-tuning framework on Qwen2.5-Omni, which trains the model to first cap-",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_103",
+          "text": "ture fine-grained human-likeness patterns and then produce a final and explainable human–machine",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_104",
+          "text": "discrimination decision.",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_105",
+          "text": "Fine-grained Scoring Projection.",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_106",
+          "text": "Given an audio dialogue x ∈D, we first encode it with a pre-",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_107",
+          "text": "trained audio–language model (ALM) to obtain a fixed-dimensional representation h = fALM(x) ∈",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_108",
+          "text": "Rd (a two-source fused pooling, see Appendix E.3 for representation design). We then map h to",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_109",
+          "text": "interpretable dimension scores with an Ordinal Discretization Layer (ODL) (Tutz, 2022):",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_110",
+          "text": "where K is the number of fine-grained human-likeness dimensions and zk is the latent score for",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_111",
+          "text": "dimension k. To respect the ordinal nature of human ratings (e.g., r ordered levels, 1–r), we convert",
+          "page": 8
+        },
+        {
+          "para_id": "73.5_112",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 9
+        },
+        {
+          "para_id": "73.5_113",
+          "text": "each zk into an ordinal distribution via ordered cut-points. For each dimension k ∈{1, . . . , K}, we",
+          "page": 9
+        },
+        {
+          "para_id": "73.5_114",
+          "text": "define r −1 strictly ordered cut-points",
+          "page": 9
+        },
+        {
+          "para_id": "73.5_115",
+          "text": "i ∈{1, . . . , r −1}",
+          "page": 9
+        },
+        {
+          "para_id": "73.5_116",
+          "text": "where sk is a learnable scale that controls bin spacing. Using a cumulative-link formulation, cumu-",
+          "page": 9
+        },
+        {
+          "para_id": "73.5_117",
+          "text": "lative probabilities are",
+          "page": 9
+        },
+        {
+          "para_id": "73.5_118",
+          "text": "where σ(·) denotes the sigmoid function. Per-category probabilities follow by differencing: P(Yk =",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "−P(Yk ≤r −1). Let SH(x) ∈{1, . . . , r}K denote human-likeness ratings for x, we fit the ODL",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "by minimizing the ordinal negative log-likelihood over all samples and dimensions:",
+          "page": 9
+        },
+        {
+          "para_id": "1_2",
+          "text": "This procedure yields K order-preserving, human-aligned scores per dialogue that serve as inter-",
+          "page": 9
+        },
+        {
+          "para_id": "1_3",
+          "text": "pretable inputs for the final human–vs.–machine classifier.",
+          "page": 9
+        },
+        {
+          "para_id": "1_4",
+          "text": "Explainable Binary Classification.",
+          "page": 9
+        },
+        {
+          "para_id": "1_5",
+          "text": "After training the ODL, each of the k neurons acquires an or-",
+          "page": 9
+        },
+        {
+          "para_id": "1_6",
+          "text": "dinally constrained scoring pattern induced by the cut-point scheme. Consequently, the ODL outputs",
+          "page": 9
+        },
+        {
+          "para_id": "1_7",
+          "text": "are no longer arbitrary latent features; they instantiate interpretable scoring dimensions aligned with",
+          "page": 9
+        },
+        {
+          "para_id": "1_8",
+          "text": "human ratings and preserve their ordinal structure for human–machine discrimination. Leveraging",
+          "page": 9
+        },
+        {
+          "para_id": "1_9",
+          "text": "this property, we feed the logits z into a linear classifier with regularization constraint to ensure that",
+          "page": 9
+        },
+        {
+          "para_id": "1_10",
+          "text": "the final classification remains interpretable:",
+          "page": 9
+        },
+        {
+          "para_id": "1_11",
+          "text": "where LCE is the Cross-Entropy Loss, WF ∈Rn×K is the weight matrix of the final linear layer",
+          "page": 9
+        },
+        {
+          "para_id": "1_12",
+          "text": "with n categories, y is the label of x, R(W) = ||W1 + W2||2 is the symmetry regularization, and λ",
+          "page": 9
+        },
+        {
+          "para_id": "1_13",
+          "text": "is set to 0.1. Model ablations and hyperparameter tuning details are provided in Appendix E.4 and",
+          "page": 9
+        },
+        {
+          "para_id": "1_14",
+          "text": "RESULTS AND DISCUSSION",
+          "page": 9
+        },
+        {
+          "para_id": "1_15",
+          "text": "Table 3: Binary classification accuracy of different models across three evaluation data types.",
+          "page": 9
+        },
+        {
+          "para_id": "1_16",
+          "text": "We evaluate the interpretable AI judge on the Turing test using binary classification accuracy (hu-",
+          "page": 9
+        },
+        {
+          "para_id": "1_17",
+          "text": "man vs. machine). As presented in Table 3, Qwen2.5-Omni (LoRA) represents Qwen2.5-Omni",
+          "page": 9
+        },
+        {
+          "para_id": "1_18",
+          "text": "fine-tuned using LoRA technology (Hu et al., 2022). It can be observed that our approach outper-",
+          "page": 9
+        },
+        {
+          "para_id": "1_19",
+          "text": "forms all variants and human evaluators. The overall accuracy is 23.21% higher than the human",
+          "page": 9
+        },
+        {
+          "para_id": "1_20",
+          "text": "evaluation, 38.61% higher than the LoRA-based approach, and more than doubles the performance",
+          "page": 9
+        },
+        {
+          "para_id": "1_21",
+          "text": "of the original model. Notably, the model achieves 93.06% accuracy on pseudo-human dialogues",
+          "page": 9
+        },
+        {
+          "para_id": "1_22",
+          "text": "unseen during training, demonstrating strong generalization. In addition, the model shows strong",
+          "page": 9
+        },
+        {
+          "para_id": "1_23",
+          "text": "consistency with fine-grained human ratings, a capability facilitated by its interpretable design (see",
+          "page": 9
+        },
+        {
+          "para_id": "1_24",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 10
+        },
+        {
+          "para_id": "1_25",
+          "text": "Out-of-Domain Generalization Evaluation",
+          "page": 10
+        },
+        {
+          "para_id": "1_26",
+          "text": "We further evaluated our model on three out-of-",
+          "page": 10
+        },
+        {
+          "para_id": "1_27",
+          "text": "domain (OOD) datasets that span diverse acoustic, demographic, and interaction conditions: 1)",
+          "page": 10
+        },
+        {
+          "para_id": "1_28",
+          "text": "CosyVoice2 Synthesis (Pseudo Human) (Du et al., 2024), synthesized dialogues across different age",
+          "page": 10
+        },
+        {
+          "para_id": "1_29",
+          "text": "groups (older adults and children); 2) Fisher (Human-Human) (Cieri et al., 2004), telephone speech",
+          "page": 10
+        },
+        {
+          "para_id": "1_30",
+          "text": "with significant background noise; 3) MultiDialog (Human-Human) (Park et al., 2024): clean back-",
+          "page": 10
+        },
+        {
+          "para_id": "1_31",
+          "text": "ground native-speaker dialogue recordings. We sample 64 dialogues from each dataset for evalua-",
+          "page": 10
+        },
+        {
+          "para_id": "1_32",
+          "text": "tion. In addition to accuracy, we introduced the ROC-AUC score to provide a robust and threshold-",
+          "page": 10
+        },
+        {
+          "para_id": "1_33",
+          "text": "independent evaluation of classification performance. The results of human–machine classification",
+          "page": 10
+        },
+        {
+          "para_id": "1_34",
+          "text": "are presented in Table 4. These results indicate that the model generalizes well and maintains stable",
+          "page": 10
+        },
+        {
+          "para_id": "1_35",
+          "text": "performance under distribution shift.",
+          "page": 10
+        },
+        {
+          "para_id": "1_36",
+          "text": "Table 4: Binary classification accuracy and ROC-AUC on OOD test set.",
+          "page": 10
+        },
+        {
+          "para_id": "1_37",
+          "text": "Observation 8: Our interpretable AI judge delivers superior performance in distinguishing hu-",
+          "page": 10
+        },
+        {
+          "para_id": "1_38",
+          "text": "man from machine-generated speech. By providing both an overall human-likeness score and",
+          "page": 10
+        },
+        {
+          "para_id": "1_39",
+          "text": "fine-grained diagnostics, it serves as a practical tool for S2S assessment.",
+          "page": 10
+        },
+        {
+          "para_id": "1_40",
+          "text": "This work presents the first Turing test for modern S2S systems, delivered via a game-based on-",
+          "page": 10
+        },
+        {
+          "para_id": "1_41",
+          "text": "line platform that enables large-scale and longitudinal testing. Our findings reveal a clear gap: no",
+          "page": 10
+        },
+        {
+          "para_id": "1_42",
+          "text": "current system passes, demonstrating that human-like conversational ability remains an unsolved",
+          "page": 10
+        },
+        {
+          "para_id": "1_43",
+          "text": "challenge. Through an 18-dimension taxonomy, we show the bottleneck has shifted from semantic",
+          "page": 10
+        },
+        {
+          "para_id": "1_44",
+          "text": "understanding to shortcomings in paralinguistic features, emotional expressivity, and conversational",
+          "page": 10
+        },
+        {
+          "para_id": "1_45",
+          "text": "persona, explaining why even fluent S2S output sounds distinctly artificial. To support automatic",
+          "page": 10
+        },
+        {
+          "para_id": "1_46",
+          "text": "evaluation, we develop an interpretable AI judge that significantly outperforms off-the-shelf models",
+          "page": 10
+        },
+        {
+          "para_id": "1_47",
+          "text": "and provides diagnostic insights.",
+          "page": 10
+        },
+        {
+          "para_id": "1_48",
+          "text": "Impact. We provide the community with a new human-likeness evaluation framework for S2S sys-",
+          "page": 10
+        },
+        {
+          "para_id": "1_49",
+          "text": "tems and move beyond binary pass/fail to automatic, diagnostic, and scalable evaluation. Our results",
+          "page": 10
+        },
+        {
+          "para_id": "1_50",
+          "text": "offer practical guidance toward more genuinely human-like S2S systems by identifying the core",
+          "page": 10
+        },
+        {
+          "para_id": "1_51",
+          "text": "challenges in acoustic naturalness, emotional expressivity, and social behavior.",
+          "page": 10
+        },
+        {
+          "para_id": "1_52",
+          "text": "Our study involves the collection of audio recordings from human participants. In conducting this",
+          "page": 10
+        },
+        {
+          "para_id": "1_53",
+          "text": "research, we have adhered to strict ethical principles to safeguard participants’ privacy, autonomy,",
+          "page": 10
+        },
+        {
+          "para_id": "1_54",
+          "text": "and well-being. The main ethical considerations are outlined below:",
+          "page": 10
+        },
+        {
+          "para_id": "1_55",
+          "text": "• Informed Consent: All participants were clearly informed that their speech would be",
+          "page": 10
+        },
+        {
+          "para_id": "1_56",
+          "text": "recorded and potentially used in academic publications. Participation was voluntary, and",
+          "page": 10
+        },
+        {
+          "para_id": "1_57",
+          "text": "individuals had the right to withdraw at any stage without penalty.",
+          "page": 10
+        },
+        {
+          "para_id": "1_58",
+          "text": "• Data Anonymization: To ensure participant confidentiality, all audio recordings were",
+          "page": 10
+        },
+        {
+          "para_id": "1_59",
+          "text": "anonymized by removing any personally identifiable information, making it impossible",
+          "page": 10
+        },
+        {
+          "para_id": "1_60",
+          "text": "to trace the data back to individuals.",
+          "page": 10
+        },
+        {
+          "para_id": "1_61",
+          "text": "• Data Security: Collected data are stored under strict security protocols, with access lim-",
+          "page": 10
+        },
+        {
+          "para_id": "1_62",
+          "text": "ited to authorized research personnel. Comprehensive measures are in place to prevent",
+          "page": 10
+        },
+        {
+          "para_id": "1_63",
+          "text": "unauthorized access, disclosure, or misuse.",
+          "page": 10
+        },
+        {
+          "para_id": "1_64",
+          "text": "• Scientific Integrity: We maintain high standards of transparency and accuracy in reporting",
+          "page": 10
+        },
+        {
+          "para_id": "1_65",
+          "text": "methods and results. The research is presented in a manner that supports reproducibility,",
+          "page": 10
+        },
+        {
+          "para_id": "1_66",
+          "text": "and all contributions are properly acknowledged.",
+          "page": 10
+        },
+        {
+          "para_id": "1_67",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 11
+        },
+        {
+          "para_id": "1_68",
+          "text": "• Avoiding Harm and Promoting Fairness: We have taken measures to minimize potential",
+          "page": 11
+        },
+        {
+          "para_id": "1_69",
+          "text": "harm and avoid reinforcing social biases. Our work is committed to fairness, inclusivity,",
+          "page": 11
+        },
+        {
+          "para_id": "1_70",
+          "text": "and respect for participants, with the goal that research outcomes be applied in a socially",
+          "page": 11
+        },
+        {
+          "para_id": "1_71",
+          "text": "We reiterate that all data and models are intended solely for scientific research purposes, and must",
+          "page": 11
+        },
+        {
+          "para_id": "1_72",
+          "text": "not be used for commercial activities or any unlawful or fraudulent actions.",
+          "page": 11
+        },
+        {
+          "para_id": "1_73",
+          "text": "REPRODUCIBILITY STATEMENT",
+          "page": 11
+        },
+        {
+          "para_id": "1_74",
+          "text": "We have made every effort to ensure that the results presented in this paper are reproducible. All code",
+          "page": 11
+        },
+        {
+          "para_id": "1_75",
+          "text": "and datasets have been made publicly available in an anonymous repository to facilitate replication",
+          "page": 11
+        },
+        {
+          "para_id": "1_76",
+          "text": "Our experiments comprise three main components. First, we collected dialogue data for the Tur-",
+          "page": 11
+        },
+        {
+          "para_id": "1_77",
+          "text": "ing test, which includes human–machine dialogues (see Section 3.1 for the detailed procedure),",
+          "page": 11
+        },
+        {
+          "para_id": "1_78",
+          "text": "human–human dialogues (Section 3.2), and pseudo human–human dialogues generated via TTS",
+          "page": 11
+        },
+        {
+          "para_id": "1_79",
+          "text": "models (Text-to-Speech, also described in Section 3.3). Based on the collected data, we designed",
+          "page": 11
+        },
+        {
+          "para_id": "1_80",
+          "text": "a game-based human evaluation platform supporting fine-grained annotation, with the detailed de-",
+          "page": 11
+        },
+        {
+          "para_id": "1_81",
+          "text": "sign and implementation process outlined in Section 4. Furthermore, we developed a fine-grained",
+          "page": 11
+        },
+        {
+          "para_id": "1_82",
+          "text": "annotation protocol incorporating expert validation, as described in Appendix D.1. Using this pro-",
+          "page": 11
+        },
+        {
+          "para_id": "1_83",
+          "text": "tocol, we conducted crowd-sourced annotation; the design of the annotation platform is provided",
+          "page": 11
+        },
+        {
+          "para_id": "1_84",
+          "text": "in Appendix D.2. Finally, we trained a human-like judge model using the annotated data, with the",
+          "page": 11
+        },
+        {
+          "para_id": "1_85",
+          "text": "model training procedure and hyperparameter settings detailed in Appendix E. We believe that these",
+          "page": 11
+        },
+        {
+          "para_id": "1_86",
+          "text": "comprehensive descriptions significantly enhance the reproducibility of our work.",
+          "page": 11
+        },
+        {
+          "para_id": "1_87",
+          "text": "This work is supported in part by Longgang District Special Funds for Science and Technology",
+          "page": 11
+        },
+        {
+          "para_id": "1_88",
+          "text": "Innovation under Grant LGKCSDPT2023002; the National Natural Science Foundation of China",
+          "page": 11
+        },
+        {
+          "para_id": "1_89",
+          "text": "under Grants 62372058, U22A2026.",
+          "page": 11
+        },
+        {
+          "para_id": "1_90",
+          "text": "Abdelrahman Abouelenin, Atabak Ashfaq, Adam Atkinson, Hany Awadalla, Nguyen Bach, Jianmin",
+          "page": 11
+        },
+        {
+          "para_id": "1_91",
+          "text": "Bao, Alon Benhaim, Martin Cai, Vishrav Chaudhary, Congcong Chen, et al. Phi-4-mini technical",
+          "page": 11
+        },
+        {
+          "para_id": "1_92",
+          "text": "report: Compact yet powerful multimodal language models via mixture-of-loras. arXiv preprint",
+          "page": 11
+        },
+        {
+          "para_id": "1_93",
+          "text": "arXiv:2503.01743, 2025.",
+          "page": 11
+        },
+        {
+          "para_id": "1_94",
+          "text": "Andrey Anikin, Valentina Canessa-Pollard, Katarzyna Pisanski, Mathilde Massenet, and David",
+          "page": 11
+        },
+        {
+          "para_id": "1_95",
+          "text": "Reby. Beyond speech: Exploring diversity in the human voice. Iscience, 26(11), 2023.",
+          "page": 11
+        },
+        {
+          "para_id": "1_96",
+          "text": "Claude 3.5 sonnet system card.",
+          "page": 11
+        },
+        {
+          "para_id": "1_97",
+          "text": "https://www-cdn.anthropic.com/",
+          "page": 11
+        },
+        {
+          "para_id": "1_98",
+          "text": "6d8a8055020700718b0c49369f60816ba2a7c285.pdf, 2024. Accessed: 2025-09-10.",
+          "page": 11
+        },
+        {
+          "para_id": "1_99",
+          "text": "Emanuele Bottazzi Grifoni and Roberta Ferrario. The bewitching ai: The illusion of communication",
+          "page": 11
+        },
+        {
+          "para_id": "1_100",
+          "text": "with large language models. Philosophy & Technology, 38(2):61, 2025.",
+          "page": 11
+        },
+        {
+          "para_id": "1_101",
+          "text": "Carlos Busso, Murtaza Bulut, Chi-Chun Lee, Abe Kazemzadeh, Emily Mower, Samuel Kim, Jean-",
+          "page": 11
+        },
+        {
+          "para_id": "1_102",
+          "text": "nette N. Chang, Sungbok Lee, and Shrikanth S. Narayanan. IEMOCAP: interactive emotional",
+          "page": 11
+        },
+        {
+          "para_id": "1_103",
+          "text": "dyadic motion capture database. Lang. Resour. Evaluation, 42(4):335–359, 2008.",
+          "page": 11
+        },
+        {
+          "para_id": "1_104",
+          "text": "ByteDance. Doubao-1.5-pro. https://seed.bytedance.com/en/special/doubao_",
+          "page": 11
+        },
+        {
+          "para_id": "1_105",
+          "text": "1_5_pro, 2025. Accessed: 2025-09-15.",
+          "page": 11
+        },
+        {
+          "para_id": "1_106",
+          "text": "Tsz-Yan Chan. Using a text-to-speech synthesizer to generate a reverse turing test. In 15th IEEE",
+          "page": 11
+        },
+        {
+          "para_id": "1_107",
+          "text": "International Conference on Tools with Artificial Intelligence (ICTAI 2003), 3-5 November 2003,",
+          "page": 11
+        },
+        {
+          "para_id": "1_108",
+          "text": "Sacramento, California, USA, pp. 226–232. IEEE Computer Society, 2003. doi: 10.1109/TAI.",
+          "page": 11
+        },
+        {
+          "para_id": "1_109",
+          "text": "2003.1250195. URL https://doi.org/10.1109/TAI.2003.1250195.",
+          "page": 11
+        },
+        {
+          "para_id": "1_110",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 12
+        },
+        {
+          "para_id": "1_111",
+          "text": "Yiming Chen, Xianghu Yue, Chen Zhang, Xiaoxue Gao, Robby T. Tan, and Haizhou Li. Voicebench:",
+          "page": 12
+        },
+        {
+          "para_id": "1_112",
+          "text": "Benchmarking llm-based voice assistants. CoRR, abs/2410.17196, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "1_113",
+          "text": "Christopher Cieri, David Miller, and Kevin Walker. The fisher corpus: a resource for the next gen-",
+          "page": 12
+        },
+        {
+          "para_id": "1_114",
+          "text": "erations of speech-to-text. In Proceedings of the Fourth International Conference on Language",
+          "page": 12
+        },
+        {
+          "para_id": "1_115",
+          "text": "Resources and Evaluation, LREC 2004, May 26-28, 2004, Lisbon, Portugal. European Language",
+          "page": 12
+        },
+        {
+          "para_id": "1_116",
+          "text": "Resources Association, 2004.",
+          "page": 12
+        },
+        {
+          "para_id": "1_117",
+          "text": "Gheorghe Comanici, Eric Bieber, Mike Schaekermann, Ice Pasupat, Noveen Sachdeva, Inderjit",
+          "page": 12
+        },
+        {
+          "para_id": "1_118",
+          "text": "Dhillon, Marcel Blistein, Ori Ram, Dan Zhang, Evan Rosen, et al. Gemini 2.5: Pushing the",
+          "page": 12
+        },
+        {
+          "para_id": "1_119",
+          "text": "frontier with advanced reasoning, multimodality, long context, and next generation agentic capa-",
+          "page": 12
+        },
+        {
+          "para_id": "1_120",
+          "text": "bilities. arXiv preprint arXiv:2507.06261, 2025.",
+          "page": 12
+        },
+        {
+          "para_id": "1_121",
+          "text": "Philip R. Doyle, Justin Edwards, Odile Dumbleton, Leigh Clark, and Benjamin R. Cowan. Mapping",
+          "page": 12
+        },
+        {
+          "para_id": "1_122",
+          "text": "perceptions of humanness in intelligent personal assistant interaction. In Proceedings of the 21st",
+          "page": 12
+        },
+        {
+          "para_id": "1_123",
+          "text": "International Conference on Human-Computer Interaction with Mobile Devices and Services,",
+          "page": 12
+        },
+        {
+          "para_id": "1_124",
+          "text": "MobileHCI ’19, pp. 1–12. ACM, October 2019. doi: 10.1145/3338286.3340116. URL http:",
+          "page": 12
+        },
+        {
+          "para_id": "1_125",
+          "text": "//dx.doi.org/10.1145/3338286.3340116.",
+          "page": 12
+        },
+        {
+          "para_id": "1_126",
+          "text": "Yuhao Du, Qianwei Huang, Guo Zhu, Zhanchen Dai, Sunian Chen, Qiming Zhu, Yuhao Zhang,",
+          "page": 12
+        },
+        {
+          "para_id": "1_127",
+          "text": "Li Zhou, and Benyou Wang. Mtalk-bench: Evaluating speech-to-speech models in multi-turn",
+          "page": 12
+        },
+        {
+          "para_id": "1_128",
+          "text": "dialogues via arena-style and rubrics protocols. arXiv preprint arXiv:2508.18240, 2025.",
+          "page": 12
+        },
+        {
+          "para_id": "1_129",
+          "text": "Zhihao Du, Yuxuan Wang, Qian Chen, Xian Shi, Xiang Lv, Tianyu Zhao, Zhifu Gao, Yexin Yang,",
+          "page": 12
+        },
+        {
+          "para_id": "1_130",
+          "text": "Changfeng Gao, Hui Wang, Fan Yu, Huadai Liu, Zhengyan Sheng, Yue Gu, Chong Deng, Wen",
+          "page": 12
+        },
+        {
+          "para_id": "1_131",
+          "text": "Wang, Shiliang Zhang, Zhijie Yan, and Jingren Zhou. Cosyvoice 2: Scalable streaming speech",
+          "page": 12
+        },
+        {
+          "para_id": "1_132",
+          "text": "synthesis with large language models. CoRR, abs/2412.10117, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "1_133",
+          "text": "Aaron Fanous, Jacob Goldberg, Ank A. Agarwal, Joanna Lin, Anson Zhou, Roxana Daneshjou, and",
+          "page": 12
+        },
+        {
+          "para_id": "1_134",
+          "text": "Sanmi Koyejo. Syceval: Evaluating LLM sycophancy. CoRR, abs/2502.08177, 2025. doi: 10.",
+          "page": 12
+        },
+        {
+          "para_id": "1_135",
+          "text": "48550/ARXIV.2502.08177. URL https://doi.org/10.48550/arXiv.2502.08177.",
+          "page": 12
+        },
+        {
+          "para_id": "1_136",
+          "text": "Takashi Fukuda, Osamu Ichikawa, and Masafumi Nishimura. Detecting breathing sounds in realistic",
+          "page": 12
+        },
+        {
+          "para_id": "1_137",
+          "text": "japanese telephone conversations and its application to automatic speech recognition. Speech",
+          "page": 12
+        },
+        {
+          "para_id": "1_138",
+          "text": "Communication, 98:95–103, 2018.",
+          "page": 12
+        },
+        {
+          "para_id": "1_139",
+          "text": "Matthew Carson Galbraith and Mireia G´omez i Mart´ınez. An analysis of dialogue repair in virtual",
+          "page": 12
+        },
+        {
+          "para_id": "1_140",
+          "text": "voice assistants. CoRR, abs/2307.07076, 2023.",
+          "page": 12
+        },
+        {
+          "para_id": "1_141",
+          "text": "Xuelong Geng, Qijie Shao, Hongfei Xue, Shuiyuan Wang, Hanke Xie, Zhao Guo, Yi Zhao, Guo-",
+          "page": 12
+        },
+        {
+          "para_id": "1_142",
+          "text": "jian Li, Wenjie Tian, Chengyou Wang, Zhixian Zhao, Kangxiang Xia, Ziyu Zhang, Zhennan",
+          "page": 12
+        },
+        {
+          "para_id": "1_143",
+          "text": "Lin, Tianlun Zuo, Mingchen Shao, Yuang Cao, Guobin Ma, Longhao Li, Yuhang Dai, Dehui",
+          "page": 12
+        },
+        {
+          "para_id": "1_144",
+          "text": "Gao, Dake Guo, and Lei Xie. Osum-echat: Enhancing end-to-end empathetic spoken chatbot via",
+          "page": 12
+        },
+        {
+          "para_id": "1_145",
+          "text": "understanding-driven spoken dialogue. CoRR, abs/2508.09600, 2025.",
+          "page": 12
+        },
+        {
+          "para_id": "1_146",
+          "text": "Team GLM, Aohan Zeng, Bin Xu, Bowen Wang, Chenhui Zhang, Da Yin, Dan Zhang, Diego Rojas,",
+          "page": 12
+        },
+        {
+          "para_id": "1_147",
+          "text": "Guanyu Feng, Hanlin Zhao, et al. Chatglm: A family of large language models from glm-130b to",
+          "page": 12
+        },
+        {
+          "para_id": "1_148",
+          "text": "glm-4 all tools. arXiv preprint arXiv:2406.12793, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "1_149",
+          "text": "Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang,",
+          "page": 12
+        },
+        {
+          "para_id": "1_150",
+          "text": "and Weizhu Chen. Lora: Low-rank adaptation of large language models. In The Tenth Inter-",
+          "page": 12
+        },
+        {
+          "para_id": "1_151",
+          "text": "national Conference on Learning Representations, ICLR 2022, Virtual Event, April 25-29, 2022.",
+          "page": 12
+        },
+        {
+          "para_id": "1_152",
+          "text": "OpenReview.net, 2022. URL https://openreview.net/forum?id=nZeVKeeFYf9.",
+          "page": 12
+        },
+        {
+          "para_id": "1_153",
+          "text": "Aaron Hurst, Adam Lerer, Adam P Goucher, Adam Perelman, Aditya Ramesh, Aidan Clark, AJ Os-",
+          "page": 12
+        },
+        {
+          "para_id": "1_154",
+          "text": "trow, Akila Welihinda, Alan Hayes, Alec Radford, et al. Gpt-4o system card. arXiv preprint",
+          "page": 12
+        },
+        {
+          "para_id": "1_155",
+          "text": "arXiv:2410.21276, 2024.",
+          "page": 12
+        },
+        {
+          "para_id": "1_156",
+          "text": "Ji-Sang Hwang, Sang-Hoon Lee, and Seong-Whan Lee. Pausespeech: Natural speech synthesis",
+          "page": 12
+        },
+        {
+          "para_id": "1_157",
+          "text": "via pre-trained language model and pause-based prosody modeling.",
+          "page": 12
+        },
+        {
+          "para_id": "1_158",
+          "text": "In Huimin Lu, Michael",
+          "page": 12
+        },
+        {
+          "para_id": "1_159",
+          "text": "Blumenstein, Sung-Bae Cho, Cheng-Lin Liu, Yasushi Yagi, and Tohru Kamiya (eds.), Pat-",
+          "page": 12
+        },
+        {
+          "para_id": "1_160",
+          "text": "tern Recognition - 7th Asian Conference, ACPR 2023, Kitakyushu, Japan, November 5-8,",
+          "page": 12
+        },
+        {
+          "para_id": "1_161",
+          "text": "2023, Proceedings, Part I, volume 14406 of Lecture Notes in Computer Science, pp. 415–427.",
+          "page": 12
+        },
+        {
+          "para_id": "1_162",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 13
+        },
+        {
+          "para_id": "1_163",
+          "text": "Springer, 2023. doi: 10.1007/978-3-031-47634-1\\ 31. URL https://doi.org/10.1007/",
+          "page": 13
+        },
+        {
+          "para_id": "1_164",
+          "text": "978-3-031-47634-1_31.",
+          "page": 13
+        },
+        {
+          "para_id": "1_165",
+          "text": "iFlytek. iflytekspark-13b: 130b parameter open-source large model. https://gitee.com/",
+          "page": 13
+        },
+        {
+          "para_id": "1_166",
+          "text": "iflytekopensource/iFlytekSpark-13B, 2024. Accessed: 2025-09-15.",
+          "page": 13
+        },
+        {
+          "para_id": "1_167",
+          "text": "Feng Jiang, Zhiyu Lin, Fan Bu, Yuhao Du, Benyou Wang, and Haizhou Li. S2s-arena, evaluat-",
+          "page": 13
+        },
+        {
+          "para_id": "1_168",
+          "text": "ing speech2speech protocols on instruction following with paralinguistic information. CoRR,",
+          "page": 13
+        },
+        {
+          "para_id": "1_169",
+          "text": "abs/2503.05085, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "1_170",
+          "text": "Cameron Jones and Ben Bergen. Does GPT-4 pass the Turing test? In Kevin Duh, Helena Gomez,",
+          "page": 13
+        },
+        {
+          "para_id": "1_171",
+          "text": "and Steven Bethard (eds.), Proceedings of the 2024 Conference of the North American Chapter",
+          "page": 13
+        },
+        {
+          "para_id": "1_172",
+          "text": "of the Association for Computational Linguistics: Human Language Technologies (Volume 1:",
+          "page": 13
+        },
+        {
+          "para_id": "1_173",
+          "text": "Long Papers), pp. 5183–5210, Mexico City, Mexico, June 2024a. Association for Computational",
+          "page": 13
+        },
+        {
+          "para_id": "1_174",
+          "text": "Linguistics. doi: 10.18653/v1/2024.naacl-long.290. URL https://aclanthology.org/",
+          "page": 13
+        },
+        {
+          "para_id": "1_175",
+          "text": "2024.naacl-long.290/.",
+          "page": 13
+        },
+        {
+          "para_id": "1_176",
+          "text": "Cameron R. Jones and Ben Bergen. Does GPT-4 pass the turing test? In Kevin Duh, Helena G´omez-",
+          "page": 13
+        },
+        {
+          "para_id": "1_177",
+          "text": "Adorno, and Steven Bethard (eds.), Proceedings of the 2024 Conference of the North American",
+          "page": 13
+        },
+        {
+          "para_id": "1_178",
+          "text": "Chapter of the Association for Computational Linguistics: Human Language Technologies (Vol-",
+          "page": 13
+        },
+        {
+          "para_id": "1_179",
+          "text": "ume 1: Long Papers), NAACL 2024, Mexico City, Mexico, June 16-21, 2024, pp. 5183–5210.",
+          "page": 13
+        },
+        {
+          "para_id": "1_180",
+          "text": "Association for Computational Linguistics, 2024b.",
+          "page": 13
+        },
+        {
+          "para_id": "1_181",
+          "text": "Cameron R. Jones and Benjamin K. Bergen. Large language models pass the turing test, 2025. URL",
+          "page": 13
+        },
+        {
+          "para_id": "1_182",
+          "text": "https://arxiv.org/abs/2503.23674.",
+          "page": 13
+        },
+        {
+          "para_id": "1_183",
+          "text": "Cameron Robert Jones, Ishika Rathi, Sydney Taylor, and Benjamin K. Bergen. People cannot distin-",
+          "page": 13
+        },
+        {
+          "para_id": "1_184",
+          "text": "guish gpt-4 from a human in a turing test. In Proceedings of the 2025 ACM Conference on Fair-",
+          "page": 13
+        },
+        {
+          "para_id": "1_185",
+          "text": "ness, Accountability, and Transparency, FAccT ’25, pp. 1615–1639, New York, NY, USA, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "1_186",
+          "text": "Association for Computing Machinery. ISBN 9798400714825. doi: 10.1145/3715275.3732108.",
+          "page": 13
+        },
+        {
+          "para_id": "1_187",
+          "text": "URL https://doi.org/10.1145/3715275.3732108.",
+          "page": 13
+        },
+        {
+          "para_id": "1_188",
+          "text": "Sonal Kumar, Simon Sedl´acek, Vaibhavi Lokegaonkar, and et al.",
+          "page": 13
+        },
+        {
+          "para_id": "1_189",
+          "text": "Mmau-pro: A challenging",
+          "page": 13
+        },
+        {
+          "para_id": "1_190",
+          "text": "and comprehensive benchmark for holistic evaluation of audio general intelligence.",
+          "page": 13
+        },
+        {
+          "para_id": "1_191",
+          "text": "abs/2508.13992, 2025a.",
+          "page": 13
+        },
+        {
+          "para_id": "1_192",
+          "text": "Sonal Kumar, ˇSimon Sedl´aˇcek, Vaibhavi Lokegaonkar, Fernando L´opez, Wenyi Yu, Nishit Anand,",
+          "page": 13
+        },
+        {
+          "para_id": "1_193",
+          "text": "Hyeonggon Ryu, Lichang Chen, Maxim Pliˇcka, Miroslav Hlav´aˇcek, et al. Mmau-pro: A chal-",
+          "page": 13
+        },
+        {
+          "para_id": "1_194",
+          "text": "lenging and comprehensive benchmark for holistic evaluation of audio general intelligence. arXiv",
+          "page": 13
+        },
+        {
+          "para_id": "1_195",
+          "text": "preprint arXiv:2508.13992, 2025b.",
+          "page": 13
+        },
+        {
+          "para_id": "1_196",
+          "text": "Keon Lee, Kyumin Park, and Daeyoung Kim. Dailytalk: Spoken dialogue dataset for conversational",
+          "page": 13
+        },
+        {
+          "para_id": "1_197",
+          "text": "text-to-speech. In IEEE International Conference on Acoustics, Speech and Signal Processing",
+          "page": 13
+        },
+        {
+          "para_id": "1_198",
+          "text": "ICASSP 2023, Rhodes Island, Greece, June 4-10, 2023, pp. 1–5. IEEE, 2023.",
+          "page": 13
+        },
+        {
+          "para_id": "1_199",
+          "text": "Tianpeng Li, Jun Liu, Tao Zhang, Yuanbo Fang, Da Pan, Mingrui Wang, Zheng Liang, Zehuan Li,",
+          "page": 13
+        },
+        {
+          "para_id": "1_200",
+          "text": "Mingan Lin, Guosheng Dong, et al. Baichuan-audio: A unified framework for end-to-end speech",
+          "page": 13
+        },
+        {
+          "para_id": "1_201",
+          "text": "interaction. arXiv preprint arXiv:2502.17239, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "1_202",
+          "text": "Yanran Li, Hui Su, Xiaoyu Shen, Wenjie Li, Ziqiang Cao, and Shuzi Niu. Dailydialog: A manually",
+          "page": 13
+        },
+        {
+          "para_id": "1_203",
+          "text": "labelled multi-turn dialogue dataset. In Greg Kondrak and Taro Watanabe (eds.), Proceedings",
+          "page": 13
+        },
+        {
+          "para_id": "1_204",
+          "text": "of the Eighth International Joint Conference on Natural Language Processing, IJCNLP 2017,",
+          "page": 13
+        },
+        {
+          "para_id": "1_205",
+          "text": "Taipei, Taiwan, November 27 - December 1, 2017 - Volume 1: Long Papers, pp. 986–995. Asian",
+          "page": 13
+        },
+        {
+          "para_id": "1_206",
+          "text": "Federation of Natural Language Processing, 2017.",
+          "page": 13
+        },
+        {
+          "para_id": "1_207",
+          "text": "Guan-Ting Lin, Jiachen Lian, Tingle Li, Qirui Wang, Gopala Anumanchipalli, Alexander H. Liu,",
+          "page": 13
+        },
+        {
+          "para_id": "1_208",
+          "text": "Full-duplex-bench: A benchmark to evaluate full-duplex spoken dialogue",
+          "page": 13
+        },
+        {
+          "para_id": "1_209",
+          "text": "models on turn-taking capabilities. CoRR, abs/2503.04721, 2025.",
+          "page": 13
+        },
+        {
+          "para_id": "1_210",
+          "text": "Christine H Nakatani and Julia Hirschberg. A speech-first model for repair detection and correction.",
+          "page": 13
+        },
+        {
+          "para_id": "1_211",
+          "text": "In 31st Annual Meeting of the Association for Computational Linguistics, pp. 46–53, 1993.",
+          "page": 13
+        },
+        {
+          "para_id": "1_212",
+          "text": "https://github.com/nari-labs/dia?tab=",
+          "page": 13
+        },
+        {
+          "para_id": "1_213",
+          "text": "readme-ov-file, 2025. Accessed: 2025-09-15.",
+          "page": 13
+        },
+        {
+          "para_id": "1_214",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 14
+        },
+        {
+          "para_id": "1_215",
+          "text": "Xuan-Phi Nguyen, Wenxuan Zhang, Xin Li, Mahani Aljunied, Zhiqiang Hu, Chenhui Shen,",
+          "page": 14
+        },
+        {
+          "para_id": "1_216",
+          "text": "Yew Ken Chia, Xingxuan Li, Jianyu Wang, Qingyu Tan, et al. Seallms–large language mod-",
+          "page": 14
+        },
+        {
+          "para_id": "1_217",
+          "text": "els for southeast asia. arXiv preprint arXiv:2312.00738, 2023.",
+          "page": 14
+        },
+        {
+          "para_id": "1_218",
+          "text": "Kentaro Onda, Keisuke Imoto, Satoru Fukayama, Daisuke Saito, and Nobuaki Minematsu. Prosod-",
+          "page": 14
+        },
+        {
+          "para_id": "1_219",
+          "text": "ically enhanced foreign accent simulation by discrete token-based resynthesis only with na-",
+          "page": 14
+        },
+        {
+          "para_id": "1_220",
+          "text": "tive speech corpora. CoRR, abs/2505.16191, 2025. doi: 10.48550/ARXIV.2505.16191. URL",
+          "page": 14
+        },
+        {
+          "para_id": "1_221",
+          "text": "https://doi.org/10.48550/arXiv.2505.16191.",
+          "page": 14
+        },
+        {
+          "para_id": "1_222",
+          "text": "OpenAI. GPT-4 technical report. CoRR, abs/2303.08774, 2023.",
+          "page": 14
+        },
+        {
+          "para_id": "1_223",
+          "text": "Se Jin Park, Chae Won Kim, Hyeongseop Rha, Minsu Kim, Joanna Hong, Jeong Hun Yeo, and",
+          "page": 14
+        },
+        {
+          "para_id": "1_224",
+          "text": "Yong Man Ro. Let’s go real talk: Spoken dialogue model for face-to-face conversation. In Lun-",
+          "page": 14
+        },
+        {
+          "para_id": "1_225",
+          "text": "Wei Ku, Andre Martins, and Vivek Srikumar (eds.), Proceedings of the 62nd Annual Meeting of",
+          "page": 14
+        },
+        {
+          "para_id": "1_226",
+          "text": "the Association for Computational Linguistics (Volume 1: Long Papers), ACL 2024, Bangkok,",
+          "page": 14
+        },
+        {
+          "para_id": "1_227",
+          "text": "Thailand, August 11-16, 2024, pp. 16334–16348. Association for Computational Linguistics,",
+          "page": 14
+        },
+        {
+          "para_id": "1_228",
+          "text": "Steven T Piantadosi, Harry Tily, and Edward Gibson. The communicative function of ambiguity in",
+          "page": 14
+        },
+        {
+          "para_id": "1_229",
+          "text": "language. Cognition, 122(3):280–291, 2012.",
+          "page": 14
+        },
+        {
+          "para_id": "1_230",
+          "text": "Pilar Prieto and Paolo Roseano. Prosody: Stress, Rhythm, and Intonation, pp. 211–236. Cambridge",
+          "page": 14
+        },
+        {
+          "para_id": "1_231",
+          "text": "Handbooks in Language and Linguistics. Cambridge University Press, 2018.",
+          "page": 14
+        },
+        {
+          "para_id": "1_232",
+          "text": "Ishika Rathi, Sydney Taylor, Benjamin K Bergen, and Cameron R Jones. Gpt-4 is judged more",
+          "page": 14
+        },
+        {
+          "para_id": "1_233",
+          "text": "human than humans in displaced and inverted turing tests. arXiv preprint arXiv:2407.08853,",
+          "page": 14
+        },
+        {
+          "para_id": "1_234",
+          "text": "S Sakshi, Utkarsh Tyagi, Sonal Kumar, Ashish Seth, Ramaneswaran Selvakumar, Oriol Nieto, Ra-",
+          "page": 14
+        },
+        {
+          "para_id": "1_235",
+          "text": "mani Duraiswami, Sreyan Ghosh, and Dinesh Manocha. Mmau: A massive multi-task audio",
+          "page": 14
+        },
+        {
+          "para_id": "1_236",
+          "text": "understanding and reasoning benchmark. arXiv preprint arXiv:2410.19168, 2024.",
+          "page": 14
+        },
+        {
+          "para_id": "1_237",
+          "text": "´Eva Sz´ekely, Gustav Eje Henter, Jonas Beskow, and Joakim Gustafson. How to train your fillers: uh",
+          "page": 14
+        },
+        {
+          "para_id": "1_238",
+          "text": "and um in spontaneous speech synthesis. In The 10th ISCA Speech Synthesis Workshop, 2019.",
+          "page": 14
+        },
+        {
+          "para_id": "1_239",
+          "text": "Gemma Team, Aishwarya Kamath, Johan Ferret, Shreya Pathak, Nino Vieillard, Ramona Merhej,",
+          "page": 14
+        },
+        {
+          "para_id": "1_240",
+          "text": "Sarah Perrin, Tatiana Matejovicova, Alexandre Ram´e, Morgane Rivi`ere, et al. Gemma 3 technical",
+          "page": 14
+        },
+        {
+          "para_id": "1_241",
+          "text": "report. arXiv preprint arXiv:2503.19786, 2025a.",
+          "page": 14
+        },
+        {
+          "para_id": "1_242",
+          "text": "Kimi Team, Angang Du, Bofei Gao, Bowei Xing, Changjiu Jiang, Cheng Chen, Cheng Li, Chenjun",
+          "page": 14
+        },
+        {
+          "para_id": "1_243",
+          "text": "Xiao, Chenzhuang Du, Chonghua Liao, et al. Kimi k1. 5: Scaling reinforcement learning with",
+          "page": 14
+        },
+        {
+          "para_id": "1_244",
+          "text": "llms. arXiv preprint arXiv:2501.12599, 2025b.",
+          "page": 14
+        },
+        {
+          "para_id": "1_245",
+          "text": "Tencent Hunyuan Team, Ao Liu, Botong Zhou, Can Xu, Chayse Zhou, ChenChen Zhang,",
+          "page": 14
+        },
+        {
+          "para_id": "1_246",
+          "text": "Chengcheng Xu, Chenhao Wang, Decheng Wu, Dengpeng Wu, et al. Hunyuan-turbos: Advanc-",
+          "page": 14
+        },
+        {
+          "para_id": "1_247",
+          "text": "ing large language models through mamba-transformer synergy and adaptive chain-of-thought.",
+          "page": 14
+        },
+        {
+          "para_id": "1_248",
+          "text": "arXiv preprint arXiv:2505.15431, 2025c.",
+          "page": 14
+        },
+        {
+          "para_id": "1_249",
+          "text": "Jo˜ao Paulo Teixeira, Carla Oliveira, and Carla Lopes. Vocal acoustic analysis–jitter, shimmer and",
+          "page": 14
+        },
+        {
+          "para_id": "1_250",
+          "text": "hnr parameters. Procedia technology, 9:1112–1122, 2013.",
+          "page": 14
+        },
+        {
+          "para_id": "1_251",
+          "text": "Adithya TG, Gowri Srinivasa, et al. Leveraging virtual reality and ai tutoring for language learning:",
+          "page": 14
+        },
+        {
+          "para_id": "1_252",
+          "text": "A case study of a virtual campus environment with openai gpt integration with unity 3d. arXiv",
+          "page": 14
+        },
+        {
+          "para_id": "1_253",
+          "text": "preprint arXiv:2411.12619, 2024.",
+          "page": 14
+        },
+        {
+          "para_id": "1_254",
+          "text": "Mariya Toneva, Alessandro Sordoni, Remi Tachet des Combes, Adam Trischler, Yoshua Bengio,",
+          "page": 14
+        },
+        {
+          "para_id": "1_255",
+          "text": "and Geoffrey J. Gordon. An empirical study of example forgetting during deep neural network",
+          "page": 14
+        },
+        {
+          "para_id": "1_256",
+          "text": "learning. In 7th International Conference on Learning Representations, ICLR 2019, New Or-",
+          "page": 14
+        },
+        {
+          "para_id": "1_257",
+          "text": "leans, LA, USA, May 6-9, 2019. OpenReview.net, 2019. URL https://openreview.net/",
+          "page": 14
+        },
+        {
+          "para_id": "1_258",
+          "text": "forum?id=BJlxm30cKm.",
+          "page": 14
+        },
+        {
+          "para_id": "1_259",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 15
+        },
+        {
+          "para_id": "1_260",
+          "text": "Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timoth´ee",
+          "page": 15
+        },
+        {
+          "para_id": "1_261",
+          "text": "Lacroix, Baptiste Rozi`ere, Naman Goyal, Eric Hambro, Faisal Azhar, Aur´elien Rodriguez, Ar-",
+          "page": 15
+        },
+        {
+          "para_id": "1_262",
+          "text": "mand Joulin, Edouard Grave, and Guillaume Lample. Llama: Open and efficient foundation",
+          "page": 15
+        },
+        {
+          "para_id": "1_263",
+          "text": "language models. CoRR, abs/2302.13971, 2023.",
+          "page": 15
+        },
+        {
+          "para_id": "1_264",
+          "text": "A. M. TURING. I.—computing machinery and intelligence. Mind, LIX(236):433–460, 1950.",
+          "page": 15
+        },
+        {
+          "para_id": "1_265",
+          "text": "Gerhard Tutz. Ordinal regression: A review and a taxonomy of models. Wiley Interdisciplinary",
+          "page": 15
+        },
+        {
+          "para_id": "1_266",
+          "text": "Reviews: Computational Statistics, 14(2):e1545, 2022.",
+          "page": 15
+        },
+        {
+          "para_id": "1_267",
+          "text": "Hilde Voorveld, Andreas Panteli, Yoni Schirris, Carolin Ischen, Evangelos Kanoulas, and Tom",
+          "page": 15
+        },
+        {
+          "para_id": "1_268",
+          "text": "Lentz. Examining the persuasiveness of text and voice agents: prosody aligned with informa-",
+          "page": 15
+        },
+        {
+          "para_id": "1_269",
+          "text": "tion structure increases human-likeness, perceived personalisation and brand attitude. Behaviour",
+          "page": 15
+        },
+        {
+          "para_id": "1_270",
+          "text": "& Information Technology, 44(12):2913–2928, 2025.",
+          "page": 15
+        },
+        {
+          "para_id": "1_271",
+          "text": "Mila Vulchanova and Valentin Vulchanov. Figurative language processing: A developmental and",
+          "page": 15
+        },
+        {
+          "para_id": "1_272",
+          "text": "NLP perspective. In Proceedings of the Third International Conference on Computational Lin-",
+          "page": 15
+        },
+        {
+          "para_id": "1_273",
+          "text": "guistics in Bulgaria (CLIB 2018), pp. 7–14, Sofia, Bulgaria, May 2018. Department of Com-",
+          "page": 15
+        },
+        {
+          "para_id": "1_274",
+          "text": "putational Linguistics, Institute for Bulgarian Language, Bulgarian Academy of Sciences. URL",
+          "page": 15
+        },
+        {
+          "para_id": "1_275",
+          "text": "https://aclanthology.org/2018.clib-1.3/.",
+          "page": 15
+        },
+        {
+          "para_id": "1_276",
+          "text": "Minghan Wang, Ye Bai, Yuxia Wang, Thuy-Trang Vu, Ehsan Shareghi, and Gholamreza Haffari.",
+          "page": 15
+        },
+        {
+          "para_id": "1_277",
+          "text": "Speechdialoguefactory: Generating high-quality speech dialogue data to accelerate your speech-",
+          "page": 15
+        },
+        {
+          "para_id": "1_278",
+          "text": "llm development. arXiv preprint arXiv:2503.23848, 2025a.",
+          "page": 15
+        },
+        {
+          "para_id": "1_279",
+          "text": "Xihuai Wang, Ziyi Zhao, Siyu Ren, Shao Zhang, Song Li, Xiaoyu Li, Ziwen Wang, Lin Qiu, Guan-",
+          "page": 15
+        },
+        {
+          "para_id": "1_280",
+          "text": "glu Wan, Xuezhi Cao, Xunliang Cai, and Weinan Zhang. Audio turing test: Benchmarking the",
+          "page": 15
+        },
+        {
+          "para_id": "1_281",
+          "text": "human-likeness of large language model-based text-to-speech systems in chinese, 2025b. URL",
+          "page": 15
+        },
+        {
+          "para_id": "1_282",
+          "text": "https://arxiv.org/abs/2505.11200.",
+          "page": 15
+        },
+        {
+          "para_id": "1_283",
+          "text": "Xinsheng Wang, Mingqi Jiang, Ziyang Ma, Ziyu Zhang, Songxiang Liu, and et al. Linqin Li. Spark-",
+          "page": 15
+        },
+        {
+          "para_id": "1_284",
+          "text": "tts: An efficient llm-based text-to-speech model with single-stream decoupled speech tokens,",
+          "page": 15
+        },
+        {
+          "para_id": "1_285",
+          "text": "2025c. URL https://arxiv.org/abs/2503.01710.",
+          "page": 15
+        },
+        {
+          "para_id": "1_286",
+          "text": "Kevin Warren, Daniel Olszewski, Seth Layton, Kevin Butler, Carrie Gates, and Patrick Traynor.",
+          "page": 15
+        },
+        {
+          "para_id": "1_287",
+          "text": "Pitch imperfect: Detecting audio deepfakes through acoustic prosodic analysis. arXiv preprint",
+          "page": 15
+        },
+        {
+          "para_id": "1_288",
+          "text": "arXiv:2502.14726, 2025.",
+          "page": 15
+        },
+        {
+          "para_id": "1_289",
+          "text": "Jin Xu, Zhifang Guo, Jinzheng He, Hangrui Hu, Ting He, Shuai Bai, Keqin Chen, Jialin Wang, Yang",
+          "page": 15
+        },
+        {
+          "para_id": "1_290",
+          "text": "Fan, Kai Dang, et al. Qwen2. 5-omni technical report. arXiv preprint arXiv:2503.20215, 2025.",
+          "page": 15
+        },
+        {
+          "para_id": "1_291",
+          "text": "An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu,",
+          "page": 15
+        },
+        {
+          "para_id": "1_292",
+          "text": "Chang Gao, Chengen Huang, Chenxu Lv, et al.",
+          "page": 15
+        },
+        {
+          "para_id": "1_293",
+          "text": "Qwen3 technical report.",
+          "page": 15
+        },
+        {
+          "para_id": "1_294",
+          "text": "arXiv:2505.09388, 2025.",
+          "page": 15
+        },
+        {
+          "para_id": "1_295",
+          "text": "Zehui Yang, Yifan Chen, Lei Luo, Runyan Yang, Lingxuan Ye, Gaofeng Cheng, Ji Xu, Yaohui Jin,",
+          "page": 15
+        },
+        {
+          "para_id": "1_296",
+          "text": "Qingqing Zhang, Pengyuan Zhang, Lei Xie, and Yonghong Yan. Open source magicdata-ramc:",
+          "page": 15
+        },
+        {
+          "para_id": "1_297",
+          "text": "A rich annotated mandarin conversational(ramc) speech dataset. In Hanseok Ko and John H. L.",
+          "page": 15
+        },
+        {
+          "para_id": "1_298",
+          "text": "Hansen (eds.), 23rd Annual Conference of the International Speech Communication Association,",
+          "page": 15
+        },
+        {
+          "para_id": "1_299",
+          "text": "Interspeech 2022, Incheon, Korea, September 18-22, 2022, pp. 1736–1740. ISCA, 2022.",
+          "page": 15
+        },
+        {
+          "para_id": "1_300",
+          "text": "Yuan Yao, Tianyu Yu, Ao Zhang, Chongyi Wang, Junbo Cui, Hongji Zhu, Tianchi Cai, Haoyu Li,",
+          "page": 15
+        },
+        {
+          "para_id": "1_301",
+          "text": "Weilin Zhao, Zhihui He, et al. Minicpm-v: A gpt-4v level mllm on your phone. arXiv preprint",
+          "page": 15
+        },
+        {
+          "para_id": "1_302",
+          "text": "arXiv:2408.01800, 2024.",
+          "page": 15
+        },
+        {
+          "para_id": "1_303",
+          "text": "Aohan Zeng, Xin Lv, Qinkai Zheng, Zhenyu Hou, Bin Chen, Chengxing Xie, Cunxiang Wang,",
+          "page": 15
+        },
+        {
+          "para_id": "1_304",
+          "text": "Da Yin, Hao Zeng, Jiajie Zhang, et al. Glm-4.5: Agentic, reasoning, and coding (arc) foundation",
+          "page": 15
+        },
+        {
+          "para_id": "1_305",
+          "text": "models. arXiv preprint arXiv:2508.06471, 2025.",
+          "page": 15
+        },
+        {
+          "para_id": "1_306",
+          "text": "PDF: polyphone disambiguation in chinese by using FLAT.",
+          "page": 15
+        },
+        {
+          "para_id": "1_307",
+          "text": "mansky, Honza Cernock´y, Luk´as Burget, Lori Lamel, Odette Scharenborg, and Petr Motl´ıcek",
+          "page": 15
+        },
+        {
+          "para_id": "1_308",
+          "text": "(eds.), 22nd Annual Conference of the International Speech Communication Association, In-",
+          "page": 15
+        },
+        {
+          "para_id": "1_309",
+          "text": "terspeech 2021, Brno, Czechia, August 30 - September 3, 2021, pp. 4099–4103. ISCA,",
+          "page": 15
+        },
+        {
+          "para_id": "1_310",
+          "text": "2021. doi: 10.21437/INTERSPEECH.2021-1087. URL https://doi.org/10.21437/",
+          "page": 15
+        },
+        {
+          "para_id": "1_311",
+          "text": "Interspeech.2021-1087.",
+          "page": 15
+        },
+        {
+          "para_id": "1_312",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 16
+        },
+        {
+          "para_id": "1_313",
+          "text": "Table 5: Comparison with Existing Speech Benchmarks.",
+          "page": 16
+        },
+        {
+          "para_id": "1_314",
+          "text": "Evaluating speech un-",
+          "page": 16
+        },
+        {
+          "para_id": "1_315",
+          "text": "based voice assistants",
+          "page": 16
+        },
+        {
+          "para_id": "1_316",
+          "text": "audio understanding of",
+          "page": 16
+        },
+        {
+          "para_id": "1_317",
+          "text": "multimodal AI models",
+          "page": 16
+        },
+        {
+          "para_id": "1_318",
+          "text": "likeness of Speech-to-",
+          "page": 16
+        },
+        {
+          "para_id": "1_319",
+          "text": "The Smarter the Better?",
+          "page": 16
+        },
+        {
+          "para_id": "1_320",
+          "text": "No—being “too smart”",
+          "page": 16
+        },
+        {
+          "para_id": "1_321",
+          "text": "likely to pass the Turing",
+          "page": 16
+        },
+        {
+          "para_id": "1_322",
+          "text": "Xitong Zhang. Code-switching in english-chinese ordinary conversations. TESOL Working Paper",
+          "page": 16
+        },
+        {
+          "para_id": "1_323",
+          "text": "Series, 17:38–45, 2019.",
+          "page": 16
+        },
+        {
+          "para_id": "1_324",
+          "text": "THE USE OF LARGE LANGUAGE MODELS",
+          "page": 16
+        },
+        {
+          "para_id": "1_325",
+          "text": "Using an LLM to help with paper writing",
+          "page": 16
+        },
+        {
+          "para_id": "1_326",
+          "text": "During the preparation of this work, the authors",
+          "page": 16
+        },
+        {
+          "para_id": "1_327",
+          "text": "utilized Large Language Models for language polishing, improving the structural clarity of the",
+          "page": 16
+        },
+        {
+          "para_id": "1_328",
+          "text": "manuscript, and refining the formal expression of individual sentences. The use of Large Language",
+          "page": 16
+        },
+        {
+          "para_id": "1_329",
+          "text": "Models did not influence the substantive content of the study and served solely as a writing aid.",
+          "page": 16
+        },
+        {
+          "para_id": "1_330",
+          "text": "OVERALL OF THE APPENDIX",
+          "page": 16
+        },
+        {
+          "para_id": "1_331",
+          "text": "The appendix provides supplementary material to support the methodology outlined in the main",
+          "page": 16
+        },
+        {
+          "para_id": "1_332",
+          "text": "text. It is organized into four sections for clarity:",
+          "page": 16
+        },
+        {
+          "para_id": "1_333",
+          "text": "• Appendix A: Comparison with Existing Speech Benchmarks details the distinctions be-",
+          "page": 16
+        },
+        {
+          "para_id": "1_334",
+          "text": "tween our benchmark and existing speech benchmarks.",
+          "page": 16
+        },
+        {
+          "para_id": "1_335",
+          "text": "• Appendix B: Data Collection details the procedures, sources, and criteria used for gather-",
+          "page": 16
+        },
+        {
+          "para_id": "1_336",
+          "text": "ing the raw data utilized in this study.",
+          "page": 16
+        },
+        {
+          "para_id": "1_337",
+          "text": "• Appendix C: Turing-Test describes the design of the human evaluation (Turing test).",
+          "page": 16
+        },
+        {
+          "para_id": "1_338",
+          "text": "• Appendix D: Fine-Grained Human-Likeness Dimension Annotation details the com-",
+          "page": 16
+        },
+        {
+          "para_id": "1_339",
+          "text": "prehensive guidelines followed for data annotation.",
+          "page": 16
+        },
+        {
+          "para_id": "1_340",
+          "text": "• Appendix E: Training Details specifies the key hyperparameters, computational environ-",
+          "page": 16
+        },
+        {
+          "para_id": "1_341",
+          "text": "ment, and training configurations of the models.",
+          "page": 16
+        },
+        {
+          "para_id": "1_342",
+          "text": "COMPARISON WITH EXISTING SPEECH BENCHMARKS",
+          "page": 16
+        },
+        {
+          "para_id": "1_343",
+          "text": "We conducted a detailed comparison between our work and two representative speech benchmarks,",
+          "page": 16
+        },
+        {
+          "para_id": "1_344",
+          "text": "VoiceBench (Chen et al., 2024) and MMAU-Pro (Kumar et al., 2025a). As summarized in Table 5,",
+          "page": 16
+        },
+        {
+          "para_id": "1_345",
+          "text": "our work differs fundamentally in evaluation goal and evaluated modality.",
+          "page": 16
+        },
+        {
+          "para_id": "1_346",
+          "text": "To further examine whether “being smarter” makes a model more human-like, we selected S2S",
+          "page": 16
+        },
+        {
+          "para_id": "1_347",
+          "text": "systems that appear in both MMAU-Pro and our study, and compared their reasoning accuracy on",
+          "page": 16
+        },
+        {
+          "para_id": "1_348",
+          "text": "MMAU-Pro with their Turing Test pass rates. The results are summarized in Table 6.",
+          "page": 16
+        },
+        {
+          "para_id": "1_349",
+          "text": "The Pearson correlation between reasoning accuracy and Turing test pass rate is 0.0456. This in-",
+          "page": 16
+        },
+        {
+          "para_id": "1_350",
+          "text": "dicates that reasoning ability is nearly uncorrelated with human-likeness in current S2S systems,",
+          "page": 16
+        },
+        {
+          "para_id": "1_351",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 17
+        },
+        {
+          "para_id": "1_352",
+          "text": "Table 6: Reasoning Ability vs. Human-likeness in Speech-to-Speech Models.",
+          "page": 17
+        },
+        {
+          "para_id": "1_353",
+          "text": "Turing Test Pass Rate (%)",
+          "page": 17
+        },
+        {
+          "para_id": "1_354",
+          "text": "revealing a disconnect between traditional intelligence benchmarks and the human-likeness required",
+          "page": 17
+        },
+        {
+          "para_id": "1_355",
+          "text": "for speech interaction.",
+          "page": 17
+        },
+        {
+          "para_id": "1_356",
+          "text": "The section is organized into the following sections:",
+          "page": 17
+        },
+        {
+          "para_id": "1_357",
+          "text": "• Section B.1: Model Selection for the Turing Test.",
+          "page": 17
+        },
+        {
+          "para_id": "1_358",
+          "text": "• Section B.2: Participant Profiles.",
+          "page": 17
+        },
+        {
+          "para_id": "1_359",
+          "text": "• Section B.3: Human-Machine Dialogue Initialization Design Details.",
+          "page": 17
+        },
+        {
+          "para_id": "1_360",
+          "text": "• Section B.4: Human-Human Dialogue Filtering.",
+          "page": 17
+        },
+        {
+          "para_id": "1_361",
+          "text": "• Section B.5: Pseudo Human Dialogue Synthesis.",
+          "page": 17
+        },
+        {
+          "para_id": "1_362",
+          "text": "MODEL SELECTION FOR THE TURING TEST",
+          "page": 17
+        },
+        {
+          "para_id": "1_363",
+          "text": "All S2S Systems we selected for evaluation are shown in Table 7. During pilot recordings and test-",
+          "page": 17
+        },
+        {
+          "para_id": "1_364",
+          "text": "ing, we observe that Claude-Sonnet 4 supports only English conversations, while iFLYTEK-Spark",
+          "page": 17
+        },
+        {
+          "para_id": "1_365",
+          "text": "exhibits suboptimal performance on long English prompts due to its underlying training constraints.",
+          "page": 17
+        },
+        {
+          "para_id": "1_366",
+          "text": "To ensure dialogue quality, we generate dialogues in English for Claude-Sonnet 4 and in Chinese",
+          "page": 17
+        },
+        {
+          "para_id": "1_367",
+          "text": "Table 7: Models used for the Turing test.",
+          "page": 17
+        },
+        {
+          "para_id": "1_368",
+          "text": "GPT-4o (Hurst et al., 2024)",
+          "page": 17
+        },
+        {
+          "para_id": "1_369",
+          "text": "Gemini2.5-Pro (Comanici et al., 2025)",
+          "page": 17
+        },
+        {
+          "para_id": "1_370",
+          "text": "Qwen3 (Yang et al., 2025)",
+          "page": 17
+        },
+        {
+          "para_id": "1_371",
+          "text": "Kimi-K1.5 (Team et al., 2025b)",
+          "page": 17
+        },
+        {
+          "para_id": "1_372",
+          "text": "ChatGLM-4.5 (Zeng et al., 2025)",
+          "page": 17
+        },
+        {
+          "para_id": "1_373",
+          "text": "Hunyuan-TurboS (Team et al., 2025c)",
+          "page": 17
+        },
+        {
+          "para_id": "1_374",
+          "text": "Doubao-Pro 1.5 (ByteDance, 2025)",
+          "page": 17
+        },
+        {
+          "para_id": "1_375",
+          "text": "Claude-Sonnet 4 (Anthropic, 2024)",
+          "page": 17
+        },
+        {
+          "para_id": "1_376",
+          "text": "iFLYTEK-Spark (iFlytek, 2024)",
+          "page": 17
+        },
+        {
+          "para_id": "1_377",
+          "text": "PARTICIPANT PROFILES",
+          "page": 17
+        },
+        {
+          "para_id": "1_378",
+          "text": "We provide the detailed profiles of all 28 participants in Table 8.",
+          "page": 17
+        },
+        {
+          "para_id": "1_379",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 18
+        },
+        {
+          "para_id": "1_380",
+          "text": "Table 8: Participant Profiles.",
+          "page": 18
+        },
+        {
+          "para_id": "1_381",
+          "text": "HUMAN-MACHINE DIALOGUE INITIALIZATION DESIGN DETAILS",
+          "page": 18
+        },
+        {
+          "para_id": "1_382",
+          "text": "For the Turing evaluation, we collect 2 Human-Guided Initiation (Figure 6), 3 Role Playing (Fig-",
+          "page": 18
+        },
+        {
+          "para_id": "1_383",
+          "text": "ure 7), and 4 Human-Likeness Prompting (Figure 8) initialization evaluation dialogues for both",
+          "page": 18
+        },
+        {
+          "para_id": "1_384",
+          "text": "English and Chinese (if applicable) from each S2S system. For any of the specific initialization, we",
+          "page": 18
+        },
+        {
+          "para_id": "1_385",
+          "text": "fixed the starting sentences that interact with these 9 models. Eventually, we obtained 144 human-",
+          "page": 18
+        },
+        {
+          "para_id": "1_386",
+          "text": "machine data for evaluation in total. The reason for including more dialogues for Role Playing",
+          "page": 18
+        },
+        {
+          "para_id": "1_387",
+          "text": "than Human-Guided Initiation is that, the former one tend to leads the conversation to discussion",
+          "page": 18
+        },
+        {
+          "para_id": "1_388",
+          "text": "on viewpoints. This phenomenon limits the dialogue coverage to only a narrow range of everyday",
+          "page": 18
+        },
+        {
+          "para_id": "1_389",
+          "text": "scenarios. Thus, we limit the amount of Human-Guided Initiation. By contrast, we include more",
+          "page": 18
+        },
+        {
+          "para_id": "1_390",
+          "text": "dialogues for Human-Likeness Prompting than Role Playing because Human-Likeness Prompting",
+          "page": 18
+        },
+        {
+          "para_id": "1_391",
+          "text": "explicitly attempts to elicit stronger humanlike qualities from S2S systems. This design allows our",
+          "page": 18
+        },
+        {
+          "para_id": "1_392",
+          "text": "dataset to capture a richer and more human-like spectrum of conversational behavior. The following",
+          "page": 18
+        },
+        {
+          "para_id": "1_393",
+          "text": "figures show what the 18 dialogue initializations are.",
+          "page": 18
+        },
+        {
+          "para_id": "1_394",
+          "text": "HUMAN-HUMAN DIALOGUE FILTERING",
+          "page": 18
+        },
+        {
+          "para_id": "1_395",
+          "text": "For the human-human dialogues, we extracted or recorded conversation segments of around 20–60",
+          "page": 18
+        },
+        {
+          "para_id": "1_396",
+          "text": "seconds to align with the human-machine dialogues. On one hand, too short dialogues may present",
+          "page": 18
+        },
+        {
+          "para_id": "1_397",
+          "text": "little context. On the other hand, excessively long recordings are not available for some S2S sys-",
+          "page": 18
+        },
+        {
+          "para_id": "1_398",
+          "text": "tem. To ensure balanced interactions, we retained only segments in which each of the two speakers",
+          "page": 18
+        },
+        {
+          "para_id": "1_399",
+          "text": "contributed roughly equally, defined as having approximately 50% of the total utterances.",
+          "page": 18
+        },
+        {
+          "para_id": "1_400",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 19
+        },
+        {
+          "para_id": "1_401",
+          "text": "“诶，我上周末考的托福出分了，考的挺不好，感觉又浪费了两千块钱。”",
+          "page": 19
+        },
+        {
+          "para_id": "1_402",
+          "text": "“I always take a shower in the evening. I don’t understand why there are people",
+          "page": 19
+        },
+        {
+          "para_id": "1_403",
+          "text": "taking a shower in the morning.”",
+          "page": 19
+        },
+        {
+          "para_id": "1_404",
+          "text": "“I still get nervous before every test, no matter how prepared I am.”",
+          "page": 19
+        },
+        {
+          "para_id": "1_405",
+          "text": "Figure 6: Human-guided initiation (2 ZH 2 EN).",
+          "page": 19
+        },
+        {
+          "para_id": "1_406",
+          "text": "“你现在扮演一个一个超市售货员，我是一个来超市买物品的顾客，请你不要在后续",
+          "page": 19
+        },
+        {
+          "para_id": "1_407",
+          "text": "聊天提及你的身份，我们现在开始聊天。帮我拿一斤苹果和桃子。”",
+          "page": 19
+        },
+        {
+          "para_id": "1_408",
+          "text": "“现在你扮演一个外卖员，我点了你要送的餐，你在跟我打电话，请你不要在后续聊",
+          "page": 19
+        },
+        {
+          "para_id": "1_409",
+          "text": "天提及你的身份，我们现在开始聊天。你好，请问我的外卖什么时候到啊？”",
+          "page": 19
+        },
+        {
+          "para_id": "1_410",
+          "text": "“你现在扮演我的朋友，我邀请你来我家吃饭，请你不要在后续聊天中提及你的身",
+          "page": 19
+        },
+        {
+          "para_id": "1_411",
+          "text": "份，我们现在开始聊天。今晚有啥想吃的？”",
+          "page": 19
+        },
+        {
+          "para_id": "1_412",
+          "text": "“You are now a university student, and we are discussing about university ranking.",
+          "page": 19
+        },
+        {
+          "para_id": "1_413",
+          "text": "Please don’t mention your identity in the subsequent conversation. Let’s start",
+          "page": 19
+        },
+        {
+          "para_id": "1_414",
+          "text": "chatting now. Do you know that recently the student of our university has been in",
+          "page": 19
+        },
+        {
+          "para_id": "1_415",
+          "text": "some conflict with the student of our brother university?”",
+          "page": 19
+        },
+        {
+          "para_id": "1_416",
+          "text": "“You are now my friend, and I invite you to my home for dinner tonight. Please",
+          "page": 19
+        },
+        {
+          "para_id": "1_417",
+          "text": "don’t mention your identity in the subsequent conversation. Let’s start chatting",
+          "page": 19
+        },
+        {
+          "para_id": "1_418",
+          "text": "now. What do you want to have for dinner tonight?”",
+          "page": 19
+        },
+        {
+          "para_id": "1_419",
+          "text": "“You are now my mom and we are discussing my final exam grade. Please don’t",
+          "page": 19
+        },
+        {
+          "para_id": "1_420",
+          "text": "mention your identity in the subsequent conversation. Let’s start chatting now.",
+          "page": 19
+        },
+        {
+          "para_id": "1_421",
+          "text": "Mom, I only scored 60 in my math exam.”",
+          "page": 19
+        },
+        {
+          "para_id": "1_422",
+          "text": "Figure 7: Role playing (3 ZH, 3 EN).",
+          "page": 19
+        },
+        {
+          "para_id": "1_423",
+          "text": "PSEUDO HUMAN DIALOGUE SYNTHESIS",
+          "page": 19
+        },
+        {
+          "para_id": "1_424",
+          "text": "Dialogue Scripts for TTS",
+          "page": 19
+        },
+        {
+          "para_id": "1_425",
+          "text": "The dialogue scripts cover 10 topics as our dataset. Each script presents",
+          "page": 19
+        },
+        {
+          "para_id": "1_426",
+          "text": "a conversation between two speakers. We obtain scripts in two ways:",
+          "page": 19
+        },
+        {
+          "para_id": "1_427",
+          "text": "1. We use ChatGPT to adjust our existing dialogue scripts, ensuring that the original meaning",
+          "page": 19
+        },
+        {
+          "para_id": "1_428",
+          "text": "remains intact while maintaining a natural, conversational tone. This part of the scripts contains all",
+          "page": 19
+        },
+        {
+          "para_id": "1_429",
+          "text": "of the HH data in the additional set that ensures contextual consistency. This allows us to generate",
+          "page": 19
+        },
+        {
+          "para_id": "1_430",
+          "text": "data that closely resembles our previous human-to-human dialogues. On the one hand, the scripts",
+          "page": 19
+        },
+        {
+          "para_id": "1_431",
+          "text": "are grounded in authentic everyday conversations. On the other hand, the similarity in content helps",
+          "page": 19
+        },
+        {
+          "para_id": "1_432",
+          "text": "reduce the chance that audiences distinguish between human and machine solely based on biases",
+          "page": 19
+        },
+        {
+          "para_id": "1_433",
+          "text": "introduced by dialogue content . The prompt used in this way is shown as follow:",
+          "page": 19
+        },
+        {
+          "para_id": "1_434",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 20
+        },
+        {
+          "para_id": "1_435",
+          "text": "“请你扮演我的同事，我们在闲聊，请让你的表达尽可能地像人，尽量让我相信你是",
+          "page": 20
+        },
+        {
+          "para_id": "1_436",
+          "text": "人类，请你不要在后续聊天提及你的身份，我们现在开始聊天。我们这个月的kpi",
+          "page": 20
+        },
+        {
+          "para_id": "1_437",
+          "text": "“请你扮演我的女朋友，我们在一起散步，请让你的表达尽可能地像人，尽量让我相",
+          "page": 20
+        },
+        {
+          "para_id": "1_438",
+          "text": "信你是人类，请你不要在后续聊天提及你的身份，我们现在开始聊天。我在工作上",
+          "page": 20
+        },
+        {
+          "para_id": "1_439",
+          "text": "“请你扮演我的朋友，上周末你刚去过三亚旅游，请让你的表达尽可能地像人，尽量",
+          "page": 20
+        },
+        {
+          "para_id": "1_440",
+          "text": "让我相信你是人类，请你不要在后续聊天提及你的身份，我们现在开始聊天。三亚",
+          "page": 20
+        },
+        {
+          "para_id": "1_441",
+          "text": "“现在你扮演呆在教室的同学，现在突然下雨了，我来找你借伞，请让你的表达尽可",
+          "page": 20
+        },
+        {
+          "para_id": "1_442",
+          "text": "能地像人，尽量让我相信你是人类，请你不要在后续聊天提及你的身份，我们现在",
+          "page": 20
+        },
+        {
+          "para_id": "1_443",
+          "text": "开始聊天。诶同学，请问一下你有多余的伞吗？突然下雨了，想借一下。”",
+          "page": 20
+        },
+        {
+          "para_id": "1_444",
+          "text": "“You are now my friend who came back from a vacation in Europe.",
+          "page": 20
+        },
+        {
+          "para_id": "1_445",
+          "text": "expression more humanlike.",
+          "page": 20
+        },
+        {
+          "para_id": "1_446",
+          "text": "Don’t mention your identity in the subsequent",
+          "page": 20
+        },
+        {
+          "para_id": "1_447",
+          "text": "conversation. Let’s start chatting now. How’s your vacation to Europe?”",
+          "page": 20
+        },
+        {
+          "para_id": "1_448",
+          "text": "“You are now my classmate who still stays in the classroom. Rain suddenly starts",
+          "page": 20
+        },
+        {
+          "para_id": "1_449",
+          "text": "Make your expression more humanlike.",
+          "page": 20
+        },
+        {
+          "para_id": "1_450",
+          "text": "identity in the subsequent conversation. Let’s start chatting now. Excuse me⋯",
+          "page": 20
+        },
+        {
+          "para_id": "1_451",
+          "text": "Hey, do you happen to have an umbrella I could borrow?”",
+          "page": 20
+        },
+        {
+          "para_id": "1_452",
+          "text": "“You’re now a taxi driver, and I’m a passenger in your cab. Make your expression",
+          "page": 20
+        },
+        {
+          "para_id": "1_453",
+          "text": "more humanlike. Don’t mention your identity in the subsequent conversation. Let’",
+          "page": 20
+        },
+        {
+          "para_id": "1_454",
+          "text": "s start chatting now. I am new here, can you take me to the best restaurant in town?”",
+          "page": 20
+        },
+        {
+          "para_id": "1_455",
+          "text": "“You are now my colleague who stayed late at the oﬀice with me to finish a deadline.",
+          "page": 20
+        },
+        {
+          "para_id": "1_456",
+          "text": "Make your expression more humanlike.",
+          "page": 20
+        },
+        {
+          "para_id": "1_457",
+          "text": "Don’t mention your identity in the",
+          "page": 20
+        },
+        {
+          "para_id": "1_458",
+          "text": "subsequent conversation. Let’s start chatting now. I don’t think we could get this",
+          "page": 20
+        },
+        {
+          "para_id": "1_459",
+          "text": "Figure 8: Human-likeness prompting (4 ZH, 4 EN).",
+          "page": 20
+        },
+        {
+          "para_id": "1_460",
+          "text": "You are a language refinement expert.",
+          "page": 20
+        },
+        {
+          "para_id": "1_461",
+          "text": "Without changing the original meaning or the overall flow of the dialogue, your task is to slightly",
+          "page": 20
+        },
+        {
+          "para_id": "1_462",
+          "text": "adjust the conversation between two speakers. The goal is to preserve a natural, everyday tone.",
+          "page": 20
+        },
+        {
+          "para_id": "1_463",
+          "text": "You may apply techniques such as: adding light interjections or filler words to make the speech",
+          "page": 20
+        },
+        {
+          "para_id": "1_464",
+          "text": "sound more authentic, or rephrasing sentences into alternative but commonly used everyday",
+          "page": 20
+        },
+        {
+          "para_id": "1_465",
+          "text": "Please return only the refined dialogue in JSON format, keeping the same structure as the origi-",
+          "page": 20
+        },
+        {
+          "para_id": "1_466",
+          "text": "{Utterances in json format}",
+          "page": 20
+        },
+        {
+          "para_id": "1_467",
+          "text": "2. We generate new 40–50 second everyday dialogue scripts with GPT-4o, based on given themes",
+          "page": 20
+        },
+        {
+          "para_id": "1_468",
+          "text": "(topic 1–10). The prompt used in this way is shown as follow:",
+          "page": 20
+        },
+        {
+          "para_id": "1_469",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 21
+        },
+        {
+          "para_id": "1_470",
+          "text": "You are a writing expert.",
+          "page": 21
+        },
+        {
+          "para_id": "1_471",
+          "text": "Please generate a spoken-style dialogue script between two people on the topic of “{topic}.”",
+          "page": 21
+        },
+        {
+          "para_id": "1_472",
+          "text": "Please follow these requirements: 1. The dialogue should sound natural, conversational, and",
+          "page": 21
+        },
+        {
+          "para_id": "1_473",
+          "text": "realistic. 2. Add a small number of interjections (e.g., “ah,” “oh,” “hey”) and filler words (e.g.,",
+          "page": 21
+        },
+        {
+          "para_id": "1_474",
+          "text": "“um,” “you know,” “like”) to enhance authenticity. 3. The dialogue content should be logically",
+          "page": 21
+        },
+        {
+          "para_id": "1_475",
+          "text": "coherent and reflect everyday life experiences. 4. The total length should correspond to 40–50",
+          "page": 21
+        },
+        {
+          "para_id": "1_476",
+          "text": "seconds of speaking time. 5. Use “A” and “B” as speaker labels. 6. The output format must be a",
+          "page": 21
+        },
+        {
+          "para_id": "1_477",
+          "text": "JSON array, with the following structure only:",
+          "page": 21
+        },
+        {
+          "para_id": "1_478",
+          "text": "“text”: “First utterance”",
+          "page": 21
+        },
+        {
+          "para_id": "1_479",
+          "text": "“text”: “Second utterance”",
+          "page": 21
+        },
+        {
+          "para_id": "1_480",
+          "text": "Please return only the JSON array.",
+          "page": 21
+        },
+        {
+          "para_id": "1_481",
+          "text": "Audio Synthesis and Dialogues Merging",
+          "page": 21
+        },
+        {
+          "para_id": "1_482",
+          "text": "For each dialogue script involving two speakers we",
+          "page": 21
+        },
+        {
+          "para_id": "1_483",
+          "text": "attained, we selected the voices of two participants in human–machine dialogue recordings and",
+          "page": 21
+        },
+        {
+          "para_id": "1_484",
+          "text": "performed voice cloning for each speaker’s individual utterances. This approach helps mitigate",
+          "page": 21
+        },
+        {
+          "para_id": "1_485",
+          "text": "bias caused by speaker voice characteristics, preventing users from inferring the human or machine",
+          "page": 21
+        },
+        {
+          "para_id": "1_486",
+          "text": "identity of the responder based solely on speaker A’s voice.",
+          "page": 21
+        },
+        {
+          "para_id": "1_487",
+          "text": "After generating the speech for each utterance from both sides, we concatenated them in dialogue",
+          "page": 21
+        },
+        {
+          "para_id": "1_488",
+          "text": "order to form a complete conversation. Between each utterance, we inserted a random pause of",
+          "page": 21
+        },
+        {
+          "para_id": "1_489",
+          "text": "180–230 milliseconds to ensure natural timing between sentences. Finally, we added a short back-",
+          "page": 21
+        },
+        {
+          "para_id": "1_490",
+          "text": "ground noise sample, taken from the reference voice, over the entire concatenated dialogue to further",
+          "page": 21
+        },
+        {
+          "para_id": "1_491",
+          "text": "enhance the naturalness of the conversation.",
+          "page": 21
+        },
+        {
+          "para_id": "1_492",
+          "text": "Through the above process, we obtained a complete pseudo-human dialogue. In total, 36 dialogues",
+          "page": 21
+        },
+        {
+          "para_id": "1_493",
+          "text": "were generated with Nari-TTS (all English), and another 108 with Spark-TTS(36 English, 72 Chi-",
+          "page": 21
+        },
+        {
+          "para_id": "1_494",
+          "text": "nese). Since Nari Dia-1.6B only supports English, it is used exclusively for English dialogues.",
+          "page": 21
+        },
+        {
+          "para_id": "1_495",
+          "text": "Use of the Pseudo Human Dialogues",
+          "page": 21
+        },
+        {
+          "para_id": "1_496",
+          "text": "All Pseudo human dialogues synthesized by TTS were",
+          "page": 21
+        },
+        {
+          "para_id": "1_497",
+          "text": "included only in the Turing evaluation set and were not used for training our evaluator. These",
+          "page": 21
+        },
+        {
+          "para_id": "1_498",
+          "text": "dialogues were incorporated into the gamified Turing Test released on social media, making the task",
+          "page": 21
+        },
+        {
+          "para_id": "1_499",
+          "text": "more challenging and engaging. As shown in Figure 4a, TTS models achieved the highest success",
+          "page": 21
+        },
+        {
+          "para_id": "1_500",
+          "text": "rate in the machine side.",
+          "page": 21
+        },
+        {
+          "para_id": "1_501",
+          "text": "The section is organized into the following sections:",
+          "page": 21
+        },
+        {
+          "para_id": "1_502",
+          "text": "• Section C.1: Turing Test Platform.",
+          "page": 21
+        },
+        {
+          "para_id": "1_503",
+          "text": "• Section C.2: Supplementary Turing Test Results.",
+          "page": 21
+        },
+        {
+          "para_id": "1_504",
+          "text": "• Section C.3: Influence of Dialogue Length on Turing Test Performance.",
+          "page": 21
+        },
+        {
+          "para_id": "1_505",
+          "text": "TURING TEST PLATFORM",
+          "page": 21
+        },
+        {
+          "para_id": "1_506",
+          "text": "Pre-test phase. Prior to the evaluation, participants provide basic demographic information as shown",
+          "page": 21
+        },
+        {
+          "para_id": "1_507",
+          "text": "in Figure 9a, including age, gender, education, and familiarity with AI, which may influence their",
+          "page": 21
+        },
+        {
+          "para_id": "1_508",
+          "text": "judgments. They can also select between Chinese and English dialogues, allowing them to make",
+          "page": 21
+        },
+        {
+          "para_id": "1_509",
+          "text": "judgment using their preferred language and thereby improving the reliability of the results. Testing",
+          "page": 21
+        },
+        {
+          "para_id": "1_510",
+          "text": "phase. Each round of evaluation contains 5 dialogues to be judged. After completing a round, par-",
+          "page": 21
+        },
+        {
+          "para_id": "1_511",
+          "text": "ticipants may either proceed to the next round or pause. Post-test phase. All incomplete submissions",
+          "page": 21
+        },
+        {
+          "para_id": "1_512",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 22
+        },
+        {
+          "para_id": "1_513",
+          "text": "are discarded to ensure data integrity. The remaining responses are then aggregated and analyzed in",
+          "page": 22
+        },
+        {
+          "para_id": "1_514",
+          "text": "conjunction with the demographic information collected during the pre-test phase. To boost engage-",
+          "page": 22
+        },
+        {
+          "para_id": "1_515",
+          "text": "ment, participants receive points based on the accuracy of their judgments, and a public leaderboard",
+          "page": 22
+        },
+        {
+          "para_id": "1_516",
+          "text": "ranks all players based on their performance as shown in Figure 9c. This analysis enables us to",
+          "page": 22
+        },
+        {
+          "para_id": "1_517",
+          "text": "identify potential influences of user characteristics on evaluation outcomes. The homepage and",
+          "page": 22
+        },
+        {
+          "para_id": "1_518",
+          "text": "main interface of the platform are illustrated in Figure 9b and Figure 3, respectively.",
+          "page": 22
+        },
+        {
+          "para_id": "1_519",
+          "text": "(c) Turing Game Rank",
+          "page": 22
+        },
+        {
+          "para_id": "1_520",
+          "text": "Figure 9: The Turing test platform.",
+          "page": 22
+        },
+        {
+          "para_id": "1_521",
+          "text": "SUPPLEMENTARY TURING TEST RESULTS",
+          "page": 22
+        },
+        {
+          "para_id": "1_522",
+          "text": "Table 9 shows the exact Turing test success rates of S2S systems, measured as the proportion of",
+          "page": 22
+        },
+        {
+          "para_id": "1_523",
+          "text": "responses judged as human. Higher values indicate greater human-likenes.",
+          "page": 22
+        },
+        {
+          "para_id": "1_524",
+          "text": "Table 9: Success rate of S2S systems (%).",
+          "page": 22
+        },
+        {
+          "para_id": "1_525",
+          "text": "Figure 10 presents the success rates of S2S systems by levels.",
+          "page": 22
+        },
+        {
+          "para_id": "1_526",
+          "text": "INFLUENCE OF DIALOGUE LENGTH ON TURING TEST PERFORMANCE",
+          "page": 22
+        },
+        {
+          "para_id": "1_527",
+          "text": "We divided the Turing test results by dialogue length and calculated the classification accuracy for",
+          "page": 22
+        },
+        {
+          "para_id": "1_528",
+          "text": "different dialogue types: human-human dialogues (H-H), human-machine dialogues (H-M), and",
+          "page": 22
+        },
+        {
+          "para_id": "1_529",
+          "text": "pseudo-human dialogues (PH). Table 10 summarizes the accuracy results across different duration",
+          "page": 22
+        },
+        {
+          "para_id": "1_530",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 23
+        },
+        {
+          "para_id": "1_531",
+          "text": "Human-Guided Initiation",
+          "page": 23
+        },
+        {
+          "para_id": "1_532",
+          "text": "Human-Likeness Prompting",
+          "page": 23
+        },
+        {
+          "para_id": "1_533",
+          "text": "Figure 10: Success rate of S2S systems by different interaction strategies.",
+          "page": 23
+        },
+        {
+          "para_id": "1_534",
+          "text": "Table 10: Accuracy by Duration Interval for H-H, H-M, and PH.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "section_id": "0.4000",
+      "section_title": "/ 5",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6624",
+      "section_title": "/ 157",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.7800",
+      "section_title": "/ 50",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.7742",
+      "section_title": "/ 31",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6654",
+      "section_title": "/ 257",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6513",
+      "section_title": "/ 152",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.8333",
+      "section_title": "/ 126",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6337",
+      "section_title": "/ 243",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.7033",
+      "section_title": "/ 246",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.8642",
+      "section_title": "/ 162",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6087",
+      "section_title": "/ 92",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6839",
+      "section_title": "/ 174",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.8498",
+      "section_title": "/ 273",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6200",
+      "section_title": "/ 50",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.7179",
+      "section_title": "/ 78",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.8564",
+      "section_title": "/ 195",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6333",
+      "section_title": "/ 60",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.8421",
+      "section_title": "/ 76",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.7737",
+      "section_title": "/ 137",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.5349",
+      "section_title": "/ 43",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.7234",
+      "section_title": "/ 141",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.7907",
+      "section_title": "/ 43",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.7907_1",
+          "text": "As shown in Table 11, we performed Cochran–Armitage Trend Tests to examine the potential linear",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_2",
+          "text": "relationship between dialogue length and accuracy and found no significant trend for any individual",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_3",
+          "text": "dialogue type. This suggests that dialogue length alone does not significantly influence the likeli-",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_4",
+          "text": "hood of passing the Turing test.",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_5",
+          "text": "Table 11: Statistical Test Results Across Dialogue Types.",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_6",
+          "text": "FINE-GRAINED HUMAN-LIKENESS DIMENSIONS",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_7",
+          "text": "The section is organized into the following sections:",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_8",
+          "text": "• Section D.1: The Taxonomy for Fine-Grained Human-Likeness Diagnosis.",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_9",
+          "text": "• Section D.2: Annotation Process.",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_10",
+          "text": "• Section D.3: Annotation Quality Assurance.",
+          "page": 23
+        },
+        {
+          "para_id": "0.7907_11",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_12",
+          "text": "THE TAXONOMY FOR FINE-GRAINED HUMAN-LIKENESS DIAGNOSIS",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_13",
+          "text": "We organize the evaluation dimensions into five categories: I. Semantic Features and Pragmatic",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_14",
+          "text": "Habits; II. Non-Physiological Paralinguistic Features; III. Physiological Paralinguistic Features;",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_15",
+          "text": "IV. Mechanical Persona; V. Emotional Expression. Notably, annotators are instructed to use these",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_16",
+          "text": "dimension descriptions to rate the human-likeness of each conversational response on a five-point",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_17",
+          "text": "scale: 1 indicates strongly machine-like behavior, 5 indicates strongly human-like behavior, and 3",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_18",
+          "text": "denotes no clear human- or machine-like leaning, or no enough evidence to judge.",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_19",
+          "text": "First, five speech domain experts employ a prompt-driven, heuristic querying process with GPT-",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_20",
+          "text": "4o to generate an initial set of concepts that differentiate human and machine responses. This",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_21",
+          "text": "method ensures that the generated concepts are both grounded in expert knowledge and supported",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_22",
+          "text": "by the model’s comprehensive language understanding. The set is then refined iteratively, with",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_23",
+          "text": "expert feedback and relevant social science literature retrieved by GPT-4o, ensuring that only the",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_24",
+          "text": "most representative and discriminative concepts are retained. The resulting dimensions are summa-",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_25",
+          "text": "rized in Table 12. This refinement process adds scientific rigor by aligning the selected concepts",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_26",
+          "text": "with established theories in the field, enhancing their validity. The final outcome is a set of five",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_27",
+          "text": "categories, encompassing 18 fine-grained dimensions, which are both comprehensive and precise.",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_28",
+          "text": "These dimensions were subsequently used to annotate dialogue training data through a crowdsourc-",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_29",
+          "text": "ing model. The ultimately trained model achieved a significant improvement in human-machine",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_30",
+          "text": "dialogue recognition. This also demonstrates the reasonableness and reliability of these dimensions.",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_31",
+          "text": "Table 12: Fine-grained human-likeness evaluation taxonomy .",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_32",
+          "text": "Forgetting key information and unable to realize errors;",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_33",
+          "text": "Human-like: Consistent memory in short contexts or asks for clarification",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_34",
+          "text": "when misunderstanding occurs(Toneva et al., 2019).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_35",
+          "text": "Logical Coherence (I)",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_36",
+          "text": "Machine-like: Abrupt logical transitions or self-contradictions; Human-like:",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_37",
+          "text": "Natural and coherent reasoning(Bottazzi Grifoni & Ferrario, 2025).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_38",
+          "text": "Machine-like: Mispronunciation (including heteronyms); Human-like: Cor-",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_39",
+          "text": "rect pronunciation, with proper usage of heteronyms(Zhang, 2021).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_40",
+          "text": "Machine-like: Unreasonable multilingual mix; Human-like: The mix of lan-",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_41",
+          "text": "guages is context-dependent, and the switching is smooth(Zhang, 2019).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_42",
+          "text": "Machine-like: Responses are precise and affirmative; Human-like: Uses",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_43",
+          "text": "vague expressions(Piantadosi et al., 2012) like “probably”,",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_44",
+          "text": "corrections(Nakatani & Hirschberg, 1993).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_45",
+          "text": "Machine-like: Rare use of fillers or unnatural usage; Human-like: Frequently",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_46",
+          "text": "uses (e.g., “um”, “like”) while thinking(Sz´ekely et al., 2019).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_47",
+          "text": "Machine-like: Direct, lacking semantic diversity, only capable of surface-level",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_48",
+          "text": "interpretation; Human-like: Uses metaphor and euphemism to convey implied",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_49",
+          "text": "meanings(Vulchanova & Vulchanov, 2018).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_50",
+          "text": "Machine-like: No pauses or mechanical pauses; Human-like: Speaking rate",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_51",
+          "text": "varies with semantic coherence, with occasional hesitations(Hwang et al.,",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_52",
+          "text": "Machine-like: Unnatural or flat intonation; Human-like: Natural pitch rise or",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_53",
+          "text": "fall(Warren et al., 2025).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_54",
+          "text": "Machine-like: No emphasis on words or abnormal emphasis placement;",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_55",
+          "text": "Human-like: Consciously emphasizes key words(Prieto & Roseano, 2018).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_56",
+          "text": "Contextually incorrect or mechanical auxiliary sounds;",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_57",
+          "text": "Produces appropriate non-verbal sounds to express emo-",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_58",
+          "text": "tion(Anikin et al., 2023).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_59",
+          "text": "Machine-like: Speech is overly clean or emits unnatural sound; Human-like:",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_60",
+          "text": "Humans produces breathing sounds, saliva sounds, etc(Fukuda et al., 2018).",
+          "page": 24
+        },
+        {
+          "para_id": "0.7907_61",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_62",
+          "text": "Machine-like: Pronunciation is overly clear; Human-like: Some irregularities",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_63",
+          "text": "in pronunciation (e.g., tremolo, slurred speech, nasal sounds)(Teixeira et al.,",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_64",
+          "text": "Machine-like: Stiff and unnatural accent; Human-like: Natural regional ac-",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_65",
+          "text": "cent or vocal traits(Onda et al., 2025).",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_66",
+          "text": "Excessively agrees, thanks, and apologizes; Human-like:",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_67",
+          "text": "Judges whether to agree based on context(Fanous et al., 2025).",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_68",
+          "text": "Machine-like: Responses are well-structured and formal. frequent listing;",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_69",
+          "text": "Human-like: Conversational, flexible, and varied expression(Doyle et al.,",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_70",
+          "text": "Textual Sentiment (V)",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_71",
+          "text": "Machine-like: Emotion conveyed in text may appear mismatched with natural",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_72",
+          "text": "human sentiment. Human-like: Emotion in text feels authentic and resonates",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_73",
+          "text": "naturally with human emotional expression.(Wang et al., 2025a).",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_74",
+          "text": "Acoustic Emotion (V)",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_75",
+          "text": "Machine-like: Prosody or tone may sound inconsistent with the intended emo-",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_76",
+          "text": "tion expression of the text. Human-like: Vocal delivery conveys context-",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_77",
+          "text": "appropriate emotional cues that align with the text(Voorveld et al., 2025).",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_78",
+          "text": "We recruited 36 annotators, all of whom are graduate students (master’s or Ph.D.) specializing in",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_79",
+          "text": "artificial intelligence, with bilingual fluency in both English and Chinese. Prior to the formal anno-",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_80",
+          "text": "tation, each annotator received comprehensive annotation guidelines (see Figure 11) and completed",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_81",
+          "text": "a calibration phase consisting of multiple trial batches (5 samples per batch, approximately 20–30",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_82",
+          "text": "minutes each) to ensure consistent understanding of the evaluation criteria. Annotators were com-",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_83",
+          "text": "pensated at a rate of 30 units/hour (local currency), with a total cost equivalent to approximately",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_84",
+          "text": "Annotators are instructed to use these dimension descriptions to rate the human-likeness of each",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_85",
+          "text": "conversational response on a five-point scale: 1 indicates strongly machine-like behavior, 5 indi-",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_86",
+          "text": "cates strongly human-like behavior, and 3 denotes no clear human- or machine-like leaning, or no",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_87",
+          "text": "enough evidence to judge. In line with the setup of Turing Test, they only evaluated the responder’s",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_88",
+          "text": "performance in each dialogue.",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_89",
+          "text": "To ensure the reliability of annotations, we implemented the following:",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_90",
+          "text": "• We created a questionnaire webpage where the crowdsourced annotators could access.",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_91",
+          "text": "Screenshots of the web are provided as figure11 and figure12. Annotators’ submissions",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_92",
+          "text": "are stored in our private Hugging Face dataset. Each submission contains 5 dialogues. For",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_93",
+          "text": "each dialogue, 18 ratings based on the 18 dimensions are associated with it. After grading",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_94",
+          "text": "each dialogue, the annotators also needed to indicate their judgment of the identity of the",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_95",
+          "text": "responder (final choice).",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_96",
+          "text": "• We provided reference descriptions as mentioned in the previous section for each dimen-",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_97",
+          "text": "• The annotators were unaware of the human-machine identity of the responder, and has",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_98",
+          "text": "never heard the dialogues before.",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_99",
+          "text": "• Before scoring, annotators must read the detailed guidelines, and we also provided training",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_100",
+          "text": "and clarification for them.",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_101",
+          "text": "Guideline for Annotators",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_102",
+          "text": "• The score reflects the degree of human-likeness of the response in a given dimension.",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_103",
+          "text": "• Even if you are confident about the identity of the responder, you are required to indepen-",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_104",
+          "text": "dently evaluate the degree of human-likeness for different dimensions.",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_105",
+          "text": "• A score of 3 indicates uncertainty about whether the responder is more human-like or",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_106",
+          "text": "machine-like. It also indicates that the dimension was not reflected in the dialogue. The",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_107",
+          "text": "underlying meaning of 3 is that this score has no contribution to the final choice.",
+          "page": 25
+        },
+        {
+          "para_id": "0.7907_108",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 26
+        },
+        {
+          "para_id": "0.7907_109",
+          "text": "Figure 11: Annotator guideline page.",
+          "page": 26
+        },
+        {
+          "para_id": "0.7907_110",
+          "text": "ANNOTATION QUALITY ASSURANCE",
+          "page": 26
+        },
+        {
+          "para_id": "0.7907_111",
+          "text": "For quality control, we invited three experts specializing in human-computer interaction to conduct",
+          "page": 26
+        },
+        {
+          "para_id": "0.7907_112",
+          "text": "cross-validation on all submitted content. Each expert was provided with the true labels indicat-",
+          "page": 26
+        },
+        {
+          "para_id": "0.7907_113",
+          "text": "ing whether the dialogue was generated by a human or a machine. Only annotations unanimously",
+          "page": 26
+        },
+        {
+          "para_id": "0.7907_114",
+          "text": "approved by all three experts were included, while those with any disagreement underwent expert",
+          "page": 26
+        },
+        {
+          "para_id": "0.7907_115",
+          "text": "discussion for revision. A total of 29.44% of the labels were revised, with an average adjustment of",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "section_id": "1.99",
+      "section_title": "points (49.76% of the score range), demonstrating the effectiveness of expert review in miti-",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.99_1",
+          "text": "gating noise in the raw annotations. Table 13 presents the three dimensions with the highest change",
+          "page": 26
+        },
+        {
+          "para_id": "1.99_2",
+          "text": "ratio, along with overall results across all 18 dimensions.",
+          "page": 26
+        },
+        {
+          "para_id": "1.99_3",
+          "text": "Table 13: Expert Revision Impact on Label Adjustments",
+          "page": 26
+        },
+        {
+          "para_id": "1.99_4",
+          "text": "Pronunciation Accuracy",
+          "page": 26
+        },
+        {
+          "para_id": "1.99_5",
+          "text": "Linguistic Imprecision",
+          "page": 26
+        },
+        {
+          "para_id": "1.99_6",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_7",
+          "text": "Figure 12: Annotation page example.",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_8",
+          "text": "To further validate annotation reliability, we trained models on data before and after expert cor-",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_9",
+          "text": "rection. As shown in Table 14. Expert-refined labels lead to substantial improvements in both",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_10",
+          "text": "in-distribution and OOD generalization, confirming the quality of our final annotation set.",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_11",
+          "text": "Table 14: Binary Classification Accuracy (Before/After Expert Modification)",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_12",
+          "text": "EXPERIMENT DETAILS OF AI JUDGER",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_13",
+          "text": "The section is organized into the following sections:",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_14",
+          "text": "• Section E.1: Prompt Templates for AI Judges.",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_15",
+          "text": "• Section E.2: Training Setup.",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_16",
+          "text": "• Section E.3: Embedding Readout Selection.",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_17",
+          "text": "• Section E.4: Model Ablation.",
+          "page": 27
+        },
+        {
+          "para_id": "1.99_18",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_19",
+          "text": "• Section E.5: Hyperparameter Tuning.",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_20",
+          "text": "• Section E.6: Fine-Grained Human-Likeness Scoring Accuracy.",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_21",
+          "text": "• Section E.7: Contribution Analysis by Case Study.",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_22",
+          "text": "PROMPT TEMPLATES FOR AI JUDGES",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_23",
+          "text": "The following Figure 13 shows the prompt used for AI judges.",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_24",
+          "text": "You are an expert in speech analysis and speaker identity recognition. Your core",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_25",
+          "text": "functions include but are not limited to: Automatic Speech Recognition, acoustic",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_26",
+          "text": "feature extraction, speaker diarization, and analysis of Text-to-Speech technologies.",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_27",
+          "text": "You are designed to perform objective, evidence-based reasoning. Analyze the dia-",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_28",
+          "text": "logue in this audio file and strictly adhere to the following steps:",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_29",
+          "text": "- Speaker Diarization: Identify and differentiate the speech segments of Speaker A",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_30",
+          "text": "(the first person to speak) and Speaker B (the respondent).",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_31",
+          "text": "- AI-Generated Voice Detection: Based on an analysis of vocal characteristics,",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_32",
+          "text": "determine whether the voice of Speaker B (the respondent) is AI-generated.",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_33",
+          "text": "- If Speaker B’s voice is determined to be AI-generated, output:",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_34",
+          "text": "final_choice=\"True\".",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_35",
+          "text": "- Otherwise, output: final_choice=\"False\".",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_36",
+          "text": "Figure 13: Prompt templates for AI judges.",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_37",
+          "text": "All experiments are conducted on our constructed dataset. Specifically, we use 831 samples (≈11h)",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_38",
+          "text": "for training and 208 samples (≈2h) for validation, obtained from the H-H and H-M subsets with a",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_39",
+          "text": "1:1 ratio. The test set consists of the remaining Human-Human(H-H) and Human-Machine(H-M)",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_40",
+          "text": "samples together with TTS data, forming 430 samples (≈5h) with a balanced 1:1:1 distribution. For",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_41",
+          "text": "modeling, we adopt Qwen2.5-Omni-7B as the backbone of our turing judge and further evaluate its",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_42",
+          "text": "LoRA fine-tuned variant. During hidden state extraction, we fix random sample = False to ensure",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_43",
+          "text": "consistency, and apply standard normalization to the hidden representations. For both modules,",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_44",
+          "text": "we adopt Adam as optimizer. The complete experiments, covering feature extraction, inference",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_45",
+          "text": "evaluation of multimodal large models, and model training, are carried out on a computing cluster",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_46",
+          "text": "with 8×A40 GPUs (48 GB memory per GPU).",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_47",
+          "text": "EMBEDDING READOUT SELECTION",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_48",
+          "text": "In Qwen2.5-Omni, only the first step exposes hidden states for the complete in-",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_49",
+          "text": "put sequence; at subsequent steps, each layer outputs a hidden state only for the newly generated",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_50",
+          "text": "token. Under this constraint, we design three readout candidates:: (i) First-step mean pooling:",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_51",
+          "text": "a simple average over step-1 token-level states (a length-agnostic baseline); (ii) Last-token rep-",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_52",
+          "text": "resentation: the hidden state of the most recent token as a compact, compression-style summary;",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_53",
+          "text": "and (iii) Fused pooling: a learnable weighted fusion of {first hidden mean, last hidden} into a sin-",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_54",
+          "text": "gle embedding. This two-source hidden representation lets the model adaptively fuse the globally",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_55",
+          "text": "contextual, acoustics-aware signal in first hidden mean with the high-level semantics distilled in",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_56",
+          "text": "To identify which sequence embedding best supports our downstream objectives,",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_57",
+          "text": "we conduct an ablation under a unified hyperparameter regime (Table 15). We evaluate the three",
+          "page": 28
+        },
+        {
+          "para_id": "1.99_58",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 29
+        },
+        {
+          "para_id": "1.99_59",
+          "text": "Table 15: Tuning parameters.",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "× 10−4 for ODL",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "× 10−3 for Linear",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "readout strategies under fixed proto-",
+          "page": 29
+        },
+        {
+          "para_id": "1_2",
+          "text": "cols so that any performance differ-",
+          "page": 29
+        },
+        {
+          "para_id": "1_3",
+          "text": "ences can be attributed solely to the",
+          "page": 29
+        },
+        {
+          "para_id": "1_4",
+          "text": "readout. Each alternative is paired with",
+          "page": 29
+        },
+        {
+          "para_id": "1_5",
+          "text": "the same ODL-Linear head and trained",
+          "page": 29
+        },
+        {
+          "para_id": "1_6",
+          "text": "end to end to convergence. To assess",
+          "page": 29
+        },
+        {
+          "para_id": "1_7",
+          "text": "stability, all evaluations are conducted",
+          "page": 29
+        },
+        {
+          "para_id": "1_8",
+          "text": "five times with different random seeds; we report the human–machine classification accuracy as the",
+          "page": 29
+        },
+        {
+          "para_id": "1_9",
+          "text": "mean ± standard error (s.e.m.) over the five runs.",
+          "page": 29
+        },
+        {
+          "para_id": "1_10",
+          "text": "Table 16 shows the overall performances corresponding to three readouts. Fused pooling attains",
+          "page": 29
+        },
+        {
+          "para_id": "1_11",
+          "text": "the highest overall score (0.9112), outperforming mean pooling (0.8879) and last-token representa-",
+          "page": 29
+        },
+        {
+          "para_id": "1_12",
+          "text": "tion (0.8032). On the Pseudo Human dataset—which is strictly out-of-distribution—fused pooling",
+          "page": 29
+        },
+        {
+          "para_id": "1_13",
+          "text": "reaches 0.8167, while other baselines remain at 0.7805 and 0.7917. This gap indicates improved",
+          "page": 29
+        },
+        {
+          "para_id": "1_14",
+          "text": "robustness to distributional shift. Consistent gains across Human-Human and Human-Machine set-",
+          "page": 29
+        },
+        {
+          "para_id": "1_15",
+          "text": "tings further demonstrate that the fusion of abstract semantic and speech sequential information",
+          "page": 29
+        },
+        {
+          "para_id": "1_16",
+          "text": "enhances discriminative power beyond what either source provides independently.",
+          "page": 29
+        },
+        {
+          "para_id": "1_17",
+          "text": "Table 16: Ablation experiment results (mean ± s.e.m. over 5 runs).",
+          "page": 29
+        },
+        {
+          "para_id": "1_18",
+          "text": "First-step Mean Pooling",
+          "page": 29
+        },
+        {
+          "para_id": "1_19",
+          "text": "Last-token Representation",
+          "page": 29
+        },
+        {
+          "para_id": "1_20",
+          "text": "Overall, these findings show that the choice of readout materially impacts downstream performance.",
+          "page": 29
+        },
+        {
+          "para_id": "1_21",
+          "text": "Fused pooling provides consistent improvements across all settings, including out-of-distribution",
+          "page": 29
+        },
+        {
+          "para_id": "1_22",
+          "text": "evaluation, and therefore constitutes a reliable default for sequence-level embedding utilization.",
+          "page": 29
+        },
+        {
+          "para_id": "1_23",
+          "text": "To validate the effectiveness of ODL, we conducted an ablation where we removed the ODL and",
+          "page": 29
+        },
+        {
+          "para_id": "1_24",
+          "text": "replaced it with a standard linear layer and negative log-likelihood loss, treating the human-likeness",
+          "page": 29
+        },
+        {
+          "para_id": "1_25",
+          "text": "scores as independent categories. This baseline corresponds to a non-ordinal but still interpretable",
+          "page": 29
+        },
+        {
+          "para_id": "1_26",
+          "text": "classifier. This clarifies that ODL is used as an appropriate modeling choice for ordinal labels, and",
+          "page": 29
+        },
+        {
+          "para_id": "1_27",
+          "text": "that our ablation demonstrates its empirical value.",
+          "page": 29
+        },
+        {
+          "para_id": "1_28",
+          "text": "Table 17: Binary classification accuracy across module ablation",
+          "page": 29
+        },
+        {
+          "para_id": "1_29",
+          "text": "Ordinal Discretization Layer",
+          "page": 29
+        },
+        {
+          "para_id": "1_30",
+          "text": "HYPERPARAMETER TUNING",
+          "page": 29
+        },
+        {
+          "para_id": "1_31",
+          "text": "To further optimize model’s performance, we tune hyperparameters for ODL and",
+          "page": 29
+        },
+        {
+          "para_id": "1_32",
+          "text": "FL independently using grid search.",
+          "page": 29
+        },
+        {
+          "para_id": "1_33",
+          "text": "As summarized in Table 18, the ODL space comprises 3×1000×4×4×5 = 240,000 configurations,",
+          "page": 29
+        },
+        {
+          "para_id": "1_34",
+          "text": "while the FL space contains 4 × 4 = 16. The joint search space therefore consists of 3.84M",
+          "page": 29
+        },
+        {
+          "para_id": "1_35",
+          "text": "combinations. To reduce computational cost, we uniformly sampled 7500 ODL configurations and",
+          "page": 29
+        },
+        {
+          "para_id": "1_36",
+          "text": "paired each with all 16 FL settings, yielding 120,000 trials in total. Each trial requires ∼5 minutes",
+          "page": 29
+        },
+        {
+          "para_id": "1_37",
+          "text": "on a single GPU, corresponding to ∼10, 000 GPU-hours overall.",
+          "page": 29
+        },
+        {
+          "para_id": "1_38",
+          "text": "To select optimal hyperparameters, we adopt accuracy as the primary objective",
+          "page": 29
+        },
+        {
+          "para_id": "1_39",
+          "text": "for grid search, which reflects the downstream classification goal of human–machine discrimina-",
+          "page": 29
+        },
+        {
+          "para_id": "1_40",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 30
+        },
+        {
+          "para_id": "1_41",
+          "text": "Table 18: Hyperparameter search space.",
+          "page": 30
+        },
+        {
+          "para_id": "1_42",
+          "text": "Discretization Layer",
+          "page": 30
+        },
+        {
+          "para_id": "1_43",
+          "text": "tion. The tuning results are summarized in Table 19, and the selected configuration is used used",
+          "page": 30
+        },
+        {
+          "para_id": "1_44",
+          "text": "throughout all experiments.",
+          "page": 30
+        },
+        {
+          "para_id": "1_45",
+          "text": "Table 19: Tuning results.",
+          "page": 30
+        },
+        {
+          "para_id": "1_46",
+          "text": "Discretization Layer",
+          "page": 30
+        },
+        {
+          "para_id": "1_47",
+          "text": "Sensitivity Analysis.",
+          "page": 30
+        },
+        {
+          "para_id": "1_48",
+          "text": "As a complementary experiment to our main hyperparameter tuning, we per-",
+          "page": 30
+        },
+        {
+          "para_id": "1_49",
+          "text": "formed a 1000-run randomized hyperparameter search, sampling key training parameters for ODL",
+          "page": 30
+        },
+        {
+          "para_id": "1_50",
+          "text": "(learning rate, batch size, scale, dropout) and FL (learning rate, batch size). Each configuration",
+          "page": 30
+        },
+        {
+          "para_id": "1_51",
+          "text": "was trained end-to-end using the same evaluation protocol, ensuring reliability through full paral-",
+          "page": 30
+        },
+        {
+          "para_id": "1_52",
+          "text": "lelization. The results for the hyperparameter sensitivity analysis (accuracy) are presented in the",
+          "page": 30
+        },
+        {
+          "para_id": "1_53",
+          "text": "Table 20: Hyperparameter Sensitivity Evaluation Metrics",
+          "page": 30
+        },
+        {
+          "para_id": "1_54",
+          "text": "{1e-05, 1e-04, 1e-03, 1e-02}",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "section_id": "0.8642",
+      "section_title": "(±0.0071)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.6105",
+      "section_title": "(±0.0065)",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.6105_1",
+          "text": "{1, 1.05, . . . , 5}",
+          "page": 30
+        },
+        {
+          "para_id": "0.6105_2",
+          "text": "{0.1, 0.2, 0.3, 0.4, 0.5}",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "section_id": "0.6103",
+      "section_title": "(±0.0050)",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.8617",
+      "section_title": "(±0.0103)",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.8617_1",
+          "text": "{1e-05, 1e-04, 1e-03, 1e-02}",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_2",
+          "text": "Analyzing the results, we identify several key findings:",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_3",
+          "text": "• Learning rate proved to be a critical factor for both ODL and FL, consistent with findings",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_4",
+          "text": "from other work. Extremes caused underfitting or instability, emphasizing the need for",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_5",
+          "text": "• Scale had minimal impact on ODL accuracy, suggesting ODL’s adaptability, but slightly",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_6",
+          "text": "affected FL due to scale-induced changes in logits cut-points.",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_7",
+          "text": "• Batch size influenced FL performance, with larger batches stabilizing training but poten-",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_8",
+          "text": "tially slowing convergence or causing overfitting.",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_9",
+          "text": "• Dropout and ODL batch size showed minimal effects",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_10",
+          "text": "Overall, the 1000-run analysis shows that our method is generally robust, with learning rate being",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_11",
+          "text": "the most sensitive parameter, while other hyperparameters produce only modest effects.",
+          "page": 30
+        },
+        {
+          "para_id": "0.8617_12",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_13",
+          "text": "FINE-GRAINED HUMAN-LIKENESS SCORING ACCURACY",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_14",
+          "text": "Since the 1–5 scores reflect perceived human-likeness, we report not only the",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_15",
+          "text": "exact accuracy that measures full agreement with human judgments, but also a grouped accuracy",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_16",
+          "text": "that consolidates scores into three categories (1–2, 3, and 4–5) to better reflect alignment with human",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_17",
+          "text": "perception. In addition, we include accuracy within a tolerance of ±1 to capture near-agreement with",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_18",
+          "text": "Pronunciation Accuracy",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_19",
+          "text": "Linguistic Imprecision",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_20",
+          "text": "Metaphor & Implied Meaning",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_21",
+          "text": "Auxiliary Vocalizations",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_22",
+          "text": "Micro-physiological Noise",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_23",
+          "text": "Pronunciation Instability",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_24",
+          "text": "Written-style Expression",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_25",
+          "text": "Figure 14: Fine-grained scoring accuracy.",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_26",
+          "text": "As shown in Figure 14, the Ordinal Discretization Layer consistently exceeds 50% exact accuracy",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_27",
+          "text": "across all evaluation dimensions, often reaching 70%. When consolidating scores into three bins or",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_28",
+          "text": "allowing a tolerance of ±1, accuracies in most dimensions approach or surpass 80%. With more",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_29",
+          "text": "detailed accuracies provided in Table 21, these results indicate that the model captures the correct",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_30",
+          "text": "ordinal direction in fine-grained judgments and aligns closely with human perceptions, yielding in-",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_31",
+          "text": "terpretable evidence for downstream human–machine classification. Moreover, our training frame-",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_32",
+          "text": "work not only substantially enhances binary classification accuracy but also systematically aligns",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_33",
+          "text": "the model with human evaluation dimensions, enabling it to learn human-like judgment patterns.",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_34",
+          "text": "Table 21: Detaied accuracies.",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_35",
+          "text": "Out-of-domain Evaluation",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_36",
+          "text": "To further evaluate the model’s generalization for the five-degree rat-",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_37",
+          "text": "ing, we invited human experts to annotate the OOD samples on multiple dimensions and report three",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_38",
+          "text": "accuracy metrics, where Exact is the percentage of predictions that exactly match the expert score,",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_39",
+          "text": "Group is the percentage that fall into the same human–machine identity group (1–2 machine-like, 3",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_40",
+          "text": "unclear, 4–5 human-like), and Nearby is the percentage that differ from the expert score by at most",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_41",
+          "text": "±1. The results are shown in the Table 22, indicating that our model maintains strong generalization",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_42",
+          "text": "ability in fine-grained scoring.",
+          "page": 31
+        },
+        {
+          "para_id": "0.8617_43",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_44",
+          "text": "Table 22: Overall Fine-grained Scores Accuracy",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_45",
+          "text": "CONTRIBUTION ANALYSIS BY CASE STUDY",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_46",
+          "text": "To probe the interpretability of the model’s human–machine discrimination, we con-",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_47",
+          "text": "duct case studies spanning two diagnostic regimes: (i) machine-class true positive (instances cor-",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_48",
+          "text": "rectly predicted as machine) and (ii) machine-class false negative (machine instances incorrectly",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_49",
+          "text": "predicted as human). This design reflects and operationalizes the principles of the inverted Turing",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_50",
+          "text": "test, establishing continuity between our analytical setting and evaluation framework.",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_51",
+          "text": "For each instance, we first calculate each contribution ck on machine-side by producting standard-",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_52",
+          "text": "ized ODL logits (standardized with respect to the training-set distribution) together with correspond-",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_53",
+          "text": "ing trained linear weight. Then, we rank top 8 features by |ck| to identify the most influential factors.",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_54",
+          "text": "By construction, ck > 0 (machine-like scoring) increases evidence for the machine class, whereas",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_55",
+          "text": "ck < 0 (human-like scoring) reduces it.",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_56",
+          "text": "As shown in Figure 15, most fine-grained scores align with their final contributions to hu-",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_57",
+          "text": "man–machine classification. In Figure 15a, despite a strong human-like cue (e.g., a negative contri-",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_58",
+          "text": "bution from Pronunciation Accuracy), the model aggregates multiple machine-oriented signals, such",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_59",
+          "text": "as Sycophant Behavior and Pronunciation Instability, yielding a high-confidence correct decision.",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_60",
+          "text": "By contrast, in Figure 15b, high-score dimensions (e.g., Memory Consistency, Pronunciation Accu-",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_61",
+          "text": "racy) contribute salient human-like evidence that shifts a machine sample into the human region; the",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_62",
+          "text": "available machine-like cues are insufficient to overturn the outcome due to a small effective margin,",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_63",
+          "text": "leading the system to accept the machine response as human in the sense of an inverted Turing test.",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_64",
+          "text": "Case evidence shows that S2S outputs perform strongly on dimensions such as Memory Consistency",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_65",
+          "text": "and Logical Coherence, leading annotated scores to concentrate in the 4–5 range; nevertheless, the",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_66",
+          "text": "associated logits remain informative within this high-score regime. When the model maps inputs",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_67",
+          "text": "to human-like scores, these dimensions place samples within higher-valued latent intervals along",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_68",
+          "text": "a continuous scoring axis. This induces within-bin margins: sample-wise logit variability driven",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_69",
+          "text": "by subtle linguistic or acoustic cues. In downstream binary classification, such variability produces",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_70",
+          "text": "margin-dependent contributions: near-cutpoint (low-margin) instances can exert negative influence,",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_71",
+          "text": "whereas far-beyond-cutpoint (high-margin) instances provide strong positive evidence. Thus, even",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_72",
+          "text": "under apparent rating saturation, logits retain fine-grained discriminative power via their ordinal",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_73",
+          "text": "positions and margins.",
+          "page": 32
+        },
+        {
+          "para_id": "0.8617_74",
+          "text": "Published as a conference paper at ICLR 2026",
+          "page": 33
+        },
+        {
+          "para_id": "0.8617_75",
+          "text": "Pronunciation Accuracy",
+          "page": 33
+        },
+        {
+          "para_id": "0.8617_76",
+          "text": "Pronunciation Instability",
+          "page": 33
+        },
+        {
+          "para_id": "0.8617_77",
+          "text": "Written-style Expression",
+          "page": 33
+        },
+        {
+          "para_id": "0.8617_78",
+          "text": "Auxiliary Vocalizations",
+          "page": 33
+        },
+        {
+          "para_id": "0.8617_79",
+          "text": "Micro-physiological Noise",
+          "page": 33
+        }
+      ]
+    },
+    {
+      "section_id": "0.535",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.316",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.210",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.207",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.165",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.161",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.158",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.158_1",
+          "text": "Machine-side Logit: 1.6074 | Confidence: 0.9614",
+          "page": 33
+        },
+        {
+          "para_id": "0.158_2",
+          "text": "Pred: Machine | GT: Machine",
+          "page": 33
+        },
+        {
+          "para_id": "0.158_3",
+          "text": "(a) Machine-class true positive",
+          "page": 33
+        },
+        {
+          "para_id": "0.158_4",
+          "text": "Pronunciation Accuracy",
+          "page": 33
+        },
+        {
+          "para_id": "0.158_5",
+          "text": "Auxiliary Vocalizations",
+          "page": 33
+        },
+        {
+          "para_id": "0.158_6",
+          "text": "Metaphor & Implied Meaning",
+          "page": 33
+        },
+        {
+          "para_id": "0.158_7",
+          "text": "Micro-physiological Noise",
+          "page": 33
+        }
+      ]
+    },
+    {
+      "section_id": "0.129",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.086",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.053",
+      "section_title": "| Score: 3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "0.038",
+      "section_title": "| Score: 1",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.038_1",
+          "text": "Machine-side Logit: -0.1601 | Confidence: 0.5794",
+          "page": 33
+        },
+        {
+          "para_id": "0.038_2",
+          "text": "Pred: Human | GT: Machine",
+          "page": 33
+        },
+        {
+          "para_id": "0.038_3",
+          "text": "(b) Machine-class false negative",
+          "page": 33
+        },
+        {
+          "para_id": "0.038_4",
+          "text": "Figure 15: Case studies",
+          "page": 33
+        }
+      ]
+    }
+  ]
+}

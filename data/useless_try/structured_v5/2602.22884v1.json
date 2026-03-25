@@ -1,0 +1,586 @@
+{
+  "doc_id": "2602.22884v1.pdf",
+  "title": "arXiv:2602.22884v1  [stat.ML]  26 Feb 2026",
+  "abstract": "Amortized Bayesian Inference (ABI) enables effi-\ncient posterior estimation using generative neu-\nral networks trained on simulated data, but of-\nten suffers from performance degradation under\nmodel misspecification. While self-consistency\n(SC) training on unlabeled empirical data can en-\nhance network robustness, current approaches are\nlimited to static, single-task settings and fail to han-\ndle sequentially arriving data or distribution shifts.\nWe propose a continual learning framework for\nABI that decouples simulation-based pre-training\nfrom unsupervised sequential SC fine-tuning on\nreal-world data. To address the challenge of catas-\ntrophic forgetting, we introduce two adaptation\nstrategies: (1) SC with episodic replay, utilizing a\nmemory buffer of past observations, and (2) SC\nwith elastic weight consolidation, which regular-\nizes updates to preserve task-critical parameters.\nAcross three diverse case studies, our methods sig-\nnificantly mitigate forgetting and yield posterior es-\ntimates that outperform standard simulation-based\ntraining, achieving estimates closer to MCMC ref-\nerence, providing a viable path for trustworthy ABI\nacross a range of different tasks.\n1",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "1\nINTRODUCTION",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Amortized Bayesian Inference [ABI; Radev et al., 2023,\nSchmitt et al., 2023a, Elsemüller et al., 2023, Zammit-\nMangion et al., 2025, Gloeckler et al., 2024, Deistler et al.,\n2025, Wildberger et al., 2023] addresses computational limi-\ntations of traditional Bayesian inference methods by training\ngenerative neural networks to approximate posterior distri-\nbutions over parameters θ using simulated pairs of data x\nand parameters θ from a probabilistic model p(θ, x). Once\ntrained, these networks enable fast, near-instant inference",
+          "page": 1
+        },
+        {
+          "para_id": "1_2",
+          "text": "across a large number of observations, effectively amortiz-\ning the cost of inference over many queries. Despite its efficiency, ABI remains sensitive to model mis-\nspecification and domain shifts, which can severely degrade\naccuracy of neural posterior estimates. Consequently, a\ngrowing body of work focuses on improving the robust-\nness of ABI [Huang et al., 2023, Wehenkel et al., 2024,\nSchmitt et al., 2023b, Mishra et al., 2025, Elsemüller et al.,\n2025]. One promising direction is the use of Bayesian self-\nconsistency losses [Schmitt et al., 2023b, Mishra et al.,\n2025, Kucharský et al., 2025] which enforce consistency\nbetween the learned posterior approximation and the gener-\native model using unlabeled real-world data. Up until now, existing robustness approaches including self-\nconsistency losses implicitly assume a static or single-task\nsetting. However, in many real-world applications, data ar-\nrive sequentially over time rather than being available all at\nonce, such as galaxy observations from different telescopes\n[Ghosh et al., 2023, Tian et al., 2025], gravitational-wave\ndetections [Abbott et al., 2023], and medical imaging across\ndevices [Wu et al., 2024]. In other contexts, the same ABI\nmodel may be used for inference across a range of different\nscientific domains. This motivates continual learning (CL) approaches, as re-\ntraining models from scratch each time new data become\navailable is computationally expensive, often impractical,\nand diminishes the pay-off of amortization. CL aims to en-\nable models to acquire new knowledge from incoming data\nwhile preserving performance on previous data, thereby\nmitigating the problem of catastrophic forgetting [Wang\net al., 2024, Van de Ven and Tolias, 2019, Parisi et al., 2019,\nRolnick et al., 2019]. Referring to the sequential incom-\ning datasets as tasks, the central challenge lies in ensuring\nthat learning new tasks does not overwrite the representa-\ntions or network parameters critical for earlier tasks. CL\nalso enables the network to transfer knowledge from ear-\nlier tasks, improving data efficiency when adapting to new\ntasks through shared representations and replay mechanisms",
+          "page": 1
+        },
+        {
+          "para_id": "1_3",
+          "text": "arXiv:2602.22884v1  [stat.ML]  26 Feb 2026",
+          "page": 1
+        },
+        {
+          "para_id": "1_4",
+          "text": "[Rolnick et al., 2019, Parisi et al., 2019]. This article makes the following contributions:",
+          "page": 2
+        },
+        {
+          "para_id": "1_5",
+          "text": "• We propose a two-stage training for ABI that decou-\nples supervised simulation-based training from unsu-\npervised self-consistency training on empirical data,\nallowing us to fine-tune networks for new incoming\ntasks in an unsupervised CL setting. • We demonstrate a key failure mode of ABI: when ap-\nplied sequentially across tasks, naive self-consistency\nupdates can cause catastrophic forgetting. • We introduce self-consistency with episodic replay,\na CL method that mitigates catastrophic forgetting by\nretaining a small buffer of data from previous tasks; we\nfurther provide a memory-budgeted variant that uses\nclustering to preserve diversity of training data while\nkeeping memory requirements constant. • We introduce self-consistency with elastic weight con-\nsolidation, an unsupervised regularization based ap-\nproach which prevents catastrophic forgetting by con-\nstraining weights important for previous tasks while\nallowing less critical parameters to adapt flexibly to\nnew tasks. • We further examine a unified objective that combines\nepisodic replay and elastic weight consolidation with\nself-consistency, enabling us to analyze the combined\neffects of both CL mechanisms. • Across three case studies, we demonstrate that the pro-\nposed methods substantially improve accuracy of pos-\nterior approximations on empirical data across differ-\nent tasks against simulation-based training. Further,\nwe show that our unsupervised continual learning ap-\nproaches effectively mitigate catastrophic forgetting.",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2\nMETHODS",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2.1",
+      "section_title": "2.1\nNEURAL POSTERIOR ESTIMATION",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.1_1",
+          "text": "We consider the general Bayesian inference problem of\nestimating parameters θ from data x addressed by means\nof generative neural networks. The posterior is defined by\nBayes’ rule, p(θ | x) ∝p(θ, x) = p(x | θ) p(θ), where\np(θ) is the prior and p(x | θ) the likelihood. ABI casts\nposterior inference as a supervised learning problem. It\nlearns a conditional distribution qΦ(θ | x), via a neural\nnetwork with weights Φ, to approximate the posterior p(θ |\nx) by optimizing a simulation-based (SB) loss of the form",
+          "page": 2
+        },
+        {
+          "para_id": "2.1_2",
+          "text": "LSB(Φ) = E(θ,x)∼p(θ,x)\n\u0002\nJ\n\u0000\nqΦ(· | x), θ\n\u0001\u0003\n.\n(1)",
+          "page": 2
+        },
+        {
+          "para_id": "2.1_3",
+          "text": "Here, J is a strictly-proper scoring rule such as maximum\nlikelihood loss for discrete normalizing flows [Papamakar-\nios et al., 2021, Kobyzev et al., 2020] or vector-field loss",
+          "page": 2
+        },
+        {
+          "para_id": "2.1_4",
+          "text": "for flow-matching [Lipman et al., 2022]. As we require fast\ndensity estimation for losses used for CL training, we use\ndiscrete normalizing flows via invertible neural networks.\nThe neural networks to be optimized are a generative net-\nwork q and (optionally) a summary network h extracting\nlower dimensional sufficient statistics from the data. These\nnetworks are optimized using the maximum-likelihood loss LSB(Φ) = Ep(θ,x) [−log qϕ(θ | hψ(x))] ,\n(2)",
+          "page": 2
+        },
+        {
+          "para_id": "2.1_5",
+          "text": "where Φ = (ϕ, ψ) denotes the collection of all trainable\nparameters of the network. We approximate the expectations\nin Eq. 2 with finite simulated data as",
+          "page": 2
+        },
+        {
+          "para_id": "2.1_6",
+          "text": "LSB(Φ) ≈−1 N",
+          "page": 2
+        },
+        {
+          "para_id": "2.1_7",
+          "text": "N\nX n=1\nlog qϕ(θn | hψ(xn)) .\n(3)",
+          "page": 2
+        },
+        {
+          "para_id": "2.1_8",
+          "text": "where (θn, xn) ∼p(θ, x) are simulations from the joint\nprobabilistic model. While simulation-based training performs well when a large\namount of simulated training data is available and the un-\nderlying model is correctly specified, its estimates can be\nhighly inaccurate when either of these conditions is not met\n[Huang et al., 2023, Schmitt et al., 2023b, Wehenkel et al.,\n2024, Mishra et al., 2025]. Consequently, training solely on\nsamples from the prior predictive distribution may be insuf-\nficient to ensure robust posterior estimates. Since Bayesian\nself-consistency losses described below can be applied to\nempirical data rather than simulated data from the prior\npredictive distribution, they are suitable to overcome these\nlimitations of standard simulation-based training.",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "section_id": "2.2",
+      "section_title": "2.2\nBAYESIAN SELF-CONSISTENCY LOSSES",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.2_1",
+          "text": "Bayesian self-consistency (SC) losses [Schmitt et al., 2023b,\nMishra et al., 2025, Kucharský et al., 2025, Köthe, 2023,\nRichter et al., 2020, Richter and Berner, 2023, Sanokowski\net al., 2025] are strictly-proper scores that leverage a sim-\nple symmetry in Bayes’ rule to enforce accurate posterior\nestimation: Under exact inference, the marginal likelihood\nis independent of the parameters θ. In other words, the\nBayesian self-consistency ratio between the likelihood-prior\nproduct and the posterior remains constant across any set of\nparameter values θ(1), . . . , θ(L),",
+          "page": 2
+        },
+        {
+          "para_id": "2.2_2",
+          "text": "p(x) = p(x | θ(1))p(θ(1))",
+          "page": 2
+        },
+        {
+          "para_id": "2.2_3",
+          "text": "p(θ(1) | x)\n= · · · = p(x | θ(L))p(θ(L))",
+          "page": 2
+        },
+        {
+          "para_id": "2.2_4",
+          "text": "p(θ(L) | x)\n. (4)\nHowever, when the true posterior p(θ | x) is replaced with a\nneural approximation qΦ(θ | x), bespoke ratios will longer\nbe constant for any imperfect approximation. We can equiv-\nalently say that the log ratios have positive variance, which\nreadily implies a loss function to be minimized. We will use\nthe unsupervised formulation of the (variance-based) self-\nconsistency loss, which utilizes unlabeled real-world data",
+          "page": 2
+        },
+        {
+          "para_id": "2.2_5",
+          "text": "[Mishra et al., 2025]. Hereafter, we refer to the variance-\nbased self-consistency loss simply as the “self-consistency\nloss” or short “SC loss”. For M instances of real-world data\nx∗\nm ∼p∗(x), the SC loss is given by LSC(Φ) = LSC(Φ; x∗) = 1 M",
+          "page": 3
+        },
+        {
+          "para_id": "2.2_6",
+          "text": "M\nX",
+          "page": 3
+        },
+        {
+          "para_id": "2.2_7",
+          "text": "m=1\nVarθ∼pC(θ)\nh\nlog p(x∗\nm | θ) + log p(θ) −log qϕ(θ | hψ(x∗\nm))\ni\n.\n(5)\nHere, pC(θ) is a parameter proposal distribution, which we\nset to the current approximate posterior qϕ,r(θ | hψ,r(x∗\nm))\nat training iteration r [Mishra et al., 2025]. The SC loss possesses several properties that make it par-\nticularly appealing for use in CL scenarios. First, it does\nnot require labeled data, allowing the use of real-world un-\nlabeled data to minimize the SC loss. Second, the SC loss\nprovides additional signal which leads to more accurate\nposterior estimation even for atypical data [Mishra et al.,\n2025, Kucharský et al., 2025], where pure simulation-based\ntraining fails [Frazier et al., 2024, Ward et al., 2022, Mishra\net al., 2025, Schmitt et al., 2023a]. Third, the SC loss can\nattain accurate posterior approximations with comparatively\nlittle training data, making it data-efficient.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2.3",
+      "section_title": "2.3\nREGIMES OF SELF-CONSISTENCY\nTRAINING",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.3_1",
+          "text": "Prior work has used SC losses in combination with SB losses\nin a semi-supervised setup during training [Mishra et al.,\n2025, Kucharský et al., 2025, Schmitt et al., 2023b]. In a CL\nsetting, tasks arrive sequentially {T1, . . . , TT } and observed\ndata from different tasks may not be available at the same\ntime. Further, because the approximate posterior is initially\nhighly inaccurate, the SC loss tends to be numerically un-\nstable at first; this often requires careful weight scheduling\nof the two losses for stable training [Mishra et al., 2025,\nSchmitt et al., 2023b, Kucharský et al., 2025]. To address these issues, we split training into two stages.\nFirst, we perform standard simulation-based pre-training of\nthe posterior network using the SB loss. After this initial\nstep, the SB loss is no longer used. Second, we train the\nposterior network using the SC loss as we accrue data from\ndifferent tasks. Next, we describe different training regimes\nfor using the SC loss on new data, regimes that constitute\nthe main focus of this article.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2.3.1",
+      "section_title": "2.3.1\nTest-time Training with Self-Consistency",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "2.3.1_1",
+          "text": "In the test-time training regime, as data from new tasks\narrive, the simulation-based pre-trained network is further\ntrained with the SC loss on data from the current task only.",
+          "page": 3
+        },
+        {
+          "para_id": "2.3.1_2",
+          "text": "This is the closest method to the combined SB and SC loss\nstudied in recent work [Mishra et al., 2025, Kucharský et al.,\n2025]. No CL mechanism is employed; updates are per-\nformed solely to improve posterior estimates for the current\ntask, without explicitly retaining performance on other tasks.\nThis setting is particularly advantageous in scenarios where\naccuracy on the current task is paramount and long-term\nretention across tasks is not required.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2.3.2",
+      "section_title": "2.3.2\nContinual Learning with Self-Consistency",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "2.3.2_1",
+          "text": "In a CL regime, we use the SC training in a sequential\nfashion, where at step t, we minimize the SC loss using\ndata from task Tt for a network that was pre-trained by the\nSC loss for all previous tasks {T1, . . . , Tt−1} sequentially\n(and initially with the SB loss). Crucially, because the SC\nobjective does not explicitly constrain the network on earlier\ntask distributions, updates driven solely by the current task\ncan overwrite representations important for previous tasks.\nAs we later show, this may lead to catastrophic forgetting,\nand we further call this approach “naive SC”.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "2.3.3",
+      "section_title": "2.3.3\nSelf-Consistency with Episodic Replay",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "2.3.3_1",
+          "text": "To alleviate catastrophic forgetting in CL, we employ an\nepisodic replay (ER) mechanism [Rolnick et al., 2019,\nChaudhry et al., 2019, Shin et al., 2017] that stores unlabeled\nreal-world data from previous tasks {T1, T2, . . . , Tt−1} in\na memory buffer E. During training with self-consistency\nloss on a new task Tt, the network is jointly optimized on\nthe current task data and stored samples from E, encourag-\ning a stability–plasticity balance. This allows the network\nto retain knowledge of past tasks while adapting to new\ntasks. The resulting episodic replay based self-consistency\n(SC-ER) loss is given by",
+          "page": 3
+        },
+        {
+          "para_id": "2.3.3_2",
+          "text": "LSC-ER(Φ) = LSC(Φ; x∗\nSC),\n(6)",
+          "page": 3
+        },
+        {
+          "para_id": "2.3.3_3",
+          "text": "where x∗\nSC = x∗\nt ∪E, x∗\nt represents the data from the task Tt,\nand E contains a subset of data from previous tasks. An ad-\nditional benefit of using ER is that it preserves the inference\ntarget of self-consistency (analytic posterior) [Elsemüller\net al., 2025], because including replay buffer within the\nsame loss function does not involve any regularization term\nunlike other CL approaches [Kirkpatrick et al., 2017, Zenke\net al., 2017, Aljundi et al., 2018, Li and Hoiem, 2017]. As the number of tasks increase, storing even a few repre-\nsentative samples from each task may become impractical\n[Rolnick et al., 2019, Li et al., 2024]. To address this, we\nmaintain a minimal replay buffer that initially stores few\nobservations per task. Once the memory capacity is reached,\nwe apply K-medoids clustering [Kaufman and Rousseeuw,\n2009] over all stored samples and retain only the cluster\nrepresentatives. The number of clusters is set to match the",
+          "page": 3
+        },
+        {
+          "para_id": "2.3.3_4",
+          "text": "maximum buffer size, ensuring that the replay memory re-\nmains within the predefined limit while preserving diversity\namong stored observations. This diversity preserving ap-\nproach is suitable to be used in combination with SC as\nit works on minimal data available per task. The overall\nprocedure is summarized in Algorithm 1.",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.3_5",
+          "text": "Algorithm 1 Self-Consistency with Episodic Replay 1: Input: Simulated dataset (θ, x) ∼p(θ, x), unlabeled\nreal-world tasks {Tt}T\nt=1, replay buffer size K\n2: Output: Trained posterior network qΦ(θ | x)\n3: Initialize qΦ(θ | x), replay buffer E ←∅\n4: Simulation based pre-training\n5: for each pretraining iteration do\n6:\nSample minibatch (θ, x) ∼p(θ, x)\n7:\nUpdate qΦ by minimizing Eq. 3\n8: end for\n9: CL on real-world tasks\n10: for t = 1 to T do\n11:\nObtain current dataset x∗\nt ∼p∗\nt (x) from task Tt\n12:\nConcatenate replay data with current data:\nx∗\nSC ←x∗\nt ∪E\n13:\nfor each SC-ER iteration do\n14:\nCompute SC-ER loss LSC-ER as in Eq. 6\n15:\nUpdate qΦ by minimizing LSC-ER\n16:\nend for\n17:\nif using clustering then 18:\nDraw posterior samples {θ(s)\nt } from qΦ(θ | x∗\nt ) 19:\nE ←KMEDOIDUPDATE(E, x∗\nt , {θ(s)\nt }): Alg. 4\n20:\nelse\n21:\nStore a subset of data from Tt in E\n22:\nend if\n23: end for\n24: Return qΦ(θ | x)",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "2.3.4",
+      "section_title": "2.3.4\nSelf-Consistency with Elastic Weight\nConsolidation",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "2.3.4_1",
+          "text": "In certain CL settings, retaining data from previous tasks is\nimpractical due to privacy constraints [Tong et al., 2025] or\nlong task sequences that make replay inefficient as the mem-\nory buffer grows linearly with number of tasks [Shin et al.,\n2017, Rolnick et al., 2019]. In such cases, we propose to\nuse weight regularization, a widely used strategy to mitigate\ncatastrophic forgetting in continual learning [Kirkpatrick\net al., 2017, Zenke et al., 2017, Aljundi et al., 2018]. The\ncore idea is to constrain updates to network parameters that\nare important for previously learned tasks while allowing\nflexibility for adapting to new tasks. This is achieved by\nintroducing a regularization term in the loss function that\npenalizes large deviations of the current network parame-\nters from their previously learned values. Formally, after\ntraining on task Ti, the optimized network parameters are\ndenoted by Φ∗\ni . When learning a new task Tt, we minimize",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_2",
+          "text": "the following objective:",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_3",
+          "text": "LSC-WR(Φt) = LSC(Φt) + λ",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_4",
+          "text": "t−1\nX i=1\nΩ(Φt, Φ∗\ni ),\n(7) where LSC denotes the task-specific SC loss for Tt, Ω(·)\nis a regularization term that measures the deviation of the\ncurrent parameters Φt from the previous parameters Φ∗\ni ,\nand λ is a hyperparameter controlling the trade-off between\nretaining previous knowledge and adapting to new tasks.\nWe instantiate Ω(·) as quadratic penalty taking inspiration\nfrom Elastic Weight Consolidation [EWC, Kirkpatrick et al.,\n2017]:",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_5",
+          "text": "Ω(Φt, Φ∗\ni ) =\nX",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_6",
+          "text": "j\nWjj (Φt,j −Φ∗\ni,j)2,\n(8)",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_7",
+          "text": "where Wjj represents the diagonal importance matrix that\nestimates the importance of parameter Φ∗\ni,j for previous task\nTi, and j indexes all trainable network parameters. After\nconvergence on task Ti, we compute the diagonal informa-\ntion matrix as,",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_8",
+          "text": "W(i)\njj = Ex∗∼p∗\ni (x)",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_9",
+          "text": "\"\u0012∂LSC(x∗) ∂Φj",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_10",
+          "text": "\u00132# ,\n(9)",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_11",
+          "text": "W(i)\njj ≈1 K",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_12",
+          "text": "K\nX k=1",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_13",
+          "text": "\"\u0012∂LSC(x∗\nk)\n∂Φj",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_14",
+          "text": "\u00132# .\n(10)",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_15",
+          "text": "where the expectation in Eq. 9 is approximated from K un-\nlabeled samples from Ti in Eq. 10. This approach effectively\nanchors critical parameters while allowing less important\nones to adapt freely. As we utilize the SC loss, it allows\nus to compute parameter importance using only unlabeled\nreal-world data. When training the network on task Tt, we\nminimize the following SC-EWC loss:",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_16",
+          "text": "LSC-EWC(Φt) = LSC(Φt; x∗\nt )+λ 2",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_17",
+          "text": "t−1\nX i=1",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_18",
+          "text": "X",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_19",
+          "text": "j\nW(i)\njj (Φt,j−Φ∗\ni,j)2 (11) The overall procedure is summarized in Algorithm 2. We\nalso combine ER and EWC with self-consistency simulta-\nneously to see their combined effects (see Algorithm 3). In\nsuch a case, the loss becomes: LSC-ER-EWC(Φt) = LSC-ER(Φt; x∗\nSC) + λ 2",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_20",
+          "text": "t−1\nX i=1",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_21",
+          "text": "X",
+          "page": 4
+        },
+        {
+          "para_id": "2.3.4_22",
+          "text": "j\nW(i)\njj (Φt,j −Φ∗\ni,j)2 (12)",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3\nRELATED WORK",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "CL has been extensively studied in the last decades as over-\ncoming catastrophic forgetting remains a major challenge",
+          "page": 4
+        },
+        {
+          "para_id": "3_2",
+          "text": "Algorithm 2 SC with Elastic Weight Consolidation 1: Input: Simulated dataset (θ, x) ∼p(θ, x), unlabeled\ntasks {Tt}T\nt=1, EWC weight λ, Fisher batches B\n2: Output: Trained posterior network qΦ(θ | x)\n3: Initialize posterior qΦ, EWC record list R ←∅\n4: Simulation-based pre-training\n5: for pretraining iterations do\n6:\nSample (x, θ) ∼p(θ, x)\n7:\nUpdate qΦ by minimizing Eq. 3\n8: end for\n9: CL\n10: for t = 1 to T do\n11:\nObtain current dataset x∗\nt ∼p∗\nt (x) from task Tt\n12:\nfor each SC-EWC iteration do\n13:\nif R ̸= ∅then\n14:\nUpdate qΦ by minimizing LSC-EWC from Eq. 11\n15:\nelse\n16:\nUpdate qΦ by minimizing LSC from Eq. 5\n17:\nend if\n18:\nend for\n19:\nEstimate W(t)\njj for task Tt as per Eq. 10\n20:\nSnapshot parameters Φ∗\nt\n21:\nAppend (Φ∗\nt , W(t)\njj ) to EWC record list R\n22: end for\n23: Return qϕ(θ | x)",
+          "page": 5
+        },
+        {
+          "para_id": "3_3",
+          "text": "in deep learning. Three major families of approaches have\nemerged: (1) Regularization-based methods [Kirkpatrick\net al., 2017, Zenke et al., 2017, Aljundi et al., 2019, Kozal\net al., 2024, Zhao et al., 2024, Lewandowski et al., 2025,\nGomez-Villa et al., 2024] constrain important network pa-\nrameters from changing too much. (2) Replay-based meth-\nods Lee et al. [2019b], Rolnick et al. [2019], Chaudhry et al.\n[2019], Aghasanli et al. [2025], Yoo et al. [2024], Madaan\net al. [2021] combine current data with stored or generated\nsamples from past during training. (3) Parameter-isolation\nand architectural approaches [Rusu et al., 2016, Lu et al.,\n2024, Schwarz et al., 2018, Rao et al., 2019] allocate ded-\nicated sub-networks or dynamically expand networks to\nprevent forgetting. In this work, we utilize a replay and a\nregularization based CL approach. We do not include archi-\ntecture expansion methods, as their parameter growth scales\nwith the number of tasks [Rusu et al., 2016]. Also, such\napproaches typically restrict parameter sharing across tasks,\nlimiting positive transfer when tasks are related. Recent work has increasingly investigated robustness in\nABI and, more broadly, simulation-based inference [Del-\nlaporta et al., 2022, Frazier et al., 2024, Gloeckler et al.,\n2023]. These approaches can be broadly grouped into two\ncategories: (i) methods that analyze or detect discrepan-\ncies between simulated and real-world data [Schmitt et al.,\n2023a, Alvey et al., 2026, Cannon et al., 2022], and (ii)\nmethods that directly mitigate the impact of simulation gap",
+          "page": 5
+        },
+        {
+          "para_id": "3_4",
+          "text": "on posterior estimation [Ward et al., 2022, Huang et al.,\n2023, Gloeckler et al., 2023, Wehenkel et al., 2024, Mishra\net al., 2025, Elsemüller et al., 2025, Kucharský et al., 2025].\nOur work falls into the latter category. Within this line of\nresearch, regularization-based approaches [Gloeckler et al.,\n2023, Huang et al., 2023] introduce additional constraints\nto correct the posterior estimates. Other approaches such\nas Wehenkel et al. [2024] incorporate limited real-world\nlabeled data to supplement the simulation-based training, or\napply unsupervised domain adaptation techniques to handle\ndistribution shifts [Elsemüller et al., 2025]. More recently,\nSC-based approaches enhance robustness under model mis-\nspecification with unlabeled real-world data [Mishra et al.,\n2025, Kucharský et al., 2025]. To the best of our knowledge, no prior work has explored\nCL for ABI, a gap that we address. Existing methods in ABI\nassume either simultaneous availability of real-world data\nat training time or that future tasks come from the same dis-\ntribution, thereby lacking the mechanisms to prevent catas-\ntrophic forgetting. By explicitly formulating unsupervised\nCL within the ABI framework and leveraging SC alongside\nreplay and regularization-based CL strategies, our approach\neffectively mitigates catastrophic forgetting and improves\nposterior estimation across sequential tasks.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nEXPERIMENTS",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "Experimental setup\nWe conduct three experiments rang-\ning from linear regression to time-series and racing dif-\nfusion models. For each experiment, we initially perform\nsimulation-based training of the posterior network using\nthe SB loss in an online setting, which also acts as a base-\nline. We then train the posterior network sequentially across\nall tasks in an unsupervised CL setting using our proposed\nmethods (SC-ER, SC-EWC, and SC-ER-EWC) along with\nnaive SC. After completion of training on the final task,\nwe evaluate every method on all the tasks. To assess the\ncapacity of the network for accurate performance on each\nindividual task, we contrast results of the CL methods with\ntest-time SC trained on each task. This directly reveals the\nextent to which each method mitigates (or fails to mitigate)\ncatastrophic forgetting. All experiments are conducted with\nthe Python library BayesFlow [Kühmichel et al., 2026].",
+          "page": 5
+        },
+        {
+          "para_id": "4_2",
+          "text": "Metrics\nWe use MCMC-based posterior estimates via\nStan [Carpenter et al., 2017] as a non-amortized gold-\nstandard throughout our experiments. We measure mean\nbias as the difference between the posterior mean estimated\nby different methods and the posterior mean obtained us-\ning Stan. Analogously, standard deviation bias quantifies\ndiscrepancies in posterior uncertainty. We also compute the\nMaximum Mean Discrepancy [MMD; Gretton et al., 2012]\nbetween posterior samples from our method and those from\nStan, using a Gaussian kernel. For better interpretability, we",
+          "page": 5
+        },
+        {
+          "para_id": "4_3",
+          "text": "report the ratio of MMD of a specific method to MMD of\nthe SB training baseline. MMD ratio values smaller than one\nindicate improved performance compared to the baseline.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "4.1\nEXPERIMENT 1: LINEAR REGRESSION",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "First, we consider a standard Bayesian linear regression\nmodel with five predictors and N = 100 observations. The\ngenerative model is yn ∼N\n\u0000\nα + x⊤\nn β, σ2\u0001\n,\n(13) where α is the intercept, β ∈R5 are the regression coeffi-\ncients, and σ is the observation noise. We place independent\npriors on all parameters:",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_2",
+          "text": "α ∼N(0, 1),\nσ ∼HalfNormal(1), β ∼N\n\u0000\n0, diag(τ 2)\n\u0001\n,\nτ = (1, 1, 1, 1, 1).\n(14)",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_3",
+          "text": "The above model produces a diagonal covariance struc-\nture for the slope parameters. Training was performed as\ndescribed in the experimental setup. For CL, we utilize\nnine real-world publicly available datasets (see Appendix\nB) which constitute 9 CL tasks {T1, ..., T9}. We further di-\nvided these datasets in ten subsets each having N = 100\nobservations. We also utilize one simulated dataset {T0},\nwhere the ten subsets are independently drawn from prior\npredictive distribution. For SC-ER replay buffer, we only\nutilize one subset per task.",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_4",
+          "text": "Results\nIn Figure 1, we report the MMD ratio across the\nten tasks for naive SC, test-time SC, and the proposed SC-\nER, SC-EWC, and SC-ER-EWC methods. These results\nshow that naive SC suffers from severe catastrophic for-\ngetting across tasks and even performs worse than the SB\nbaseline in the CL setting. In contrast, all proposed CL ap-\nproaches mitigate catastrophic forgetting and yield posterior\nestimates that are significantly closer to the reference poste-\nrior than both naive SC and the SB baseline for most tasks.\nAmong the proposed methods, SC-ER provides the most\naccurate posterior estimates across all tasks. It effectively\nprevents catastrophic forgetting while requiring only a sin-\ngle subset per task as a replay buffer, demonstrating that\nthe SC loss can produce accurate posterior estimates with\nminimal retained data. SC-EWC outperforms naive SC and\nmitigates forgetting, although its performance remains infe-\nrior to SC-ER and only marginally better than SB baseline. The combined SC-ER-EWC approach likewise mitigates\ncatastrophic forgetting. Its performance is comparable to\nSC-ER and better than SC-EWC. This suggests that incor-\nporating episodic replay within the self-consistency objec-\ntive is already sufficient to preserve performance across\ntasks, and adding the EWC penalty does not provide much\nadditional gains in this setting. Overall, these results high-\nlight the effectiveness of incorporating self-consistency with",
+          "page": 6
+        },
+        {
+          "para_id": "4.1_5",
+          "text": "lightweight replay mechanisms for robust posterior estima-\ntion in CL scenarios. Test-time SC gives accurate posterior\nestimates when current task inference is the only objective\nrather than overcoming catastrophic forgetting. Test-time\nSC prioritizes plasticity (rapid adaptation to the current task)\nat the expense of stability. In contrast, our CL methods bal-\nance plasticity and stability, maintaining performance across\nall tasks. Additional results including hyperparameter sensi-\ntivity analysis for SC-EWC and SC-ER-EWC are provided\nin Appendix C.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "4.2",
+      "section_title": "4.2\nEXPERIMENT 2: AIR PASSENGER TRAFFIC\nFORECASTING",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.2_1",
+          "text": "Second, we analyze trends in European air passenger traffic\ndata provided by Eurostat [2022a,b,c]. This is a widely used\ncase study in the ABI literature [Habermann et al., 2024,\nMishra et al., 2025, Kucharský et al., 2025]. We retrieve time\nseries of annual air passenger counts between 15 European\ncountries (departures) and the USA (destination) from 2004\nto 2019. These 15 countries constitute 15 CL tasks. We fit\nthe following auto-regressive process of order 1:",
+          "page": 6
+        },
+        {
+          "para_id": "4.2_2",
+          "text": "yj,t+1 ∼N(αj + yj,tβj + uj,tγj + wj,tδj, σj),\n(15)",
+          "page": 6
+        },
+        {
+          "para_id": "4.2_3",
+          "text": "where the target quantity yj,t+1 is the difference in air pas-\nsenger traffic for country j between time t + 1 and t. To\npredict yj,t+1 we use two additional predictors: uj,t is the\nannual household debt of country j at time t, measured in %\nof gross domestic product (GDP) and wj,t is the real GDP\nper capita. Additional details about the dataset and model\nare given in Appendix D. We train the neural posterior esti-\nmators for all the methods as described in the experimental\nsetup. For episodic replay buffer, we only utilize the data of\neight tasks which are chosen based on K-medoid clustering\ndescribed in Section 2.3.3.",
+          "page": 6
+        },
+        {
+          "para_id": "4.2_4",
+          "text": "Results\nIn Figure 2, we present the MMD ratio, aggre-\ngated over the 15 tasks for naive SC, test-time SC, and\nthe proposed SC-ER, SC-EWC, and SC-ER-EWC methods.\nFigure 12 in Appendix E depicts the MMD ratio across\ntasks. Similar to experiment 4.1, naive SC exhibits substan-\ntial catastrophic forgetting, whereas the proposed CL ap-\nproaches effectively mitigate forgetting across tasks. SC-ER\nprovides the most accurate posterior estimates throughout\nall tasks while maintaining a memory buffer containing data\nfrom eight countries for episodic replay. We further investi-\ngate the effect of varying the number of tasks retained in the\nreplay buffer which is reported in Figure 13, Appendix E.\nSC-EWC also overcomes catastrophic forgetting and gives\nbetter posterior estimates compared to both naive SC and SB\nbaseline. However, it performs slightly worse that SC-ER. We observe that SC-ER-EWC performs better than SC-\nEWC and comparable to SC-ER, indicating that combining\nER and EWC can further stabilize learning, though replay",
+          "page": 6
+        },
+        {
+          "para_id": "4.2_5",
+          "text": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\nTask",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_6",
+          "text": "0.1",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_7",
+          "text": "1 log (MMD ratio)",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_8",
+          "text": "Naive SC\nSC-ER\nSC-EWC\nSC-ER-EWC\nTest-time SC",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_9",
+          "text": "Figure 1: Experiment 1. MMD ratio in log scale across CL tasks (0–9) for different methods. Boxes summarize variability\nacross subsets. Dashed line marks parity with simulation-based (SB) baseline (ratio = 1). Naive SC shows catastrophic\nforgetting in CL setting whereas our proposed methods mitigate forgetting and provide better posterior estimates compared\nto SB and Naive SC. Test-time SC also gives accurate posterior estimates.",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_10",
+          "text": "Naive SC\nSC-ER\nSC-EWC\nSC-ER-EWC Test-time SC",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_11",
+          "text": "0.1",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_12",
+          "text": "1",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_13",
+          "text": "10",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_14",
+          "text": "log (MMD ratio)",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_15",
+          "text": "Figure 2: Experiment 2. MMD ratio in log scale for dif-\nferent methods aggregated over fifteen CL tasks. Dashed\nline marks parity with simulation-based baseline (ratio =\n1). Naive SC shows catastrophic forgetting in CL setting\nwhereas our proposed methods mitigate forgetting and per-\nform better than both SB baseline and naive SC.",
+          "page": 7
+        },
+        {
+          "para_id": "4.2_16",
+          "text": "appears to be the dominant contributing factor. We con-\nducted additional experiments varying the size of the replay\nbuffer and observe that the performance of SC-ER-EWC\ndegrades at low memory budget. It nonetheless consistently\noutperforms both baseline SB and naive SC, as shown in Fig-\nure 14, Appendix E. Test-time SC gives accurate posterior\nestimates when current task inference is the only objective\nrather than overcoming catastrophic forgetting. However,\nfor most of the tasks, SC-ER performs on par with test-time\nSC. Additional results are described in Appendix E.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "4.3",
+      "section_title": "4.3\nEXPERIMENT 3: RACING DIFFUSION OF\nDECISION MAKING",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.3_1",
+          "text": "Lastly, we analyze data sets available from a large corpus of\nexperiments on attentional control [Haaf et al., 2025]. From\nthis database, we extracted eight data sets. These eight data\nsets constitute the eight CL tasks. We further generated one\nsimulated dataset {T0} of 50 observations from the prior\npredictive distribution. The data consists of response times\n(in msec) and response (correct/incorrect). In this case study, we use the racing diffusion model [RDM,\nTillman et al., 2020]. The model assumes that each response\nis associated with a dedicated noisy evidence accumulator.\nEach accumulator begins at zero and evolves according to a\nWiener process with drift (where Wt is the standard Wiener\nprocess), Xt = ν dt + σ dWt,\nX0 = 0.\n(16) A response is initiated when one of the accumulators first\nreaches the decision boundary α. The observed response\ntime is the hitting time of the winning accumulator plus a\nnon-decision time τ. The parameters of the model are the de-\ncision boundary α, non-decision time τ, and two drift rates\nν1 and ν2 (associated with correct and incorrect responses,\nrespectively). We train the neural posterior estimators for all methods as de-\nscribed in the experimental setup. For episodic replay buffer,\nwe retain data from five participant from each previous task\n– no clustering has been done in this case study. More details\nabout the data, model, and training are in Appendix F.",
+          "page": 7
+        },
+        {
+          "para_id": "4.3_2",
+          "text": "0.01",
+          "page": 8
+        },
+        {
+          "para_id": "4.3_3",
+          "text": "0.10",
+          "page": 8
+        },
+        {
+          "para_id": "4.3_4",
+          "text": "1.00",
+          "page": 8
+        },
+        {
+          "para_id": "4.3_5",
+          "text": "0\n1\n2\n3\n4\n5\n6\n7\n8\nTask",
+          "page": 8
+        },
+        {
+          "para_id": "4.3_6",
+          "text": "log (MMD ratio)",
+          "page": 8
+        },
+        {
+          "para_id": "4.3_7",
+          "text": "Naive SC\nSC−ER\nSC−EWC\nSC−ER−EWC\nTest−time SC",
+          "page": 8
+        },
+        {
+          "para_id": "4.3_8",
+          "text": "Figure 3: Experiment 3. MMD ratio in log scale across CL tasks (0–8) for the four RDM parameters for different methods.\nBoxes summarize variability over datasets. Dashed line marks parity with simulation-based baseline (ratio = 1). All SC\nmethods outperform SB-only training. Catastrophic forgetting is not evident.",
+          "page": 8
+        },
+        {
+          "para_id": "4.3_9",
+          "text": "Results\nFigure 3 shows the MMD ratio across all 9 tasks.\nIn contrast to previous experiments, naive SC does not ex-\nhibit pronounced catastrophic forgetting; all methods that\nutilize any SC training perform clearly better than the SB\nbaseline. Further, CL methods perform on-par even with\ntest-time SC. One possible interpretation of these findings\nis that the severity of forgetting is dependent on the vari-\nability of data within tasks relative to the variability of data\nbetween tasks. In the current case study, even though the\ndata sets come from different experiments, they all exhibit\nsimilar characteristics: average accuracy ranging between\n90%–95% with mean response times between 0.4–0.7 sec.\nTherefore, it may be the case that the datasets between tasks\nare similar enough that catastrophic forgetting is not an issue\nin the first place.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5\nDISCUSSION",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "ABI enables fast posterior inference after simulation-based\ntraining, but its accuracy can degrade under distribution\nshifts. Bayesian self-consistency (SC) losses improve ro-\nbustness of ABI by leveraging unlabeled empirical data, yet\nprior work assumes static or single-task setting where all\nempirical data is readily available. In this work, we adopt a\ntwo-stage training procedure consisting of simulation-based\npre-training followed by unsupervised self-consistency fine-\ntuning, to enable network adaptation as new data come in. We demonstrate that naive application of this procedure can\nlead to catastrophic forgetting, as network adaptation to a\nnew task can overwrite representations important for earlier\ntasks, degrading accuracy of the posterior estimates. To ad-",
+          "page": 8
+        },
+        {
+          "para_id": "5_2",
+          "text": "dress this, we introduce more elaborate continual learning\nmechanisms. Episodic replay (SC-ER) stabilizes learning\nby retaining a small set of past observations, while elas-\ntic weight consolidation (SC-EWC) provides an alternative\nthat constrains parameter updates using importance esti-\nmates derived from SC gradients. Across three diverse case\nstudies, both approaches substantially reduce forgetting and\nyield posterior estimates closer to MCMC reference than\nsimulation-only training and naive SC. The experiments fur-\nther indicate that the severity of forgetting depends on the\ndegree of distributional variation between tasks. This points\nto a practical takeaway: when tasks are heterogeneous, re-\nplay and/or regularization become important to maintain\nperformance across the full task history.",
+          "page": 8
+        },
+        {
+          "para_id": "5_3",
+          "text": "Limitations and future direction\nOur self-consistency\nbased continual learning approaches rely on fast density\nevaluations during training. This makes free-form methods\nsuch as flow matching [Lipman et al., 2022] or score-based\ndiffusion [Song et al., 2020] less practical due to their need\nfor numerical integration. The employed self-consistency losses assume access to the\nanalytic prior and likelihood densities of the probabilistic\nmodel. With implicit prior or likelihoods, self-consistency\nloss is not strictly proper [Mishra et al., 2025] and training\nwith self-consistency has smaller benefits for the accuracy of\nthe posterior approximation [Mishra et al., 2025, Kucharský\net al., 2025]. Whether self-consistency or other unsupervised\nlosses can be used effectively in a continual learning set-\nting without access to explicit prior and likelihood densities\nremains a topic for future research.",
+          "page": 8
+        },
+        {
+          "para_id": "5_4",
+          "text": "Author Contributions",
+          "page": 9
+        },
+        {
+          "para_id": "5_5",
+          "text": "Aayush Mishra and Paul Bürkner conceived the idea.\nAayush Mishra developed the methods with the help of\nPaul Bürkner. Aayush Mishra implemented the first two\nexperiments. Šimon Kucharský implemented the third ex-\nperiment. Aayush Mishra and Šimon Kucharský drafted the\narticle. All authors contributed to final editing of the article.",
+          "page": 9
+        },
+        {
+          "para_id": "5_6",
+          "text": "Acknowledgements",
+          "page": 9
+        },
+        {
+          "para_id": "5_7",
+          "text": "Paul Bürkner acknowledges support of the DFG Collabo-\nrative Research Center 391 (Spatio-Temporal Statistics for\nthe Transition of Energy and Transport) – 520388526.",
+          "page": 9
+        }
+      ]
+    }
+  ]
+}

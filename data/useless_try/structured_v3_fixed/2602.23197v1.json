@@ -1,0 +1,707 @@
+{
+  "doc_id": "2602.23197v1.pdf",
+  "title": "arXiv:2602.23197v1  [cs.CL]  26 Feb 2026",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "2",
+      "section_title": "2 Test error",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "d = 6\nd = 11",
+          "page": 4
+        },
+        {
+          "para_id": "2_2",
+          "text": "d = 16\nd = 21",
+          "page": 4
+        },
+        {
+          "para_id": "2_3",
+          "text": "Figure 1. n-shot test error on the target task θ0 of the pretrained\nmodel using the theory-derived parameters in Theorem 4.1. Each\ncurve corresponds to a model pretrained with context length m =\n1000 and a different input dimension d. We set σ2 = 0, under\nwhich the condition in (8) predicts that the n-shot performance is\nworse than zero-shot performance for n ranging from 1 to d −2.",
+          "page": 4
+        },
+        {
+          "para_id": "2_4",
+          "text": "Figure 1 visualizes this effect for m = 1000 and σ2 = 0,\nwhere the threshold in (8) is approximately d −1. This\nbehavior arises from pretraining at a fixed and sufficiently\nlarge context length m, for which a →1. As a result, the\nsame effect can appear even when multiple context lengths\nare used during pretraining, but may not persist if smaller\ncontext lengths are included. This phenomenon should not\nbe confused with double descent or early ascent, as each\ncurve corresponds to a final pretrained model. The pretrained model specified by (6) exhibits two limita-\ntions. First, achieving improved performance requires a\nsufficiently large number of examples n. Second, in the\nzero-shot setting, the model predicts under the prior mean\nassumption E[θ] = 0, and therefore produces the same pre-\ndiction regardless of the target task vector θ0 ∈Rd. This\nnaturally motivates fine-tuning as a mechanism for special-\nizing the model to a given target task. For simplicity, unless stated otherwise, we assume the model\nis pretrained in the limit m →∞, so that the middle block\nˆQ11 of ˆQ in (6) converges to Σ−1.",
+          "page": 4
+        },
+        {
+          "para_id": "2_5",
+          "text": "4.2. Fine-Tuning All Parameters with Zero-Shot Loss We now study fine-tuned linear attention models, where\nall parameters V and Q are optimized to improve zero-\nshot performance on the target task θ0 ∈Rd. Fine-tuning\nstarts from the pretrained model in (6) and minimizes the\nzero-shot loss LZS(V, Q; θ0) in (5). The following results\ncharacterize the optimal parameters and the test error. Theorem 4.3 (Optimal Parameters of Fully Fine-Tuned\nModels). Given a target task θ0 ∈Rd, consider the zero-\nshot prompt loss LZS(V, Q; θ0) in (5). Then, for any w > 0,",
+          "page": 4
+        },
+        {
+          "para_id": "2_6",
+          "text": "4",
+          "page": 4
+        },
+        {
+          "para_id": "2_7",
+          "text": "Fine-Tuning Without Forgetting In-Context Learning: A Theoretical Analysis of Linear Attention Models",
+          "page": 5
+        },
+        {
+          "para_id": "2_8",
+          "text": "the following parameters globally minimize the loss:",
+          "page": 5
+        },
+        {
+          "para_id": "2_9",
+          "text": "ˆV(w) =",
+          "page": 5
+        },
+        {
+          "para_id": "2_10",
+          "text": " \n·\n·\n·\n·\n·\n·\n·\nwθ⊤\n0\n1",
+          "page": 5
+        },
+        {
+          "para_id": "2_11",
+          "text": " ,\nˆQ(w) =",
+          "page": 5
+        },
+        {
+          "para_id": "2_12",
+          "text": " \n1/w\n·\n·\n·\n·\n·\n·\n·\n·",
+          "page": 5
+        },
+        {
+          "para_id": "2_13",
+          "text": " . (9)",
+          "page": 5
+        },
+        {
+          "para_id": "2_14",
+          "text": "Corollary 4.4 (Test Error of Fully Fine-Tuned Models).\nGiven a target task θ0 ∈Rd, consider the family of param-\neters\n\u0000 ˆV(w), ˆQ(w)\n\u0001\nin (9). Then, for any n ∈N and any\nw > 0, the following inequality holds: σ2 = E( ˆV(w), ˆQ(w); 0, θ0) < E( ˆV(w), ˆQ(w); n, θ0).",
+          "page": 5
+        },
+        {
+          "para_id": "2_15",
+          "text": "Moreover, for any θ ∈Rd, the test errors are given by E( ˆV(w), ˆQ(w); 0, θ) = σ2 + (θ −θ0)⊤Σ(θ −θ0), lim\nn→∞E( ˆV(w), ˆQ(w); n, θ) = σ2 + θ⊤Σθ.",
+          "page": 5
+        },
+        {
+          "para_id": "2_16",
+          "text": "Fine-Tuning All Parameters Degrades Few-Shot Perfor-\nmance Even on the Target Task.\nCorollary 4.4 reveals\na trade-off when all parameters are fine-tuned to optimize\nzero-shot performance. While the resulting model attains\nthe minimum test error σ2 in the zero-shot setting, this gain\ncomes at the cost of degraded few-shot performance. As the number of shots n increases, the few-shot test error on\na task θ converges to σ2+θ⊤Σθ, which can be substantially\nlarger than the zero-shot error. Notably, this degradation\npersists even on the target task θ0, although the model is\noptimal for zero-shot performance on θ0.",
+          "page": 5
+        },
+        {
+          "para_id": "2_17",
+          "text": "0\n10\n20\n30\n40\nNumber of shots (n)",
+          "page": 5
+        },
+        {
+          "para_id": "2_18",
+          "text": "0",
+          "page": 5
+        },
+        {
+          "para_id": "2_19",
+          "text": "1",
+          "page": 5
+        },
+        {
+          "para_id": "2_20",
+          "text": "2",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "3 Test error",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "w = 0.3\nw = 1\nw = 3",
+          "page": 5
+        },
+        {
+          "para_id": "3_2",
+          "text": "w = 10\nw = 30\nw = 100",
+          "page": 5
+        },
+        {
+          "para_id": "3_3",
+          "text": "Figure 2. n-shot test error on the target task θ0 of the fully fine-\ntuned model using the theory-derived parameters in Theorem 4.3.\nEach curve corresponds to a model with a different choice of the\nparameter w, evaluated under σ2 = 0.1 and θ⊤\n0 Σθ0 = 1. For all\nvalues of w, the zero-shot error is 0.1, whereas the few-shot error\nis larger than the zero-shot error and converges to 1 as n →∞.",
+          "page": 5
+        },
+        {
+          "para_id": "3_4",
+          "text": "Figure 2 illustrates this phenomenon. Although minimiz-\ning the zero-shot loss admits a family of optimal solutions\nparameterized by a free parameter w > 0 in Theorem 4.3,\nall such choices yield worse few-shot performance than\nzero-shot performance. In particular, for every w > 0, the\nfew-shot error exceeds the zero-shot error and converges to\nθ⊤\n0 Σθ0 as n →∞, which equals 1 in the setting of Figure 2.",
+          "page": 5
+        },
+        {
+          "para_id": "3_5",
+          "text": "These results reveal a limitation of full fine-tuning. While\nit optimizes zero-shot performance on the target task θ0, it\ndegrades few-shot performance, making few-shot predic-\ntion strictly worse than zero-shot prediction even on the\ntarget task θ0. This observation motivates alternative fine-\ntuning strategies that preserve effective few-shot perfor-\nmance, which we study next.",
+          "page": 5
+        },
+        {
+          "para_id": "3_6",
+          "text": "4.3. Fine-Tuning Value Matrix with Zero-Shot Loss To improve zero-shot performance on the target task θ0\nwhile preserving few-shot performance, we revisit the struc-\nture of the optimal parameters derived in the previous sub-\nsections. A key insight from Theorem 4.3 is that, under\nfull fine-tuning, the target task vector θ0 may be encoded in\nthe value matrix through the parameter v21. In this sense,\nthe value component of the attention mechanism provides a\npathway to improved zero-shot performance. We formalize this by characterizing when zero-shot perfor-\nmance outperforms few-shot performance, and show that\nthis comparison is governed by the value parameter v21. Theorem 4.5. Suppose V and Q in (1) satisfy v22 = 1,\nq21 = 0d, and Q11 is positive definite. For any θ ∈Rd, the\nfollowing inequality holds: E(V, Q; 0, θ) ≤E(V, Q; n, θ), if and only if\n\u0000\nv21 −A−1Bθ\n\u0001⊤A\n\u0000\nv21 −A−1Bθ\n\u0001\n≤c,\n(10) where c := θ⊤(BA−1B+C)θ+(tr(Q11ΣQ11Σ)+q2)σ2,\nand A, B, C are matrices determined by Q, Σ, and n.",
+          "page": 5
+        },
+        {
+          "para_id": "3_7",
+          "text": "Theorem 4.5 makes the role of the value parameter explicit.\nWhile A, B, and c depend on Q, Σ, σ2, n, and the task\nvector θ at which the test error is evaluated, they are inde-\npendent of v21. Consequently, the inequality in (10) can be\nsatisfied only through updates to v21. In particular, mov-\ning v21 toward A−1Bθ makes the condition hold, which\ncorresponds to a regime where zero-shot performance out-\nperforms few-shot performance. At the same time, recall that few-shot performance in the\npretrained model relies on the query-key matrix Q, and in\nparticular on the condition Q11 = Σ−1 in Corollary 4.1.\nThis observation suggests a fine-tuning strategy: rather than\nupdating both V and Q, we freeze Q to preserve the mecha-\nnism enabling few-shot performance and fine-tune only the\nvalue matrix V to improve zero-shot performance. We refer\nto this strategy as value-matrix fine-tuning. The following theorem characterizes the models obtained\nby value-matrix fine-tuning under the zero-shot prompt loss. Theorem 4.6 (Optimal Parameters and Test Error of Value–\nMatrix Fine-Tuned Models). Given a target task θ0 ∈Rd,",
+          "page": 5
+        },
+        {
+          "para_id": "3_8",
+          "text": "5",
+          "page": 5
+        },
+        {
+          "para_id": "3_9",
+          "text": "Fine-Tuning Without Forgetting In-Context Learning: A Theoretical Analysis of Linear Attention Models",
+          "page": 6
+        },
+        {
+          "para_id": "3_10",
+          "text": "consider the zero-shot prompt loss LZS(V, Q; θ0) in (5).\nFor any w > 0, define",
+          "page": 6
+        },
+        {
+          "para_id": "3_11",
+          "text": "ˆV(w) =",
+          "page": 6
+        },
+        {
+          "para_id": "3_12",
+          "text": " \n·\n·\n·\n·\n·\n·\n·\n1\nd+4θ⊤\n0\nw",
+          "page": 6
+        },
+        {
+          "para_id": "3_13",
+          "text": " ,\nˆQ =",
+          "page": 6
+        },
+        {
+          "para_id": "3_14",
+          "text": " \n·\n·\n·\n·\nΣ−1\n·\n·\n·\n·",
+          "page": 6
+        },
+        {
+          "para_id": "3_15",
+          "text": " . (11)",
+          "page": 6
+        },
+        {
+          "para_id": "3_16",
+          "text": "Then, ˆV(w) minimizes the zero-shot loss for fixed ˆQ, i.e.,",
+          "page": 6
+        },
+        {
+          "para_id": "3_17",
+          "text": "ˆV(w) ∈arg min\nV\nLZS(V, ˆQ; θ0), and the minimum value is σ2 +\n2\nd+4θ⊤\n0 Σθ0. Under this\nchoice of parameters, for any θ ∈Rd, lim\nn→∞E\n\u0000 ˆV(w), ˆQ; n, θ\n\u0001 = σ2 +\n\u0000\n1\nd+4θ0 + (w −1)θ\n\u0001⊤Σ\n\u0000\n1\nd+4θ0 + (w −1)θ\n\u0001\n.",
+          "page": 6
+        },
+        {
+          "para_id": "3_18",
+          "text": "Under the constraint that Q is frozen at the matrix ˆQ learned\nduring pretraining, the model cannot generally attain the\nirreducible minimum error σ2 in the zero-shot setting. Nev-\nertheless, the resulting zero-shot error, σ2 +\n2\nd+4θ⊤\n0 Σθ0, is\nclose to σ2 for sufficiently large d. More importantly, by\npreserving the pretrained query–key matrix, value-matrix\nfine-tuning maintains strong few-shot performance and can\noutperform full fine-tuning in the few-shot regime. The parameter w in (11) does not affect zero-shot perfor-\nmance, so the zero-shot objective does not uniquely de-\ntermine w. Because fine-tuning starts from the pretrained\nparameters in (6), it is natural to choose w to make the\nupdate as small as possible. Among all zero-shot optimal\nsolutions ˆV(w) in Theorem 4.6, we select the one closest to\nthe pretrained parameters. The following results formalize\nthis choice of w and characterize the resulting model. Proposition 4.7. Assume Σ = Id, and let ˆV and ˆQ be the\nparameters in (6) which minimize the loss L(V, Q) in (4).\nGiven a target task θ0 ∈Rd, consider ˆV(w) in (11). Then",
+          "page": 6
+        },
+        {
+          "para_id": "3_19",
+          "text": "ˆV\n\u0010\nm\nm+1+d\n\u0011 = arg min\nn\r\rV−ˆV\n\r\r2\nF",
+          "page": 6
+        },
+        {
+          "para_id": "3_20",
+          "text": "V ∈arg min\nV\nLZS(V, ˆQ; θ0)\no\n,",
+          "page": 6
+        },
+        {
+          "para_id": "3_21",
+          "text": "where ∥·∥F denotes the Frobenius norm. Moreover, if m = n, then for sufficiently large n + d, the\nchoice w =\nm\nm+1+d closely approximates the task-averaged\noptimum w⋆(n), defined in Corollary 4.8 below. Corollary 4.8 (Task-Averaged Optimal w). Given a target\ntask θ0 ∈Rd, consider the family of parameters\n\u0000 ˆV(w), ˆQ\n\u0001 in (11). For any n ∈N, the few-shot test error averaged",
+          "page": 6
+        },
+        {
+          "para_id": "3_22",
+          "text": "over tasks θ ∼N(0d, Id) is minimized at w⋆(n) := arg min\nw\nEθ\nh\nE\n\u0000 ˆV(w), ˆQ; n, θ\n\u0001i\n(12) =\n(n + 1) tr(Σ)\n(n + 1 + d) tr(Σ) + dσ2 . Then w⋆(n) →1 as n →∞. Hence, for any θ ∈Rd, lim\nn→∞E\n\u0000 ˆV(1), ˆQ; n, θ\n\u0001\n= σ2 +\n1\n(d + 4)2 θ⊤\n0 Σθ0.",
+          "page": 6
+        },
+        {
+          "para_id": "3_23",
+          "text": "Value-Matrix Fine-Tuning Improves Zero-Shot Per-\nformance While Preserving Few-Shot Performance.\nProposition 4.7 fixes the free parameter w using a minimal-\nupdate rule: among all value-matrix fine-tuning solutions\nˆV(w) that minimize the zero-shot loss, it chooses the one\nclosest to the pretrained matrix ˆV. Corollary 4.8 provides a complementary characterization\nof this choice from the few-shot perspective. It shows\nthat, when tasks are drawn from θ ∼N(0d, Id), the task-\naveraged few-shot test error admits a unique minimizer\nw⋆(n) in (12). In the limit as n →∞, we have w⋆(n) →1,\nimplying that the asymptotic few-shot error becomes iden-\ntical for all tasks θ ∈Rd. Moreover, when m = n and\nn + d is sufficiently large, the choice w =\nm\nm+1+d from\nProposition 4.7 closely approximates w⋆(n), which implies\nthat the resulting value-matrix fine-tuned model preserves\nfew-shot performance uniformly over tasks.",
+          "page": 6
+        },
+        {
+          "para_id": "3_24",
+          "text": "4.4. Fine-Tuning Value Matrix\nwith Zero-Shot and Auxiliary Few-Shot Losses Value-matrix fine-tuning with the minimal-update rule in\nProposition 4.7 improves zero-shot performance on the tar-\nget task θ0 while preserving few-shot performance across\ntasks. Without imposing the minimal-update rule, there\nexist multiple parameter choices that achieve the same zero-\nshot optimum. As shown in Theorem 4.6, these solutions\nform a family ˆV(w) parameterized by a scalar w > 0, and\ndifferent choices of w lead to different few-shot behavior.\nThis remaining degree of freedom enables further adaptation\nbeyond zero-shot performance. In particular, few-shot performance is controlled by w, and\nthe optimal w depends on both the evaluation task θ and the\nnumber of demonstrations n at test time. This suggests that\nvalue-matrix fine-tuning can be refined by selecting w to\noptimize n-shot performance on a specific task. Figure 3 illustrates this dependence by plotting the n-shot\ntest error of models with parameters\n\u0000 ˆV(w), ˆQ\n\u0001\nin (11)\nfor different values of w. For each fixed n, there exists an\noptimal choice of w that minimizes the n-shot test error\non the target task. The following theorem formalizes this\nobservation by characterizing the task-wise optimal choice",
+          "page": 6
+        },
+        {
+          "para_id": "3_25",
+          "text": "6",
+          "page": 6
+        },
+        {
+          "para_id": "3_26",
+          "text": "Fine-Tuning Without Forgetting In-Context Learning: A Theoretical Analysis of Linear Attention Models",
+          "page": 7
+        },
+        {
+          "para_id": "3_27",
+          "text": "of w as a function of the evaluation task θ and the number\nof demonstrations n.",
+          "page": 7
+        },
+        {
+          "para_id": "3_28",
+          "text": "0\n10\n20\n30\n40\n0",
+          "page": 7
+        },
+        {
+          "para_id": "3_29",
+          "text": "0.1",
+          "page": 7
+        },
+        {
+          "para_id": "3_30",
+          "text": "0.2",
+          "page": 7
+        },
+        {
+          "para_id": "3_31",
+          "text": "0.3",
+          "page": 7
+        },
+        {
+          "para_id": "3_32",
+          "text": "0.4",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "0.5",
+      "section_title": "0.5 Test error",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.5_1",
+          "text": "w = 0.2\nw = 0.3\nw = 0.4",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_2",
+          "text": "w = 0.5\nw = 0.6\nw = 0.7",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_3",
+          "text": "w = 0.8\nw = 0.9\nw = 1.0",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_4",
+          "text": "0\n10\n20\n30\n40\nNumber of shots (n)",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_5",
+          "text": "0.0\n0.2\n0.4\n0.6\n0.8",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_6",
+          "text": "w (n)",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_7",
+          "text": "w\n= 0.66",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_8",
+          "text": "Figure 3. (Top) n-shot test error on the target task θ0 for the\nvalue-matrix fine-tuned model with the theory-derived parameters\n\u0000 ˆV(w), ˆQ\n\u0001\nin Theorem 4.6. Each curve corresponds to a different\nchoice of w. We use d = 5, θ⊤\n0 Σθ0 = 1, and σ2 = 0.1, for\nwhich the zero-shot test error equals 3.1 (= σ2 +\n2\nd+4θ⊤\n0 Σθ0)\nfor all models. (Bottom) Optimal w⋆(n; θ0) that minimizes the\nn-shot test error on the target task θ0. The optimal value increases\nmonotonically with n and converges to 8/9 (= d+3 d+4). For example,\nthe 20-shot test error is minimized at w ≈0.66.",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_9",
+          "text": "Theorem 4.9 (Task-Wise Optimal w). Given a target task\nθ0 ∈Rd, consider the family of parameters\n\u0000 ˆV(w), ˆQ\n\u0001 in (11). For any n ∈N and any θ ∈Rd, the few-shot test\nerror on the task θ is minimized at w⋆(n; θ) := arg min\nw\nE\n\u0000 ˆV(w), ˆQ; n, θ\n\u0001\n(13) =\n(n + 1) θ⊤Σθ −n+3+2d",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_10",
+          "text": "d+4\nθ⊤\n0 Σθ (n + 1 + d) θ⊤Σθ + dσ2\n. Then w⋆(n; θ) →d+3",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_11",
+          "text": "d+4 as n →∞. Hence, for any θ ∈Rd, limn→∞E\n\u0000 ˆV( d+3",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_12",
+          "text": "d+4), ˆQ; n, θ\n\u0001\n= σ2 +\n1\n(d+4)2 (θ −θ0)⊤Σ(θ −θ0).",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_13",
+          "text": "For the target task θ0, Theorem 4.9 implies that the optimal\nvalue w⋆(n; θ0) increases with n and converges to w = d+3 d+4\nas n →∞. This result shows that the free parameter w can\nbe tuned to adapt the fine-tuned model to a desired few-shot\nregime at test time. To control w during fine-tuning, we introduce an auxiliary\nfew-shot prompt loss with n demonstrations. For the target\ntask vector θ0 ∈Rd, we define the few-shot prompt loss as LFS(V, Q; θ0) := E\n\u0000\nV, Q; n, θ0\n\u0001\n(14) and fine-tune using a combination of the zero-shot loss (5)\nand the auxiliary few-shot loss. Since the auxiliary loss\ndepends on n, it explicitly steers the learned parameter\ntoward the value of w that optimizes n-shot performance.",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_14",
+          "text": "Fine-Tuning with an Auxiliary Few-Shot Loss Improves\nFew-Shot Performance at the Expense of Generalization.\nThe task-wise optimal value w⋆(n; θ) in (13) depends on\nthe evaluation task θ. As a result, choosing w to optimize\nfew-shot performance on the target task θ0 need not be\noptimal for other tasks θ(̸= θ0). The following proposition\nquantifies this trade-off by characterizing the excess error\nincurred when the model uses w⋆(n; θ0) instead of the task-\nwise optimal choice w⋆(n; θ). Proposition 4.10. Given a target task θ0 ∈Rd, consider\nthe family of parameters\n\u0000 ˆV(w), ˆQ\n\u0001\nin (11). Fix n ∈N.\nFor simplicity, define E(w; θ) := E\n\u0000 ˆV(w), ˆQ; n, θ\n\u0001\nand\nw⋆(θ) := w⋆(n; θ). For any θ ∈Rd, the excess error is",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_15",
+          "text": "E(w⋆(θ0); θ) −E\n\u0000\nw⋆(θ); θ\n\u0001\n(15) = n\n\u0000\n(n+1+d)θ⊤Σθ + dσ2\u0001",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_16",
+          "text": "(n+1)2\n·\n\u0000\nw⋆(θ0) −w⋆(θ)\n\u00012 ≥0,",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_17",
+          "text": "with equality if and only if w⋆(θ) = w⋆(θ0). Moreover, if θ\nsatisfies c := θ⊤Σθ = θ⊤\n0 Σθ0, then (15) reduces to E(w⋆(θ0); θ) −E\n\u0000\nw⋆(θ); θ\n\u0001 =\nn(n+3+2d)2c2",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_18",
+          "text": "(n+1)2(d+4)2\u0000\n(n+1+d)c + dσ2\u0001 ·\n\u0000\n1−ρ(θ, θ0)\n\u00012,",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_19",
+          "text": "where ρ(θ, θ0) = θ⊤Σθ0/c ∈[−1, 1] is the cosine similar-\nity induced by the Σ-inner product.",
+          "page": 7
+        },
+        {
+          "para_id": "0.5_20",
+          "text": "Proposition 4.10 shows that tuning w using the auxiliary\nfew-shot loss improves n-shot performance on the target\ntask θ0, but can degrade performance on other tasks θ(̸= θ0).\nMoreover, the degradation increases with the discrepancy\nbetween tasks, quantified by the cosine similarity ρ(θ, θ0)\nunder the Σ-inner product. This formalizes a fundamental\nlimitation of auxiliary few-shot fine-tuning: while it en-\nhances adaptation to the target task in the few-shot regime,\nit may reduce generalization across tasks. In Appendix A.5, we further analyze the test error when the\nzero-shot loss in (5) is combined with the auxiliary few-shot\nloss in (14). In particular, Theorem A.20 shows that an ad-\nditional gradient descent step on the few-shot loss increases\nthe zero-shot test error once the parameters approach the op-\ntimal zero-shot solution. Motivated by this observation, we\nadopt an annealing strategy for the auxiliary few-shot loss\nin the following experimental section, gradually reducing\nits weight to zero during fine-tuning.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "5. Empirical Validation In this section, we validate the theoretical results in Sec-\ntion 4 through experiments on linear regression tasks. We",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "7",
+          "page": 7
+        },
+        {
+          "para_id": "5_2",
+          "text": "Fine-Tuning Without Forgetting In-Context Learning: A Theoretical Analysis of Linear Attention Models",
+          "page": 8
+        },
+        {
+          "para_id": "5_3",
+          "text": "Pretrained model (theory-derived)\nPretrained model\nFine-tuned model (theory-derived)\nFine-tuned model",
+          "page": 8
+        },
+        {
+          "para_id": "5_4",
+          "text": "0\n10\n20\nNumber of shots (n)",
+          "page": 8
+        },
+        {
+          "para_id": "5_5",
+          "text": "0",
+          "page": 8
+        },
+        {
+          "para_id": "5_6",
+          "text": "1",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2 Test error",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "(a)\nPretraining",
+          "page": 8
+        },
+        {
+          "para_id": "2_2",
+          "text": "0\n10\n20\nNumber of shots (n)",
+          "page": 8
+        },
+        {
+          "para_id": "2_3",
+          "text": "0",
+          "page": 8
+        },
+        {
+          "para_id": "2_4",
+          "text": "1",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2 Test error",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "(b)\nFine-tuning all parameters\nwith zero-shot loss",
+          "page": 8
+        },
+        {
+          "para_id": "2_2",
+          "text": "0\n10\n20\nNumber of shots (n)",
+          "page": 8
+        },
+        {
+          "para_id": "2_3",
+          "text": "0",
+          "page": 8
+        },
+        {
+          "para_id": "2_4",
+          "text": "1",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2 Test error",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "(c) Value-matrix fine-tuning\nwith zero-shot loss",
+          "page": 8
+        },
+        {
+          "para_id": "2_2",
+          "text": "0\n10\n20\nNumber of shots (n)",
+          "page": 8
+        },
+        {
+          "para_id": "2_3",
+          "text": "0",
+          "page": 8
+        },
+        {
+          "para_id": "2_4",
+          "text": "1",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "2 Test error",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "(d) Value-matrix fine-tuning with\nzero- and few-shot losses Figure 4. n-shot test errors on the target task θ0 for linear attention models under different training regimes. Curves show theoretical\npredictions from Section 4, while points correspond to models trained empirically in Section 5.1. Empirical results match the theoretical\nvalues. The parameters used for the theoretical predictions are given by: (a) (6) from Corollary 4.1. (b) (9) from Theorem 4.3 with\nw = 0.52. (c) (11) from Theorem 4.6 with w = 0.77 (=\nm\nm+1+d) (Proposition 4.7). (d) (11) with w = 0.66 (Theorem 4.9; see Figure 3).",
+          "page": 8
+        },
+        {
+          "para_id": "2_2",
+          "text": "50",
+          "page": 8
+        },
+        {
+          "para_id": "2_3",
+          "text": "100",
+          "page": 8
+        },
+        {
+          "para_id": "2_4",
+          "text": "0\n10\n20\n0.1",
+          "page": 8
+        },
+        {
+          "para_id": "2_5",
+          "text": "0.3",
+          "page": 8
+        },
+        {
+          "para_id": "2_6",
+          "text": "1",
+          "page": 8
+        },
+        {
+          "para_id": "2_7",
+          "text": "3",
+          "page": 8
+        },
+        {
+          "para_id": "2_8",
+          "text": "Test error evaluate on the task \n0 0\n10\n20",
+          "page": 8
+        },
+        {
+          "para_id": "2_9",
+          "text": "evaluate on the task \n0",
+          "page": 8
+        },
+        {
+          "para_id": "2_10",
+          "text": "Number of shots (n)",
+          "page": 8
+        },
+        {
+          "para_id": "2_11",
+          "text": "ZS (all)\nZS+FS (all)",
+          "page": 8
+        },
+        {
+          "para_id": "2_12",
+          "text": "ZS (Q)\nZS+FS (Q)",
+          "page": 8
+        },
+        {
+          "para_id": "2_13",
+          "text": "ZS (V)\nZS+FS (V)",
+          "page": 8
+        },
+        {
+          "para_id": "2_14",
+          "text": "Figure 5. n-shot test errors evaluated on the in-distribution task\nθ0 (Left) and the out-of-distribution task −θ0 (Right) . Empty\ncircles denote models fine-tuned with the zero-shot (ZS) loss only,\nwhereas filled circles denote models fine-tuned with both the zero-\nshot and few-shot (FS) losses. Parentheses indicate which pa-\nrameters are updated: all updates all parameters, Q updates the\nquery–key matrix, and V updates the value matrix. Value-matrix\nfine-tuning without the auxiliary few-shot loss gives the lowest\nerror on the out-of-distribution task −θ0.\nfurther complement these findings with experiments on\nfine-tuning a large language model on the MMLU bench-\nmark (Hendrycks et al., 2021).",
+          "page": 8
+        },
+        {
+          "para_id": "2_15",
+          "text": "5.1. Experiments on Linear Regression Tasks We train the linear attention model in (1) on linear regression\ntasks, where datasets are generated according to the setup\nin Section 3. Following prior work (Ahn et al., 2023), we\nset d = 5, σ2 = 0.1, Σ = I5, ∥θ0∥2\n2 = 1, and m = n =\n20. We first pretrain the model and then fine-tune it using\nthree strategies described in Section 4. Further details are\nprovided in Appendix B.1. Figure 4 reports the test error on the target task θ0, where\npoints denote empirical results and curves show the theo-\nretical predictions from Section 4. Across all settings, the\nempirical trends are consistent with the theoretical predic-\ntions. Figure 5 further reports test errors on the out-of-\ndistribution task −θ0 under different fine-tuning strategies.",
+          "page": 8
+        },
+        {
+          "para_id": "2_16",
+          "text": "64\n66\n68\n70\nZero-shot accuracy on Humanities category (%)",
+          "page": 8
+        },
+        {
+          "para_id": "2_17",
+          "text": "66",
+          "page": 8
+        },
+        {
+          "para_id": "2_18",
+          "text": "68",
+          "page": 8
+        },
+        {
+          "para_id": "2_19",
+          "text": "70",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "72",
+      "section_title": "72 Few-shot accuracy (%)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "72_1",
+          "text": "a",
+          "page": 8
+        },
+        {
+          "para_id": "72_2",
+          "text": "b",
+          "page": 8
+        },
+        {
+          "para_id": "72_3",
+          "text": "c",
+          "page": 8
+        },
+        {
+          "para_id": "72_4",
+          "text": "d",
+          "page": 8
+        },
+        {
+          "para_id": "72_5",
+          "text": "a",
+          "page": 8
+        },
+        {
+          "para_id": "72_6",
+          "text": "b",
+          "page": 8
+        },
+        {
+          "para_id": "72_7",
+          "text": "c\nd Few-shot accuracy\non Humanities category\non STEM category",
+          "page": 8
+        },
+        {
+          "para_id": "72_8",
+          "text": "Figure 6. Zero-shot (x-axis) and few-shot (y-axis) accuracy of\nQwen2.5-3B-Instruct on the Humanities and STEM cate-\ngories of the MMLU benchmark. We compare the pretrained\nmodel with three models fine-tuned to improve zero-shot perfor-\nmance on Humanities. (a) The pretrained model exhibits higher\nfew-shot than zero-shot accuracy on Humanities. (b) Fine-tuning\nwith the zero-shot loss improves zero-shot accuracy relative to\nthe pretrained model but degrades few-shot accuracy. (c) Value-\nmatrix fine-tuning with the zero-shot loss preserves few-shot\naccuracy while achieving zero-shot accuracy comparable to (b) .\n(d) Value-matrix fine-tuning with both zero-shot and few-shot\nlosses improves few-shot accuracy on Humanities, at the cost of\nreduced few-shot accuracy on other categories such as STEM.",
+          "page": 8
+        },
+        {
+          "para_id": "72_9",
+          "text": "Fine-tuning all parameters with both the zero-shot and aux-\niliary few-shot losses attains low error on θ0, but exhibits\nhigher few-shot error on −θ0. In contrast, value-matrix fine-\ntuning yields lower few-shot error on −θ0, indicating better\nretention of few-shot performance across tasks, an effect\nthat is more pronounced without the auxiliary few-shot loss.\nIn Appendix B.1, we also consider models with separate\nquery and key matrices, as well as multi-head architectures,\nwhich exhibit qualitatively similar trends.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "5.2",
+      "section_title": "5.2. Experiments on the MMLU Benchmark We\ncomplement\nour\ntheoretical\nanalysis\nwith\nexperiments\non\nthe\nMMLU\nbenchmark\nusing",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "5.2_1",
+          "text": "8",
+          "page": 8
+        },
+        {
+          "para_id": "5.2_2",
+          "text": "Fine-Tuning Without Forgetting In-Context Learning: A Theoretical Analysis of Linear Attention Models",
+          "page": 9
+        },
+        {
+          "para_id": "5.2_3",
+          "text": "Qwen2.5-3B-Instruct (Yang et al., 2024).\nWe\nfine-tune models to improve zero-shot accuracy on the\nHumanities category and evaluate both zero-shot and\n7-shot accuracy on Humanities and STEM. We compare the\npretrained model with three fine-tuning strategies. Figure 6 illustrates trends consistent with our theoretical\npredictions. Full fine-tuning improves zero-shot accuracy\non Humanities but degrades few-shot accuracy. In contrast,\nvalue-matrix fine-tuning preserves few-shot performance\nwhile achieving comparable zero-shot accuracy. Incorpo-\nrating an auxiliary few-shot loss further improves few-shot\naccuracy on Humanities, but reduces few-shot accuracy on\nSTEM. Additional results are provided in Appendix B.2.",
+          "page": 9
+        },
+        {
+          "para_id": "5.2_4",
+          "text": "6. Conclusion We investigate the effect of task-specific fine-tuning on the\nin-context learning capability of Transformers with linear\nattention. Specifically, we derive closed-form expressions\nfor the parameters that minimize the pretraining and fine-\ntuning objectives, which reveal how different fine-tuning\nregimes induce a distinct trade-off between zero-shot and\nfew-shot performances. Our analysis shows that fine-tuning\nall parameters to optimize the zero-shot performance can\ndegrade the few-shot performance. In contrast, restricting\nupdates to the value matrix preserves the few-shot perfor-\nmance while improving the zero-shot performance. Fur-\nthermore, although incorporating an auxiliary few-shot loss\nenhances the performance on the target task, it may lead to\ndegradation on out-of-distribution tasks.",
+          "page": 9
+        },
+        {
+          "para_id": "5.2_5",
+          "text": "Limitations and Future Work.\nOur theoretical analy-\nsis relies on linear attention models, which offer analytical\ntractability and enable closed-form characterization of opti-\nmal parameters and test errors, but do not capture all archi-\ntectural and optimization features of Transformer models.\nWhile experiments on the MMLU benchmark indicate that\nqualitatively similar phenomena may arise in large-scale\nmodels, these results should be interpreted as illustrative\nrather than conclusive. Extending the theory to more expres-\nsive attention mechanisms, such as softmax attention and\nmulti-head architectures, and understanding how these in-\nsights generalize to broader parameter-efficient fine-tuning\nsettings remain directions for future work.",
+          "page": 9
+        },
+        {
+          "para_id": "5.2_6",
+          "text": "Acknowledgements This work was supported by the National Science Foun-\ndation (NSF) Award DMS-2023239, the NSF CAREER\nAward CCF-2339978, an Amazon Research Award, and a\ngrant from FuriosaAI. In addition, it was supported by the\nNational Research Foundation of Korea (NRF) grant funded\nby the Korean Ministry of Science and ICT (MSIT) (RS-",
+          "page": 9
+        },
+        {
+          "para_id": "5.2_7",
+          "text": "2024-00345351, RS-2024-00408003), by the Institute of In-\nformation & Communications Technology Planning & Eval-\nuation (IITP) grant funded by MSIT (RS-2023-00259934,\nRS-2025-02283048), and by the Brain Korea 21 program\nfunded by the Korean Ministry of Education and the NRF\n(BK21 FOUR, No.5199990913980). We thank Jungtaek\nKim, Jaden Park, Jaewoo Shin, Thomas Zeng, Yuchen Zeng,\nand especially Jongwon Jeong for helpful discussions.",
+          "page": 9
+        },
+        {
+          "para_id": "5.2_8",
+          "text": "Impact Statement This paper presents work whose goal is to advance the field\nof Machine Learning. There are many potential societal\nconsequences of our work, none of which we feel must be\nspecifically highlighted here.",
+          "page": 9
+        }
+      ]
+    }
+  ]
+}

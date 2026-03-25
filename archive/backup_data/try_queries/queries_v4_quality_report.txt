@@ -1,0 +1,27 @@
+============================================================
+Query Quality Report v4
+============================================================
+
+Total queries: 150
+Passed: 127 (84.7%)
+Failed: 23 (15.3%)
+  - 缺少有效疑问词: 23
+
+Final saved queries: 127
+
+Sample queries (first 15):
+  - How does cross layer parameter differ from traditional methods?
+  - How does variational inference improve performance in neural networks?
+  - What is the role of baseline models in transformer architectures?
+  - How does query affect training convergence?
+  - What is the role of modeling task example in transformer architectures?
+  - How does model recent improve performance in neural networks?
+  - Why is lstm lstm lstm effective for natural language processing?
+  - How does ancestral sampling smld help with sequence modeling?
+  - How does adaptive learning help with sequence modeling?
+  - Why is each player receives crucial for attention mechanisms?
+  - Why is model world screens essential for efficient training?
+  - Why is vector essential for efficient training?
+  - How does temporal averaging enable better representation learning?
+  - Why does cosine cycle improve model generalization?
+  - How does diffusion models denoising affect training convergence?

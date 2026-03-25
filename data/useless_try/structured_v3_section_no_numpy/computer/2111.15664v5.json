@@ -1,0 +1,77 @@
+{
+  "doc_id": "2111.15664v5.pdf",
+  "sections": [
+    {
+      "section_title": "OCR-free",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Document",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Understanding",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Transformer",
+      "text": " Geewook  Kim ∗ ,  Teakgyu  Hong † ,  Moonbin  Yim † ,  Jeongyeon  Nam , Jinyoung  Park † ,  Jinyeong  Yim † ,  Wonseok  Hwang † ,  Sangdoo  Yun , Dongyoon  Han ,  and  Seunghyun  Park NAVER  CLOVA NAVER  Search NAVER  AI  Lab Upstage Tmax Google LBox Abstract.  Understanding document images ( e.g. , invoices) is a core but challenging  task  since  it  requires  complex  functions  such  as  reading  text and  a  holistic  understanding  of  the  document .  Current  Visual  Document Understanding (VDU) methods outsource the task of reading text to off- the-shelf Optical Character Recognition (OCR) engines and focus on the understanding  task  with  the  OCR  outputs.  Although  such  OCR-based approaches  have  shown  promising  performance,  they  suffer  from  1)  high computational  costs  for  using  OCR;  2)  inflexibility  of  OCR  models  on languages  or  types  of  documents;  3)  OCR  error  propagation  to  the  sub- sequent  process.  To  address  these  issues,  in  this  paper,  we  introduce  a novel OCR-free VDU model named Donut , which stands for Do cume n t u nderstanding t ransformer. As the first step in OCR-free VDU research, we  propose  a  simple  architecture  ( i.e. ,  Transformer)  with  a  pre-training objective  ( i.e.,  cross-entropy  loss).  Donut  is  conceptually  simple  yet  ef- fective.  Through  extensive "
+    },
+    {
+      "section_title": "experiments",
+      "text": "  and  analyses,  we  show  a  simple OCR-free  VDU  model,  Donut,  achieves  state-of-the-art  performances  on various  VDU  tasks  in  terms  of  both  speed  and  accuracy.  In  addition,  we offer  a  synthetic  data  generator  that  helps  the  model  pre-training  to  be flexible  in  various  languages  and  domains.  The  code,  trained  model,  and synthetic  data  are  available  at  https://github.com/clovaai/donut . Keywords:  Visual  Document  Understanding,  Document  Information Extraction,  Optical  Character  Recognition,  End-to-End  Transformer"
+    },
+    {
+      "section_title": "1",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " Document  images,  such  as  commercial  invoices,  receipts,  and  business  cards, are  easy  to  find  in  modern  working  environments.  To  extract  useful  informa- tion  from  such  document  images,  Visual  Document  Understanding  (VDU)  has not  been  only  an  essential  task  for  industry,  but  also  a  challenging  topic  for  re- searchers, with applications including document classification [ , ], information extraction  [ , ],  and  visual  question  answering  [ , ]. ∗ Corresponding  author:  gwkim.rsrch@gmail.com †  This  work  was  done  while  the  authors  were  at  NAVER  CLOVA."
+    },
+    {
+      "section_title": "arXiv:2111.15664v5  [cs.LG]  6 Oct 2022",
+      "text": " G.  Kim  et  al. Document Image { \"items\": [ { \"name\": \" 3002-Kyoto Choco Mochi \", \"count\": 2, \"priceInfo\": { \"unitPrice\": 14000, \"price\": 28000 } }, ... ], \"total\": [ { \"menuqty_cnt\": 4, \"total_price\": 50000 } ] } { \"words\": [ { \"bbox\":[[0.11,0.21],...,[0.19,0.22]], \"text\": \" 3002-Kyoto \" }, { \"bbox\":[[0.21,0.22],...,[0.45,0.23]], \"text\": \" Choco \" }, { \"bbox\":[[0.46,0.22],...,[0.52,0.23]], \"text\": \" Mochi \" }, …, { \"bbox\":[[0.66,0.31],...,[0.72,0.32]], \"text\": \"50.000\" } ] } Structured Information (a) (b) (c) (d) Fig. 1.  The  schema  of  the  conventional  document  information  extraction (IE)  pipeline. (a) The goal is to extract the structured information from a given semi- structured  document  image.  In  the  pipeline,  (b)  text  detection  is  conducted  to  obtain text  locations  and  (c)  each  box  is  passed  to  the  recognizer  to  comprehend  characters. (d)  Finally,  the  recognized  texts  and  its  locations  are  passed  to  the  following  module to  be  processed  for  the  desired  structured  form  of  the  information Image OCR Downstream Model Output AS-IS (OCR + BERT, Layout LM , …) Image E2E Model Output Donut  🍩 ( Proposed ) 1.2 0.9 Time (sec/img) Accuracy (%) 0.8 +a Memory (M) (a)  Pipeline  Overview. (b)  System  Benchmarks. Fig. 2. The  pipeline  overview  and  benchmarks. The proposed end-to-end model, Donut ,  outperforms  the  recent  OCR-dependent  VDU  models  in  memory,  time  cost and  accuracy.  Performances  on  visual  document  IE  [ ]  are  shown  in  (b).  More "
+    },
+    {
+      "section_title": "results",
+      "text": " on  various  VDU  tasks  are  available  at  Section   showing  the  same  trend Current VDU methods [ , , , , ] solve the task in a two-stage manner: 1) reading the texts in the document image; 2) holistic understanding of the doc- ument. They usually rely on deep-learning-based Optical Character Recognition (OCR)  [ , ]  for  the  text  reading  task  and  focus  on  modeling  the  understanding part.  For  example,  as  shown  in  Figure  ,  a  conventional  pipeline  for  extracting structured  information  from  documents  (a.k.a.  document  parsing)  consists  of three  separate  modules  for  text  detection,  text  recognition,  and  parsing  [ , ]. However, the OCR-dependent approach has critical problems. First of all, us- ing OCR as a pre-processing method is expensive. We can utilize pre-trained off- the-shelf  OCR  engines;  however,  the  computational  cost  for  inference  would  be expensive  for  high-quality  OCR  results.  Moreover,  the  off-the-shelf  OCR  meth- ods  rarely  have  flexibility  dealing  with  different  languages  or  domain  changes, which may lead to poor generalization ability. If we train an OCR model, it also requires  extensive  training  costs  and  large-scale  datasets  [ , , , ].  Another problem  is,  OCR  errors  would  propagate  to  the  VDU  system  and  negatively influence  subsequent  processes  [ , ].  This  problem  becomes  more  severe  in OCR-free  Document  Understanding  Transformer languages  with  complex  character  sets,  such  as  Korean  or  Chinese,  where  the quality  of  OCR  is  relatively  low  [ ].  To  deal  with  this,  post-OCR  correction module  [ , , ]  is  usually  adopted.  However,  it  is  not  a  practical  solution  for real  application environments  since  it  increases  the  entire  system size and main- tenance  cost. We go beyond the traditional framework by modeling a direct mapping from a  raw  input  image  to  the  desired  output  without  OCR.  We  introduce  a  new OCR-free VDU model to address the problems induced by the OCR-dependency. Our  model  is  based  on  Transformer-only  architecture,  referred  to  as  Do cume n t u nderstanding  t ransformer  ( Donut ),  following  the  huge  success  in  vision  and language [ , , ]. We present a minimal baseline including a simple architecture and  pre-training  method.  Despite  its  simplicity,  Donut  shows  comparable  or better  overall  performance  than  previous  methods  as  shown  in  Figure  . We  take  pre-train-and-fine-tune  scheme  [ , ]  on  Donut  training.  In  the pre-training  phase,  Donut  learns  how  to  read  the  texts  by  predicting  the  next words  by  conditioning  jointly  on  the  image  and  previous  text  contexts.  Donut is  pre-trained  with  document  images  and  their  text  annotations.  Since  our  pre- training  objective  is  simple  ( i.e. ,  reading  the  texts),  we  can  realize  domain  and language  flexibility  straightforwardly  pre-training  with  synthetic  data.  During fine-tuning  stage,  Donut  learns  how  to  understand  the  whole  document  accord- ing to the downstream task. We demonstrate Donut has a strong understanding ability  through  extensive  evaluation  on  various  VDU  tasks  and  datasets.  The"
+    },
+    {
+      "section_title": "experiments",
+      "text": "  show  a  simple  OCR-free  VDU  model  can  achieve  state-of-the-art performance  in  terms  of  both  speed  and  accuracy. The  contributions  are  summarized  as  follows: 1.  We  propose  a  novel  OCR-free  approach  for  VDU.  To  the  best  of  our  knowl- edge,  this  is  the  first "
+    },
+    {
+      "section_title": "method",
+      "text": "  based  on  an  OCR-free  Transformer  trained  in end-to-end  manner. 2.  We  introduce  a  simple  pre-training  scheme  that  enables  the  utilization  of synthetic  data.  By  using  our  generator  SynthDoG,  we  show  Donut  can easily  be  extended  to  a  multi-lingual  setting,  which  is  not  applicable  for  the conventional  approaches  that  need  to  retrain  an  off-the-shelf  OCR  engine. 3.  We  conduct  extensive "
+    },
+    {
+      "section_title": "experiments",
+      "text": "  and  analyses  on  both  public  benchmarks and  private  industrial  datasets,  showing  that  the  proposed "
+    },
+    {
+      "section_title": "method",
+      "text": "  achieves not  only  state-of-the-art  performances  on  benchmarks  but  also  has  many practical  advantages  (e.g.,  cost-effective )  in  real-world  applications. 4.  The codebase, pre-trained model, and synthetic data are available at GitHub."
+    },
+    {
+      "section_title": "2",
+      "text": ""
+    },
+    {
+      "section_title": "Method",
+      "text": " 2.1 Preliminary:  background There have been various visual document understanding (VDU) methods to un- derstand  and  extract  essential  information  from  the  semi-structured  documents such  as  receipts  [ , , ],  invoices  [ ],  and  form  documents  [ , , ]. https://github.com/clovaai/donut . G.  Kim  et  al. <vqa><question>what is the price of choco mochi?</question><answer> Converted JSON transformer encoder Input Image and Prompt transformer decoder Donut 🍩 <classification> <parsing> <class>receipt</class> </classification> 14,000</answer></vqa> <item><name>3002-Kyoto Choco Mochi</name>・・・ </parsing> { \"items\": [{\"name\": \"3002-Kyoto Choco Mochi\", \"count\": 2, \"unitprice\": 14000, …}], … } Output Sequence { \"class\":\"receipt\" } { \"question\": \"what is the price of choco mochi?\", \"answer\": \"14,000\" } Fig. 3.  The  pipeline  of  Donut.  The  encoder  maps  a  given  document  image  into embeddings. With the encoded embeddings, the decoder generates a sequence of tokens that  can  be  converted  into  a  target  type  of  information  in  a  structured  form Earlier  VDU  attempts  have  been  done  with  OCR-independent  visual  back- bones  [ , , , , ],  but  the  performances  are  limited.  Later,  with  the  remark- able advances of OCR [ , ] and BERT [ ], various OCR-dependent VDU models have been proposed by combining them [ , , ]. More recently, in order to get a  more  general  VDU,  most  state-of-the-arts  [ , ]  use  both  powerful  OCR  en- gines and large-scale real document image data (e.g., IIT-CDIP [ ]) for a model pre-training.  Although  they  showed  remarkable  advances  in  recent  years,  extra effort  is  required  to  ensure  the  performance  of  an  entire  VDU  model  by  using the  off-the-shelf  OCR  engine. 2.2 Document  Understanding  Transformer Donut is an end-to-end (i.e., self-contained) VDU model for general understand- ing  of  document  images.  The  architecture  of  Donut  is  quite  simple,  which  con- sists  of  a  Transformer  [ , ]-based  visual  encoder  and  textual  decoder  modules. Note  that  Donut  does  not  rely  on  any  modules  related  to  OCR  functionality but  uses  a  visual  encoder  for  extracting  features  from  a  given  document  im- age.  The  following  textual  decoder  maps  the  derived  features  into  a  sequence of  subword  tokens  to  construct  a  desired  structured  format  (e.g.,  JSON).  Each model  component  is  Transformer-based,  and  thus  the  model  is  trained  easily  in an  end-to-end  manner.  The  overall  process  of  Donut  is  illustrated  in  Figure  . Encoder.  The  visual  encoder  converts  the  input  document  image  x ∈ R H × W × C into  a  set  of  embeddings  { z i | z i ∈ R d , ≤ i ≤ n } ,  where  n  is  feature  map  size  or  the number  of  image  patches  and  d  is  the  dimension  of  the  latent  vectors  of  the encoder.  Note  that  CNN-based  models  [ ]  or  Transformer-based  models  [ , ] can be used as the encoder network. In this study, we use Swin Transformer [ ] because  it  shows  the  best  performance  in  our  preliminary  study  in  document parsing.  Swin  Transformer  first  splits  the  input  image  x  into  non-overlapping patches.  Swin  Transformer  blocks,  consist  of  a  shifted  window-based  multi-head self-attention  module  and  a  two-layer  MLP,  are  applied  to  the  patches.  Then, patch  merging  layers  are  applied  to  the  patch  tokens  at  each  stage.  The  output of the final Swin Transformer block { z } is fed into the following textual decoder. OCR-free  Document  Understanding  Transformer Decoder.  Given the { z } , the textual decoder generates a token sequence ( y i ) m i =1 , where  y i ∈ R v  is  an  one-hot  vector  for  the  i -th  token,  v  is  the  size  of  token  vo- cabulary,  and  m  is  a  hyperparameter,  respectively.  We  use  BART  [ ]  as  the decoder  architecture.  Specifically,  we  initialize  the  decoder  model  weights  with those  from  the  publicly  available  pre-trained  multi-lingual  BART  model[ ]. Model  Input.  Following the original Transformer [ ], we use a teacher-forcing scheme  [ ],  which  is  a  model  training  strategy  that  uses  the  ground  truth  as input  instead  of  model  output  from  a  previous  time  step.  In  the  test  phase, inspired  by  GPT-3  [ ],  the  model  generates  a  token  sequence  given  a  prompt. We  add  new  special  tokens  for  the  prompt  for  each  downstream  task  in  our experiments.  The  prompts  that  we  use  for  our  applications  are  shown  with  the desired  output  sequences  in  Figure  .  Illustrative  explanations  for  the  teacher- forcing  strategy  and  the  decoder  output  format  are  available  in "
+    }
+  ]
+}

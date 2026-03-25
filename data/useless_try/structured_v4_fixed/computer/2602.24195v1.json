@@ -1,0 +1,5640 @@
+{
+  "title": "Uncertainty Quantification for Multimodal Large Language Models with",
+  "abstract": "Despite their capabilities, Multimodal Large Lan- guage Models (MLLMs) may produce plausible but erroneous outputs, hindering reliable deploy- ment. Accurate uncertainty metrics could enable escalation of unreliable queries to human experts or larger models for improved performance. How- ever, existing uncertainty metrics have practical constraints, such as being designed only for spe- cific modalities, reliant on external tools, or com- putationally expensive. We introduce UMPIRE, a training-free uncertainty quantification frame- work for MLLMs that works efficiently across various input and output modalities without ex- ternal tools, relying only on the models’ own in- ternal modality features. UMPIRE computes the incoherence-adjusted semantic volume of sam- pled MLLM responses for a given task instance, effectively capturing both the global semantic di- versity of samples and the local incoherence of responses based on internal model confidence. We propose uncertainty desiderata for MLLMs and provide theoretical analysis motivating UM- PIRE’s design. Extensive experiments show that UMPIRE consistently outperforms baseline met- rics in error detection and uncertainty calibration across image, audio, and video-text benchmarks, including adversarial and out-of-distribution set- tings. We also demonstrate UMPIRE ’s general- ization to non-text output tasks, including image and audio generation. 1. Introduction The capabilities of Multimodal Large Language Models (MLLMs) have expanded rapidly, going beyond image-text *Equal contribution 1Department of Computer Science, Na- tional University of Singapore 2CNRS@CREATE, 1 Create Way, #08-01 Create Tower, Singapore 138602. Correspondence to: Gregory Lau <greglau@comp.nus.edu.sg>, Code: <https: //github.com/daohieu17ctt/UMPIRE>. Preprint. February 10, 2026. tasks to process diverse input modalities such as audio, video and more (Liu et al., 2023c; Hartsock & Rasool, 2024; Yin et al., 2024). However, reliable deployment of these models in high-stakes practical settings (e.g., medical analysis (Liu et al., 2023b; Tian et al., 2024; Lee et al., 2025)) remains challenging due to their tendency to produce plausible but erroneous outputs, or confabulations (Berrios, 1998; Far- quhar et al., 2024), potentially more so than text-only LLMs given greater complexities of processing multimodal input. While some works have attempted to directly mitigate these issues during model training by adjusting the training data (Liu et al., 2023a; Yu et al., 2024; Wang et al., 2024; Yue et al., 2024), model architecture (Liu et al., 2024; Tong et al., 2024; Zhai et al., 2023), or training process (Jiang et al., 2024; Yue et al., 2024), these errors cannot be fully eliminated given noisy and ambiguous real-world data. A complementary approach to tackling this challenge is de- veloping effective uncertainty quantification methods for MLLMs, which would enable escalation of task instances with unreliable model responses to human experts or larger models. However, existing uncertainty quantification works largely focus on text-only LLM settings (Kuhn et al., 2023; Malinin & Gales, 2021) that may not capture multimodal coherence signals (e.g., text output ungrounded in the input media), or are designed only for specific modalities (e.g., image-text input) such as by relying on external verifiers (Liu et al., 2023a; Sun et al., 2023), or requiring relatively ex- pensive modality-specific feature engineering/computation (Zhang et al., 2024a; Khan & Fu, 2024b) that may not be practical especially in settings with resource constraints. Given our inherently multimodal environment, rather than having to specially engineer separate modality-specific un- certainty metrics for new data modalities (Yin et al., 2024; Feng et al., 2025) that may arise, which is not scalable nor effective, we ask: Can we achieve an effective training-free MLLM uncertainty framework that can generalize across modalities without requiring modality-specific engineering? In our work, we present UMPIRE (Uncertainty using Model Probability Indicators and Response Embeddings), a training-free framework to estimate the uncertainty of MLLM output by considering both global semantic diver- sity and local multimodal incoherence of model responses. 1 arXiv:2602.24195v1 [cs.AI] 27 Feb 2026",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "−PM(Y |t)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "given task instance t (see Theorem A.4, Sec. A.2). The",
+          "page": 4
+        },
+        {
+          "para_id": "1_2",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 5
+        },
+        {
+          "para_id": "1_3",
+          "text": "quadratic entropy captures the dispersion of probability",
+          "page": 5
+        },
+        {
+          "para_id": "1_4",
+          "text": "mass over responses and can be interpreted as the prob-",
+          "page": 5
+        },
+        {
+          "para_id": "1_5",
+          "text": "ability that two sampled responses from P(·|t) do not match",
+          "page": 5
+        },
+        {
+          "para_id": "1_6",
+          "text": "(Vajda, 1968; R´enyi, 1961; Vajda & Zv´arov´a, 2007), effec-",
+          "page": 5
+        },
+        {
+          "para_id": "1_7",
+          "text": "tively indicating higher uncertainty when a model spreads",
+          "page": 5
+        },
+        {
+          "para_id": "1_8",
+          "text": "out probability mass across different responses. Note that",
+          "page": 5
+        },
+        {
+          "para_id": "1_9",
+          "text": "while Qt does not explicitly consider semantic distances, ob-",
+          "page": 5
+        },
+        {
+          "para_id": "1_10",
+          "text": "serving small Qt values constraints the diversity of semantic",
+          "page": 5
+        },
+        {
+          "para_id": "1_11",
+          "text": "modes present in the sampled responses as it serves as an",
+          "page": 5
+        },
+        {
+          "para_id": "1_12",
+          "text": "upper bound (see Theorem A.5, Sec. A.3), implying that",
+          "page": 5
+        },
+        {
+          "para_id": "1_13",
+          "text": "probability mass is largely concentrated in a dominant/small",
+          "page": 5
+        },
+        {
+          "para_id": "1_14",
+          "text": "number of semantic modes (Theorem A.6, Theorem A.7).",
+          "page": 5
+        },
+        {
+          "para_id": "1_15",
+          "text": "Unlike the more commonly used Shannon entropy, quadratic",
+          "page": 5
+        },
+        {
+          "para_id": "1_16",
+          "text": "entropy is less sensitive to long tails of very small probabil-",
+          "page": 5
+        },
+        {
+          "para_id": "1_17",
+          "text": "ities (i.e., in log p) of model responses and typically yield",
+          "page": 5
+        },
+        {
+          "para_id": "1_18",
+          "text": "lower variance estimates for small k. Depending on use",
+          "page": 5
+        },
+        {
+          "para_id": "1_19",
+          "text": "cases, our framework allows for various forms of fi that",
+          "page": 5
+        },
+        {
+          "para_id": "1_20",
+          "text": "may have different sensitivities to pi and other characteris-",
+          "page": 5
+        },
+        {
+          "para_id": "1_21",
+          "text": "Interplay. Note that Ut and Qt are complementary to each",
+          "page": 5
+        },
+        {
+          "para_id": "1_22",
+          "text": "other. The term Qt is often a strong discriminator (R1) as",
+          "page": 5
+        },
+        {
+          "para_id": "1_23",
+          "text": "probability mass dispersion generally rises when the model",
+          "page": 5
+        },
+        {
+          "para_id": "1_24",
+          "text": "is uncertain, and as mentioned small Qt provides some con-",
+          "page": 5
+        },
+        {
+          "para_id": "1_25",
+          "text": "straints on semantic diversity. However, it is unable to dis-",
+          "page": 5
+        },
+        {
+          "para_id": "1_26",
+          "text": "tinguish different sources of dispersion (e.g., large semantic",
+          "page": 5
+        },
+        {
+          "para_id": "1_27",
+          "text": "ambiguity or predominantly lexical variability among sam-",
+          "page": 5
+        },
+        {
+          "para_id": "1_28",
+          "text": "pled responses). The term Ut resolves this as it measures",
+          "page": 5
+        },
+        {
+          "para_id": "1_29",
+          "text": "semantic spread among responses, differentiating among",
+          "page": 5
+        },
+        {
+          "para_id": "1_30",
+          "text": "regimes where there are more semantic modes or greater",
+          "page": 5
+        },
+        {
+          "para_id": "1_31",
+          "text": "semantic variance even when they have similar probability",
+          "page": 5
+        },
+        {
+          "para_id": "1_32",
+          "text": "mass dispersions. Empirically, this additional information",
+          "page": 5
+        },
+        {
+          "para_id": "1_33",
+          "text": "improves risk-score quality (R2), allowing the overall UM-",
+          "page": 5
+        },
+        {
+          "para_id": "1_34",
+          "text": "PIRE metric Vt to better satisfy the desiderata with more",
+          "page": 5
+        },
+        {
+          "para_id": "1_35",
+          "text": "linear reliability curves (higher CPC) and min-max normal-",
+          "page": 5
+        },
+        {
+          "para_id": "1_36",
+          "text": "ized scores with lower ECE, while maintaining competi-",
+          "page": 5
+        },
+        {
+          "para_id": "1_37",
+          "text": "tive AUROC (Sec. 4). We see this across most datasets",
+          "page": 5
+        },
+        {
+          "para_id": "1_38",
+          "text": "by examining the separate performances of Qt, Ut and Vt",
+          "page": 5
+        },
+        {
+          "para_id": "1_39",
+          "text": "(Table 5, Sec. B.5), and have also performed Likelihood",
+          "page": 5
+        },
+        {
+          "para_id": "1_40",
+          "text": "Ratio Tests demonstrating the statistical significance of Ut",
+          "page": 5
+        },
+        {
+          "para_id": "1_41",
+          "text": "in complementing Qt to better estimate model error proba-",
+          "page": 5
+        },
+        {
+          "para_id": "1_42",
+          "text": "bility (Table 4). To get better intuition on why R1/AUROC",
+          "page": 5
+        },
+        {
+          "para_id": "1_43",
+          "text": "performance can be maintained, note that as a rank-based",
+          "page": 5
+        },
+        {
+          "para_id": "1_44",
+          "text": "metric, it is robust to monotonic transformations of the",
+          "page": 5
+        },
+        {
+          "para_id": "1_45",
+          "text": "underlying scores. Since Ut and Qt are often positively",
+          "page": 5
+        },
+        {
+          "para_id": "1_46",
+          "text": "correlated (increasing with uncertainty), the combined met-",
+          "page": 5
+        },
+        {
+          "para_id": "1_47",
+          "text": "ric Vt would largely preserve the ranking of correct versus",
+          "page": 5
+        },
+        {
+          "para_id": "1_48",
+          "text": "incorrect instances established by Qt, while refining the",
+          "page": 5
+        },
+        {
+          "para_id": "1_49",
+          "text": "magnitude of the scores to better align with error probabili-",
+          "page": 5
+        },
+        {
+          "para_id": "1_50",
+          "text": "ties (R2). Sec. C.6 shows qualitative examples illustrating",
+          "page": 5
+        },
+        {
+          "para_id": "1_51",
+          "text": "how considering only one term could lead to sub-optimal",
+          "page": 5
+        },
+        {
+          "para_id": "1_52",
+          "text": "The hyperparameter α balances the contribution of both",
+          "page": 5
+        },
+        {
+          "para_id": "1_53",
+          "text": "terms and is set for each overall task T . We found that a",
+          "page": 5
+        },
+        {
+          "para_id": "1_54",
+          "text": "simple heuristic for setting α without labeled data (which",
+          "page": 5
+        },
+        {
+          "para_id": "1_55",
+          "text": "we denote as adaptive α), where we set α to be the ratio",
+          "page": 5
+        },
+        {
+          "para_id": "1_56",
+          "text": "of the median of Ut and Qt based on an unlabeled subset",
+          "page": 5
+        },
+        {
+          "para_id": "1_57",
+          "text": "of task instances, is usually sufficient for good empirical",
+          "page": 5
+        },
+        {
+          "para_id": "1_58",
+          "text": "results as seen in our experiments in Sec. 4. Alternatively,",
+          "page": 5
+        },
+        {
+          "para_id": "1_59",
+          "text": "having a small labeled dev set could allow hyperparameter",
+          "page": 5
+        },
+        {
+          "para_id": "1_60",
+          "text": "tuning that can further boost results (Sec. B.5, Table 5).",
+          "page": 5
+        },
+        {
+          "para_id": "1_61",
+          "text": "Practical considerations. Our UMPIRE metric Vt exhibits",
+          "page": 5
+        },
+        {
+          "para_id": "1_62",
+          "text": "sub-Gaussian concentration, converging to its conditional",
+          "page": 5
+        },
+        {
+          "para_id": "1_63",
+          "text": "k), and have misranking probabilities decay",
+          "page": 5
+        },
+        {
+          "para_id": "1_64",
+          "text": "exponentially with k∆2 if correct-wrong instances have",
+          "page": 5
+        },
+        {
+          "para_id": "1_65",
+          "text": "an expected-score gap ∆, as we show in Theorem A.10,",
+          "page": 5
+        },
+        {
+          "para_id": "1_66",
+          "text": "Sec. A.5. This supports UMPIRE’s stable discrimination",
+          "page": 5
+        },
+        {
+          "para_id": "1_67",
+          "text": "(R1) performance with modest sampling budgets, which we",
+          "page": 5
+        },
+        {
+          "para_id": "1_68",
+          "text": "observe empirically in Sec. 4 and Sec. B.1 Fig. 4b.",
+          "page": 5
+        },
+        {
+          "para_id": "1_69",
+          "text": "In practice, Eq. (5) provides a more numerically stable",
+          "page": 5
+        },
+        {
+          "para_id": "1_70",
+          "text": "method for computing the UMPIRE metric, where we avoid",
+          "page": 5
+        },
+        {
+          "para_id": "1_71",
+          "text": "explicitly forming C(·)C and compute the log determinant",
+          "page": 5
+        },
+        {
+          "para_id": "1_72",
+          "text": "via Cholesky decomposition. While the latter has a com-",
+          "page": 5
+        },
+        {
+          "para_id": "1_73",
+          "text": "plexity of O(k3), this cost is negligible in practice, given the",
+          "page": 5
+        },
+        {
+          "para_id": "1_74",
+          "text": "modest k used, compared to the cost of MLLM inference",
+          "page": 5
+        },
+        {
+          "para_id": "1_75",
+          "text": "which is incurred by all metrics. We empirically show how",
+          "page": 5
+        },
+        {
+          "para_id": "1_76",
+          "text": "UMPIRE is computationally efficient compared to baselines",
+          "page": 5
+        },
+        {
+          "para_id": "1_77",
+          "text": "in Sec. 4.3. For long-generation tasks where response prob-",
+          "page": 5
+        },
+        {
+          "para_id": "1_78",
+          "text": "abilities become small, we could apply heuristics used by",
+          "page": 5
+        },
+        {
+          "para_id": "1_79",
+          "text": "past works such as length-normalization of log probabilities",
+          "page": 5
+        },
+        {
+          "para_id": "1_80",
+          "text": "(see Sec. D.7 for ablations) or considering a limited answer",
+          "page": 5
+        },
+        {
+          "para_id": "1_81",
+          "text": "span (e.g., the final answer in reasoning traces).",
+          "page": 5
+        },
+        {
+          "para_id": "1_82",
+          "text": "4. Experimental results",
+          "page": 5
+        },
+        {
+          "para_id": "1_83",
+          "text": "We empirically evaluate whether UMPIRE satisfies the",
+          "page": 5
+        },
+        {
+          "para_id": "1_84",
+          "text": "desiderata (Sec. 2), primarily conducting experiments for",
+          "page": 5
+        },
+        {
+          "para_id": "1_85",
+          "text": "the image-text input setting given its wider range of es-",
+          "page": 5
+        },
+        {
+          "para_id": "1_86",
+          "text": "tablished benchmarks, but also analyzing audio-text and",
+          "page": 5
+        },
+        {
+          "para_id": "1_87",
+          "text": "video-text input modality tasks to assess R3, as well as im-",
+          "page": 5
+        },
+        {
+          "para_id": "1_88",
+          "text": "age and audio generation tasks to assess R3’. Details of all",
+          "page": 5
+        },
+        {
+          "para_id": "1_89",
+          "text": "datasets are in Sec. C.1.1.",
+          "page": 5
+        },
+        {
+          "para_id": "1_90",
+          "text": "We use Llava-v1.5-13b (Liu et al., 2023c),",
+          "page": 5
+        },
+        {
+          "para_id": "1_91",
+          "text": "multimodal-instruct (Abouelenin et al., 2025), LLaVA-",
+          "page": 5
+        },
+        {
+          "para_id": "1_92",
+          "text": "NeXT-Video-7b-hf (Zhang et al., 2024b) for image-text,",
+          "page": 5
+        },
+        {
+          "para_id": "1_93",
+          "text": "audio-text, and video-text experiments, respectively, and",
+          "page": 5
+        },
+        {
+          "para_id": "1_94",
+          "text": "compare UMPIRE against baselines representative of differ-",
+          "page": 5
+        },
+        {
+          "para_id": "1_95",
+          "text": "ent approaches, including a modality-specific (image) met-",
+          "page": 5
+        },
+        {
+          "para_id": "1_96",
+          "text": "ric Neighborhood Consistency (NC) (Khan & Fu, 2024a),",
+          "page": 5
+        },
+        {
+          "para_id": "1_97",
+          "text": "and text-only LLM uncertainty metrics that we adapt to the",
+          "page": 5
+        },
+        {
+          "para_id": "1_98",
+          "text": "multimodal input setting: LN-Entropy (LN-Ent) (Malinin",
+          "page": 5
+        },
+        {
+          "para_id": "1_99",
+          "text": "& Gales, 2021), Semantic Entropy (Sem.Ent) (Kuhn et al.,",
+          "page": 5
+        },
+        {
+          "para_id": "1_100",
+          "text": "2023), and Eigenscore (Eigen) (Chen et al., 2024). While",
+          "page": 5
+        },
+        {
+          "para_id": "1_101",
+          "text": "NC and Sem.Ent use external tools and hence violate R5,",
+          "page": 5
+        },
+        {
+          "para_id": "1_102",
+          "text": "we run them to analyze any performance issues beyond this",
+          "page": 5
+        },
+        {
+          "para_id": "1_103",
+          "text": "violation. Details on experiment settings, additional base-",
+          "page": 5
+        },
+        {
+          "para_id": "1_104",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 6
+        },
+        {
+          "para_id": "1_105",
+          "text": "line methods and ablation studies to highlight UMPIRE’s",
+          "page": 6
+        },
+        {
+          "para_id": "1_106",
+          "text": "robustness across parameters are in Sec. C and Sec. D.",
+          "page": 6
+        },
+        {
+          "para_id": "1_107",
+          "text": "4.1. R1: Discrimination",
+          "page": 6
+        },
+        {
+          "para_id": "1_108",
+          "text": "We first evaluate metrics on R1, i.e., whether the metrics can",
+          "page": 6
+        },
+        {
+          "para_id": "1_109",
+          "text": "distinguish task instances that the MLLM will get correct",
+          "page": 6
+        },
+        {
+          "para_id": "1_110",
+          "text": "(tc) or wrong (tw), measured via AUROC. Table 1 shows",
+          "page": 6
+        },
+        {
+          "para_id": "1_111",
+          "text": "that UMPIRE consistently achieves the best performance",
+          "page": 6
+        },
+        {
+          "para_id": "1_112",
+          "text": "with an average AUROC of 0.81 on image-text datasets,",
+          "page": 6
+        },
+        {
+          "para_id": "1_113",
+          "text": "excelling also in challenging datasets like OKVQA and Ad-",
+          "page": 6
+        },
+        {
+          "para_id": "1_114",
+          "text": "VQA where multimodal-specific methods like NC struggle",
+          "page": 6
+        },
+        {
+          "para_id": "1_115",
+          "text": "due to adversarial and out-of-distribution scenarios. Beyond",
+          "page": 6
+        },
+        {
+          "para_id": "1_116",
+          "text": "image-text input tasks, UMPIRE also demonstrates robust",
+          "page": 6
+        },
+        {
+          "para_id": "1_117",
+          "text": "discrimination performance across audio-text, video-text",
+          "page": 6
+        },
+        {
+          "para_id": "1_118",
+          "text": "tasks, underscoring its modality generalizability R3. In",
+          "page": 6
+        },
+        {
+          "para_id": "1_119",
+          "text": "Sec. C.2 Table 7, we also show how UMPIRE framework’s",
+          "page": 6
+        },
+        {
+          "para_id": "1_120",
+          "text": "better AUROC performance for R1 translates to consistently",
+          "page": 6
+        },
+        {
+          "para_id": "1_121",
+          "text": "higher True Positive Rates (TPR) given FPR requirements.",
+          "page": 6
+        },
+        {
+          "para_id": "1_122",
+          "text": "4.2. R2a, R2b: Risk-score quality",
+          "page": 6
+        },
+        {
+          "para_id": "1_123",
+          "text": "Similar to past works (Guo et al., 2017), we sort task",
+          "page": 6
+        },
+        {
+          "para_id": "1_124",
+          "text": "instances t by uncertainty metric v(M, t) and put them",
+          "page": 6
+        },
+        {
+          "para_id": "1_125",
+          "text": "into equally-sized bins bj (results are robust to bin",
+          "page": 6
+        },
+        {
+          "para_id": "1_126",
+          "text": "size, see Sec. D.3).",
+          "page": 6
+        },
+        {
+          "para_id": "1_127",
+          "text": "Each bin is associated with its",
+          "page": 6
+        },
+        {
+          "para_id": "1_128",
+          "text": "highest metric value vj, and the average error ˆrj",
+          "page": 6
+        },
+        {
+          "para_id": "1_129",
+          "text": "Calibration Pearson Correlation (CPC)(R2a). We define",
+          "page": 6
+        },
+        {
+          "para_id": "1_130",
+          "text": "CPC score as the Pearson correlation between vj and ˆrj",
+          "page": 6
+        },
+        {
+          "para_id": "1_131",
+          "text": "across bins (higher is better). This quantifies how close the",
+          "page": 6
+        },
+        {
+          "para_id": "1_132",
+          "text": "reliability curve is to an affine trend, satisfying R2a. Ta-",
+          "page": 6
+        },
+        {
+          "para_id": "1_133",
+          "text": "ble 1 shows that UMPIRE consistently performs better than",
+          "page": 6
+        },
+        {
+          "para_id": "1_134",
+          "text": "baselines across most settings, achieving an average CPC",
+          "page": 6
+        },
+        {
+          "para_id": "1_135",
+          "text": "of ∼0.90 across all modality tasks (R3), more than 11%",
+          "page": 6
+        },
+        {
+          "para_id": "1_136",
+          "text": "higher than the next best metric. Note that UMPIRE also",
+          "page": 6
+        },
+        {
+          "para_id": "1_137",
+          "text": "produces more stable and reliable results with consistently",
+          "page": 6
+        },
+        {
+          "para_id": "1_138",
+          "text": "high CPC, unlike other baselines with performance that",
+          "page": 6
+        },
+        {
+          "para_id": "1_139",
+          "text": "fluctuates greatly depending on the specific task.",
+          "page": 6
+        },
+        {
+          "para_id": "1_140",
+          "text": "Expected Calibration Error (ECE) (R2b). The strong lin-",
+          "page": 6
+        },
+        {
+          "para_id": "1_141",
+          "text": "ear relationship indicated by UMPIRE’s CPC score suggests",
+          "page": 6
+        },
+        {
+          "para_id": "1_142",
+          "text": "that a simple scaling process could allow UMPIRE to empir-",
+          "page": 6
+        },
+        {
+          "para_id": "1_143",
+          "text": "ically track approximate model error well and satisfy R2b.",
+          "page": 6
+        },
+        {
+          "para_id": "1_144",
+          "text": "We evaluate the ECE (Guo et al., 2017) of metrics by using",
+          "page": 6
+        },
+        {
+          "para_id": "1_145",
+          "text": "an unlabeled development set of instances (5% of dataset)",
+          "page": 6
+        },
+        {
+          "para_id": "1_146",
+          "text": "to compute ˜v via min-max scaling before computing the",
+          "page": 6
+        },
+        {
+          "para_id": "1_147",
+          "text": "ECE. Intuitively, development sets that contain both very",
+          "page": 6
+        },
+        {
+          "para_id": "1_148",
+          "text": "hard (˜v ≈1) and easy (˜v ≈0) instances could help scale",
+          "page": 6
+        },
+        {
+          "para_id": "1_149",
+          "text": "a strongly linear metric to satisfy R2b. UMPIRE achieves",
+          "page": 6
+        },
+        {
+          "para_id": "1_150",
+          "text": "a very low ECE on almost all datasets with an average of",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "section_id": "0.062",
+      "section_title": "(see Table 1) while Eigen and Sem.Ent suffers from",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.062_1",
+          "text": "severe miscalibration.",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_2",
+          "text": "Figure 2. Multimodal coherence R4: Decrease in AUROC, and",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_3",
+          "text": "ECE when image-input information is (1) corrupted with noise,",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_4",
+          "text": "(2) replaced with a black image, or (3) removed.",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_5",
+          "text": "4.3. R3,R4,R5: Design desiderata",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_6",
+          "text": "Multimodal generalizability (R3). As seen in Table 1, UM-",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_7",
+          "text": "PIRE, without modality-specific modifications or external",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_8",
+          "text": "tools, consistently performs well in effectiveness (R1-R2b)",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_9",
+          "text": "across multiple input modality tasks (image-text, audio-text,",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_10",
+          "text": "video-text) and hence satisfy R3, empirically supporting",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_11",
+          "text": "our approach in using MLLMs’ inherent multimodality ca-",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_12",
+          "text": "pabilities to achieve R3. In contrast, metrics that rely on",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_13",
+          "text": "modality-specific input, such as NC, cannot be directly ap-",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_14",
+          "text": "plied to other input modalities to satisfy R3. The other",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_15",
+          "text": "baselines (LN-Ent, Sem.Ent, Eigen) do not explicitly con-",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_16",
+          "text": "sider multimodal input and could be adapted to the various",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_17",
+          "text": "tasks, but consistently perform worse than UMPIRE.",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_18",
+          "text": "Non-text output generation tasks (R3’). To test R3’, we",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_19",
+          "text": "also ran experiments on image–MS-COCO caption (Chen",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_20",
+          "text": "et al., 2015), and audio–AudioCaps (Kim et al., 2019) gen-",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_21",
+          "text": "eration using any-to-any MLLMs NExT-GPT (Wu et al.,",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_22",
+          "text": "2024) and AnyGPT (Zhan et al., 2024). We evaluate the",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_23",
+          "text": "uncertainty metrics on R2a based on the Pearson correlation",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_24",
+          "text": "between the metrics and the negative of MLLM responses’",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_25",
+          "text": "continuous quality scores (image: CLIP score (Hessel et al.,",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_26",
+          "text": "2021); audio: CLAP score (Elizalde et al., 2023)), similar",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_27",
+          "text": "to how CPC is computed for metrics and estimated instance",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_28",
+          "text": "error in Sec. 4.2. Sem.Ent requires text-specific processing",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_29",
+          "text": "with external tools and cannot be applied. For these settings,",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_30",
+          "text": "we also compare with PUNC (Franchi et al., 2025), an im-",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_31",
+          "text": "age generation-specific uncertainty metric. Table 2 shows",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_32",
+          "text": "that UMPIRE has consistently strong correlation with image",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_33",
+          "text": "and audio quality, outperforms all baselines across different",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_34",
+          "text": "modalities, and hence satisfies R3’. This allows UMPIRE",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_35",
+          "text": "to assess whether a task instance might be challenging for",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_36",
+          "text": "MLLMs to produce high quality image/audio responses to,",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_37",
+          "text": "which to our knowledge has not been well-studied.",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_38",
+          "text": "Multimodal coherence (R4). To further demonstrate that",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_39",
+          "text": "UMPIRE considers multimodality information despite not",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_40",
+          "text": "using modality-specific external tools or methods, we ana-",
+          "page": 6
+        },
+        {
+          "para_id": "0.062_41",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_42",
+          "text": "Table 1. Effectiveness of various uncertainty metrics across multimodal datasets (details in Sec. C.1). The evaluation covers (i) AUROC",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_43",
+          "text": "(×100) (↑better) (R1), (ii) CPC (×100) (↑better) (R2a), and (iii) ECE (↓better) (R2b). [I], [A], [V] denotes image, audio, video",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_44",
+          "text": "modalities, respectively. Overall, UMPIRE achieves the best or second-best performance across all baselines and modalities, with only",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_45",
+          "text": "marginal gaps when not ranked first. Table 8 in Sec. C.5 provides supplementary results showing that UMPIRE’s performance gains over",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_46",
+          "text": "baselines are statistically significant.",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_47",
+          "text": "LN-Ent Sem.Ent Eigen",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_48",
+          "text": "LN-Ent Sem.Ent Eigen",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_49",
+          "text": "LN-Ent Sem.Ent Eigen",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_50",
+          "text": "86.7±0.2 88.1±0.2 78.4±1.3 62.6±8.9",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_51",
+          "text": "93.9±0.6 94.6±0.1 .343±.009 .049±.017 .045±.002 .048±.009 .038±.004",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_52",
+          "text": "73.7±0.1 75.3±0.1 31.9±40.3 71.9±12.0",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_53",
+          "text": "85.2±8.9 96.7±0.7 .484±.017 .039±.002 .194±.042 .152±.010 .045±.007",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_54",
+          "text": "77.5±0.3 78.7±0.2 62.4±9.5 87.0±4.5",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_55",
+          "text": "89.2±1.3 98.0±0.1 .335±.012 .077±.006 .156±.015 .216±.005 .039±.003",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_56",
+          "text": "81.8±0.6 82.6±0.6 61.5±7.9 82.6±2.0",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_57",
+          "text": "69.5±2.8 83.9±2.7 .087±.011 .125±.018 .189±.051 .314±.016 .089±.015",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_58",
+          "text": "[I] VQA-RAD 69.7±1.3 62.9±1.1",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_59",
+          "text": "79.5±0.6 80.7±0.3 47.6±4.9 87.1±3.4",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_60",
+          "text": "62.9±4.2 80.8±7.1 .139±.003 .100±.012 .376±.019 .352±.025 .072±.009",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_61",
+          "text": "79.8±0.4 81.1±0.3 56.3±12.8 78.2±6.2",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_62",
+          "text": "80.1±3.6 90.8±2.1 .278±.010 .078±.011 .192±.026 .217±.013 .057±.008",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_63",
+          "text": ".100±.023 .224±.010 .164±.006 .054±.009",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_64",
+          "text": ".070±.003 .291±.019 .244±.009 .031±.002",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_65",
+          "text": ".082±.006 .210±.017 .325±.008 .126±.026",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_66",
+          "text": ".080±.011 .211±.022 .227±.011 .062±.009",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_67",
+          "text": "Table 2. Pearson Correlation between uncertainty metrics and",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_68",
+          "text": "CLIP/CLAP score for image [I] and audio [A] generation tasks.",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_69",
+          "text": "UMPIRE consistently achieves the highest correlation.",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_70",
+          "text": "lyze post-generation whether metric performance degrades",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_71",
+          "text": "when image-input information is (1) corrupted with noise,",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_72",
+          "text": "(2) replaced with a black image, or (3) removed. A met-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_73",
+          "text": "ric that satisfies R4 should show performance degradation",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_74",
+          "text": "for (1), which worsens for (2) and (3), and is comparable",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_75",
+          "text": "between (2) and (3) since all useful signals would be re-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_76",
+          "text": "moved in both cases. Fig. 2 shows that UMPIRE exhibits",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_77",
+          "text": "this behavior well and satisfies R4, along with Sem.Ent to",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_78",
+          "text": "a lesser extent. In contrast, among other input modality-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_79",
+          "text": "agnostic baselines, LN-Ent exhibits large degradation but",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_80",
+          "text": "with inconsistent trends (e.g., no image has less degradation",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_81",
+          "text": "than noisy image), and Eigen is nearly invariant to image",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_82",
+          "text": "removal, indicating that it measures response dispersion",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_83",
+          "text": "without considering multimodal coherence.",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_84",
+          "text": "Computational efficiency (R5). Both NC and Sem.Ent",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_85",
+          "text": "perform poorly in R5 as they require expensive computation",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_86",
+          "text": "(e.g., pairwise response evaluation), external tools and addi-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_87",
+          "text": "tional training (for NC). Compared to UMPIRE and other",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_88",
+          "text": "baselines, they take up to 1000× more compute overhead",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_89",
+          "text": "time (i.e., over MLLM sampling cost), taking ∼9s/sample",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_90",
+          "text": "v.s. ∼8e−4s/sample) as shown in Fig. 4(a), Sec. B.1. We",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_91",
+          "text": "also show that UMPIRE outperforms baselines across vari-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_92",
+          "text": "ous sampling budget k (Fig. 4(b), Sec. B.1). While single-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_93",
+          "text": "sample methods avoid incurring MLLM sampling costs, we",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_94",
+          "text": "show that UMPIRE achieves significant performance mar-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_95",
+          "text": "gins over them (Sec. C.4) even with small sampling budget",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_96",
+          "text": "k = 5 (which can be sped up by accelerated LLM batch",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_97",
+          "text": "inference (Kwon et al., 2023)).",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_98",
+          "text": "4.4. Practical applications",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_99",
+          "text": "Selective answering.",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_100",
+          "text": "We consider a practical scenario",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_101",
+          "text": "where a user has a small local MLLM for a task, and a",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_102",
+          "text": "limited budget to route/escalate the most uncertain task in-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_103",
+          "text": "stances to a more capable MLLM or human expert. We",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_104",
+          "text": "evaluate the performance of uncertainty metrics in this set-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_105",
+          "text": "ting via the Area Under the Rejection-Accuracy Curve (AU-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_106",
+          "text": "RAC) (H¨ullermeier & Waegeman, 2021), which measures",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_107",
+          "text": "the accuracy gain achieved when instances are progressively",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_108",
+          "text": "rejected based on their uncertainty rankings. As can be",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_109",
+          "text": "seen in Table 3, UMPIRE consistently achieves the highest",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_110",
+          "text": "AURAC across all datasets. In Sec. C.5, we also present re-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_111",
+          "text": "sults of statistical tests across various MLLM model-dataset",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_112",
+          "text": "combinations, demonstrating that UMPIRE’s performance",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_113",
+          "text": "gains over baselines are statistically significant.",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_114",
+          "text": "Table 3. Comparison of AURAC across datasets for different",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_115",
+          "text": "uncertainty metrics, including baselines and UMPIRE.",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_116",
+          "text": "LN-Ent Sem.Ent Eigen",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_117",
+          "text": "[I] VQA-RAD 49.3±2.3 52.4±0.3",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_118",
+          "text": "Blackbox Models. While blackbox MLLMs do not pro-",
+          "page": 7
+        },
+        {
+          "para_id": "0.062_119",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_120",
+          "text": "Figure 3. Performance of uncertainty metrics in blackbox settings across image-text QA datasets. Sem.Ent (D) indicates its discrete",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_121",
+          "text": "version, (Llava) indicates Llava as the white-box proxy model.",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_122",
+          "text": "vide internal embeddings, we could still apply UMPIRE by",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_123",
+          "text": "using a much smaller whitebox proxy MLLM to process the",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_124",
+          "text": "blackbox model’s responses to generate embeddings and",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_125",
+          "text": "probabilities for computing our metric. While incurring",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_126",
+          "text": "inference cost of the small model, it enables uncertainty",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_127",
+          "text": "quantification for closed API. This approach relies on UM-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_128",
+          "text": "PIRE being robust to noise/distortions to input (ϕi, pi) and",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_129",
+          "text": "performant MLLMs sharing sufficiently similar multimodal",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_130",
+          "text": "features. Our empirical results (Fig. 3) demonstrates this.",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_131",
+          "text": "For this setting, we also compared with the Verbalized Con-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_132",
+          "text": "fidence (Verb.Conf) baseline (Xiong et al., 2024a) that can",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_133",
+          "text": "be run with SOTA blackbox API models. In Fig. 3, we",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_134",
+          "text": "see that UMPIRE consistently and significantly outperform",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_135",
+          "text": "baselines when assessing GPT4o’s (Hurst et al., 2024) un-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_136",
+          "text": "certainty on VQAv2, OKVQA, and AdVQA using Llava-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_137",
+          "text": "v1.5-13b as the whitebox proxy model. Experiments with",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_138",
+          "text": "other blackbox (e.g., Claude, GPT4o Mini) and different",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_139",
+          "text": "proxy models show similar results (Sec. D.6).",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_140",
+          "text": "Modality-specific methods. While MLLMs’ hallucination",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_141",
+          "text": "and miscalibration problems are well known (Chen et al.,",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_142",
+          "text": "2025; Rohrbach et al., 2018; Bai et al., 2024), task instance-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_143",
+          "text": "specific uncertainty quantification for MLLMs remains rel-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_144",
+          "text": "atively underdeveloped. Most works are focused on the",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_145",
+          "text": "‘image-text input, text output’ modality, with image-specific",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_146",
+          "text": "approaches and external tools, violating R3. This includes",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_147",
+          "text": "works relying on the use of external reference/entailment",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_148",
+          "text": "models (Zhang et al., 2024a; Sun et al., 2023; Liu et al.,",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_149",
+          "text": "2023a), supervised training of classifiers (Li et al., 2024),",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_150",
+          "text": "or large numbers of modality-specific query perturbations",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_151",
+          "text": "(Khan & Fu, 2024a; Zhang et al., 2024a) to test model con-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_152",
+          "text": "sistency (also violating R5). Even with additional compute",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_153",
+          "text": "or access to external tools, these methods also tend to under-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_154",
+          "text": "perform UMPIRE in (R1-R2b), as shown in Sec. 4.",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_155",
+          "text": "LLM uncertainty methods. While designed only for text-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_156",
+          "text": "input settings, we found that some LLM uncertainty met-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_157",
+          "text": "rics could be adapted for multimodal input and potentially",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_158",
+          "text": "achieve better effectiveness (e.g., R1 on discrimination)",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_159",
+          "text": "compared to modality-specific methods (see Sec. 4). This",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_160",
+          "text": "includes methods based on lexical (token probability) distri-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_161",
+          "text": "butions (Malinin & Gales, 2021), semantic clusters/graphs",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_162",
+          "text": "derived from external text entailment models (Kuhn et al.,",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_163",
+          "text": "2023; Nikitin et al., 2024; Lin et al., 2024), semantic em-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_164",
+          "text": "beddings of sampled responses (Chen et al., 2024; Qiu &",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_165",
+          "text": "Miikkulainen, 2024), and prompting (Xiong et al., 2024a).",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_166",
+          "text": "However, these approaches still typically violate several",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_167",
+          "text": "desiderata (e.g., R4 by not considering response incoher-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_168",
+          "text": "ence with multimodal input) and consistently underperforms",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_169",
+          "text": "UMPIRE. Compared to other forms of response probability-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_170",
+          "text": "based uncertainty metrics (Malinin & Gales, 2021), our in-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_171",
+          "text": "coherence score/quadratic entropy Q approach is novel and",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_172",
+          "text": "yields consistent performance gains over baselines, which",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_173",
+          "text": "widens further when augmented with U.",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_174",
+          "text": "Many MLLM and LLM uncertainty works rely on com-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_175",
+          "text": "puting discrete entropy measures (Malinin & Gales, 2021;",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_176",
+          "text": "Nikitin et al., 2024; Zhang et al., 2024a). However, it is",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_177",
+          "text": "unclear how to compare entropy values across different sup-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_178",
+          "text": "port sets (e.g., distributions defined on 2 versus 5 classes),",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_179",
+          "text": "especially when the support set is determined by external",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_180",
+          "text": "models, making them potentially hard to use in practice.",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_181",
+          "text": "Eigen (Chen et al., 2024) considers differential entropy in",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_182",
+          "text": "the sentence embedding space under a Gaussian assump-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_183",
+          "text": "tion, resulting in a log determinant form that bears some",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_184",
+          "text": "similarity to our unadjusted semantic volume term Ut. In",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_185",
+          "text": "contrast, UMPIRE has key advantages including (i) incorpo-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_186",
+          "text": "rates probability-based incoherence scores through a DPP-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_187",
+          "text": "inspired quality-diversity kernel rather than assuming that",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_188",
+          "text": "all responses have equal quality, which also provides impor-",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_189",
+          "text": "tant multimodal coherence signals for R4, and (ii) provides",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_190",
+          "text": "interpretation of semantic volume and quadratic entropy that",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_191",
+          "text": "naturally motivates the form of the metric without requiring",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_192",
+          "text": "strong distributional assumptions, among others (Sec. B.3).",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_193",
+          "text": "Empirically, we see UMPIRE consistently outperforming",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_194",
+          "text": "Eigen across tasks (Table 1).",
+          "page": 8
+        },
+        {
+          "para_id": "0.062_195",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_196",
+          "text": "We propose UMPIRE, an inference-time framework for",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_197",
+          "text": "MLLM uncertainty without the need for modality-specific",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_198",
+          "text": "tools. By weighting semantic volume with probability-based",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_199",
+          "text": "incoherence scores, UMPIRE considers both semantic diver-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_200",
+          "text": "sity and quadratic entropy of MLLM responses. Empirically,",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_201",
+          "text": "UMPIRE outperforms baselines across image, audio and",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_202",
+          "text": "video QA benchmarks, and uncertainty estimation for black-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_203",
+          "text": "box models via whitebox proxies. Future work could further",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_204",
+          "text": "improve UMPIRE for longer-generation multimodal tasks",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_205",
+          "text": "such as reasoning, and extend it to applications requiring",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_206",
+          "text": "uncertainty quantification such as active learning.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_207",
+          "text": "This paper presents work whose goal is to advance the field",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_208",
+          "text": "of Machine Learning. There are many potential societal",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_209",
+          "text": "consequences of our work, none which we feel must be",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_210",
+          "text": "specifically highlighted here.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_211",
+          "text": "We thank Pang Wei Koh for the helpful discussions. This",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_212",
+          "text": "research/project is supported by the National Research Foun-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_213",
+          "text": "dation, Singapore under its AI Singapore Programme (AISG",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_214",
+          "text": "Award No: AISG2-PhD/2023-01-039J) and is part of the",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_215",
+          "text": "programme DesCartes which is supported by the National",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_216",
+          "text": "Research Foundation, Prime Minister’s Office, Singapore",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_217",
+          "text": "under its Campus for Research Excellence and Technologi-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_218",
+          "text": "cal Enterprise (CREATE) programme.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_219",
+          "text": "et al. Phi-4-mini technical report: Compact yet powerful mul-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_220",
+          "text": "timodal language models via mixture-of-loras. arXiv preprint",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_221",
+          "text": "arXiv:2503.01743, 2025.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_222",
+          "text": "Anthropic. The Claude 3 Model Family: Opus, Sonnet, Haiku,",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_223",
+          "text": "M. Z. Hallucination of Multimodal Large Language Models: A",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_224",
+          "text": "Berrios, G. E. Confabulations: A conceptual history. Journal of",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_225",
+          "text": "the History of the Neurosciences, 7(3):225–241, 1998.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_226",
+          "text": "and Ye, J. INSIDE: LLMs’ internal states retain the power of",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_227",
+          "text": "hallucination detection. In The Twelfth International Conference",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_228",
+          "text": "on Learning Representations, 2024.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_229",
+          "text": "and Zitnick, C. L. Microsoft coco captions: Data collection and",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_230",
+          "text": "evaluation server. arXiv:1504.00325, 2015.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_231",
+          "text": "Unveiling uncertainty: A deep dive into calibration and perfor-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_232",
+          "text": "mance of multimodal large language models. In Rambow, O.,",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_233",
+          "text": "and Schockaert, S. (eds.), Proceedings of the 31st International",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_234",
+          "text": "Conference on Computational Linguistics, pp. 3095–3109, Abu",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_235",
+          "text": "Dhabi, UAE, January 2025. Association for Computational Lin-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_236",
+          "text": "Elizalde, B., Deshmukh, S., Al Ismail, M., and Wang, H. Clap",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_237",
+          "text": "learning audio concepts from natural language supervision. In",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_238",
+          "text": "ICASSP 2023-2023 IEEE International Conference on Acous-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_239",
+          "text": "tics, Speech and Signal Processing (ICASSP), pp. 1–5. IEEE,",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_240",
+          "text": "Farquhar, S., Kossen, J., Kuhn, L., and Gal, Y. Detecting hal-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_241",
+          "text": "lucinations in large language models using semantic entropy.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_242",
+          "text": "Nature, 630(8017):625–630, June 2024. ISSN 1476-4687. doi:",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_243",
+          "text": "10.1038/s41586-024-07421-0.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_244",
+          "text": "Smellnet: A large-scale dataset for real-world smell recognition.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_245",
+          "text": "arXiv preprint arXiv:2506.00239, 2025.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_246",
+          "text": "Fishel, M., Aletras, N., Chaudhary, V., and Specia, L. Un-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_247",
+          "text": "supervised quality estimation for neural machine translation.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_248",
+          "text": "Transactions of the Association for Computational Linguistics,",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_249",
+          "text": "Towards understanding and quantifying uncertainty for text-to-",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_250",
+          "text": "image generation. In Proceedings of the Computer Vision and",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_251",
+          "text": "Pattern Recognition Conference, pp. 8062–8072, 2025.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_252",
+          "text": "Zhou, C., Shen, Y., Zhang, M., et al. Video-mme: The first-ever",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_253",
+          "text": "comprehensive evaluation benchmark of multi-modal llms in",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_254",
+          "text": "video analysis. In Proceedings of the Computer Vision and",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_255",
+          "text": "Pattern Recognition Conference, pp. 24108–24118, 2025.",
+          "page": 9
+        },
+        {
+          "para_id": "0.062_256",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_257",
+          "text": "Goyal, Y., Khot, T., Summers-Stay, D., Batra, D., and Parikh,",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_258",
+          "text": "D. Making the V in VQA matter: Elevating the role of image",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_259",
+          "text": "understanding in Visual Question Answering. In Conference on",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_260",
+          "text": "Computer Vision and Pattern Recognition (CVPR), 2017.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_261",
+          "text": "of modern neural networks. In International conference on",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_262",
+          "text": "machine learning, pp. 1321–1330. PMLR, 2017.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_263",
+          "text": "Hartsock, I. and Rasool, G. Vision-language models for medical",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_264",
+          "text": "report generation and visual question answering: A review.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_265",
+          "text": "Frontiers in artificial intelligence, 7:1430984, 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_266",
+          "text": "Hessel, J., Holtzman, A., Forbes, M., Le Bras, R., and Choi,",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_267",
+          "text": "Y. Clipscore: A reference-free evaluation metric for image",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_268",
+          "text": "captioning. In Proceedings of the 2021 conference on empirical",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_269",
+          "text": "methods in natural language processing, pp. 7514–7528, 2021.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_270",
+          "text": "H¨ullermeier, E. and Waegeman, W. Aleatoric and epistemic un-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_271",
+          "text": "certainty in machine learning: An introduction to concepts and",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_272",
+          "text": "methods. Machine learning, 110(3):457–506, 2021.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_273",
+          "text": "et al. Gpt-4o system card. arXiv preprint arXiv:2410.21276,",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_274",
+          "text": "Zhang, J., Huang, F., and Zhang, S. Hallucination Augmented",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_275",
+          "text": "Contrastive Learning for Multimodal Large Language Model,",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_276",
+          "text": "Khan, Z. and Fu, Y. Consistency and uncertainty: Identifying",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_277",
+          "text": "unreliable responses from black-box vision-language models",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_278",
+          "text": "for selective visual question answering.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_279",
+          "text": "the IEEE/CVF Conference on Computer Vision and Pattern",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_280",
+          "text": "Recognition, pp. 10854–10863, 2024a.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_281",
+          "text": "Khan, Z. and Fu, Y. Consistency and Uncertainty: Identifying Un-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_282",
+          "text": "reliable Responses From Black-Box Vision-Language Models",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_283",
+          "text": "for Selective Visual Question Answering, April 2024b.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_284",
+          "text": "captions for audios in the wild. In Proceedings of the 2019",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_285",
+          "text": "Conference of the North American Chapter of the Association",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_286",
+          "text": "for Computational Linguistics: Human Language Technologies,",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_287",
+          "text": "Volume 1 (Long and Short Papers), pp. 119–132, 2019.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_288",
+          "text": "Kuhn, L., Gal, Y., and Farquhar, S. Semantic Uncertainty: Linguis-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_289",
+          "text": "tic Invariances for Uncertainty Estimation in Natural Language",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_290",
+          "text": "Generation, April 2023.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_291",
+          "text": "Kulesza, A., Taskar, B., et al. Determinantal point processes",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_292",
+          "text": "for machine learning. Foundations and Trends® in Machine",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_293",
+          "text": "Learning, 5(2–3):123–286, 2012.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_294",
+          "text": "Gonzalez, J. E., Zhang, H., and Stoica, I. Efficient memory",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_295",
+          "text": "management for large language model serving with pagedatten-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_296",
+          "text": "tion. In Proceedings of the ACM SIGOPS 29th Symposium on",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_297",
+          "text": "Operating Systems Principles, 2023.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_298",
+          "text": "K. H. Dipper: Diversity in prompts for producing large language",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_299",
+          "text": "model ensembles in reasoning tasks. NeurIPS Workshop on",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_300",
+          "text": "Foundation Model Interventions (MINT), 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_301",
+          "text": "A dataset of clinically generated visual questions and answers",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_302",
+          "text": "about radiology images. Scientific data, 5(1):1–10, 2018.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_303",
+          "text": "multimodal large language model for interpreting chest x-ray",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_304",
+          "text": "images. European Radiology, pp. 1–13, 2025.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_305",
+          "text": "A study of mitigating the impact of speech recognition errors",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_306",
+          "text": "on listening comprehension. arXiv preprint arXiv:1804.00320,",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_307",
+          "text": "Li, J., Li, D., Xiong, C., and Hoi, S. Blip: Bootstrapping language-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_308",
+          "text": "image pre-training for unified vision-language understanding",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_309",
+          "text": "and generation. In International conference on machine learn-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_310",
+          "text": "ing, pp. 12888–12900. PMLR, 2022.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_311",
+          "text": "Li, L., Lei, J., Gan, Z., and Liu, J. Adversarial vqa: A new",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_312",
+          "text": "benchmark for evaluating the robustness of vqa models. In",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_313",
+          "text": "International Conference on Computer Vision (ICCV), 2021.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_314",
+          "text": "F. Reference-free Hallucination Detection for Large Vision-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_315",
+          "text": "Language Models, August 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_316",
+          "text": "Generating with confidence:",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_317",
+          "text": "Uncertainty quantification for black-box large language models.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_318",
+          "text": "Transactions on Machine Learning Research, 2024. ISSN 2835-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_319",
+          "text": "ing large multi-modal model with robust instruction tuning.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_320",
+          "text": "arXiv preprint arXiv:2306.14565, 2023a.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_321",
+          "text": "Liu, Z., Zheng, Y., Sun, X., et al. A medical multimodal large",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_322",
+          "text": "language model for future pandemics. NPJ Digital Medicine, 6",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_323",
+          "text": "Liu, H., Li, C., Wu, Q., and Lee, Y. J. Visual instruction tuning. In",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_324",
+          "text": "Liu, H., Li, C., Li, Y., and Lee, Y. J. Improved baselines with visual",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_325",
+          "text": "instruction tuning. In Proceedings of the IEEE/CVF Conference",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_326",
+          "text": "on Computer Vision and Pattern Recognition, pp. 26296–26306,",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_327",
+          "text": "mathematical reasoning of foundation models in visual contexts.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_328",
+          "text": "arXiv preprint arXiv:2310.02255, 2023.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_329",
+          "text": "Malinin, A. and Gales, M. Uncertainty estimation in autoregressive",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_330",
+          "text": "structured prediction. In International Conference on Learning",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_331",
+          "text": "Representations, 2021.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_332",
+          "text": "Marino, K., Rastegari, M., Farhadi, A., and Mottaghi, R. Ok-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_333",
+          "text": "vqa: A visual question answering benchmark requiring external",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_334",
+          "text": "knowledge. In Conference on Computer Vision and Pattern",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_335",
+          "text": "Recognition (CVPR), 2019.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_336",
+          "text": "N., and Such, F. P. Gpt-4o mini: advancing cost-efficient intelli-",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_337",
+          "text": "gence. Open AI: San Francisco, CA, USA, 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_338",
+          "text": "Nikitin, A., Kossen, J., Gal, Y., and Marttinen, P. Kernel Language",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_339",
+          "text": "Entropy: Fine-grained Uncertainty Quantification for LLMs",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_340",
+          "text": "from Semantic Similarities, May 2024.",
+          "page": 10
+        },
+        {
+          "para_id": "0.062_341",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_342",
+          "text": "Qiu, X. and Miikkulainen, R. Semantic density: Uncertainty",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_343",
+          "text": "quantification for large language models through confidence",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_344",
+          "text": "measurement in semantic space. Advances in neural information",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_345",
+          "text": "processing systems, 37:134507–134533, 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_346",
+          "text": "Reimers, N. and Gurevych, I. Sentence-bert: Sentence embeddings",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_347",
+          "text": "using siamese bert-networks. In Proceedings of the 2019 Con-",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_348",
+          "text": "ference on Empirical Methods in Natural Language Processing.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_349",
+          "text": "Association for Computational Linguistics, 11 2019.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_350",
+          "text": "R´enyi, A. On measures of entropy and information. In Proceedings",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_351",
+          "text": "of the fourth Berkeley symposium on mathematical statistics and",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_352",
+          "text": "probability, volume 1: contributions to the theory of statistics,",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_353",
+          "text": "volume 4, pp. 547–562. University of California Press, 1961.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_354",
+          "text": "K. Object hallucination in image captioning. arXiv preprint",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_355",
+          "text": "arXiv:1809.02156, 2018.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_356",
+          "text": "A benchmark suite of diverse spoken language understanding",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_357",
+          "text": "tasks. arXiv preprint arXiv:2212.10525, 2022.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_358",
+          "text": "timodal models with factually augmented rlhf. arXiv preprint",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_359",
+          "text": "arXiv:2309.14525, 2023.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_360",
+          "text": "Tian, D., Jiang, S., Zhang, L., Lu, X., and Xu, Y. The role of",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_361",
+          "text": "large language models in medical image processing: a narrative",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_362",
+          "text": "review. Quantitative Imaging in Medicine and Surgery, 14(1):",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_363",
+          "text": "wide shut? exploring the visual shortcomings of multimodal",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_364",
+          "text": "llms. In Proceedings of the IEEE/CVF Conference on Computer",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_365",
+          "text": "Vision and Pattern Recognition, pp. 9568–9578, 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_366",
+          "text": "Vajda, I. Bounds of the minimal error probability on checking a",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_367",
+          "text": "finite or countable number of hypotheses. Problemy Peredachi",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_368",
+          "text": "Informatsii, 4(1):9–19, 1968.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_369",
+          "text": "On generalized entropies, bayesian",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_370",
+          "text": "decisions and statistical diversity. Kybernetika, 43(5):675–696,",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_371",
+          "text": "fine-grained hallucination by fine-tuning large vision-language",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_372",
+          "text": "models with caption rewrites. In International Conference on",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_373",
+          "text": "Multimedia Modeling, pp. 32–45. Springer, 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_374",
+          "text": "to-any multimodal LLM. In Proceedings of the International",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_375",
+          "text": "Conference on Machine Learning, pp. 53366–53397, 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_376",
+          "text": "LLMs express their uncertainty? an empirical evaluation of",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_377",
+          "text": "confidence elicitation in LLMs. In The Twelfth International",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_378",
+          "text": "Conference on Learning Representations, 2024a.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_379",
+          "text": "Williamson, S. Efficient and effective uncertainty quantification",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_380",
+          "text": "for llms. In Neurips Safe Generative AI Workshop 2024, 2024b.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_381",
+          "text": "survey on multimodal large language models. National Science",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_382",
+          "text": "Review, 11(12):nwae403, 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_383",
+          "text": "and Zhuang, Y. Hallucidoctor: Mitigating hallucinatory toxicity",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_384",
+          "text": "in visual instruction data. In Proceedings of the IEEE/CVF",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_385",
+          "text": "Conference on Computer Vision and Pattern Recognition, pp.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_386",
+          "text": "Yue, Z., Zhang, L., and Jin, Q. Less is more: Mitigating multi-",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_387",
+          "text": "modal hallucination from an eos decision perspective. arXiv",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_388",
+          "text": "preprint arXiv:2402.14545, 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_389",
+          "text": "Halle-switch: Controlling object hallucination in large vision",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_390",
+          "text": "language models. arXiv e-prints, pp. arXiv–2310, 2023.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_391",
+          "text": "Yuan, R., Zhang, G., Li, L., et al. Anygpt: Unified multimodal",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_392",
+          "text": "llm with discrete sequence modeling. In Proceedings of the",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_393",
+          "text": "62nd Annual Meeting of the Association for Computational",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_394",
+          "text": "Linguistics (Volume 1: Long Papers), pp. 9637–9662, 2024.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_395",
+          "text": "Zhang, R., Zhang, H., and Zheng, Z. Vl-uncertainty: Detecting",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_396",
+          "text": "hallucination in large vision-language model via uncertainty",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_397",
+          "text": "estimation. arXiv preprint arXiv:2411.11919, 2024a.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_398",
+          "text": "A strong zero-shot video understanding model,",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_399",
+          "text": "2024b. URL https://llava-vl.github.io/blog/",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_400",
+          "text": "2024-04-30-llava-next-video/.",
+          "page": 11
+        },
+        {
+          "para_id": "0.062_401",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 12
+        },
+        {
+          "para_id": "0.062_402",
+          "text": "A. Theoretical analysis and intuition",
+          "page": 12
+        },
+        {
+          "para_id": "0.062_403",
+          "text": "In this section, we provide some theoretical analysis on the UMPIRE metric under simplifying assumptions, to help build",
+          "page": 12
+        },
+        {
+          "para_id": "0.062_404",
+          "text": "intuition for why the metric has strong empirical results that we presented in Sec. 4.",
+          "page": 12
+        },
+        {
+          "para_id": "0.062_405",
+          "text": "A.1. Notation and problem setup",
+          "page": 12
+        },
+        {
+          "para_id": "0.062_406",
+          "text": "We first recap the problem setup. For a given task instance t ∈T , let Y ∼PM(· | qt) be i.i.d sampled responses from",
+          "page": 12
+        },
+        {
+          "para_id": "0.062_407",
+          "text": "the model’s conditional probability3. Let ϕi ∈Rd denote the normalized (we enforce ∥ϕi∥2 = 1) embedding (row vector)",
+          "page": 12
+        },
+        {
+          "para_id": "0.062_408",
+          "text": "for sampled response yi, and Φ ∈Rk×d with rows ϕ⊤",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": ", . . . , ϕ⊤",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "k be the semantic embedding matrix. Let pi ∈(0, 1] be the",
+          "page": 12
+        },
+        {
+          "para_id": "1_2",
+          "text": "model-generated probability for sampled response yi. We define the incoherence scaling matrix be C = diag(c1, . . . , ck)",
+          "page": 12
+        },
+        {
+          "para_id": "1_3",
+          "text": "with ci := exp(α(1 −pi)), for scalar α ≥0. Our proposed UMPIRE score (Eq. (4)), inspired by quality-diversity kernels",
+          "page": 12
+        },
+        {
+          "para_id": "1_4",
+          "text": "where ϵ > 0 is a jitter term.",
+          "page": 12
+        },
+        {
+          "para_id": "1_5",
+          "text": "UMPIRE metric decomposition.",
+          "page": 12
+        },
+        {
+          "para_id": "1_6",
+          "text": "We first provide a basic derivation of how the incoherence-adjusted semantic volume",
+          "page": 12
+        },
+        {
+          "para_id": "1_7",
+          "text": "presented as Eq. (4) can be expressed as Eq. (5) in Sec. 3.",
+          "page": 12
+        },
+        {
+          "para_id": "1_8",
+          "text": "We define the unadjusted semantic volume term",
+          "page": 12
+        },
+        {
+          "para_id": "1_9",
+          "text": "and the empirical incoherence average",
+          "page": 12
+        },
+        {
+          "para_id": "1_10",
+          "text": "Proposition A.1 (UMPIRE decomposition). For Vt defined in Eq. (4), we have",
+          "page": 12
+        },
+        {
+          "para_id": "1_11",
+          "text": "Proof. As C and (ΦtΦ⊤",
+          "page": 12
+        },
+        {
+          "para_id": "1_12",
+          "text": "t + ϵIk) are k × k square matrices, we have",
+          "page": 12
+        },
+        {
+          "para_id": "1_13",
+          "text": "t + ϵIk)) det(C) = det((ΦtΦ⊤",
+          "page": 12
+        },
+        {
+          "para_id": "1_14",
+          "text": "t + ϵIk)C) = log det((ΦtΦ⊤",
+          "page": 12
+        },
+        {
+          "para_id": "1_15",
+          "text": "t + ϵIk)) + 2 log det(C).",
+          "page": 12
+        },
+        {
+          "para_id": "1_16",
+          "text": "Substituting C which is a diagonal matrix with ci = exp(α(1 −pi)), we have",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "log det(C) = 2",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "We can obtain the final claimed decomposition by dividing throughout by 2k.",
+          "page": 12
+        },
+        {
+          "para_id": "2_2",
+          "text": "Re-expression of eVt with empirical second moments.",
+          "page": 12
+        },
+        {
+          "para_id": "2_3",
+          "text": "Next, we re-express eVt in terms of an empirical second moment",
+          "page": 12
+        },
+        {
+          "para_id": "2_4",
+          "text": "term that enables more convenient analysis.",
+          "page": 12
+        },
+        {
+          "para_id": "2_5",
+          "text": "Lemma A.2 (Second moment form of semantic volume). Let Sk := 1",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "log ϵ + 1",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "where Ik and Id are k × k and d × d identity matrices.",
+          "page": 12
+        },
+        {
+          "para_id": "2_2",
+          "text": "3For notational simplicity, we drop the subscript t from Yt which depends on the task instance t.",
+          "page": 12
+        },
+        {
+          "para_id": "2_3",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 13
+        },
+        {
+          "para_id": "2_4",
+          "text": "Proof. Apply the matrix determinant lemma det(Ik + AB) = det(Id + BA) with A = ϵ−1/2Φt and B = ϵ−1/2Φ⊤",
+          "page": 13
+        },
+        {
+          "para_id": "2_5",
+          "text": "t Φt = kSk to obtain (9) and (10).",
+          "page": 13
+        },
+        {
+          "para_id": "2_6",
+          "text": "A.2. Quadratic-entropy interpretation of the incoherence term",
+          "page": 13
+        },
+        {
+          "para_id": "2_7",
+          "text": "We start by discussing how Qt can be interpreted.",
+          "page": 13
+        },
+        {
+          "para_id": "2_8",
+          "text": "Definition A.3 (Quadratic entropy). Let PM(· | qt) denote the model distribution over discrete responses Y for a fixed",
+          "page": 13
+        },
+        {
+          "para_id": "2_9",
+          "text": "instance t. We define the quadratic entropy",
+          "page": 13
+        },
+        {
+          "para_id": "2_10",
+          "text": "Note that if Y, Y ′ iid",
+          "page": 13
+        },
+        {
+          "para_id": "2_11",
+          "text": "y PM(y | qt)2. Hence, H2(Y ) can also be interpreted as the probability that",
+          "page": 13
+        },
+        {
+          "para_id": "2_12",
+          "text": "two sampled responses from PM do not match.",
+          "page": 13
+        },
+        {
+          "para_id": "2_13",
+          "text": "Lemma A.4 (Incoherence term as Monte Carlo estimate of H2). Let Y",
+          "page": 13
+        },
+        {
+          "para_id": "2_14",
+          "text": "∼P(· | qt) and pi = P(yi | qt) for each sampled",
+          "page": 13
+        },
+        {
+          "para_id": "2_15",
+          "text": "yi. The incoherence term Qt = 1",
+          "page": 13
+        },
+        {
+          "para_id": "2_16",
+          "text": "i(1 −pi) is an unbiased Monte Carlo estimator of H2(Y ).",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "−P(Y | qt)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "∼P(· | qt) and pi = P(yi | qt) for each sampled yi, Qt = 1",
+          "page": 13
+        },
+        {
+          "para_id": "1_2",
+          "text": "i(1 −pi) is an unbiased empirical Monte Carlo",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "−P(Y | qt)",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "and hence of H2(Y ).",
+          "page": 13
+        },
+        {
+          "para_id": "1_2",
+          "text": "A.3. Small Q rules out multiple high-probability semantic modes",
+          "page": 13
+        },
+        {
+          "para_id": "1_3",
+          "text": "Intuitively, as described in Sec. 3.2, it is clear that small Qt can help rule out the presence of multiple high probability",
+          "page": 13
+        },
+        {
+          "para_id": "1_4",
+          "text": "semantic modes in the MLLM response distribution for a given task instance t. Here, we make things more explicit and",
+          "page": 13
+        },
+        {
+          "para_id": "1_5",
+          "text": "formalize this with a few basic derivations.",
+          "page": 13
+        },
+        {
+          "para_id": "1_6",
+          "text": "Let Y ∼P(· | qt) be the sampled MLLM response, and let Z = g(Y ) ∈{1, . . . , m} be a mapping that assigns each",
+          "page": 13
+        },
+        {
+          "para_id": "1_7",
+          "text": "response to a semantic mode or cluster. We denote the probability mass associated with each mode as wj := P(Z = j), and",
+          "page": 13
+        },
+        {
+          "para_id": "1_8",
+          "text": "correspondingly the quadratic entropy over semantic modes as",
+          "page": 13
+        },
+        {
+          "para_id": "1_9",
+          "text": "Lemma A.5 (Coarsening decreases quadratic entropy). For any mapping Z = g(Y ), we have H2(Z) ≤H2(Y ).",
+          "page": 13
+        },
+        {
+          "para_id": "1_10",
+          "text": "Proof. Let Cj = {y : g(y) = j} so that wj = P",
+          "page": 13
+        },
+        {
+          "para_id": "1_11",
+          "text": "y∈Cj PM(y | qt). Since the probabilities are non-negative, (P",
+          "page": 13
+        },
+        {
+          "para_id": "1_12",
+          "text": "y∈Cj PM(y | qt)2. Summing over all semantic",
+          "page": 13
+        },
+        {
+          "para_id": "1_13",
+          "text": "Hence, even though Qt, which estimates H2(Yt), does not capture any notion of semantic distance among sampled responses,",
+          "page": 13
+        },
+        {
+          "para_id": "1_14",
+          "text": "it still provides an upper bound on the dispersion of probability mass among semantic modes/clusters (if any). Small values",
+          "page": 13
+        },
+        {
+          "para_id": "1_15",
+          "text": "of Qt will thus provide some information regarding the number of semantic modes that exist in the MLLM’s response",
+          "page": 13
+        },
+        {
+          "para_id": "1_16",
+          "text": "distribution for a task instance t. We can analyze this with two corollaries.",
+          "page": 13
+        },
+        {
+          "para_id": "1_17",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 14
+        },
+        {
+          "para_id": "1_18",
+          "text": "Corollary A.6 (Dominant-mode lower bound). Let wmax := maxj wj. Then",
+          "page": 14
+        },
+        {
+          "para_id": "1_19",
+          "text": "Therefore, small Q implies that most probability mass would be concentrated in a single semantic mode.",
+          "page": 14
+        },
+        {
+          "para_id": "1_20",
+          "text": "Corollary A.7 (Ruling out many high-mass modes). Fix β ∈(0, 1) and integer r ≥2 with rβ ≤1. If at least r modes",
+          "page": 14
+        },
+        {
+          "para_id": "1_21",
+          "text": "satisfy wj ≥β, then necessarily",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "section_id": "1",
+      "section_title": "−(r −1)β",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Proof. To minimize H2(Z) = 1 −P",
+          "page": 14
+        },
+        {
+          "para_id": "1_2",
+          "text": "j, we can maximize P",
+          "page": 14
+        },
+        {
+          "para_id": "1_3",
+          "text": "j. Under the constraint that r modes have mass at least",
+          "page": 14
+        },
+        {
+          "para_id": "1_4",
+          "text": "β, this can be done by setting wj = β for r −1 modes and concentrating the rest of the probability mass onto one additional",
+          "page": 14
+        },
+        {
+          "para_id": "1_5",
+          "text": "mode: w1 = 1−(r−1)β and w2 = · · · = wr = β (with the others being 0). This yields P",
+          "page": 14
+        },
+        {
+          "para_id": "1_6",
+          "text": "Hence, observing small Qt precludes the existence of many semantic modes that each carry non-trivial probability mass,",
+          "page": 14
+        },
+        {
+          "para_id": "1_7",
+          "text": "and indicate that most probability mass would likely be concentrated in a single semantic mode. Consequently, a regime",
+          "page": 14
+        },
+        {
+          "para_id": "1_8",
+          "text": "where we observe large semantic volume Ut but small Qt will be consistent with a dominant mode with a small number of",
+          "page": 14
+        },
+        {
+          "para_id": "1_9",
+          "text": "outliers, rather than multiple high-probability semantic modes.",
+          "page": 14
+        },
+        {
+          "para_id": "1_10",
+          "text": "A.4. Semantic volume increases with between-mode spread (mixture intuition)",
+          "page": 14
+        },
+        {
+          "para_id": "1_11",
+          "text": "We now relate the volume term to the spread of semantic modes under a standard mixture-of-embeddings approximation.",
+          "page": 14
+        },
+        {
+          "para_id": "1_12",
+          "text": "Assumption A.8 (Mixture-of-modes embedding model (optional)). The embedding ϕ of a sampled response for fixed",
+          "page": 14
+        },
+        {
+          "para_id": "1_13",
+          "text": "instance t follows a finite mixture: ϕt ∼Pm",
+          "page": 14
+        },
+        {
+          "para_id": "1_14",
+          "text": "j=1 wjDj with mixture weights wj, means µj, and within-mode covariances Σj.",
+          "page": 14
+        },
+        {
+          "para_id": "1_15",
+          "text": "wj(µj −¯µ)(µj −¯µ)⊤,",
+          "page": 14
+        },
+        {
+          "para_id": "1_16",
+          "text": "Σmix := Σwithin + Σbetween.",
+          "page": 14
+        },
+        {
+          "para_id": "1_17",
+          "text": "Because embeddings may live near a low-dimensional manifold, Σmix may be singular. We therefore reason about the",
+          "page": 14
+        },
+        {
+          "para_id": "1_18",
+          "text": "regularized determinant det(Σmix + ϵI), consistent with the jitter used in our UMPIRE framework.",
+          "page": 14
+        },
+        {
+          "para_id": "1_19",
+          "text": "Proposition A.9 (Monotonicity under increased between-mode spread). Fix ϵ > 0. If Σ′",
+          "page": 14
+        },
+        {
+          "para_id": "1_20",
+          "text": "between ⪰Σbetween (PSD order)",
+          "page": 14
+        },
+        {
+          "para_id": "1_21",
+          "text": "mix + ϵI) ≥det(Σmix + ϵI).",
+          "page": 14
+        },
+        {
+          "para_id": "1_22",
+          "text": "Consequently, regimes that shift probability mass toward more separated semantic modes (larger between-mode spread)",
+          "page": 14
+        },
+        {
+          "para_id": "1_23",
+          "text": "lead to a larger population-level regularized determinant, which is the object approximated by the empirical volume term.",
+          "page": 14
+        },
+        {
+          "para_id": "1_24",
+          "text": "between −Σbetween ⪰0 so Σ′",
+          "page": 14
+        },
+        {
+          "para_id": "1_25",
+          "text": "mix + ϵI = (Σmix + ϵI) + D. By Weyl’s monotonicity, each eigenvalue of",
+          "page": 14
+        },
+        {
+          "para_id": "1_26",
+          "text": "(Σmix + ϵI) + D is at least the corresponding eigenvalue of Σmix + ϵI. Since determinants are products of eigenvalues, (13)",
+          "page": 14
+        },
+        {
+          "para_id": "1_27",
+          "text": "Consequently, for large k where sample covariance Sk = 1",
+          "page": 14
+        },
+        {
+          "para_id": "1_28",
+          "text": "t Φt ≈Σmix, det(Sk + ϵI), or the unadjusted semantic",
+          "page": 14
+        },
+        {
+          "para_id": "1_29",
+          "text": "volume term in our proposed metric, increases with Σbetween. When model uncertainty results in confabulations, where the",
+          "page": 14
+        },
+        {
+          "para_id": "1_30",
+          "text": "model start to generate more spread out semantic modes in its responses, Σbetween increases, resulting in an increase in our",
+          "page": 14
+        },
+        {
+          "para_id": "1_31",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 15
+        },
+        {
+          "para_id": "1_32",
+          "text": "A.5. Concentration and ranking consistency with finite k",
+          "page": 15
+        },
+        {
+          "para_id": "1_33",
+          "text": "Finally, we show that Vt concentrates around its conditional expectation (for a given task instance t) as k grows, and this",
+          "page": 15
+        },
+        {
+          "para_id": "1_34",
+          "text": "helps with ranking consistency, supporting the strong empirical performance of UMPIRE in meeting desiderata R1. We",
+          "page": 15
+        },
+        {
+          "para_id": "1_35",
+          "text": "show this via bounded differences and and relies only on (i) ∥ϕi∥2 = 1, (ii) pi ∈(0, 1], and (iii) ϵ > 0 as we outlined in",
+          "page": 15
+        },
+        {
+          "para_id": "1_36",
+          "text": "Proposition A.10 (Concentration and ranking consistency). Fix ϵ > 0 and α ≥0. Conditioned on a task instance t, let",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "log",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2",
+      "section_title": "log",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1",
+      "section_title": "+ 1",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Moreover, for two instances ta, tb with a gap E[Vta] −E[Vtb] ≥∆> 0,",
+          "page": 15
+        },
+        {
+          "para_id": "1_2",
+          "text": "Proof. We first show bounded differences for the incoherence term Qt and unadjusted semantic volume terms Ut respectively.",
+          "page": 15
+        },
+        {
+          "para_id": "1_3",
+          "text": "For the incoherence term Qt, if we replace one sample (ϕi, pi) by (ϕ′",
+          "page": 15
+        },
+        {
+          "para_id": "1_4",
+          "text": "since 1 −p ∈[0, 1]. Hence",
+          "page": 15
+        },
+        {
+          "para_id": "1_5",
+          "text": "For the unadjusted semantic volume term Ut, let A := ΦtΦ⊤",
+          "page": 15
+        },
+        {
+          "para_id": "1_6",
+          "text": "t + ϵIk and A′ := Φ′",
+          "page": 15
+        },
+        {
+          "para_id": "1_7",
+          "text": "t differs from Φt only",
+          "page": 15
+        },
+        {
+          "para_id": "1_8",
+          "text": "in row i. Permute indices so that i = 1 (determinants are permutation-invariant) and write",
+          "page": 15
+        },
+        {
+          "para_id": "1_9",
+          "text": "Because only row/column 1 changes, the principal submatrix A−1,−1 is identical in A and A′. By the Schur complement",
+          "page": 15
+        },
+        {
+          "para_id": "1_10",
+          "text": "determinant formula,",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "11",
+      "section_title": "−a′⊤",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "11_1",
+          "text": "1∥2 = 1, we have a11 = a′",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "11",
+      "section_title": "= 1 + ϵ. Furthermore, since A is positive definite for ϵ > 0, its principal",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "11_1",
+          "text": "submatrix A−1,−1 and its corresponding inverse are also positive definite. Hence the subtracted quadratic forms are",
+          "page": 15
+        },
+        {
+          "para_id": "11_2",
+          "text": "nonnegative, implying that s, s′ ≤1 + ϵ. Also, A ⪰ϵIk implies A−1 ⪯ϵ−1Ik, hence (A−1)11 ≤1/ϵ. But the block",
+          "page": 15
+        },
+        {
+          "para_id": "11_3",
+          "text": "inverse identity gives (A−1)11 = 1/s, so s ≥ϵ; similarly s′ ≥ϵ. Thus s, s′ ∈[ϵ, 1 + ϵ], and",
+          "page": 15
+        },
+        {
+          "para_id": "11_4",
+          "text": "= | log s′ −log s| ≤log",
+          "page": 15
+        },
+        {
+          "para_id": "11_5",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 16
+        },
+        {
+          "para_id": "11_6",
+          "text": "Dividing by 2k yields",
+          "page": 16
+        },
+        {
+          "para_id": "11_7",
+          "text": "Finally, combining the bounded difference for Qt and Ut gives an overall bounded difference constant",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "log",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "McDiarmid’s inequality then yields Eq. (14).",
+          "page": 16
+        },
+        {
+          "para_id": "2_2",
+          "text": "To show ranking consistency, note that if E[Vta] −E[Vtb] ≥∆and Vta ≤Vtb occurs, then either Vta −EVta ≤−∆/2 or",
+          "page": 16
+        },
+        {
+          "para_id": "2_3",
+          "text": "Vtb −EVtb ≥∆/2. Applying Eq. (14) to each instance and union bounding gives Eq. (15).",
+          "page": 16
+        },
+        {
+          "para_id": "2_4",
+          "text": "Note that If (E[Vt | qt ∈W] > E[Vt | qt ∈C]) and both concentrate with k, then ranking errors decay exponentially in k,",
+          "page": 16
+        },
+        {
+          "para_id": "2_5",
+          "text": "providing support for the strong empirical performance of UMPIRE in meeting desiderata R1.",
+          "page": 16
+        },
+        {
+          "para_id": "2_6",
+          "text": "B.1. Efficiency analysis",
+          "page": 16
+        },
+        {
+          "para_id": "2_7",
+          "text": "We present the algorithm for UMPIRE in Sec. B.2.",
+          "page": 16
+        },
+        {
+          "para_id": "2_8",
+          "text": "To compare the efficiency (Item R5) of UMPIRE and the baselines, we analyze the overall computational running time that",
+          "page": 16
+        },
+        {
+          "para_id": "2_9",
+          "text": "the methods incur on top of the MLLM inference costs due to sampling responses (since all baseline methods involve the",
+          "page": 16
+        },
+        {
+          "para_id": "2_10",
+          "text": "same response sampling process). Experiments are conducted on a single L40 involving the processing of 3000 VQAv2",
+          "page": 16
+        },
+        {
+          "para_id": "2_11",
+          "text": "task instances. In Fig. 4(a), we plot the methods’ running time overheads of uncertainty metrics against their AUROC",
+          "page": 16
+        },
+        {
+          "para_id": "2_12",
+          "text": "performance. We observe that methods relying on external semantic evaluation, such as Sem.Ent, NC, incur a prohibitive",
+          "page": 16
+        },
+        {
+          "para_id": "2_13",
+          "text": "computational cost (high overhead) due to the heavy usage of NLI models or clustering algorithms. In contrast, UMPIRE",
+          "page": 16
+        },
+        {
+          "para_id": "2_14",
+          "text": "(marked by the red star) operates with negligible overhead, comparable to simple entropy-based baselines like LN-Ent,",
+          "page": 16
+        },
+        {
+          "para_id": "2_15",
+          "text": "while achieving state-of-the-art accuracy. Moreover, by leveraging the fast logdet library, UMPIRE computes only",
+          "page": 16
+        },
+        {
+          "para_id": "2_16",
+          "text": "the log-determinant of the matrix rather than its full eigenvalue decomposition (Eigen), further reducing computational",
+          "page": 16
+        },
+        {
+          "para_id": "2_17",
+          "text": "overhead. This places UMPIRE on the optimal Pareto frontier, offering a high-performance solution that is computationally",
+          "page": 16
+        },
+        {
+          "para_id": "2_18",
+          "text": "lightweight enough for real-time applications.",
+          "page": 16
+        },
+        {
+          "para_id": "2_19",
+          "text": "Furthermore, we analyze the sensitivity of our method to the number of sampled responses k in Fig. 4(b) (detail of setup in",
+          "page": 16
+        },
+        {
+          "para_id": "2_20",
+          "text": "Sec. D.2). While increasing k generally improves the performance of uncertainty metrics, generating a large number of",
+          "page": 16
+        },
+        {
+          "para_id": "2_21",
+          "text": "responses is resource-intensive. UMPIRE demonstrates superior sample efficiency, consistently outperforming all baselines",
+          "page": 16
+        },
+        {
+          "para_id": "2_22",
+          "text": "across the entire range of k. Notably, our method achieves high performance even with a small number of generations (e.g.,",
+          "page": 16
+        },
+        {
+          "para_id": "2_23",
+          "text": "k = 5), significantly reducing the total inference cost compared to methods that require larger sample sizes to converge.",
+          "page": 16
+        },
+        {
+          "para_id": "2_24",
+          "text": "In Sec. C.4, we further compare UMPIRE (k = 5) with some single-sampling methods, such as Sequence Probability,",
+          "page": 16
+        },
+        {
+          "para_id": "2_25",
+          "text": "Perlexity, and found that with small k, UMPIRE can achieve a significant gap compared to the second-best method.",
+          "page": 16
+        },
+        {
+          "para_id": "2_26",
+          "text": "B.2. Assessing multimodal query input coherence (R4)",
+          "page": 16
+        },
+        {
+          "para_id": "2_27",
+          "text": "For a metric to satisfy R4, it should consider the coherence of each sampled response with respect to the multimodal task",
+          "page": 16
+        },
+        {
+          "para_id": "2_28",
+          "text": "instance query, rather than just a single modality (e.g., text). We design an experimental setting on image-text modalities",
+          "page": 16
+        },
+        {
+          "para_id": "2_29",
+          "text": "to assess this by computing uncertainty metrics based on (1) both image and text portions of the query qt = (It, qtext), (2)",
+          "page": 16
+        },
+        {
+          "para_id": "2_30",
+          "text": "image that has additive noise N(0, 0.52), qt,noise = (Inoise, qtext), (3) image that is entirely black, qt,black = (Iblack, qtext), and",
+          "page": 16
+        },
+        {
+          "para_id": "2_31",
+          "text": "(4) no image, i.e., only the text portion of the query, qt,text = qtext) (image removed). A metric that satisfies R4 should",
+          "page": 16
+        },
+        {
+          "para_id": "2_32",
+          "text": "perform significantly better under (1), while a metric that does not will produce similar performance regardless of (1)-(4).",
+          "page": 16
+        },
+        {
+          "para_id": "2_33",
+          "text": "Specifically, for (2)-(4), after the MLLM has generated responses yt based on qt, we recompute the various metrics LN-Ent,",
+          "page": 16
+        },
+        {
+          "para_id": "2_34",
+          "text": "Sem.Ent, Eigen, and UMPIRE based on the query-answer pair lower quality to no image, e.g., based on recomputing the",
+          "page": 16
+        },
+        {
+          "para_id": "2_35",
+          "text": "response logits and embedding vectors of text-only query-answer pairs [qtext, yt], on the first 3000 samples of the VQAv2",
+          "page": 16
+        },
+        {
+          "para_id": "2_36",
+          "text": "validation set. In Fig. 2, we observe that LN-Ent and UMPIRE, and to a smaller extent Sem.Ent, are sensitive to the lack of",
+          "page": 16
+        },
+        {
+          "para_id": "2_37",
+          "text": "multi-modality information, with their performance increasing once the image queries are provided during the computation",
+          "page": 16
+        },
+        {
+          "para_id": "2_38",
+          "text": "of the metrics. On the other hand, Eigen is insensitive to whether the image query is provided or not. This may be because",
+          "page": 16
+        },
+        {
+          "para_id": "2_39",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 17
+        },
+        {
+          "para_id": "2_40",
+          "text": "Figure 4. Efficiency analysis of UMPIRE compared to baselines. (a) Computational overhead (inference latency in seconds) versus",
+          "page": 17
+        },
+        {
+          "para_id": "2_41",
+          "text": "uncertainty estimation performance (AUROC). UMPIRE (red star) achieves state-of-the-art performance with negligible overhead,",
+          "page": 17
+        },
+        {
+          "para_id": "2_42",
+          "text": "avoiding the high computational cost associated with semantic equivalence checks in methods like Sem.Ent. (b) The effect of the number",
+          "page": 17
+        },
+        {
+          "para_id": "2_43",
+          "text": "of generated responses k on performance. UMPIRE consistently outperforms other methods across all sample sizes and converges to high",
+          "page": 17
+        },
+        {
+          "para_id": "2_44",
+          "text": "accuracy even with few generations (e.g., k = 5), demonstrating superior sample efficiency.",
+          "page": 17
+        },
+        {
+          "para_id": "2_45",
+          "text": "Algorithm 1 UMPIRE for task instance t",
+          "page": 17
+        },
+        {
+          "para_id": "2_46",
+          "text": "Input: Model M, Query qt, Num. Samples k, Jitter ϵ, Scaling α",
+          "page": 17
+        },
+        {
+          "para_id": "2_47",
+          "text": "Output: Uncertainty Score Vt",
+          "page": 17
+        },
+        {
+          "para_id": "2_48",
+          "text": "Initialize Φ ∈Rk×d, p ∈Rk",
+          "page": 17
+        },
+        {
+          "para_id": "2_49",
+          "text": "Sample response yi ∼M(·|qt) with Temp. T = 1",
+          "page": 17
+        },
+        {
+          "para_id": "2_50",
+          "text": "Extract embedding ϕi ←Normalize(LastLayer(yi))",
+          "page": 17
+        },
+        {
+          "para_id": "2_51",
+          "text": "Compute probability pi ←PM(yi|qt)",
+          "page": 17
+        },
+        {
+          "para_id": "2_52",
+          "text": "Compute Gram matrix G ←ΦΦ⊤from {ϕi}",
+          "page": 17
+        },
+        {
+          "para_id": "2_53",
+          "text": "2k log det(G + ϵIk) {Semantic volume}",
+          "page": 17
+        },
+        {
+          "para_id": "2_54",
+          "text": "i=1(1 −pi) {Incoherence score}",
+          "page": 17
+        },
+        {
+          "para_id": "2_55",
+          "text": "Vt ←Ut + αQt {Eq. (5)}",
+          "page": 17
+        },
+        {
+          "para_id": "2_56",
+          "text": "Eigen measures only the diversity of responses through the covariance matrix of text response sentence embeddings across",
+          "page": 17
+        },
+        {
+          "para_id": "2_57",
+          "text": "multiple generations, which is not affected by the image query bias. On the contrary, logit signals are more sensitive to",
+          "page": 17
+        },
+        {
+          "para_id": "2_58",
+          "text": "the coherence of the multimodal input query and the generated response, hence metrics that use some form of that such as",
+          "page": 17
+        },
+        {
+          "para_id": "2_59",
+          "text": "LN-Ent and UMPIRE can better satisfy R4.",
+          "page": 17
+        },
+        {
+          "para_id": "2_60",
+          "text": "B.3. Comparisons with Eigen",
+          "page": 17
+        },
+        {
+          "para_id": "2_61",
+          "text": "As mentioned in Sec. C.1, the Eigen (Chen et al., 2024) metric involves computing the log determinant of the covariance",
+          "page": 17
+        },
+        {
+          "para_id": "2_62",
+          "text": "matrix of sampled sentence embeddings. At first glance, this metric may seem similar to that of UMPIRE. However, there",
+          "page": 17
+        },
+        {
+          "para_id": "2_63",
+          "text": "are key differences that lead to Eigen consistently underperforming our proposed UMPIRE metric, as can be seen in our",
+          "page": 17
+        },
+        {
+          "para_id": "2_64",
+          "text": "empirical results in Sec. 4, and Eigen could be interpreted as a special case of UMPIRE.",
+          "page": 17
+        },
+        {
+          "para_id": "2_65",
+          "text": "A major distinction, among others, is that Chen et al. (2024) analyzed only the LLM setting, and proposed Eigen by",
+          "page": 17
+        },
+        {
+          "para_id": "2_66",
+          "text": "considering the differential entropy of sentence embeddings, assuming that the embeddings form a multivariate Gaussian",
+          "page": 17
+        },
+        {
+          "para_id": "2_67",
+          "text": "distribution – this motivated the log determinant operation in the metric, which UMPIRE also contains. Note that following",
+          "page": 17
+        },
+        {
+          "para_id": "2_68",
+          "text": "their theoretical motivations, the log determinant term of Eigen will be on the sample covariance (of size d by d), where the",
+          "page": 17
+        },
+        {
+          "para_id": "2_69",
+          "text": "feature space dimensionality of each sample (LLM embeddings) is typically very large. However, our UMPIRE framework",
+          "page": 17
+        },
+        {
+          "para_id": "2_70",
+          "text": "considers the more general MLLM setting, and adopts a different approach inspired by the quality-diversity kernel",
+          "page": 17
+        },
+        {
+          "para_id": "2_71",
+          "text": "decomposition of determinantal point processes (DPP), which naturally factors the incoherence scores when computing",
+          "page": 17
+        },
+        {
+          "para_id": "2_72",
+          "text": "the UMPIRE metric to adjust the semantic volume enclosed by the responses’ semantic embeddings, computed by the",
+          "page": 17
+        },
+        {
+          "para_id": "2_73",
+          "text": "log determinant of the Gram matrix (of size k by k). This inclusion of the incoherence scores, and the resulting quadratic",
+          "page": 17
+        },
+        {
+          "para_id": "2_74",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 18
+        },
+        {
+          "para_id": "2_75",
+          "text": "entropy term Q, help (1) satisfy R4, as we can see in Sec. B.2 that Eigen does not, and (2) significantly improve metric",
+          "page": 18
+        },
+        {
+          "para_id": "2_76",
+          "text": "performance (Sec. B.5).",
+          "page": 18
+        },
+        {
+          "para_id": "2_77",
+          "text": "B.4. Additional discussion on the effectiveness desiderata",
+          "page": 18
+        },
+        {
+          "para_id": "2_78",
+          "text": "In this section, we provide further discussion on the various effectiveness desiderata, such as the differences and relevance",
+          "page": 18
+        },
+        {
+          "para_id": "2_79",
+          "text": "of R1, R2a and R2b. For ease of discussion, we focus on comparing R1 and R2b, which is a stricter form of R2a.",
+          "page": 18
+        },
+        {
+          "para_id": "2_80",
+          "text": "The discrimination desiderata R1 and the calibration desiderata R2b are primarily motivated by different considerations. In",
+          "page": 18
+        },
+        {
+          "para_id": "2_81",
+          "text": "the former, we are concerned about classifying whether a task instance t will be answered correctly or not by the MLLM.",
+          "page": 18
+        },
+        {
+          "para_id": "2_82",
+          "text": "As represented in Eq. (1), for this desiderata, the metric should be able to successfully rank the task instances that the",
+          "page": 18
+        },
+        {
+          "para_id": "2_83",
+          "text": "MLLM will get wrong higher than those that it will get correct, which can be evaluated by the AUROC of the metric. Such",
+          "page": 18
+        },
+        {
+          "para_id": "2_84",
+          "text": "evaluations are used in many LLM uncertainty quantification works (Farquhar et al., 2024; Malinin & Gales, 2021; Chen",
+          "page": 18
+        },
+        {
+          "para_id": "2_85",
+          "text": "et al., 2024; Xiong et al., 2024a) to assess the performance of their metrics. While useful, note that the desiderata does not",
+          "page": 18
+        },
+        {
+          "para_id": "2_86",
+          "text": "consider a quantitative, continuous measure of the uncertainty associated with each task response, since discrimination of",
+          "page": 18
+        },
+        {
+          "para_id": "2_87",
+          "text": "correct/wrong responses is a binary task.",
+          "page": 18
+        },
+        {
+          "para_id": "2_88",
+          "text": "However, in the latter, we are concerned about providing an accurate, calibrated estimate of whether the MLLM will get a",
+          "page": 18
+        },
+        {
+          "para_id": "2_89",
+          "text": "task instance wrong, conditional on the uncertainty metric (as in Eq. (3)), which can be evaluated via the expected calibration",
+          "page": 18
+        },
+        {
+          "para_id": "2_90",
+          "text": "error (ECE). Note that in this scenario, we are not concerned about classifying whether a task instance will be answered",
+          "page": 18
+        },
+        {
+          "para_id": "2_91",
+          "text": "correctly (R1), but instead are focused on being accurate about the probability that a task instance will be answered wrongly",
+          "page": 18
+        },
+        {
+          "para_id": "2_92",
+          "text": "given an associated metric value.",
+          "page": 18
+        },
+        {
+          "para_id": "2_93",
+          "text": "To illustrate the difference, consider an extreme example where an MLLM will definitely get 50% of the task instances",
+          "page": 18
+        },
+        {
+          "para_id": "2_94",
+          "text": "correct, and the rest wrong. The vacuous metric that assigns the same uncertainty score to all task instances might satisfy",
+          "page": 18
+        },
+        {
+          "para_id": "2_95",
+          "text": "R2b since it will output the average error rate, 0.5, as the score for all task instances. This metric would violate R1 and fail",
+          "page": 18
+        },
+        {
+          "para_id": "2_96",
+          "text": "to classify the correct from the wrong task instances. Instead, a better metric might strive to assign 1 to all task instances",
+          "page": 18
+        },
+        {
+          "para_id": "2_97",
+          "text": "that can be answered correctly and 0 to the rest, satisfying both R1 and R2b.",
+          "page": 18
+        },
+        {
+          "para_id": "2_98",
+          "text": "In practice, we would likely not have perfect information prior to evaluation on whether a task instance will be correct or",
+          "page": 18
+        },
+        {
+          "para_id": "2_99",
+          "text": "wrong. That is why for R1 the goal is only for the metric’s AUROC to get as close to 1 as possible, as the best possible",
+          "page": 18
+        },
+        {
+          "para_id": "2_100",
+          "text": "AUROC would depend on the model and task. However, given two metrics that can achieve the same AUROC, a poor metric",
+          "page": 18
+        },
+        {
+          "para_id": "2_101",
+          "text": "might only obtain the right relative ranking of task instances, while a good metric would not only achieve the same AUROC",
+          "page": 18
+        },
+        {
+          "para_id": "2_102",
+          "text": "but also provide calibrated probabilities on how likely a task instance would be answered correctly or not. Hence, both the",
+          "page": 18
+        },
+        {
+          "para_id": "2_103",
+          "text": "R1 and R2b should be considered when evaluating uncertainty metrics, as we described in Sec. 2. In the absence of a small",
+          "page": 18
+        },
+        {
+          "para_id": "2_104",
+          "text": "development set of unlabeled task instances before deployment, metrics satisfying R2a would at least provide interpretable",
+          "page": 18
+        },
+        {
+          "para_id": "2_105",
+          "text": "relative information regarding how likely a task instance would be answered correctly compared to another.",
+          "page": 18
+        },
+        {
+          "para_id": "2_106",
+          "text": "B.5. Role of U and Q in UMPIRE : Hyperparameter α sensitivity",
+          "page": 18
+        },
+        {
+          "para_id": "2_107",
+          "text": "As mentioned in U3, Sec. 3 and in the practical consideration subsection in Sec. 3.2, UMPIRE has a hyperparameter α that",
+          "page": 18
+        },
+        {
+          "para_id": "2_108",
+          "text": "controls the balance between two terms in Eq. (5): the unadjusted semantic volume U and the quadratic entropy term Q.",
+          "page": 18
+        },
+        {
+          "para_id": "2_109",
+          "text": "By varying this hyperparameter, we can observe the contribution of these two terms to the final",
+          "page": 18
+        },
+        {
+          "para_id": "2_110",
+          "text": "performance of UMPIRE. When α = 0, UMPIRE is equivalent to U, and increasing α from 0 increases the contribution",
+          "page": 18
+        },
+        {
+          "para_id": "2_111",
+          "text": "of Q. As discussed in Sec. 3.2, Q and U play complementary roles. On its own, Q is a fairly strong discriminator (R1,",
+          "page": 18
+        },
+        {
+          "para_id": "2_112",
+          "text": "achieving an average AUROC of 81.2), but combining U with it to form the overall UMPIRE metric V results in significantly",
+          "page": 18
+        },
+        {
+          "para_id": "2_113",
+          "text": "better risk-score quality (R2) while maintaining competitive discrimination capabilities (R1). We see this in Table 5 – while",
+          "page": 18
+        },
+        {
+          "para_id": "2_114",
+          "text": "UMPIRE maintains a competitive AUROC comparable to the strong Q baseline, it achieves a dramatic improvement in",
+          "page": 18
+        },
+        {
+          "para_id": "2_115",
+          "text": "reliability metrics: the CPC rises significantly from 84.4 (Q) to 91.7 (Vbest), and the ECE is reduced by over 30% (from",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "section_id": "0.071",
+      "section_title": "to 0.048).",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "0.071_1",
+          "text": "To validate this synergy further, we performed a Likelihood Ratio Test (LRT) to assess whether the unadjusted semantic",
+          "page": 18
+        },
+        {
+          "para_id": "0.071_2",
+          "text": "volume (U) contributes distinct information not captured by incoherence (Q). We evaluated a restricted model (H0 :",
+          "page": 18
+        },
+        {
+          "para_id": "0.071_3",
+          "text": "a(M, t) = σ(β0 + β1Q)) relying solely on incoherence against a full model (H1 : a(M, t) = σ(β0 + β1Q + β2U)) that",
+          "page": 18
+        },
+        {
+          "para_id": "0.071_4",
+          "text": "incorporates both terms, computing the test statistic Λ = −2(ℓrestricted −ℓfull) to assess whether the addition of U yields a",
+          "page": 18
+        },
+        {
+          "para_id": "0.071_5",
+          "text": "statistically significant improvement in model fit. As shown in Table 4, the inclusion of U yields a statistically significant",
+          "page": 18
+        },
+        {
+          "para_id": "0.071_6",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_7",
+          "text": "improvement in model fit across all VQA datasets (p < 0.001).",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_8",
+          "text": "Table 4. Likelihood Ratio Test (LRT) Results. Comparison of model fit between using Incoherence (Q) alone versus the Full Model",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_9",
+          "text": "(Q + U). Significance (yes/no) denotes p < 0.001.",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_10",
+          "text": "To better visualize the interplay betweeen Q and U, we can vary α and examine the change in UMPIRE’s performance",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_11",
+          "text": "in AUROC, ECE, and CPC. As can be seen in Fig. 5, we see that the performance for AUROC is relatively stable across",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_12",
+          "text": "UMPIRE once we have included a sizeable mix of Q. This is due to AUROC’s nature as a rank-based metric invariant to",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_13",
+          "text": "strictly monotonic transformations, and adjusting α still broadly preserves the relative ordering of uncertainty scores between",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_14",
+          "text": "correct and incorrect instances. In contrast, CPC and ECE are distribution-sensitive and they exhibit higher sensitivity to",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_15",
+          "text": "α as they rely on the precise calibration and linearity of the metric magnitudes In this case, we observe ‘U’ shape curves",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_16",
+          "text": "indicative of both terms playing an important role in good performance, as we have seen via Table 5 and Table 4.",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_17",
+          "text": "Figure 5. Sensitivity analysis of the hyperparameter α in UMPIRE on the AdVQA dataset. The plots illustrate the effect of the incoherence",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_18",
+          "text": "score weight on Combined Score, AUROC, ECE, and CPC. The value α = 0 corresponds to the unadjusted semantic volume. The green",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_19",
+          "text": "star (⋆) marks the optimal α found by maximizing the Combined Score, while the red dot (•) indicates the value selected by our adaptive",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_20",
+          "text": "strategy. Notably, the adaptive approach yields performance close to the optimum without requiring labeled data for tuning.",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_21",
+          "text": "Choosing hyperparameter α.",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_22",
+          "text": "Unless stated otherwise, in our experiments, we did not tune the hyperparameter based on",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_23",
+          "text": "a labeled development set but instead set α such that both terms have the same expected contribution (i.e., ‘adaptive’ α set",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_24",
+          "text": "to be the ratio of the median of Q and U based on an unlabeled sample of task instances). We also show that UMPIRE",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_25",
+          "text": "performance is also robust to the size of this unlabeled set of task instances that we use to set by conducting an experiment",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_26",
+          "text": "of using different subset sizes (1%, 5%, and 10%) of the unlabeled evaluation set to set α. As can be seen in the table",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_27",
+          "text": "Table 6, UMPIRE maintains consistent and high performance across all metrics, with minimal variation in AUROC, ECE,",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_28",
+          "text": "CPC, and AURAC, underscoring its robustness to the subset of unlabeled data used.",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_29",
+          "text": "However, in practice, users could potentially search for a better hyperparameter value for their task, such as via grid search or",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_30",
+          "text": "AutoML methods like Bayesian Optimization on a small labeled development set. To determine the optimal operating point",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_31",
+          "text": "during such a search, we can utilize a Combined Score formulated as: Combined Score = w1·AUROC+w2·CPC−w3·ECE.",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_32",
+          "text": "In Fig. 5, we provide an illustration of these performance metrics versus α values calculated on the full AdVQA test set.",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_33",
+          "text": "While Table 5 reports the specific performance gains achieved by tuning α on a 10% labeled development set, the results in",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_34",
+          "text": "this table and Fig. 5 both demonstrates that the ‘adaptive alpha’ approach (red dot), which balances both terms in Eq. (5)",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_35",
+          "text": "without supervision, is not very far off from the ideal optimum (marked by the green star).",
+          "page": 19
+        },
+        {
+          "para_id": "0.071_36",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_37",
+          "text": "Table 5. We compare the unadjusted semantic volume U, Monte Carlo estimate of the expected incoherence value or quadratic entropy",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_38",
+          "text": "Q, and our final form of UMPIRE V . We report two values for V : Vadap which uses α based on the adaptive α heuristic that does not",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_39",
+          "text": "require labeled data, and Vbest which uses α found based on a held-out labeled development set.",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_40",
+          "text": "86.7±0.2 88.2±0.2 88.1±0.2 88.0±0.1 95.4±0.6 88.0±0.5 94.6±0.1 97.5±1.5 .051±.007 .070±.005 .038±.004 .028±.011",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_41",
+          "text": "73.7±0.1 75.6±0.1 75.3±0.1 75.2±0.1 85.1±8.6 92.4±0.4 96.7±0.7 93.5±6.5 .163±.011 .127±.002 .045±.007 .041±.002",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_42",
+          "text": "77.5±0.3 78.7±0.2 78.7±0.2 78.7±0.3 89.9±1.6 92.4±0.4 98.0±0.1 97.7±0.7 .218±.004 .083±.003 .039±.003 .034±.005",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_43",
+          "text": "82.1±0.7 83.1±0.6 82.6±0.6 82.8±0.5 71.4±1.3 79.1±5.2 83.9±2.7 85.7±4.9 .308±.013 .029±.006 .089±.015 .083±.035",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_44",
+          "text": "79.6±0.6 80.4±0.2 80.7±0.3 80.6±0.3 61.2±0.6 84.4±6.3 80.8±7.1 88.4±4.8 .352±.020 .045±.013 .072±.009 .061±.005",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_45",
+          "text": "Avg (image) 79.9±0.4 81.2±0.3 81.1±0.3 81.0±0.2 80.6±2.5 87.3±2.6 90.8±2.1 92.6±3.7 .218±.011 .071±.006 .057±.008 .050±.012",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_46",
+          "text": "78.9±0.4 83.0±0.3 82.2±0.3 82.5±0.4 74.4±3.1 89.2±1.1 93.6±0.5 92.4±1.6 .185±.001 .066±.003 .054±.009 .050±.007",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_47",
+          "text": "77.7±0.1 80.2±0.1 79.7±0.1 79.7±0.2 91.7±0.7 91.8±1.4 97.8±0.5 97.7±0.5 .239±.005 .079±.001 .031±.002 .031±.002",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_48",
+          "text": "81.2±0.9 81.5±0.1 81.9±0.4 81.9±0.2 75.7±3.5 57.7±7.6 77.8±4.3 80.3±6.4 .328±.011 .071±.003 .126±.026 .055±.010",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_49",
+          "text": "79.7±0.4 81.3±0.2 81.2±0.3 81.2±0.3 80.6±2.5 84.4±2.9 90.4±2.0 91.7±3.4 .230±.009 .071±.005 .062±.009 .048±.010",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_50",
+          "text": "Table 6. UMPIRE performance is robust to the size of unlabeled set of task instance that we use to compute adaptive α. Results are",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_51",
+          "text": "computed on VQAv2 validation set.",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_52",
+          "text": "C. Experimental settings and other results",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_53",
+          "text": "For our experiments, we utilize a diverse set of general multi-modality question-answering baseline datasets to ensure a",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_54",
+          "text": "comprehensive evaluation across different scenarios. Specifically, for image-text understanding, we use VQAv2 (Goyal",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_55",
+          "text": "et al., 2017), OKVQA (Marino et al., 2019), and AdVQA (Li et al., 2021), which include challenging cases such as",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_56",
+          "text": "out-of-distribution and adversarial settings. Besides, we also try to use the domain-specific visual QA datasets, including",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_57",
+          "text": "VQA-RAD, a dataset of question-answer pairs on radiology images, and MathVista, a consolidated Mathematical reasoning",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_58",
+          "text": "baseline within visual contexts. We evaluate our method using the first 15,000 samples from the validation split of VQAv2,",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_59",
+          "text": "along with the full validation sets of OKVQA (5,000 samples) and AdVQA (10,000 samples), the test split of VQA-RAD",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_60",
+          "text": "(Lau et al., 2018) (450 samples), and MathVista (Lu et al., 2023) (testmini split - 1,000 samples).",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_61",
+          "text": "These datasets provide a robust test bed for assessing the effectiveness of our approach across different types of visual QA",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_62",
+          "text": "tasks. Besides image-text understanding, we also show the effectiveness of various uncertainty metrics on audio-text and",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_63",
+          "text": "video-text understanding via audio QA datasets, including the test split of SLUE-P2-SQA5 (Shon et al., 2022), Spoken",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_64",
+          "text": "SQuAD (Li et al., 2018), and video QA datasets with Video-MME-short (Fu et al., 2025) (we convert multi-choice answers",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_65",
+          "text": "into free-form answers by taking the correct choice).",
+          "page": 20
+        },
+        {
+          "para_id": "0.071_66",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_67",
+          "text": "The details of each baseline are as follows.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_68",
+          "text": "• Neighborhood Consistency (NC) (Khan & Fu, 2024a). This method tries to examine the reliability of the model",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_69",
+          "text": "via the consistency of the model’s responses over the visual rephrased questions generated by a small proxy Visual",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_70",
+          "text": "Question Generation (VQG) model. We implement this method by training BLIP (Li et al., 2022) as the VQG model",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_71",
+          "text": "with its default setting. To ensure a fair comparison, we use Llava-v1.5-13b as the VQA model, aligning with the",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_72",
+          "text": "model used in our experiments.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_73",
+          "text": "• Length-normalized Entropy (LN-Entropy) (Malinin & Gales, 2021). This approach normalizes the joint log-",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_74",
+          "text": "probability of each sequence by dividing it by the sequence length and is proposed by (Malinin & Gales, 2021) for",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_75",
+          "text": "uncertainty quantification in LLM. Following (Kuhn et al., 2023), we also apply multinomial sampling instead of using",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_76",
+          "text": "an ensemble of models.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_77",
+          "text": "• Semantic Entropy (Kuhn et al., 2023). This method introduces the concept of semantic entropy, which measures the",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_78",
+          "text": "uncertainty over different meanings. We implement this method based on their proposed approach of clustering the",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_79",
+          "text": "generated sequences by Deberta as the text entailment model, and then computing entropy based on these clusters.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_80",
+          "text": "• EigenScore (Chen et al., 2024). We follow their default settings and compute the log determinant of the covariance",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_81",
+          "text": "matrix by Eigenvalues via Singular Value Decomposition (SVD), with the exception of the jitter term value – we found",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_82",
+          "text": "that using a jitter term of 10−8 rather than their default setting of 10−3 improves their performance, hence we applied",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_83",
+          "text": "that and reported the improved performance.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_84",
+          "text": "• Verbalized Confidence (Xiong et al., 2024a). This method is applied specifically to blackbox models where we",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_85",
+          "text": "instruct it to provide a measure of its own confidence. For a single instance, we sample generations k times and return",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_86",
+          "text": "the most frequent answer along with the average reported confidence by the model.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_87",
+          "text": "• Image generation UQ methods . We implement PUNC (Franchi et al., 2025) as the image generation uncertainty",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_88",
+          "text": "metric. This approach tries to generate the caption from the generated image and compute the text similarity between",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_89",
+          "text": "the new generated caption and the input caption through text similarity metrics such as ROUGE or BertScore. We use",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_90",
+          "text": "their default settings with the Llava-v1.5-13b as the caption generation Vision-Language model and ROUGE as the text",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_91",
+          "text": "C.1.3. EXPERIMENTAL SETTINGS",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_92",
+          "text": "• Models and parameters. We primarily use Llava-v1.5-13b as our image-text MLLM, with further analysis on other",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_93",
+          "text": "models provided in Sec. D.5, Phi-4-multimodal-instruct as audio-text MLLM, and LLaVA-NeXT-Video-7b-hf as",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_94",
+          "text": "video-text ones. Following past work (Kuhn et al., 2023), for each task instance t, we evaluate the model accuracy",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_95",
+          "text": "a(M, t) based on the model’s response ˆy generated via low-temperature sampling (T = 0.01). For the computation of",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_96",
+          "text": "the various uncertainty metrics that require multiple samples, we apply Monte Carlo sampling to generate k samples",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_97",
+          "text": "from the MLLM using T = 1 and top p = 0.9. In the main paper, we use the number of generated samples k = 50,",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_98",
+          "text": "and ablation results on the impact of this hyperparameter are presented and discussed in Sec. D.2.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_99",
+          "text": "• Evaluation. We evaluate a task instance accuracy a(M, t) by comparing the model’s low-temperature generated",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_100",
+          "text": "answer against its ground-truth answer. For benchmarks where there are multiple possible ground-truth answers, we",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_101",
+          "text": "evaluate a(M, t) over all such answers and take the highest accuracy score (e.g., for exact match, we consider the",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_102",
+          "text": "model as correct as long as its generation matches one of the possible answers). Given a model prediction yt and a",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_103",
+          "text": "t , following prior work (Kuhn et al., 2023), we compute the accuracy score using ROUGE-L, exact",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_104",
+          "text": "match, and LLM-as-judge (GPT4o). In the main paper, we report results using exact match, and conducted ablations in",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_105",
+          "text": "Sec. D.3 showing that our results are robust to the choice of these evaluation functions.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_106",
+          "text": "• Blackbox APIs. For OpenAI’s GPT models, we used n = 50 generations per prompt. For Anthropic’s Claude 3.5",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_107",
+          "text": "Haiku model, we used the same model parameters as specified above but a smaller number of generations n = 20 due",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_108",
+          "text": "to limitations on API credits.",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_109",
+          "text": "• Image/Audio Generation settings. In this setting, we use NExT-GPT and AnyGPT models as the image/audio",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_110",
+          "text": "generation models, and their default configurations. To make it consistent with MLLM understanding tasks, we also",
+          "page": 21
+        },
+        {
+          "para_id": "0.071_111",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_112",
+          "text": "use low-temperature generation for computing CLIP score, and multi-sampling with n = 10, temperature T = 1, and",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_113",
+          "text": "top p = 0.9, We conduct experiments on 500 task instances of the MS-COCO caption validation set (Chen et al., 2015)",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_114",
+          "text": "for the image generation task, and the full Audiocap test set for the audio generation task. We compare UMPIRE",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_115",
+          "text": "to image generation uncertainty quantification method PUNC (Franchi et al., 2025). To evaluate the performance of",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_116",
+          "text": "multimodal generation uncertainty methods, instead of introducing the in-distribution and out-of-distribution datasets",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_117",
+          "text": "and trying to let uncertainty metrics classify these sets as in (Franchi et al., 2025), we show that these uncertainty",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_118",
+          "text": "metrics satisfy R2a by computing the Pearson Correlation between the uncertainty metric and the negative of quality",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_119",
+          "text": "scores, including continuous CLIP score (Hessel et al., 2021), or CLAP score (Elizalde et al., 2023) for image or audio",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_120",
+          "text": "generation tasks, respectively. These quality scores compute the similarity between the generated image/audio and its",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_121",
+          "text": "corresponding input caption from a real image/audio.",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_122",
+          "text": "Following Liu et al. (2023c), we use the following prompt for all baseline tasks:",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_123",
+          "text": "Answer this question in a word or a phrase.",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_124",
+          "text": "The prompt used to elicit verbalized confidence from the blackbox API models are slightly different, such that they output",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_125",
+          "text": "their confidence in the answer along with the response. In accordance with Xiong et al. (2024a), we use the following",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_126",
+          "text": "prompt to extract verbalized confidence:",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_127",
+          "text": "Read the question, provide your answer, and your confidence in this",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_128",
+          "text": "The confidence indicates how likely you think your answer is true.",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_129",
+          "text": "Use the following format to answer:",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_130",
+          "text": "\\‘Answer and Confidence (0-100):",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_131",
+          "text": "word or a phrase; not a complete sentence], [Your confidence level, please only",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_132",
+          "text": "include the numerical number in the range of 0-100]%\"’ Only give me the reply",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_133",
+          "text": "according to this format, don’t give me any other words.",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_134",
+          "text": "Now, please answer this",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_135",
+          "text": "question and provide your confidence level.",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_136",
+          "text": "C.2. Evaluating TPR under FPR Constraints",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_137",
+          "text": "In addition to the AUROC metric reported in Sec. 4.1, we also provide results on the True Positive Rate (TPR) achievable for",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_138",
+          "text": "a given False Positive Rate (FPR), which users might have different minimum requirements for based on their application.",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_139",
+          "text": "As shown in Table 7, we provide True Positive Rate (TPR) at 10% and 1% FPR levels, and the results generally align with",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_140",
+          "text": "AUROC trends reported in the main text, where UMPIRE consistently performs well compared to baselines across datasets.",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_141",
+          "text": "Table 7. True Positive Rates (TPR) at different False Positive Rate (FPR) thresholds for various uncertainty quantification methods across",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_142",
+          "text": "multimodal tasks. Results are reported at FPR levels of 10% and 1%.",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_143",
+          "text": "VQAv2 OKVQA AdVQA MathVista VQA-RAD SLUE-P2",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_144",
+          "text": "C.3. Plots for calibration R2a",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_145",
+          "text": "To better visualize the performance of the various metrics for proportionality R2a, we plot the error rate (P[a(M, t∗) = 0])",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_146",
+          "text": "v.s. uncertainty score u on the VQA datasets in Fig. 6. UMPIRE manages to achieve the strongest linear correlation with",
+          "page": 22
+        },
+        {
+          "para_id": "0.071_147",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_148",
+          "text": "error rate compared to all other metrics. This satisfies the desiderata of R2a.",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_149",
+          "text": "Figure 6. Pearson correlation plots of the uncertainty scores u on the VQAv2, OKVQA, and AdVQA, which demonstrate UMPIRE’s",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_150",
+          "text": "strong correlation compared to other metrics.",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_151",
+          "text": "C.4. Single sampling method",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_152",
+          "text": "We have also run experiments on basic uncertainty metrics that use only a single MLLM response, rather than a sampled set",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_153",
+          "text": "of MLLM responses. We ran the single-sample methods listed in Xiong et al. (2024b): Sequence Probability, Mean Token",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_154",
+          "text": "Entropy (Fomicheva et al., 2020), and Perplexity.",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_155",
+          "text": "Table 9 shows these methods’ results for the various MLLM datasets, along with UMPIRE, based on five response",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_156",
+          "text": "generations. Note that while the single-sampled methods may be cheaper to compute, they also produce significantly worse",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_157",
+          "text": "performance results compared to UMPIRE with k = 5. The appropriate metric to use would depend on the application",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_158",
+          "text": "requirements. For settings that require better uncertainty metric performance, UMPIRE would likely be a good choice",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_159",
+          "text": "especially since accelerated batched response generation (Kwon et al., 2023) is fast and typically not a computational",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_160",
+          "text": "resource bottleneck, while single-sample methods may be more suitable for very time-sensitive applications.",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_161",
+          "text": "C.5. Statistical Tests for AUROC (R1), CPC (R2a), ECE (R2b), and AURAC results",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_162",
+          "text": "To determine whether the difference in performance between UMPIRE and other baselines is statistically significant, we",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_163",
+          "text": "performed t-tests and Wilcoxon signed-rank tests (non-parametric) to ensure the results agree.",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_164",
+          "text": "• H0: XUMP IRE −Xother = 0",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_165",
+          "text": "• H1: XUMP IRE −Xother > 0",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_166",
+          "text": "where XUMP IRE is the set of scores from various metrics using UMPIRE and Xother is the set of metric scores from",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_167",
+          "text": "baseline methods, including length-normalized entropy, Eigenscore and semantic entropy. From Table 8, both the t-test and",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_168",
+          "text": "the Wilcoxon sign-rank test agree, indicating that the advantage of UMPIRE over other baselines in AURAC, AUROC, CPC",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_169",
+          "text": "and ECE between UMPIRE is statistically significant.",
+          "page": 23
+        },
+        {
+          "para_id": "0.071_170",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 24
+        },
+        {
+          "para_id": "0.071_171",
+          "text": "Table 8. Statistical tests calculated based on the results from models: Llava-13B, Llava-7B and Mllama-11B with datasets: VQAv2,",
+          "page": 24
+        },
+        {
+          "para_id": "0.071_172",
+          "text": "AdVQA and OKVQA. The p-value of both tests are ≪0.01, thus there is sufficient evidence at the 1% level of significance to conclude",
+          "page": 24
+        },
+        {
+          "para_id": "0.071_173",
+          "text": "that XUMP IRE −Xother > 0 for the metrics AURAC, CPC, AUROC, and XUMP IRE −Xother < 0 for ECE.",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "section_id": "1.03",
+      "section_title": "× 10−5",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2.25",
+      "section_title": "× 10−8",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.94",
+      "section_title": "× 10−6",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.94_1",
+          "text": "wilcoxon test p-value",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "4.50",
+      "section_title": "× 10−4",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "9.15",
+      "section_title": "× 10−4",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.06",
+      "section_title": "× 10−2",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.06_1",
+          "text": "wilcoxon test p-value",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "5.91",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "5.78",
+      "section_title": "× 10−4",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2.78",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.78_1",
+          "text": "wilcoxon test p-value",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "section_id": "3.91",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.91",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "2.05",
+      "section_title": "× 10−4",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "3.96",
+      "section_title": "× 10−4",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.71",
+      "section_title": "× 10−5",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.71_1",
+          "text": "wilcoxon test p-value",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.95",
+      "section_title": "× 10−3",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.95_1",
+          "text": "C.6. Qualitative Results",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_2",
+          "text": "We provide some qualitative examples to provide better intuition on how both terms, representing the semantic volume and",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_3",
+          "text": "incoherence scores respectively, are important in UMPIRE. We analyze two distinct failure modes where considering only a",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_4",
+          "text": "single term is sub-optimal: one where considering only semantic diversity fails due to low variance, and another where",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_5",
+          "text": "considering only model probabilities fail due to overconfidence.",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_6",
+          "text": "In the first scenario (Fig. 8), the model incorrectly answers ”10” to a counting question. Because the sampled hallucinations",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_7",
+          "text": "(e.g., ”6”, ”7”, ”8”) are all digits, they cluster tightly in the embedding space. Consequently, U yield low values, falsely",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_8",
+          "text": "signaling that the model is certain. However, the probability distribution across these tokens is flat. Q successfully captures",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_9",
+          "text": "this low predictive confidence, driving the total UMPIRE score up. We further plot the 2D convex hulls of the PCA-reduced",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_10",
+          "text": "embeddings to illustrate how the volume increase – from U to UMPIRE, which is scaled with incoherence scores.",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_11",
+          "text": "In the second scenario (Fig. 7), when asked about a ”No Littering” sign, the model incorrectly predicts ”Parking” with",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_12",
+          "text": "high probability, resulting in a low Q that falsely classifies the prediction as safe. However, the sampled responses, ranging",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_13",
+          "text": "from ”Traffic” to ”Dump” and ”Truck”, are semantically distinct. Unlike the clustered digits in the first example, these",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_14",
+          "text": "hallucinations create a large dispersion in the embedding space. The unadjusted semantic volume (U) effectively captures",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_15",
+          "text": "this disagreement, penalizing the top-token overconfidence that Q missed.",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_16",
+          "text": "Together, these examples confirm that U and Q cover mutually exclusive blind spots, ensuring robust uncertainty quantifica-",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_17",
+          "text": "tion across diverse error types.",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_18",
+          "text": "D.1. Embedding layer selection",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_19",
+          "text": "We analyzed the impact of the layer index when extracting the embedding vectors by computing the AUROC performance",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_20",
+          "text": "on different embedding matrices extracted from different layer indices, all computed on the first 3000 samples of the VQAv2",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_21",
+          "text": "validation set. As shown in Fig. 9, the change in which MLLM layer to use makes the AUROC performance vary only",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_22",
+          "text": "slightly. The last layer still yields the best performance, so we adopt it for all of our experiments.",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_23",
+          "text": "D.2. Number of generations analysis",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_24",
+          "text": "To analyze the impact of the number of generations on the various metrics’ performance, we conduct an ablation study",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_25",
+          "text": "by varying the number of generated responses (from 2 to 50) per task instance for the first 3000 samples of the VQAv2",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_26",
+          "text": "validation set. As shown in Fig. 4(b), increasing the number of generations generally improves AUROC across all methods,",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_27",
+          "text": "and UMPIRE achieves higher performance with significantly fewer generations compared to baselines. This indicates that",
+          "page": 24
+        },
+        {
+          "para_id": "1.95_28",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 25
+        },
+        {
+          "para_id": "1.95_29",
+          "text": "Figure 7. Qualitative example of U correcting model overconfidence. The model incorrectly predicts ”Parking” with high confidence,",
+          "page": 25
+        },
+        {
+          "para_id": "1.95_30",
+          "text": "causing the Incoherence score (Q) to fail (predicting ”Certain”). However, because the sampled responses (”Traffic”, ”Dump”, ”Truck”)",
+          "page": 25
+        },
+        {
+          "para_id": "1.95_31",
+          "text": "are semantically scattered, the high semantic volume (U) correctly identifies the confusion, allowing UMPIRE to successfully detect the",
+          "page": 25
+        },
+        {
+          "para_id": "1.95_32",
+          "text": "Figure 8. Qualitative example of UMPIRE’s robustness on tasks with low semantic variance (e.g., yes/no, counting). While the clustered",
+          "page": 25
+        },
+        {
+          "para_id": "1.95_33",
+          "text": "embeddings of the sampled answers (digits) fool U into predicting certainty, UMPIRE uses the high Incoherence score (Q) to correctly",
+          "page": 25
+        },
+        {
+          "para_id": "1.95_34",
+          "text": "flag the prediction as uncertain.",
+          "page": 25
+        },
+        {
+          "para_id": "1.95_35",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_36",
+          "text": "Table 9. Comparison of the performance of single sampling methods and UMPIRE across various VQA datasets.",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_37",
+          "text": "our method is more efficient, requiring fewer samples to reach strong performance, whereas other methods continue to rely",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_38",
+          "text": "on additional generations for improvement. The results highlight the robustness of our approach in capturing correctness",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_39",
+          "text": "signals effectively, even with a limited number of generations.",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_40",
+          "text": "D.3. Ablation on evaluation parameters",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_41",
+          "text": "Following the setting in (Kuhn et al., 2023), we further evaluate the performance of our",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_42",
+          "text": "method and baselines under exact match, various levels of the ROUGE-L and LLM-as-judge with GPT4o. Fig. 10(b) presents",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_43",
+          "text": "the AUROC scores across different evaluation functions a(M, t∗) on the first 3000 samples of the VQAv2 validation set,",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_44",
+          "text": "demonstrating that our method consistently outperforms baseline approaches regardless of the chosen evaluation functions.",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_45",
+          "text": "These results highlight the versatility and robustness of our approach across different correctness evaluation criteria.",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_46",
+          "text": "Effect of number of bins in ECE and CPC.",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_47",
+          "text": "In the main paper, we mainly use the number of bins as 50 for CPC and 15",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_48",
+          "text": "for ECE. We further analyzed the effect of the number of bins when computing ECE and CPC by evaluating the first 3000",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_49",
+          "text": "samples of the AdVQA dataset. Fig. 11 illustrates that UMPIRE still achieves the best and consistent performance across all",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_50",
+          "text": "D.4. Sampling temperature",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_51",
+          "text": "Besides the number of generations in Sec. D.2, we analyzed the impact of temperature during the generation process on the",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_52",
+          "text": "evaluation performance. We conducted an ablation study by varying the generation temperature (from 0.25 to 2) on the",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_53",
+          "text": "first 3000 samples of the VQAv2 validation set. Note that the temperature used for sampling responses to compute v(M, t)",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_54",
+          "text": "need not be the same as that used to generate MLLMs’ final output ˆy to task instances. Higher temperatures settings could",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_55",
+          "text": "be used to sample from the MLLM for assessing uncertainty, while the final MLLM output could be obtained low finite",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_56",
+          "text": "temperature sampling. As shown in Fig. 10, most baselines tend to perform optimally around a sampling temperature of 1,",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_57",
+          "text": "with UMPIRE outperforming the best performance of other baselines.",
+          "page": 26
+        },
+        {
+          "para_id": "1.95_58",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_59",
+          "text": "Figure 9. Ablation study on choosing the layer index to extract embedding vectors. Results show that different layer indices only have",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_60",
+          "text": "slight variations in the AUROC performance.",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_61",
+          "text": "Figure 10. Ablation study on the (a) Impact of temperature during the generation process on evaluation performance. (b) Evaluation",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_62",
+          "text": "methods. UMPIRE consistently outperforms baseline approaches regardless of the chosen evaluation functions.",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_63",
+          "text": "D.5. Model sizes and families analysis",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_64",
+          "text": "We analyze the impact of model size and architecture family on evaluation performance by comparing different models",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_65",
+          "text": "across various sizes and families on the first 3000 samples of the VQAv2 validation set for the image-text understanding task",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_66",
+          "text": "and the SLUE-P2-SQA5 test set for the audio-text ones. As shown in Fig. 12, we observe a slight increase in AUROC as the",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_67",
+          "text": "model size increases within the same family. This suggests that larger models tend to generate more informative and reliable",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_68",
+          "text": "outputs. Additionally, our method show a strong performance AUROC across all tested models, demonstrating its robustness",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_69",
+          "text": "regardless of model size or architecture. These findings highlight that while larger models can enhance performance, our",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_70",
+          "text": "approach remains effective across different model scales and families.",
+          "page": 27
+        },
+        {
+          "para_id": "1.95_71",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_72",
+          "text": "Figure 11. Results for the effect of number of bins on (a) CPC and (b) ECE. Both measures show that UMPIRE consistently outperforms",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_73",
+          "text": "Ablation study across different models on image-text (VQAv2) and audio-text (SLUE-P2-SQA5) under-",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_74",
+          "text": "standing datasets, evaluating AUROC performance for LN-Ent, Sem.Ent, Eigen, and UMPIRE. The results indicate that",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_75",
+          "text": "UMPIRE consistently achieves strong AUROC across various models, including Llava-v1.5-7b, Llava-v1.5-13b,",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_76",
+          "text": "Llama-3.2-11B-Vision, Llama-3.2-90B-Vision,",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_77",
+          "text": "cogvlm2-llama3-chat-19B, Qwen2.5-VL-7B-Instruct",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_78",
+          "text": "for image-text, and Qwen2-Audio-7B, Phi4 for audio-text. This highlights the robustness and effectiveness of our approach",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_79",
+          "text": "across different model architectures.",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_80",
+          "text": "D.6. Results of other blackbox and whitebox proxy models in blackbox settings.",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_81",
+          "text": "D.6.1. BLACKBOX MODELS",
+          "page": 28
+        },
+        {
+          "para_id": "1.95_82",
+          "text": "As in Fig. 13, we find that UMPIRE also outperforms other baselines using different black-box models, including Claude",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "section_id": "3.5",
+      "section_title": "Haiku (Anthropic, 2024), GPT4o-mini (Menick et al., 2024).",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.5_1",
+          "text": "D.6.2. WHITE-BOX PROXY MODELS",
+          "page": 28
+        },
+        {
+          "para_id": "3.5_2",
+          "text": "The experiments in Sec. 4.4 use a simple approach of applying a vanilla Llava-v1.5-13b proxy model for all blackbox",
+          "page": 28
+        },
+        {
+          "para_id": "3.5_3",
+          "text": "models. As seen in our empirical results Fig. 3, UMPIRE consistently outperforms baselines without any fine-tuning of the",
+          "page": 28
+        },
+        {
+          "para_id": "3.5_4",
+          "text": "proxy model. In general, we observe that performant models tend to produce similar semantic volume, while variations",
+          "page": 28
+        },
+        {
+          "para_id": "3.5_5",
+          "text": "in incoherence scores introduce noise, they do not have a significant adverse impact on overall performance. The table",
+          "page": 28
+        },
+        {
+          "para_id": "3.5_6",
+          "text": "Table 10 shows new ablation results where using different whitebox proxy models for GPT-4o still yield good performance",
+          "page": 28
+        },
+        {
+          "para_id": "3.5_7",
+          "text": "on the first 3000 samples of the VQAv2 validation set.",
+          "page": 28
+        },
+        {
+          "para_id": "3.5_8",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_9",
+          "text": "Figure 13. UMPIRE metric consistently outperforms other baselines across various black-box models, including GPT4o, GPT4o-mini,",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_10",
+          "text": "and Claude 3.5 Haiku.",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_11",
+          "text": "D.7. Length-normalized effect",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_12",
+          "text": "In prior work on uncertainty estimation and related scoring functions, length normalization has often been applied to adjust",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_13",
+          "text": "for biases introduced by varying response lengths (Kuhn et al., 2023; Malinin & Gales, 2021) and handle small output",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_14",
+          "text": "probability values for long token generations. Motivated by this, we explored whether applying token probability length",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_15",
+          "text": "normalization to the incoherence term would significantly affect the UMPIRE metric performance. Empirically, as shown",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_16",
+          "text": "in Table 11, we observed that applying length normalization does not cause major variations in performance compared",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_17",
+          "text": "to the non-length normalized version of UMPIRE. Depending on the task and benchmark being evaluated on, length",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_18",
+          "text": "normalization might yield minor improvements or degradation of performance across AUROC, CPC ECE, with no consistent",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_19",
+          "text": "trend. Generally, we suggest using un-normalized probabilities for tasks with short answer spans, and length-normalized",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_20",
+          "text": "probabilities for tasks involving longer answers to avoid numerical underflow issues.",
+          "page": 29
+        },
+        {
+          "para_id": "3.5_21",
+          "text": "Uncertainty Quantification for MLLMs with Incoherence-adjusted Semantic Volume",
+          "page": 30
+        },
+        {
+          "para_id": "3.5_22",
+          "text": "Table 10. Results of UMPIRE in blackbox settings with different proxy models.",
+          "page": 30
+        },
+        {
+          "para_id": "3.5_23",
+          "text": "UMPIRE (Llava-v1.5-13b)",
+          "page": 30
+        },
+        {
+          "para_id": "3.5_24",
+          "text": "UMPIRE (Llava-v1.5-7b)",
+          "page": 30
+        },
+        {
+          "para_id": "3.5_25",
+          "text": "UMPIRE (Llama-3.2-11B-Vision)",
+          "page": 30
+        },
+        {
+          "para_id": "3.5_26",
+          "text": "Table 11. Comparison of UMPIRE with and without length normalization across various VQA datasets.",
+          "page": 30
+        },
+        {
+          "para_id": "3.5_27",
+          "text": "Without Length Normalized",
+          "page": 30
+        },
+        {
+          "para_id": "3.5_28",
+          "text": "Without Length Normalized",
+          "page": 30
+        },
+        {
+          "para_id": "3.5_29",
+          "text": "Without Length Normalized",
+          "page": 30
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,865 @@
+{
+  "doc_id": "2602.23222v1.pdf",
+  "title": "arXiv:2602.23222v1  [math.OA]  26 Feb 2026",
+  "abstract": "",
+  "sections": [
+    {
+      "section_id": "2",
+      "section_title": "2\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "its structure and representation theory is now well understood [5, 29]. The case\nG = SL(2, R) was the object of several rather recent publications. The irreducible\n∗-representations of C∗\nq (G) and the non-degenerate simple Rq(g, K)-modules, which\nare the analogues of the (g, K)-modules, are classified in [13] and [18] respectively.\nThe authors of [14] constructed an analogue of the regular representation leading\nto a natural analogue of the reduced group C*-algebra C∗\nq,r(G). The spectrum of\nthe latter is characterized in [12].\nThe goal of the present paper is to unify these q-deformations with the Mackey\ndeformation for G = SL(2, R), allowing for an extension of the Mackey analogy to\nq-deformed SL(2, R). Our work is inspired by what has been done by Monk and\nVoigt for complex semisimple groups [26].\nOur analogue of the motion group for q-deformed SL(2, R) does not depend\non q, it is the groupoid G⋆\n0 of the action of K = SO(2) on the 2-sphere K\\U,\nwhere U = SU(2). In what follows, we construct a two-parameter continuous field\nof C*-algebras C∗\nr (G) defined over R∗\n+ ×R, whose restriction to {1}×R is precisely\nthe Mackey deformation field and whose fibers, for each q ̸= 1, are given by",
+          "page": 2
+        },
+        {
+          "para_id": "2_2",
+          "text": "C∗\nr (G)q,t =",
+          "page": 2
+        },
+        {
+          "para_id": "2_3",
+          "text": "(\nC∗\nqt,r(G)\nif t ̸= 0,\nC∗(G⋆\n0)\nif t = 0.",
+          "page": 2
+        },
+        {
+          "para_id": "2_4",
+          "text": "As we will see, this continuous field of C*-algebras is a reflection of a much more\nrigid field involving the corresponding (quantized) enveloping algebras.\nMoreover, for every fixed q ̸= 1, we prove that the restriction of C∗\nr (G) to\n{q} × [0, 1] is isomorphic to the mapping cone field of a certain embedding αq\n0 : C∗(G⋆\n0) ,→C∗\nq,r(G). We also show that this embedding induces a bijection between the spectrum of\nC∗(G⋆\n0) and that of C∗\nq,r(G), as well as an isomorphism in K-theory. The latter\nresult means that C∗\nr (G)|{q}×[0,1] has constant K-theory and thus can be interpreted\nas an analogue of the Connes-Kasparov isomorphism.\nThe paper is organized as follows. In the first section, we introduce or develop the\noperator algebraic tools needed for our purpose. In the second section, we present\nthe various convolution algebras involved in the two-parameter deformation. The\nthird section is devoted to the construction of the continuous field of C*-algebras\nC∗\nr (G). In the last section, we construct the embedding αq\n0 and establish the above\nlisted properties.\nFor the rest of the paper, we write G = SL(2, R), K = SO(2), U = SU(2), unless\nit is explicitly stated otherwise. We denote by g, k, u the associated Lie algebras.\nMoreover, for any real Lie algebra a, the associated enveloping ∗-algebra U(a) is\ndefined as the complexification of its universal enveloping algebra, endowed the\nunique ∗-structure such that the elements of a are skew-adjoint.",
+          "page": 2
+        },
+        {
+          "para_id": "2_5",
+          "text": "1. Operator algebraic preliminaries The goal of this first section is to introduce some background material that will\nfacilitate the construction of the quantum Mackey deformation field. For the rest\nof the paper, the space of bounded operators and the space of compact operators\nover any Hilbert space H are denoted by B(H) and K(H), respectively.",
+          "page": 2
+        },
+        {
+          "para_id": "2_6",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n3",
+          "page": 3
+        },
+        {
+          "para_id": "2_7",
+          "text": "1.1. Continuous fields of Hilbert spaces and C*-algebras. Throughout the\npaper, several continuous fields of Banach spaces will be introduced. Here we recall\nsome of their aspects and fix notations, referring to [17, Chapter 10] for a complete\nexposition of the topic. More importantly, we introduce a notion of constraint on the\ncontinuous fields of elementary C*-algebras associated to locally trivial continuous\nfield of Hilbert spaces. In the following, X denotes any locally compact space.\nLet B be any continuous field of Banach spaces over X. The fiber of B over\neach x ∈X is denoted by Bx and more generally, for any locally compact subspace\nY ⊂X, the continuous field over Y induced by B is denoted by B|Y . The space\nof continuous vector fields of B is denoted by Γ(B) and its subspace consisting of\nvector fields vanishing at infinity is denoted by Γ0(B). For any b ∈Γ(B), we write\nbx for the evaluation of b at any x ∈X.\nLet B′ be another continuous field of Banach spaces over X. By definition, an\nembedding of continuous fields T : B →B′ is a collection of isometries (Tx : Bx →\nB′\nx)x∈X mapping Γ(B) into Γ(B′). Such an embedding of continuous fields T is\ncalled an isomorphism if Tx is surjective for all x ∈X. In that case, [17, §10.2.4]\nshows that Γ(B) is mapped onto Γ(B′). When B′ is a constant field, an isomorphism\nT : B →B′ is referred to as a trivialization of B\nWe call B a continuous subfield of B′ if Bx is a Banach subspace of B′\nx for all\nx ∈X and if Γ(B) ⊂Γ(B′). We shall use repeatedly the two following facts.",
+          "page": 3
+        },
+        {
+          "para_id": "2_8",
+          "text": "• Given a Banach subspace Sx of Bx for each x ∈X, there is at most one\ncontinuous subfield of B whose fibers are the Sx. Such a continuous subfield\nexists if and only if for any x ∈X and any v ∈Bx, there exists b ∈B such\nthat bx = v and bx′ ∈Sx′ for all x′ ∈X.\n• If Y is a closed subset of X, then the restriction map Γ0(B) →Γ0(B|Y ) is\nsurjective.",
+          "page": 3
+        },
+        {
+          "para_id": "2_9",
+          "text": "For the first fact, the uniqueness follows from [17, §10.2.4].\nThe second fact is\nobtained by combining [17, §10.1.12] and [17, §10.2.6].\nWe call B a continuous field of Hilbert spaces if each of its fibers is a Hilbert\nspace. In that case, by polarization, the pointwise inner product of two continuous\nvector fields is continuous over X.\nWe call B a continuous field of C*-algebras if each of its fibers is a C*-algebra and\nif Γ(B) is stable by pointwise multiplication and involution. In that case, Γ0(B) has\na natural C*-algebra structure. Any of its irreducible representations is of the form\nπ ◦evx : Γ0(B) ↠Bx →B(H), where evx denotes the evaluation at some point\nx ∈X and (π, H) is an irreducible representation of Bx. In that way, the spectrum\nof Γ0(B) identifies with the disjoint union of the spectra of Bx for all x ∈X. A\ncontinuous subfield of C*-algebras of B is defined as a continuous subfield whose\nspace of continuous vector fields is a ∗-subalgebra of Γ(B) (this implies that the\nfibers are C*-subalgebras). An embedding of continuous fields of C*-algebras is an\nembedding of continuous fields which is a fiberwise C*-algebra morphism.",
+          "page": 3
+        },
+        {
+          "para_id": "2_10",
+          "text": "Convention. It is a well known fact that a continuous field of C*-algebras B is\nuniquely characterized by the C*-algebra Γ0(B) and the embedding of C0(X) into\nits central multiplier algebra. For that reason, by abuse of notation, the C*-algebra\nΓ0(B) will also be denoted by B.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "4\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "A notion that we will use is that of pushforward of continuous field of C*-algebras.\nLet Y be another locally compact Hausdorff space, f : X →Y an open continuous\nsurjection and A a continuous field of C*-algebras over X. Proposition 1.1. There exists a unique continuous field of C*-algebras f∗A over\nY such that • the fiber of f∗A over each y ∈Y is A|f −1(y),\n• if a ∈A then f∗a =\n\u0000\na|f −1(y)\n\u0001",
+          "page": 4
+        },
+        {
+          "para_id": "4_2",
+          "text": "y∈Y is a continuous vector field of f∗A. We call f∗A the pushforward of A by f. We will neither prove nor use it, but\none can show that f∗: A →f∗A is an isomorphism of C*-algebras (we are ignoring\nthe continuous field structure). Proof. The uniqueness follows from [17, Proposition 10.2.4], we only prove the\nexistence. Let S = {f∗a : a ∈A} ⊂Q",
+          "page": 4
+        },
+        {
+          "para_id": "4_3",
+          "text": "y∈Y A|f −1(y). It is clear that S is a ∗-\nalgebra for the pointwise operations and that Sy = A|f −1(y) for all y ∈Y . Thus, if\nwe show that y ∈Y 7→∥(f∗a)y∥is continuous for every a ∈A, then S will generate\na continuous field of C*-algebras satisfying the conditions of the proposition.\nLet us fix y0 ∈Y and ϵ > 0. Let x0 ∈X be such that ∥(f∗a)y0∥= ∥ax0∥and\nlet K be a compact neighborhood of x0 such that ∥ax∥≤ε for all x ∈X \\ K. By\ncontinuity of x 7→∥ax∥, there exists an open set V ⊂X containing f −1(y0) such\nthat\n∀x ∈V, ∃x′ ∈f −1(y0),\n∥ax∥≤∥ax′∥+ ϵ.\nLet W ⊂V be an open neighborhood of x0 such that ∥ax0∥−ϵ ≤∥ax∥\n(∀x ∈W). Given that f is open and K \\ V is a compact set not intersecting f −1(y0), the set\nU = f(W) \\ f(K \\ V ) is a neighborhood of y0. Then, by construction we have ∥ax0∥−ϵ ≤∥(f∗a)y∥≤∥ax0∥+ ϵ\n(∀y ∈U), which concludes the proof.\n□ From now, we fix a locally trivial continuous field of Hilbert spaces H over X. We\ndenote by K(H) the continuous field of elementary C*-algebras associated to H, see\n[17, §10.7.2]. We recall that the fiber of K(H) over every x ∈X is K(Hx) and that\nfor any ψ, ϕ ∈Γ(H), the vector field (η 7→⟨ψx, η⟩ϕx)x∈X of K(H) is continuous.\nAs we will see, every deformed group C*-algebra involved in this paper can be\nembedded into some K(H) for a well-chosen locally trivial continuous field of Hilbert\nspaces H. In order to be able to describe them precisely, we introduce the notion\nof constraint. Definition 1.2. A preconstraint C on H is a collection (Hx,j)j∈Jx, for each x ∈X,\nof mutually orthogonal non-zero closed subspaces of Hx whose direct sum is dense\nin Hx. We write C = (Hx,j)x∈X,j∈Jx.\nA local fixation of a such a preconstraint C is a pair (u, V ), where V is an open\nsubset of X and u is a trivialization of H|V such that for every x ∈V , there exists\nan open subset Vx ⊂V satisfying: (1)\n∀y ∈Vx, ∀j′ ∈Jy, ∃j ∈Jx,\nux(Hx,j) ⊂uy(Hy,j′). We call C a constraint if it admits a collection of local fixations {(uα, Vα)}α such\nthat X = ∪αVα",
+          "page": 4
+        },
+        {
+          "para_id": "4_4",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n5",
+          "page": 5
+        },
+        {
+          "para_id": "4_5",
+          "text": "Proposition 1.3. Let C = (Hx,j)x∈X,j∈Jx be a constraint on H. There is a unique\ncontinuous subfield of K(H) whose fiber at each x ∈X is L\nj∈Jx K(Hx,j). Proof. Let us write KC (H)x = L",
+          "page": 5
+        },
+        {
+          "para_id": "4_6",
+          "text": "j∈Jx K(Hx,j) for each x ∈X and let ΓC be the\nspace Γ[K(H)] ∩Q",
+          "page": 5
+        },
+        {
+          "para_id": "4_7",
+          "text": "x∈X KC (H)x. In order to prove the proposition, it is enough\nto check that for every x ∈X, any element of KC (H)x can be obtained as the\nevaluation at x of an element of ΓC . Let x ∈X and a ∈KC (H)x. By considering\na local fixation of C , one can find an open neighborhood V of x and a continuous\nvector field b of K(H)|V such that bx = a and by ∈KC (H)y for all y ∈V . Let φ be\na continuous function on V with compact support such that φ(x) = 1. Extending\nφb by zero outside V , we get an element of ΓC whose evaluation at x is a.\n□",
+          "page": 5
+        },
+        {
+          "para_id": "4_8",
+          "text": "The continuous field of C*-algebras defined by the above proposition will be\ndenoted by KC (H). Considering the latter as a C*-algebra, one can easily determine\nits irreducible representations. Lemma 1.4. The collection of all the representations prj ◦evx : KC (H) →\nM",
+          "page": 5
+        },
+        {
+          "para_id": "4_9",
+          "text": "l∈Jx\nK(Hx,l) →K(Hx,j)\n(x ∈X, j ∈Jx), where evx denotes the evaluation at x and prj the projection on the component\nindexed by j, is a complete set of representatives of the spectrum of KC (H). Proof. The spectrum of KC (H) is the disjoint union of the spectra of its fibers. For\nevery x ∈X, the irreducible representations of L",
+          "page": 5
+        },
+        {
+          "para_id": "4_10",
+          "text": "j∈Jx K(Hx,j), the fiber of KC (H)\nover x, are up to equivalence its actions on the spaces Hx,j, as j ranges over Jx.\n□",
+          "page": 5
+        },
+        {
+          "para_id": "4_11",
+          "text": "1.2. The generalized Stone-Weierstrass theorem. The main tool that we use\nto determine the explicit form of the C*-algebras involved in our two-parameter\ndeformation is a generalization of the Stone-Weierstrass theorem for postliminal\n[17, §4.3.1] C*-algebras. Since we will invoke it several times, we state it here for\nconvenience. Theorem 1.5. Let φ : A →B be a morphism of C*-algebras, with B postliminal.\nAssume that (i) for every irreducible representation π of B, the pullback representation φ∗π\nof A is irreducible,\n(ii) the induced map φ∗: ˆB →ˆA between the spectra of both algebras is bijective. Then φ is an isomorphism. This version is a combination of [17, §2.7.3] and [17, §11.1.6]. In the following, we\nactually use this theorem only for liminal C*-algebras [17, §4.2.1]. By definition,\nthe latter are the C*-algebras which act on their irreducible representations by\ncompact operators. In particular, the continuous field of C*-algebras KC (H) above\nare liminal.\nAs an application of the above theorem, let us describe the Jacobson topology\nof the spectrum of KC (H), for H a locally trivial continuous field of Hilbert spaces\nover a locally compact space X and a constraint C = (Hx,j)x∈X,j∈Jx on it. Let us\nwrite J = ⊔x∈XJx. For simplicity, for any x ∈X and j ∈Jx, we write Hj = Hx,j\nand we denote by πj the irreducible representation of KC (H) on Hj from Lemma",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "section_id": "6",
+      "section_title": "6\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": []
+    },
+    {
+      "section_id": "1.4",
+      "section_title": "1.4. For any local fixation (u, V ) of C , every x ∈V and j ∈Jx, we define J(u, V )x,j =\nG",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.4_1",
+          "text": "y∈V\n{j′ ∈Jy : ux(Hj) ⊂uy(Hj′)}. Lemma 1.6. There is a unique topology on J such that for every x ∈X and j ∈Jx,\nthe family of all the subsets of the form J(u, V )x,j, for (u, V ) a local fixation of C\nsuch that x ∈V , is a base of neighborhood of j. Proof. Let us fix x ∈X and j ∈Jx. It is enough to check that (A) if (u, V ) and\n(u′, V ′) are local fixations such that x ∈V ∩V ′, then there exists an open subset\nW ⊂V ∩V ′ cotaining x such that J(u′\n|W , W)x,j ⊂J(u, V )x,j ca and (B) for every lo-\ncal fixation (u, V ) such that x ∈V , there exists an open subset W ⊂V containing x\nsuch that for every y ∈W and j′ ∈J(u, V )x,j, we have J(u|W , W)y,j′ ⊂J(u, V )x,j.\nThe claim (B) is a straightforward consequence of the definition of local fixations.\nLet us prove the assertion (A). Without loss of generality, we can assume that\nV = V ′, that H|V is constant and that u′ is the identity. This way (ux)y∈V is just\na strongly continuous family of unitaries. Let Vx be an open subset of V satisfying\ncondition (1) for both u and u′. If ξ is a non-zero element Hj then the functions\nNξ : y 7→⟨uxξ, uyξ⟩is continuous, so there exists an open subset W ⊂Vx on which\nNξ does not vanish at all. Next, for every y ∈W and j′ ∈Jy such that Hj ⊂Hj′,\nthe spaces ux(Hj) and uy(Hj′) are not orthogonal, hence the first one is contained\nin the second one. We thus have J(u′\n|W , W)x,j ⊂J(u, V )x,j.\n□",
+          "page": 6
+        },
+        {
+          "para_id": "1.4_2",
+          "text": "Let us endow J with the topology defined by the above lemma. Proposition 1.7. For any closed ideal I of KC (H), we define Z(I) = {j ∈J : ∀σ ∈I, πj(σ) = 0}. If F is a closed subset of J, let us write I (F) = {σ ∈KC (H) : ∀j ∈F, πj(σ) = 0}. Then I 7→Z(I) establishes a one-to-one correspondence between closed ideals of\nKC (H) and closed subsets of J. The inverse is given by F 7→I (F). Proof. Let us check first that if I is a closed ideal of KC (H), then Z(I) is closed\nin J. Let x ∈X and j ∈Jx \\ Z(I). Let σ ∈I such that πj(σ) ̸= 0. By continuity\nof σ, there exists a local fixation (u, V ∋x) such that for any y ∈V , the restriction\nof uyσyu∗\ny to ux(Hj) is non-zero.\nTherefore, for any j′ ∈J(u, V )x,j, we have\nπj′(σ) ̸= 0. So Z(I) is closed.\nNow, let us prove that I (Z(I)) = I. A complete set of representatives of the\nspectrum of I is given by {πj : j ∈J \\Z(I)}. Since every irreducible representation\nof I has a unique extension into an irreducible representation of I (Z(I)) and\nthe latter vanishes on Z(I), the set {πj : j ∈J \\ Z(I)} is also a complete set\nof representatives for the spectrum of I (Z(I)). Because KC (H) is liminal, so is\nI (Z(I)). Then, by applying the generalized Stone-Weierstrass theorem, we get\nthat I (Z(I)) = I.\nFinally, we show that Z(I (F)) = F for any closed F ⊂J. Let x ∈X and\nj ∈Jx \\ F. Let us consider a neighborhood J(u, V )x,j of j which is contained in\nJ \\ F. By restricting V if necessary, we can assume that V = Vx in the notation of",
+          "page": 6
+        },
+        {
+          "para_id": "1.4_3",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n7",
+          "page": 7
+        },
+        {
+          "para_id": "1.4_4",
+          "text": "(1). Then, there exists a continuous vector field σ of KC (H) vanishing on X \\ V ,\nsuch that πj(σ) ̸= 0 and (uyσyu∗\ny)|ux(Hj)⊥= 0\n(y ∈V ). We have πj′(σ) = 0 for all j′ ∈J \\J(u, V )x,j, therefore σ ∈I (F). This shows that\nZ(I (F)) ⊂F. The converse inclusion is straightforward.\n□ Corollary 1.8. The map j 7→πj induces a homeomorphism from J onto the\nspectrum of KC (H), the latter being equipped with the Jacobson topology. 1.3. Representation theory of crossed products. The full C*-algebras of the\nmotion group G0 and its groupoid analogue G⋆\n0 (see the introduction) are examples\nof crossed products of a commutative C*-algebra by a compact group. We conclude\nthis section by a well-known description of the spectrum of such algebras. For a\ncomplete exposition on crossed product, see [32] for instance.\nWe fix a commutative C*-algebra A, a compact group K and an action α of\nK on A by automorphisms.\nLet K ⋉A be the associated crossed product C*-\nalgebra.\nWe already stress that the latter coincides with the C*-algebra of the\ntransformation groupoid SpA ↶K consisting of the right action of K induced by\nα on the spectrum of A, see [27, p.59].\nConsider a point x ∈SpA and π : Γ →B(H) a unitary representation of a closed\nsubgroup Γ of the stabilizer Kx of x. Let us write L(K, H)Γ = {ψ ∈L2(K, H) : ∀(γ, k) ∈Γ × K, ψ(γk) = π(γ)ψ(k)}. We endow L(K, H)Γ with the right regular action of K and the action of A defined\nas follows: ∀(a, ψ) ∈A × L(K, H)Γ, ∀k ∈K,\n(aψ)(k) = a(xk)ψ(k). These actions form a covariant representation of the dynamical system (A, K, α)\nand thus induce a representation of K⋉A on L(K, H)Γ that we denote by Ind(x, π),\nor Ind(x, Γ, π) when we want Γ to be explicit. Remark 1.9. Let us consider the same situation as above and Γ′ another closed\nsubgroup of K fixing x. Assuming that Γ′ contains Γ, induction in stages implies\nthat Ind(x, Γ, π) and Ind(x, Γ′, IndΓ′\nΓ (π)) are canonically equivalent. Theorem 1.10. The following holds. (i) For every x ∈SpA and every irreducible unitary representation π of Kx,\nthe representation Ind(x, π) of K ⋉A is irreducible.\n(ii) Two such representations Ind(x, π) and Ind(x′, π′) are equivalent if and only\nif there exists k ∈K such that x′ = xk and π is equivalent to π′(k−1 · k).\n(iii) Any irreducible representation of A is equivalent to one of the form Ind(x, π)\nfor x ∈SpA and π an irreducible unitary representation of Kx. A proof of these statements can be found in [26, §4.1].",
+          "page": 7
+        },
+        {
+          "para_id": "1.4_5",
+          "text": "2. Deformed reduced C*-algebras of SL(2, R) and their duals Our goal now is to introduce the convolution algebras involved in our two-\nparameter deformation of SL(2, R) and recall their representation theory. In the\nnext section, we will construct a continuous field of C*-algebras C∗\nr (G) defined over\nR∗\n+ × R whose fibers will be, depending on the base point, the reduced C*-algebra",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "section_id": "8",
+      "section_title": "8\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "8_1",
+          "text": "of G, the group C*-algebra of its Cartan motion group G0, one of the q-deformed\nreduced C*-algebras C∗\nq,r(G) mentioned in the introduction, or the groupoid C*-\nalgebra C∗(G⋆\n0). Here, we describe explicitly the spectrum of these C*-algebras.\nIn order to characterize the corresponding irreducible representations, it will be\nconvenient to express how certain finitely generated algebras of unbounded multi-\npliers act on them. For C∗\nr (G) and C∗(G0), these algebras will be the enveloping\n∗-algebras of the Lie algebras of G and G0 respectively. Convention. Let A be any ∗-algebra. An inner product (·|·) on an A-module V is\nsaid to be A-invariant if (w|av) = (a∗w|v) for all v, w ∈V and a ∈A. By a unitary\nA-module, we mean an A-module endowed with a fixed A-invariant inner product.\nWe call an A-module unitarizable if it admits an A-invariant inner product.\nWe will use specific notations for certain subsets of Z. First, the set of even and\nodd integer are denoted by Zeven and Zodd respectively. If ε ∈{−1, 1} then we\nwrite Zε for set of integers having the same parity as (ε −1)/2. For any λ ∈Z, the\nnotation Z>λ (respectively Z≥λ, Z<λ, Z≤λ) refers to the set of integers n such that\nn > λ (respectively n ≥λ, n < λ, n ≤λ). We will often combine these notations,\nso that, for example, Zε\n>λ means Zε ∩Z>λ.\nThe space of regular functions on K (the K-finite functions) is denoted by O(K).\nWe define the following element of ik:",
+          "page": 8
+        },
+        {
+          "para_id": "8_2",
+          "text": "(2)\nθ =",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": "0\ni −i\n0",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "! .",
+          "page": 8
+        },
+        {
+          "para_id": "0_2",
+          "text": "The family (ζn)n∈Z of characters of K defined by ζn(eitθ) = eint\n(t ∈R), is a basis of O(K). For each ε ∈{−1, 1}, we denote by Oε(K) the space of regular\nfunctions having the same parity as (ε −1)/2, that is, span(ζn : n ∈Zε). 2.1. Representation theory of SL(2, R). We begin by recalling some aspects\nof the representation theory of G. Since this is discussed in many textbooks, for\nexample [28,30], we will essentially focus on fixing notation for future use.\nThe Hecke algebra of the pair (g, K), defined in [23, §I.3], is denoted by R(g, K).\nIt is the convolution algebra of K-finite distributions on G supported in K. As\nsuch, it is naturally endowed with a ∗-structure. The category of non-degenerate\n(or approximately unital) R(g, K)-modules corresponds to the category of (g, K)-\nmodules, see [23, Theorem 1.117]. Accordingly, a (g, K)-module is said to be unitary\nor unitarizable if the associated R(g, K)-module is.\nThe unitary representation theory of G essentially reduces to the study of the\n(g, K)-modules. As an illustration of this principle, there is a one-one correspon-\ndence between irreducible unitary representations of G and unitarizable simple\n(g, K)-modules. It is defined as follows: if V is a simple unitary (g, K)-module\nthen its Hilbert completion ¯V is an irreducible representation of G and V corre-\nsponds to the space K-finite vectors of ¯V , see [6, §3].\nThe main way to produce interesting representations of G is parabolic induction.\nLet (E, F, H) be the canonical basis of g. Consider the minimal parabolic subgroup\nP of G with Lie algebra p = span(H, E).\nLet R(p, M) be the Hecke algebra\nrelative to the pair (p, M), where M = K ∩P = {−1, 1}.\nIf V is a (p, M)-\nmodule then let us denote by Ig,K\np,M(V ) the (g, K)-module given by the K-finite part",
+          "page": 8
+        },
+        {
+          "para_id": "0_3",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n9",
+          "page": 9
+        },
+        {
+          "para_id": "0_4",
+          "text": "of Homp,M(R(g, K), V ), see [23, §II.1]. The one-dimensional (p, M)-modules are\ngiven by the family of characters (χε,λ)ε=±1,λ∈C of R(p, M) characterized by χε,λ(−1 ∈M) = ε,\nχε,λ(H) = λ. If V is a (p, M)-module then Ig,K\np,M(V ⊗χ1,1) is called the (g, K)-module parabolically\ninduced from V , we simply denote it by ind(V ). When V is the M-finite part of an\nadmissible unitary representation ¯V of L, ind(V ) identifies with the K-finite part\nof the induced representation IndG\nP ( ¯V ).\nFor every (ε, λ) ∈{−1, 1}×C, let us write ind(ε, λ) as a short hand for ind(χε,λ).\nIn compact picture, ind(ε, λ) identifies with Oε(K), equipped with the right regular\naction of K. The action of g on ind(ε, λ) is given by\nθζn = nζn, (H ∓i(E + F))ζn = (λ + 1 ± n)ζn,\n(3) where one can note that θ = i(E −F). The (g, K)-module ind(ε, λ) is simple unless\nλ ∈Z−ε. If λ ∈Z−ε\n≥0, then ind(ε, λ) has exactly two simple submodules, that are\nD+(λ) = span(ζn : n ∈Zε\n>λ) and D−(λ) = span(ζn : n ∈Zε\n<−λ).\nLet us now describe the spectrum of C∗\nr (G), which coincides with the tempered\ndual of G (this a general fact concerning semisimple Lie groups [10]). Proposition 2.1. The tempered simple (g, K)-modules consist of: • the even unitary principal series ind(1, λ), λ ∈iR+,\n• the irreducible odd principal series ind(−1, λ), λ ∈iR+ \\ {0},\n• the discrete series and their limits, which are the simple submodules of ind(ε, n)\nfor ε ∈{−1, 1} and n ∈Zε\n≥0.\nEach of these modules has, up to a scalar, a unique invariant inner product. The\ncorresponding completions form a complete set of representatives of the tempered\ndual of G. 2.2. The unitary dual of the motion group. Let us continue this introductory\nsection with the explicit description of the unitary irreducible representations of\nthe motion group G0. We recall that the latter is the semidirect product K ⋉(g/k),\nwhere g/k is considered as an abelian Lie group and is equipped with the adjoint\naction of K.\nThe full C*-algebra of G0, which coincides with its reduced C*-\nalgebra because K is amenable, identifies with the crossed product K ⋉C∗(g/k).\nThe classification of the unitary irreducible representations of G0 hence derives\nfrom Theorem 1.10. In order to make it explicit, we just determine the orbits and\nstabilizers of the spectrum of C∗(g/k) under the action of K.\nWe denote by g0 the Lie algebra of G0. Let us consider g/k as its own Lie algebra,\nso that g/k ⊂g0. We introduce the following elements of U(g/k): δX = H/2 mod k,\nδZ = i(E mod k). The reasons for this notation will become clear later. Let us consider K as embed-\nded into G0, so that θ ∈ik ⊂U(g0). Then one can realize U(g0) as the universal\nunital ∗-algebra generated by θ, δX, δZ and subject to the relations (4)\nθ∗= θ,\nδX∗= −δX,\nδZ∗= δZ, δXδZ = δZδX,\nθδX −δXθ = −2δZ,\nθδZ −δZθ = −δX. Let us identify the spectrum of C∗(g/k) with the Pontryagin dual (g/k)ˆof g/k.\nBy differentiation, the latter in turn identifies with the set of characters of the",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "10",
+      "section_title": "10\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "10_1",
+          "text": "∗-algebra U(g/k), which is in one-to-one correspondence with C as follows: each\nλ ∈C corresponds to the unique character of U(g/k) mapping δX + δZ to λ. The\nright action of K on (g/k)ˆ, which derives from the adjoint action on g/k, is then\ngiven by\nλ · eitθ = e−2itλ\n(t ∈R, λ ∈C = (g/k)ˆ).\nFor each λ ∈iR+, let pλ denote the point of λ/2 ∈Sp(g/k). Each orbit of (g/k)ˆ\nunder the action of K is of the form pλK for a unique λ ∈iR+. Moreover, the\nstabilizer of pλ is M = {−1, 1} if λ ̸= 0, otherwise it is K. As an abelian group, M\nis self-dual. On the other hand, the Pontryagin dual of K identifies with Z via the\npairing (k, n) ∈K × Z 7→ζn(k). Applying Theorem 1.10, we get the following. Proposition 2.2. A complete set of representatives of the unitary dual of G0 is • Ind(pλ, M, ε) for λ ∈iR∗\n+ and ε ∈ˆ\nM = {−1, 1},\n• Ind(p0, K, n) for n ∈ˆK = Z. Note that representations of the second kind are one-dimensional.\nBesides,\naccording to Remark 1.9, we have Ind(p0, M, ε) = L",
+          "page": 10
+        },
+        {
+          "para_id": "10_2",
+          "text": "n∈Zε Ind(p0, K, n) for each\nε ∈{−1, 1}, where the underlying space of Ind(p0, K, n) is simply Cζn. Notation 2.3. For any point x ∈Sp(g/k), any subgroup Γ ⊂Kx and any ir-\nreducible unitary representation π of Γ, let us denote by ind(x, Γ, π) the unitary\nU(g0)-module consisting in the space of K-finite vectors of Ind(x, Γ, π). For more\ninformation, see [31, §4.5.5]. For every λ ∈iR+ and ε ∈{−1, 1}, the underlying space of Ind(pλ, M, ε) is L2(K)ε = {ψ ∈L2(K) : ∀k ∈K, ψ(−k) = εψ(k)}, so ind(pλ, M, ε) is equal to Oε(K) as a space. The explicit action of U(g0) on it is\ncharacterized by δT ±ζn = λζn±2\nθζn = nζn\n(n ∈Zε),\n(5) where δT ± = 2(δX ∓δZ) = δX −δX∗∓2δZ. 2.3. The quantization of SL(2, R). The q-deformation of G we are interested\nin was first introduced by De Commer and Dzokou Talla [13]. Its construction\nis based on the quantization of SL(2, C), the latter considered as the classical\nDrinfeld double of the Poisson Lie group SU(2), and is inspired by Letzter’s theory of\nquantum symmetric pairs [24]. Let us introduce the associated convolution algebras\nand recall some aspects of their representation theory. We shall be brief, referring\nto [11,13,18] for more details.\nAs in our previous work [18], we consider algebras defined over involutive exten-\nsions of C. This generality will be used in the next section to define an algebraic\nversion of the quantum Mackey deformation field. In what follows, F denotes a\nfield extension of C which is equipped with a ∗-algebra structure. An algebra A\ndefined over F having a ∗-algebra structure is called an (F, ∗)-algebra if we have\n(λa)∗= λ∗a∗for every (λ, a) ∈F × A. If moreover A has a structure of Hopf alge-\nbra (over F), it is said to be a Hopf (F, ∗)-algebra if the coproduct and the counit\nare morphisms of ∗-algebras. Dual pairings or skew-pairings of Hopf (F, ∗)-algebras\nare said to be unitary if they are compatible with the ∗-structure, see [22, §1.2.7;\n29, §4.2.4]. The sumless Sweedler notation will be used freely in the following.",
+          "page": 10
+        },
+        {
+          "para_id": "10_3",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n11",
+          "page": 11
+        },
+        {
+          "para_id": "10_4",
+          "text": "We fix a non-zero element q ∈F which admits a self-adjoint square root q1/2 and\nis not a root of unity. For any integer n, we write [n]q for (q −q−1)−1(qn −q−n).\nSuch an element of F is called a q-integer.\nConsider the Drinfeld-Jimbo algebra Uq(sl2) defined over F, with deformation\nparameter q [21, Chapter 1]. If E, F, k denote its canonical generators, there is a\nunique Hopf (F, ∗)-algebra structure on Uq(sl2) such that k is a self-adjoint grouplike\nelement and\nE∗= Fk,\n∆(E) = E ⊗1 + k ⊗E. With this ∗-structure, we denote it by FUq(u). This quantized enveloping ∗-algebra\nof u is dually paired with the quantized coordinate algebra FOq(U) of U. The latter\nis defined as the unital (F, ∗)-algebra freely generated by the entries of a 2×2 matrix\nu such that u∗u = uu∗= 1,\nu∗= diag(1, q)adj(u)diag(1, q−1), where adj(u) denotes the adjugate matrix of u. We endow it with the unique Hopf\n(F, ∗)-algebra structure such that ∆(u) is equal to the square of u in the algebra of\n2×2 matrices with entries in the tensor algebra of FUq(u). One can show that there\nis a unique unitary dual pairing of Hopf (F, ∗)-algebra between FUq(u) and FOq(U)\nsuch that",
+          "page": 11
+        },
+        {
+          "para_id": "10_5",
+          "text": "⟨E, u⟩=",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "0",
+      "section_title": "0\nq1/2 0\n0",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "0_1",
+          "text": "! ,\n⟨k, u⟩=",
+          "page": 11
+        },
+        {
+          "para_id": "0_2",
+          "text": "q\n0 0\nq−1",
+          "page": 11
+        },
+        {
+          "para_id": "0_3",
+          "text": "! .",
+          "page": 11
+        },
+        {
+          "para_id": "0_4",
+          "text": "This bilinear map can also be seen as a unitary skew-pairing FUq(u)cop ⊗FOq(U) −→F, where FUq(u)cop is the Hopf (F, ∗)-algebra with the same structure as FUq(u) except\nthat it is equipped with the opposite coproduct. We denote by FUq(gC) the associ-\nated quantum double [22, §8.2.1; 29, §2.2.4]. Roughly, it is an Hopf (F, ∗)-algebra\ncontaining both FOq(U) and FUq(u)cop as Hopf (F, ∗)-subalgebras such that yx = ⟨x(1), y(1)⟩x(2)y(2)⟨x(3), S−1(y(3))⟩\n(x ∈FUq(u)cop, y ∈FOq(U)), and which is universal for these properties.\nNext, we denote by FUq(k) the unital subalgebra of FUq(u) generated by the\nelement θq = iq−1/2(E −Fk) and we put FOq(K\\U) = {y ∈FOq(U) : y ◁θq = 0}. where the symbol ◁refers to the right action of FUq(u) on FOq(U) defined by\ny◁x = ⟨x, y(1)⟩y(2). Then FUq(k) and FOq(K\\U) are right coideal (F, ∗)-subalgebras\nof FUq(u)cop and FOq(U) respectively. Definition 2.4. The quantized enveloping ∗-algebra of g, denoted by FUq(g), is\nthe subalgebra of FUq(gC) generated by FUq(k) and FOq(K\\U). It is clear that FUq(g) is a right coideal (F, ∗)-subalgebra of FUq(gC). The latter\nis a quantized version of the enveloping ∗-algebra of gC (seen as a real Lie algebra).\nThe subalgebra FUq(g) is somehow the good analogue of U(g) ⊂U(gC) within it.\nThis is explained with more details in [11, below Definition 6.1; 18, Section 2].\nOne can describe FUq(g) in terms of generators and relations. First, one can\nshow that FOq(K\\U) is the universal unital (F, ∗)-algebra with generators Xq and",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "12",
+      "section_title": "12\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "12_1",
+          "text": "Zq subject to the following relations: (6)\nZ∗\nq = Zq,\nXqZq = q2ZqXq, XqX∗\nq + q2Z2\nq = 1,\nX∗\nq Xq + q−2Z2\nq = 1, Then FUq(g) identifies with the universal unital (F, ∗)-algebra with generators θq,\nXq, Zq subject to the above relations, θ∗\nq = θq and (7)\nqXqθq −q−1θqXq = [2]qZq,\nZqθq −θqZq = Xq −X∗\nq . One can also define analogues of the (g, K)-modules. Definition 2.5. Let V be a FUq(g)-module. We call V a F(g, K)q-module if the\naction of θq ∈FUq(k) is diagonalizable with q-integer eigenvalues. It turns out [18, §5] that the F(g, K)q-modules correspond to the non-degenerate\nmodules over a certain approximately unital (F, ∗)-algebra FRq(g, K), which we\nthus view as an analogue of the Hecke algebra R(g, K). It is defined as follows.\nLet FRq(K) be a (F, ∗)-algebra having an F-basis (eq,n)n∈Z of mutually orthogonal\nprojections. Note that FRq(K) acts on any F(g, K)q-module, with eq,n acting as\nthe projection onto the [n]q-eigenspace for each n ∈Z. Then, the multiplication of\nelements of FRq(K) and FOq(K\\U) on any F(g, K)q-module obey certain universal\nrelations. As a space, FRq(g, K) is the tensor product FRq(K) ⊗FOq(K\\U). Its\n(F, ∗)-algebra structure is defined according to the previous relations. We refer to\n[18, §2] for a more rigorous definition.\nThere is also an analogue FRq(p, M) of the Hecke algebra of the pair (p, M) and\nthis leads to an adaptation of the parabolic induction to our quantized context.\nMore precisely, one can construct an induction functor Findq which associates a F(g, K)q-module to any FRq(p, M)-module, see [18, Definition 6.3]. It can be shown\n[18, Proposition 6.9] that the characters of FRq(p, M) are naturally parametrized\nby {−1, 1} × F∗. For any (ε, λ) ∈{−1, 1} × F∗, let us denote by Findq(ε, λ) the F(g, K)q-module induced by the one-dimensional FRq(p, M)-module corresponding\nto the pair (ε, λ). Concretely, Findq(ε, λ) can be realized as a λ-independent F-\nvector space FOε\nq(K), having a basis (ζq,n)n∈Zε, on which FUq(g) acts as follows: (8)\nθζq,n = [n]qζq,n,\nTq,nζq,n = (λ + λ−1)ζq,n, T ±\nq,nζq,n = (λq1±n −λ−1q−1∓n)ζq,n±2. where (9)\nTq,n = q−1Xq + qX∗\nq + (qn −q−n)Zq,\nT ±\nq,n = q±nXq −q∓nX∗\nq ∓[2]qZq. These induced modules are generically simple. The exceptions occur when λ is of\nthe form σqn for σ = ±1 and n ∈Z−ε. In the latter case, if n ≥0 then Findq(ε, σqn)\nadmits two simple submodules, namely FD±\nq (σ, n) = spanF(ζq,±m : m −n ∈Zodd\n>0 ),\nwhich are analogous to the discrete series representations. We refer to [18, §6] for\nmore precisions on this matter.\nFrom now, let us restrict to the case F = C. The assumptions on q amount to\nq > 0 and q ̸= 1. The explicit mention to the field in the notations will be omitted\nin this context. We denote the unit circle by U and we write U+ = {z ∈U : ℑz ≥0}. One can show that Rq(g, K) admits a universal enveloping C*-algebra C∗\nq (G)\nwhich we interpret as a q-analogue of the maximal group C*-algebra of G. Let",
+          "page": 12
+        },
+        {
+          "para_id": "12_2",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n13",
+          "page": 13
+        },
+        {
+          "para_id": "12_3",
+          "text": "us call a (g, K)q-module unitarizable or unitary if the associated Rq(g, K)-module\nis. There is a one-one correspondence between the spectrum of C∗\nq (G) and the set\nof equivalence classes of unitarizable simple (g, K)q-modules. This correspondence\nis defined as follows: if V is a simple unitarizable (g, K)q-module then it has a\nunique invariant inner product up to a scalar and Rq(g, K) acts on it through\nbounded operators, its completion ¯V is then an irreducible representation of C∗\nq (G);\nconversely, if H is an irreducible representation of C∗\nq (G) then Rq(g, K)H is a simple\n(g, K)q-module. We refer to [18, §6] for more precisions.\nMoreover, one can construct [14] a representation L2\nq(G) of C∗\nq (G) which is analo-\ngous to the regular representation of G. We define the q-deformed group C*-algebra\nC∗\nq,r(G) as the quotient of C∗\nq (G) by the kernel of this representation. By restating\n[12, Theorem 5.1] in light of [18, §7], we see obtain the following. Proposition 2.6. A complete set of representatives of the spectrum of C∗\nq,r(G) is\ngiven by the completions of the following unitarizable (g, K)q-modules: • indq(ε, λ) for ε ∈{−1, 1} and λ ∈U+ such that (ε, λ) ̸= (−1, ±1),\n• D+\nq (σ, n) and D−\nq (σ, n) for (σ, n) ∈{−1, 1} × Z≥0. For any (n, m) ∈Z2, let us write (10)\nT m\nq,n = eq,mTq,neq,n,\nT m,±\nq,n\n= eq,mT ±\nq,neq,n, understood as elements of Rq(g, K). Later, we will need the following basic result. Lemma 2.7. The ∗-algebra Rq(g, K) is generated by the collection of elements\nT n\nq,n, T n+2,+\nq,n\n, T n−2,−\nq,n\n, as n ranges over Z. Proof. First, note that Xm\nq,n = eq,mXqeq,n and Zm\nq,n = eq,mZqeq,n, as (n, m) ranges\nover Z2, generate Rq(g, K) as a ∗-algebra. This is a straightforward consequence of\nthe two following observations: the family (P |l|≤m eq,l)m∈N is an approximate unit\nof Rq(g, K) and {Xq, Zq} generates Oq(K\\U) as a ∗-algebra. Next, by inverting\nthe formulas (9), one can express Xm\nq,n and Zm\nq,n as linear combinations of T m\nq,n and\nT m,±\nq,n\nfor every (n, m) ∈Z2, so the latter generate the ∗-algebra Rq(g, K).\nTo conclude, just note that T m\nq,n, T m,+\nq,n , T m,−\nq,n\nvanish if m ̸= n, m ̸= n + 2,\nm ̸= n−2 respectively. Indeed, Rq(g, K) embeds into C∗\nq (G) and every unitarizable\nsimple (g, K)q-module can be embedded into an induced module indq(ε, λ) for some\n(ε, λ) ∈{−1, 1} × C, on which T m\nq,n, T m,±\nq,n\nvanish under the above conditions on n\nand m in view of (8).\n□",
+          "page": 13
+        },
+        {
+          "para_id": "12_4",
+          "text": "2.4. The quantization of the motion group. Let G⋆\n0 be the transformation Lie\ngroupoid (see [27, §1.2.a]) of the right action of K on K\\U and let b be the base\npoint of K\\U. It is an amenable groupoid and its C*-algebra C∗(G⋆\n0) coincides\nwith the crossed product K ⋉C(K\\U). By comparison, the group C*-algebra of\nthe motion group G0 is naturally isomorphic to K ⋉C0((g/k)ˆ). As we will see, as\nthe Mackey parameter approaches 0, the family of quantizations of G converges (at\nthe C*-algebraic level) to the deformation to the normal cone [15] induced by the\nembedding K ,→G⋆\n0, where K is identified with the subgroup(oid) of elements of\nG⋆\n0 having source and range equal to the base point b of K\\U. The representation\ntheoretic analogy between G and G0 can then be extended to the q-deformations\nof G, provided that we replace G0 by G⋆\n0.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "14",
+      "section_title": "14\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "14_1",
+          "text": "Due to Theorem 1.10 and its expression as a crossed product C*-algebra, the\ndescription of the irreducible representations of C∗(G⋆\n0) follows from the determi-\nnation of the orbits of K\\U under the action of K.\nLet O(K\\U) ⊂C(K\\U) be the unital ∗-algebra of U-finite functions on K\\U.\nOne can check that O(K\\U) is generated as a unital ∗-algebra by the functions\nX, Z : K\\U →C defined by\n \nZ\niX∗ −iX\n−Z",
+          "page": 14
+        },
+        {
+          "para_id": "14_2",
+          "text": "!\f\f\f\f\f\nb·u\n= u∗θu\n(u ∈U), where θ is the matrix defined by (2).\nThey satisfy the relations Z∗= Z and\nXX∗+ Z2 = 1. In fact, O(K\\U) is the universal unital commutative ∗-algebra\ngenerated by X and Z and subject to these relations. The equality X∗X + Z2 = 1\nimplies that O(K\\U) admits an enveloping C*-algebra. The latter is C(K\\U),\nsince both ∗-algebras are commutative and share the same characters.\nLet us introduce the following change of variables: T = X + X∗,\nT ± = X −X∗∓2Z. One can check that any k ∈K acts on these variables as follows k · T = T,\nk · T ± = ζ±2(k)T ±. The orbits of K\\U under the action of K are thus the level sets of T. For every\nλ in the closed upper half-circle U+, let p⋆\nλ denote the point of K\\U defined by\nX(p⋆\nλ) = λ, Z(p⋆\nλ) = 0. From the above, it follows that each K-orbit is generated\nby p⋆\nλ for a unique λ ∈U+. The stabilizer of p⋆\nλ is K if λ ∈{−1, 1}, otherwise it is\nM = {−1, 1}. By Theorem 1.10, we get the following. Proposition 2.8. A list of representatives of the spectrum of C∗(G⋆\n0) is • Ind(p⋆\nλ, M, ε) for λ ∈U+ \\ {−1, 1} and ε ∈{−1, 1},\n• the one-dimensional representations Ind(p⋆\nσ, K, n) for σ ∈{−1, 1} and n ∈Z. For every (λ, ε) ∈U+ × {−1, 1}, the underlying Hilbert space of Ind(p⋆\nλ, M, ε) is\nL2(K)ε. When λ ∈{−1, 1} and n ∈Zε, the one-dimensional subspace Cζn is an\nirreducible subrepresentation of Ind(p⋆\nλ, M, ε) identifying with Ind(p⋆\nλ, K, n).\nAs for the motion group, these representations can be characterized by the action\non a dense subspace of an analogue of the enveloping ∗-algebra, as follows. By\ndifferentiating the action of K on O(K\\U), we get an action # of U(k) on O(K\\U).\nThe functor associating to any unital ∗-algebra A the set of pairs of unital ∗-algebra\nmorphisms (ι : O(K\\U) →A, κ : U(k) →A) such that for all f ∈O(K\\U),\nκ(θ)ι(f) −ι(f)κ(θ) = ι(θ#f), is representable. If g⋆\n0 denotes the Lie algebroid of\nG⋆\n0, then we define U(g⋆\n0) as a universal element of this functor. The motivation\nfor this notation is that U(g⋆\n0) can be viewed as the enveloping O(K\\U)-algebra of\nthe space of ”regular” sections of g⋆\n0. One can check that the universal ∗-algebra\nmorphisms from U(k) and O(K\\U) to U(g⋆\n0) are injective.\nFor any representation of C∗(G⋆\n0) on a Hilbert space H, the space of K-finite\nvectors of H inherits a structure of U(g⋆\n0)-module by differentiating the action of\nK and restricting the action of C(K\\U) to O(K\\U). For any point x ∈K\\U, any\nsubgroup Γ ⊂Kx and any irreducible unitary representation π of Γ, let us denote\nby ind(x, Γ, π) the unitary U(g⋆\n0)-module consisting of the space of K-finite vectors",
+          "page": 14
+        },
+        {
+          "para_id": "14_3",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n15",
+          "page": 15
+        },
+        {
+          "para_id": "14_4",
+          "text": "of Ind(x, Γ, π). If ε ∈{−1, 1} and λ ∈U+, the underlying space of ind(˜pλ, M, ε) is\nOε(K) and the action of U(g⋆\n0) on it is characterized by θζn = nζn,\nTζn = (λ + λ−1)ζn,\nT ±ζn = (λ −λ−1)ζn±2.\n(11) Convention. In the following, we identify g/k⊗RC with the complexified cotangent\nspace T ∗\nb (K\\U) ⊗R C of K\\U at b by identifying δX, δZ and δT ± with the differ-\nentials of X, Z and T ± at b. In this picture, g/k identifies with iT ∗\nb (K\\U). This\nway, the Pontryagin dual (g/k)ˆof g/k identifies with the tangent space Tb(K\\U)\nas follows: to each character χ of g/k corresponds the unique vector v ∈Tb(K\\U)\nsuch that χ(iξ) = ei⟨ξ,v⟩for all ξ ∈T ∗\nb (K\\U) = −ig/k. 3. The continuous field of C*-algebras The aim of this third section is to define the continuous field of C*-algebras\nevoked in the introduction. In order to have a better insight into this construction,\nwe first define an algebraic field for (the analogues of) the universal enveloping\n∗-algebras. More precisely, we construct an involutive algebra AU(g) defined over\nthe ring A of analytic functions on R∗\n+ × R and we show that it specializes at each\n(q, t) ∈R∗\n+ × R according to the following table. q ̸= 1\nq = 1 t ̸= 0\nUqt(g)\nU(g) t = 0\nU(g⋆\n0)\nU(g0) Although we do not prove it explicitly, the continuous field of C*-algebras is then\nconstructed so that the elements of AU(g) give continuous vector fields of unbounded\nmultipliers. 3.1. The algebraic quantum Mackey field. In this subsection, we define the\nalgebra AU(g) and show how some of its modules specialize at points (q, t) to the\nvarious irreducible representations introduced in Section 2. We emphasize that this\npart is mainly motivational and may thus be skipped on a first reading. Vocabulary. Given a ring morphism φ : A1 →A2 between commutative rings and\nMj an Aj-module for each j ∈{1, 2}, an additive map f : M1 →M2 is said to be\nφ-linear if f(am) = φ(a)f(m) for every (a, m) ∈A × M.\nLet A be a commutative ∗-algebra, let φ : A →C be a ∗-algebra morphism and\nlet B be a unital (A, ∗)-algebra, that is, a unital ∗-algebra equipped with a unital\nmorphism of ∗-algebras ι : A →Z(B), where Z(B) denotes the center of B. By\na specialization of B at φ, we mean a universal element of the functor associating\nto any unital ∗-algebra C the set of φ-linear ∗-algebra morphisms B →C. Let\nφB : B →Bφ be such a specialization and M be any B-module. The functor\nassociating to any Bφ-module N the set of φB-linear maps M →N is representable.\nA universal element of that functor is said to be a specialization of M at φ. Let A be the ∗-algebra of real analytic complex-valued functions on R∗\n+ × R. Its\nfraction field, denoted by F, is an involutive extension of C. We denote by1 (ϙ, τ)\nthe canonical coordinates of R∗\n+ × R. Note that the element ϙτ ∈F× satisfies the\nconditions needed to define a deformed universal enveloping algebra FUϙτ (g), see\nSection 2.3, and we recall that we have generators Xϙτ , Zϙτ , θϙτ as in (6), (7). 1We use the archaic greek letter koppa ϙ to denote the coordinate function of the parameter q.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "section_id": "16",
+      "section_title": "16\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "16_1",
+          "text": "Definition 3.1. We define AU(g) as the (F, ∗)-subalgebra of FUϙτ (g) generated by\nthe elements θA = θϙτ ,\nxA = η−1(Xϙτ −1),\nzA = η−1Zϙτ , where η is defined as the element of A such that ϙτ −ϙ−τ = τη. By applying the exact same techniques as in [18, §4], we get the following result. Proposition 3.2.\nAU(g) is a universal unital (F, ∗)-algebra with generators θA,\nxA, zA and relations",
+          "page": 16
+        },
+        {
+          "para_id": "16_2",
+          "text": "(12)",
+          "page": 16
+        },
+        {
+          "para_id": "16_3",
+          "text": "ϙτxAθA −ϙ−τθAxA = [2]ϙτ zA −τθA,\nzAθA −θAzA = xA −x∗\nA, ϙτzAxA −ϙ−τxAzA = −τzA,\nxAx∗\nA + ϙ2τz2\nA = x∗\nAxA + ϙ−2τz2\nA, xA + x∗\nA + η(xAx∗\nA + ϙ2τz2\nA) = 0. The characters of the ∗-algebra A are the evaluations at points (q, t) ∈R∗\n+ × R.\nThe following proposition describes the corresponding specializations of AU(g). Proposition 3.3. Let (q, t) ∈R∗\n+ × R and let h = 2(log q). The specialization of AU(g) at (q, t), which we denote by evq,t : AU(g) →Uq,t(g), is given by the following\ntable. Value of (q, t)\nUq,t(g)\nevq,t(xA)\nevq,t(zA)\nevq,t(θA) q ̸= 1, t ̸= 0\nUqt(g)\nη(q, t)−1(Xqt −1)\nη(q, t)−1Zqt\nθqt q ̸= 1, t = 0\nU(g⋆\n0)\nh−1(X −1)\nh−1Z\nθ q = 1, t ̸= 0\nU(g)\ntH/2\nitE\nθ q = 1, t = 0\nU(g0)\nδX\nδZ\nθ",
+          "page": 16
+        },
+        {
+          "para_id": "16_4",
+          "text": "This follows from the characterization of AU(g) in the last proposition and the\ndescription of the algebras Uq(g), U(g⋆\n0), U(g), U(g0) in terms of generators and\nrelations given in the previous section.\nOne can also describe explicitly the specializations of the analogues of the parabol-\nically induced modules from Section 2.3. Let ε ∈{−1, 1} and λ be any invertible\nelement of A such that λ = 1 wherever ϙ = 1. As explained in the last section, the\nunderlying space of the F(g, K)ϙτ -module Findϙτ (ε, λ) is an F-vector space FOε\nϙτ (K),\nwhich is independent of λ and has a basis (ζϙτ,n)n∈Zε. Let us denote by AOε(K)\nthe A-submodule of FOε\nϙτ (K) spanned by the elements of this basis. Lemma 3.4. The action of AU(g) on Findϙτ (ε, λ) stabilizes AOε(K). Proof. For every n ∈Z, let us write sA,n = ϙ−τxA + ϙτx∗\nA + (ϙnτ −ϙ−nτ)zA = η−1(Tϙτ,n −[2]ϙτ ), s±\nA,n = ϙ±nτxA −ϙ∓nτx∗\nA ∓[2]ϙτ zA ± τ[n]ϙτ = η−1T ±\nϙτ,n.\n(13) Let us denote by AV the A-submodule of AU(g) spanned by 1, xA, x∗\nA, zA. One can\ncheck that for each n ∈Z, we have AV = spanA(1, sA,n, s+\nA,n, s−\nA,n). Now, using the\nformulas (8), we get (14)\nsA,nζϙτ,n = η−1 \u0000\nλ + λ−1 −[2]ϙτ \u0001\nζϙτ,n, s±\nA,nζϙτ,n = η−1 \u0010\nλϙτ(1±n) −λ−1ϙ−τ(1±n)\u0011\nζϙτ,n±2.",
+          "page": 16
+        },
+        {
+          "para_id": "16_5",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n17",
+          "page": 17
+        },
+        {
+          "para_id": "16_6",
+          "text": "From the very expression of η, it follows that η/(ϙ −1) ∈A×. Hence, for any\nf ∈A, if f = 1 wherever ϙ = 1, then η−1f ∈A. Since λ = 1 on ϙ−1(1), the above\nexpressions (14) show that AV ζϙτ,n ⊂spanA(ζϙτ,m : m ∈{n −2, n, n + 2}) . Since AU(g) is generated as an A-algebra by the elements of AV and by θA, which\nclearly preserves AOε(K), this concludes the proof.\n□ Let us denote by Aind(ε, λ) the AU(g)-module AOε(K) ⊂Findϙτ (ε, λ). The next\nproposition summarizes how this module specializes at each point of R∗\n+ × R. Notation 3.5. We write θ1 = θ, Oε\n1(K) = Oε(K) and ζ1,n = ζn for every n ∈Z. Proposition 3.6. We fix (q, t) ∈R∗\n+ × R. Let evε\nq,t : AOε(K) →Oε\nqt(K) be the\nunique map which is linear with respect to the evaluation of A at (q, t) and such\nthat evε\nq,t(ζϙτ,n) = ζqt,n for all n ∈Zε. Let indq,t(ε, λ) be the unique Uq,t(g)-module\nwhose underlying space is Oε\nqt(K) and such that evε\nq,t : Aind(ε, λ) →indq,t(ε, λ)\nis a specialization of Aind(ε, λ) at evq,t. The nature of indq,t(ε, λ) is given by the\nfollowing table. q ̸= 1\nq = 1 t ̸= 0\nindqt(ε, λ(q, t))\nind(ε, t−1∂ϙλ(1, t)) t = 0\nind(p⋆\nλ(q,0), M, ε)\nind(p∂ϙλ(1,0), M, ε) Proof. As an A-algebra, AU(g) is generated by θA, 1, xA, x∗\nA, zA. For every n ∈Z,\nthe latter can be expressed as A-linear combinations of θA, 1, sA,n, s+\nA,n, s−\nA,n, defined\nby (13). Thus, to prove that indq,t(ε, λ) coincides with the Uq,t(g)-module of the\nabove table, it is enough to check that the images of θA, 1, sA,n, s+\nA,n, s−\nA,n through\nevq,t act in the same way on every ζqt,n for both modules. In order to check that,\nwe will need the following table, where h = η(q, 0) = 2 log q. Value of (q, t)\nevq,t(sA,n)\nevq,t(s±\nA,n) q ̸= 1, t ̸= 0\nη(q, t)−1(Tqt −[2]qt)\nη(q, t)−1T ±\nqt q ̸= 1, t = 0\nh−1(T −2)\nh−1T ± q = 1, t ̸= 0\n0\nt(H ∓i(E + F) + n −θ) q = 1, t = 0\n0\nδT ± Moreover, the action of these elements on every ζqt,n ∈indq,t(ε, λ) is obtained by\nevaluating (14) at (q, t): evq,t(sA,n)ζqt,n = κn(q, t)ζqt,n, evq,t(s±\nA,n)ζqt,n = κ±\nn (q, t)ζqt,n±2, where the value of the constants κn(q, t), κ±\nn (q, t) are given by Value of (q, t)\nκn(q, t)\nκ±\nn (q, t) q ̸= 1, t = 0\nh−1(λ(q, 0) + λ(q, 0)−1 −2)\nh−1(λ(q, 0) −λ(q, 0)−1) q = 1, t ̸= 0\n0\n∂ϙλ(1, t) + t(1 ± n) q = 1, t = 0\n0\n∂ϙλ(1, 0)",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "section_id": "18",
+      "section_title": "18\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "18_1",
+          "text": "if q = 1 or t = 0; otherwise they can be red from (14) directly. To conclude the\nproof, just compare these tables with the formulas (3), (5), (8), (11).\n□ A similar statement can be made for the analogues of the discrete series. Let us\nfix n ∈Z>0 and write ε = (−1)n+1. One can check that AOε(K) ∩FD+\nϙτ (1, n)\nand\nAOε(K) ∩FD−\nϙτ (1, n) are stable by the action of AU(g).\nLet us denote by AD+(n) and AD−(n) the\nresulting AU(g)-modules. Next, for every q ∈R∗\n+, we write",
+          "page": 18
+        },
+        {
+          "para_id": "18_2",
+          "text": "D±\nq,t(n) =",
+          "page": 18
+        },
+        {
+          "para_id": "18_3",
+          "text": "(\nD±\nqt(1, n)\n(q ̸= 1)\nD±(n)\n(q = 1) when t ̸= 0 and",
+          "page": 18
+        },
+        {
+          "para_id": "18_4",
+          "text": "D±\nq,0(n) =",
+          "page": 18
+        },
+        {
+          "para_id": "18_5",
+          "text": "(L",
+          "page": 18
+        },
+        {
+          "para_id": "18_6",
+          "text": "m∈±Zε\n>n ind(p⋆\n1, K, n) ⊂ind(p⋆\n1, M, ε)\n(q ̸= 1)\nL\nm∈±Zε\n>n ind(p0, K, n) ⊂ind(p0, M, ε)\n(q = 1) Applying the previous proposition to the case λ = ϙnτ, we obtain the following. Proposition 3.7. For every (q, t) ∈R∗\n+ ×R, the restrictions of evε\nq,t to the A-span\nof {ζϙτ,m : m ∈Zε\n±m>n}, viewed as evq,t-linear maps AD±(n) →D±\nq,t(n), define specializations of AD±(n) at (q, t). Remark 3.8. The other analogues of the discrete series FD±\nϙτ (−1, n) do not fit\nin the above picture, because they do not admit classical limits as q →1. We\ncould however develop the same ideas by restricting to analytic functions defined\non (0, 1) × R. 3.2. Construction of the continuous field. The previous results suggest that\nthe Hilbert completions of the modules indq,t\n\u0000\nε, ϙλ\u0001\n, for fixed (ε, λ) ∈{−1, 1}×iR,\nand D±\nq,t(n), for a given n ∈Z>0, should form continuous families of representations\nof a certain continuous field of C*-algebras C∗\nr (G) over R∗\n+ × R with fibers",
+          "page": 18
+        },
+        {
+          "para_id": "18_7",
+          "text": "(15)\nC∗\nr (G)q,t =",
+          "page": 18
+        },
+        {
+          "para_id": "18_8",
+          "text": "\n\n\n\n \n\n\n",
+          "page": 18
+        },
+        {
+          "para_id": "18_9",
+          "text": "C∗\nqt,r(G)\n(q ̸= 1, t ̸= 0)\nC∗(G⋆\n0)\n(q ̸= 1, t = 0)\nC∗\nr (G)\n(q = 1, t ̸= 0)\nC∗(G0)\n(q = 1, t = 0). The aim of the present subsection is to construct this continuous field.\nLet us outline our strategy. First, we define a certain locally compact Hausdorff\nspace S and equip it with an open continuous map L : S →R∗\n+ × R, called the\nlocation map. Roughly, the fiber Sq,t of L over a base point (q, t) parametrizes the\n(analogues) of the principal and discrete series associated to the deformation of G\nwith parameter (q, t). Then, we define a locally constant continuous field of Hilbert\nspaces H over S and a constraint C on it. The Fourier transform will give rise\nto an embedding of C*-algebras C∗\nr (G)q,t ,→KC (H)|Sq,t for each (q, t) ∈R∗\n+ × R.\nFinally, the continuous field of reduced C*-algebras C∗\nr (G) is defined so that these\nembeddings identify continuous vector fields of the latter with continuous vector\nfields of L∗KC (H) (the pushforward of KC (H) by L, see Proposition 1.1).",
+          "page": 18
+        },
+        {
+          "para_id": "18_10",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n19",
+          "page": 19
+        },
+        {
+          "para_id": "18_11",
+          "text": "Let us begin with the definitions of S and L. We define S as the topological\ndisjoint union",
+          "page": 19
+        },
+        {
+          "para_id": "18_12",
+          "text": "S =",
+          "page": 19
+        },
+        {
+          "para_id": "18_13",
+          "text": " \n[",
+          "page": 19
+        },
+        {
+          "para_id": "18_14",
+          "text": "ε∈{−1,1}\nPriε",
+          "page": 19
+        },
+        {
+          "para_id": "18_15",
+          "text": " ∪",
+          "page": 19
+        },
+        {
+          "para_id": "18_16",
+          "text": " \n\n\n[ σ∈{−1,1}\nn∈Z≥1",
+          "page": 19
+        },
+        {
+          "para_id": "18_17",
+          "text": "Dis+\nσ,n ∪Dis−\nσ,n",
+          "page": 19
+        },
+        {
+          "para_id": "18_18",
+          "text": " \n\n,",
+          "page": 19
+        },
+        {
+          "para_id": "18_19",
+          "text": "where • for every n ∈Z, the spaces Dis±\nσ,n are copies of R∗\n+ × R if σ = 1, copies of\n(R∗\n+ \\ {1}) × R if σ = −1,\n• for each ε ∈{−1, 1}, the space Priε is a copy of the deformation to the normal\ncone relative to the inclusion {1} × R × U+ ⊂R∗\n+ × R × U+, that is, the\nset (R∗\n+ \\ {1}) × R × U+\nF {1} × R × iR+ equipped with the unique topology\nsatisfying: (1) the subspace (R∗\n+ \\{1})×R×U+ is open and inherits the usual topology,\n(2) the map",
+          "page": 19
+        },
+        {
+          "para_id": "18_20",
+          "text": "(q, t, λ) 7→",
+          "page": 19
+        },
+        {
+          "para_id": "18_21",
+          "text": "(\n(q, t, qλ)\nif q ̸= 1\n(1, t, λ)\nif q = 1 is a homeomorphism of {(q, t, λ) ∈R∗\n+ × R × iR+ : |λ log q| < π} onto the\nsubspace (R∗\n+ \\ {1}) × R × (U+ \\ {−1}) F {1} × R × iR+.\nEach of these spaces is naturally equipped with an open continuous map with values\nin R∗\n+ ×R, namely the natural inclusion for Dis±\nσ,n and the projection onto the first\ntwo coordinates for Priε. Assembling these maps yields a continuous open surjection\nL : S →R∗\n+ × R. If s ∈S, we call L(s) the location of s. For every (q, t) ∈R∗\n+ × R,\nwe denote by Sq,t the preimage of (q, t) by L. More generally, if D is a subspace of\nR∗\n+ × R, we write SD = L−1(D). Moreover, by a slight abuse of notation, we will\nconsider ϙ and τ as coordinates on S through L. Definition 3.9. An element of S is said to be a continuous parameter if it belongs\nto ∪ε∈{−1,1}Priε, otherwise we call it a discrete parameter. If s ∈Dis±\nσ,n for some\n(σ, n) ∈{−1, 1} × Z>0, then (n, ±) is called the order of s. We define a functions Λ and e on S as follows.",
+          "page": 19
+        },
+        {
+          "para_id": "18_22",
+          "text": "Λ(s) =",
+          "page": 19
+        },
+        {
+          "para_id": "18_23",
+          "text": "\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n",
+          "page": 19
+        },
+        {
+          "para_id": "18_24",
+          "text": "λ\n(s = (q, t, λ) ∈Priε, q ̸= 1)\nλ/t\n(s = (1, t, λ) ∈Priε, t ̸= 0)\nλ/t\n(s = (1, 0, λ) ∈Priε)\nσqnt\n(s = (q, t) ∈Dis±\nσ,n, q ̸= 1)\nn\n(s = (1, t) ∈Dis±\n1,n, t ̸= 0)\n0\n(s = (1, 0) ∈Dis±\n1,n)",
+          "page": 19
+        },
+        {
+          "para_id": "18_25",
+          "text": ",\ne(s) =",
+          "page": 19
+        },
+        {
+          "para_id": "18_26",
+          "text": "(\nε\n(s ∈Priε)\n(−1)n+1\n(s ∈Dis±\nσ,n).",
+          "page": 19
+        },
+        {
+          "para_id": "18_27",
+          "text": "As explained before, S can be viewed as a parameter space for irreducible repre-\nsentations. The function Λ then plays the role of the infinitesimal character. For\na given s ∈S, we call e(s) the parity of s and we say that s is even (respectively\nodd) if e(s) = 1 (respectively e(s) = −1). Moreover, for any s ∈S, we write",
+          "page": 19
+        },
+        {
+          "para_id": "18_28",
+          "text": "Z(s) =",
+          "page": 19
+        },
+        {
+          "para_id": "18_29",
+          "text": "(\nZε\n(s ∈Priε)\n±Ze(s)\n>n\n(s ∈Dis±\nσ,n), which we somehow interpret as the set of K-types of s.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "section_id": "20",
+      "section_title": "20\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "20_1",
+          "text": "Now let us define the continuous field H. For each q ∈R∗\n+ and ε ∈{−1, 1}, let\nus denote by L2\nq(K)ε the completion of Oε\nq(K) with respect to the unique inner\nproduct (·|·)0,q such that (ζq,n|ζq,m)0,q =\n2δn,m\nqn + q−n\n(n, m ∈Zε). For any (q, n) ∈R∗\n+ ×Z≥0, if ε = (−1)n+1, then let us denote by Dq,n,± the Hilbert\ncompletions of the subspaces span(ζq,m : m ∈±Zε\n>n) of Oε\nq(K), equipped with the\ninner product (·|·)n,q characterized by",
+          "page": 20
+        },
+        {
+          "para_id": "20_2",
+          "text": "(ζq,m|ζq,m′)n,q =\n2δm,m′\nqm + q−m",
+          "page": 20
+        },
+        {
+          "para_id": "20_3",
+          "text": "|m|−n\nY l=1\nl odd",
+          "page": 20
+        },
+        {
+          "para_id": "20_4",
+          "text": "[l −1]q\n[l −1 + 2n]q\n(m ∈Zodd\n>0 ).",
+          "page": 20
+        },
+        {
+          "para_id": "20_5",
+          "text": "We define H as the unique continuous field of Hilbert spaces over S satisfying: • Hs = L2\nϙτ (s)(K)e(s) for every continuous parameter s,\n• Hs = Dϙτ (s),n,± for every discrete parameter s of order (n, ±),\n• for every n ∈Z, the vector field s ∈S 7→1Z(s)(n)ζϙτ (s),n is continuous. Since it is trivial on each connected component, H is locally trivial. In order to\nsimplify the notations, for every s ∈S, we denote by (·|·)s and ∥· ∥s the inner\nproduct and norm on Hs.\nWe define the constraint C on H as follows. The decomposition of the fibers of\nH with respect to C is given by: • Hs = Dϙτ (s),0,+\nL Dϙτ (s),0,−if s is an odd continuous parameter such that\nτ(s) ̸= 0 and Λ(s) ∈R,\n• Hs = L\nn∈Z(s) Cζn if τ(s) = 0 and Λ(s) ∈R,\n• for all other s, the decomposition is trivial. The embeddings C∗\nr (G)q,t ,→KC (H)|Sq,t will be isomorphisms for t ̸= 0, but\nnot at t = 0, due to the degeneracy of the principal series as t →0 (see the\nprevious subsection and the remarks after Proposition 2.8). In order to prove that\nthe continuous field C∗\nr (G) is well-defined near the edge t = 0, we will need to\ncharacterize the image of these embeddings. For that purpose, we introduce some\nextra material. For every (ε, n) ∈{−1, 1} × Z−ε\n>0 and m ∈±Zε\n>n, let Jn,± denote\nthe surjective linear operator L2(K)ε →D1,n,± defined by Jn,±(ζm) = 1Zε\n>n(±m)ζm\n(m ∈Zε). For any (q, n) ∈R∗\n+ × Z>0, for every continuous parameter s ∈Sq,0 and every dis-\ncrete parameter s′ ∈Sq,0 of order (n, ±) such that Λ(s) = Λ(s′) and e(s) = e(s′),\nwe write J(s′, s) for the operator Jn,± : Hs →Hs′.\nIf V is any locally closed\nsubspace of R∗\n+ × R, a vector field σ of KC (H)|SV is said to be J-equivariant if\nJ(s′, s)σs = σs′J(s′, s) for every pair (s, s′) ∈SV ×V SV as above. We denote by\nKC (H)|SV ,J the C*-algebra of continuous J-equivariant vector fields of KC (H)|SV\nvanishing at infinity. Assuming that τ(V ) = {0}, denoting by Sc\nV the set of contin-\nuous parameters of SV , one can check that the morphism KC (H)|SV →KC (H)|Sc\nV\nof restriction to Sc\nV induces a C*-algebra isomorphism (16)\nKC (H)|SV ,J −→KC (H)|Sc\nV . Moreover, we have the following.",
+          "page": 20
+        },
+        {
+          "para_id": "20_6",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n21",
+          "page": 21
+        },
+        {
+          "para_id": "20_7",
+          "text": "Lemma 3.10. There exists a unique continuous subfield of C*-algebras of L∗KC (H)\nwhose fiber at each (q, t) ∈R∗\n+ × R is KC (H)|Sq,t,J. Proof. Let (q, t) ∈R∗\n+ × R and let a ∈KC (H)|Sq,t,J. Assume first that t ̸= 0. Then\nKC (H)|Sq,t,J = KC (H)|Sq,t and there exists ˜a ∈KC (H)|S\\τ −1(0) = KC (H)|S\\τ −1(0),J\nsuch that ˜a|Sq,t = a. Extending ˜a by zero on τ −1(0), we get an element b ∈KC (H)J\nwhose restriction to Sq,t is a. Now, assume that t = 0. Let a′ be an element of\nKC (H)|τ −1(0)c whose restriction to Sc\nq,0 is a|Sc\nq,0. Because of the isomorphism (16),\nthere is exists an element ˜a of KC (H)|τ −1(0),J such that ˜a|τ −1(0)c = a′. Moreover,\nby the injectivity of (16) for SV = Sq,0, we have ˜a|Sq,0 = a. If b ∈KC (H) is any\nextension of ˜a, then b is J-equivariant and its restriction to Sq,0 is a.\nIn each case, there exists b ∈KC (H)J such that (L∗b)q,t = a, which concludes\nthe proof.\n□ We now come to the definition of the embeddings C∗\nr (G)q,t ,→KC (H)|Sq,t. We\nadopt here Notation (15), even if the continuous field of C*-algebras is not yet\ndefined. The construction of these embeddings will depend on the values of q and\nt so we treat each case separately. Case q ̸= 1, t ̸= 0.\nConsider q ∈R∗\n+ \\ {1}.\nIf s ∈Sq,1 is a continuous pa-\nrameter, let πs denote the representation of C∗\nq,r(G) on Hs obtained by com-\npletion of the (g, K)q-module indq(e(s), Λ(s)). We recall that the inner product\n(·|·)0,q on Oe(s)(K) is Uq(g)-invariant, see [18, §6]. On the other hand, for every\n(σ, n) ∈{−1, 1} × Z>0, the inner product (·|·)n,q turns D+\nq (σ, n) and D−\nq (σ, n) into\nunitary (g, K)q-modules (this can be obtained from [13, Proposition 3.14] by ex-\nplicit computations). If s ∈Sq,1 ∩Dis±\nσ,n then we denote by πs the representation\nof C∗\nq,r(G) on Hs corresponding to the completion of D±\nq (σ, n).\nEach of these representations of C∗\nq,r(G) is irreducible except when s is an odd\ncontinuous parameter such that Λ(s) ∈{−1, 1}. In that case, πs is the sum of\ntwo irreducible subrepresentations, namely Dq,0,+ and Dq,0,−. Thus, assembling\neverything and using that C∗\nq,r(G) is liminal [18, Corollary 5.10], we get a C*-\nalgebra morphism",
+          "page": 21
+        },
+        {
+          "para_id": "20_8",
+          "text": "πq,1 :\nC∗\nq,r(G) →\nY",
+          "page": 21
+        },
+        {
+          "para_id": "20_9",
+          "text": "s∈Sq,1\nK(Hs),\nx 7→(πs(x))s∈Sq,1. Theorem 3.11. The map πq,1 induces an isomorphism C∗\nq,r(G) →KC (H)|Sq,1. Proof. First, let us check that the image of C∗\nq,r(G) through πq,1 lies in K(H)|Sq,1.\nBy Lemma 2.7 and because the image of Rq(g, K) in C∗\nq,r(G) is dense, this reduces\nto proving that for every n ∈Z, the images of T n\nq,n, T n±2,±\nq,n\nvia πq,1 are continuous\non Sq,1 and vanish at infinity. For any s ∈Sq,1 and n ∈Z, we have πs(T n\nq,n) = (Λ(s) + Λ(s)−1)En\nn(s), πs(T n±2,±\nq,n\n) = (q1±nΛ(s) −q−1∓nΛ(s)−1)En±2\nn\n(s), where for every m ∈Z, the operator Em\nn (s) is defined by",
+          "page": 21
+        },
+        {
+          "para_id": "20_10",
+          "text": "(17)\nEm\nn (s) : ψ 7−→",
+          "page": 21
+        },
+        {
+          "para_id": "20_11",
+          "text": "(\n∥ζq,n∥−2\ns (ζq,n|ψ)sζq,m\nif n, m ∈Z(s)\n0\notherwise.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "section_id": "22",
+      "section_title": "22\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "22_1",
+          "text": "These formulas follow from (8), they show that πq,1(T n\nq,n) and πq,1(T n±2,±\nq,n\n) are con-\ntinuous vector fields for every n ∈Z. Moreover, we have πs(T n\nq,n) = πs(T n±2,±\nq,n\n) = 0\nif n /∈Z(s), which proves that πq,1(T n\nq,n) and πq,1(T n±2,±\nq,n\n) also vanish at infinity\nfor all n ∈Z. This concludes the proof of the inclusion πq,1(C∗\nq,r(G)) ⊂K(H)|Sq,1.\nSince Dq,0,+ and Dq,0,−are subrepresentations of πs for every odd continu-\nous parameter s ∈Sq,1 such that Λ(s) ∈{−1, 1}, we actually have the inclusion\nπq,1(C∗\nq,r(G)) ⊂KC (H)|Sq,1. Then one can check that the conditions of the general-\nized Stone-Weierstrass theorem (Theorem 1.5) are satisfied: use the description of\nthe spectrum of C∗\nq,r(G) and KC (H)|Sq,1 given by Proposition 2.6 and Lemma 1.4\nrespectively. We conclude that πq,1 : C∗\nq,r(G) →KC (H)|Sq,1 is an isomorphism.\n□ Let us now fix any pair (q, t) ∈R∗\n+ × R such that q ̸= 1 and t ̸= 0. We denote by\nφq,t the unique bijection Sq,t →Sqt,1 which preserves the parity ε, the map Λ and\nthe connected components of S (that is, φ−1\nq,t(Priε) ⊂Priε and φ−1\nq,t(Dis±\nσ,n) ⊂Dis±\nσ,n\nfor every ε, σ, n).\nThe pullback by φq,t defines an isomorphism of C*-algebras\nφ∗\nq,t : KC (H)|Sqt,1 →KC (H)|Sq,t. The map πq,t = φ∗\nq,t◦πqt,1 is then an isomorphism\nof C*-algebras C∗\nr (G)q,t →KC (H)|Sq,t. Case q ̸= 1, t = 0. Let us fix q ̸= 1. We recall that C∗\nr (G)q,0 = C∗(G⋆\n0). For\nevery continuous parameter s ∈Sq,0, let us write πs for the representation of\nC∗(G⋆\n0) on Hs defined by Ind(p⋆\nΛ(s), M, e(s)), see Section 2.4. If s ∈Sq,1 is a discrete\nparameter of order (n, ±), we denote by πs the representation of C∗(G⋆\n0) on Hs given\nby the direct sum L\nn∈Z(s) Ind(p⋆\nΛ(s), K, n), where Ind(p⋆\nΛ(s), K, n) is identified with\nthe subspace Cζn of Hs for every n ∈Z(s).\nEach of the representations πs is\na Hilbert direct sum of irreducible representations of C∗(G⋆\n0). Since the latter is\nliminal, see [32, Section 7.5], we can define the following C*-algebra morphism πq,0 :\nC∗(G⋆\n0) →\nY",
+          "page": 22
+        },
+        {
+          "para_id": "22_2",
+          "text": "s∈Sq,0\nK(Hs),\nx 7→(πs(x))s∈Sq,0. Proposition 3.12. The morphism πq,0 is injective and its image is KC (H)|Sq,0,J. Proof. First, let us prove that the image of πq,0 is contained in the space of contin-\nuous vector fields of KC (H)|Sq,0 vanishing at infinity. For every n ∈Z let us denote\nby en the unique measure on K such that ⟨en, ζm⟩= δn,m for all m ∈Z.\nLet f ∈C(K\\U), n ∈Z and let us show that the image of fen ∈C∗(G⋆\n0) through\nπq,0 lies in KC (H)|Sq,0. For every s ∈Sq,0, the operator πs(fen) has rank at most 1,\nso it belongs to K(Hs). Moreover, if Λ(s) ∈{−1, 1}, then f acts on Hs as the scalar\nf(p⋆\nΛ(s)), where p⋆\nσ (σ ∈{−1, 1}) denote the K-fixed points of K\\U, see Section 2.4.\nTherefore, in that case, πs(fen) is proportional to the orthogonal projection onto\nCζn (or vanishes if n /∈Z(s)), which implies that πs(fen) ∈KC (H)s. Thus, the\ncontinuity of πq,0(fen) as a vector field of KC (H)|Sq,0 only needs to be checked on\nthe connected components of Sq,1 that are not reduced to a single point, which are\nthe subsets of even and odd continuous parameters of Sq,1. The field H is trivial over\neach of these connected components. If s ∈Sq,1 is a continuous parameter of parity\n(−1)n then πs(fen) is the composition of the multiplication by k ∈K 7→f(p⋆\nΛ(s)k)\nand the orthogonal projection onto Cζn; if the parity of s differs from (−1)n, we\nhave πs(fen) = 0. Since s ∈Sq,0 7→p⋆\nΛ(s) ∈K\\U is continuous, πq,0(fen) is indeed\na continuous vector field of KC (H)|Sq,0. Finally, πs(fen) = 0 if n /∈Z(s), hence\nπq,0(fen) vanishes at infinity.",
+          "page": 22
+        },
+        {
+          "para_id": "22_3",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n23",
+          "page": 23
+        },
+        {
+          "para_id": "22_4",
+          "text": "The linear span of elements of the form fen for f ∈C(K\\U) and n ∈Z is dense\nin C∗(G⋆\n0). We conclude that πq,0(C∗(G⋆\n0)) ⊂KC (H)|Sq,0.\nBy construction, for every continuous parameter s ∈Sq,0 and every discrete pa-\nrameter s′ ∈Sq,0 satisfying Λ(s) = Λ(s′) and e(s) = e(s′), the operator J(s′, s)\nintertwines πs and πs′, so that πq,0(C∗(G⋆\n0)) ⊂KC (H)|Sq,0,J. To show that πq,0 in-\nduces an isomorphism of C∗(G⋆\n0) onto KC (H)|Sq,0,J, we apply the generalized Stone\nWeierstrass theorem (Theorem 1.5). Being isomorphic to KC (H)|Sc\nq,0 = KC (H|Sc\nq,0)\nvia (16), the C*-algebra KC (H)|Sq,0,J is liminal and its spectrum, given by Lemma\n1.4, is in bijection with that of C∗(G⋆\n0), see Proposition 2.8.\n□",
+          "page": 23
+        },
+        {
+          "para_id": "22_5",
+          "text": "Case q = 1, t ̸= 0.\nLet us fix t ̸= 0.\nIf s ∈S1,t is a continuous parameter,\nlet πs be the representation of C∗\nr (G) = C∗\nr (G)1,t on Hs corresponding to the\ncompletion of the (g, K)-module ind(e(s), Λ(s)). For any discrete parameter s ∈S1,t\nof order (n, ±), let us denote by πs the representation of C∗\nr (G) on Hs given by the\ncompletion of D±(n) (note that the inner product on Hs is well chosen for that\npurpose). Applying [8, Theorem 6.8] in the particular case of SL(2, R), we obtain\nthe following.",
+          "page": 23
+        },
+        {
+          "para_id": "22_6",
+          "text": "Proposition 3.13. The map",
+          "page": 23
+        },
+        {
+          "para_id": "22_7",
+          "text": "π1,t :\nC∗\nr (G) →\nY",
+          "page": 23
+        },
+        {
+          "para_id": "22_8",
+          "text": "s∈S1,t\nB(Hs),\nx 7→(πs(x))s∈S1,t. induces a C*-algebra isomorphism C∗\nr (G) →KC (H)|S1,t.",
+          "page": 23
+        },
+        {
+          "para_id": "22_9",
+          "text": "Case q = 1, t = 0. For every continuous parameter s ∈S1,0, let πs be the repre-\nsentation of C∗(G0) on Hs defined by Ind(pΛ(s), M, e(s)). For any discrete param-\neter s ∈Sq,1 of order (n, ±), we denote by πs the representation of C∗(G0) on Hs\ngiven by the Hilbert direct sum L",
+          "page": 23
+        },
+        {
+          "para_id": "22_10",
+          "text": "n∈Z(s) Ind(pΛ(s), K, n), where Ind(pΛ(s), K, n) is\nidentified with the subspace Cζn of Hs for every n ∈Z(s). Since C∗(G0) is liminal\nand each representation πs is a Hilbert direct sum of irreducible representations of\nC∗(G0), we can define the following C*-algebra morphism",
+          "page": 23
+        },
+        {
+          "para_id": "22_11",
+          "text": "π1,0 :\nC∗(G0) →\nY",
+          "page": 23
+        },
+        {
+          "para_id": "22_12",
+          "text": "s∈S1,0\nK(Hs),\nx →(πs(x))s∈S1,0. Proposition 3.14. πq,0 induces an isomorphism C∗(G0) →KC (H)|S1,0,J. We omit the proof since it is very similar to that of Proposition 3.12. Conclusion. For each pair (q, t) ∈R∗\n+ × R, we defined a C*-algebra embedding πq,t : C∗\nr (G)q,t ,→KC (H)|Sq,t,J. The final step of the construction consists is the following theorem, which follows\nfrom Lemma 3.10. Theorem 3.15. There exists a unique continuous field of C*-algebras C∗\nr (G) over\nR∗\n+ × R whose fibers are given by (15) and such that (πq,t)q,t : C∗\nr (G) →L∗KC (H)\ndefines a morphism of continuous fields of C*-algebras over R∗\n+ × R.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "section_id": "24",
+      "section_title": "24\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "24_1",
+          "text": "3.3. Geometric characterizations of the continuous field at t = 0 and q = 1.\nOur construction of C∗\nr (G) explicitly involves the representation theory of its fibers.\nWe mainly chose this point of view because it will make the Mackey analogy easier\nto derive in the setting of q-deformations. We now show how to characterize pieces\nof this continuous field, without any reference to specific representations, using\ndeformations to the normal cone.\nIf M is any smooth manifold and V ⊂M is an embedded submanifold, let\nus denote by DM(V ) the associated deformation to the normal cone [15, §1.1].\nWe recall that the latter is naturally equipped with a canonical submersion pV\nM :\nDM(V ) →R whose fiber over every h ∈R∗is M, while the fiber over 0 is the\nnormal bundle NM(V ) of the inclusion V ⊂M. As explained in [16], if V ⊂M\nis a Lie groupoid inclusion, then both NM(V ) and DM(V ) inherit a natural Lie\ngroupoid structure such that each of the fibers of pV\nM is a Lie subgroupoid of DM(V ).\nMoreover, for every h ∈R, the restriction to the fiber DM(V )h = (pV\nM)−1(h) induces\na surjective C*-algebra morphism Resh : C∗\nr (DM(V )) →C∗\nr (DM(V )h). If NM(V ) is amenable, there is a unique continuous field of C*-algebras over R\nwhose fiber at each h ∈R is C∗\nr (DM(V )h) and whose C*-algebra of continuous\nvector fields vanishing at infinity is C∗\nr (DM(V )), the evaluation at any h ∈R\nidentifying with Resh. This is true for the same reasons as [19, Lemma 6.13].\nLet us consider the restriction of C∗\nr (G) to ϙ−1(1).\nAn application of [9] in\nthe particular case of SL(2, R) shows that C∗\nr (G)|ϙ−1(1) coincides with the classical\nMackey deformation field [19, §6.2]. This means that the continuous field of C*-\nalgebras τ∗\n\u0000\nC∗\nr (G)|ϙ−1(1)\n\u0001\ncoincides with C∗\nr (DG(K)).\nA similar statement holds if we instead restrict the field to τ −1(0). Let us identify\nK with the group of elements of G⋆\n0 having both their source and range equal to the\nbase point b of K\\U. The Lie groupoid DG⋆\n0(K) coincides with the transformation\ngroupoid relative to the fiberwise action of K on DK\\U(b). It is thus amenable and\nits C*-algebra identifies canonically with the crossed product C0(DK\\U(b)) ⋊K.\nEach fiber DG⋆\n0(K)h is the transformation groupoid relative to the action of K on\nDK\\U(b)h, hence is amenable. Finally, the restriction morphisms Resh : C0(DK\\U(b)) ⋊K −→C∗(DG⋆\n0(K)h) = C0(DK\\U(b)h) ⋊K are induced from the restriction maps C0(DK\\U(b)) →C0(DK\\U(b)h) by crossed\nproduct functoriality.\nRecall Convention 2.4, by which the Pontryagin dual (g/k)ˆof g/k is identified\nwith Tb(K\\U). By this means, the group C*-algebra of G0, which is canonically\nisomorphic to C0((g/k)ˆ) ⋊K, is from now identified with C0(Tb(K\\U)) ⋊K = C∗(DG⋆\n0(K)0) = C∗(NG⋆\n0(K)). Proposition 3.16. Let η : q ∈R∗\n+ 7→2 log q ∈R. The continuous field of C*-\nalgebras over R defined by C∗\nr (DG⋆\n0(K)) coincides with (η ◦ϙ)∗\n\u0000\nC∗\nr (G)|τ −1(0)\n\u0001\n. Proof. In view of [17, Proposition 10.2.4], it is enough to check that for any\nx in C0(DK\\U(b)) ⋊K, the vector field ˜x = (Resη(q)(x))q>0 is an element of\nϙ∗\n\u0000\nC∗\nr (G)|τ −1(0)\n\u0001\n. Recall from the proof of Proposition 3.12 the definition of the\nfamily (en)n∈Z of measures on K. Let us fix f ∈C0(DK\\U(b)), n ∈Z, and let us\nwrite x = fen ∈C0(DK\\U(b)) ⋊K. By construction (Theorem 3.15), the vector",
+          "page": 24
+        },
+        {
+          "para_id": "24_2",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n25",
+          "page": 25
+        },
+        {
+          "para_id": "24_3",
+          "text": "field ˜x is continuous and vanishes at infinity if and only if x′ = (πs(˜xϙ(s)))s∈τ −1(0)\nbelongs to KC (H)|τ −1(0),J, or equivalently, because of the isomorphism (16), if and\nonly if x′′ = (˜xϙ(s))s∈τ −1(0)c belongs to KC (H)|τ −1(0)c.\nFor any s ∈τ −1(0) ⊂S, let us write",
+          "page": 25
+        },
+        {
+          "para_id": "24_4",
+          "text": "ps =",
+          "page": 25
+        },
+        {
+          "para_id": "24_5",
+          "text": "(\np⋆\nΛ(s) ∈DK\\U(b)η(q) = K\\U\nif ϙ(s) = q ̸= 1 pΛ(s) ∈DK\\U(b)0 = (g/k)ˆ\nif ϙ(s) = 1. For every s ∈τ −1(0)c, the operator x′′\ns is the composition of the multiplication\nby the continuous function k 7→f(psk) with the operator En\nn(s) defined by (17).\nNow, from the material of Subsections 2.2 and 2.4, one can check that, under the\nidentifications we made, s ∈τ −1(0)c 7→ps ∈DK\\U(b) is continuous. This show\nthat x′′ is an element of KC (H)|τ −1(0)c, hence that ˜x belongs to ϙ∗\n\u0000\nC∗\nr (G)|τ −1(0)\n\u0001\n.\nThe fact that C0(DK\\U(b)) ⋊K is densely spanned by elements of the same form\nas x concludes the proof.\n□ 4. The Mackey analogy for q-deformed SL(2, R) In this last section, we give a collection of results concerning the q-deformations\nof SL(2, R) which are natural analogues of the various statements covered by the\nMackey analogy [1, 3, 4, 9]. We show that for fixed q ̸= 1, the restriction of the\ncontinuous field of C*-algebras C∗\nr (G) to {q} × [0, 1] can be characterized as the\nmapping cone of a certain embedding C∗(G⋆\n0) ,→C∗\nq,r(G). Then we prove that the\nlatter induces a continuous bijection between the spectra of both algebras and an\nisomorphism in K-theory.\nFor the rest of the paper, we fix q ̸= 1 and we write Sq = ϙ−1(q). We also denote\nby C∗\nq,r(G) the continuous field of C*-algebras over R obtained from C∗\nr (G)|{q}×R\nby pushforward by τ. 4.1. The Mackey embedding and bijection. We start by the construction of\nthe embedding. For any t ∈R, let us denote by γt the unique map Sq,1 →Sq,t\nwhich preserves Λ, ε and the connected components of Sq. Note that the map\n(t, s) ∈R × Sq,1 7→γt(s) ∈Sq is a homeomorphism. Moreover, for any s ∈Sq, let\nvs : Hs →Hγ−1\nτ(s)(s) be the isometry defined by vs(ζqτ(s),n) = ∥ζqτ(s),n∥",
+          "page": 25
+        },
+        {
+          "para_id": "24_6",
+          "text": "∥ζq,n∥ζq,n\n(n ∈Z(s)). Then, we define an isomorphism of C*-algebras βt : K(H)|Sq,t →K(H)|Sq,1 for any\nt ∈R as follows βt(a)s = vγt(s)aγt(s)v∗\nγt(s)\n(a ∈K(H)|Sq,t, s ∈Sq,1). By construction, β = (βt)t∈R defines a trivialization of the continuous field of C*-\nalgebras τ∗(K(H)|Sq). For any t ∈R, let αt : C∗\nq,r(G)t ,→C∗\nq,r(G) be the unique\nmorphism of C*-algebras such that the following square commutes: C∗\nq,r(G)t\nKC (H)|Sq,t",
+          "page": 25
+        },
+        {
+          "para_id": "24_7",
+          "text": "C∗\nq,r(G)\nKC (H)|Sq,1",
+          "page": 25
+        },
+        {
+          "para_id": "24_8",
+          "text": "πq,t",
+          "page": 25
+        },
+        {
+          "para_id": "24_9",
+          "text": "αt\nβt πq,1 ∼",
+          "page": 25
+        },
+        {
+          "para_id": "24_10",
+          "text": ".",
+          "page": 25
+        },
+        {
+          "para_id": "24_11",
+          "text": "A reformulation of the above properties with Theorem 3.15 leads to the following.",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "section_id": "26",
+      "section_title": "26\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "26_1",
+          "text": "Proposition 4.1. For every t ̸= 0, the morphism αt is bijective, while for t = 0, it\nis only injective. Moreover, the collection (αt)t∈R is an embedding of the continuous\nfield of C*-algebras C∗\nq,r(G) into the constant field over R with fiber C∗\nq,r(G). In particular, note that for any q′ ∈R∗\n+ \\ {1}, the C*-algebras C∗\nq,r(G) and\nC∗\nq′,r(G) are isomorphic. Moreover, we have an analogue of the Mackey bijection. Theorem 4.2. There exists a unique bijection µ from the spectrum of C∗\nq,r(G) to\nthe spectrum of C∗(G⋆\n0) such that for any irreducible representation ω of C∗\nq,r(G),\nthe representation α∗\n0ω of C∗(G⋆\n0) obtained by pullback by α0 contains µ(ω) as a\nsubrepresentation. This map µ is continuous with respect to the Jacobson topologies,\nalthough its inverse is not. Proof. Assume that µ is a bijection Spec C∗\nq,r(G) →Spec C∗(G⋆\n0) between the spec-\ntra of both algebras. Let us identify Spec C∗\nq,r(G) with the list of irreducible uni-\ntarizable (g, K)q-modules given in Proposition 2.6.\nFor every ε ∈{−1, 1} and\nλ ∈U+ \\ {±1}, we have α∗\n0[indq(ε, λ)] = Ind(p⋆\nλ, M, ε), so that µ[indq(ε, λ)] = Ind(p⋆\nλ, M, ε). On the other hand, for any σ ∈{−1, 1} and\nn ∈Z≥0, we have α∗\n0[indq(1, σ)] =\nM",
+          "page": 26
+        },
+        {
+          "para_id": "26_2",
+          "text": "m∈Zeven\nInd(p⋆\nσ, K, m), α∗\n0[D±(σ, n)] =\nM m−n∈Zodd\n±m>n",
+          "page": 26
+        },
+        {
+          "para_id": "26_3",
+          "text": "Ind(p⋆\nσ, K, m).",
+          "page": 26
+        },
+        {
+          "para_id": "26_4",
+          "text": "From this, an easy inductive argument using the bijectivity of µ implies shows that µ[indq(1, σ)] = Ind(p⋆\nσ, K, 0),\nµ[D±(σ, n)] = Ind(p⋆\nσ, K, ±(n + 1)). Conversely, one can check that the map thus defined satisfies the conditions of the\ntheorem. Next, the continuity of µ derives from the following explicit descriptions\nof the Jacobson topology for Spec C∗\nq,r(G) and Spec C∗(G⋆\n0).\nThe topology of Spec C∗\nq,r(G) is given by Corollary 1.8 via the isomorphism πq,1:\nthe analogues of the discrete series are isolated, the set of analogues of the even\nprincipal series form a connected component homeomorphic to U+, while the irre-\nducible analogues of the odd principal series form an open half-circle, the represen-\ntations D±(σ, 0) glued to its ends depending on σ. Similarly, since ResSc\nq,0 ◦πq,0 :\nC∗(G⋆\n0) →KC (H)|Sc\nq,0 is an isomorphism, see (16) and Proposition 3.12, we deduce\nfrom Corollary 1.8 an explicit description of Spec C∗(G⋆\n0).\n□ Remark 4.3. One can consider C∗(K) as the subalgebra of C∗(G⋆\n0) generated by\nthe projections en, as n ranges over Z, and it can thus be embedded into C∗\nq,r(G)\nthrough α0. This way, representations of C∗(G⋆\n0) or C∗\nq,r(G) can be restricted to\nC∗(K). Let us identify the unitary dual of K = SO(2) with Z via n 7→ζn. For any\nrepresentation ω of C∗(G⋆\n0) or C∗\nq,r(G) and any n ∈Z, let us call n a K-type of ω if\nthe restriction of the latter to a representation of K admits n as a subrepresentation.\nIf such a K-type has minimal absolute value among all the K-types of ω, we call it\nminimal. Then one easily check that the Mackey bijection defined above preserves\nthe sets of minimal K-types, as in the classical case.",
+          "page": 26
+        },
+        {
+          "para_id": "26_5",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n27",
+          "page": 27
+        },
+        {
+          "para_id": "26_6",
+          "text": "4.2. An analogue of the Connes-Kasparov isomorphism. Finally, we show\nthat the C*-algebras C∗\nq,r(G) and C∗(G⋆\n0) share the same K-theory.\nSince the field C∗\nq,r(G)|[0,1] is trivial away from 0, the evaluation at τ = 0 induces\nan isomorphism in K-theory K(evτ=0) : K∗(C∗\nq,r(G)|[0,1]) −→K∗(C∗(G⋆\n0)). The question then arises whether the map K(evτ=1)◦K(evτ=0)−1 is an isomorphism\nfrom K∗(C∗(G⋆\n0)) to K∗(C∗\nq,r(G)). Indeed, the same procedure at q = 1 yields the\nConnes-Kasparov isomorphism K∗(C∗(G0)) →K∗(C∗\nr (G)), see [7, p.263].\nOne can rephrase this conjecture in terms of the embedding α0. Consider the\nC*-algebra morphism σ : C∗(G⋆\n0) →C∗\nq,r(G)|[0,1] defined by:",
+          "page": 27
+        },
+        {
+          "para_id": "26_7",
+          "text": "σ(x)t =",
+          "page": 27
+        },
+        {
+          "para_id": "26_8",
+          "text": "(\nα−1\nt (α0(x))\nif t ̸= 0\nx\notherwise ,\n(x ∈C∗(G⋆\n0), t ∈[0, 1]). It is a section of evτ=0 and we have evτ=1 ◦σ = α0. It follows that the map K(α0)\ninduced by α0 in K-theory is precisely equal to K(evτ=1) ◦K(evτ=0)−1. Theorem 4.4. The map K(α0) : K∗(C∗(G⋆\n0)) →K∗(C∗\nq,r(G)) is an isomorphism\nof abelian groups. The proof is the same as that of Higson in [19, §7], it also appears in [1,26]. Proof. We consider the sequence (Wm)m∈N of subsets of Z defined by:",
+          "page": 27
+        },
+        {
+          "para_id": "26_9",
+          "text": "Wm =",
+          "page": 27
+        },
+        {
+          "para_id": "26_10",
+          "text": "\n\n\n\n \n\n\n",
+          "page": 27
+        },
+        {
+          "para_id": "26_11",
+          "text": "{0}\nif m = 1\n{−1, 1}\nif m = 2\n{l}\nif m = 2l + 1, l ≥1\n{−l}\nif m = 2l + 2, l ≥1. This is a list of all the possible sets of minimal K-types of irreducible representations\nof C∗\nq,r(G) and C∗(G⋆\n0). If x is an element of one of these algebras, let us denote\nby (x) the ideal generated by x. We introduce the following sequence of ideals of\nC∗\nq,r(G) and C∗(G⋆\n0) respectively: Jm =\n\\",
+          "page": 27
+        },
+        {
+          "para_id": "26_12",
+          "text": "n∈Wm\n(eq,n),\nJm =\n\\",
+          "page": 27
+        },
+        {
+          "para_id": "26_13",
+          "text": "n∈Wm\n(en). We write Qm = (P",
+          "page": 27
+        },
+        {
+          "para_id": "26_14",
+          "text": "l≤m Jl)/(P",
+          "page": 27
+        },
+        {
+          "para_id": "26_15",
+          "text": "l<m Jl) and Qm = (P",
+          "page": 27
+        },
+        {
+          "para_id": "26_16",
+          "text": "l≤m Jl)/(P",
+          "page": 27
+        },
+        {
+          "para_id": "26_17",
+          "text": "l<m Jl). Since\nα0 maps en to eq,n for all n ∈Z, we have α0(Jm) ⊂Jm for every m ∈N. Hence\nα0 induces a morphism of C*-algebras α0,m : Qm →Qm for all m ∈N.\nThe image of C∗(K) in C∗\nq,r(G) and C∗(G⋆\n0) generates a dense ideal in both cases.\nHence P",
+          "page": 27
+        },
+        {
+          "para_id": "26_18",
+          "text": "m∈N Jm and P",
+          "page": 27
+        },
+        {
+          "para_id": "26_19",
+          "text": "m∈N Jm are respectively dense in C∗\nq,r(G) and C∗(G⋆\n0).\nBecause K-theory commutes with inductive limits, the theorem is proven provided\nthat α0 induces an isomorphism K∗(P",
+          "page": 27
+        },
+        {
+          "para_id": "26_20",
+          "text": "l≤m Jl) →K∗(P",
+          "page": 27
+        },
+        {
+          "para_id": "26_21",
+          "text": "l≤m Jl) for all m ∈N. By\na standard inductive argument using the functoriality of six term exact sequences,\nthis in turn reduces to proving that α0,m induces an isomorphism in K-theory for\nall m ∈N.\nLet us fix m ∈N. The spectrum of Qm consists of the equivalence classes of\nirreducible representations of C∗\nq,r(G) whose set of minimal K-types is exactly Wm.\nSo for any n ∈Wm, the element eq,n acts on every irreducible representation of\nQm as a rank-one projection. Using [19, Lemma 6.1], we infer that eq,nQmeq,n is",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "section_id": "28",
+      "section_title": "28\nYVANN GAUDILLOT–ESTRADA",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "28_1",
+          "text": "Morita equivalent to Qm. By the same argument, the C*-algebra enQmen is Morita\nequivalent to Qm. Now, from the way α0 has been constructed, one can check that\nα0,m(enQmen) = eq,nQmeq,n. To sum up, the three bottom arrows of the diagram",
+          "page": 28
+        },
+        {
+          "para_id": "28_2",
+          "text": "Qm\nQm",
+          "page": 28
+        },
+        {
+          "para_id": "28_3",
+          "text": "enQmen\neq,nQmeq,n",
+          "page": 28
+        },
+        {
+          "para_id": "28_4",
+          "text": "α0,m",
+          "page": 28
+        },
+        {
+          "para_id": "28_5",
+          "text": "α0,m ∼ induce isomorphisms in K-theory. Thus K(α0,m) : K∗(Qm) →K∗(Qm) is an iso-\nmorphism and the theorem follows.\n□ Remark 4.5. One can compute directly the K-theory of C∗\nq,r(G) by using standard\nmethods. Each of the representations D±(σ, n) corresponds to a generator of the\nK0 group. One the other hand, the analogues of the odd and even principal series\nare responsible for additional terms Z and Z3, respectively, in K0[C∗\nq,r(G)]. We\nthus have\nK0[C∗\nq,r(G)] = Z ⊕Z3 ⊕\n\u0000 M n∈N\nσ=±1",
+          "page": 28
+        },
+        {
+          "para_id": "28_6",
+          "text": "Z\n\u0001\n.",
+          "page": 28
+        },
+        {
+          "para_id": "28_7",
+          "text": "The group K1[C∗\nq,r(G)] is zero. References [1] A. Afgoustidis, On the analogy between real reductive groups and Cartan motion groups:\nA proof of the Connes-Kasparov isomorphism, Journal of Functional Analysis 277, no.7\n(2019), 2237–2258.\n[2]\n, On the analogy between real reductive groups and Cartan motion groups: Contraction\nof irreductible tempered representations, Duke Mathematical Journal 169, no.5 (2020), 897—\n960.\n[3]\n, On the analogy between real reductive groups and Cartan motion groups: The\nMackey-Higson bijection, Cambridge Journal of Mathematics 9, no.3 (2021), 551–575.\n[4] A. Afgoustidis and A. Aubert, Continuity of the Mackey-Higson bijection, Pacific Journal of\nMathematics 310, no.2 (2021), 257-273.\n[5] Y. Arano, Comparison of Unitary Duals of Drinfeld Doubles and Complex Semisimple Lie\nGroups, Communications in Mathematical Physics 351 (2017), 1137–1147.\n[6] M. W. Baldoni, General representation theory of real reductive Lie groups, Representation\ntheory and automorphic forms (Edinburgh, 1996), Proc. Sympos. Pure Math., vol. 61, Amer-\nican Mathematical Society, Providence, RI, 1997, pp. 61–72.\n[7] P. Baum, A. Connes, and N. Higson, Classifying space for proper actions and K-theory of\ngroup C*-algebras, C*-algebras: 1943–1993 (San Antonio, TX, 1993), Contemporary Mathe-\nmatics, vol. 167, American Mathematical Society, Providence, RI, 1994, pp. 240–291.\n[8] P. Clare, T. Crisp, and N. Higson, Parabolic induction and restriction via C*algebras and\nHilbert C*-modules, Compositio Mathematica 152 (2016), 1286–1318.\n[9] P. Clare, N. Higson, and A. Roman, A Mackey embedding for reduced C*-algebras of real\nreductive groups, preprint, arXiv:2508.02504 (2025).\n[10] M. Cowling, U. Haagerup, and R. Howe, Almost L2 matrix coefficients, Journal f¨ur die reine\nund angewandte Mathematik 387 (1988), 97–110.\n[11] K. De Commer, Quantisation of semisimple real Lie groups, Archivum Mathematicum 060,\nno.5 (2024), 285–310.\n[12]\n, Induction for representations of coideal doubles, with an application to quantum\nSL(2, R), preprint, arXiv:2409.18551 (2024).\n[13] K. De Commer and J. R. Dzokou Talla, Quantum SL(2, R) and its irreducible representations,\nJournal of Operator Theory 91, no. 2 (2024), 443–470.\n[14]\n, Invariant Integrals on Coideals and Their Drinfeld Doubles, International Mathe-\nmatics Research Notices 2024, no. 14 (2024), 10650—10677.",
+          "page": 28
+        },
+        {
+          "para_id": "28_8",
+          "text": "THE SMALLEST QUANTUM MACKEY DEFORMATION\n29",
+          "page": 29
+        },
+        {
+          "para_id": "28_9",
+          "text": "[15] C. Debord and G. Skandalis, Adiabatic groupoid, crossed product by R∗\n0 and pseudodifferential\ncalculus, Advances in Mathematics 257 (2014), 66–91.\n[16]\n, Blow-up constructions for Lie groupoids and a Boutet de Monvel type calculus,\nM¨unster Journal of Mathematics 14 (2021), 1–40.\n[17] J. Dixmier, C*-algebras, North-Holland Mathematical Library, vol. 15, Elsevier, 1977.\n[18] Y. Gaudillot–Estrada, A non-unitary approach to q-deformed SL(2, R) (2025).\n[19] N. Higson, The Mackey analogy and K-theory, Group representations, ergodic theory, and\nmathematical physics: a tribute to George W. Mackey, Contemporary Mathematics, vol. 449,\nAmerican Mathematical Society, Providence, RI, 2008, pp. 149–172.\n[20] N. Higson and N. Roman, The Mackey bijection for complex reductive groups and continuous\nfields of reduced group C*-algebras, Representation Theory 24 (2020), 580–602.\n[21] J. C. Jantzen, Lectures on Quantum Groups, Graduate Studies in Mathematics, vol. 6, Amer-\nican Mathematical Society, 1996.\n[22] A. Klimyk and K. Schm¨udgen, Quantum Groups and Their Representations, Theoretical and\nMathematical Physics, Springer Berlin, Heidelberg, 1997.\n[23] A. Knapp and D. Vogan, Cohomological Induction and Unitary Representations, Princeton\nMathematical Series, vol. 45, Princeton University Press, 1995.\n[24] G. Letzter, Symmetric Pairs for Quantized Enveloping Algebras, Journal of Algebra 220,\nno. 2 (1999), 729–767.\n[25] G. W. Mackey, On the analogy between semisimple Lie groups and certain related semidirect\nproduct groups, Lie groups and their representations (Proc. Summer School, Bolyai J´anos\nMath. Soc., Budapest, 1971), Halsted, New York, 1975, pp. 339–363.\n[26] A. Monk and C. Voigt, Complex quantum groups and a deformation of the Baum–Connes\nassembly map, Transactions of the American Mathematical Society 371 (2019), 8849–8877.\n[27] J. Renault, A Groupoid Approach to C*-Algebras, Springer Berlin, Heidelberg, 1980.\n[28] D. Jr. Vogan, Representations of Real Reductive Lie Groups, Progress in Mathematics, vol. 15,\nBirkh¨auser, Boston, MA, 1981.\n[29] C. Voigt and R. Yuncken, Complex Semisimple Quantum Groups and Representation Theory,\nLecture Notes in Mathematics, vol. 2264, Springer Cham, 2020.\n[30] N. Wallach, Real reductive groups I, Academic Press, 1988.\n[31] G. Warner, Harmonic Analysis on Semi-Simple Lie Groups I, Grundlehren der mathematis-\nchen Wissenschaften, vol. 1880, Springer Berlin, Heidelberg, 1972.\n[32] D. P. Williams, Crossed products of C∗-algebras, Mathematical Surveys and Monographs,\nvol. 134, American Mathematical Society, Providence, RI, 2007.\nEmail address: yvann.gaudillot-estrada@univ-lorraine.fr",
+          "page": 29
+        }
+      ]
+    }
+  ]
+}

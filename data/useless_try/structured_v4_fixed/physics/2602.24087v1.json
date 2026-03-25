@@ -1,0 +1,5253 @@
+{
+  "title": "Shaping the Digital Future of ErUM",
+  "abstract": "This workshop report from “Shaping the Digital Future of ErUM Research: Sustainability & Ethics” (Aachen, 2025) reviews progress on sustainability measures in data-intensive ErUM-Data research since the 2023 call-to-action on resource-aware research. It evaluates short-, medium-, and long-term ac- tions around monitoring and reducing CO2 emissions, improving data and software FAIRness, optimizing workflows and computing infrastructures, and aligning operations with low-carbon energy availability, including concepts such as “breathing” computing centers, long-term data storage strategies, and software efficiency certification. The report stresses the need for sys- tematic teaching, training, mentoring, and new support formats to establish sustainable coding and computing practices, particularly among students and early-career researchers, and highlights the importance of dedicated steering and funding instruments to embed sustainability in project planning. Eth- ical discussions focus on the transformative use of AI in ErUM-Data, ad- dressing autonomy, bias, transparency, explainability, attribution of respon- sibility, and the risk of deskilling, while reaffirming that accountability for scientific outcomes remains with human researchers. Finally, the report em- phasizes that sustainable transformation requires not only technical measures but also targeted awareness-building, communication strategies, incentives, and community-driven initiatives to move from awareness to action and to integrate sustainability and ethics into everyday scientific practice. 2",
+  "sections": [
+    {
+      "section_id": "1",
+      "section_title": "Introduction",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "1_1",
+          "text": "Digital technologies have always transformed the way science is conducted and continue to",
+          "page": 4
+        },
+        {
+          "para_id": "1_2",
+          "text": "shape scientific practice. Two topics stand out as currently dominating the conversation",
+          "page": 4
+        },
+        {
+          "para_id": "1_3",
+          "text": "as challenging and in need of deliberation: Sustainability and Artificial Intelligence. They",
+          "page": 4
+        },
+        {
+          "para_id": "1_4",
+          "text": "were at the center of a workshop held in Aachen from July 28th to August 1st, 2025 [1]",
+          "page": 4
+        },
+        {
+          "para_id": "1_5",
+          "text": "for scientists working on digitization in the research on universe and matter in Germany",
+          "page": 4
+        },
+        {
+          "para_id": "1_6",
+          "text": "(Erforschung von Universum und Materie - ErUM). This workshop followed an earlier",
+          "page": 4
+        },
+        {
+          "para_id": "1_7",
+          "text": "one addressing the global climate challenge [2], resulting in the publication “Resource-",
+          "page": 4
+        },
+        {
+          "para_id": "1_8",
+          "text": "aware research on Universe and Matter: call-to-action in digital transformation” [3].",
+          "page": 4
+        },
+        {
+          "para_id": "1_9",
+          "text": "This workshop report details the outcome of the discussion around the challenges and",
+          "page": 4
+        },
+        {
+          "para_id": "1_10",
+          "text": "opportunities surrounding Sustainability and Artificial Intelligence in digital research. In",
+          "page": 4
+        },
+        {
+          "para_id": "1_11",
+          "text": "the following, the progress since the first workshop is reviewed and new developments",
+          "page": 4
+        },
+        {
+          "para_id": "1_12",
+          "text": "are discussed subsequently.",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "section_id": "1.1",
+      "section_title": "Progress Made",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "1.1_1",
+          "text": "In the previous publication [3], measures were categorized in three time scales on which",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_2",
+          "text": "they could be implemented, short (S), medium (M), and long (L). Here we list all mea-",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_3",
+          "text": "sures and to what extent they were implemented.",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_4",
+          "text": "Measures that were considered to be implementable immediately or on short timescale",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_5",
+          "text": "with little effort are:",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_6",
+          "text": "• S1: Raise awareness of the climate challenge at all levels.",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_7",
+          "text": "Awareness has increased due to initiatives of community members and led to a",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_8",
+          "text": "higher visibility of the topic. For example, sustainability is discussed in the input",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_9",
+          "text": "of the German particle physics community to the Update of the European Strategy",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_10",
+          "text": "of Particle Physics [4]. The European Astronomical Society Meeting included a",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_11",
+          "text": "session dedicated to sustainability [5]. Following the in-person workshop in 2023,",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_12",
+          "text": "the ErUM-Data-Hub organized two online discussion afternoons to facilitate ex-",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_13",
+          "text": "change on sustainability-related topics and initiatives [6, 7]. Another example is",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_14",
+          "text": "the Know your footprint tool [8] that allows scientists to estimate the footprint of",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_15",
+          "text": "their research. The ATLAS collaboration has produced, for the first time at the",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_16",
+          "text": "LHC, a paper reviewing the sustainability of ATLAS computing [9]. In the Belle",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_17",
+          "text": "II collaboration, a sustainability task force was created to quantify the footprint of",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_18",
+          "text": "the experiment and to suggest measures for its reduction.",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_19",
+          "text": "• S2: Disseminate knowledge of measures to address the challenge.",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_20",
+          "text": "The authors of the first report [3] received invitation to various conferences where",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_21",
+          "text": "they disseminated ideas on how to address sustainability in computing discussed",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_22",
+          "text": "at the original workshop. These ideas were picked up and brought forward grant",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_23",
+          "text": "proposals, for example during the recent ERUM-Data funding round.",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_24",
+          "text": "• S3: Monitor and report energy consumption at job level.",
+          "page": 4
+        },
+        {
+          "para_id": "1.1_25",
+          "text": "The monitoring and reporting of the per job energy consumption is becoming more",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_26",
+          "text": "widespread at sites. For example, DESY provides an estimate of the CO2 footprint",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_27",
+          "text": "of batch jobs to their users. For the VISPA cluster of the ErUM-Data groups in",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_28",
+          "text": "Aachen a system was developed, that not only informs users about the footprint",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_29",
+          "text": "of their jobs, but also gives indications when the energy mix is most favorable for",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_30",
+          "text": "At experiment level, ATLAS is a good example. Its workflow management system,",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_31",
+          "text": "PanDA, has been equipped to collect estimates of the footprint of all ATLAS jobs.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_32",
+          "text": "Users are then provided an estimate of the footprint of their job, along with a",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_33",
+          "text": "link to more information about the calculations [9]. While the actual footprint",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_34",
+          "text": "depends on the site where the job runs, the numbers reported to users are based",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_35",
+          "text": "on averages over all sites to discourage people from sending jobs to low emission",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_36",
+          "text": "sites and clogging those up. This way a more stable estimate can be provided so",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_37",
+          "text": "that users can better assess the impact that their analysis code and workflow has.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_38",
+          "text": "• S4: Consider carbon footprint for all investments and project plans.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_39",
+          "text": "Footprint considerations play an increasing role in the planning of new, large scale",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_40",
+          "text": "projects. For example, as reported at the workshop, sustainability was an important",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_41",
+          "text": "factor in the planning of the computing centre for the Einstein Telescope.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_42",
+          "text": "ongoing large scale projects, existing boundary conditions often make it harder",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_43",
+          "text": "to take sustainability aspects into account. On smaller scales it usually depends",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_44",
+          "text": "on the involved persons. Also scientific competition and financial constraints can",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_45",
+          "text": "outweigh sustainability considerations.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_46",
+          "text": "• S5: Enhance awareness of the trade-off between research benefit and",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_47",
+          "text": "This turned out to be more difficult in the education of young researchers. Teaching",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_48",
+          "text": "focuses initially on the science topic. The young researchers first have to develop",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_49",
+          "text": "the skills to do their science and only if they have sufficient experience they can",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_50",
+          "text": "judge the trade-offs with other goals. This is particularly important for bachelor’s",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_51",
+          "text": "and master’s students, as the initial trials with physics analyses account for a",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_52",
+          "text": "significant proportion of the computing power used. At PhD level students usually",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_53",
+          "text": "have reached a maturity to consider sustainability aspects.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_54",
+          "text": "• S6: Use already optimized algorithms in open-source standard libraries",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_55",
+          "text": "or domain-specific libraries.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_56",
+          "text": "This is becoming more and more common practice. Fortunately, in particular young",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_57",
+          "text": "researchers (starting with PhD level) actually follow this as it turns out to be much",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_58",
+          "text": "more efficient both in saving development time and in applying the algorithms.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_59",
+          "text": "On a medium timescale of a few years the following measures were considered realizable:",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_60",
+          "text": "• M1: Make data FAIR to promote reuse.",
+          "page": 5
+        },
+        {
+          "para_id": "1.1_61",
+          "text": "An example demonstrating the progress in this area is the new reinterpretation",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_62",
+          "text": "method described in Ref. [10]. It made it possible to derive a new scientific result",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_63",
+          "text": "from published Belle II data [11]. Also new ErUM-Data projects that started in",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_64",
+          "text": "November 2025 will contribute to making data more FAIR.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_65",
+          "text": "• M2: Reduce and compress data having the anticipated scientific value",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_66",
+          "text": "of the retained information and the resource requirements in mind.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_67",
+          "text": "This requires deep domain knowledge to be able to decide what data is scientifically",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_68",
+          "text": "relevant. It gets even harder when one has to anticipate future use cases of the data,",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_69",
+          "text": "e.g. when new methods or new scientific questions may arise. Nevertheless, this",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_70",
+          "text": "approach is more and more explored among sustainability-conscious ErUM-Data",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_71",
+          "text": "scientists as the rising data rates increase the pressure to be more efficient.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_72",
+          "text": "Optimize the choice of storing intermediate results against re-",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_73",
+          "text": "The choice of storing vs. re-calculating intermediate results is not only a question",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_74",
+          "text": "of computing resources, but also of FAIRness. For example, ATLAS has provided",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_75",
+          "text": "generator level simulation datasets on the Open Data portal so that they can be",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_76",
+          "text": "easily used by theorists. The sharing of such simulations is systematically addressed",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_77",
+          "text": "by the LHC working group on Monte Carlo production with a dedicated subgroup",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_78",
+          "text": "on “Data Sharing and New Workflows”.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_79",
+          "text": "Workflows (see also next item) play a major role here because they make it easy",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_80",
+          "text": "to switch between the alternatives of storing or re-calculating intermediate results.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_81",
+          "text": "• M4: Optimize job orchestration and scheduling in workflows.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_82",
+          "text": "A good example of improved resource efficiency by job scheduling are the analysis",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_83",
+          "text": "trains used by the ALICE experiment. Multiple, different analysis tasks are col-",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_84",
+          "text": "lected and executed in one go over the whole dataset. The trains can be started",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_85",
+          "text": "when the energy mix is favorable.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_86",
+          "text": "A step further goes the new ErUM-Data project SUSFECIT. It aims at including",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_87",
+          "text": "the availability of green energy in an automated job scheduling system.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_88",
+          "text": "• M5: Use workflow management to make processing FAIR.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_89",
+          "text": "Various workflow management systems with different strengths are available. To",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_90",
+          "text": "make it easier for users to take an informed decision which system to use the",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_91",
+          "text": "PUNCH consortium has provided “A workflow management guideline” [12].",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_92",
+          "text": "larger collaborations there is the trend to converge on a common workflow man-",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_93",
+          "text": "agement system which has the advantage that expertise about it is built up and",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_94",
+          "text": "• M6: Make software FAIR and reliable by following good software devel-",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_95",
+          "text": "opment practices and ensuring sustainable support.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_96",
+          "text": "Good software development practices are better known and are more frequently",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_97",
+          "text": "applied in the ErUM sciences, supported by platforms such as GitHub or GitLab.",
+          "page": 6
+        },
+        {
+          "para_id": "1.1_98",
+          "text": "Making software FAIR is also better understood, but here practice lags behind and",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_99",
+          "text": "supporting tools need more development. It is now easy to make software pub-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_100",
+          "text": "licly available, however, support and long-term maintenance remain a challenge, in",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_101",
+          "text": "particular as funding and scientific career incentives often favor new developments",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_102",
+          "text": "over services to a larger community.",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_103",
+          "text": "Design software for optimized energy consumption and provide",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_104",
+          "text": "tools to measure it.",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_105",
+          "text": "There are several examples of software designed for optimized energy consumption,",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_106",
+          "text": "using more efficient languages and data formats. With awkward-arrays [13] sizeable",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_107",
+          "text": "chunks of events are processed in parallel instead of performing event-by-event",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_108",
+          "text": "The RNtuple format in ROOT [14] provides significant efficiency",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_109",
+          "text": "gains over the previous TTree format.",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_110",
+          "text": "Tools to measure resource consumptions exist, but their application is not yet as",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_111",
+          "text": "widespread or as straightforward as other software quality control methods, such",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_112",
+          "text": "• M8: Continue research on potential of AI, in particular generative and",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_113",
+          "text": "pre-trained models, or other new technologies for efficient use of re-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_114",
+          "text": "sources, but balance gain of research action against resource consump-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_115",
+          "text": "tion of these developments.",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_116",
+          "text": "The potential for speeding up simulations with AI models has been demonstrated",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_117",
+          "text": "for many cases, for example in the ErUM-Data project KISS. Fast AI-based calorime-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_118",
+          "text": "ter simulations are used by the ATLAS [15] and LHCb experiments [16].",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_119",
+          "text": "Also pre-trained models have been shown to be more efficient than a training from",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_120",
+          "text": "scratch for some cases. For jet-based algorithms the OnmiJet-α foundation model",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_121",
+          "text": "is a good starting point [17]. Low-Rank-Adaption (Lora) has been tested using",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_122",
+          "text": "LLMs for classification tasks with remarkable close accuracy compared to from-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_123",
+          "text": "scratch trained networks.",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_124",
+          "text": "A systematic collection and reporting of resource consumptions for such develop-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_125",
+          "text": "ments would help to better assess the overall impact.",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_126",
+          "text": "• M9: Expand detailed monitoring and documentation of energy consump-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_127",
+          "text": "tion and CO2e footprint in AI training and inference.",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_128",
+          "text": "This is not yet achieved, but being addressed by PUNCH4NFDI and the new",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_129",
+          "text": "ErUM-Data project SUSFECIT at national level and by WLCG and EGI at inter-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_130",
+          "text": "• M10: Monitor and report energy consumption at site and project level,",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_131",
+          "text": "provide information of the individual use per scientist/ project/ publi-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_132",
+          "text": "Sites are making progress on this, but there is no central place yet, that gives an",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_133",
+          "text": "overview over the energy efficiency of sites. Giving information of the use per scien-",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_134",
+          "text": "tist/project/publication is explored in the small-scale VISPA computing cluster. A",
+          "page": 7
+        },
+        {
+          "para_id": "1.1_135",
+          "text": "monitoring and reporting at project level usually still requires a tedious collection",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_136",
+          "text": "of information from various sources. Moreover this information is not provided in",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_137",
+          "text": "a common format and may be incomplete.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_138",
+          "text": "Extend monitoring of resources beyond CO2e (water, material",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_139",
+          "text": "So far the focus was more on the carbon footprint as this appears to be the most",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_140",
+          "text": "pressing problem. But plans are on the way to extend the monitoring, e.g. in",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_141",
+          "text": "WLCG, EGI, and the ErUM-Data project SUSFECIT.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_142",
+          "text": "• M12: Train scientists in good practices.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_143",
+          "text": "This is addressed for example by schools organized by the ErUM-Data Hub.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_144",
+          "text": "It is important that not only those who are supposed to apply the good practices are",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_145",
+          "text": "aware of it, but also their supervisors must support and encourage their application.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_146",
+          "text": "There is still potential to train good practices more widespread and systematically,",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_147",
+          "text": "e.g. in curricula at universities.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_148",
+          "text": "• M13: Strive to become a role model at all levels and help to establish",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_149",
+          "text": "sustainability in everyday life.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_150",
+          "text": "This is a highly demanding recommendation. While progress has been made as",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_151",
+          "text": "reported by participants of the workshop, there is still room for further improve-",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_152",
+          "text": "ment. Progress can be seen particularly in areas where results can be measured",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_153",
+          "text": "and put into practice, e.g., in the reduction of computing power. In areas that are",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_154",
+          "text": "less quantifiable, such as communication, there is a lack of progress tracking and,",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_155",
+          "text": "as a result, a lack of incentives and motivation. Communication strategies should",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_156",
+          "text": "be better adjusted to the target group and their values.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_157",
+          "text": "• M14: Regularly review and update the CO2e reduction plan.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_158",
+          "text": "This is not yet done systematically.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_159",
+          "text": "A longer term coordinated planning was anticipated for the following measures:",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_160",
+          "text": "• L1: Adjust computing in space and time according to the availability of",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_161",
+          "text": "renewable energy, e.g., computing centers close to off-shore wind parks",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_162",
+          "text": "with a job scheduling using only or mainly the surplus of renewable",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_163",
+          "text": "energy available at given times.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_164",
+          "text": "This is a very difficult to reach goal. We see at various centers that there are ex-",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_165",
+          "text": "tremely well established infrastructures and excellent staff. The idea of a new center",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_166",
+          "text": "close to off-shore has not yet gained much support. A first approach in the direction",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_167",
+          "text": "of green job scheduling will be done by the ErUM-Data project SUSFECIT.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_168",
+          "text": "• L2: Develop software and middleware that can respond dynamically to",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_169",
+          "text": "the availability of low emission energy.",
+          "page": 8
+        },
+        {
+          "para_id": "1.1_170",
+          "text": "To some extent this is a chicken-egg problem of middleware and application soft-",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_171",
+          "text": "ware. The middleware part is addressed for example in the new SUSFECIT project.",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_172",
+          "text": "Progress there will further motivate the required adjustments of applications that",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_173",
+          "text": "are suitable for running on dynamically available resources.",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_174",
+          "text": "• L3: Optimize power usage effectiveness.",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_175",
+          "text": "This challenge is well accepted by large computing centers. Newly built computing",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_176",
+          "text": "centers are already targeting PUE values close to 1.0., which is below the global",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_177",
+          "text": "average of 1.6 and close to 1.0, the value for a completely efficient data center.",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_178",
+          "text": "The new CERN Computing Center in Prévessin, for example, has a PUE target of",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_179",
+          "text": "• L4: Reuse of produced heat.",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_180",
+          "text": "Also this challenge seems well accepted by large computing centers. At DESY,",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_181",
+          "text": "for example, several projects are currently underway to improve energy efficiency",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_182",
+          "text": "through the use of waste heat, e.g., by using cooling water from the accelerator",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_183",
+          "text": "• L5: Adjust hardware lifetime considering emissions due to procurement",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_184",
+          "text": "The embodied footprint is more and more being looked at for large procurements,",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_185",
+          "text": "but on the one hand information about it may be hard to get and on the other",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_186",
+          "text": "hand financial considerations often take priority over environmental aspects.",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_187",
+          "text": "• L6: Include the resources needed for continuous IT support into project",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_188",
+          "text": "The awareness about the essential role of continuous IT support for data-intense",
+          "page": 9
+        },
+        {
+          "para_id": "1.1_189",
+          "text": "sciences is rising. Still, it remains a challenge to secure sufficient resources for this",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "section_id": "2",
+      "section_title": "Sustainability Actions",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "2_1",
+          "text": "Sustainability is naturally a very broad topic, covering topics such as sociological impacts",
+          "page": 9
+        },
+        {
+          "para_id": "2_2",
+          "text": "and the more commonly talked about greenhouse effects or resource exhaustion (e.g.",
+          "page": 9
+        },
+        {
+          "para_id": "2_3",
+          "text": "rare minerals, oil). For example, the greenhouse effects of diverse gases used in various",
+          "page": 9
+        },
+        {
+          "para_id": "2_4",
+          "text": "experiments and detectors, is certainly relevant, but not specifically to the computing",
+          "page": 9
+        },
+        {
+          "para_id": "2_5",
+          "text": "and data focused ErUM-Data community. As such, the primary focus will be on CO2",
+          "page": 9
+        },
+        {
+          "para_id": "2_6",
+          "text": "emissions in the context of computing or IT infrastructure related activities. It should",
+          "page": 9
+        },
+        {
+          "para_id": "2_7",
+          "text": "be noted that the water consumption footprint is generally also a major point of interest",
+          "page": 9
+        },
+        {
+          "para_id": "2_8",
+          "text": "for computing center operations, but it is of limited relevance, at least for the German",
+          "page": 9
+        },
+        {
+          "para_id": "2_9",
+          "text": "can be divided into two major components: Embedded and Operation,",
+          "page": 10
+        },
+        {
+          "para_id": "2_10",
+          "text": "which will be explored in detail at a later point. Beyond that, there are also components",
+          "page": 10
+        },
+        {
+          "para_id": "2_11",
+          "text": "that fit into neither of the above, e.g. the footprint of researchers traveling to interna-",
+          "page": 10
+        },
+        {
+          "para_id": "2_12",
+          "text": "tional conferences. But these aspects are mostly not unique to topics of ErUM-Data,",
+          "page": 10
+        },
+        {
+          "para_id": "2_13",
+          "text": "and are best addressed at a broader scope.",
+          "page": 10
+        },
+        {
+          "para_id": "2_14",
+          "text": "However, the more abstract aspects of working with data, i.e. the analysis of data",
+          "page": 10
+        },
+        {
+          "para_id": "2_15",
+          "text": "using software algorithms and tools, are by their nature mostly location invariant. In",
+          "page": 10
+        },
+        {
+          "para_id": "2_16",
+          "text": "consequence, working from another location such as one’s home is entirely feasible and",
+          "page": 10
+        },
+        {
+          "para_id": "2_17",
+          "text": "has significant potential for reducing tertiary emission sources, e.g.",
+          "page": 10
+        },
+        {
+          "para_id": "2_18",
+          "text": "This same location invariance can also be leveraged on the other end, since it makes no",
+          "page": 10
+        },
+        {
+          "para_id": "2_19",
+          "text": "difference from the analysis point of view where computations run e.g. in the office or in",
+          "page": 10
+        },
+        {
+          "para_id": "2_20",
+          "text": "a (mini) datacenter next to a wind turbine. These kinds of flexibilities are a major boon",
+          "page": 10
+        },
+        {
+          "para_id": "2_21",
+          "text": "of working with data and should be leveraged to its fullest potential.",
+          "page": 10
+        },
+        {
+          "para_id": "2_22",
+          "text": "covers the hardware aspects of computation needs. In the first or-",
+          "page": 10
+        },
+        {
+          "para_id": "2_23",
+          "text": "der this stems from the procurement, i.e. production and construction, but also includes",
+          "page": 10
+        },
+        {
+          "para_id": "2_24",
+          "text": "the disposal at the end of life. It can also be sensible to include (part of) the maintenance",
+          "page": 10
+        },
+        {
+          "para_id": "2_25",
+          "text": "footprint, in particular for replacements based on the relevant failure and wear rates. To",
+          "page": 10
+        },
+        {
+          "para_id": "2_26",
+          "text": "accurately account for this, it is necessary to demand corresponding information of the",
+          "page": 10
+        },
+        {
+          "para_id": "2_27",
+          "text": "providers, be it hardware manufacturers or building companies.",
+          "page": 10
+        },
+        {
+          "para_id": "2_28",
+          "text": "The construction (and decommission) of a building for a data- or computing-center",
+          "page": 10
+        },
+        {
+          "para_id": "2_29",
+          "text": "can in large parts leverage the same sustainability considerations as any other building.",
+          "page": 10
+        },
+        {
+          "para_id": "2_30",
+          "text": "The embedded footprint of the computing hardware itself can best be lowered by",
+          "page": 10
+        },
+        {
+          "para_id": "2_31",
+          "text": "increasing the effective longevity. Of course, this also has implications for the operation",
+          "page": 10
+        },
+        {
+          "para_id": "2_32",
+          "text": "emissions, as older hardware is significantly less power efficient.",
+          "page": 10
+        },
+        {
+          "para_id": "2_33",
+          "text": "modularity of the various constituents enables partial upgrades, thus facilitating reuse for",
+          "page": 10
+        },
+        {
+          "para_id": "2_34",
+          "text": "at least some parts. One should carefully examine, to what extent increased heterogeneity",
+          "page": 10
+        },
+        {
+          "para_id": "2_35",
+          "text": "and failure rates are tolerable, since there is great savings potential. In general, reusing",
+          "page": 10
+        },
+        {
+          "para_id": "2_36",
+          "text": "and recycling infrastructure and hardware, and enabling such practices at the end of",
+          "page": 10
+        },
+        {
+          "para_id": "2_37",
+          "text": "life/operations, is a major opportunity to decrease embedded emissions.",
+          "page": 10
+        },
+        {
+          "para_id": "2_38",
+          "text": "are almost entirely driven by the energy consumption during",
+          "page": 10
+        },
+        {
+          "para_id": "2_39",
+          "text": "usage. This includes the direct consumption by data storage or computing hardware, as",
+          "page": 10
+        },
+        {
+          "para_id": "2_40",
+          "text": "well as secondary needs such as lighting, ventilation, and especially cooling. The total",
+          "page": 10
+        },
+        {
+          "para_id": "2_41",
+          "text": "consumption is then scaled by the emissions associated with the energy source, or rather",
+          "page": 10
+        },
+        {
+          "para_id": "2_42",
+          "text": "Reducing direct consumption is generally difficult, even though many opportunities",
+          "page": 10
+        },
+        {
+          "para_id": "2_43",
+          "text": "exist. One can improve computational efficiency, for example by optimizing algorithms",
+          "page": 10
+        },
+        {
+          "para_id": "2_44",
+          "text": "or using more suitable or specialized hardware. In practice, such gains are often offset",
+          "page": 10
+        },
+        {
+          "para_id": "2_45",
+          "text": "by a corresponding increase in demand, so overall consumption does not decrease–often",
+          "page": 10
+        },
+        {
+          "para_id": "2_46",
+          "text": "referred to as the Rebound Effect. Nevertheless, improving hardware and software ef-",
+          "page": 10
+        },
+        {
+          "para_id": "2_47",
+          "text": "ficiency remains important and should be incentivized (see section 2.2), for example",
+          "page": 10
+        },
+        {
+          "para_id": "2_48",
+          "text": "through user-focused measures discussed in section 2.1.3. Furthermore, the growth in",
+          "page": 10
+        },
+        {
+          "para_id": "2_49",
+          "text": "demand can be mitigated by significantly enhancing data reusability, as discussed in",
+          "page": 11
+        },
+        {
+          "para_id": "2_50",
+          "text": "In contrast, the cooling footprint can actually be reduced through several approaches.",
+          "page": 11
+        },
+        {
+          "para_id": "2_51",
+          "text": "Waste-heat recovery, which supplies heating to adjacent infrastructure, can lower the",
+          "page": 11
+        },
+        {
+          "para_id": "2_52",
+          "text": "overall footprint and should be applied wherever possible. Locating computing centers",
+          "page": 11
+        },
+        {
+          "para_id": "2_53",
+          "text": "in cooler climates can also reduce cooling needs. The trade-off between this and offsetting",
+          "page": 11
+        },
+        {
+          "para_id": "2_54",
+          "text": "increased cooling needs with additional solar or wind power should be carefully evaluated.",
+          "page": 11
+        },
+        {
+          "para_id": "2_55",
+          "text": "Finally, overall operation emissions can be lowered effectively by using greener power",
+          "page": 11
+        },
+        {
+          "para_id": "2_56",
+          "text": "sources, although their output is highly variable over time. This can be addressed either",
+          "page": 11
+        },
+        {
+          "para_id": "2_57",
+          "text": "by direct compensation – e.g., over-commissioning and energy buffers, which however",
+          "page": 11
+        },
+        {
+          "para_id": "2_58",
+          "text": "increase embedded emissions – or by modulating compute throughput to match the",
+          "page": 11
+        },
+        {
+          "para_id": "2_59",
+          "text": "availability of low-emission energy, as discussed in detail in section 2.1.1. When selecting a",
+          "page": 11
+        },
+        {
+          "para_id": "2_60",
+          "text": "location for a new facility, the local availability of green energy should also be considered,",
+          "page": 11
+        },
+        {
+          "para_id": "2_61",
+          "text": "since energy transmission incurs losses, is limited in capacity, and slow to expand.",
+          "page": 11
+        },
+        {
+          "para_id": "2_62",
+          "text": "The implementation of any sustainability enhancements requires their inclusion from",
+          "page": 11
+        },
+        {
+          "para_id": "2_63",
+          "text": "the very start, not just an afterthought. As such, it is important to have actionable guide-",
+          "page": 11
+        },
+        {
+          "para_id": "2_64",
+          "text": "lines about emission/efficiency targets from stakeholder side, providing a well defined and",
+          "page": 11
+        },
+        {
+          "para_id": "2_65",
+          "text": "quantified stance on the tradeoff between sustainability and goals and monetary budget.",
+          "page": 11
+        },
+        {
+          "para_id": "2_66",
+          "text": "Overall, it is necessary to thoroughly quantify and measure the footprint through and",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "2.1",
+      "section_title": "Detailed Ideas for Implementations",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.1_1",
+          "text": "This section details a selected few measures, that still have significant potential and have",
+          "page": 11
+        },
+        {
+          "para_id": "2.1_2",
+          "text": "not been investigated in sufficient detail yet.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "section_id": "2.1.1",
+      "section_title": "Breathing Computing Centers",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "2.1.1_1",
+          "text": "The core idea behind breathing computing centers is to be adaptable to the variability",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_2",
+          "text": "of low-carbon-intensity electricity sources. Solar energy in particular has a prominent",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_3",
+          "text": "24-hour availability cycle, which is reminiscent of breathing - it is cyclic but with a fair",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_4",
+          "text": "bit of variation. In a similar sense, other patterns such as seasonal and weather systems",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_5",
+          "text": "also induce fluctuations of varying regularity.",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_6",
+          "text": "In most cases, such adaption primarily consists of various forms of energy buffering to",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_7",
+          "text": "bridge the necessary time spans between periods of low carbon intensity in the energy",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_8",
+          "text": "However, it is also possible to buffer the computation needs, thus enabling modulation",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_9",
+          "text": "of the activity and corresponding energy consumption. For many applications, the latter",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_10",
+          "text": "is unfeasible due to real-time requirements, but some scientific research workflows can",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_11",
+          "text": "afford to be more accommodating in these aspects. In reality, any solution will require",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_12",
+          "text": "some mixture of the two avenues above.",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_13",
+          "text": "There are many technologies and policies dedicated to buffering energy use across",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_14",
+          "text": "various timescales and each has different strengths and weaknesses. The three relevant",
+          "page": 11
+        },
+        {
+          "para_id": "2.1.1_15",
+          "text": "time-scales are: minutes, hours, and days. The shortest is necessary to facilitate safe",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_16",
+          "text": "emergency shutdowns, e.g. for unexpected loss of the primary power source. The inter-",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_17",
+          "text": "mediate range cover phenomena such as day-night cycles or the demand spikes around",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_18",
+          "text": "dinner time. At the long range these buffers would compensate for extended cloudy or",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_19",
+          "text": "calm weather patterns.",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_20",
+          "text": "Buffering computation is a far more exotic practice, at least in response to energy avail-",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_21",
+          "text": "ability. An effective implementation requires active input and corresponding concessions",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_22",
+          "text": "from users of computing resources. In particular, workloads need to be well classified",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_23",
+          "text": "by the duration of delay they can tolerate. This will likely require a massive paradigm",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_24",
+          "text": "shift to accommodate such limitations at all necessary levels, from users prioritizing their",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_25",
+          "text": "workloads appropriately to stakeholders tempering their expectations on the timescale of",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_26",
+          "text": "results availability. The adoption of computation buffering, or workload shifting can be",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_27",
+          "text": "helped by providing incentives to engage with this system and can even go as far as to be",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_28",
+          "text": "a funding prerequisite. Here, the prospects of success are uniquely high in scientific fields,",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_29",
+          "text": "since many workloads already have long run-times, such that the fluctuations introduced",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_30",
+          "text": "by breathable computing, are likely tolerable and less disruptive than in other fields.",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_31",
+          "text": "However shifting workloads requires more computing hardware than if the computing",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_32",
+          "text": "resources were right-sized to achieve the same throughput, since the work being done is",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_33",
+          "text": "spread out over a longer period of time with respect to continuous utilization. While",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_34",
+          "text": "there may be some spare capacity in existing resources due to under-utilization, it is",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_35",
+          "text": "likely not enough to exploit the variability of carbon-intensity in power supply to its full",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_36",
+          "text": "extent, thus necessitating expressively over-provisioned resources. Simultaneously, such",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_37",
+          "text": "spare idle capacity could be leveraged to satisfy high priority bursts of demand, which",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_38",
+          "text": "comes at the cost of original intent.",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_39",
+          "text": "This is at odds with the already high cost of computation hardware and makes such",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_40",
+          "text": "operation modes difficult to motivate. However, it would be entirely reasonable to largely",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_41",
+          "text": "obtain the needed hardware from conventional computing centers when they are retiring",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_42",
+          "text": "their old hardware. In particular, the comparatively inferior efficiency of outdated hard-",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_43",
+          "text": "ware is of limited relevancy, since it is operated using predominantly low emission energy",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_44",
+          "text": "Fundamentally, computing needs are surprisingly flexible such that they can easily be",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_45",
+          "text": "routed to different locations or facilities depending on overall energy conditions. With",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_46",
+          "text": "this flexibility one can gain the benefits of otherwise atypical locations, e.g. operating",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_47",
+          "text": "directly near/within a wind farm to avoid power grid costs and bottlenecks. Also, it",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_48",
+          "text": "is trivial to instantaneously pause and resume (not abort and restart) the running of",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_49",
+          "text": "computations and thus partially modulate the energy consumption of a computing center",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_50",
+          "text": "on the order of seconds, which may be valuable for power grid operators to stabilize their",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_51",
+          "text": "networks. Additionally, some types of research computations are safely interruptable,",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_52",
+          "text": "e.g. machine learning trainings can use checkpoints, which enables extended suspension",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_53",
+          "text": "and even relocation.",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_54",
+          "text": "As part of the NHR initiative, there is currently a significant amount of transitions",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_55",
+          "text": "from smaller computing centers, in HEP often called Tier 2 facilities, to fewer larger",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_56",
+          "text": "and well-optimized facilities.",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_57",
+          "text": "This and similar efforts provide ideal opportunities to",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_58",
+          "text": "implement such breathing computing centers, or demonstrators thereof, while offsetting",
+          "page": 12
+        },
+        {
+          "para_id": "2.1.1_59",
+          "text": "the majority of the computing hardware cost (monetary and ecological footprint) through",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.1_60",
+          "text": "reuse of soon-to-be retired hardware.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "2.1.2",
+      "section_title": "Long-term Data Storage",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "2.1.2_1",
+          "text": "Experimental data often poses a challenge in balancing its long term storage with the",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_2",
+          "text": "cost of keeping it. Generally raw data is extensively processed, often in several discrete",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_3",
+          "text": "stages, until it can finally drive scientific insights.",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_4",
+          "text": "While this commonly comes with",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_5",
+          "text": "a reduction in volume, this gain is often offset by an increased number of variants of",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_6",
+          "text": "different revisions of calibrations or different analysis subjects.",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_7",
+          "text": "Consequently, reducing the footprint of data storage is a complex topic, but it can allow",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_8",
+          "text": "for major savings in overall footprint.",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_9",
+          "text": "The footprint of keeping derivatives of data can be optimized by consistently quanti-",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_10",
+          "text": "fying the cost of re-reducing the data to the desired stage. This cost must include the",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_11",
+          "text": "personpower required to maintain, update, or rebuild all the necessary software and con-",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_12",
+          "text": "figuration. The extent of this cost point, may be partially an indicative of how complex",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_13",
+          "text": "and niche the corresponding data is to use. This can then inform the likelihood of data",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_14",
+          "text": "re-use and thus how sensible archiving it may be in the long run.",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_15",
+          "text": "While storing data is often cheaper than rerunning the experiment itself, this only ap-",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_16",
+          "text": "plies if the data is actually reusable - in terms of relevance, discoverability, replicability,",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_17",
+          "text": "and readability. To actually find data to re-use, it must be well curated, especially its",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_18",
+          "text": "metadata, which requires an investment of resources, typically by the data producers.",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_19",
+          "text": "This also means that the archives themselves need to be either few in number, or bet-",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_20",
+          "text": "ter yet – simultaneously searchable, since finding the (relevant) archive itself precludes",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_21",
+          "text": "In a similar vein, it may be preferable to keep only data that is enriched to some degree,",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_22",
+          "text": "especially if the exact details of an enrichment process, such as caveat-heavy calibration",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_23",
+          "text": "procedures, are prone to be lost in time. Such practice, to only provide the science-ready",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_24",
+          "text": "data in the end, is already fairly common and successful in astronomy.",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_25",
+          "text": "Additionally, lossy compression can offer massive savings and it may be better to have",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_26",
+          "text": "reduced precision than to throw (portions of) data away. Beyond this, researchers may",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_27",
+          "text": "be queried to nominate must-keep datasets within their field, to form a broad consensus",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.2_28",
+          "text": "on generally valuable data to keep.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "section_id": "2.1.3",
+      "section_title": "Certifying Software Efficiency",
+      "level": 3,
+      "paragraphs": [
+        {
+          "para_id": "2.1.3_1",
+          "text": "Efficient software that runs at scale can reduce emissions and make large-scale comput-",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.3_2",
+          "text": "ing infrastructures sustainable. Defining efficiency is non-trivial, since measuring energy",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.3_3",
+          "text": "consumption of software is specific to each program and use case. One practical approach",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.3_4",
+          "text": "to do this in the short term would be to only focus on commonly-used software compo-",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.3_5",
+          "text": "nents, thus maximizing the benefit of measuring consumption and improving efficiency.",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.3_6",
+          "text": "In the medium term, educating scientists that develop software about ways to minimize",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.3_7",
+          "text": "resource usage in their software can have a knock-on effect on energy consumption on",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.3_8",
+          "text": "a larger scale. On the longest time scale, working towards getting energy certifications",
+          "page": 13
+        },
+        {
+          "para_id": "2.1.3_9",
+          "text": "for software programs will ensure that energy consumption gets attention in the project",
+          "page": 14
+        },
+        {
+          "para_id": "2.1.3_10",
+          "text": "planning phase and reduces the carbon footprint of the scientific activity over the lifetime",
+          "page": 14
+        },
+        {
+          "para_id": "2.1.3_11",
+          "text": "of an experiment or a research-facility.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "section_id": "2.2",
+      "section_title": "Incentivizing Action within the Community",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.2_1",
+          "text": "This section presents some ideas to advance sustainability efforts through various means",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_2",
+          "text": "of binding actions – those that could be mandated at a global steering level. There is",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_3",
+          "text": "also an extremely wide array of voluntary methods, by which to promote proactivity on",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_4",
+          "text": "sustainability issues. Those are detailed in section 4.",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_5",
+          "text": "The European CO2 trade already implements a framework to assign a monetary value,",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_6",
+          "text": "and thus impact, to CO2 emission. A broader application of this mechanism would effec-",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_7",
+          "text": "tively require participants, in our case the scientific community, to thoroughly consider",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_8",
+          "text": "all avenues of increasing their sustainability. Here, it is important to broadly apply these",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_9",
+          "text": "rules, with a few exceptions as possible, to fairly and evenly incentivize actually useful",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_10",
+          "text": "behavior, i.e. prevent circumvention and exploitation of loopholes. Since a sizable por-",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_11",
+          "text": "tion of emissions are embedded i.e. in the computing hardware, it would be sensible to",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_12",
+          "text": "apply the need for CO2 certificates to those components too. Either way, this would ap-",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_13",
+          "text": "ply an additional strain on research budgets, which can be minimized by either roughly",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_14",
+          "text": "accounting for and reallocating the corresponding increase in CO2 trade proceeds or by",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_15",
+          "text": "directly allocating a sensible volume of CO2 certificates.",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_16",
+          "text": "A simpler means to promote sustainability awareness, would be to mandate compre-",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_17",
+          "text": "hensive reporting at broadly visible levels. For example, it could be reasonable to demand",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_18",
+          "text": "that any publication not only acknowledge its funding sources, but also require a brief",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_19",
+          "text": "breakdown of the footprint of the research. Such a measure, should primarily by used",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_20",
+          "text": "to increase exposure to sustainability as a topic, and thus enable and invite voluntary",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_21",
+          "text": "competition. This could simultaneously also increase the value proposition of optimiza-",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_22",
+          "text": "tion of intermediaries, e.g. commonly used software libraries, such that researchers could",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_23",
+          "text": "promote their optimization efforts by reporting their work’s net-negative footprint – also",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_24",
+          "text": "referred to as “handprint”. Using this information to strictly drive decisions e.g. budget",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_25",
+          "text": "allocations, should only be done at a later stage, once it is well understood and compre-",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_26",
+          "text": "hensively formalized. Otherwise, it would quickly invite “creative accounting” whereby",
+          "page": 14
+        },
+        {
+          "para_id": "2.2_27",
+          "text": "the reported value is optimized instead of the intended underlying goal.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "section_id": "2.3",
+      "section_title": "Teaching & Training",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.3_1",
+          "text": "In order to strengthen, incentivize, and continue action, it is essential that young scien-",
+          "page": 14
+        },
+        {
+          "para_id": "2.3_2",
+          "text": "tists in particular are made aware of the issues and given access to tools and skills to",
+          "page": 14
+        },
+        {
+          "para_id": "2.3_3",
+          "text": "take on and drive progress in this area.",
+          "page": 14
+        },
+        {
+          "para_id": "2.3_4",
+          "text": "Training Activities for Sustainable Software Development and Use",
+          "page": 14
+        },
+        {
+          "para_id": "2.3_5",
+          "text": "tainability in the digital transformation in ErUM-Data requires not only technological",
+          "page": 14
+        },
+        {
+          "para_id": "2.3_6",
+          "text": "innovations but also systematic teaching and training practices. Because software devel-",
+          "page": 14
+        },
+        {
+          "para_id": "2.3_7",
+          "text": "opment, data analysis, and high-performance computing are central to ErUM research,",
+          "page": 14
+        },
+        {
+          "para_id": "2.3_8",
+          "text": "sustainability depends critically on the competencies, habits, and values of the researchers",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_9",
+          "text": "who design and use computational tools. A substantial proportion of software users in",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_10",
+          "text": "the ErUM community are students and early-career scientists. Thus, targeted training",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_11",
+          "text": "is essential for maximizing both scientific output and environmental impact.",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_12",
+          "text": "Establishing Sustainable Coding Practices",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_13",
+          "text": "Large experimental collaborations already",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_14",
+          "text": "provide coding guidelines to ensure maintainability, readability, and reproducibility of",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_15",
+          "text": "their software. However, these guidelines often have limited reach or applicability, due",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_16",
+          "text": "to highly differentiated tool usage. Efficiency considerations are to a large extent al-",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_17",
+          "text": "ready embedded in existing guidelines, yet should be explicitly emphasized to support",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_18",
+          "text": "sustainable software practices.",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_19",
+          "text": "These guidelines should not only govern official core software (e.g., reconstruction or",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_20",
+          "text": "data-acquisition frameworks) but also extend to analysis code written by “common”-",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_21",
+          "text": "users. Checklist-style guidance (e.g. in automated checking tools, which can also be used",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_22",
+          "text": "efficiently by users at the entry level), tailored to the specific experimental ecosystem,",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_23",
+          "text": "can support efficient code design across different user groups.",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_24",
+          "text": "Where feasible, collaborations should promote shared software solutions, especially for",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_25",
+          "text": "smaller experiments with limited programming expertise. This point has been identified",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_26",
+          "text": "as extremely important and requires both the willingness to commit to its implementation",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_27",
+          "text": "and additional resources to do so.",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_28",
+          "text": "Established community-driven toolkits and frameworks require continued support,",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_29",
+          "text": "maintenance, and associated training programmes to ensure that sustainable software",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_30",
+          "text": "development benefits the entire ErUM-Data community.",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_31",
+          "text": "Exercising sustainable coding must be accommodated, e.g. in time allocations, and",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_32",
+          "text": "acknowledged as actual scientific merits, as such the actual institutional significance must",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_33",
+          "text": "grow to match the importance of computing in science.",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_34",
+          "text": "Benefits and Examples of Early Training in Sustainable Software Practices",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_35",
+          "text": "fraction of emissions associated with data analysis originates from bachelor’s and master’s",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_36",
+          "text": "students, many of whom interact with high-performance computing systems for the first",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_37",
+          "text": "time. Limited prior experience often results in suboptimal use of computational resources,",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_38",
+          "text": "thereby increasing overall inefficiency. Such inefficiencies carry multiple consequences:",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_39",
+          "text": "they lead to avoidable CO2 emissions and can temporarily overload shared computing",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_40",
+          "text": "infrastructures, reducing availability for other users and impeding smooth collaborative",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_41",
+          "text": "It must be our core interest to educate and inform students and early career scientists",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_42",
+          "text": "how to use software, and through it hardware, efficiently and what the values are we",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_43",
+          "text": "base our developments on. We need to ensure not only the development of sustainable",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_44",
+          "text": "software but also the correct use of sustainable software.",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_45",
+          "text": "Even introductory, domain-independent training can successfully communicate the lim-",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_46",
+          "text": "ited nature of computational resources. For example, in machine-learning applications,",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_47",
+          "text": "students often train models on full datasets by default, resulting in unnecessarily long",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_48",
+          "text": "training times and elevated energy consumption. Introducing the principle that model",
+          "page": 15
+        },
+        {
+          "para_id": "2.3_49",
+          "text": "performance gains saturate with dataset size can significantly reduce computational load:",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_50",
+          "text": "tasks such as hyperparameter optimisation can be performed on suitably reduced sub-",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_51",
+          "text": "sets before final training on the full dataset. This approach lowers resource usage and",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_52",
+          "text": "associated CO2 emissions while maintaining scientific standards.",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_53",
+          "text": "Another example of useful help for students is an introduction to the usage of job",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_54",
+          "text": "scheduler systems like HTCondor. When getting in contact with schedulers like this,",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_55",
+          "text": "many students choose one of two ways: run their scripts locally since the set up is easier",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_56",
+          "text": "or just assign a lot of resources so the workload will always run. The first point defeats",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_57",
+          "text": "the purpose of those schedulers, the second leads to more resources of the cluster being",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_58",
+          "text": "blocked than needed and with that reduced possible performance of the whole cluster. A",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_59",
+          "text": "single lecture on awareness can lead to the correct usage of those job managing systems",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_60",
+          "text": "and with that improved quality of life not only for the student users, but also for all",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_61",
+          "text": "other users of the cluster.",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_62",
+          "text": "These examples demonstrate that students can be sensitized to sustainability con-",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_63",
+          "text": "siderations with comparatively modest training efforts, resulting in both a more efficient",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_64",
+          "text": "computational work environment and reduced emissions. Such training is itself a sustain-",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_65",
+          "text": "able investment, as teaching the fundamentals of sustainability early pays off throughout",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_66",
+          "text": "the whole career and well-prepared students are able to transfer these competencies to",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_67",
+          "text": "colleagues, promoting long-term cultural change within the research community.",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_68",
+          "text": "For this target group, contemporary instructional approaches must also be considered.",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_69",
+          "text": "For example, methods such as gamification are currently being explored to facilitate",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_70",
+          "text": "the teaching of automated software testing and to enhance engagement and learning",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_71",
+          "text": "Developing Teaching Competencies and Communication Skills",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_72",
+          "text": "motivation behind sustainability efforts is crucial. Young scientists in particular (but also",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_73",
+          "text": "established researchers) need to understand why efficient computing matters in terms",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_74",
+          "text": "of environmental impact. Embedding this context early in technical training supports",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_75",
+          "text": "acceptance and long-term adoption of sustainable practices.",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_76",
+          "text": "Technical expertise alone is insufficient for effective teaching of sustainable computing",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_77",
+          "text": "practices. Instructors must also possess strong communication and pedagogical skills.",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_78",
+          "text": "The consensus is that expertise in just one of these areas is not enough to convey the",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_79",
+          "text": "importance of sustainability issues. The goal must be to ensure that technical training",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_80",
+          "text": "takes place after all training participants understand the urgency of sustainability issues.",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_81",
+          "text": "Training programmes for tutors and lecturers should therefore include dedicated work-",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_82",
+          "text": "shops on communication, didactics, and student engagement. It is not only important",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_83",
+          "text": "that professors, speakers, and trainers possess strong communication skills, but also that",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_84",
+          "text": "tutors receive such training, as they often maintain a particularly close and frequent",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_85",
+          "text": "interaction with the learners.",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_86",
+          "text": "The ErUM-Data community already offers a comprehensive portfolio of technical train-",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_87",
+          "text": "ing. To complement this, workshops on communication skills should be implemented,",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_88",
+          "text": "with participation required for all speakers and tutors prior to their engagement in stu-",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_89",
+          "text": "dent instruction. Existing mechanisms for evaluating teaching quality should be used",
+          "page": 16
+        },
+        {
+          "para_id": "2.3_90",
+          "text": "and reinforced to ensure continuous improvement.",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_91",
+          "text": "New Concepts for Support and Training",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_92",
+          "text": "As increasingly sophisticated simulation and",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_93",
+          "text": "data-analysis methods are developed, it is vital that researchers are capable of employing",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_94",
+          "text": "these tools effectively. Sustainable software gains real impact only when users understand",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_95",
+          "text": "how to operate it efficiently. The existing technical training offerings for the ErUM-Data",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_96",
+          "text": "community, including schools and workshops organized by the ErUM-Data Hub, have",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_97",
+          "text": "been well received. These established programs can be further complemented by the",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_98",
+          "text": "introduction of new training concepts.",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_99",
+          "text": "While schools and workshops provide structured learning opportunities, many inef-",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_100",
+          "text": "ficiencies in software development stem from a lack of onboarding and individualized",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_101",
+          "text": "Middle-term “code consulting” or mentoring programmes can address these",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_102",
+          "text": "gaps. Such programmes offer one-on-one guidance on setting up efficient analyses, opti-",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_103",
+          "text": "mizing Monte Carlo simulations, or improving the sustainability of existing code. Regular",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_104",
+          "text": "virtual meetings enable mentors to provide feedback, while optional group sessions allow",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_105",
+          "text": "mentees to present progress and learn from one another.",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_106",
+          "text": "Over the long term, a searchable registry of experts within the ErUM-Data community",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_107",
+          "text": "could provide an accessible entry point for newcomers seeking topic-specific support. This",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_108",
+          "text": "would reduce common inefficiencies and promote sustainable research practices across the",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_109",
+          "text": "In addition, establishing a network of trained student ambassadors can facilitate the",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_110",
+          "text": "continuous dissemination of knowledge on sustainable computing within all ErUM com-",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_111",
+          "text": "munities. Ambassadors can share best practices, highlight relevant training materials,",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_112",
+          "text": "and act as contact points within their community. However, such a network requires",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_113",
+          "text": "centralised organisation, active maintenance, regular check-ins, and clear communication",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_114",
+          "text": "channels to remain effective.",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_115",
+          "text": "Driving Knowledge Transfer Beyond the ErUM-Data Community",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_116",
+          "text": "community strives to play a leading role in developing sustainable computing strategies",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_117",
+          "text": "and technologies. To maximize societal benefit, this knowledge must be disseminated",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_118",
+          "text": "beyond disciplinary limits.",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_119",
+          "text": "Therefore, the results should not only be published and",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_120",
+          "text": "made available, but programs should also be set up to proactively educate individuals",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_121",
+          "text": "responsible in other areas of research as well as the industry.",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_122",
+          "text": "To achieve this, specific target groups with similar needs and capacities must be iden-",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_123",
+          "text": "tified, and room must be created to bring together speakers from the ErUM-Data com-",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_124",
+          "text": "munity who possess expertise relevant to these groups. This approach would not only",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_125",
+          "text": "facilitate the dissemination of knowledge and technology, thereby increasing their overall",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_126",
+          "text": "impact, but also strengthen the position of the ErUM-Data community as a key contrib-",
+          "page": 17
+        },
+        {
+          "para_id": "2.3_127",
+          "text": "utor to societal progress.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "section_id": "2.4",
+      "section_title": "Steering & Funding",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "2.4_1",
+          "text": "In the course of discussing challenges, ongoing and potential new measures, the conver-",
+          "page": 17
+        },
+        {
+          "para_id": "2.4_2",
+          "text": "sation repeatedly returned to questions of funding. In particular, participants raised the",
+          "page": 17
+        },
+        {
+          "para_id": "2.4_3",
+          "text": "question of the extent to which ErUM-Data scientists are expected to address sustain-",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_4",
+          "text": "ability explicitly within their projects. For example, should there be a recommended",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_5",
+          "text": "benchmark for the proportion of personnel time and/or financial resources that ought to",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_6",
+          "text": "be allocated to sustainability-related measures? The potential impact of such require-",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_7",
+          "text": "ments on new projects was assessed as likely to be high.",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_8",
+          "text": "Moreover, the quantifiability of sustainability measures is closely linked to the avail-",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_9",
+          "text": "ability and structuring of financial resources. As such, it is important that funding bodies",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_10",
+          "text": "provide actionable guidelines on emission and efficiency targets, including a well-defined",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_11",
+          "text": "and quantified position on the trade-off between sustainability objectives, scientific goals,",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_12",
+          "text": "and budgetary constraints.",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_13",
+          "text": "Within the ErUM-Data context, no dedicated resources explicitly earmarked for stand-",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_14",
+          "text": "alone sustainability measures appear to be available. However, the implementation of",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_15",
+          "text": "long-term and strategically planned sustainability activities was considered impossible",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_16",
+          "text": "without such targeted funding. Specific funds could be made available for sustainability",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_17",
+          "text": "activities and, ideally, these funds should be accessible independently of ErUM-Data",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_18",
+          "text": "In addition, positive incentives to implement sustainability measures from the outset",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_19",
+          "text": "of project planning do not yet appear to be established in the current funding landscape.",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_20",
+          "text": "Financial incentives could be created to promote resource-efficient (e.g.",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_21",
+          "text": "research. Projects with particularly strong sustainability concepts could, for instance, be",
+          "page": 18
+        },
+        {
+          "para_id": "2.4_22",
+          "text": "rewarded with additional funding or extended project durations.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "section_id": "3",
+      "section_title": "Ethics",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "3_1",
+          "text": "The ethics section of the workshop explored what ethics means in the context of ErUM-",
+          "page": 18
+        },
+        {
+          "para_id": "3_2",
+          "text": "Data and how it shapes the our research practices. We started from the understanding",
+          "page": 18
+        },
+        {
+          "para_id": "3_3",
+          "text": "that ErUM-Data researchers are tasked with conducting accurate and socially relevant",
+          "page": 18
+        },
+        {
+          "para_id": "3_4",
+          "text": "research and with mentoring early-career scientists. In doing so, researchers bear full",
+          "page": 18
+        },
+        {
+          "para_id": "3_5",
+          "text": "responsibility for their work, for the gains in knowledge, and for what they publish and",
+          "page": 18
+        },
+        {
+          "para_id": "3_6",
+          "text": "Research must be conducted with integrity in accordance with good",
+          "page": 18
+        },
+        {
+          "para_id": "3_7",
+          "text": "scientific practice. Results must be reproducible.",
+          "page": 18
+        },
+        {
+          "para_id": "3_8",
+          "text": "Within this framework, we discussed the growing use of artificial intelligence (AI)",
+          "page": 18
+        },
+        {
+          "para_id": "3_9",
+          "text": "in the ErUM sciences, highlighting that its development and application present not",
+          "page": 18
+        },
+        {
+          "para_id": "3_10",
+          "text": "only undoubtedly great opportunities, but also distinct ethical challenges that must be",
+          "page": 18
+        },
+        {
+          "para_id": "3_11",
+          "text": "carefully considered.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "section_id": "3.1",
+      "section_title": "Transformative Potential of AI",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.1_1",
+          "text": "To begin with, we note the fundamental question posed by the German Ethics Council for",
+          "page": 18
+        },
+        {
+          "para_id": "3.1_2",
+          "text": "an ethical emulation: Does artificial intelligence enhance or diminish human authorship",
+          "page": 18
+        },
+        {
+          "para_id": "3.1_3",
+          "text": "and the conditions required for responsible action? Building on this guiding question,",
+          "page": 18
+        },
+        {
+          "para_id": "3.1_4",
+          "text": "several aspects emerged as particularly relevant and insightful for ErUM research:",
+          "page": 18
+        },
+        {
+          "para_id": "3.1_5",
+          "text": "Refers to the possible restriction of autonomy when tasks are delegated to",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_6",
+          "text": "artificial intelligence to such an extent that it results in a loss of skills of the scientists.",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_7",
+          "text": "AI systems are only as objective as the data they are trained on. It is widely",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_8",
+          "text": "recognized that the training of AI tools should not contain signs of bias, which can be",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_9",
+          "text": "examined and prevented using a so-called fairness matrix. This area also includes the",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_10",
+          "text": "issue of plagiarism that may have been incorporated into the training of the AI tool.",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_11",
+          "text": "Particular emphasis is placed on the importance of documenting in",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_12",
+          "text": "a traceable manner the pathway by which information was acquired or knowledge was",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_13",
+          "text": "generated, and the degree of certainty with which the correctness of the results can be",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_14",
+          "text": "Measurability of Information Gain and Environmental Costs",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_15",
+          "text": "Overall, this aspect is",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_16",
+          "text": "particularly challenging and verges on the impossible.",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_17",
+          "text": "While direct quantification is",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_18",
+          "text": "often difficult or infeasible, mathematical frameworks exist that allow to quantify the",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_19",
+          "text": "relevance of results, their value, or even just the amount of newly acquired information.",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_20",
+          "text": "Such evaluations must account for the strategic importance and sequencing of projects.",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_21",
+          "text": "Finally, the use of resources and the associated CO2e emissions required for gaining",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_22",
+          "text": "knowledge must be related to and evaluated against the value of the knowledge gained.",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_23",
+          "text": "The development of AI tools for educational and continuing-education pur-",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_24",
+          "text": "poses is attractive. AI programming assistants and chatbots tailored specifically to the",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_25",
+          "text": "ErUM sciences likewise offer an appealing prospect. However, it should not be over-",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_26",
+          "text": "looked that education in general (subject-matter knowledge, personality development,",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_27",
+          "text": "a culture of dealing with errors, etc.) is also a social process between early-career re-",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_28",
+          "text": "searchers and mentors, something from which AI tools are presumably still far removed.",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_29",
+          "text": "Particular attention was paid to the aspects of transparency and explainability of AI",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_30",
+          "text": "and how this relates to collective and individual responsibility in its development and",
+          "page": 19
+        },
+        {
+          "para_id": "3.1_31",
+          "text": "use. These aspects are explored in more detail in the following chapters.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "section_id": "3.2",
+      "section_title": "Transparency and Explainability",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.2_1",
+          "text": "In the context of ethical considerations surrounding software provision and usage, trans-",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_2",
+          "text": "parency and explainability constitute key challenges of notable complexity. Many AI",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_3",
+          "text": "systems operate as black boxes, rendering their decision-making processes difficult to",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_4",
+          "text": "interpret. Closely related is the issue of result explainability, which requires the spec-",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_5",
+          "text": "ification of an appropriate level of granularity relative to the intended audience. This",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_6",
+          "text": "granularity must be calibrated such that the scientific community is provided with full",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_7",
+          "text": "methodological and epistemic transparency, while the broader public and interested non-",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_8",
+          "text": "experts can access and comprehend the resulting knowledge in an accessible and intelli-",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_9",
+          "text": "Communication within a scientific community is facilitated by shared terminology.",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_10",
+          "text": "When addressing civil society, the use of appropriate and accessible language becomes",
+          "page": 19
+        },
+        {
+          "para_id": "3.2_11",
+          "text": "critical, encompassing both visual representation and the communication of societal im-",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_12",
+          "text": "plications of scientific findings. In fields such as MINT research and physics, which are",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_13",
+          "text": "often perceived as black boxes, enhancing comprehensibility is essential for rebuilding",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_14",
+          "text": "public trust. In this context, citizen science initiatives can provide valuable support, as",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_15",
+          "text": "demonstrated in areas such as (astro)particle physics.",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_16",
+          "text": "A recurring concern is bias. In a future in which AI systems become dominant or",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_17",
+          "text": "at least widely deployed, increasing the accessibility of training datasets is essential to",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_18",
+          "text": "enable systematic scrutiny and the identification of unfair biases. Clear contact informa-",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_19",
+          "text": "tion should be published with the dataset to ensure that identified biases can be easily",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_20",
+          "text": "addressed. While this alone is not sufficient to render AI-based research or commer-",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_21",
+          "text": "cial applications fully trustworthy, it represents an important and necessary step in that",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_22",
+          "text": "Addressing the inadvertent introduction of unfair biases into computational models",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_23",
+          "text": "requires a multifaceted approach. Key measures include (1) the identification and removal",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_24",
+          "text": "of morally irrelevant attributes from training data and (2) the reduction of model opacity",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_25",
+          "text": "through the development and application of explainability methods. A positive side effect",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_26",
+          "text": "of attempting to remove unfair bias would be a model that is describable at different levels",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_27",
+          "text": "of granularity, which can be used to reach different target audiences and the general",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_28",
+          "text": "public, thus supporting our science case in future stakeholder discussions.",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_29",
+          "text": "Fair and well-curated input datasets were identified as essential for fostering trust in",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_30",
+          "text": "AI systems and for preventing discriminatory outcomes arising from their use. To set a",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_31",
+          "text": "precedent, the ErUM community should proactively develop and adopt best practices for",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_32",
+          "text": "the release of input datasets used in machine learning applications. This might require",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_33",
+          "text": "developing new compression and storage formats to limit storage requirements and the",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_34",
+          "text": "associated consumption of resources. Efficient mechanisms to ensure that input train-",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_35",
+          "text": "ing sets are not stored multiple times, and are easily accessible including the necessary",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_36",
+          "text": "documentation are important as well. The release of training datasets may occur with",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_37",
+          "text": "a defined time delay to allow for initial proprietary analyses, provided that the time",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_38",
+          "text": "and conditions of data release are clearly communicated. Establishing these practices as",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_39",
+          "text": "standard, accompanied by clear and transparent external communication, may encourage",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_40",
+          "text": "other scientific disciplines to adopt similar approaches – particularly in domains where",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_41",
+          "text": "input datasets are more susceptible to unfair biases, such as sexism or racism.",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_42",
+          "text": "Finally, transparency also extends to issues of authorship. In the coming years, it may",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_43",
+          "text": "become increasingly difficult to verify the contributions of individuals or systems to a",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_44",
+          "text": "given piece of research. This raises critical questions regarding the extent to which trust",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_45",
+          "text": "can be relied upon, or whether full verification may ultimately be unattainable. This",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_46",
+          "text": "issue is closely linked to questions of responsibility in the development and use of AI,",
+          "page": 20
+        },
+        {
+          "para_id": "3.2_47",
+          "text": "which will be explored in greater detail in the following section.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "section_id": "3.3",
+      "section_title": "Attribution of Responsibility",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.3_1",
+          "text": "In the discussion about the responsibility that institutions and individuals (in our case,",
+          "page": 20
+        },
+        {
+          "para_id": "3.3_2",
+          "text": "ErUM-Data scientists) assume in the development and application of AI, one statement",
+          "page": 20
+        },
+        {
+          "para_id": "3.3_3",
+          "text": "from a presentation received widespread agreement and subsequently served as a guid-",
+          "page": 20
+        },
+        {
+          "para_id": "3.3_4",
+          "text": "ing principle: “Machines cannot relieve humans of their responsibility.” It was generally",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_5",
+          "text": "acknowledged that researchers remain accountable for the outcomes of AI systems and",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_6",
+          "text": "must retain the capacity to verify results. Furthermore, the discussions yielded that the",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_7",
+          "text": "user of the AI is and stays responsible for checking the outcome of the respective AI",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_8",
+          "text": "prompt. The following points were discussed in this context:",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_9",
+          "text": "Accountability in Software Usage",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_10",
+          "text": "Users bear responsibility and accountability for the",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_11",
+          "text": "scientific outcomes and results produced using software tools. Consequently, it is essen-",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_12",
+          "text": "tial to document in every publication all software employed, including full configuration",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_13",
+          "text": "parameters and, where applicable, the use of AI tools. Configurations, prompts, and",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_14",
+          "text": "discussions that contributed to the outputs generated by AI systems constitute part of",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_15",
+          "text": "the research output and must be incorporated into research data management processes.",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_16",
+          "text": "Given that reproducibility is central to accountability, users are expected to utilize",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_17",
+          "text": "software that adheres to FAIR principles and to clearly document how the software was",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_18",
+          "text": "applied. ErUM users should always strive for the usage of publicly available software",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_19",
+          "text": "tools. Software developers are accountable for providing comprehensive and accessible",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_20",
+          "text": "documentation of all software features. Users should be permitted to correct or improve",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_21",
+          "text": "identified deficiencies in the software. These improvements also fall under the require-",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_22",
+          "text": "ments of documentation.",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_23",
+          "text": "Collective Responsibility",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_24",
+          "text": "In contemporary collaborative research, responsibility for re-",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_25",
+          "text": "sults is frequently distributed across multiple contributors. Consequently, accountability",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_26",
+          "text": "for the outcomes of team efforts is shared, while each individual remains responsible",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_27",
+          "text": "for their specific contributions. In this context, transparency regarding the AI methods",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_28",
+          "text": "employed is particularly critical to ensure clarity and trustworthiness of the collective",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_29",
+          "text": "Accountability in the Use of AI/ML Algorithms in Research",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_30",
+          "text": "The use of AI and ML",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_31",
+          "text": "algorithms, including the inputs/training datasets, methods, and architectures, must be",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_32",
+          "text": "documented with the same scientific rigor applied to other research methodologies. As",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_33",
+          "text": "AI becomes increasingly prevalent, enhancing transparency may require the release of",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_34",
+          "text": "training datasets, potentially in compressed formats to reduce storage demands, both",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_35",
+          "text": "within the ErUM community and more broadly across other scientific disciplines and",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_36",
+          "text": "collaborative initiatives (see 3.1). Responsibility for the application of AI/ML rests with",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_37",
+          "text": "the researcher, or, in industrial contexts, with a designated individual capable of verifying",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_38",
+          "text": "the applied algorithms (e.g., a product owner). Accountability, including scientific or",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_39",
+          "text": "corporate reputation and legal liability, resides with this responsible person to ensure that",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_40",
+          "text": "AI/ML tools are employed correctly and securely. Correspondingly, successful outcomes",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_41",
+          "text": "are credited to the individual or organization that designed, implemented, and authorized",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_42",
+          "text": "the use of AI/ML, rather than to the AI system itself.",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_43",
+          "text": "Accountability in the Use of AI for Documentation and Scientific Publications",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_44",
+          "text": "use of generative AI, including LLMs, should be regarded as an advanced “assistive tool”",
+          "page": 21
+        },
+        {
+          "para_id": "3.3_45",
+          "text": "for scientific writing. However, such tools should never be relied upon to produce content",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_46",
+          "text": "in its entirety, nor can they assume responsibility for the resulting text. Accountability",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_47",
+          "text": "remains with the researcher, who must ensure that any AI-assisted content is accurate,",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_48",
+          "text": "scientifically sound, and free from unintended plagiarism.",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_49",
+          "text": "LLMs cannot be listed as",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_50",
+          "text": "authors in scientific publications; the human author is responsible for verifying that",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_51",
+          "text": "all text, figures, code, or other content produced with AI support meets established",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_52",
+          "text": "scientific standards. Appropriate tools, such as plagiarism detection software, should be",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_53",
+          "text": "made available to researchers by their institutions.",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_54",
+          "text": "Use of AI in Bachelor and Master Theses",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_55",
+          "text": "A key question concerns the appropriate use",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_56",
+          "text": "of AI in student theses. Unlike researchers, who typically possess advanced knowledge",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_57",
+          "text": "of their subject and can leverage AI to optimize certain aspects of their work, students",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_58",
+          "text": "are still in the process of acquiring foundational understanding. Therefore, students may",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_59",
+          "text": "need to complete tasks without relying entirely on AI, to fully learn essential processes",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_60",
+          "text": "and develop a deeper comprehension of their topic. Students should be able to critically",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_61",
+          "text": "assess their own work, ensuring that AI-generated contributions are properly understood,",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_62",
+          "text": "evaluated, and integrated into their learning process.",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_63",
+          "text": "If an accountability-based approach is adopted for scientific publications, the same",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_64",
+          "text": "principles should apply to student theses, as these are intended to train students in sci-",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_65",
+          "text": "entific work. Accordingly, a thesis should not be entirely AI-generated, either in terms of",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_66",
+          "text": "text or research work, and students must assume full responsibility for the accuracy and",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_67",
+          "text": "scientific integrity of their work. To support this, supervisors and students should be",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_68",
+          "text": "provided with appropriate tools by their institutions, including AI detection software to",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_69",
+          "text": "evaluate the extent of AI-generated text, as well as plagiarism detection tools. The super-",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_70",
+          "text": "visor retains full responsibility for the assessment. AI tools cannot assume accountability",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_71",
+          "text": "for grading decisions.",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_72",
+          "text": "Responsibility for Sustainability",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_73",
+          "text": "All software tools, including AI, must be used re-",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_74",
+          "text": "sponsibly, with careful consideration of resource efficiency and associated CO2-equivalent",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_75",
+          "text": "emissions. Users are accountable for minimizing these impacts, which requires prior plan-",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_76",
+          "text": "ning, reasonableness checks, and small-scale testing before large-scale computations.",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_77",
+          "text": "Ensuring accountability for CO2-equivalent emissions requires the implementation of",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_78",
+          "text": "systems that promote responsible use of software and environmental resources. Such",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_79",
+          "text": "systems should incorporate concrete methods to facilitate the measurement of consumed",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_80",
+          "text": "resources and their corresponding impacts (e.g. financially).",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_81",
+          "text": "One illustrative scenario could involve attributing a personal share of the global atmo-",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_82",
+          "text": "sphere to each individual. If the respective part of the atmosphere is polluted with CO2,",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_83",
+          "text": "the owner could seek compensation from the national government, thereby creating an",
+          "page": 22
+        },
+        {
+          "para_id": "3.3_84",
+          "text": "incentive for the government to recover costs from the party responsible for the emissions.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "section_id": "3.4",
+      "section_title": "Further Implications",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "3.4_1",
+          "text": "In addition to the previously discussed aspects, further considerations have emerged",
+          "page": 22
+        },
+        {
+          "para_id": "3.4_2",
+          "text": "regarding the use of AI within ErUM-Data.",
+          "page": 22
+        },
+        {
+          "para_id": "3.4_3",
+          "text": "The risk of deskilling is a significant concern for ErUM sciences and",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_4",
+          "text": "must be actively addressed. Researchers must retain the skills necessary to assume full",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_5",
+          "text": "responsibility for their results. Key skills that should continue to be promoted among",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_6",
+          "text": "students in the era of AI include:",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_7",
+          "text": "• Experimental design",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_8",
+          "text": "• Communication of experimental findings and data-driven conclusions",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_9",
+          "text": "It is essential to assess in detail which skills have been central to scientific training",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_10",
+          "text": "and which additional competencies are now required to ensure both scientific rigor and",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_11",
+          "text": "accountability in an AI-supported research environment.",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_12",
+          "text": "Critical Thinking as a Cornerstone",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_13",
+          "text": "The importance of critical thinking is increasing,",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_14",
+          "text": "particularly as Large Language Models (LLMs) are being employed in code development",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_15",
+          "text": "within scientific software frameworks with growing prevalence. By critically evaluating",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_16",
+          "text": "the results of LLM queries, scientists can verify the correctness of the generated code",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_17",
+          "text": "while simultaneously deepening their understanding of the underlying research and the",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_18",
+          "text": "impact of these outputs on ongoing scientific work.",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_19",
+          "text": "The dramatic increase in available data has correspondingly heightened demands on",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_20",
+          "text": "its processing. While AI can support the summarization of key findings, objectives and",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_21",
+          "text": "tasks must be clearly defined to avoid introducing bias. Essential skills in this context",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_22",
+          "text": "include abstraction, precision, and contextualization, complemented by the ability to",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_23",
+          "text": "critically reflect on one’s own analyses and outcomes.",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_24",
+          "text": "To establish these foundational skills, the systematic teaching of critical thinking",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_25",
+          "text": "throughout physics curricula is essential. This enables early-career scientists to develop",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_26",
+          "text": "a sophisticated level of critical reasoning. Effective implementation of such teaching re-",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_27",
+          "text": "quires not only sufficient instructional resources, but also the training of instructors to",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_28",
+          "text": "communicate and cultivate critical thinking skills effectively.",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_29",
+          "text": "Strong Foundation for All Students",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_30",
+          "text": "In the first term of any course, students should",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_31",
+          "text": "participate in an AI-focused workshop to ensure that all learners, from the earliest stages",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_32",
+          "text": "of their education, receive at least basic guidance on the use of AI, expressly including",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_33",
+          "text": "ethical considerations. This introductory session does not need to be lengthy but should",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_34",
+          "text": "address critical thinking in the context of AI, highlighting both potential benefits and",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_35",
+          "text": "risks. Such a workshop can be made mandatory at the undergraduate level or adapted for",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_36",
+          "text": "individual faculties. It may also be offered at the postgraduate or PhD level. Importantly,",
+          "page": 23
+        },
+        {
+          "para_id": "3.4_37",
+          "text": "these AI-usage skills are transferable across disciplines and research contexts.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "section_id": "4",
+      "section_title": "Assisting Awareness",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "4_1",
+          "text": "At the conclusion of the workshop, there was a strong consensus regarding the necessity",
+          "page": 23
+        },
+        {
+          "para_id": "4_2",
+          "text": "to engage actively in two key areas:",
+          "page": 23
+        },
+        {
+          "para_id": "4_3",
+          "text": "• Driving long-term and strategic initiatives: It is imperative that sustainability",
+          "page": 24
+        },
+        {
+          "para_id": "4_4",
+          "text": "standards are integrated from the outset in all projects, regardless of their scale,",
+          "page": 24
+        },
+        {
+          "para_id": "4_5",
+          "text": "and prioritized accordingly.",
+          "page": 24
+        },
+        {
+          "para_id": "4_6",
+          "text": "• Implementing short-term, actionable measures: Additionally, there is a need for",
+          "page": 24
+        },
+        {
+          "para_id": "4_7",
+          "text": "immediate actions that can be executed without requiring additional funding. This",
+          "page": 24
+        },
+        {
+          "para_id": "4_8",
+          "text": "includes particularly communication strategies targeted at diverse audiences. We",
+          "page": 24
+        },
+        {
+          "para_id": "4_9",
+          "text": "must enhance our efforts to effectively convey our work and sustainability initiatives",
+          "page": 24
+        },
+        {
+          "para_id": "4_10",
+          "text": "not only to the general public but also to foster discussions within our community",
+          "page": 24
+        },
+        {
+          "para_id": "4_11",
+          "text": "by integrating aspects of sustainability and ethics at every opportunity.",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "section_id": "4.1",
+      "section_title": "Need of Common Values and Visions",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.1_1",
+          "text": "The discussion on taking action was framed around a central question: Why do many",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_2",
+          "text": "individuals refrain from engaging in climate change mitigation, even though scientific",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_3",
+          "text": "data are widely available and consistently point in the same direction? Our working",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_4",
+          "text": "assumption is that, while many people agree that reducing CO2 emissions in science is",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_5",
+          "text": "essential, various factors hinder the implementation of concrete measures. These include:",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_6",
+          "text": "• a lack of information on how they can effectively contribute,",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_7",
+          "text": "• a lack of awareness of their own individual contribution to the problem,",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_8",
+          "text": "• the perception that individual action is ineffective and the feeling of being left",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_9",
+          "text": "• low motivation due to missing or insufficient incentives,",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_10",
+          "text": "• purely opportunistic behavior,",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_11",
+          "text": "• the perception that saving energy is associated with additional, unpleasant work,",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_12",
+          "text": "• skepticism toward or rejection of scientific evidence.",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_13",
+          "text": "This led to the conclusion that a shared understanding of the urgency of climate action",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_14",
+          "text": "is a prerequisite for developing common visions and values within the community. The",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_15",
+          "text": "central challenge is to ensure that CO2-efficient approaches are internalised as an integral",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_16",
+          "text": "component of scientific practice.",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_17",
+          "text": "This, in turn, requires the creation of appropriate",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_18",
+          "text": "incentive structures.",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_19",
+          "text": "A purely top-down approach should be avoided, as it is likely",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_20",
+          "text": "to result in indifference or, in the worst case, be counterproductive.",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_21",
+          "text": "to reduce CO2 emissions should ideally be driven by researchers’ intrinsic motivation;",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_22",
+          "text": "however, we assume that such intrinsic motivation will rarely emerge in the absence of",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_23",
+          "text": "external incentives.",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_24",
+          "text": "The key question, therefore, is how to foster this internal willingness to adopt energy-",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_25",
+          "text": "efficient practices. The current situation resembles a stalemate: individual researchers",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_26",
+          "text": "often consider themselves too insignificant to have a meaningful impact and therefore",
+          "page": 24
+        },
+        {
+          "para_id": "4.1_27",
+          "text": "shift responsibility to higher-level actors such as governments, professional societies (e.g.",
+          "page": 25
+        },
+        {
+          "para_id": "4.1_28",
+          "text": "the DPG), funding agencies, or similar institutions. At the same time, these institutions",
+          "page": 25
+        },
+        {
+          "para_id": "4.1_29",
+          "text": "frequently frame the problem as one that should be solved primarily through technical",
+          "page": 25
+        },
+        {
+          "para_id": "4.1_30",
+          "text": "means. Yet technical solutions, such as increased software efficiency, tend to lead to",
+          "page": 25
+        },
+        {
+          "para_id": "4.1_31",
+          "text": "the production of even larger data sets, since the prevailing scientific incentive structure",
+          "page": 25
+        },
+        {
+          "para_id": "4.1_32",
+          "text": "rewards producing the “best” possible paper, which is often associated with maximal data",
+          "page": 25
+        },
+        {
+          "para_id": "4.1_33",
+          "text": "volume and compute time.",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "section_id": "4.2",
+      "section_title": "From Awareness to Action",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.2_1",
+          "text": "Where awareness and willingness are already present, the central challenge is to en-",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_2",
+          "text": "able individuals to translate this willingness into concrete action. The question is how",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_3",
+          "text": "researchers can be supported in moving from general intention to the practical imple-",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_4",
+          "text": "mentation of sustainable behaviours. Potential approaches identified include:",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_5",
+          "text": "Engaging Science Communication Formats and Teaching Innovations",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_6",
+          "text": "formats (e.g. short videos or other audio-visual materials that create a lasting memory",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_7",
+          "text": "effect) could complement or partially replace traditional teaching methods. At the same",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_8",
+          "text": "time, efficient use of computational resources should become a standard component of",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_9",
+          "text": "curricula, for example in computational physics courses. Corresponding teaching mate-",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_10",
+          "text": "rials could be made available on a dedicated website.",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_11",
+          "text": "Provision of Tools to Quantify Individual CO2 Emissions",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_12",
+          "text": "Freely accessible, easy-to-",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_13",
+          "text": "use tools should be developed that provide researchers with immediate feedback on the",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_14",
+          "text": "CO2 emissions associated with their computational work (ideally via a “one-click” result).",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_15",
+          "text": "Such tools could be jointly developed by technical staff and physicists and made available",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_16",
+          "text": "to the wider community.",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_17",
+          "text": "Dedicated Formats and Recognition at Conferences",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_18",
+          "text": "Major national and international",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_19",
+          "text": "conferences should include dedicated sessions on sustainable research practices. In addi-",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_20",
+          "text": "tion, a sustainability prize, for example for the most resource-efficient research project,",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_21",
+          "text": "could be established.",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_22",
+          "text": "Contextualisation of CO2 Metrics",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_23",
+          "text": "Reported CO2 values should be translated into",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_24",
+          "text": "intuitive real-world equivalents (e.g. annual per-capita emissions of specific countries, or",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_25",
+          "text": "the emissions associated with certain flight distances) to make their implications more",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_26",
+          "text": "Public Disclosure of the CO2 Footprint",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_27",
+          "text": "The CO2 equivalents required to generate",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_28",
+          "text": "scientific results could be reported systematically, for example as part of each publication",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_29",
+          "text": "or scientific presentation. Similarly, third-party funded projects could be asked to include",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_30",
+          "text": "estimated CO2 emissions in mid-term and final reports. Projects with exceptionally low",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_31",
+          "text": "emissions might be rewarded, for instance through the option of extending the project’s",
+          "page": 25
+        },
+        {
+          "para_id": "4.2_32",
+          "text": "Role Modelling and Positive Incentives",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_33",
+          "text": "Direct coercive measures should be avoided.",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_34",
+          "text": "Instead, prominent scientists could lead by example so that sustainable practices grad-",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_35",
+          "text": "ually become a community norm. In general, positive incentives are preferable to addi-",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_36",
+          "text": "tional bureaucratic accounting requirements.",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_37",
+          "text": "Highlighting Efficiency as a Scientific Advantage",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_38",
+          "text": "Efficient codes and usage practices",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_39",
+          "text": "can provide a competitive scientific advantage, as they enable more sustainable research",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_40",
+          "text": "within shorter time frames. A CO2 quota per researcher or project was discussed as",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_41",
+          "text": "a way to limit rebound effects: remaining “emission budget” could be used for further",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_42",
+          "text": "research, potentially making efficient researchers attractive collaboration partners.",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_43",
+          "text": "Design of “Win–Win” Workflows",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_44",
+          "text": "Easy-to-follow guidelines should be developed that",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_45",
+          "text": "simplify scientific workflows while automatically integrating sustainability considerations,",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_46",
+          "text": "thereby creating situations where the most convenient option is also the most sustainable",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_47",
+          "text": "Establishing Sustainability Experts and Multipliers",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_48",
+          "text": "Sustainability experts could be",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_49",
+          "text": "invited regularly as speakers at conferences, allowing others to benefit from their experi-",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_50",
+          "text": "ence. Early-career researchers with a focus on sustainability can act as multipliers both",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_51",
+          "text": "within and beyond the scientific community.",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_52",
+          "text": "Institutionalisation through Certification and Training",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_53",
+          "text": "Easy applicable sustainabil-",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_54",
+          "text": "ity certification schemes for laboratories could be introduced. In addition, sustainable",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_55",
+          "text": "research practices should be systematically taught to all new students as part of their",
+          "page": 26
+        },
+        {
+          "para_id": "4.2_56",
+          "text": "transferable skills or “soft skills” training.",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "section_id": "4.3",
+      "section_title": "Engaging Beyond Information: Motivating Audiences",
+      "level": 2,
+      "paragraphs": [
+        {
+          "para_id": "4.3_1",
+          "text": "One statement from the discussion particularly resonated within the workshop group:",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_2",
+          "text": "“The problem and many of the solutions to the climate crisis are well known. The key",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_3",
+          "text": "question is how we can achieve broader adoption of these solutions. Simply communicat-",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_4",
+          "text": "ing the facts and expecting a rational response does not work. We have to acknowledge",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_5",
+          "text": "the diverse values of the people we want to reach, choose appropriate framing, and speak",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_6",
+          "text": "as members of the addressed communities rather than as external advisers. We should",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_7",
+          "text": "begin within our own research groups, experiments, and communities.”",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_8",
+          "text": "We are convinced that rethinking both the content and the form of our communication",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_9",
+          "text": "is the key to conveying the urgency of sustainability measures to target audiences inside",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_10",
+          "text": "and outside the scientific community. This requires us to reflect on which audiences we",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_11",
+          "text": "intend to address and how to effectively engage in dialogue with them. It is not sufficient",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_12",
+          "text": "to prepare our messages and goals once and for all and simply “send them out into the",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_13",
+          "text": "Two complementary and indispensable approaches emerged. First, we should seize ev-",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_14",
+          "text": "ery opportunity to enable rapid, low-bureaucratic progress. This includes actively com-",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_15",
+          "text": "municating about sustainability in our own research groups, pushing the topic forward,",
+          "page": 26
+        },
+        {
+          "para_id": "4.3_16",
+          "text": "and creating dedicated space and time for it. Individuals in decision-making positions",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_17",
+          "text": "need to be aware of their responsibility to prioritise such discussions in their groups, and",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_18",
+          "text": "to act on this responsibility without delay. The same applies to e.g. conference presenta-",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_19",
+          "text": "tions and to the measures outlined in Section 4.2. The guiding principle should be: it is",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_20",
+          "text": "not enough to reduce our footprint, we need to also improve our positive impact. During",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_21",
+          "text": "the workshop, this concept was summarized under the term “handprint.” In contrast to",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_22",
+          "text": "quantifying environmental damage, the handprint assesses positive contributions, includ-",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_23",
+          "text": "ing improvements in resource efficiency, reductions in emissions, and the effectiveness of",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_24",
+          "text": "communication measures.",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_25",
+          "text": "One concrete outcome of this line of thought is the establishment of a “Sustainability",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_26",
+          "text": "Action Group,” which will focus on immediately implementable measures such as prepar-",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_27",
+          "text": "ing a slide deck for dissemination within the ErUM-Data community to support group",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_28",
+          "text": "leaders in identifying entry points in their own groups, and recording a podcast episode",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_29",
+          "text": "on the topics discussed during the workshop. This measure has been implemented since",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_30",
+          "text": "Second, we need to move beyond our existing communication routines and build strate-",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_31",
+          "text": "gic campaigns that not only transmit information but also deeply engage specific target",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_32",
+          "text": "groups, motivate them, and enable concrete action. The effectiveness of such measures",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_33",
+          "text": "depends on clear target-group orientation (sufficient granularity), planning reliability,",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_34",
+          "text": "and adequate resources (personnel and financial). Only under these conditions can we",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_35",
+          "text": "create “paved roads” for other ErUM-Data scientists and for the societal actors within",
+          "page": 27
+        },
+        {
+          "para_id": "4.3_36",
+          "text": "our sphere of influence.",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "section_id": "5",
+      "section_title": "Conclusions",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "5_1",
+          "text": "This workshop report reviewed the progress made since the 2023 Workshop “Sustainabil-",
+          "page": 27
+        },
+        {
+          "para_id": "5_2",
+          "text": "ity in the Digital Transformation of Basic Research on Universe and Matter” and assessed",
+          "page": 27
+        },
+        {
+          "para_id": "5_3",
+          "text": "the implementation of sustainability measures in ErUM-Data across short-, medium-,",
+          "page": 27
+        },
+        {
+          "para_id": "5_4",
+          "text": "and long-term time scales. Significant advances have been achieved in raising awareness,",
+          "page": 27
+        },
+        {
+          "para_id": "5_5",
+          "text": "improving transparency of energy use, adopting optimized software and workflows, and",
+          "page": 27
+        },
+        {
+          "para_id": "5_6",
+          "text": "integrating sustainability considerations into research planning.",
+          "page": 27
+        },
+        {
+          "para_id": "5_7",
+          "text": "have strengthened data and software FAIRness, resource-efficient data handling, work-",
+          "page": 27
+        },
+        {
+          "para_id": "5_8",
+          "text": "flow management, and the responsible use of AI, while highlighting persistent challenges",
+          "page": 27
+        },
+        {
+          "para_id": "5_9",
+          "text": "in monitoring, long-term maintenance, and training. Long-term goals such as dynamic",
+          "page": 27
+        },
+        {
+          "para_id": "5_10",
+          "text": "use of renewable energy, optimized infrastructure, heat reuse, and sustainable hardware",
+          "page": 27
+        },
+        {
+          "para_id": "5_11",
+          "text": "lifecycles remain difficult but are increasingly embedded in strategic planning. Over-",
+          "page": 27
+        },
+        {
+          "para_id": "5_12",
+          "text": "all, the review demonstrates meaningful progress driven by community engagement and",
+          "page": 27
+        },
+        {
+          "para_id": "5_13",
+          "text": "technological innovation, while underscoring the need for coordination, systematic moni-",
+          "page": 27
+        },
+        {
+          "para_id": "5_14",
+          "text": "toring, and institutional support to fully embed resource-aware practices in ErUM-Data.",
+          "page": 27
+        },
+        {
+          "para_id": "5_15",
+          "text": "The discussion on sustainable actions at the 2025 workshop “Shaping the Digital Fu-",
+          "page": 27
+        },
+        {
+          "para_id": "5_16",
+          "text": "ture of ErUM Research: Sustainability and Ethics” outlined a comprehensive framework",
+          "page": 27
+        },
+        {
+          "para_id": "5_17",
+          "text": "for sustainability actions in data-intensive ErUM research, focusing primarily on reduc-",
+          "page": 27
+        },
+        {
+          "para_id": "5_18",
+          "text": "ing CO2 emissions from computing and IT infrastructure. The ideas distinguished be-",
+          "page": 27
+        },
+        {
+          "para_id": "5_19",
+          "text": "tween embedded and operational emissions and highlighted strategies such as extending",
+          "page": 28
+        },
+        {
+          "para_id": "5_20",
+          "text": "the lifetime of hardware, improving energy-efficient software and workflows, improving",
+          "page": 28
+        },
+        {
+          "para_id": "5_21",
+          "text": "data reuse, and integrating sustainability considerations from the initial planning stages.",
+          "page": 28
+        },
+        {
+          "para_id": "5_22",
+          "text": "Innovative concepts such as “breathing” computing centers, optimized long-term data",
+          "page": 28
+        },
+        {
+          "para_id": "5_23",
+          "text": "storage, and software efficiency certification were presented as promising approaches to",
+          "page": 28
+        },
+        {
+          "para_id": "5_24",
+          "text": "align computational activity with low-emission energy availability. In addition, the im-",
+          "page": 28
+        },
+        {
+          "para_id": "5_25",
+          "text": "portance of community-wide incentives, transparent reporting, and policy mechanisms",
+          "page": 28
+        },
+        {
+          "para_id": "5_26",
+          "text": "to encourage responsible behavior were emphasized during the workshop. Substantial",
+          "page": 28
+        },
+        {
+          "para_id": "5_27",
+          "text": "emission reductions can be achieved through a combination of technological innovation,",
+          "page": 28
+        },
+        {
+          "para_id": "5_28",
+          "text": "structural adaptation, and coordinated governance.",
+          "page": 28
+        },
+        {
+          "para_id": "5_29",
+          "text": "In addition, it was emphasized that long-term sustainability in ErUM-Data research",
+          "page": 28
+        },
+        {
+          "para_id": "5_30",
+          "text": "depends not only on technical solutions, but also on systematic education, community",
+          "page": 28
+        },
+        {
+          "para_id": "5_31",
+          "text": "support, and appropriate funding structures. Targeted training for students and early-",
+          "page": 28
+        },
+        {
+          "para_id": "5_32",
+          "text": "career researchers, the promotion of sustainable coding practices, and the development",
+          "page": 28
+        },
+        {
+          "para_id": "5_33",
+          "text": "of strong teaching and communication competencies were identified as key drivers for",
+          "page": 28
+        },
+        {
+          "para_id": "5_34",
+          "text": "long-term cultural change. Complementary mentoring, expert networks, and knowledge",
+          "page": 28
+        },
+        {
+          "para_id": "5_35",
+          "text": "transfer beyond the community further strengthen the impact of these efforts. The cen-",
+          "page": 28
+        },
+        {
+          "para_id": "5_36",
+          "text": "tral role of steering and funding in enabling sustainable practices was highlighted, calling",
+          "page": 28
+        },
+        {
+          "para_id": "5_37",
+          "text": "for clear benchmarks, dedicated resources, and positive incentives that integrate sustain-",
+          "page": 28
+        },
+        {
+          "para_id": "5_38",
+          "text": "ability into project planning from the outset. Together, these measures underscore the",
+          "page": 28
+        },
+        {
+          "para_id": "5_39",
+          "text": "need for coordinated investment in people, skills, and governance to embed sustainability",
+          "page": 28
+        },
+        {
+          "para_id": "5_40",
+          "text": "permanently in ErUM-Data research.",
+          "page": 28
+        },
+        {
+          "para_id": "5_41",
+          "text": "The second part of the workshop examined the ethical dimensions of data-intensive and",
+          "page": 28
+        },
+        {
+          "para_id": "5_42",
+          "text": "AI-supported research in the ErUM-Data context, emphasizing integrity, reproducibility,",
+          "page": 28
+        },
+        {
+          "para_id": "5_43",
+          "text": "and human responsibility as central principles. Both, the transformative potential and",
+          "page": 28
+        },
+        {
+          "para_id": "5_44",
+          "text": "the risks of AI, were highlighted, including issues of autonomy, bias, transparency, envi-",
+          "page": 28
+        },
+        {
+          "para_id": "5_45",
+          "text": "ronmental impact, and deskilling. The third chapter of this workshop report stressed the",
+          "page": 28
+        },
+        {
+          "para_id": "5_46",
+          "text": "necessity of explainable and trustworthy systems, well-curated and accessible datasets,",
+          "page": 28
+        },
+        {
+          "para_id": "5_47",
+          "text": "and clear standards for authorship and documentation. It reaffirmed that accountability",
+          "page": 28
+        },
+        {
+          "para_id": "5_48",
+          "text": "for scientific outcomes remains with human researchers, whether in research, education,",
+          "page": 28
+        },
+        {
+          "para_id": "5_49",
+          "text": "By underscoring the importance of critical thinking, mentoring, and",
+          "page": 28
+        },
+        {
+          "para_id": "5_50",
+          "text": "ethical training from early stages of education onward, the discussions demonstrated",
+          "page": 28
+        },
+        {
+          "para_id": "5_51",
+          "text": "that responsible AI use is essential for maintaining scientific integrity, public trust, and",
+          "page": 28
+        },
+        {
+          "para_id": "5_52",
+          "text": "sustainable research practices.",
+          "page": 28
+        },
+        {
+          "para_id": "5_53",
+          "text": "A central conclusion drawn from the workshop was that sustainable transformation",
+          "page": 28
+        },
+        {
+          "para_id": "5_54",
+          "text": "within the ErUM-Data community relies on targeted awareness-building, strategic com-",
+          "page": 28
+        },
+        {
+          "para_id": "5_55",
+          "text": "munication, and appropriate motivation strategies. It was agreed not only that raising",
+          "page": 28
+        },
+        {
+          "para_id": "5_56",
+          "text": "awareness must be a priority, but also that the approach to this must be adapted to",
+          "page": 28
+        },
+        {
+          "para_id": "5_57",
+          "text": "the new requirements. The fourth report chapter highlighted the importance of devel-",
+          "page": 28
+        },
+        {
+          "para_id": "5_58",
+          "text": "oping shared values, aligning incentives, and overcoming barriers that hinder individual",
+          "page": 28
+        },
+        {
+          "para_id": "5_59",
+          "text": "engagement, such as perceived inefficacy and lack of guidance. Moving from awareness",
+          "page": 28
+        },
+        {
+          "para_id": "5_60",
+          "text": "to action requires practical tools, visible recognition, role models, and “win–win” work-",
+          "page": 28
+        },
+        {
+          "para_id": "5_61",
+          "text": "flows that integrate sustainability into everyday research practices. Effective engagement",
+          "page": 28
+        },
+        {
+          "para_id": "5_62",
+          "text": "must go beyond information transfer, relying on audience-specific communication and di-",
+          "page": 28
+        },
+        {
+          "para_id": "5_63",
+          "text": "alogue. Promoting both short-term actions and long-term cultural change, the workshop",
+          "page": 29
+        },
+        {
+          "para_id": "5_64",
+          "text": "emphasized the crucial importance of communication and motivation in integrating sus-",
+          "page": 29
+        },
+        {
+          "para_id": "5_65",
+          "text": "tainability into scientific practice.",
+          "page": 29
+        },
+        {
+          "para_id": "5_66",
+          "text": "[1] DIG-UM and ErUM-Data-Hub.",
+          "page": 30
+        },
+        {
+          "para_id": "5_67",
+          "text": "Sustainability & Ethics, 7 2025. URL: https://indico.desy.de/event/47133.",
+          "page": 30
+        },
+        {
+          "para_id": "5_68",
+          "text": "[2] DIG-UM and ErUM-Data-Hub. Workshop: Sustainability in the Digital Transfor-",
+          "page": 30
+        },
+        {
+          "para_id": "5_69",
+          "text": "mation of Basic Research on Universe & Matter, 5 2023. URL: https://indico.",
+          "page": 30
+        },
+        {
+          "para_id": "5_70",
+          "text": "desy.de/event/37480.",
+          "page": 30
+        },
+        {
+          "para_id": "5_71",
+          "text": "[3] Ben Bruers, Marilyn Cruces, Markus Demleitner, Guenter Duckeck, Michael Düren,",
+          "page": 30
+        },
+        {
+          "para_id": "5_72",
+          "text": "Niclas Eich, Torsten Enßlin, Johannes Erdmann, Martin Erdmann, Peter Fackeldey,",
+          "page": 30
+        },
+        {
+          "para_id": "5_73",
+          "text": "Christian Felder, Benjamin Fischer, Stefan Fröse, Stefan Funk, Martin Gasthu-",
+          "page": 30
+        },
+        {
+          "para_id": "5_74",
+          "text": "ber, Andrew Grimshaw, Daniela Hadasch, Moritz Hannemann, Alexander Kappes,",
+          "page": 30
+        },
+        {
+          "para_id": "5_75",
+          "text": "Raphael Kleinemühl, Oleksiy M. Kozlov, Thomas Kuhr, Michael Lupberger, Simon",
+          "page": 30
+        },
+        {
+          "para_id": "5_76",
+          "text": "Neuhaus, Pardis Niknejadi, Judith Reindl, Daniel Schindler, Astrid Schneidewind,",
+          "page": 30
+        },
+        {
+          "para_id": "5_77",
+          "text": "Frank Schreiber, Markus Schumacher, Kilian Schwarz, Achim Streit, R. Florian",
+          "page": 30
+        },
+        {
+          "para_id": "5_78",
+          "text": "von Cube, Rodney Walker, Cyrus Walther, Sebastian Wozniewski, and Kai Zhou.",
+          "page": 30
+        },
+        {
+          "para_id": "5_79",
+          "text": "Resource-aware research on universe and matter: call-to-action in digital transforma-",
+          "page": 30
+        },
+        {
+          "para_id": "5_80",
+          "text": "tion. The European Physical Journal Special Topics, Dec 2024. arXiv:2311.01169,",
+          "page": 30
+        },
+        {
+          "para_id": "5_81",
+          "text": "doi:10.1140/epjs/s11734-024-01436-4.",
+          "page": 30
+        },
+        {
+          "para_id": "5_82",
+          "text": "[4] German Committee for Particle Physics KET. Statement by the German Particle",
+          "page": 30
+        },
+        {
+          "para_id": "5_83",
+          "text": "Physics Community as Input to the Update of the European Strategy for Par-",
+          "page": 30
+        },
+        {
+          "para_id": "5_84",
+          "text": "ticle Physics, 2025.",
+          "page": 30
+        },
+        {
+          "para_id": "5_85",
+          "text": "URL: https://www.ketweb.de/sites/sites_custom/site_",
+          "page": 30
+        },
+        {
+          "para_id": "5_86",
+          "text": "ketweb/content/e199639/e293723/ESPP_Statement_2025_submit.pdf [cited 20-",
+          "page": 30
+        },
+        {
+          "para_id": "5_87",
+          "text": "[5] European Astronomical Society. Beyond awareness: Reducing the carbon footprint",
+          "page": 30
+        },
+        {
+          "para_id": "5_88",
+          "text": "of European astronomy, 2025. URL: https://eas.unige.ch/EAS2025/session.",
+          "page": 30
+        },
+        {
+          "para_id": "5_89",
+          "text": "jsp?id=SS47 [cited 20-12-2025].",
+          "page": 30
+        },
+        {
+          "para_id": "5_90",
+          "text": "[6] DIG-UM and ErUM-Data-Hub. Online short-pitch & discussion evening: Sustain-",
+          "page": 30
+        },
+        {
+          "para_id": "5_91",
+          "text": "ability in erum-data, 6 2024. URL: https://indico.desy.de/event/44490/.",
+          "page": 30
+        },
+        {
+          "para_id": "5_92",
+          "text": "[7] DIG-UM and ErUM-Data-Hub. Discussion evening: Sustainability in erum-data,",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "section_id": "11",
+      "section_title": "2024. URL: https://indico.desy.de/event/45927/.",
+      "level": 1,
+      "paragraphs": [
+        {
+          "para_id": "11_1",
+          "text": "[8] Valerie S. Lang, Naman Kumar Bhalla, Simran Sunil Gurdasani, and Pardis Nikne-",
+          "page": 30
+        },
+        {
+          "para_id": "11_2",
+          "text": "jadi. Know your footprint — evaluation of the professional carbon footprint for",
+          "page": 30
+        },
+        {
+          "para_id": "11_3",
+          "text": "individual researchers in high energy physics and related fields. npj Climate Action,",
+          "page": 30
+        },
+        {
+          "para_id": "11_4",
+          "text": "4(1):28, Mar 2025. arXiv:2403.03308, doi:10.1038/s44168-025-00232-7.",
+          "page": 30
+        },
+        {
+          "para_id": "11_5",
+          "text": "[9] Georges Aad et al. The environmental impact, carbon emissions and sustainability",
+          "page": 30
+        },
+        {
+          "para_id": "11_6",
+          "text": "of computing in the ATLAS experiment. Eur. Phys. J. C, 85(12):1397, 2025. arXiv:",
+          "page": 30
+        },
+        {
+          "para_id": "11_7",
+          "text": "2505.08530, doi:10.1140/epjc/s10052-025-14976-3.",
+          "page": 30
+        },
+        {
+          "para_id": "11_8",
+          "text": "[10] Lorenz Gärtner, Nikolai Hartmann, Lukas Heinrich, Malin Horstmann, Thomas",
+          "page": 31
+        },
+        {
+          "para_id": "11_9",
+          "text": "Kuhr, Méril Reboud, Slavomira Stefkova, and Danny van Dyk.",
+          "page": 31
+        },
+        {
+          "para_id": "11_10",
+          "text": "model-agnostic likelihoods, a method for the reinterpretation of particle physics",
+          "page": 31
+        },
+        {
+          "para_id": "11_11",
+          "text": "results. Eur. Phys. J. C, 84(7):693, 2024. arXiv:2402.08417, doi:10.1140/epjc/",
+          "page": 31
+        },
+        {
+          "para_id": "11_12",
+          "text": "[11] Merna Abumusabh et al. Model-agnostic likelihood for the reinterpretation of the",
+          "page": 31
+        },
+        {
+          "para_id": "11_13",
+          "text": "B+→K+vv¯ measurement at Belle II. Phys. Rev. D, 112(9):092016, 2025. arXiv:",
+          "page": 31
+        },
+        {
+          "para_id": "11_14",
+          "text": "2507.12393, doi:10.1103/pr66-sd36.",
+          "page": 31
+        },
+        {
+          "para_id": "11_15",
+          "text": "[12] Caspar Schmitt, Boyang Yu, and Thomas Kuhr. A Workflow Management System",
+          "page": 31
+        },
+        {
+          "para_id": "11_16",
+          "text": "Guide. 12 2022. arXiv:2212.01422.",
+          "page": 31
+        },
+        {
+          "para_id": "11_17",
+          "text": "[13] Awkward array package documentation. URL: https://awkward-array.org/ [cited",
+          "page": 31
+        },
+        {
+          "para_id": "11_18",
+          "text": "[14] R. Brun and F. Rademakers. ROOT: An object oriented data analysis framework.",
+          "page": 31
+        },
+        {
+          "para_id": "11_19",
+          "text": "Nucl. Instrum. Meth. A, 389:81–86, 1997. doi:10.1016/S0168-9002(97)00048-X.",
+          "page": 31
+        },
+        {
+          "para_id": "11_20",
+          "text": "[15] Oz Amram et al. CaloChallenge 2022: a community challenge for fast calorimeter",
+          "page": 31
+        },
+        {
+          "para_id": "11_21",
+          "text": "simulation. Rept. Prog. Phys., 88(11):116201, 2025. arXiv:2410.21611, doi:10.",
+          "page": 31
+        },
+        {
+          "para_id": "11_22",
+          "text": "1088/1361-6633/ae1304.",
+          "page": 31
+        },
+        {
+          "para_id": "11_23",
+          "text": "[16] Matteo Barbetti.",
+          "page": 31
+        },
+        {
+          "para_id": "11_24",
+          "text": "Lamarr: LHCb ultra-fast simulation based on machine learn-",
+          "page": 31
+        },
+        {
+          "para_id": "11_25",
+          "text": "ing models deployed within Gauss. In 21th International Workshop on Advanced",
+          "page": 31
+        },
+        {
+          "para_id": "11_26",
+          "text": "Computing and Analysis Techniques in Physics Research: AI meets Reality, 3 2023.",
+          "page": 31
+        },
+        {
+          "para_id": "11_27",
+          "text": "[17] Joschka Birk, Anna Hallin, and Gregor Kasieczka. OmniJet-α: the first cross-task",
+          "page": 31
+        },
+        {
+          "para_id": "11_28",
+          "text": "foundation model for particle physics. Mach. Learn. Sci. Tech., 5(3):035031, 2024.",
+          "page": 31
+        },
+        {
+          "para_id": "11_29",
+          "text": "arXiv:2403.05618, doi:10.1088/2632-2153/ad66ad.",
+          "page": 31
+        },
+        {
+          "para_id": "11_30",
+          "text": "[18] Estela Suarez, Hendryk Bockelmann, Norbert Eicker, Jan Eitzinger, Salem El Sayed,",
+          "page": 31
+        },
+        {
+          "para_id": "11_31",
+          "text": "Thomas Fieseler, Martin Frank, Peter Frech, Pay Giesselmann, Daniel Hackenberg,",
+          "page": 31
+        },
+        {
+          "para_id": "11_32",
+          "text": "Georg Hager, Andreas Herten, Thomas Ilsche, Bastian Koller, Erwin Laure, Cristina",
+          "page": 31
+        },
+        {
+          "para_id": "11_33",
+          "text": "Manzano, Sebastian Oeste, Michael Ott, Klaus Reuter, Ralf Schneider, Kay Thust,",
+          "page": 31
+        },
+        {
+          "para_id": "11_34",
+          "text": "and Benedikt von St. Vieth. Energy-aware operation of HPC systems in Germany.",
+          "page": 31
+        },
+        {
+          "para_id": "11_35",
+          "text": "Frontiers in High Performance Computing, Volume 3, 2025. doi:10.3389/fhpcp.",
+          "page": 31
+        },
+        {
+          "para_id": "11_36",
+          "text": "[19] DESY Energy Efficiency Projects.",
+          "page": 31
+        },
+        {
+          "para_id": "11_37",
+          "text": "URL: https://nachhaltigkeit.desy.de/",
+          "page": 31
+        },
+        {
+          "para_id": "11_38",
+          "text": "energiemanagement/energieeffizienzprojekte/index_ger.html",
+          "page": 31
+        }
+      ]
+    }
+  ]
+}

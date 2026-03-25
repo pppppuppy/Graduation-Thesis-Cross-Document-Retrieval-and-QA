@@ -1,0 +1,169 @@
+{
+  "doc_id": "1906.02691v3.pdf",
+  "sections": [
+    {
+      "section_title": "Foundations",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "and",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Trends",
+      "text": "  R ⃝"
+    },
+    {
+      "section_title": "in",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Machine",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Learning",
+      "text": ""
+    },
+    {
+      "section_title": "An",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "to",
+      "text": ""
+    },
+    {
+      "section_title": "Variational",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Autoencoders",
+      "text": " Suggested  Citation:  Diederik  P.  Kingma  and  Max  Welling  (2019),  “An "
+    },
+    {
+      "section_title": "Introduction",
+      "text": "  to Variational  Autoencoders”,  Foundations  and  Trends R ⃝ in  Machine  Learning:  Vol.  xx,  No. xx,  pp  1–18.  DOI:  10.1561/XXXXXXXXX."
+    },
+    {
+      "section_title": "Diederik",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "P.",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Kingma",
+      "text": ""
+    },
+    {
+      "section_title": "Google",
+      "text": ""
+    },
+    {
+      "section_title": "durk@google.com",
+      "text": ""
+    },
+    {
+      "section_title": "Max",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Welling",
+      "text": ""
+    },
+    {
+      "section_title": "Universiteit",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "van",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Amsterdam,",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Qualcomm",
+      "text": ""
+    },
+    {
+      "section_title": "mwelling@qti.qualcomm.com",
+      "text": " This  article  may  be  used  only  for  the  purpose  of  research,  teaching, and/or  private  study.  Commercial  use  or  systematic  downloading (by  robots  or  other  automatic  processes)  is  prohibited  without  ex- plicit  Publisher  approval. Boston  —  Delft"
+    },
+    {
+      "section_title": "arXiv:1906.02691v3  [cs.LG]  11 Dec 2019",
+      "text": ""
+    },
+    {
+      "section_title": "Contents",
+      "text": ""
+    },
+    {
+      "section_title": "Introduction",
+      "text": " 1.1 Motivation  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 1.2 Aim .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 1.3 Probabilistic  Models  and  Variational  Inference  .  .  .  .  .  .  . 1.4 Parameterizing Conditional Distributions with Neural Networks 1.5 Directed  Graphical  Models  and  Neural  Networks  .  .  .  .  .  . 1.6 Learning  in  Fully  Observed  Models  with  Neural  Nets .  .  . 1.7 Learning  and  Inference  in  Deep  Latent  Variable  Models  .  . 1.8 Intractabilities  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . Variational  Autoencoders 2.1 Encoder  or  Approximate  Posterior .  .  .  .  .  .  .  .  .  .  .  .  . 2.2 Evidence  Lower  Bound  (ELBO)  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 2.3 Stochastic  Gradient-Based  Optimization  of  the  ELBO  .  .  . 2.4 Reparameterization  Trick  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 2.5 Factorized  Gaussian  posteriors .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 2.6 Estimation  of  the  Marginal  Likelihood .  .  .  .  .  .  .  .  .  .  . 2.7 Marginal  Likelihood  and  ELBO  as  KL  Divergences  .  .  .  .  . 2.8 Challenges  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 2.9 Related  prior  and  concurrent  work .  .  .  .  .  .  .  .  .  .  .  .  . Beyond  Gaussian  Posteriors 3.1 Requirements  for  Computational  Tractability  .  .  .  .  .  .  .  . 3.2 Improving  the  Flexibility  of  Inference  Models  .  .  .  .  .  .  .  . 3.3 Inverse  Autoregressive  Transformations  .  .  .  .  .  .  .  .  .  .  . 3.4 Inverse  Autoregressive  Flow  (IAF) .  .  .  .  .  .  .  .  .  .  .  .  . 3.5 Related  work  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . Deeper  Generative  Models 4.1 Inference  and  Learning  with  Multiple  Latent  Variables  .  .  . 4.2 Alternative  methods  for  increasing  expressivity  .  .  .  .  .  .  . 4.3 Autoregressive  Models  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 4.4 Invertible transformations with tractable Jacobian determinant  4.5 Follow-Up  Work  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  ."
+    },
+    {
+      "section_title": "Conclusion",
+      "text": " Acknowledgements Appendices A "
+    }
+  ]
+}

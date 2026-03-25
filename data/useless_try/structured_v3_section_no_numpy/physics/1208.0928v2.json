@@ -1,0 +1,61 @@
+{
+  "doc_id": "1208.0928v2.pdf",
+  "sections": [
+    {
+      "section_title": "Surface",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "codes:",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "Towards",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "practical",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "large-scale",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "quantum",
+      "text": ""
+    },
+    {
+      "section_title": "",
+      "text": ""
+    },
+    {
+      "section_title": "computation",
+      "text": " Austin  G.  Fowler Centre  for  Quantum  Computation  and  Communication  Technology, School  of  Physics,  The  University  of  Melbourne,  Victoria  3010,  Australia Matteo  Mariantoni Department  of  Physics,  University  of  California,  Santa  Barbara,  CA  93106-9530,  USA  and California  Nanosystems  Institute,  University  of  California,  Santa  Barbara,  CA  93106-9530,  USA John  M.  Martinis  and  Andrew  N.  Cleland California  Nanosystems  Institute,  University  of  California,  Santa  Barbara,  CA  93106-9530,  USA (Dated:  October  26,  2012) This  article  provides  an "
+    },
+    {
+      "section_title": "introduction",
+      "text": "  to  surface  code  quantum  computing.  We  ﬁrst  estimate  the size and speed of a surface code quantum computer.  We then introduce the concept of the stabilizer, using two qubits, and extend this concept to stabilizers acting on a two-dimensional array of physical qubits,  on  which  we  implement  the  surface  code.  We  next  describe  how  logical  qubits  are  formed in  the  surface  code  array  and  give  numerical  estimates  of  their  fault-tolerance.  We  outline  how logical  qubits  are  physically  moved  on  the  array,  how  qubit  braid  transformations  are  constructed, and  how  a  braid  between  two  logical  qubits  is  equivalent  to  a  controlled-NOT.  We  then  describe the  single-qubit  Hadamard,  ˆ S  and  ˆ T  operators,  completing  the  set  of  required  gates  for  a  universal quantum computer.  We conclude by brieﬂy discussing physical implementations of the surface code. We  include  a  number  of  appendices  in  which  we  provide  supplementary  information  to  the  main text. PACS  numbers:  03.67.Lx In  this  article  we  describe  the  surface  code  approach to  quantum  computing. We  have  attempted  to  max- imize  clarity  and  simplicity,  while  perhaps  sacriﬁcing some  rigor.  The  article  is  targeted  at  an  audience  with a  good  grounding  in  basic  quantum  mechanics,  but  as- sumes  no  additional  knowledge  regarding  surface  codes, error  correction,  or  topological  information  processing. We  do  however  assume  some  prior  knowledge  of  the  ba- sics  of  qubits  and  quantum  computing,  including  famil- iarity  with  single  qubit  operations  such  as  ˆ X  bit-ﬂips and  ˆ Z  phase-ﬂips, the Hadamard gate, and the two-qubit controlled-NOT  (CNOT)  gate  as  well  as  the  multi-qubit Toﬀoli  gate.  We  also  assume  a  working  understanding of  quantum  circuits  and  their  terminology.  We  refer  the uninitiated  reader  to  one  of  the  excellent  texts  on  this topic,  e.g.  Ref.  [1]  or  [2]. I. BACKGROUND Quantum  computers  provide  a  means  to  solve  certain problems  that  cannot  be  solved  in  a  reasonable  period of  time  using  a  conventional,  classical  computer.  These problems  include  factoring  very  large  numbers  into  their primes,  which  on  a  quantum  computer  can  be  accom- plished  relatively  quickly  using  Shor’s  algorithm  [3],  and searching  large,  unstructured  data  sets,  which  can  be done  on  a  quantum  computer  using  Grover’s  search  al- gorithm  [4,  5].  A  number  of  physical  systems  are  being explored  for  their  use  in  quantum  computing,  including ions,  spins  in  semiconductors,  and  superconducting  cir- cuits  [6,  7].  However,  none  of  these  systems  perform  suf- ﬁciently well to serve directly as computational qubits.  It is however possible to construct a logical  qubit from a col- lection of physical qubits, such that the logical qubit per- forms  much  better  than  the  individual  physical  qubits. One  approach  to  building  a  quantum  computer  is based  on  surface  codes  [8,  9],  operated  as  stabilizer  codes [10]. The  surface  codes  evolved  from  an  invention  of Alexei  Kitaev  known  as  toric  codes  [11–14],  which  arose from  his  eﬀorts  to  develop  simple  models  for  topological order, using qubits distributed on the surface of a toroid. The  toroidal  geometry  employed  by  Kitaev  turned  out to  be  unnecessary,  and  planar  versions  (thus  “surface codes”)  were  developed  by  Bravyi  and  Kitaev  as  well  as Freedman  and  Meyer  [8,  15]. One  of  the  signiﬁcant  advantages  of  surface  codes  is their  relative  tolerance  to  local  errors,  as  was  ﬁrst  de- scribed  by  Preskill  and  co-workers  [16]. In  this  pub- lication,  the  critical  logical  CNOT  operation  was  im- plemented  using  stacked  layers  of  surfaces,  a  three- dimensional  structure  that  signiﬁcantly  complicates  po- tential  physical  implementations,  but  the  ability  of  the surface  codes  to  withstand  large  error  rates  was  appar- ent:  These  authors  showed  that  the  surface  codes  could handle  error  rates  of  almost  3%  per  surface  code  clock cycle,  assuming the ability  to  measure  a four-qubit  oper- ator. Raussendorf  and  co-workers  then  discovered  that  the logical  CNOT  operation  could  be  implemented  by  braid transformations  on  a  single  surface,  a  highly  signiﬁcant simpliﬁcation [17–19].  These authors also evaluated error tolerances  for  a  fully  planar  implementation  using  only one- and two-qubit nearest-neighbor gates, arriving at an error  threshold  of  0.75%  per  operation. The  literature  on  surface  codes  is  somewhat  opaque. Increasingly  accessible  descriptions  have  appeared  in more  recent  publications  [20,  21],  including  thorough analyses  of  errors  and  their  propagation  [21,  22]  and  the ongoing development of eﬃcient classical control software [23].  A  number  of  authors  are  working  on  improving  the classical processing associated with the surface code [24– 28],  as  well  as  other  two-dimensional  topological  codes [29–32]. The  tolerance  of  surface  codes  to  errors,  with  a  per- operation  error  rate  as  high  as  about  1%  [22,  23],  is  far less  stringent  than  that  of  other  quantum  computational approaches.  For example, calculations of error tolerances of  the  Steane  and  Bacon-Shor  codes,  implemented  on two-dimensional  lattices  with  nearest-neighbor  coupling, ﬁnd  per-step  thresholds  of  about  × −  [33,  34],  thus requiring three orders of magnitude lower error rate than the surface code.  The error tolerance of the surface code, along with a simple two-dimensional physical layout with only  nearest-neighbor  coupling,  makes  a  surface  code  ar- chitecture one of the most realistic approaches to building a  solid-state  quantum  computer. As  the  reader  will  discover,  the  price  paid  for  the  high error  tolerance  is  that  implementations  of  the  surface code  involve  large  numbers  of  physical  qubits  —  as  do most  other  approaches  to  quantum  computing  [33,  34]. It  takes  a  minimum  of  thirteen  physical  qubits  to  imple- ment  a  single  logical  qubit.  A  reasonably  fault-tolerant logical qubit that can be used eﬀectively in a surface code takes  of  order   to   physical  qubits.  The  number of  physical  qubits  needed  to  ﬁnd  a  number’s  prime  fac- tors,  using  Shor’s  algorithm  [3],  depends  on  a  tradeoﬀ between  physical  size  and  time  of  computation.  These trade-oﬀs  are  apparent  in  Table I,  where  we  display  the approximate number of computational logical qubits, the number of sequential Toﬀoli gates, and the number of to- tal  Toﬀoli  gates  needed  to  factor  an  N -bit  number,  for diﬀerent  types  of  factoring  circuits. In  general,  while the  computational  time  gets  smaller  as  one  moves  down the table, the spatial extent of the circuit becomes larger, as  the  number  of  logical  qubits  (the  circuit  “footprint”) scales  with  the  ratio  of  the  total  number  of  Toﬀoli  gates to  the  number  of  sequential  Toﬀoli  gates. We  can  make  a  rough  estimate  of  the  time  and  circuit size needed to factor a number with N  = 2 , 000 bits (600  This  number  depends  strongly  on  the  rate  that  errors  occur  on the  physical  qubits.  A  Toﬀoli  gate  is  a  three-qubit  gate,  with  two  controls  deter- mining  the  result  on  one  target.  The  Toﬀoli  can  be  described as  a  “controlled-controlled  NOT”:  If  both  controls  are  “true”, the  target  is  ﬂipped,  “false” → “true”  or  “true” → “false”,  while otherwise  the  target  is  unchanged.  This  reversible  gate  can  be implemented  in  quantum  logic  using  a  combination  of  two-qubit controlled-NOTs  and  single  qubit  gates,  and  can  be  used  to  con- struct  any  arithmetical  operation.  The  Toﬀoli  is  needed  to  im- plement  Shor’s  algorithm;  see  Ref.  [1,  2]. Number  of Sequential Total computational Toﬀoli Toﬀoli"
+    }
+  ]
+}
