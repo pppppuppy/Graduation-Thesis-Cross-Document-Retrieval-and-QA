@@ -13,19 +13,25 @@ This project automatically generates multi-hop question answering (QA) datasets 
 ## Project Pipeline
 
 ```
-PDF Papers (50 papers)        │
-        ▼                  │
-PDF → Structured JSON        │
-        ▼                  │
-Passage Chunking (3,697 passages) │
-        ▼                  │
-Query Generation (187 queries)    │
-        ▼                  │
-BGE Retrieval + Cross-Encoder Re-ranking │
-        ▼                  │
-LLM Generation (DeepSeek)      │
-        ▼                  │
-QA Dataset (520 multi-hop QA pairs)  │
+PDF Papers (50 papers)
+        │
+        ▼                  
+PDF → Structured JSON
+        │
+        ▼                  
+Passage Chunking (3,697 passages)
+        │
+        ▼                  
+Query Generation (187 queries)
+        │
+        ▼                  
+BGE Retrieval + Cross-Encoder Re-ranking
+        │
+        ▼                  
+LLM Generation (DeepSeek)
+        │
+        ▼                  
+QA Dataset (520 multi-hop QA pairs)  
 ```
 
 ## Data Statistics
